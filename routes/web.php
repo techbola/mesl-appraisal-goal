@@ -81,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
+    Route::patch('approve-biodata/{id}', 'StaffController@approve_biodata')->name('approve_biodata');
 
     Route::resource('staff', 'StaffController');
 

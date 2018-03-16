@@ -58,12 +58,12 @@
 									<label for="checkbox-{{$role->id}}"></label>
 								</div>
 							</td> --}}
-							<td class="v-align-middle"> {{ $role->name}} </td>
+							<td class="v-align-middle"> {{ $role->name }} </td>
 							<td class="v-align-middle">{{ $role->display_name}}</td>
-							<td class="v-align-middle">{{ $role->company->Company}}</td>
-							<td class="v-align-middle">{{ $role->description}}</td>
+							<td class="v-align-middle">{{ $role->company->Company ?? '' }}</td>
+							<td class="v-align-middle">{{ $role->description }}</td>
 							<td class="v-align-middle">
-								<a href="{{ action('RoleController@edit', $role->id) }}" class="btn ">Edit</a> {{-- &nbsp;
+								<a href="{{ action('RoleController@edit', $role->id) }}" class="btn btn-inverse">Edit</a> {{-- &nbsp;
 								{{ Form::open(['action' => ['RoleController@destroy', $role->id], 'method' => 'delete', 'class' => 'inline-block']) }}
 								{{ Form::submit('Delete',['class' => 'btn btn-danger ']) }}
 								{{ Form::close() }} --}}

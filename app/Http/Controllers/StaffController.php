@@ -115,6 +115,35 @@ class StaffController extends Controller
       return view('staff.pending_biodata', compact('user', 'pending', 'staff', 'pending2'));
     }
 
+    public function approve_biodata($id)
+    {
+      try {
+        DB::beginTransaction();
+
+        $user = Auth::user();
+
+        $pending = StaffPending::where('id', $id)->first();
+        $staff_data = $pending->replicate(['StaffRef']);
+        // Any extra columns?
+        $staff_data->ApprovedBy = $user->id;
+        // Fetch only the attributes
+        $staff_arr = $staff_data->getattributes();
+        // Copy & save to FCYTrade
+        $staff = Staff::create($trade_arr);
+        $staff = Staff::create($trade_arr);
+        $staff = Staff::create($trade_arr);
+        // Delete from FCYPending
+        $pending->delete();
+
+        DB::commit();
+        return redirect()->route('pending_trades')->with('success', 'Trade was approved successfully');
+      } catch (Exception $e) {
+        DB::rollback();
+        return redirect()->route('pending_trades')->with('error', 'There was a problem approving the Trade.');
+      }
+
+    }
+
     public function showfulldetails()
     {
         $email   = \Auth::user()->email;

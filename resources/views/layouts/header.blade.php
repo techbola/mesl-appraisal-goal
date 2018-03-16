@@ -200,6 +200,12 @@
               Trade Date: <span class="text-success m-l-5">{{ App\Config::find('1')->TradeDate }}</span>
             </div> --}}
 
+
+            <div class="fa fa-bell m-r-15 m-t-15 f18"></div>
+            <a href="#">
+              <div class="fa fa-envelope m-r-15 m-t-15 f20"></div>
+            </a>
+
             <div class="dropdown pull-right">
 
 
@@ -216,9 +222,9 @@
                   <div class="text-muted" style="font-size:13px; margin-top:-4px">
                     {!! ucwords(Auth::user()->roles()->first()->display_name) !!}
                   </div>
-                  <span class="m-l-5">
+                  {{-- <span class="m-l-5">
                     {!! Auth::user()->role_names_formatted !!}
-                  </span>
+                  </span> --}}
                 </div>
               </button>
               <ul class="dropdown-menu profile-dropdown" role="menu">

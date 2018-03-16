@@ -70,8 +70,8 @@ th {
 /*Prioritize Template Styles*/
 .btn-danger, .btn-danger:focus {
   color: #ffffff !important;
-  background-color: #f55753 !important;
-  border-color: #f55753 !important;
+  background: linear-gradient(180deg,#f95359,#d35847) !important;
+  border-color: #d35847 !important;
 }
 /* .btn-success, .btn-success:focus {
   color: #ffffff !important;
@@ -520,6 +520,42 @@ fieldset[disabled] .btn-info.active {
   color: #48b0f7;
   background-color: #ffffff;
 }
+
+/* Success */
+.btn-success, .btn-success:focus {
+    color: #ffffff;
+    background: linear-gradient(180deg,#39b54a,#34aa44) !important;
+    border-color: #249533 !important;
+}
+
+.btn-success.active, .btn-success:active, .btn-success.active:focus, .btn-success:active:focus, .btn-success:active:hover, .open .dropdown-toggle.btn-success {
+    background-color: #0da899;
+    border-color: #0da899;
+    color: #ffffff;
+}
+
+.btn-success.hover, .btn-success:hover, .open .dropdown-toggle.btn-success {
+    background-color: #40d9ca;
+    border-color: #40d9ca;
+    color: #ffffff;
+}
+
+.btn-success.active:hover {
+    background: #0eb2a3;
+    border-color: #0eb2a3;
+}
+
+.btn-success.disabled, .btn-success[disabled], fieldset[disabled] .btn-success, .btn-success.disabled:hover, .btn-success[disabled]:hover, fieldset[disabled] .btn-success:hover, .btn-success.disabled:focus, .btn-success[disabled]:focus, fieldset[disabled] .btn-success:focus, .btn-success.disabled:active, .btn-success[disabled]:active, fieldset[disabled] .btn-success:active, .btn-success.disabled.active, .btn-success[disabled].active, fieldset[disabled] .btn-success.active {
+    background-color: #10cfbd;
+    border-color: #10cfbd;
+}
+
+.btn-success .badge {
+    color: #10cfbd;
+    background-color: #ffffff;
+}
+
+/* Inverse */
 .btn-inverse,
 .btn-inverse:focus {
   color: #ffffff;
@@ -787,6 +823,9 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 1px solid #232730;
   /* color: #eee; */
   color: #cad0dd;
+}
+.header a {
+  color: unset;
 }
 .badge-info {
   background-color: #2ea1f8 !important;

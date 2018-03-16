@@ -21,14 +21,15 @@
       </thead>
       <tbody>
         {{-- {{ dd($pending->all()[0]->getAttributes()) }} --}}
-        @foreach ($pending2->all()[0]->getAttributes() as $key=>$value)
+
+        {{-- @foreach ($pending2->all()[0]->getAttributes() as $key=>$value)
           <tr>
             <td style="background-color:#ffffdd !important">{{ $key }}</td>
             <td>{{ $value }}</td>
             <td>{{ $value }}</td>
             <td></td>
           </tr>
-        @endforeach
+        @endforeach --}}
 
 
         <tr>
@@ -105,6 +106,11 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="text-center" style="margin: auto">
+      <div class="btn btn-success btn-cons btn-lg m-r-20">Approve</div>
+      <div class="btn btn-danger btn-cons btn-lg">Reject</div>
+    </div>
 
   </div>
 @endsection
