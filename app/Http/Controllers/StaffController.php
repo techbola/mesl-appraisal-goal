@@ -97,9 +97,9 @@ class StaffController extends Controller
     {
       $user = auth()->user();
       if ($user->is_superadmin) {
-        $pendings = StaffPending::all();
+        $pendings = StaffPending::where('ApprovedBy', '!=', '0')->get();
       } else {
-        $pendings = StaffPending::where('CompanyID', $user->staff->CompanyID)->get();
+        $pendings = StaffPending::where('CompanyID', $user->staff->CompanyID)->where('ApprovedBy', '!=', '0')->get();
       }
 
       return view('staff.pending_biodata_list', compact('user', 'pendings'));
@@ -123,24 +123,38 @@ class StaffController extends Controller
         $user = Auth::user();
 
         $pending = StaffPending::where('id', $id)->first();
-        $staff_data = $pending->replicate(['StaffRef']);
+        $staff_data = $pending->replicate(['StaffRef', 'ApprovedBy', 'Age', 'deleted_at']);
         // Any extra columns?
-        $staff_data->ApprovedBy = $user->id;
+        $pending->ApprovedBy = $user->id;
+        $pending->save();
         // Fetch only the attributes
         $staff_arr = $staff_data->getattributes();
         // Copy & save to FCYTrade
-        $staff = Staff::create($trade_arr);
-        $staff = Staff::create($trade_arr);
-        $staff = Staff::create($trade_arr);
-        // Delete from FCYPending
+        // $staff = Staff::create($staff_arr);
+        $staff = Staff::find($pending->StaffRef);
+        // dd($staff_arr);
+        $staff->update($staff_arr);
+        // Soft delete from Pending
         $pending->delete();
 
         DB::commit();
-        return redirect()->route('pending_trades')->with('success', 'Trade was approved successfully');
+        return redirect()->route('pending_biodata_list')->with('success', 'Profile changes approved successfully');
       } catch (Exception $e) {
         DB::rollback();
-        return redirect()->route('pending_trades')->with('error', 'There was a problem approving the Trade.');
+        return redirect()->route('pending_biodata_list')->with('error', 'There was a problem approving the changes.');
       }
+
+    }
+
+    public function reject_biodata($id)
+    {
+        $user = Auth::user();
+
+        $pending = StaffPending::where('id', $id)->first();
+        $pending->ApprovedBy = '0';
+        $pending->save();
+
+        return redirect()->route('pending_biodata_list')->with('success', 'Profile changes were rejected successfully');
 
     }
 

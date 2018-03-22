@@ -55,6 +55,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('clients', 'ClientController');
 
+    Route::get('messages/inbox', 'MessageController@inbox')->name('inbox');
+    Route::get('messages/compose', 'MessageController@compose')->name('compose_message');
+    Route::post('messages/send', 'MessageController@send_message')->name('send_message');
+    Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
+    Route::post('messages/reply/{parent_id}', 'MessageController@reply_message')->name('reply_message');
+
 
 
 
@@ -82,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
     Route::patch('approve-biodata/{id}', 'StaffController@approve_biodata')->name('approve_biodata');
+    Route::patch('reject-biodata/{id}', 'StaffController@reject_biodata')->name('reject_biodata');
 
     Route::resource('staff', 'StaffController');
 

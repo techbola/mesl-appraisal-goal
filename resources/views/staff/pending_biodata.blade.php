@@ -14,8 +14,8 @@
       <thead>
         <tr>
           <th>Field</th>
-          <th>Current Value</th>
-          <th>Edited To</th>
+          <th>Old Value</th>
+          <th>New Value</th>
           <th width="5%">Actions</th>
         </tr>
       </thead>
@@ -108,8 +108,17 @@
     </table>
 
     <div class="text-center" style="margin: auto">
-      <div class="btn btn-success btn-cons btn-lg m-r-20">Approve</div>
-      <div class="btn btn-danger btn-cons btn-lg">Reject</div>
+      <a class="btn btn-success btn-cons btn-lg m-r-20" onclick="confirm2('Approve Changes?', '', 'form_approve')">Approve</a>
+      <a class="btn btn-danger btn-cons btn-lg" onclick="confirm2('Reject Changes?', '', 'form_reject')">Reject</a>
+
+      <form id="form_approve" class="hidden" action="{{ route('approve_biodata', $pending->id) }}" method="post">
+        {{ csrf_field() }}
+        {{ method_field('PATCH') }}
+      </form>
+      <form id="form_reject" class="hidden" action="{{ route('reject_biodata', $pending->id) }}" method="post">
+        {{ csrf_field() }}
+        {{ method_field('PATCH') }}
+      </form>
     </div>
 
   </div>

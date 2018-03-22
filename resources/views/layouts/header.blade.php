@@ -202,8 +202,11 @@
 
 
             <div class="fa fa-bell m-r-15 m-t-15 f18"></div>
-            <a href="#">
+            <a href="{{ route('inbox') }}" style="position:relative">
               <div class="fa fa-envelope m-r-15 m-t-15 f20"></div>
+              @if (count(auth()->user()->unread_inbox) > 0)
+                <span class="badge badge-danger badge-notif">{{ count(auth()->user()->unread_inbox) }}</span>
+              @endif
             </a>
 
             <div class="dropdown pull-right">
@@ -211,7 +214,7 @@
 
               <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="thumbnail-wrapper d39 circular inline m-t-5 text-white">
-                  <img src="{{ asset('images/avatars/'.($user->avatar ?? 'default2.png')) }}" alt="" data-src="{{ asset('images/avatars/'.($user->avatar ?? 'default2.png')) }}" data-src-retina="{{ asset('images/avatars/'.($user->avatar ?? 'default2.png')) }}" width="32" height="32">
+                  <img src="{{ asset('images/avatars/'.$user->avatar) }}" alt="" data-src="{{ asset('images/avatars/'.$user->avatar) }}" data-src-retina="{{ asset('images/avatars/'.$user->avatar) }}" width="32" height="32">
                   {{-- defaulr abbr avatar from fullname --}}
                   {{-- <span style="display: inline-block;" class="abbr-avatar">{{ Auth::user()->abbreviation(Auth::user()->FullName) }}</span> --}}
                 </span>
@@ -431,7 +434,7 @@
     @include('notifications')
 
     {{-- PUSHER NOTIFICATIONS --}}
-    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    {{-- <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <script>
       // Enable pusher logging - don't include this in production
       // Pusher.logToConsole = true;
@@ -461,7 +464,7 @@
         audio.play();
 
       });
-    </script>
+    </script> --}}
 
     <script>
       $('input[required]').parent().find('label').addClass('req');

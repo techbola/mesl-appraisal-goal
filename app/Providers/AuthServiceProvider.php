@@ -25,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('view-message', function ($user, $message) {
+          return ( $user->id == $message->FromID || in_array($user->id, $message->recipients->pluck('id')->toArray()) );
+        });
     }
 }
