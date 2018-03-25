@@ -38,14 +38,14 @@
           </div>
           <div class="form-group form-group-default">
             <label>Subject</label>
-            <input type="text" class="form-control" name="Subject">
+            <input type="text" class="form-control" name="Subject" required>
           </div>
           <div class="form-group form-group-default">
             <label>Message</label>
-            <textarea class="summernote" name="Body" placeholder="Enter your message here." required></textarea>
+            <textarea class="summernote" name="Body" placeholder="Enter your message here."></textarea>
 
             {{-- <input type="submit" class="btn btn-success m-t-10" value="Send"> --}}
-            <button type="submit" class="btn btn-success m-t-20"><i class="fa fa-paper-plane m-r-5"></i> Send</button>
+            <button type="submit" class="btn btn-info m-t-20"><i class="fa fa-paper-plane m-r-5"></i> Send</button>
           </div>
         </div>
 

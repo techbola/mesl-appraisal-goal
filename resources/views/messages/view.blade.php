@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-  Messages - View
+  Message: <span class="text-info m-l-5">{{ $message->Subject }}</span>
 @endsection
 
 @section('page-title')
-  Messages - View
+  Message: <span class="text-info m-l-5">{{ $message->Subject }}</span>
 @endsection
 
 @section('content')
@@ -13,6 +13,7 @@
   <style>
     .note-editable {
       min-height: 100px;
+      background: #ffffff !important;
     }
   </style>
 
@@ -26,7 +27,7 @@
         <div class="thumbnail-wrapper d48 circular">
           <img width="40" height="40" alt="" data-src-retina="{{ asset('images/avatars/'.$message->sender->avatar) }}" data-src="{{ asset('images/avatars/'.$message->sender->avatar) }}" src="{{ asset('images/avatars/'.$message->sender->avatar) }}">
         </div>
-        <div class="sender inline m-l-10">
+        <div class="inline m-l-10">
           <p class="no-margin bold f15">{{ $message->sender->FullName }}</p>
           <p class="no-margin text-muted">
             {{ ($message->created_at->isToday())? 'Today' : $message->created_at->format('jS M, Y') }} at {{ $message->created_at->format('g:ia') }}

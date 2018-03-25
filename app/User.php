@@ -53,6 +53,10 @@ class User extends Authenticatable
     {
       return $this->belongsToMany('App\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->withPivot('IsRead', 'IsDeleted');
     }
+    public function sent_messages()
+    {
+      return $this->hasMany('App\Message', 'FromID')->orderBy('MessageRef', 'desc');
+    }
     public function unread_inbox()
     {
       return $this->hasMany('App\MessageRecipient', 'UserID')->where('IsRead', False);

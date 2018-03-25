@@ -20,6 +20,7 @@
   }
   .inbox-menu .card-box {
     padding:0;
+    min-height: 200px;
   }
   .inbox-content {
     padding-left: 0;
@@ -49,12 +50,18 @@
     </div>
     {{-- <hr> --}}
     <ul class="nav nav-pills nav-stacked menu-list">
-      <li class="{{ ($active == 'inbox')? 'active':'' }}"><a href="{{ route('inbox') }}"><span class="label label-info pull-right m-t-5">{{ count( auth()->user()->inbox ) }}</span> Inbox </a>
+      <li class="{{ ($active == 'inbox')? 'active':'' }}">
+        <a href="{{ route('inbox') }}">
+          @if (count( auth()->user()->unread_inbox ) > 0)
+            <span class="label label-info pull-right m-t-5">{{ count( auth()->user()->unread_inbox ) }}</span>
+          @endif
+          Inbox
+        </a>
       </li>
-      <li><a href="#">Starred</a></li>
-      <li><a href="#">Important</a></li>
-      <li><a href="#">Sent Mail</a></li>
-      <li><a href="#"><span class="label label-info pull-right">3</span>Drafts</a></li>
+      {{-- <li><a href="#">Starred</a></li>
+      <li><a href="#">Important</a></li> --}}
+      <li class="{{ ($active == 'sent')? 'active':'' }}"><a href="{{ route('sent_messages') }}">Sent Messages</a></li>
+      {{-- <li><a href="#"><span class="label label-info pull-right">3</span>Drafts</a></li> --}}
     </ul>
   </div>
 </div>

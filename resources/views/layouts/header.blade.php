@@ -325,7 +325,7 @@
               <span class="sm-block"><a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
             </p>
             <p class="small no-margin pull-right sm-pull-reset">
-              <span class="hint-text">Designed and Developed by </span><a href="#">Cavidel Limited</a>
+              <span class="hint-text">Designed and Developed by </span><a href="www.cavidel.com">Cavidel Limited</a>
             </p>
             <div class="clearfix"></div>
           </div>

@@ -56,11 +56,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('clients', 'ClientController');
 
     Route::get('messages/inbox', 'MessageController@inbox')->name('inbox');
+    Route::get('messages/sent', 'MessageController@sent_messages')->name('sent_messages');
     Route::get('messages/compose', 'MessageController@compose')->name('compose_message');
     Route::post('messages/send', 'MessageController@send_message')->name('send_message');
-    Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
     Route::post('messages/reply/{parent_id}', 'MessageController@reply_message')->name('reply_message');
+    Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
 
+    Route::get('bulletins', 'BulletinController@index')->name('bulletin_board');
 
 
 

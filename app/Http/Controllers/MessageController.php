@@ -19,13 +19,22 @@ class MessageController extends Controller
 
     return view('messages.inbox', compact('user', 'messages'));
   }
+
+  public function sent_messages()
+  {
+    $user = auth()->user();
+    $messages = $user->sent_messages;
+    // dd($messages);
+    return view('messages.sent', compact('user', 'messages'));
+  }
+
   public function compose()
   {
     $user = auth()->user();
     if ($user->is_superadmin) {
       $staffs = Staff::all();
     } else {
-      $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+      $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->where('UserID', '!=', $user->id)->get();
     }
 
     return view('messages.compose', compact('user', 'staffs'));
@@ -122,9 +131,8 @@ class MessageController extends Controller
 
     if (!empty($reply)) {
       $msg_read = MessageRecipient::where('MessageID', $reply)->where('UserID', $user->id)->first();
-      if (!empty($msg_read->IsRead)) {
-        $msg_read->IsRead = TRUE;
-        $msg_read->save();
+      if (isset($msg_read->IsRead)) {
+        DB::statement("UPDATE tblMessageRecipients SET IsRead = 'TRUE' WHERE MessageID = ".$reply." AND UserID = ".$user->id);
       }
     }
 
