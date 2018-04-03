@@ -20,6 +20,10 @@ class Role extends EntrustRole
     {
         return $this->belongsToMany('App\Menu');
     }
+    public function users()
+    {
+        return $this->belongsToMany('App\User');
+    }
     public function company()
     {
         return $this->belongsTo('App\Company', 'CompanyID', 'CompanyRef');

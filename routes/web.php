@@ -63,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
 
     Route::get('bulletins', 'BulletinController@index')->name('bulletin_board');
+    Route::post('save_bulletin', 'BulletinController@save_bulletin')->name('save_bulletin');
+    Route::post('bulletin/{id}', 'BulletinController@view_bulletin')->name('view_bulletin');
 
 
 
@@ -99,6 +101,45 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('leaverequest', 'LeaveRequestController');
 
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
+
+    Route::get('gls/create2', 'GLController@create2')->name('gls.create2');
+    Route::get('gls/{id}/edit2', 'GLController@edit2')->name('gls.edit2');
+    Route::post('gls/create2', 'GLController@storeLoan');
+    Route::patch('gls/{id}/edit2', 'GLController@update2');
+    Route::resource('gls', 'GLController');
+
+    Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');
+    Route::resource('customers', 'CustomerController');
+
+    Route::get('documents', 'DocumentController@index')->name('documents');
+    Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
+    Route::post('document_store', 'DocumentController@store')->name('document_store');
+
+    Route::get('events', 'EventScheduleController@index')->name('events');
+    Route::get('get_events', 'EventScheduleController@get_events')->name('get_events'); // AJAX
+    Route::post('save_event', 'EventScheduleController@save_event')->name('save_event');
+    Route::get('event/{id}', 'EventScheduleController@view_event')->name('view_event');
+    Route::patch('update_event/{id}', 'EventScheduleController@update_event')->name('update_event');
+    Route::delete('delete_event/{id}', 'EventScheduleController@delete_event')->name('delete_event');
+
+    // REPORTS
+    Route::get('reports/balance-sheet', 'ReportController@balance_sheet')->name('balance_sheet2');
+    Route::get('reports/balance-sheet2', 'ReportController@balance_sheet2')->name('balance_sheet');
+    Route::get('reports/trial-balance', 'ReportController@trial_balance')->name('trial_balance2');
+    Route::get('reports/trial-balance2', 'ReportController@trial_balance2')->name('trial_balance');
+    Route::get('reports/trial-balance3', 'ReportController@trial_balance3')->name('trial_balance3');
+    Route::get('reports/profit-loss', 'ReportController@profit_loss')->name('profit_loss2');
+    Route::get('reports/profit-loss2', 'ReportController@profit_loss2')->name('profit_loss');
+    Route::get('reports/profit-loss3', 'ReportController@profit_loss3')->name('profit_loss3');
+    Route::get('reports/loans-report', 'ReportController@loans_report')->name('loans_report');
+
+    Route::get('reports/expired-loans', 'ReportController@matured_loans')->name('matured_loans');
+    Route::get('reports/running-loans', 'ReportController@outstanding_loans')->name('outstanding_loans');
+    Route::get('reports/loan-pretermination', 'ReportController@loan_pretermination')->name('loan_pretermination');
+    Route::post('reports/preterminate/{id}', 'ReportController@preterminate')->name('preterminate');
+
+    Route::get('reports/savings', 'ReportController@savings')->name('savings_accounts');
+    Route::get('reports/loan-status', 'ReportController@loan_status')->name('loan_status');
 });
 
 Route::get('/abc', function(){

@@ -98,6 +98,9 @@ th {
 .table tbody tr td {
   font-size: 15px;
 }
+.table-responsive {
+  clear: both;
+}
 
 .empty {
   color: #888;
@@ -211,30 +214,6 @@ th {
   padding-right: 0;
 }
 
-/* Start Dashblocks */
-.dashblocks .panel {
-  background: #2e3640;
-  border-color: #888;
-  border-radius: 4px;
-}
-.dashblocks .panel a h6 {
-  font-size: 16px;
-  margin-top: 18px;
-  font-family: Karla;
-}
-.dashblocks .panel-heading a:not(.btn) {
-  opacity: 1
-}
-.dashblocks .panel-heading img {
-/*transition: 0.2s ease-in;*/
-width: 50px;
-}
-.dashblocks .panel:hover {
-  transform: scale(1.05);
-  cursor: pointer;
-  transition: 0.2s ease-in;
-}
-/* End Dashblocks */
 
 /* Bring back Bootstrap styles that Pages.css was overriding */
 .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
@@ -632,6 +611,11 @@ fieldset[disabled] .btn-inverse.active {
   color: #3b4752;
   background-color: #ffffff;
 }
+.btn-warning {
+    background: #fd9a18 !important;
+    background: linear-gradient(180deg,#fd9a18,#f16911) !important;
+    border-color: #f16911 !important;
+}
 .btn-form {
   margin-left: 7px;
   margin-top:20px;
@@ -649,6 +633,7 @@ fieldset[disabled] .btn-inverse.active {
   background-clip: padding-box;
   margin-bottom: 20px;
   background-color: #ffffff;
+  box-shadow: 0px 3px 20px 0 rgba(0,0,0,.14);
 }
 .widget-inline .widget-inline-box {
   border-right: 1px solid #e3e8f1;
@@ -875,3 +860,48 @@ h1, h2, h3, h4, h5, h6 {
 .select2-search-choice-close:before {
   color: #ffffff !important;
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #print-content, #print-content * {
+    visibility: visible;
+  }
+  #print-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+/* Start Dashblocks */
+.dashblocks .panel {
+  background: #dde0e4;
+  border-color: #999;
+  border-radius: 4px;
+}
+.dashblocks .panel a h6 {
+  font-size: 16px;
+  margin-top: 18px;
+  font-family: Karla;
+}
+.dashblocks .panel-heading a:not(.btn) {
+  opacity: 1
+}
+.dashblocks .panel-heading img {
+  width: 50px;
+}
+.dashblocks .panel:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  transition: 0.2s ease-in;
+}
+.dashblocks-sm .panel-heading img {
+  width: 40px !important;
+}
+.dashblocks-sm .panel a h6 {
+  font-size: 15px !important;
+  margin-top: 10px !important;
+}
+/* End Dashblocks */

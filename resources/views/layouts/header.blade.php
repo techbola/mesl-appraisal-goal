@@ -467,7 +467,25 @@
     </script> --}}
 
     <script>
-      $('input[required]').parent().find('label').addClass('req');
+      $('input[required]').parent().parent().find('label').addClass('req');
+    </script>
+
+    <script>
+      $(function(){
+          var options = {
+              todayHighlight: true,
+              format: 'yyyy-mm-dd',
+              autoclose: true,
+          };
+          $('.dp').datepicker(options);
+      });
+
+      $('.timepicker').timepicker().on('show.timepicker', function(e) {
+          var widget = $('.bootstrap-timepicker-widget');
+          widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
+          widget.find('.glyphicon-chevron-down').removeClass().addClass('pg-arrow_minimize');
+          widget.attr("style", "z-index: 9999999 !important; box-shadow: 0 6px 12px rgba(0,0,0,.175); border: 1px solid #ccc");
+      });
     </script>
 
   </body>

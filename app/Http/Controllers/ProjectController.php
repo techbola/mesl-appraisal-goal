@@ -9,6 +9,7 @@ use App\User;
 use App\ProjectTask;
 use App\ProjectChat;
 use App\Client;
+use App\Customer;
 use DB;
 use Auth;
 
@@ -22,13 +23,13 @@ class ProjectController extends Controller
       if ($user->is_superadmin) {
         $supervisors = Staff::all();
         $assignees = Staff::all();
-        $clients = Client::all();
+        $customers = Customer::all();
       } else{
         $supervisors = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $assignees = Staff::where('CompanyID', $user->staff->CompanyID)->get();
-        $clients = Client::where('CompanyID', $user->staff->CompanyID)->get();
+        $customers = Customer::where('CompanyID', $user->staff->CompanyID)->get();
       }
-      return view('projects.index', compact('projects', 'supervisors', 'assignees', 'clients'));
+      return view('projects.index', compact('projects', 'supervisors', 'assignees', 'customers'));
     }
 
     public function store(Request $request)
@@ -53,7 +54,7 @@ class ProjectController extends Controller
         } else {
           $project->CompanyID = auth()->user()->staff->CompanyID;
         }
-        $project->ClientID = $request->ClientID;
+        $project->CustomerID = $request->CustomerID;
         $project->save();
 
         // $project->assignees()->attach($request->Assignees);
@@ -78,14 +79,14 @@ class ProjectController extends Controller
       if ($user->is_superadmin) {
         $supervisors = Staff::all();
         $assignees = Staff::all();
-        $clients = Client::all();
+        $customers = Customer::all();
       } else{
         $supervisors = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $assignees = Staff::where('CompanyID', $user->staff->CompanyID)->get();
-        $clients = Client::where('CompanyID', $user->staff->CompanyID)->get();
+        $customers = Customer::where('CompanyID', $user->staff->CompanyID)->get();
       }
 
-      return view('projects.view', compact('project', 'staffs', 'supervisors', 'assignees', 'clients'));
+      return view('projects.view', compact('project', 'staffs', 'supervisors', 'assignees', 'customers'));
     }
 
     public function update(Request $request, $id)
@@ -110,7 +111,7 @@ class ProjectController extends Controller
         } else {
           $project->CompanyID = auth()->user()->staff->CompanyID;
         }
-        $project->ClientID = $request->ClientID;
+        $project->CustomerID = $request->CustomerID;
         $project->save();
 
         // $project->assignees()->attach($request->Assignees);

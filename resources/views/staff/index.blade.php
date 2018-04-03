@@ -5,18 +5,16 @@
 		<button class="c-btn c-btn--info pull-right" data-toggle="modal" data-target="#new_staff">New Staff</button>
 	</div>
 	<!-- START PANEL -->
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="panel-title">
-				Staff Listing
-			</div>
-			<div class="pull-right">
-				<div class="col-xs-12">
-					<input type="text" class="search-table form-control pull-right" placeholder="Search">
-				</div>
-			</div>
-			<div class="clearfix"></div>
+	<div class="card-box">
+		<div class="card-title pull-left">
+			Staff Listing
 		</div>
+		<div class="pull-right">
+			<div class="col-xs-12">
+				<input type="text" class="search-table form-control pull-right" placeholder="Search">
+			</div>
+		</div>
+		<div class="clearfix"></div>
 		<div class="panel-body">
 			<table class="table tableWithSearch">
 				<thead>

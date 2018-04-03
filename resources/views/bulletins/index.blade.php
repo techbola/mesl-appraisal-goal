@@ -9,6 +9,11 @@
 @endsection
 
 @section('content')
+  <style>
+    .bulletin-text, .bulletin-text * {
+      font-size: 15px !important;
+    }
+  </style>
   <div class="btn btn-sm btn-info pull-right m-b-10" data-toggle="modal" data-target="#new_bulletin">New Bulletin</div>
   <div class="clearfix"></div>
 
@@ -28,12 +33,16 @@
         </div>
 
         <hr>
-        <div class="f15">
+        <div class="bulletin-text">
           {!! nl2br($item->Body) !!}
         </div>
 
       </div>
     @endforeach
+
+    <div class="text-center">
+      {{ $bulletins->links() }}
+    </div>
 
   </div>
 
@@ -53,12 +62,12 @@
           </div>
           <div class="modal-body">
 
-            <form action="{{ route('store_project') }}" method="post">
+            <form action="{{ route('save_bulletin') }}" method="post">
               {{ csrf_field() }}
               <div class="">
 
               </div>
-              
+
               <div class="form-group">
                 <label>Title</label>
                 <input type="text" class="form-control" name="Title" placeholder="Enter announcement title" required>

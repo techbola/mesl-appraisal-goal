@@ -16,7 +16,7 @@
                             <button class="btn btn-primary btn-cons" id="show-modal">
                                 <i class="fa fa-plus">
                                 </i>
-                                <a href="{{ route('staff.bio_data_details',[$detail->StaffRef]) }}" title="">
+                                <a href="{{-- route('staff.bio_data_details',[$detail->StaffRef]) --}}" title="">
                                     <span style="color : #fff">
                                         Edit Details
                                     </span>

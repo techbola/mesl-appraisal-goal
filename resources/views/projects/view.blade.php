@@ -67,8 +67,8 @@
         <div class="row">
           <div class="col-lg-3 col-sm-6">
             <div class="widget-inline-box text-center">
-              <div class="text-muted">Client</div>
-              <div class="f20"><b>{{ $project->client->Name ?? '-' }}</b>
+              <div class="text-muted">Customer</div>
+              <div class="f20"><b>{{ $project->customer->Customer ?? '-' }}</b>
               </div>
             </div>
           </div>

@@ -231,7 +231,7 @@ class StaffController extends Controller
 
     public function show($id)
     {
-        $details = \DB::table('tblStaff')
+        $detail = \DB::table('tblStaff')
             ->leftJoin('tblReligion', 'tblStaff.ReligionID', '=', 'tblReligion.ReligionRef')
             ->leftJoin('tblState', 'tblStaff.StateID', '=', 'tblState.StateRef')
             ->leftJoin('tblCountry', 'tblStaff.CountryID', '=', 'tblCountry.CountryRef')
@@ -246,8 +246,10 @@ class StaffController extends Controller
             ->leftJoin('tblGradeLevel', 'tblStaff.GradeLevelID', '=', 'tblGradeLevel.GradeLevelRef')
             ->leftJoin('tblPFA', 'tblStaff.PFAID', '=', 'tblPFA.PFARef')
             ->where('StaffRef', $id)
-            ->get();
-        return view('staff.showfulldetails', compact('details'));
+            ->first();
+
+          $staff = Staff::find($id);
+        return view('staff.show', compact('detail', 'staff'));
     }
 
 
@@ -362,7 +364,7 @@ class StaffController extends Controller
       try {
         DB::beginTransaction();
         // if ($user->staff && $user->staff->StaffRef == $id && !$user->hasRole('admin')) {
-        if (!$user->hasRole('admin')) {
+        if (!$user->hasRole('admin')) { // Non Admins
           $staff = new StaffPending;
           $staff->UserID = $user->id;
           $staff->StaffRef = $user->staff->StaffRef;

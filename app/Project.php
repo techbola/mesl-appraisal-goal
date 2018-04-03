@@ -34,9 +34,9 @@ class Project extends Model
   {
     return $this->belongsTo('App\ProjectStatus', 'StatusID');
   }
-  public function client()
+  public function customer()
   {
-    return $this->belongsTo('App\Client', 'ClientID');
+    return $this->belongsTo('App\Customer', 'CustomerID');
   }
   public function tasks()
   {
