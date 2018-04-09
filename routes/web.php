@@ -102,11 +102,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
 
-    Route::get('gls/create2', 'GLController@create2')->name('gls.create2');
-    Route::get('gls/{id}/edit2', 'GLController@edit2')->name('gls.edit2');
-    Route::post('gls/create2', 'GLController@storeLoan');
-    Route::patch('gls/{id}/edit2', 'GLController@update2');
-    Route::resource('gls', 'GLController');
+
 
     Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');
     Route::resource('customers', 'CustomerController');
@@ -114,6 +110,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('documents', 'DocumentController@index')->name('documents');
     Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
     Route::post('document_store', 'DocumentController@store')->name('document_store');
+    Route::get('download-document/{file}', function($file){
+      return response()->download(storage_path("app/documents/".$file));
+    })->name('docs');
+    Route::resource('doctypes', 'DocTypeController');
 
     Route::get('events', 'EventScheduleController@index')->name('events');
     Route::get('get_events', 'EventScheduleController@get_events')->name('get_events'); // AJAX
@@ -121,6 +121,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('event/{id}', 'EventScheduleController@view_event')->name('view_event');
     Route::patch('update_event/{id}', 'EventScheduleController@update_event')->name('update_event');
     Route::delete('delete_event/{id}', 'EventScheduleController@delete_event')->name('delete_event');
+
+
+
+    Route::get('gls/create2', 'GLController@create2')->name('gls.create2');
+    Route::get('gls/{id}/edit2', 'GLController@edit2')->name('gls.edit2');
+    Route::post('gls/create2', 'GLController@storeLoan');
+    Route::patch('gls/{id}/edit2', 'GLController@update2');
+    Route::resource('gls', 'GLController');
+
+    Route::get('cash_entries/customer_transfer', 'CashEntryController@customer_transfer')->name('customer_transfer');
+    Route::post('cash_entries/customer_transfer', 'CashEntryController@customer_transfer_store');
+    Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
+    Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
+    Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
+    Route::resource('cash_entries', 'CashEntryController');
+
+    Route::get('transactions/multipost', 'TransactionController@multipost')->name('transactions.multipost');
+    Route::post('transactions/multipost', 'TransactionController@multipost_store')->name('transactions.multipost.store');
+
+    Route::resource('transactions', 'TransactionController');
 
     // REPORTS
     Route::get('reports/balance-sheet', 'ReportController@balance_sheet')->name('balance_sheet2');

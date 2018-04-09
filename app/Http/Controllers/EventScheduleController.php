@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\EventSchedule;
+use App\User;
+
+use App\Notifications\NewCalendarEvent;
+use Notification;
 
 class EventScheduleController extends Controller
 {
   public function index()
   {
     $user = auth()->user();
-    $events = EventSchedule::where('ComapnyID', $user->staff->CompanyID)->get();
+    // $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
+    $events = EventSchedule::all();
     $events_array = $events->toArray();
     // dd($events_array);
     return view('events.index', compact('events', 'events_array'));
@@ -31,7 +36,7 @@ class EventScheduleController extends Controller
     }
     // $events_json = $events->toJson();
     // dd($events_array);
-    return $events_array;
+    return json_encode($events_array);
   }
 
   public function save_event(Request $request)
@@ -54,6 +59,14 @@ class EventScheduleController extends Controller
     $event->CompanyID = $user->staff->CompanyID;
     $event->Description = $request->Description;
     $event->save();
+
+    $all = User::whereHas('staff', function($query) use($user) {
+      $query->where('CompanyID', $user->staff->CompanyID);
+    })->get();
+    
+    $one = User::first();
+
+    Notification::send($one, new NewCalendarEvent($event));
 
     return redirect()->route('events')->with('success', 'Event was added successfully');
   }

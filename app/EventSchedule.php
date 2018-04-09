@@ -9,6 +9,7 @@ class EventSchedule extends Model
   protected $table   = 'tblEventSchedule';
   protected $guarded = ['EventRef'];
   protected $primaryKey   = 'EventRef';
+  // protected $dates = ['StartDate', 'EndDate']; // Breaks fullcalendar
 
   public function poster()
   {

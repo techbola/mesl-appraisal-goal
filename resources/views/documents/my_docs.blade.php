@@ -11,7 +11,7 @@
 @section('content')
 
 	<div class="clearfix m-b-20">
-		<button class="c-btn c-btn--info pull-right" data-toggle="modal" data-target="#new_doc">New Document</button>
+		<button class="btn btn-info pull-right" data-toggle="modal" data-target="#new_doc">New Document</button>
 	</div>
 
   	<!-- START PANEL -->
@@ -30,7 +30,7 @@
   					<th width="20%">Upload Date</th>
   					<th width="20%">Uploaded By</th>
   					<th width="15%">Download</th>
-  					<th width="10%">Actions</th>
+  					{{-- <th width="10%">Actions</th> --}}
 
   				</thead>
   				<tbody>
@@ -42,13 +42,13 @@
   							<td>{{ $doc->initiator->FullName ?? '-' }}</td>
   							{{-- <td><a href="#" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
   							{{-- <td><a href="{{ $doctype->Path}}" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
-  							<td><a href="{{-- route('docs', ['file'=>$doc->Filename]) --}}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i></a></td>
-  							<td class="actions">
-  								<a href="{{-- route('docmgts.details', ['id'=>$doc->DocRef]) --}}" class="btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="Document details">View</a>
+  							<td><a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i></a></td>
+  							{{-- <td class="actions">
+  								<a href="{{ route('docmgts.details', ['id'=>$doc->DocRef]) }}" class="btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="Document details">View</a>
   								@if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('staff'))
   									<a href="{{ route('docmgts.show',[$doc->DocRef]) }}" class="btn btn-sm btn-complete">Assign</a>
   								@endif
-  							</td>
+  							</td> --}}
   						</tr>
   					@endforeach
   				</tbody>

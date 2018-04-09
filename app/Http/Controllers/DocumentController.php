@@ -31,7 +31,7 @@ class DocumentController extends Controller
         $doctypes = DocType::all();
         $roles = Role::all();
       } else {
-        $docs = Document::whereHas('assignees', function($query) use($user){
+        $docs = Document::where('CompanyID', $user->staff->CompanyID)->whereHas('assignees', function($query) use($user){
           $query->where('StaffRef', $user->staff->StaffRef);
         })->orWhere('Initiator', $user->id)->orderBy('DocRef', 'desc')->get();
         $doctypes = DocType::where('CompanyID', $user->staff->CompanyID)->get();
@@ -59,6 +59,7 @@ class DocumentController extends Controller
                     'DocName'         => $request->DocName,
                     'Description'     => $request->Description,
                     'Initiator'       => Auth::user()->id,
+                    'CompanyID'       => Auth::user()->staff->CompanyID,
                     'Filename'        => $request->Filename->getClientOriginalName(),
                     // 'Path' => Storage::url('documents/'.$filename)
                 ));

@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewCalendarEvent extends Notification
+class NewDocument extends Notification
 {
     use Queueable;
 
@@ -16,9 +16,9 @@ class NewCalendarEvent extends Notification
      *
      * @return void
      */
-    public function __construct($event)
+    public function __construct($doc)
     {
-        $this->event = $event;
+        $this->doc = $doc;
     }
 
     /**
@@ -40,14 +40,14 @@ class NewCalendarEvent extends Notification
      */
     public function toMail($notifiable)
     {
-      $event = $this->event;
+      $doc = $this->doc;
         return (new MailMessage)
               ->subject('A New Event Was Posted')
               ->greeting('Hi '.$notifiable->first_name)
-              ->line($event->poster->FullName.' has posted a new event on the events scheduler. Here\'s a preview and a button to read the full thing.')
-              ->line('**Title: **'.$event->Title)
-              ->line('**Description: **'.str_limit(strip_tags($event->Description), 200).'')
-              ->action('View Event', route('view_event', $event->EventRef));
+              ->line($doc->poster->FullName.' has posted a new document on the events scheduler. Here\'s a preview and a button to read the full thing.')
+              ->line('**Title: **'.$doc->Title)
+              ->line('**Description: **'.str_limit(strip_tags($doc->Description), 200).'')
+              ->action('View Event', route('view_doc', $doc->EventRef));
     }
 
     /**

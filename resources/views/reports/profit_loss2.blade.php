@@ -38,6 +38,8 @@
     }
   </style>
 
+  @include('reports.nav')
+
   <div id="spinner" style="display: none; padding-top:40vh" class="text-center">
 		<img src="{{ asset('assets/img/spinner.gif') }}" alt="" width="40px">
 	</div>
@@ -87,9 +89,8 @@
     </div>
   </form>
 
-  <div class="panel panel-default" id="print-content">
-    <div class="panel-heading">
-      <h3 class="panel-title">
+  <div class="card-box" id="print-content">
+      <h3 class="card-title">
         Profit and Loss Report
         @if (empty($from) && empty($to))
 
@@ -99,8 +100,7 @@
             <span class="small" style="text-transform: capitalize"> — From {{ date('jS M, Y', strtotime($from)) }} to {{ date('jS M, Y', strtotime($to)) }}</span>
         @endif
       </h3>
-    </div>
-    <div class="panel-body">
+
       <table class="table tableWithExportOptions">
         <thead>
           <tr>
@@ -197,7 +197,6 @@
           </tr>
         </tfoot>
       </table>
-    </div>
   </div>
 
 @endsection

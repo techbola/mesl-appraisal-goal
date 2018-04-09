@@ -53,7 +53,7 @@
     $(function() {
 
       $('#calendar').fullCalendar({
-        events: '/get_events',
+        events: '{{ url('/') }}/get_events',
         header: {
           left:   'title',
           center: '',
@@ -63,7 +63,7 @@
           today:    'Today',
           month:    'Month',
           listDay:     'Today',
-          basicWeek: 'Weeks',
+          basicWeek: 'Week',
           year: 'Year'
         },
         eventClick: function(myevent, jsEvent, view) {

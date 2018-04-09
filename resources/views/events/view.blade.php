@@ -21,7 +21,7 @@
   </form>
   <div class="card-box">
     <div class="card-title">{{ $event->Event }}</div>
-    <div class="m-t-20 m-b-15">{{ $event->StartDate }} - {{ $event->EndDate }}</div>
+    <div class="m-t-20 m-b-15"><span class="label label-info btn-rounded">{{ Carbon\Carbon::parse($event->StartDate)->format('jS M Y') }}</span> to <span class="label label-info btn-rounded">{{ Carbon\Carbon::parse($event->EndDate)->format('jS M Y') }}</span></div>
 
     <div class="f13 m-b-15"><b>Posted by
       <img width="22" height="22" alt="" src="{{ asset('images/avatars/'.$event->poster->avatar) }}" style="border-radius:50%">
