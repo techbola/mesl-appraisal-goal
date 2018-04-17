@@ -161,9 +161,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/savings', 'ReportController@savings')->name('savings_accounts');
     Route::get('reports/loan-status', 'ReportController@loan_status')->name('loan_status');
 
-    Route::get('kb/categories', 'KnowledgeController@categories')->name('kb-categories');
-    Route::post('save_kb_cat', 'KnowledgeController@save_category')->name('save_kb_cat');
-    Route::get('kb/category/{id}', 'KnowledgeController@category_index')->name('category_index');
+    Route::get('kb/categories', 'IssueController@categories')->name('kb-categories');
+    Route::post('save_kb_cat', 'IssueController@save_category')->name('save_kb_cat');
+    Route::get('kb/category/{id}', 'IssueController@category_items')->name('category_items');
+    Route::post('save_issue/{cat}', 'IssueController@save_issue')->name('save_issue');
 });
 
 Route::get('/abc', function(){

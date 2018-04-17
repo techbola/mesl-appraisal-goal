@@ -319,7 +319,7 @@
         <div class="container-fluid container-fixed-lg footer">
           <div class="copyright sm-text-center">
             <p class="small no-margin pull-left sm-pull-reset">
-              <span class="hint-text">Copyright &copy; 2017 </span>
+              <span class="hint-text">Copyright &copy; {{ date('Y') }} </span>
               <span class="font-montserrat">OfficeMate</span>.
               <span class="hint-text">All rights reserved. </span>
               <span class="sm-block"><a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
@@ -487,6 +487,34 @@
           widget.attr("style", "z-index: 9999999 !important; box-shadow: 0 6px 12px rgba(0,0,0,.175); border: 1px solid #ccc");
       });
     </script> --}}
+
+
+      <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/css/summernote.css') }}" />
+      <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}" charset="utf-8"></script>
+
+      <script>
+        $(document).ready(function() {
+          // $('.summernote').summernote();
+
+          $('.summernote').summernote({
+            // height: '100px',
+            placeholder: '',
+            toolbar: [
+              // [groupName, [list of button]]
+              ['style', ['bold', 'italic', 'underline', 'clear']],
+              // ['font', ['strikethrough', 'superscript', 'subscript']],
+              // ['fontsize', ['fontsize']],
+              ['color', ['color']],
+              ['para', ['ul', 'ol', 'paragraph']],
+              // ['height', ['height']],
+              ['table', ['table']],
+              ['insert', ['link', 'picture']],
+            ]
+          });
+
+        });
+
+      </script>
 
   </body>
 </html>

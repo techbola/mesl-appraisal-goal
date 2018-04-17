@@ -4,15 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class KnowledgeCategory extends Model
+class IssueCategory extends Model
 {
-  protected $table   = 'tblKnowledgeCategories';
+  protected $table   = 'tblIssueCategories';
   protected $guarded = ['id'];
   // public $timestamps = false;
 
   public function items()
   {
-    return $this->hasMany('App\KnowledgeItem', 'CategoryID');
+    return $this->hasMany('App\IssueItem', 'CategoryID');
   }
 
   public function poster()
