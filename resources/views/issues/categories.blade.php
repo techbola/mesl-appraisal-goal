@@ -37,7 +37,7 @@
       <tbody>
         @foreach ($categories as $category)
           <tr>
-            <td><a href="{{ route('category_items', $category->id) }}">{{ $category->Category }}</a></td>
+            <td><a href="{{ route('category_items', $category->id) }}">{{ $category->Name }}</a></td>
             <td>{{ count($category->items) }}</td>
             <td>{{ $category->poster->FullName }}</td>
             <td data-sort="{{ $category->created_at }}">{{ $category->created_at? $category->created_at->format('Y-m-d') : '' }}</td>
@@ -67,7 +67,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="req">Category Name</label>
-                    <input type="text" class="form-control" name="Category" placeholder="Eg. The OfficeMate Project" required>
+                    <input type="text" class="form-control" name="Name" placeholder="Eg. The OfficeMate Project" required>
                   </div>
                 </div>
               </div>

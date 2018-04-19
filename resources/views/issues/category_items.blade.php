@@ -1,22 +1,24 @@
 @extends('layouts.master')
 
 @section('title')
-  Issues In {{ $category->Category }}
+  Issues In {{ $category->Name }}
 @endsection
 
 @section('page-title')
-  Issues In {{ $category->Category }}
+  Issues In {{ $category->Name }}
 @endsection
 
 @section('buttons')
-  <button class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#new_issue">New Issue</button>
+  <button class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#new_issue" @click="new_issue()">New Issue</button>
 @endsection
 
 @section('content')
 
+{{-- <div id="vue"> --}}
+
   <div class="card-box">
     <div class="clearfix">
-      <div class="card-title pull-left">List Of Issue Resolutions In <span class="text-info">{{ $category->Category }}</span> </div>
+      <div class="card-title pull-left">List Of Issue Resolutions In <span class="text-info">{{ $category->Name }}</span> </div>
       <div class="pull-right">
         <div class="col-xs-12">
           <input type="text" class="search-table form-control pull-right" placeholder="Search">
@@ -32,17 +34,22 @@
           <th>Description</th>
           <th>Created By</th>
           <th>Date Created</th>
+          <th>Actions</th>
         </tr>
       </thead>
 
       <tbody>
         @foreach ($issues as $issue)
           <tr>
-            <td>{{ $issue->Item }}</td>
-            <td>{{ $issue->category->Category }}</td>
+            <td>{{ $issue->Name }}</td>
+            <td>{{ $issue->category->Name ?? '' }}</td>
             <td>{{ str_limit($issue->Description) }}</td>
             <td>{{ $issue->poster->FullName }}</td>
             <td>{{ $issue->created_at ?? '' }}</td>
+            <td>
+              <a data-toggle="modal" data-target="#edit_issue" @click="edit_issue({{ json_encode($issue) }})"><i class="fa fa-pencil text-warning"></i></a>
+              <a href="{{ route('view_issue', $issue->id) }}"><i class="fa fa-eye text-primary m-l-10"></i></a>
+            </td>
           </tr>
         @endforeach
       </tbody>
@@ -51,48 +58,51 @@
 
   </div>
 
-  {{-- MODALS --}}
-  <!-- Modal -->
-  <div class="modal fade slide-up disable-scroll" id="new_issue" tabindex="-1" role="dialog" aria-hidden="false">
-    <div class="modal-dialog ">
-      <div class="modal-content-wrapper">
-        <div class="modal-content">
-          <div class="modal-header clearfix text-left">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
-            </button>
-            <h5>Add New Issue</h5>
-          </div>
-          <div class="modal-body">
-            <form action="{{ route('save_issue', $category->id) }}" method="post">
-              {{ csrf_field() }}
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="req">Issue Title</label>
-                    <input type="text" class="form-control" name="Item" placeholder="Enter Issue Title" required>
-                  </div>
-                </div>
+  @include('issues.modals')
 
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="req">Description</label>
-                    <textarea class="form-control" name="Description" rows="3" width="100%"></textarea>
-                  </div>
-                </div>
-
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="req">Solution</label>
-                    <textarea class="form-control summernote" name="Solution"></textarea>
-                  </div>
-                </div>
-
-              </div>
-              <button type="submit" class="btn btn-info btn-form">Submit</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+{{-- </div> --}}
 @endsection
+
+@push('scripts')
+  <script>
+  var base = "{{ url('/') }}";
+  new Vue({
+    // el: '#vue',
+    el: '#app',
+    data: {
+      issue: {
+        id: '',
+        Name: '',
+        Description: '',
+        Solution: '',
+        action: '{{ url('/').'/update_issue/' }} @{{ issue.id }}'
+      }
+    },
+    methods: {
+      edit_issue(issue) {
+        this.issue = issue;
+        console.log(issue);
+        $('#issue_form_edit').attr('action', base + '/update_issue/' + issue.id);
+        // $('#issue_form').prepend('{{ method_field("PATCH") }}');
+        $('#issue_form_edit').find('.note-editable').prepend(issue.Solution);
+
+        // if(this.product.supplier_id == undefined) {
+        //   document.getElementById('edit_supplier').removeAttribute('name');
+        //   document.getElementById('edit_select_supplier').style.display = 'none';
+        // } else {
+        //   document.getElementById('edit_supplier').setAttribute('name', 'supplier');
+        //   document.getElementById('edit_select_supplier').style.display = 'block';
+        // }
+      },
+      new_issue(){
+        // $('#issue_form').find('input[name=_method]').remove();
+        // $('#issue_form').attr('action', base + '/save_issue/' + '{{ $category->id }}');
+        // $('#issue_form')[0].reset();
+        // $('.note-editable').empty();
+      }
+
+    }
+
+  });
+</script>
+@endpush

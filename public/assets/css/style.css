@@ -190,7 +190,8 @@ th {
   /* color: black !important; */
   padding-top: 20px !important;
   padding-bottom: 20px !important;
-  min-height: 200px;
+  /* min-height: 200px; */
+  height: 200px;
 }
 .note-editable table tr td {
   /* color: black !important; */
@@ -904,4 +905,5 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 15px !important;
   margin-top: 10px !important;
 }
+textarea { resize: vertical; }
 /* End Dashblocks */

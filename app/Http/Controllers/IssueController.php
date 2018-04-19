@@ -24,7 +24,7 @@ class IssueController extends Controller
     ]);
     $user = auth()->user();
     $cat = new IssueCategory;
-    $cat->Name = $request->Category;
+    $cat->Name = $request->Name;
     $cat->CompanyID = $user->staff->CompanyID;
     $cat->CreatedBy = $user->id;
     $cat->save();
@@ -45,12 +45,12 @@ class IssueController extends Controller
   public function save_issue(Request $request, $cat_id)
   {
     $this->validate($request, [
-      'Item' => 'required'
+      'Name' => 'required'
     ]);
     $user = auth()->user();
     $issue = new IssueItem;
-    $issue->Item = $request->Item;
-    $issue->CategoryID = $user->staff->CompanyID;
+    $issue->Name = $request->Name;
+    $issue->CategoryID = $cat_id;
     $issue->Description = $request->Description;
     $issue->Solution = $request->Solution;
     $issue->CompanyID = $user->staff->CompanyID;
@@ -59,6 +59,30 @@ class IssueController extends Controller
 
     return redirect()->back()->with('success', 'Issue was saved successfully');
 
+  }
+
+  public function update_issue(Request $request, $id)
+  {
+    $this->validate($request, [
+      'Name' => 'required'
+    ]);
+    $user = auth()->user();
+    $issue = IssueItem::find($id);
+    $issue->Name = $request->Name;
+    $issue->Description = $request->Description;
+    $issue->Solution = $request->Solution;
+    // $issue->CreatedBy = $user->id;
+    $issue->update();
+
+    return redirect()->back()->with('success', 'Issue was updated successfully');
+
+  }
+
+  public function view_issue($id)
+  {
+    $issue = IssueItem::find($id);
+
+    return view('issues.view', compact('issue'));
   }
 
 

@@ -165,6 +165,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save_kb_cat', 'IssueController@save_category')->name('save_kb_cat');
     Route::get('kb/category/{id}', 'IssueController@category_items')->name('category_items');
     Route::post('save_issue/{cat}', 'IssueController@save_issue')->name('save_issue');
+    Route::patch('update_issue/{id}', 'IssueController@update_issue')->name('update_issue');
+    Route::get('issue/{id}', 'IssueController@view_issue')->name('view_issue');
 });
 
 Route::get('/abc', function(){

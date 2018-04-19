@@ -422,6 +422,8 @@
       }
     </script>
 
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js" charset="utf-8"></script>
+
     @stack('scripts')
     <!-- END CORE TEMPLATE JS -->
     <!-- BEGIN PAGE LEVEL JS -->
@@ -491,6 +493,8 @@
 
       <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/css/summernote.css') }}" />
       <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}" charset="utf-8"></script>
+
+
 
       <script>
         $(document).ready(function() {
