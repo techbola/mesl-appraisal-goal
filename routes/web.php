@@ -3,6 +3,22 @@
 
 Auth::routes();
 
+
+Route::group(['domain' => 'officemate.test'], function()
+    {
+    Route::any('/123', function()
+    {
+        return 'My own domain';
+    });
+});
+Route::group(['domain' => '{subdomain}.officemate.test'], function()
+{
+    Route::any('/123', function($subdomain)
+    {
+        return 'Subdomain ' . $subdomain;
+    });
+});
+
 Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
