@@ -15,7 +15,7 @@ class EventScheduleController extends Controller
   {
     $user = auth()->user();
     // $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
-    $events = EventSchedule::all();
+    $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
     $events_array = $events->toArray();
     // dd($events_array);
     return view('events.index', compact('events', 'events_array'));
@@ -23,7 +23,7 @@ class EventScheduleController extends Controller
 
   public function get_events()
   {
-    $events = EventSchedule::all();
+    $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
     $events_array = [];
     $count = '0';
     foreach ($events as $event) {
@@ -63,7 +63,7 @@ class EventScheduleController extends Controller
     $all = User::whereHas('staff', function($query) use($user) {
       $query->where('CompanyID', $user->staff->CompanyID);
     })->get();
-    
+
     $one = User::first();
 
     Notification::send($one, new NewCalendarEvent($event));

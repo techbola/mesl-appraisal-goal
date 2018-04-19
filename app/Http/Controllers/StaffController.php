@@ -42,9 +42,10 @@ class StaffController extends Controller
         //     ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
         //     ->get();
         // return view('staff.index', compact('staffs'));
-        $staffs = Staff::all();
+        $user = auth()->user();
+        $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $companies = Company::all();
-        $roles = Role::all();
+        $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();
         return view('staff.index', compact('staffs', 'companies', 'roles'));
     }
 

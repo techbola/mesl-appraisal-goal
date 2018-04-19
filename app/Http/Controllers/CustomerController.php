@@ -20,7 +20,7 @@ class CustomerController extends Controller
     public function index()
     {
         // $customers = \DB::select("EXEC ProcViewCustomerDetails");
-        $customers = Customer::all();
+        $customers = Customer::where('CompanyID', $user->staff->CompanyID)->get();
 
         $accountofficers = Staff::all();
         $genders         = Gender::all();

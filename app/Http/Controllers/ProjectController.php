@@ -19,15 +19,16 @@ class ProjectController extends Controller
     {
       $user = auth()->user();
 
-      $projects = Project::all();
       if ($user->is_superadmin) {
         $supervisors = Staff::all();
         $assignees = Staff::all();
         $customers = Customer::all();
+        $projects = Project::all();
       } else{
         $supervisors = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $assignees = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $customers = Customer::where('CompanyID', $user->staff->CompanyID)->get();
+        $projects = Project::where('CompanyID', $user->staff->CompanyID)->get();
       }
       return view('projects.index', compact('projects', 'supervisors', 'assignees', 'customers'));
     }

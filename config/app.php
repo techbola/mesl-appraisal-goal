@@ -182,6 +182,7 @@ return [
         Codesleeve\LaravelStapler\Providers\L5ServiceProvider::class,
 
         Intervention\Image\ImageServiceProvider::class,
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
     ],
 

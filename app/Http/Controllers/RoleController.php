@@ -14,12 +14,12 @@ class RoleController extends Controller
     }
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();
         return view('roles.index', compact('roles'));
     }
     public function create()
     {
-        $roles = Role::all();
+        $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();
         $companies = Company::all();
         return view('roles.create', compact('roles', 'companies'));
     }

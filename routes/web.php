@@ -2,6 +2,7 @@
 // Please leave the arrangement of this file as is
 
 Auth::routes();
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 
 Route::group(['domain' => 'officemate.test'], function()
@@ -185,10 +186,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('issue/{id}', 'IssueController@view_issue')->name('view_issue');
 });
 
-Route::get('/abc', function(){
-  // $menu_ids = \App\Menu::whereIn('slug', ['projects'])->get();
-  // dd($menu_ids->pluck('id')->toArray());
-  $role = \App\Role::where('name', 'software developer')->first();
-  // dd($role->menus);
-  dd(auth()->user()->roles);
+Route::get('/cls', function () {
+    Artisan::call('view:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    return redirect()->route('home');
+});
+
+Route::get('/cda', function(){
+  exec('composer dump-autoload');
+  return redirect()->route('home');
 });
