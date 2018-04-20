@@ -5,7 +5,7 @@
 		<div class="card-title">
 			Create General Ledger
 		</div>
-		{{ Form::open(['action' => 'GLController@store', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+		{{ Form::open(['action' => 'GLController@store', 'role' => 'form']) }}
 		@include('gls.form', ['buttonText' => 'Create GL'])
 		{{ Form::close() }}
 </div>

@@ -9,10 +9,6 @@
 	Customer Management
 @endsection
 
-@section('page-title')
-	Customer Management
-@endsection
-
 @section('content')
 	<div class="clearfix m-b-20">
 		<button class="c-btn c-btn--info pull-right" data-toggle="modal" data-target="#new_customer">New Customer</button>

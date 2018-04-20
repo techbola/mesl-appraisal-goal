@@ -35,7 +35,7 @@
           <div class="modal-body">
             <form action="{{ route('save_event') }}" method="post">
               {{ csrf_field() }}
-              @include('events.form')
+              @include('events.form', ['StartTime' => null, 'EndTime' => null])
             </form>
           </div>
         </div>

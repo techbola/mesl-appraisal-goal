@@ -184,6 +184,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save_issue/{cat}', 'IssueController@save_issue')->name('save_issue');
     Route::patch('update_issue/{id}', 'IssueController@update_issue')->name('update_issue');
     Route::get('issue/{id}', 'IssueController@view_issue')->name('view_issue');
+
+    Route::get('contacts', 'BusinessContactController@index')->name('business_contacts');
+    Route::post('save_contact', 'BusinessContactController@save_contact')->name('save_contact');
+    Route::get('edit_contact/{id}', 'BusinessContactController@edit_contact')->name('edit_contact');
+    Route::patch('update_contact/{id}', 'BusinessContactController@update_contact')->name('update_contact');
 });
 
 Route::get('/cls', function () {
