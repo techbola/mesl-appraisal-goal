@@ -340,6 +340,7 @@
     <!-- BEGIN VENDOR JS -->
 
 
+
     <script src="{{ asset('js/uikit.js') }}"></script>
 
 
@@ -407,6 +408,9 @@
       }
     </script>
 
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js" charset="utf-8"></script>
+    @stack('vue')
+
     <!-- END VENDOR JS -->
     <!-- BEGIN CORE TEMPLATE JS -->
 
@@ -421,8 +425,6 @@
         window.history.back();
       }
     </script>
-
-    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js" charset="utf-8"></script>
 
     @stack('scripts')
     <!-- END CORE TEMPLATE JS -->
@@ -494,6 +496,9 @@
       <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/css/summernote.css') }}" />
       <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}" charset="utf-8"></script>
 
+      <link href="{{ asset('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet" type="text/css">
+      <script src="{{ asset('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js') }}"></script>
+
 
 
       <script>
@@ -514,6 +519,13 @@
               ['table', ['table']],
               ['insert', ['link', 'picture']],
             ]
+          });
+
+          $('.timepicker').timepicker({template: 'modal'}).on('show.timepicker', function(e) {
+              var widget = $('.bootstrap-timepicker-widget');
+              widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
+              widget.find('.glyphicon-chevron-down').removeClass().addClass('pg-arrow_minimize');
+              widget.attr("style", "z-index: 9999999 !important; box-shadow: 0 6px 12px rgba(0,0,0,.175); border: 1px solid #ccc");
           });
 
         });

@@ -10,6 +10,8 @@ class ProjectTask extends Model
   protected $guarded = ['TaskRef'];
   public $primaryKey = 'TaskRef';
 
+  protected $appends = ['progress', 'progress_percent'];
+
   public function project()
   {
     return $this->belongsTo('App\Project', 'ProjectID', 'ProjectRef');

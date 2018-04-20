@@ -230,14 +230,6 @@
       $('.new_select').removeClass('new_select');
       $('.new_date').removeClass('new_date');
 
-      // var fact_num = $("#facts div").length;
-      // var fact_max = 9;
-      // if (fact_num <= fact_max) {
-      //   $("#facts").append('<div class="mb10 input-group"><input name="facts[]" type="text" class="form-control" placeholder="Fact or accomplishment"><span class="input-group-btn"><button class="delete btn btn-danger">Delete</button></span></div>');
-      // } else if(fact_num == fact_max + 1) {
-      //   $("#facts").append('<div class="mb10 text-danger">Limit '+ (fact_max+1) +' reached. You can add more from the edit page later.</div>');
-      // }
-
     });
     // Delete
     $("body").on("click", ".delete", function (e) {

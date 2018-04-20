@@ -58,7 +58,7 @@ class Project extends Model
 
   public function getProgressAttribute()
   {
-    // return '80';
+
     $progress = 0;
     if(count($this->tasks) > 0) {
       foreach ($this->tasks as $task) {
@@ -66,7 +66,7 @@ class Project extends Model
       }
       $progress = $progress / count($this->tasks);
     }
-    return $progress;
+    return floor($progress);
   }
 
   public function getProgressPercentAttribute()

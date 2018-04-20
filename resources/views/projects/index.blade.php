@@ -54,9 +54,8 @@
           <td>
             <div class="progress">
               <div class="progress progress-striped active progress-md m-b-0">
-                  <div class="progress-bar progress-bar-success" role="progressbar" style="width: 100%{{-- $progress --}};">
-                    100%
-                      {{-- $progress --}}
+                  <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ $project->progress_percent }};">
+                    {{ $project->progress_percent }}
                   </div>
               </div>
             </div>

@@ -183,7 +183,7 @@
             </div>
             <div class="form-group">
               {{ Form::label('Assign To') }}
-              {{ Form::select('StaffID', [''=>'Assign To...'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Assign this task to...", 'data-init-plugin' => "select2", 'required']) }}
+              {{ Form::select('StaffID', [''=>'Assign To...'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "select2 full-width",'data-placeholder' => "Assign this task to...", 'data-init-plugin' => "select2", 'required']) }}
             </div>
             <input type="hidden" name="ProjectID" value="{{ $project->ProjectRef }}">
             <div class="clearfix">
@@ -208,7 +208,7 @@
             <li>
               <ul class="list-inline">
                   <li><img src="{{ asset('images/avatars/default.png') }}" class="img-circle thumb-40" alt=""></li>
-                  <li><a href="">{{ $staff->FullName }}</a></li>
+                  <li><a data-toggle="modal" data-target="#user_tasks" @click="user_tasks({{ $project->tasks->where('StaffID', $staff->StaffRef) }}, '{{ $staff->FullName }}')" style="cursor: pointer">{{ $staff->FullName }}</a></li>
               </ul>
             </li>
           @endforeach
@@ -270,7 +270,7 @@
   </div> {{-- End Row --}}
 
 
-  <!-- Modal -->
+  <!-- EDIT Modal -->
   <div class="modal fade slide-up disable-scroll" id="edit_project" tabindex="-1" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
@@ -290,6 +290,53 @@
       </div>
     </div>
   </div>
+  {{-- END EDIT MODAL --}}
+
+  {{-- START USER TASKS MODAL --}}
+  <div class="modal fade slide-up disable-scroll" id="user_tasks" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog">
+      <div class="modal-content-wrapper">
+        <div class="modal-content">
+          <div class="modal-header clearfix text-left">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+            </button>
+            <h5><b>@{{ name }}</b>'s Tasks In {{ $project->Project }}</h5>
+          </div>
+          <div class="modal-body">
+            {{-- TASK LIST --}}
+
+            <ul class="my-list{{ (count($project->tasks) > 7)? ' nicescroll mx-box':'' }}">
+
+              <li v-for="task in tasks">
+
+                <a v-bind:href="'/task/' + task.TaskRef">
+                  <div>
+                    @{{ task.Task }}
+                    <div v-if="task.progress != 100" class="pull-right">
+                      @{{ task.progress_percent }}
+                    </div>
+                    <div v-else class="pull-right">
+                      Complete
+                    </div>
+                  </div>
+                </a>
+                <div class="small m-b-5"></div>
+
+                <div class="progress progress-striped active progress-sm m-b-0">
+                  <div class="progress-bar progress-bar-success" role="progressbar" v-bind:style="{ width: task.progress_percent }">
+                    <span class="sr-only">@{{ task.progress }} Complete</span>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+            {{-- END TASK LIST --}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{-- START USER TASKS MODAL --}}
 
 
 @endsection
@@ -305,6 +352,26 @@
             autoclose: true,
         };
         $('.dp').datepicker(options);
+    });
+  </script>
+@endpush
+
+@push('vue')
+
+  <script>
+
+    new Vue({
+      el: '#app',
+      data: {
+        tasks: {},
+        name: '',
+      },
+      methods: {
+        user_tasks(tasks, name) {
+          this.tasks = tasks;
+          this.name = name;
+        },
+      },
     });
   </script>
 @endpush

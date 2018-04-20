@@ -25,8 +25,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        // Only Sender & Recipients
         Gate::define('view-message', function ($user, $message) {
           return ( $user->id == $message->FromID || in_array($user->id, $message->recipients->pluck('id')->toArray()) );
+        });
+
+        // Only Creator and Admin
+        Gate::define('edit-event', function ($user, $event) {
+          return ( $user->id == $event->Initiator || ($user->staff->CompanyID == $event->CompanyID && in_array('admin', $user->roles->pluck('name')->toArray())) );
         });
     }
 }

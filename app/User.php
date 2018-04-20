@@ -96,4 +96,9 @@ class User extends Authenticatable
       // }
       // return '/images/avatars/'.$
     }
+
+    public function tasks()
+    {
+      
+    }
 }

@@ -19,6 +19,7 @@ class CustomerController extends Controller
 
     public function index()
     {
+      $user = auth()->user();
         // $customers = \DB::select("EXEC ProcViewCustomerDetails");
         $customers = Customer::where('CompanyID', $user->staff->CompanyID)->get();
 
