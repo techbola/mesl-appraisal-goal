@@ -21,7 +21,11 @@
   </form>
   <div class="card-box">
     <div class="card-title">{{ $event->Event }}</div>
-    <div class="m-t-20 m-b-15"><span class="label label-info btn-rounded">{{ Carbon\Carbon::parse($event->StartDate)->format('jS M Y') }}</span> to <span class="label label-info btn-rounded">{{ Carbon\Carbon::parse($event->EndDate)->format('jS M Y') }}</span></div>
+    <div class="m-t-20 m-b-15">
+			<span class="label label-info btn-rounded">{{ Carbon\Carbon::parse($event->StartDate)->format('jS M Y') }} - <span class="text-black">{{ Carbon\Carbon::parse($event->StartTime)->format('g:iA') }}</span></span>
+			 to
+			<span class="label label-info btn-rounded">{{ Carbon\Carbon::parse($event->EndDate)->format('jS M Y') }} - <span class="text-black">{{ Carbon\Carbon::parse($event->EndTime)->format('g:iA') }}</span></span>
+		</div>
 
     <div class="f13 m-b-15"><b>Posted by
       <img width="22" height="22" alt="" src="{{ asset('images/avatars/'.$event->poster->avatar) }}" style="border-radius:50%">
@@ -52,7 +56,7 @@
             </form> --}}
             {{ Form::model($event, ['action' => ['EventScheduleController@update_event', $event->EventRef ], 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
         		  {{ method_field('PATCH') }}
-              @include('events.form')
+              @include('events.form', ['StartTime' => Carbon::parse($event->StartTime)->format('G:i:s'), 'EndTime' => Carbon::parse($event->EndTime)->format('G:i:s')])
             {{ Form::close() }}
           </div>
         </div>

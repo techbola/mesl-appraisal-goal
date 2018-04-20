@@ -23,6 +23,7 @@ class EventScheduleController extends Controller
 
   public function get_events()
   {
+    $user = auth()->user();
     $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
     $events_array = [];
     $count = '0';
@@ -66,7 +67,7 @@ class EventScheduleController extends Controller
 
     $one = User::first();
 
-    Notification::send($one, new NewCalendarEvent($event));
+    Notification::send($all, new NewCalendarEvent($event));
 
     return redirect()->route('events')->with('success', 'Event was added successfully');
   }
@@ -80,7 +81,11 @@ class EventScheduleController extends Controller
 
   public function update_event(Request $request, $id)
   {
+
+    $event = EventSchedule::find($id);
     $user = auth()->user();
+
+    $this->authorize('edit-event', $event);
 
     $this->validate($request, [
       'Event' => 'required',
@@ -88,7 +93,6 @@ class EventScheduleController extends Controller
       'EndDate' => 'required'
     ]);
 
-    $event = EventSchedule::find($id);
     $event->Event = $request->Event;
     $event->StartDate = $request->StartDate;
     $event->EndDate = $request->EndDate;
@@ -105,6 +109,9 @@ class EventScheduleController extends Controller
   public function delete_event(Request $request, $id)
   {
     $event = EventSchedule::find($id);
+    
+    $this->authorize('edit-event', $event);
+
     $event->delete();
 
     return redirect()->route('events')->with('success', 'The event was deleted successfully');

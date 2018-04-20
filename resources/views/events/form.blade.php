@@ -31,7 +31,7 @@
     <div class="form-group">
       {{ Form::label('StartTime', 'Start Time' ) }}
       <div class="input-group bootstrap-timepicker">
-        {{ Form::text('StartTime', null, ['class' => 'form-control timepicker', 'placeholder' => 'Start Time']) }}
+        {{ Form::text('StartTime', $StartTime, ['class' => 'form-control timepicker', 'placeholder' => 'Start Time']) }}
         <span class="input-group-addon"><i class="pg-clock"></i></span>
       </div>
     </div>
@@ -41,7 +41,7 @@
     <div class="form-group">
       {{ Form::label('EndTime', 'End Time' ) }}
       <div class="input-group bootstrap-timepicker">
-        {{ Form::text('EndTime', null, ['class' => 'form-control timepicker', 'placeholder' => 'End Time']) }}
+        {{ Form::text('EndTime', $EndTime, ['class' => 'form-control timepicker', 'placeholder' => 'End Time']) }}
         <span class="input-group-addon"><i class="pg-clock"></i></span>
       </div>
     </div>
