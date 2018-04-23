@@ -27,7 +27,61 @@
         <h5 class="card-title">@{{ contact.Name }}</h5>
       </div>
       <div class="modal-body">
-        
+        <table class="table table-striped">
+          <tr>
+            <td>Position</td>
+            <td>@{{ contact.Position }}</td>
+          </tr>
+          <tr>
+            <td>Department</td>
+            <td>@{{ contact.Department }}</td>
+          </tr>
+          <tr>
+            <td>Organization</td>
+            <td>@{{ contact.Organization }}</td>
+          </tr>
+          <tr>
+            <td>OfficeEmail</td>
+            <td>@{{ contact.OfficeEmail }}</td>
+          </tr>
+          <tr>
+            <td>PersonalEmail</td>
+            <td>@{{ contact.PersonalEmail }}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>@{{ contact.Address }}</td>
+          </tr>
+          <tr>
+            <td>Mobile Phone 1</td>
+            <td>@{{ contact.MobilePhone1 }}</td>
+          </tr>
+          <tr>
+            <td>Mobile Phone 2</td>
+            <td>@{{ contact.MobilePhone2 }}</td>
+          </tr>
+          <tr>
+            <td>Office Phone 1</td>
+            <td>@{{ contact.OfficePhone1 }}</td>
+          </tr>
+          <tr>
+            <td>Office Phone 2</td>
+            <td>@{{ contact.OfficePhone2 }}</td>
+          </tr>
+          <tr>
+            <td>DirectLine</td>
+            <td>@{{ contact.DirectLine }}</td>
+          </tr>
+          <tr>
+            <td>Fax</td>
+            <td>@{{ contact.Fax }}</td>
+          </tr>
+          <tr>
+            <td>Skype</td>
+            <td>@{{ contact.Skype }}</td>
+          </tr>
+
+        </table>
       </div>
     </div>
   </div>

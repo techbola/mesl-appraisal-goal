@@ -32,9 +32,9 @@
         <th>Department</th>
         <th>Organization</th>
         <th>Address</th>
-        <th>Country</th>
-        <th>Mobile Phone 1</th>
+        {{-- <th>Country</th> --}}
         <th>Office Phone 1</th>
+				<th>Office Email</th>
         <th width="20%">Actions</th>
       </thead>
       <tbody>
@@ -45,9 +45,9 @@
 						<td>{{ $contact->Department }}</td>
 						<td>{{ $contact->Organization }}</td>
 						<td>{{ $contact->Address }}</td>
-						<td>{{ $contact->country->Country }}</td>
-						<td>{{ $contact->MobilePhone1 }}</td>
+						{{-- <td>{{ $contact->country->Country }}</td> --}}
 						<td>{{ $contact->OfficePhone1 }}</td>
+						<td>{{ $contact->OfficeEmail }}</td>
 						<td>
 							<a href="{{ route('edit_contact', $contact->ContactRef) }}" class="text-warning f16"><i class="fa fa-pencil"></i></a>
 							<a href="javascript:void()" data-toggle="modal" data-target="#view_contact" class="text-primary f16 m-l-10" @click="get_contact({{ $contact }})"><i class="fa fa-eye"></i></a>
