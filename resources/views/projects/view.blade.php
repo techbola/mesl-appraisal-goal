@@ -117,7 +117,7 @@
   <!-- Start: Project Description -->
   <div class="card-box">
     <h4 class="card-title">Project Description / Brief</h4>
-    {{ nl2br($project->Description) ?? 'No Description Provided' }}
+    {!! $project->Description ?? 'No Description Provided' !!}
   </div>
 
   {{-- <div class="row">

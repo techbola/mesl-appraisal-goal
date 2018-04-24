@@ -138,7 +138,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     {{ Form::label('Description', 'Description / Project Details' ) }}
-                    {{ Form::textarea('Description', null, ['class' => 'form-control', 'placeholder' => 'Enter project details and instructions.', 'rows' => '4']) }}
+                    {{ Form::textarea('Description', null, ['class' => 'summernote', 'placeholder' => 'Enter project details and instructions.', 'rows' => '4']) }}
                   </div>
                 </div>
 

@@ -35,7 +35,7 @@
         {{-- <th>Country</th> --}}
         <th>Phone</th>
 				<th>Email</th>
-        <th width="10%">Actions</th>
+        <th width="15%">Actions</th>
       </thead>
       <tbody>
 				@foreach ($contacts as $contact)
@@ -49,8 +49,9 @@
 						<td>{{ $contact->OfficePhone1 }}</td>
 						<td>{{ $contact->OfficeEmail }}</td>
 						<td>
-							<a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="text-warning f16"><i class="fa fa-pencil"></i></a>
-							<a href="javascript:void()" data-toggle="modal" data-target="#view_contact" class="text-primary f16 m-l-10" @click="get_contact({{ $contact }})"><i class="fa fa-eye"></i></a>
+							{{-- <a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="text-warning f16"><i class="fa fa-pencil"></i></a> --}}
+							<a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="btn btn-xs btn-inverse">Edit</a>
+							<a href="javascript:void()" data-toggle="modal" data-target="#view_contact" @click="get_contact({{ $contact }})" class="btn btn-xs btn-info">View</a>
 						</td>
 					</tr>
 				@endforeach

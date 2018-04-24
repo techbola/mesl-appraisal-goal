@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('edit_step/{id}', 'TaskController@edit_step')->name('edit_step');
 
     Route::get('company-assets', 'AssetController@index')->name('assets');
+    Route::post('save-asset', 'AssetController@save_asset')->name('save_asset');
 
     Route::resource('clients', 'ClientController');
 

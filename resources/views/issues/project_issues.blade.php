@@ -64,8 +64,8 @@
 {{-- </div> --}}
 @endsection
 
-@push('scripts')
-  
+@push('vue')
+
   <script>
   var base = "{{ url('/') }}";
   new Vue({
