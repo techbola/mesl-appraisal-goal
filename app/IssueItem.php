@@ -15,6 +15,11 @@ class IssueItem extends Model
     return $this->belongsTo('App\IssueCategory', 'CategoryID');
   }
 
+  public function project()
+  {
+    return $this->belongsTo('App\Project', 'ProjectID');
+  }
+
   public function poster()
   {
     return $this->belongsTo('App\User', 'CreatedBy');

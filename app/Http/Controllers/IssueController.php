@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\IssueItem;
 use App\IssueCategory;
+use App\Project;
 
 class IssueController extends Controller
 {
@@ -12,9 +13,9 @@ class IssueController extends Controller
   public function categories()
   {
     $user = auth()->user();
-    $categories = IssueCategory::where('CompanyID', $user->staff->CompanyID)->get();
+    $projects = Project::where('CompanyID', $user->staff->CompanyID)->get();
 
-    return view('issues.categories', compact('categories'));
+    return view('issues.categories', compact('projects'));
   }
 
   public function save_category(Request $request)
@@ -33,16 +34,17 @@ class IssueController extends Controller
 
   }
 
-  public function category_items($id)
+  public function project_issues($id)
   {
-    $category = IssueCategory::find($id);
-    $issues = IssueItem::all();
+    // $category = IssueCategory::find($id);
+    $project = Project::find($id);
+    $issues = IssueItem::where('ProjectID', $id)->get();
 
-    return view('issues.category_items', compact('issues', 'category'));
+    return view('issues.project_issues', compact('issues', 'project'));
   }
 
 
-  public function save_issue(Request $request, $cat_id)
+  public function save_issue(Request $request, $project_id)
   {
     $this->validate($request, [
       'Name' => 'required'
@@ -50,7 +52,7 @@ class IssueController extends Controller
     $user = auth()->user();
     $issue = new IssueItem;
     $issue->Name = $request->Name;
-    $issue->CategoryID = $cat_id;
+    $issue->ProjectID = $project_id;
     $issue->Description = $request->Description;
     $issue->Solution = $request->Solution;
     $issue->CompanyID = $user->staff->CompanyID;

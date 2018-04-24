@@ -1,6 +1,6 @@
 {{-- CREATE MODALS --}}
 <!-- Modal -->
-<div class="modal fade slide-up disable-scroll" id="new_issue" tabindex="-1" role="dialog" aria-hidden="false">
+<div class="modal fade slide-up disable-scroll" id="new_issue" role="dialog" aria-hidden="false">
   <div class="modal-dialog ">
     <div class="modal-content-wrapper">
       <div class="modal-content">
@@ -10,7 +10,7 @@
           <h5>Add New Issue</h5>
         </div>
         <div class="modal-body">
-          <form id="issue_form_create" action="{{ route('save_issue', $category->id) }}" method="post">
+          <form id="issue_form_create" action="{{ route('save_issue', $project->ProjectRef) }}" method="post">
             {{ csrf_field() }}
             <div class="row">
               <div class="col-md-12">
@@ -45,7 +45,7 @@
 
 
 {{-- UPDATE MODAL --}}
-<div class="modal fade slide-up disable-scroll" id="edit_issue" tabindex="-1" role="dialog" aria-hidden="false">
+<div class="modal fade slide-up disable-scroll" id="edit_issue" role="dialog" aria-hidden="false">
   <div class="modal-dialog ">
     <div class="modal-content-wrapper">
       <div class="modal-content">

@@ -42,6 +42,10 @@ class Project extends Model
   {
     return $this->hasMany('App\ProjectTask', 'ProjectID', 'ProjectRef');
   }
+  public function issues()
+  {
+    return $this->hasMany('App\IssueItem', 'ProjectID', 'ProjectRef');
+  }
   public function chats()
   {
     return $this->hasMany('App\ProjectChat', 'ProjectID', 'ProjectRef');

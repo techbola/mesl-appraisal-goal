@@ -9,14 +9,14 @@
 @endsection
 
 @section('buttons')
-  {{-- <button class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#new_cat">New Category</button> --}}
+  <button class="btn btn-sm btn-info pull-right" data-toggle="modal" data-target="#new_cat">New Category</button>
 @endsection
 
 @section('content')
 
   <div class="card-box">
     <div class="clearfix">
-      <div class="card-title pull-left">Company Projects</div>
+      <div class="card-title pull-left">Categories / Projects</div>
       <div class="pull-right">
         <div class="col-xs-12">
           <input type="text" class="search-table form-control pull-right" placeholder="Search">
@@ -27,25 +27,20 @@
     <table class="table tableWithSearch table-striped table-condensed">
       <thead>
         <tr>
-          <th>Project Name</th>
-          <th>Documented Issues</th>
-          {{-- <th>Created By</th>
-          <th>Date Created</th> --}}
-          <th>Actions</th>
+          <th>Category Name</th>
+          <th>Items</th>
+          <th>Created By</th>
+          <th>Date Created</th>
         </tr>
       </thead>
 
       <tbody>
-        @foreach ($projects as $project)
+        @foreach ($categories as $category)
           <tr>
-            <td><a href="{{ route('project_issues', $project->ProjectRef) }}">{{ $project->Project }}</a></td>
-            <td>{{ count($project->issues) }}</td>
-            {{-- <td>{{ $category->poster->FullName }}</td>
-            <td data-sort="{{ $category->created_at }}">{{ $category->created_at? $category->created_at->format('Y-m-d') : '' }}</td> --}}
-            <td>
-              <a href="{{ route('project_issues', $project->ProjectRef) }}" class="btn btn-xs btn-info">View Issues</a>
-              <a href="{{ route('view_project', $project->ProjectRef) }}" class="btn btn-xs btn-inverse"><i class="fa fa-external-link-square m-r-5"></i> Project</a>
-            </td>
+            <td><a href="{{ route('category_items', $category->id) }}">{{ $category->Name }}</a></td>
+            <td>{{ count($category->items) }}</td>
+            <td>{{ $category->poster->FullName }}</td>
+            <td data-sort="{{ $category->created_at }}">{{ $category->created_at? $category->created_at->format('Y-m-d') : '' }}</td>
           </tr>
         @endforeach
       </tbody>
@@ -56,7 +51,7 @@
 
   {{-- MODALS --}}
   <!-- Modal -->
-  <div class="modal fade slide-up disable-scroll" id="new_cat" role="dialog" aria-hidden="false">
+  <div class="modal fade slide-up disable-scroll" id="new_cat" tabindex="-1" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
         <div class="modal-content">
