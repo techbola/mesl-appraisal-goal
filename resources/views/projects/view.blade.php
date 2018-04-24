@@ -185,9 +185,16 @@
               {{ Form::label('Assign To') }}
               {{ Form::select('StaffID', [''=>'Assign To...'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "select2 full-width",'data-placeholder' => "Assign this task to...", 'data-init-plugin' => "select2", 'required']) }}
             </div>
+            <div class="form-group">
+              {{ Form::label('EndDate', 'Due Date' ) }}
+              <div class="input-group date dp">
+                {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required']) }}
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+              </div>
+            </div>
             <input type="hidden" name="ProjectID" value="{{ $project->ProjectRef }}">
             <div class="clearfix">
-              <input type="submit" name="add_task" class="btn btn-info col-sm-5" value="Save">
+              <input type="submit" name="add_task" class="btn btn-success col-sm-5" value="Save">
               <a href="#add_task" class="btn btn-inverse col-sm-5 col-sm-offset-2" data-toggle="collapse" class="collapsed">Cancel</a>
             </div>
 
@@ -207,7 +214,7 @@
           {{-- @foreach ($project->tasks as $task) --}}
             <li>
               <ul class="list-inline">
-                  <li><img src="{{ asset('images/avatars/default.png') }}" class="img-circle thumb-40" alt=""></li>
+                  <li><img src="{{ asset('images/avatars/'.$staff->user->avatar) }}" class="img-circle thumb-40" alt=""></li>
                   <li><a data-toggle="modal" data-target="#user_tasks" @click="user_tasks({{ $project->tasks->where('StaffID', $staff->StaffRef) }}, '{{ $staff->FullName }}')" style="cursor: pointer">{{ $staff->FullName }}</a></li>
               </ul>
             </li>
@@ -229,7 +236,7 @@
             @foreach ($project->chats as $chat)
               <div class="inbox-item m-r-10">
 
-                <div class="inbox-item-img"><img src="{{ asset('images/avatars/default.png') }}" class="img-circle m-r-5" alt=""></div>
+                <div class="inbox-item-img"><img src="{{ asset('images/avatars/'.$chat->staff->user->avatar) }}" class="img-circle m-r-5" alt=""></div>
                 <p class="inbox-item-author text-muted">
                     <a href="">{{ $chat->staff->FullName }}</a>
                     @if($project->supervisor && $chat->staff->StaffRef == $project->supervisor->StaffRef)
@@ -271,7 +278,7 @@
 
 
   <!-- EDIT Modal -->
-  <div class="modal fade slide-up disable-scroll" id="edit_project" tabindex="-1" role="dialog" aria-hidden="false">
+  <div class="modal fade slide-up disable-scroll" id="edit_project" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
         <div class="modal-content">

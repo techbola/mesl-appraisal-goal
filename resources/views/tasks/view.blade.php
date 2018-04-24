@@ -95,11 +95,18 @@
 
           <ul class="my-list">
               <li class="row card-list-item list-inline">
-                <div class="col-md-6"><b>From Project:</b></div> <span class="col-md-6"><a href="{{ route('view_project', $task->ProjectID) }}">{{ $task->project->Project }}</a></span>
+                <div class="col-md-6"><b>Task Title:</b></div> <span class="col-md-6">{{ $task->Task }}</span>
               </li>
               <li class="row card-list-item list-inline">
                 <div class="col-md-6"><b>Assigned To:</b></div> <span class="col-md-6">{{ ($task->staff)? $task->staff->FullName : 'Unassigned' }}</span>
               </li>
+              <li class="row card-list-item list-inline">
+                <div class="col-md-6"><b>Due Date:</b></div> <span class="col-md-6">{{ ($task->EndDate)? $task->EndDate->format('jS M, Y') : '&mdash;' }}</span>
+              </li>
+              <li class="row card-list-item list-inline">
+                <div class="col-md-6"><b>From Project:</b></div> <span class="col-md-6"><a href="{{ route('view_project', $task->ProjectID) }}">{{ $task->project->Project }}</a></span>
+              </li>
+
               <li class="row card-list-item list-inline">
                 <div class="col-md-6"><b>Progress:</b></div> <span class="col-md-6">
                   <!-- Start Progress -->
@@ -118,6 +125,63 @@
     <!-- End Task Details -->
 
   </div>
+
+
+
+  {{-- Start Edit Modal --}}
+  <div class="modal fade disable-scroll" id="edit_task" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+      <div class="modal-content-wrapper">
+        <div class="modal-content">
+          <div class="modal-header clearfix text-left">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+            </button>
+            <h5>Edit Task</h5>
+          </div>
+          <div class="modal-body">
+            {{ Form::model($task, ['route' => ['update_task', $task->TaskRef ], 'class' => 'm-t-15']) }}
+              {{ csrf_field() }}
+              {{ method_field('PATCH') }}
+              <div class="form-group">
+                {{ Form::label('Title') }}
+                {{ Form::text('Task', null, ['class' => 'form-control', 'placeholder' => 'Enter Task Title', 'required']) }}
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    {{ Form::label('Assign To') }}
+                    {{ Form::select('StaffID', [''=>'Assign To...'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "select2 full-width",'data-placeholder' => "Assign this task to...", 'data-init-plugin' => "select2", 'required']) }}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    {{ Form::label('EndDate', 'Due Date' ) }}
+                    <div class="input-group date dp">
+                      {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date']) }}
+                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {{-- <div class="clearfix">
+                <input type="submit" name="add_task" class="btn btn-success col-sm-5" value="Save">
+                <a href="#add_task" class="btn btn-inverse col-sm-5 col-sm-offset-2" data-toggle="collapse" class="collapsed">Cancel</a>
+              </div> --}}
+
+            {{-- </form> --}}
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-info">Submit</button>
+          </div>
+          {!! Form::close() !!}
+        </div>
+      </div>
+    </div>
+  </div>
+  {{-- End Edit Modal --}}
 @endsection
 
 @push('scripts')

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ProjectTask;
 use App\Step;
+use App\Staff;
 
 class TaskController extends Controller
 {
@@ -12,7 +13,8 @@ class TaskController extends Controller
     {
       $user = auth()->user();
       $task = ProjectTask::find($id);
-      return view('tasks.view', compact('task', 'user'));
+      $staffs = Staff::where('CompanyID', $task->project->CompanyID)->get();
+      return view('tasks.view', compact('task', 'user', 'staffs'));
     }
 
     public function add_step(Request $request, $id)

@@ -143,7 +143,8 @@ class ProjectController extends Controller
         $task->ProjectID = $request->ProjectID;
         $task->StaffID = $request->StaffID;
         // $tak->StartDate = $request->StartDate;
-        // $task->EndDate = $request->EndDate;
+        $task->EndDate = $request->EndDate;
+        $task->CreatedBy = $user->id;
 
         $task->save();
 
@@ -154,6 +155,36 @@ class ProjectController extends Controller
       } catch (Exception $e) {
         DB::rollback();
         return redirect()->back()->with('error', 'The task could not be created at this time.');
+      }
+
+    }
+
+    public function update_task(Request $request, $id)
+    {
+      $this->validate($request, [
+        'Task' => 'required',
+      ]);
+
+      $user = Auth::user();
+
+      try {
+        DB::beginTransaction();
+        $task = ProjectTask::where('TaskRef', $id)->first();
+        $task->Task = $request->Task;
+        $task->StaffID = $request->StaffID;
+        // $tak->StartDate = $request->StartDate;
+        $task->EndDate = $request->EndDate;
+        $task->UpdatedBy = $user->id;
+
+        $task->update();
+
+        // $project->assignees()->attach($request->Assignees);
+        DB::commit();
+        return redirect()->back()->with('success', 'The task was updated successfully');
+
+      } catch (Exception $e) {
+        DB::rollback();
+        return redirect()->back()->with('error', 'The task could not be updated at this time.');
       }
 
     }
