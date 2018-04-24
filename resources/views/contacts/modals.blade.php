@@ -8,12 +8,12 @@
       <div class="modal-body">
         {!! Form::open(['action' => 'CustomerController@save_contact', 'role' => 'form']) !!}
         @include('contacts.form')
+        <div class="text-right m-t-10">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-info">Submit</button>
+        </div>
+        {!! Form::close() !!}
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-info">Submit</button>
-      </div>
-      {!! Form::close() !!}
     </div>
   </div>
 </div>

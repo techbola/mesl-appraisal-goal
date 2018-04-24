@@ -11,7 +11,11 @@ class CustomerController extends Controller
   public function index()
   {
     $user = auth()->user();
-    $contacts = Customer::where('CompanyID', $user->staff->CompanyID)->get();
+    if ($user->is_superadmin) {
+      $contacts = Customer::all();
+    } else {
+      $contacts = Customer::where('CompanyID', $user->staff->CompanyID)->get();
+    }
     $countries = Country::orderBy('Country', 'asc')->get();
 
 

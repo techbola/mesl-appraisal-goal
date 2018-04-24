@@ -51,7 +51,8 @@
 						<td>
 							{{-- <a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="text-warning f16"><i class="fa fa-pencil"></i></a> --}}
 							<a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="btn btn-xs btn-inverse">Edit</a>
-							<a href="javascript:void()" data-toggle="modal" data-target="#view_contact" @click="get_contact({{ $contact }})" class="btn btn-xs btn-info">View</a>
+							{{-- <a href="javascript:void()" data-toggle="modal" data-target="#view_contact" @click="get_contact({{ $contact->toJson() }})" class="btn btn-xs btn-info">View</a> --}}
+							<a href="javascript:void()" class="btn btn-xs btn-info">View</a>
 						</td>
 					</tr>
 				@endforeach
