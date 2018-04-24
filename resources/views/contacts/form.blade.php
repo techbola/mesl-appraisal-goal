@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-md-6">
     <div class="form-group">
-      {!! Form::label('Name') !!}
-      {!! Form::text('Name', null, ['class'=>'form-control', 'placeholder'=>'Enter Full Name']) !!}
+      {!! Form::label('Customer', 'Name') !!}
+      {!! Form::text('Customer', null, ['class'=>'form-control', 'placeholder'=>'Enter Full Name']) !!}
     </div>
   </div>
   <div class="col-md-6">

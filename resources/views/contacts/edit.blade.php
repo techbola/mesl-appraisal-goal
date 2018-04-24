@@ -11,7 +11,7 @@
 @section('content')
   <div class="card-box">
     <div class="card-title">Edit Contact</div>
-		{{ Form::model($contact, ['action' => ['BusinessContactController@update_contact', $contact->ContactRef ], 'role' => 'form']) }}
+		{{ Form::model($contact, ['route' => ['update_contact', $contact->CustomerRef ], 'role' => 'form']) }}
 		{{ method_field('PATCH') }}
 		@include('contacts.form')
 		<button type="submit" class="btn btn-info">Submit</button>
