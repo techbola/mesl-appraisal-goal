@@ -14,11 +14,13 @@ class RoleController extends Controller
     }
     public function index()
     {
+        $user = auth()->user();
         $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();
         return view('roles.index', compact('roles'));
     }
     public function create()
     {
+      $user = auth()->user();
         $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();
         $companies = Company::all();
         return view('roles.create', compact('roles', 'companies'));
@@ -38,10 +40,15 @@ class RoleController extends Controller
         } else {
           $role->CompanyID = auth()->user()->staff->company->CompanyRef;
         }
-        $menu_ids = Menu::whereIn('slug', ['projects'])->get();
-        $role->menus()->attach( $menu_ids->pluck('id')->toArray() );
+        // $menus = Menu::whereIn('slug', ['projects'])->get();
+
+        // Let this role have same menus as basic "staff"
+
 
         if ($role->save()) {
+            $menus = Role::where('name', 'staff')->first()->menus;
+            $role->menus()->attach( $menus->pluck('id')->toArray() );
+
             return redirect()->back()->with('success', $role->name . ' has been added to roles successfully.');
         } else {
             return redirect()->back()->withInput()->with('danger', $role->name . ' was not added to roles');
