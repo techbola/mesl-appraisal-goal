@@ -55,6 +55,7 @@ class StaffController extends Controller
           'first_name'     => 'required',
           'last_name'     => 'required',
           'email'     => 'required|unique:users',
+          'role'     => 'required',
       ]);
 
 
@@ -80,6 +81,13 @@ class StaffController extends Controller
         // $staff->MobilePhone = $request->phone;
         $staff->save();
 
+        // if (!empty($request->role)) {
+        //   $role = Role::where('id', $request->role)->first();
+        // } else {
+        //   $role = Role::where('name', 'staff')->first();
+        // }
+
+        // Role is now compulsory
         $role = Role::where('id', $request->role)->first();
         $user->roles()->attach($role->id);
 

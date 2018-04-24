@@ -1,9 +1,16 @@
 @extends('layouts.master')
 
+@section('buttons')
+	{{-- <div class="clearfix m-b-20"> --}}
+		<button class="btn btn-info" data-toggle="modal" data-target="#new_staff">New Staff</button>
+	{{-- </div> --}}
+@endsection
+
 @section('content')
-	<div class="clearfix m-b-20">
-		<button class="c-btn c-btn--info pull-right" data-toggle="modal" data-target="#new_staff">New Staff</button>
-	</div>
+	{{-- <div class="clearfix m-b-20">
+		<button class="btn btn-info pull-right" data-toggle="modal" data-target="#new_staff">New Staff</button>
+	</div> --}}
+
 	<!-- START PANEL -->
 	<div class="card-box">
 		<div class="card-title pull-left">
@@ -81,7 +88,7 @@
 							  <div class="col-md-6">
 							    <div class="form-group">
 							      <label class="req">Role</label>
-										{{ Form::select('role', [ '' =>  'Select Role'] + $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2"]) }}
+										{{ Form::select('role', [ '' =>  'Select Role'] + $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
 							    </div>
 							  </div>
 								@if (auth()->user()->is_superadmin)

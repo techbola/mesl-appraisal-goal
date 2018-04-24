@@ -75,14 +75,14 @@ class LoginController extends Controller
       $staff->save();
 
 
-      $role = new Role;
-      $role->name = 'admin';
-      $role->display_name = 'Admin';
-      $role->description = 'Company Admin';
-      $role->CompanyID = $company->CompanyRef;
-      $role->save();
+      // $role = new Role;
+      // $role->name = 'admin';
+      // $role->display_name = 'Admin';
+      // $role->description = 'Company Admin';
+      // $role->CompanyID = $company->CompanyRef;
+      // $role->save();
 
-      // $role = Role::where('name', 'admin')->first();
+      $role = Role::where('name', 'admin')->first();
       $user->roles()->attach($role->id);
       // $type = UserType::where('name', 'admin')->first();
       // $user->types()->attach($type->id);

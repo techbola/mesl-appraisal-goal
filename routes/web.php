@@ -63,12 +63,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('project/{id}', 'ProjectController@view_project')->name('view_project');
 
     Route::post('save_task', 'ProjectController@save_task')->name('save_task');
+    Route::patch('update_task/{id}', 'ProjectController@update_task')->name('update_task');
     Route::post('save_projectchat', 'ProjectController@save_projectchat')->name('save_projectchat');
 
     Route::get('task/{id}', 'TaskController@view')->name('view_task');
     Route::post('task/{id}/add_step', 'TaskController@add_step')->name('add_step');
     Route::get('toggle_step/{id}', 'TaskController@toggle_step')->name('toggle_step');
     Route::patch('edit_step/{id}', 'TaskController@edit_step')->name('edit_step');
+
+    Route::get('company-assets', 'AssetController@index')->name('assets');
 
     Route::resource('clients', 'ClientController');
 
@@ -121,8 +124,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-    Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');
-    Route::resource('customers', 'CustomerController');
+    // Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');
+    // Route::resource('customers', 'CustomerController');
 
     Route::get('documents', 'DocumentController@index')->name('documents');
     Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
@@ -178,17 +181,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/savings', 'ReportController@savings')->name('savings_accounts');
     Route::get('reports/loan-status', 'ReportController@loan_status')->name('loan_status');
 
+    // Discontinued
     Route::get('kb/categories', 'IssueController@categories')->name('kb-categories');
     Route::post('save_kb_cat', 'IssueController@save_category')->name('save_kb_cat');
-    Route::get('kb/category/{id}', 'IssueController@category_items')->name('category_items');
-    Route::post('save_issue/{cat}', 'IssueController@save_issue')->name('save_issue');
+
+    Route::get('issues/project/{id}', 'IssueController@project_issues')->name('project_issues');
+    Route::post('save_issue/{project}', 'IssueController@save_issue')->name('save_issue');
     Route::patch('update_issue/{id}', 'IssueController@update_issue')->name('update_issue');
     Route::get('issue/{id}', 'IssueController@view_issue')->name('view_issue');
 
-    Route::get('contacts', 'BusinessContactController@index')->name('business_contacts');
-    Route::post('save_contact', 'BusinessContactController@save_contact')->name('save_contact');
-    Route::get('edit_contact/{id}', 'BusinessContactController@edit_contact')->name('edit_contact');
-    Route::patch('update_contact/{id}', 'BusinessContactController@update_contact')->name('update_contact');
+    Route::get('contacts', 'CustomerController@index')->name('business_contacts');
+    Route::post('save_contact', 'CustomerController@save_contact')->name('save_contact');
+    Route::get('edit_contact/{id}', 'CustomerController@edit_contact')->name('edit_contact');
+    Route::patch('update_contact/{id}', 'CustomerController@update_contact')->name('update_contact');
 });
 
 Route::get('/cls', function () {
@@ -202,4 +207,8 @@ Route::get('/cls', function () {
 Route::get('/cda', function(){
   exec('composer dump-autoload');
   return redirect()->route('home');
+});
+
+Route::get('/account', function(){
+
 });

@@ -115,7 +115,7 @@ class MenuController extends Controller
         // $menu->roles()->attach(array_diff($request->roles, $menu_roles->toArray()));
 
         DB::commit();
-        return redirect()->back()->with('success', 'Menu has been updated successfully');
+        return redirect()->route('menus.index')->with('success', 'Menu has been updated successfully');
 
 
     } catch (Exception $e) {

@@ -223,7 +223,7 @@
                   <span style="font-weight:500px">{{ Auth::user()->FullName }}</span> <i class="fa fa-caret-down m-l-5"></i>
                   <br>
                   <div class="text-muted" style="font-size:13px; margin-top:-4px">
-                    {!! ucwords(Auth::user()->roles()->first()->display_name) !!}
+                    {!! ucwords(Auth::user()->roles()->first()->name) !!}
                   </div>
                   {{-- <span class="m-l-5">
                     {!! Auth::user()->role_names_formatted !!}
@@ -471,10 +471,15 @@
     </script> --}}
 
     <script>
-      $('input[required]').parent().parent().find('label').addClass('req');
+      // $('input[required]').parent().parent().find('label').addClass('req');
+      $('input[required]').closest(".form-group").find('label').addClass('req');
+      $('select[required]').closest(".form-group").find('label').addClass('req');
     </script>
 
-    {{-- <script>
+    <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css') }}" rel="stylesheet" type="text/css">
+    <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+
+    <script>
       $(function(){
           var options = {
               todayHighlight: true,
@@ -484,13 +489,13 @@
           $('.dp').datepicker(options);
       });
 
-      $('.timepicker').timepicker().on('show.timepicker', function(e) {
-          var widget = $('.bootstrap-timepicker-widget');
-          widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
-          widget.find('.glyphicon-chevron-down').removeClass().addClass('pg-arrow_minimize');
-          widget.attr("style", "z-index: 9999999 !important; box-shadow: 0 6px 12px rgba(0,0,0,.175); border: 1px solid #ccc");
-      });
-    </script> --}}
+      // $('.timepicker').timepicker().on('show.timepicker', function(e) {
+      //     var widget = $('.bootstrap-timepicker-widget');
+      //     widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
+      //     widget.find('.glyphicon-chevron-down').removeClass().addClass('pg-arrow_minimize');
+      //     widget.attr("style", "z-index: 9999999 !important; box-shadow: 0 6px 12px rgba(0,0,0,.175); border: 1px solid #ccc");
+      // });
+    </script>
 
 
       <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/css/summernote.css') }}" />

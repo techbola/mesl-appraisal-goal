@@ -531,7 +531,8 @@ fieldset[disabled] .btn-info.active {
 /* Success */
 .btn-success, .btn-success:focus {
     color: #ffffff;
-    background: linear-gradient(180deg,#39b54a,#34aa44) !important;
+    /* background: linear-gradient(180deg,#39b54a,#34aa44) !important; */
+    background: linear-gradient(180deg,#39b54a,#2b8b39) !important;
     border-color: #249533 !important;
 }
 
@@ -908,3 +909,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 textarea { resize: vertical; }
 /* End Dashblocks */
+
+.btn-info, .btn-inverse, .btn-success {
+  border: none !important;
+}

@@ -86,7 +86,7 @@ class User extends Authenticatable
 
     public function getAvatarAttribute($value)
     {
-      return $value ?? 'default2.png';
+      return $value ?? 'default.png';
     }
 
     public function avatar_url()
@@ -99,6 +99,6 @@ class User extends Authenticatable
 
     public function tasks()
     {
-      
+
     }
 }
