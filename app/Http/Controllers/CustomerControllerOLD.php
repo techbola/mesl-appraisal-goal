@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\GL;
 
-class CustomerController extends Controller
+class CustomerControllerOLD extends Controller
 {
 
     public function index()
