@@ -179,7 +179,7 @@ return [
         App\Providers\ComposerServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Codesleeve\LaravelStapler\Providers\L5ServiceProvider::class,
+        // Codesleeve\LaravelStapler\Providers\L5ServiceProvider::class,
 
         Intervention\Image\ImageServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
