@@ -9,13 +9,18 @@
 @endsection --}}
 
 @section('content')
-  <div class="card-box">
-    <div class="card-title">Edit Contact</div>
-		{{ Form::model($contact, ['route' => ['update_contact', $contact->CustomerRef ], 'role' => 'form']) }}
-		{{ method_field('PATCH') }}
-		@include('contacts.form')
-		<button type="submit" class="btn btn-info">Submit</button>
-		{{ Form::close() }}
-  </div>
+	<div class="row">
+	  <div class="col-md-8 col-md-offset-2">
+			<div class="card-box">
+		    <div class="card-title">Edit Contact</div>
+				{{ Form::model($contact, ['route' => ['update_contact', $contact->CustomerRef ], 'role' => 'form']) }}
+				{{ method_field('PATCH') }}
+				@include('contacts.form')
+				<button type="submit" class="btn btn-info">Submit</button>
+				{{ Form::close() }}
+		  </div>
+	  </div>
+	</div>
+
 
 @endsection

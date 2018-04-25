@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <table class="table tableWithSearch table-striped">
+    <table class="table tableWithSearch table-striped table-bordered">
       <thead>
         <tr>
           <th>Title</th>

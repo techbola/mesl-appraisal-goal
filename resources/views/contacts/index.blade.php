@@ -24,8 +24,15 @@
 	</style>
 
   <div class="card-box">
-    <div class="card-title">Business Contacts</div>
-    <table class="table table-striped tableWithSearch">
+		<div class="clearfix">
+      <div class="card-title pull-left">Business Contacts</div>
+      <div class="pull-right">
+        <div class="col-xs-12">
+          <input type="text" class="search-table form-control pull-right" placeholder="Search">
+        </div>
+      </div>
+    </div>
+    <table class="table table-striped tableWithSearch table-bordered">
       <thead>
         <th width="20%">Name</th>
         <th>Position</th>
@@ -34,7 +41,7 @@
         {{-- <th>Address</th> --}}
         {{-- <th>Country</th> --}}
         <th>Phone</th>
-				<th>Email</th>
+				<th width="20%">Email</th>
         <th width="15%">Actions</th>
       </thead>
       <tbody>
@@ -51,7 +58,7 @@
 						<td>
 							{{-- <a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="text-warning f16"><i class="fa fa-pencil"></i></a> --}}
 							<a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="btn btn-xs btn-inverse">Edit</a>
-							<a href="javascript:void()" data-toggle="modal" data-target="#view_contact" @click="get_contact({{ $contact->toJson() }})" class="btn btn-xs btn-info">View</a>
+							<a href="javascript:void()" data-toggle="modal" data-target="#view_contact" @click="get_contact({{ $contact }})" class="btn btn-xs btn-info">View</a>
 							{{-- <a href="javascript:void()" class="btn btn-xs btn-info">View</a> --}}
 						</td>
 					</tr>

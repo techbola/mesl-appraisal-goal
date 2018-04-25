@@ -1,16 +1,10 @@
 @extends('layouts.master')
 @section('content')
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<div class="panel-title">
-			Create Role
-		</div>
-	</div>
-	<div class="panel-body">
-		{{ Form::open(['action' => 'RoleController@store', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
-		@include('roles.form', ['buttonText' => 'Create Roles'])
-		{{ Form::close() }}
-	</div>
+<div class="card-box">
+	<div class="card-title">Create Role</div>
+	{{ Form::open(['action' => 'RoleController@store', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+	@include('roles.form', ['buttonText' => 'Create Roles'])
+	{{ Form::close() }}
 </div>
 @endsection
 

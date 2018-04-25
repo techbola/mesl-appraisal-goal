@@ -23,13 +23,13 @@
 		</div>
 		<div class="clearfix"></div>
 		<div class="panel-body">
-			<table class="table tableWithSearch">
+			<table class="table tableWithSearch table-striped table-bordered">
 				<thead>
 					<th>Staff Name</th>
 					<th>Email Address</th>
 					<th>Mobile Number</th>
-					<th>Status</th>
-					<th></th>
+					<th>Account Status</th>
+					<th>Actions</th>
 				</thead>
 				<tbody>
 					@foreach ($staffs as $staff)
@@ -37,9 +37,17 @@
 						<td><a href="{{ route('staff.show',[$staff->StaffRef]) }}" title="">{{ $staff->user->FullName}}</a></td>
 						<td>{{ $staff->user->email }}</td>
 						<td>{{ $staff->MobilePhone }}</td>
-						<td>{{ $staff->user->is_activated }}</td>
+						<td>
+							@if ($staff->user->is_activated)
+								<span class="label label-success">Active</span>
+							@else
+								<span class="label label-danger">Inactive</span>
+							@endif
+							{{-- {{ ($staff->user->is_activated)? '<span class="label label-success">Activated</span>' : '<span class="label label-danger">Not Activated</span>' }} --}}
+						</td>
 						<td class="actions">
-							<a href="{{ route('staff.edit_biodata',[$staff->StaffRef]) }}" class="btn btn-sm btn-inverse">Edit Staff</a>
+							<a href="{{ route('staff.show',[$staff->StaffRef]) }}" class="btn btn-sm btn-info">View</a>
+							<a href="{{ route('staff.edit_biodata',[$staff->StaffRef]) }}" class="btn btn-sm btn-inverse">Edit</a>
 						</td>
 					</tr>
 					@endforeach

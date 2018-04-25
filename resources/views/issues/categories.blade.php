@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <table class="table tableWithSearch table-striped table-condensed">
+    <table class="table tableWithSearch table-striped table-bordered">
       <thead>
         <tr>
           <th>Project Name</th>

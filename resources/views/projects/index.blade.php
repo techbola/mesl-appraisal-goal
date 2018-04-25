@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <table class="table tableWithSearch table-striped">
+    <table class="table tableWithSearch table-striped table-bordered">
       <thead>
         <th>Project Title</th>
         <th>Assignees</th>

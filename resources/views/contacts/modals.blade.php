@@ -28,57 +28,57 @@
         <h5 class="card-title">@{{ contact.Customer }}</h5>
       </div>
       <div class="modal-body">
-        <table class="table table-striped">
+        <table class="table table-striped table-bordered">
           <tr>
-            <td>Position</td>
+            <th>Position</th>
             <td>@{{ contact.Position }}</td>
           </tr>
           <tr>
-            <td>Department</td>
+            <th>Department</th>
             <td>@{{ contact.Department }}</td>
           </tr>
           <tr>
-            <td>Organization</td>
+            <th>Organization</th>
             <td>@{{ contact.Organization }}</td>
           </tr>
           <tr>
-            <td>OfficeEmail</td>
+            <th>OfficeEmail</th>
             <td>@{{ contact.OfficeEmail }}</td>
           </tr>
           <tr>
-            <td>PersonalEmail</td>
+            <th>PersonalEmail</th>
             <td>@{{ contact.PersonalEmail }}</td>
           </tr>
           <tr>
-            <td>Address</td>
+            <th>Address</th>
             <td>@{{ contact.Address }}</td>
           </tr>
           <tr>
-            <td>Mobile Phone 1</td>
+            <th>Mobile Phone 1</th>
             <td>@{{ contact.MobilePhone1 }}</td>
           </tr>
           <tr>
-            <td>Mobile Phone 2</td>
+            <th>Mobile Phone 2</th>
             <td>@{{ contact.MobilePhone2 }}</td>
           </tr>
           <tr>
-            <td>Office Phone 1</td>
+            <th>Office Phone 1</th>
             <td>@{{ contact.OfficePhone1 }}</td>
           </tr>
           <tr>
-            <td>Office Phone 2</td>
+            <th>Office Phone 2</th>
             <td>@{{ contact.OfficePhone2 }}</td>
           </tr>
           <tr>
-            <td>DirectLine</td>
+            <th>DirectLine</th>
             <td>@{{ contact.DirectLine }}</td>
           </tr>
           <tr>
-            <td>Fax</td>
+            <th>Fax</th>
             <td>@{{ contact.Fax }}</td>
           </tr>
           <tr>
-            <td>Skype</td>
+            <th>Skype</th>
             <td>@{{ contact.Skype }}</td>
           </tr>
 

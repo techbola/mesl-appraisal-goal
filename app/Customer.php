@@ -15,7 +15,7 @@ class Customer extends Model
     {
       return $this->hasMany('App\Project', 'CustomerID');
     }
-    
+
     public function country()
     {
       return $this->belongsTo('App\Country', 'CountryID', 'CountryRef');
