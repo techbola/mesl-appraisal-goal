@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use \App\ProjectStatus;
 
 class Project extends Model
 {
@@ -30,9 +31,17 @@ class Project extends Model
   {
     return $this->belongsTo('App\Staff', 'SupervisorID', 'StaffRef');
   }
-  public function status()
+  // public function status()
+  // {
+  //   return $this->belongsTo('App\ProjectStatus', 'StatusID');
+  // }
+  public function getStatusAttribute()
   {
-    return $this->belongsTo('App\ProjectStatus', 'StatusID');
+    if ($this->progress != '100') {
+      return ProjectStatus::where('slug', 'in progress')->first();
+    } else {
+      return ProjectStatus::where('slug', 'complete')->first();
+    }
   }
   public function customer()
   {

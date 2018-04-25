@@ -214,7 +214,7 @@
           {{-- @foreach ($project->tasks as $task) --}}
             <li>
               <ul class="list-inline">
-                  <li><img src="{{ asset('images/avatars/'.$staff->user->avatar) }}" class="img-circle thumb-40" alt=""></li>
+                  <li><img src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" class="img-circle thumb-40" alt=""></li>
                   <li><a data-toggle="modal" data-target="#user_tasks" @click="user_tasks({{ $project->tasks->where('StaffID', $staff->StaffRef) }}, '{{ $staff->FullName }}')" style="cursor: pointer">{{ $staff->FullName }}</a></li>
               </ul>
             </li>
@@ -236,7 +236,7 @@
             @foreach ($project->chats as $chat)
               <div class="inbox-item m-r-10">
 
-                <div class="inbox-item-img"><img src="{{ asset('images/avatars/'.$chat->staff->user->avatar) }}" class="img-circle m-r-5" alt=""></div>
+                <div class="inbox-item-img"><img src="{{ asset('images/avatars/'.$chat->staff->user->avatar()) }}" class="img-circle m-r-5" alt=""></div>
                 <p class="inbox-item-author text-muted">
                     <a href="">{{ $chat->staff->FullName }}</a>
                     @if($project->supervisor && $chat->staff->StaffRef == $project->supervisor->StaffRef)

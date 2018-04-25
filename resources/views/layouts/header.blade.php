@@ -214,7 +214,7 @@
 
               <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="thumbnail-wrapper d39 circular inline m-t-5 text-white">
-                  <img src="{{ asset('images/avatars/'.$user->avatar) }}" alt="" data-src="{{ asset('images/avatars/'.$user->avatar) }}" data-src-retina="{{ asset('images/avatars/'.$user->avatar) }}" width="32" height="32">
+                  <img src="{{ asset('images/avatars/'.$user->avatar_light()) }}" alt="" data-src="{{ asset('images/avatars/'.$user->avatar_light()) }}" data-src-retina="{{ asset('images/avatars/'.$user->avatar_light()) }}" width="32" height="32">
                   {{-- defaulr abbr avatar from fullname --}}
                   {{-- <span style="display: inline-block;" class="abbr-avatar">{{ Auth::user()->abbreviation(Auth::user()->FullName) }}</span> --}}
                 </span>

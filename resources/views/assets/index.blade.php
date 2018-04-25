@@ -15,7 +15,7 @@
 @section('content')
   <div class="card-box">
     <div class="card-title">Company Assets</div>
-    <table class="table table-striped tableWithSearch">
+    <table class="table table-striped table-bordered tableWithSearch">
       <thead>
         <th width="20%">Description</th>
         <th>Quantity</th>
@@ -45,7 +45,7 @@
       </tbody>
     </table>
   </div>
-  
+
     @include('assets.modals')
 @endsection
 

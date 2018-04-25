@@ -9,7 +9,7 @@
     <div class="col-sm-12">
       <div class="inline-block">
 
-        <img src="{{ asset('images/avatars/'.$staff->user->avatar) }}" alt="" class="inline-block" style="height:100px; width:100px; border-radius:50px; padding:2px; border:1px solid #ccc">
+        <img src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" alt="" class="inline-block" style="height:100px; width:100px; border-radius:50px; padding:2px; border:1px solid #ccc">
       </div>
 
       <div class="form-group m-t-10 inline-block m-l-10" style="max-width:50%; vertical-align:middle">

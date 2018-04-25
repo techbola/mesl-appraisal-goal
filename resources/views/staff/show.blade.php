@@ -26,7 +26,7 @@
         <div class="clearfix"></div>
 
         <div class="m-b-10">
-          <img src="{{ asset('images/avatars/'.$staff->user->avatar) }}" class="avatar" height="120px" width="120px">
+          <img src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" class="avatar" height="120px" width="120px">
         </div>
 
         <table class="table table-striped table-condensed hidden">

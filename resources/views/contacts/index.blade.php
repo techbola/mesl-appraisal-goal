@@ -34,13 +34,13 @@
     </div>
     <table class="table table-striped tableWithSearch table-bordered">
       <thead>
-        <th width="20%">Name</th>
+        <th width="15%">Name</th>
         <th>Position</th>
         <th>Department</th>
         <th>Organization</th>
         {{-- <th>Address</th> --}}
         {{-- <th>Country</th> --}}
-        <th>Phone</th>
+        <th width="12%">Phone</th>
 				<th width="20%">Email</th>
         <th width="15%">Actions</th>
       </thead>

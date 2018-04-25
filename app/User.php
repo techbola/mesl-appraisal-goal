@@ -84,9 +84,22 @@ class User extends Authenticatable
         return $this->first_name.' '.substr($this->last_name, 0,1);
     }
 
-    public function getAvatarAttribute($value)
+    // public function getAvatarLightAttribute()
+    // {
+    //   return $this->avatar ?? 'default2.png';
+    // }
+
+    // public function getAvatarAttribute($value)
+    // {
+    //   return $value ?? 'default.png';
+    // }
+    public function avatar()
     {
-      return $value ?? 'default.png';
+      return $this->avatar ?? 'default.png';
+    }
+    public function avatar_light()
+    {
+      return $this->avatar ?? 'default2.png';
     }
 
     public function avatar_url()

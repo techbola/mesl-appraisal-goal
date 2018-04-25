@@ -54,7 +54,7 @@
 
   {{-- MODALS --}}
   <!-- Modal -->
-  <div class="modal fade slide-up disable-scroll" id="new_bulletin" tabindex="-1" role="dialog" aria-hidden="false">
+  <div class="modal fade slide-up disable-scroll" id="new_bulletin" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
         <div class="modal-content">
@@ -75,6 +75,14 @@
               <div class="form-group">
                 <label>Title</label>
                 <input type="text" class="form-control" name="Title" placeholder="Enter announcement title" required>
+              </div>
+
+              <div class="form-group">
+                {{ Form::label('ExpiryDate', 'Expiry Date' ) }}
+                <div class="input-group date dp">
+                  {{ Form::text('ExpiryDate', null, ['class' => 'form-control', 'placeholder' => 'Expiry Date', 'required']) }}
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
               </div>
 
               <div class="form-group">

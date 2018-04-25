@@ -633,6 +633,10 @@ fieldset[disabled] .btn-inverse.active {
 .label-success {
   background: #39b54a !important;
 }
+/* TEXT */
+.text-success {
+  color: #39b54a !important;
+}
 
 
 /* Adminox */
