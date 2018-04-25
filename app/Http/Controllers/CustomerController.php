@@ -25,14 +25,14 @@ class CustomerController extends Controller
   public function save_contact(Request $request)
   {
     $this->validate($request, [
-      'Name' => 'required',
+      'Customer' => 'required',
     ]);
 
-    $contact = Customer::create($request->all(['_token']));
+    $contact = Customer::create($request->except(['_token']));
     $contact->CompanyID = auth()->user()->staff->CompanyID;
     $contact->save();
 
-    return redirect()->back()->with('success', $contact->Name.' was saved successfully.');
+    return redirect()->back()->with('success', $contact->Customer.' was saved successfully.');
   }
 
   public function edit_contact($id)

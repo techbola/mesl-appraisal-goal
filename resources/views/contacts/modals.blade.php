@@ -6,6 +6,7 @@
         <h5 class="card-title">New Business Contact</h5>
       </div>
       <div class="modal-body">
+        @include('errors.list')
         {!! Form::open(['action' => 'CustomerController@save_contact', 'role' => 'form']) !!}
         @include('contacts.form')
         <div class="text-right m-t-10">
