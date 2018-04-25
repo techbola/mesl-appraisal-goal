@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<div class="clearfix"></div>
-			<table class="table tableWithSearch">
+			<table class="table tableWithSearch table-striped table-bordered">
 				<thead>
 					<th>Customer Ref</th>
 					<th>Customer</th>
@@ -48,7 +48,7 @@
 						<td>{{ $gl->BookBalance }}</td>
 						<td>{{ $gl->Desc ?? '-'}}</td>
 						<td class="actions">
-							<a href="{{ route('gls.edit',[$gl->GLRef]) }}" class="btn btn-inverse">Edit</a>
+							<a href="{{ route('gls.edit',[$gl->GLRef]) }}" class="btn btn-xs btn-inverse">Edit</a>
 						</td>
 					</tr>
 					@endforeach

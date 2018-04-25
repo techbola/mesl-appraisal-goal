@@ -7,7 +7,7 @@
 @section('content')
   <div class="card-box">
     <div class="card-title">Pending Bio-data Edits</div>
-    <table class="table tableWithSearch table-striped">
+    <table class="table tableWithSearch table-striped table-bordered">
       <thead>
         <tr>
           <th>Staff</th>

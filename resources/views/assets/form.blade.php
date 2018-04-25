@@ -22,7 +22,7 @@
     <div class="form-group">
       {{ Form::label('PurchaseDate', 'Purchase Date' ) }}
       <div class="input-group date dp">
-        {{ Form::text('PurchaseDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Purchase Date']) }}
+        {{ Form::text('PurchaseDate', null, ['class' => 'form-control', 'placeholder' => 'Purchase Date']) }}
         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
       </div>
     </div>

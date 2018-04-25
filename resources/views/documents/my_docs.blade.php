@@ -8,11 +8,15 @@
 	My Documents
 @endsection
 
+@section('buttons')
+	<button class="btn btn-info btn-rounded pull-right" data-toggle="modal" data-target="#new_doc">New Document</button>
+@endsection
+
 @section('content')
 
-	<div class="clearfix m-b-20">
+	{{-- <div class="clearfix m-b-20">
 		<button class="btn btn-info pull-right" data-toggle="modal" data-target="#new_doc">New Document</button>
-	</div>
+	</div> --}}
 
   	<!-- START PANEL -->
   	<div class="card-box">
@@ -23,7 +27,7 @@
   				</div>
   			</div>
   			<div class="clearfix"></div>
-  			<table class="table tableWithSearch">
+  			<table class="table tableWithSearch table-striped table-bordered">
   				<thead>
   					<th width="20%">Document Name</th>
   					<th width="15%">Type</th>

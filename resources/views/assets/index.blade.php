@@ -37,8 +37,8 @@
 						<td>{{ $asset->SerialNo }}</td>
 						<td>{{ $asset->AssetNo }}</td>
 						<td>
-							<a href="{{-- route('edit_contact', $contact->CustomerRef) --}}" class="text-warning f16"><i class="fa fa-pencil"></i></a>
-							<a href="javascript:void()" data-toggle="modal" data-target="#view_contact" class="text-primary f16 m-l-10" @click="get_contact({{-- $contact --}})"><i class="fa fa-eye"></i></a>
+							<a href="#" data-toggle="modal" data-target="#edit_asset" class="btn btn-sm btn-inverse" @click="edit_asset({{ $asset }})">Edit</a>
+							{{-- <a href="#" data-toggle="modal" data-target="#view_asset" class="text-primary f16 m-l-10" @click="get_contact({{ $asset }})"><i class="fa fa-eye"></i></a> --}}
 						</td>
 					</tr>
 				@endforeach
@@ -58,7 +58,7 @@
 				asset: {},
 			},
 			methods: {
-				get_asset(asset) {
+				edit_asset(asset) {
 					this.asset = asset;
 				},
 			},
