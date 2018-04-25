@@ -51,7 +51,7 @@ class StaffController extends Controller
           $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
           $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();
         }
-        return view('staff.index', compact('staffs', 'companies', 'roles'));
+        return view('staff.index_', compact('staffs', 'companies', 'roles'));
     }
 
     public function post_invite(Request $request)
