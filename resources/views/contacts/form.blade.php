@@ -107,4 +107,17 @@
     </div>
   </div>
 
+  <div class="col-md-12">
+    <div class="form-group">
+      {!! Form::label('AccountFlag', 'Account Flag') !!}
+      {!! Form::select('AccountFlag', ['' => 'No'] + ['1' => 'Yes'], null, ['class'=>'full-width', 'data-init-plugin'=>'select2']) !!}
+    </div>
+  </div>
+
+  {{-- <div class="checkbox">
+    <input type="checkbox" name="accept" id="checkbox2">
+    {{ Form::checkbox('AccountFlag') }}
+    <label for="AccountFlag">Account Flag</label>
+  </div> --}}
+
 </div>

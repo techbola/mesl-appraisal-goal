@@ -1,4 +1,4 @@
-<div class="modal fade" id="new_contact" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade" id="new_contact">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -30,7 +30,7 @@
       <div class="modal-body">
         <table class="table table-striped table-bordered">
           <tr>
-            <th>Position</th>
+            <th width="40%">Position</th>
             <td>@{{ contact.Position }}</td>
           </tr>
           <tr>
@@ -80,6 +80,10 @@
           <tr>
             <th>Skype</th>
             <td>@{{ contact.Skype }}</td>
+          </tr>
+          <tr>
+            <th>Account Flag</th>
+            <td v-html="contact.AccountFlag"></td>
           </tr>
 
         </table>

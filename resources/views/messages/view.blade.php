@@ -25,7 +25,7 @@
         <h4 class="m-t-0 m-b-20 semi-bold">{{ $message->Subject }}</h4>
 
         <div class="thumbnail-wrapper d48 circular">
-          <img width="40" height="40" alt="" data-src-retina="{{ asset('images/avatars/'.$message->sender->avatar) }}" data-src="{{ asset('images/avatars/'.$message->sender->avatar) }}" src="{{ asset('images/avatars/'.$message->sender->avatar) }}">
+          <img width="40" height="40" alt="" data-src-retina="{{ asset('images/avatars/'.$message->sender->avatar()) }}" data-src="{{ asset('images/avatars/'.$message->sender->avatar()) }}" src="{{ asset('images/avatars/'.$message->sender->avatar()) }}">
         </div>
         <div class="inline m-l-10">
           <p class="no-margin bold f15">{{ $message->sender->FullName }}</p>
@@ -51,7 +51,7 @@
 
         @foreach ($message->replies as $reply)
           <div class="thumbnail-wrapper d39 circular">
-            <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$reply->sender->avatar) }}">
+            <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$reply->sender->avatar()) }}">
           </div>
           <div class="inline m-l-10" style="vertical-align: -webkit-baseline-middle">
             <p class="no-margin bold f15">{{ $reply->sender->FullName }}</p>

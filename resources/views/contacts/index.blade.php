@@ -80,6 +80,11 @@
 			},
 			methods: {
 				get_contact(contact) {
+					if (contact.AccountFlag == '1') {
+						contact.AccountFlag = '<span class="text-success"><b>Yes</b></span>'
+					} else {
+						contact.AccountFlag = '<span class="text-danger"><b>No</b></span>'
+					};
 					this.contact = contact;
 				},
 			},

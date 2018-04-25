@@ -30,6 +30,11 @@ class CustomerController extends Controller
 
     $contact = Customer::create($request->except(['_token']));
     $contact->CompanyID = auth()->user()->staff->CompanyID;
+    if(!empty($request->AccountFlag)){
+      $contact->AccountFlag = '1';
+    } else {
+      $contact->AccountFlag = '0';
+    }
     $contact->save();
 
     return redirect()->back()->with('success', $contact->Customer.' was saved successfully.');
