@@ -22,7 +22,7 @@ class Message extends Model
 
   public function replies()
   {
-      return $this->hasMany('App\Message', 'ParentID', 'MessageRef');
+      return $this->hasMany('App\Message', 'ParentID', 'MessageRef')->orderBy('created_at', 'desc');
   }
 
 }
