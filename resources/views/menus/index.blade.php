@@ -33,7 +33,7 @@
 
 
 
-				<table class="table tableWithSearch">
+				<table class="table tableWithSearch table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>Menu</th>

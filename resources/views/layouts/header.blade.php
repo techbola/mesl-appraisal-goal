@@ -533,6 +533,8 @@
               widget.attr("style", "z-index: 9999999 !important; box-shadow: 0 6px 12px rgba(0,0,0,.175); border: 1px solid #ccc");
           });
 
+          $('.scrollbar-outer').scrollbar();
+
         });
 
       </script>

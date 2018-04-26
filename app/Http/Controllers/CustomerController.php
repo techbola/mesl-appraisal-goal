@@ -12,9 +12,9 @@ class CustomerController extends Controller
   {
     $user = auth()->user();
     if ($user->is_superadmin) {
-      $contacts = Customer::all();
+      $contacts = Customer::orderBy('Customer')->get();
     } else {
-      $contacts = Customer::where('CompanyID', $user->staff->CompanyID)->get();
+      $contacts = Customer::where('CompanyID', $user->staff->CompanyID)->orderBy('Customer')->get();
     }
     $countries = Country::orderBy('Country', 'asc')->get();
 

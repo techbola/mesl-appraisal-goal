@@ -137,39 +137,42 @@
 
 
         {{-- TASK LIST --}}
+        <div class="scrollbar-outer">
+          <ul class="my-list{{ (count($project->tasks) > 3)? ' nicescroll mx-box':'' }}">
 
-        <ul class="my-list{{ (count($project->tasks) > 7)? ' nicescroll mx-box':'' }}">
+            @foreach ($project->tasks as $task)
 
-        @foreach ($project->tasks as $task)
+              <li>
+                <a href="{{ route('view_task', $task->TaskRef) }}">
+                  <div>
+                    {{ $task->Task }}
+                    @if($task->progress != 100)
+                      <span class="pull-right">{{ $task->progress_percent }}</span>
+                    @else
+                      <span class="pull-right">Complete</span>
+                    @endif
+                  </div>
+                </a>
+                <div class="small m-b-5">
+                  @if($task->staff)
+                    <b>Assigned To:</b> {{ $task->staff->FullName }}
+                  @else
+                    Unassigned
+                  @endif
+                </div>
+                <div class="progress progress-striped active progress-sm m-b-0">
+                  <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ $task->progress_percent }}">
+                    <span class="sr-only">{{ $task->progress_percent }} Complete</span>
+                  </div>
+                </div>
 
-          <li>
-            <a href="{{ route('view_task', $task->TaskRef) }}">
-              <div>
-                {{ $task->Task }}
-                @if($task->progress != 100)
-                  <span class="pull-right">{{ $task->progress_percent }}</span>
-                @else
-                  <span class="pull-right">Complete</span>
-                @endif
-              </div>
-            </a>
-            <div class="small m-b-5">
-            @if($task->staff)
-              <b>Assigned To:</b> {{ $task->staff->FullName }}
-            @else
-                Unassigned
-            @endif
-            </div>
-            <div class="progress progress-striped active progress-sm m-b-0">
-              <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ $task->progress_percent }}">
-                <span class="sr-only">{{ $task->progress_percent }} Complete</span>
-              </div>
-            </div>
+              </li>
+            @endforeach
 
-          </li>
-        @endforeach
+          </ul>
 
-      </ul>
+        </div>
+
         {{-- END TASK LIST --}}
 
         <a href="#add_task" class="btn btn-sm btn-info btn-block m-t-20" data-toggle="collapse" class="collapsed">Add Task</a>
