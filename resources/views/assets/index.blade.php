@@ -60,6 +60,7 @@
 			methods: {
 				edit_asset(asset) {
 					this.asset = asset;
+					console.log(asset);
 				},
 			},
 		});

@@ -211,5 +211,5 @@ Route::get('/cda', function(){
 });
 
 Route::get('/account', function(){
-
+  dd( auth()->user()->staff->projects );
 });

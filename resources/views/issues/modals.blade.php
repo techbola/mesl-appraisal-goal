@@ -55,6 +55,7 @@
           <h5>Add New Issue</h5>
         </div>
         <div class="modal-body">
+          {{-- Using VueJS to pass the form action --}}
           <form id="issue_form_edit" action="" method="post">
             {{ csrf_field() }}
             {{ method_field('PATCH') }}

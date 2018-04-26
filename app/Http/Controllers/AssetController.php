@@ -31,4 +31,18 @@ class AssetController extends Controller
     return redirect()->back()->with('success', 'The asset was saved successfully.');
   }
 
+  public function update_asset(Request $request, $id)
+  {
+    $this->validate($request, [
+      'Description' => 'required',
+    ]);
+
+    $user = auth()->user();
+    $assets = Asset::where('AssetRef', $id)->first();
+    $asset->fill($request->except(["_token", "_method"]));
+    $asset->update();
+
+    return redirect()->back()->with('success', 'The asset was updated successfully.');
+  }
+
 }

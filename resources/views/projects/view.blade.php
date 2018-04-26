@@ -117,7 +117,7 @@
   <!-- Start: Project Description -->
   <div class="card-box">
     <h4 class="card-title">Project Description / Brief</h4>
-    {!! $project->Description ?? 'No Description Provided' !!}
+    <div class="f15">{!! $project->Description ?? 'No Description Provided' !!}</div>
   </div>
 
   {{-- <div class="row">
@@ -218,7 +218,12 @@
             <li>
               <ul class="list-inline">
                   <li><img src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" class="img-circle thumb-40" alt=""></li>
-                  <li><a data-toggle="modal" data-target="#user_tasks" @click="user_tasks({{ $project->tasks->where('StaffID', $staff->StaffRef) }}, '{{ $staff->FullName }}')" style="cursor: pointer">{{ $staff->FullName }}</a></li>
+                  <li>
+                    <a data-toggle="modal" data-target="#user_tasks" @click="user_tasks({{ $project->tasks->where('StaffID', $staff->StaffRef) }}, '{{ $staff->FullName }}')" style="cursor: pointer">{{ $staff->FullName }}</a>
+                    @if($project->supervisor && $staff->StaffRef == $project->supervisor->StaffRef)
+                      <i class="fa fa-shield m-l-5" data-toggle="tooltip" title="Supervisor" data-placement="right"></i>
+                    @endif
+                  </li>
               </ul>
             </li>
           @endforeach
@@ -243,7 +248,7 @@
                 <p class="inbox-item-author text-muted">
                     <a href="">{{ $chat->staff->FullName }}</a>
                     @if($project->supervisor && $chat->staff->StaffRef == $project->supervisor->StaffRef)
-                      <i class="fa fa-shield m-l-5"></i>
+                      <i class="fa fa-shield m-l-5" data-toggle="tooltip" title="Supervisor" data-placement="right"></i>
                     @endif
                 </p>
 
