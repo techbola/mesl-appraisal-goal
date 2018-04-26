@@ -22,6 +22,18 @@ class Staff extends Model implements StaplerableInterface
     {
         return $this->belongsTo('App\Company', 'CompanyID');
     }
+    public function tasks()
+    {
+        return $this->hasMany('App\ProjectTask', 'StaffID', 'StaffRef');
+    }
+    public function getProjectsAttribute()
+    {
+      $staff_id = $this->StaffRef;
+      $projects = Project::whereHas('tasks', function($query) use($staff_id){
+        $query->where('StaffID', $staff_id);
+      })->orWhere('SupervisorID', $staff_id)->get();
+      return $projects;
+    }
 
     public function getFullNameAttribute()
     {

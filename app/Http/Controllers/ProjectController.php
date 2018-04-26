@@ -25,10 +25,14 @@ class ProjectController extends Controller
         $customers = Customer::all();
         $projects = Project::all();
       } else{
+        if ($user->hasRole('admin')) {
+          $projects = Project::where('CompanyID', $user->staff->CompanyID)->get();
+        } else {
+          $projects = $user->staff->projects;
+        }
         $supervisors = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $assignees = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $customers = Customer::where('CompanyID', $user->staff->CompanyID)->get();
-        $projects = Project::where('CompanyID', $user->staff->CompanyID)->get();
       }
       return view('projects.index', compact('projects', 'supervisors', 'assignees', 'customers'));
     }
