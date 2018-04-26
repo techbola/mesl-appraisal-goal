@@ -628,6 +628,9 @@ fieldset[disabled] .btn-inverse.active {
   margin-left: 7px;
   margin-top:20px;
 }
+.checkbox label {
+  white-space: normal !important;
+}
 
 /* LABELS */
 .label-success {

@@ -14,6 +14,12 @@
 @endsection
 
 @section('content')
+  <style>
+    .step-actions {
+      vertical-align: top;
+      margin-top: 15px;
+    }
+  </style>
   <!-- Page-Title -->
   {{-- <div class="row m-b-15">
     <div class="col-sm-12 clearfix">
@@ -48,7 +54,7 @@
             </div>
 
 
-            <div class="inline-block text-right" style="width:18%">
+            <div class="step-actions inline-block text-right" style="width:18%">
               <a href="#edit_step{{ $step->StepRef }}" data-toggle="collapse" aria-expanded="false" class="collapsed"><i class="fa fa-pencil text-warning"></i></a>
               <a href="/steps/delete/{{ $step->StepRef }}" onclick="return confirm('Are you sure you want to delete this step?')"><i class="fa fa-trash-o text-danger m-l-5"></i></a>
             </div>
