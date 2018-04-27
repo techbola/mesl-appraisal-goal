@@ -30,7 +30,7 @@
       <tbody>
 				@foreach ($assets as $asset)
 					<tr>
-						<td>{{ $asset->Description }} / {{ $asset->location->Location }}</td>
+						<td>{{ $asset->Description }}</td>
 						<td>{{ $asset->category->AssetCategory }}</td>
 						<td>{{ $asset->Quantity }}</td>
 						<td>{{ number_format($asset->UnitCost, 2)}}</td>
