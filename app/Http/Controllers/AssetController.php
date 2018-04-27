@@ -38,7 +38,7 @@ class AssetController extends Controller
     ]);
 
     $user = auth()->user();
-    $assets = Asset::where('AssetRef', $id)->first();
+    $asset = Asset::where('AssetRef', $id)->first();
     $asset->fill($request->except(["_token", "_method"]));
     $asset->update();
 

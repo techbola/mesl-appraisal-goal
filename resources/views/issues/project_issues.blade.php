@@ -83,7 +83,6 @@
     methods: {
       edit_issue(issue) {
         this.issue = issue;
-        console.log(issue);
         $('#issue_form_edit').attr('action', base + '/update_issue/' + issue.id);
         // $('#issue_form').prepend('{{ method_field("PATCH") }}');
         $('#issue_form_edit').find('.note-editable').prepend(issue.Solution);

@@ -33,7 +33,7 @@
 						<td>{{ $asset->Quantity }}</td>
 						<td>{{ $asset->UnitCost }}</td>
 						<td>{{ $asset->TotalCost }}</td>
-						<td>{{ $asset->PurchaseDate }}</td>
+						<td>{{ $asset->PurchaseDate->format('jS M, Y') }}</td>
 						<td>{{ $asset->SerialNo }}</td>
 						<td>{{ $asset->AssetNo }}</td>
 						<td>
@@ -51,7 +51,7 @@
 
 @push('vue')
 	<script>
-
+		var base = "{{ url('/') }}";
 		new Vue({
 			el: '#app',
 			data: {
@@ -60,7 +60,7 @@
 			methods: {
 				edit_asset(asset) {
 					this.asset = asset;
-					console.log(asset);
+					$('#asset_form_edit').attr('action', base + '/update-asset/' + asset.AssetRef);
 				},
 			},
 		});
