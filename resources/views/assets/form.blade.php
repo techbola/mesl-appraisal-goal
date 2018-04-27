@@ -10,7 +10,7 @@
       {{ Form::label('CategoryID', 'Category') }} <a class="pull-right toggle_cat toggle_icon" onclick="new_cat()"> <i class="fa fa-plus-circle text-success"></i> </a>
       {{ Form::select('CategoryID', [''=>'Select Category'] + $categories->pluck('AssetCategory', 'AssetCategoryRef')->toArray(),null, ['data-init-plugin'=>'select2', 'class' => 'full-width select_cat', 'placeholder' => 'Category', 'required']) }}
 
-      <input type="text" class="input_cat form-control" placeholder="Enter the category name" style="display:none">
+      <input type="text" class="input_cat form-control" placeholder="Enter a New Category Name" style="display:none">
     </div>
   </div>
   <div class="col-md-6">
@@ -18,7 +18,7 @@
       {{ Form::label('LocationID', 'Location') }} <a class="pull-right toggle_loc toggle_icon" onclick="new_loc()"> <i class="fa fa-plus-circle text-success"></i> </a>
       {{ Form::select('LocationID', [''=>'Select Location'] + $locations->pluck('Location', 'LocationRef')->toArray(),null, ['data-init-plugin'=>'select2', 'class' => 'full-width select_loc', 'placeholder' => 'Location']) }}
 
-      <input type="text" class="input_loc form-control" placeholder="Enter the location name" style="display:none">
+      <input type="text" class="input_loc form-control" placeholder="Enter a New Location Name" style="display:none">
     </div>
   </div>
   <div class="col-md-6">
