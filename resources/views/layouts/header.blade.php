@@ -439,6 +439,11 @@
 
     {{-- PUSHER NOTIFICATIONS --}}
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
+    {{-- PUSH.JS BROWSER NOTIF --}}
+    <script src="{{ asset('assets/plugins/push.js/push.min.js') }}" charset="utf-8"></script>
+    <script src="{{ asset('assets/plugins/push.js/serviceWorker.min.js') }}" charset="utf-8"></script>
+
     <script>
       // Enable pusher logging - don't include this in production
       // Pusher.logToConsole = true;
@@ -455,7 +460,7 @@
         Push.create("Hello world!", {
             body: "How's it hangin'?",
             icon: '',
-            timeout: 4000,
+            timeout: 50000,
             // onClick: function () {
             //     window.focus();
             //     this.close();

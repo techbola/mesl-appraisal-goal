@@ -56,8 +56,13 @@
 
             <div class="step-actions inline-block text-right" style="width:18%">
               <a href="#edit_step{{ $step->StepRef }}" data-toggle="collapse" aria-expanded="false" class="collapsed"><i class="fa fa-pencil text-warning"></i></a>
-              <a href="/steps/delete/{{ $step->StepRef }}" onclick="return confirm('Are you sure you want to delete this step?')"><i class="fa fa-trash-o text-danger m-l-5"></i></a>
+              <a href="#" onclick="confirm2('Delete this step?', '', 'delete_{{ $step->StepRef }}')"><i class="fa fa-trash-o text-danger m-l-5"></i></a>
+              <form id="delete_{{ $step->StepRef }}" class="hidden" action="{{ route('delete_step', $step->StepRef) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+              </form>
             </div>
+
             <div class="m-l-15 p-r-0 panel-collapse collapse m-b-15" id="edit_step{{ $step->StepRef }}">
               <form action="{{ route('edit_step', $step->StepRef) }}" method="post">
                 {{ csrf_field() }}
@@ -107,7 +112,7 @@
                 <div class="col-md-6"><b>Assigned To:</b></div> <span class="col-md-6">{{ ($task->staff)? $task->staff->FullName : 'Unassigned' }}</span>
               </li>
               <li class="row card-list-item list-inline">
-                <div class="col-md-6"><b>Due Date:</b></div> <span class="col-md-6">{{ ($task->EndDate)? $task->EndDate->format('jS M, Y') : '&mdash;' }}</span>
+                <div class="col-md-6"><b>Due Date:</b></div> <span class="col-md-6">{{ ($task->EndDate)? Carbon::parse($task->EndDate)->format('jS M, Y') : '&mdash;' }}</span>
               </li>
               <li class="row card-list-item list-inline">
                 <div class="col-md-6"><b>From Project:</b></div> <span class="col-md-6"><a href="{{ route('view_project', $task->ProjectID) }}">{{ $task->project->Project }}</a></span>

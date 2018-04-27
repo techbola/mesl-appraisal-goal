@@ -70,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('task/{id}/add_step', 'TaskController@add_step')->name('add_step');
     Route::get('toggle_step/{id}', 'TaskController@toggle_step')->name('toggle_step');
     Route::patch('edit_step/{id}', 'TaskController@edit_step')->name('edit_step');
+    Route::delete('delete_step/{id}', 'TaskController@delete_step')->name('delete_step');
 
     Route::get('company-assets', 'AssetController@index')->name('assets');
     Route::post('save-asset', 'AssetController@save_asset')->name('save_asset');

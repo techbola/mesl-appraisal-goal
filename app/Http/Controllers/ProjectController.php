@@ -13,6 +13,9 @@ use App\Customer;
 use DB;
 use Auth;
 
+use Event;
+use App\Events\NewTaskEvent;
+
 class ProjectController extends Controller
 {
     public function index()
@@ -151,6 +154,7 @@ class ProjectController extends Controller
         $task->CreatedBy = $user->id;
 
         $task->save();
+        Event::fire(new NewTaskEvent($task->toArray()));
 
         // $project->assignees()->attach($request->Assignees);
         DB::commit();

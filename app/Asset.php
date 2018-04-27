@@ -10,4 +10,15 @@ class Asset extends Model
   protected $guarded = ['AssetRef'];
   public $primaryKey = 'AssetRef';
   public $dates = ['PurchaseDate'];
+
+  public function category()
+  {
+    return $this->belongsTo('App\AssetCategory', 'CategoryID');
+  }
+
+  public function location()
+  {
+    return $this->belongsTo('App\Location', 'LocationID');
+  }
+
 }

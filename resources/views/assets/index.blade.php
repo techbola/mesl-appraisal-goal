@@ -18,6 +18,7 @@
     <table class="table table-striped table-bordered tableWithSearch">
       <thead>
         <th width="20%">Description</th>
+				<th>Category</th>
         <th>Quantity</th>
         <th>Unit Cost</th>
         <th>Total</th>
@@ -29,10 +30,11 @@
       <tbody>
 				@foreach ($assets as $asset)
 					<tr>
-						<td>{{ $asset->Description }}</td>
+						<td>{{ $asset->Description }} / {{ $asset->location->Location }}</td>
+						<td>{{ $asset->category->AssetCategory }}</td>
 						<td>{{ $asset->Quantity }}</td>
-						<td>{{ $asset->UnitCost }}</td>
-						<td>{{ $asset->TotalCost }}</td>
+						<td>{{ number_format($asset->UnitCost, 2)}}</td>
+						<td>{{ number_format($asset->TotalCost, 2) }}</td>
 						<td>{{ $asset->PurchaseDate->format('jS M, Y') }}</td>
 						<td>{{ $asset->SerialNo }}</td>
 						<td>{{ $asset->AssetNo }}</td>
@@ -69,5 +71,32 @@
 				},
 			},
 		});
+	</script>
+
+	<script>
+	// Asset Categories
+	function new_cat() {
+    $('.select_cat').removeAttr('name').hide();
+    $('.input_cat').prop('name', 'Category').show();
+    $('.toggle_cat').html('<i class="fa fa-times-circle text-danger"></i>').attr('onclick', 'choose_cat()');
+  }
+  function choose_cat() {
+    $('select.select_cat').attr('name', 'CategoryID');
+    $('.select2-container.select_cat').show();
+    $('.input_cat').removeAttr('name').hide();
+    $('.toggle_cat').html('<i class="fa fa-plus-circle text-success"></i>').attr('onclick', 'new_cat()');
+  }
+	// Asset Location
+	function new_loc() {
+    $('.select_loc').removeAttr('name').hide();
+    $('.input_loc').prop('name', 'Location').show();
+    $('.toggle_loc').html('<i class="fa fa-times-circle text-danger"></i>').attr('onclick', 'choose_loc()');
+  }
+  function choose_loc() {
+    $('select.select_loc').attr('name', 'LocationID');
+    $('.select2-container.select_loc').show();
+    $('.input_loc').removeAttr('name').hide();
+    $('.toggle_loc').html('<i class="fa fa-plus-circle text-success"></i>').attr('onclick', 'new_loc()');
+  }
 	</script>
 @endpush

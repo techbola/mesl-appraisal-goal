@@ -9,7 +9,7 @@ class ProjectTask extends Model
   protected $table   = 'tblProjectTasks';
   protected $guarded = ['TaskRef'];
   public $primaryKey = 'TaskRef';
-  public $dates = ['EndDate'];
+  // public $dates = ['EndDate'];
 
   protected $appends = ['progress', 'progress_percent'];
 

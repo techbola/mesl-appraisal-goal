@@ -19,7 +19,6 @@
   </div>
 </div>
 
-
 <div class="modal fade" id="edit_asset" role="dialog" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -36,7 +35,33 @@
             <div class="form-group">
               {{ Form::label('Description') }}
               {{ Form::text('Description', null, ['v-model'=>'asset.Description', 'class' => 'form-control', 'placeholder' => 'Description', 'required']) }}
-              {{-- <input type="text" class="form-control" name="Description" value="" v-model="asset.Description"> --}}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              {{ Form::label('CategoryID', 'Category') }} <a class="pull-right toggle_cat toggle_icon" onclick="new_cat()"> <i class="fa fa-plus-circle text-success"></i> </a>
+              <select class="full-width select_cat" name="CategoryID" data-init-plugin="select2">
+                <option value="">Select Category</option>
+                @foreach ($categories as $category)
+                  <option value="{{ $category->AssetCategoryRef }}">{{ $category->AssetCategory }}</option>
+                @endforeach
+              </select>
+
+              <input type="text" class="input_cat form-control" placeholder="Enter the category name" style="display:none">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              {{ Form::label('LocationID', 'Location') }} <a class="pull-right toggle_loc toggle_icon" onclick="new_loc()"> <i class="fa fa-plus-circle text-success"></i> </a>
+              <select class="full-width select_loc" name="LocationID" data-init-plugin="select2">
+                <option value="">Select Location</option>
+                @foreach ($locations as $location)
+
+                  <option value="{{ $location->LocationRef }}" {{ ($asset->LocationID == $location->LocationRef)? 'selected' : '' }}>{{ $location->Location }}</option>
+                @endforeach
+              </select>
+
+              <input type="text" class="input_loc form-control" placeholder="Enter the location name" style="display:none">
             </div>
           </div>
           <div class="col-md-6">
@@ -45,6 +70,10 @@
               {{ Form::number('Quantity', null, ['v-model'=>'asset.Quantity', 'class' => 'form-control', 'placeholder' => 'Quantity']) }}
             </div>
           </div>
+
+        </div>
+        <div class="row">
+
           <div class="col-md-6">
             <div class="form-group">
               {{ Form::label('UnitCost', 'Unit Cost') }}

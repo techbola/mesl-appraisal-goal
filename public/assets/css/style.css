@@ -631,6 +631,9 @@ fieldset[disabled] .btn-inverse.active {
 .checkbox label {
   white-space: normal !important;
 }
+.toggle_icon {
+  font-size: 20px;
+}
 
 /* LABELS */
 .label-success {

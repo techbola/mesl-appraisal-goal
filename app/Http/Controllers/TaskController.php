@@ -53,4 +53,12 @@ class TaskController extends Controller
       return redirect()->back()->with('success', 'Step was updated successfully.');
     }
 
+    public function delete_step(Request $request, $id)
+    {
+      $step = Step::find($id);
+      $step->delete();
+
+      return redirect()->back()->with('success', 'Step was deleted successfully.');
+    }
+
 }

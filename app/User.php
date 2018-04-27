@@ -110,6 +110,11 @@ class User extends Authenticatable
       // return '/images/avatars/'.$
     }
 
+    public function getCompanyIDAttribute()
+    {
+      return $this->staff->CompanyID;
+    }
+
     public function tasks()
     {
 

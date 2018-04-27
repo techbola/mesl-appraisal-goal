@@ -109,7 +109,7 @@ class EventScheduleController extends Controller
   public function delete_event(Request $request, $id)
   {
     $event = EventSchedule::find($id);
-    
+
     $this->authorize('edit-event', $event);
 
     $event->delete();
