@@ -19,6 +19,7 @@
       <thead>
         <th width="20%">Description</th>
 				<th>Category</th>
+				<th>Location</th>
         <th>Quantity</th>
         <th>Unit Cost</th>
         <th>Total</th>
