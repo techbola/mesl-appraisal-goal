@@ -70,6 +70,9 @@
 				edit_asset(asset) {
 					this.asset = asset;
 					$('#asset_form_edit').attr('action', base + '/update-asset/' + asset.AssetRef);
+					// $('#edit_asset select[name="CategoryID"] option[value="'+ asset.CategoryID +'"]').attr('selected', 'selected')
+					$('#edit_asset select[name="CategoryID"]').val(asset.CategoryID).trigger('change');
+					$('#edit_asset select[name="LocationID"]').val(asset.LocationID).trigger('change');
 				},
 			},
 		});
