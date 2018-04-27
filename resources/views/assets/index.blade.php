@@ -24,7 +24,7 @@
         <th>Purchased On</th>
 				<th>Serial No.</th>
 				<th>Asset No.</th>
-        <th width="10%">Actions</th>
+        <th width="15%">Actions</th>
       </thead>
       <tbody>
 				@foreach ($assets as $asset)
@@ -37,7 +37,12 @@
 						<td>{{ $asset->SerialNo }}</td>
 						<td>{{ $asset->AssetNo }}</td>
 						<td>
-							<a href="#" data-toggle="modal" data-target="#edit_asset" class="btn btn-sm btn-inverse" @click="edit_asset({{ $asset }})">Edit</a>
+							<a href="#" data-toggle="modal" data-target="#edit_asset" class="btn btn-xs btn-inverse" @click="edit_asset({{ $asset }})">Edit</a>
+							<a href="#" class="btn btn-xs btn-danger" onclick="confirm2('Delete this asset?', '', 'delete_{{ $asset->AssetRef }}')">Delete</a>
+							<form id="delete_{{ $asset->AssetRef }}" class="hidden" action="{{ route('delete_asset', $asset->AssetRef) }}" method="post">
+								{{ csrf_field() }}
+								{{ method_field('DELETE') }}
+							</form>
 							{{-- <a href="#" data-toggle="modal" data-target="#view_asset" class="text-primary f16 m-l-10" @click="get_contact({{ $asset }})"><i class="fa fa-eye"></i></a> --}}
 						</td>
 					</tr>

@@ -111,9 +111,9 @@ class StaffController extends Controller
     {
       $user = auth()->user();
       if ($user->is_superadmin) {
-        $pendings = StaffPending::where('ApprovedBy', '!=', '0')->get();
+        $pendings = StaffPending::where('ApprovedBy', NULL)->get();
       } else {
-        $pendings = StaffPending::where('CompanyID', $user->staff->CompanyID)->where('ApprovedBy', '!=', '0')->get();
+        $pendings = StaffPending::where('CompanyID', $user->staff->CompanyID)->where('ApprovedBy', NULL)->get();
       }
 
       return view('staff.pending_biodata_list', compact('user', 'pendings'));

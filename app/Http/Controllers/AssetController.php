@@ -45,4 +45,12 @@ class AssetController extends Controller
     return redirect()->back()->with('success', 'The asset was updated successfully.');
   }
 
+  public function delete_asset(Request $request, $id)
+  {
+    $asset = Asset::where('AssetRef', $id)->first();
+    $asset->delete();
+
+    return redirect()->back()->with('success', 'The asset was deleted successfully');
+  }
+
 }

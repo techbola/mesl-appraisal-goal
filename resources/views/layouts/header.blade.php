@@ -438,7 +438,7 @@
     @include('notifications')
 
     {{-- PUSHER NOTIFICATIONS --}}
-    {{-- <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <script>
       // Enable pusher logging - don't include this in production
       // Pusher.logToConsole = true;
@@ -448,10 +448,19 @@
         encrypted: true
       });
 
-      var channel = pusher.subscribe('new-notif');
-      channel.bind('App\\Events\\PendingTradeEvent', function(data) {
-
+      var channel = pusher.subscribe('officemate');
+      channel.bind('App\\Events\\NewTaskEvent', function(data) {
         console.log(data);
+
+        Push.create("Hello world!", {
+            body: "How's it hangin'?",
+            icon: '',
+            timeout: 4000,
+            // onClick: function () {
+            //     window.focus();
+            //     this.close();
+            // }
+        });
 
         // $('.notif-list').prepend(`
         //   <li>
@@ -460,15 +469,16 @@
         //   `);
 
         // Increment count by 1
-        var notif = Number($('#notif').text());
-        $('#notif').text(notif + 1);
+        // var notif = Number($('#notif').text());
+        // $('#notif').text(notif + 1);
 
         //Sound
         var audio = new Audio('/assets/sound/chat.mp3');
         audio.play();
-
       });
-    </script> --}}
+    </script>
+
+    {{-- END PUSHER Notifications --}}
 
     <script>
       // $('input[required]').parent().parent().find('label').addClass('req');
