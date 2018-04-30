@@ -43,23 +43,23 @@ class User extends Authenticatable
     // }
     public function types()
     {
-      return $this->belongsToMany('App\UserType', 'usertype', 'user_id', 'type_id');
+        return $this->belongsToMany('App\UserType', 'usertype', 'user_id', 'type_id');
     }
     public function roles()
     {
-      return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id');
+        return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id');
     }
     public function inbox()
     {
-      return $this->belongsToMany('App\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->withPivot('IsRead', 'IsDeleted');
+        return $this->belongsToMany('App\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->withPivot('IsRead', 'IsDeleted');
     }
     public function sent_messages()
     {
-      return $this->hasMany('App\Message', 'FromID')->orderBy('MessageRef', 'desc');
+        return $this->hasMany('App\Message', 'FromID')->orderBy('MessageRef', 'desc');
     }
     public function unread_inbox()
     {
-      return $this->hasMany('App\MessageRecipient', 'UserID')->where('IsRead', False);
+        return $this->hasMany('App\MessageRecipient', 'UserID')->where('IsRead', false);
     }
 
     public function abbreviation($string)
@@ -74,14 +74,18 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-      if (!empty($this->first_name) && !empty($this->last_name))
-        return $this->first_name.' '.$this->last_name;
+        if (!empty($this->first_name) && !empty($this->last_name)) {
+            return $this->first_name . ' ' . $this->last_name;
+        }
+
     }
 
     public function getShortNameAttribute()
     {
-      if (!empty($this->first_name) && !empty($this->last_name))
-        return $this->first_name.' '.substr($this->last_name, 0,1);
+        if (!empty($this->first_name) && !empty($this->last_name)) {
+            return $this->first_name . ' ' . substr($this->last_name, 0, 1);
+        }
+
     }
 
     // public function getAvatarLightAttribute()
@@ -95,28 +99,34 @@ class User extends Authenticatable
     // }
     public function avatar()
     {
-      return $this->avatar ?? 'default.png';
+        return $this->avatar ?? 'default.png';
     }
     public function avatar_light()
     {
-      return $this->avatar ?? 'default2.png';
+        return $this->avatar ?? 'default2.png';
     }
 
     public function avatar_url()
     {
-      // if ($this->is_superadmin) {
-      //   # code...
-      // }
-      // return '/images/avatars/'.$
+        // if ($this->is_superadmin) {
+        //   # code...
+        // }
+        // return '/images/avatars/'.$
     }
 
     public function getCompanyIDAttribute()
     {
-      return $this->staff->CompanyID;
+        return $this->staff->CompanyID;
     }
 
     public function tasks()
     {
 
+    }
+
+    // relationship for staff payroll details
+    public function payroll_details()
+    {
+        return $this->hasMany(PayrollMonthly::class, 'StaffID');
     }
 }

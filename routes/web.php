@@ -4,18 +4,13 @@
 Auth::routes();
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-
-Route::group(['domain' => 'officemate.test'], function()
-    {
-    Route::any('/123', function()
-    {
+Route::group(['domain' => 'officemate.test'], function () {
+    Route::any('/123', function () {
         return 'My own domain';
     });
 });
-Route::group(['domain' => '{subdomain}.officemate.test'], function()
-{
-    Route::any('/123', function($subdomain)
-    {
+Route::group(['domain' => '{subdomain}.officemate.test'], function () {
+    Route::any('/123', function ($subdomain) {
         return 'Subdomain ' . $subdomain;
     });
 });
@@ -25,26 +20,24 @@ Route::get('/logout', function () {
     return redirect('/login');
 });
 
-Route::get('/login2', function(){
-  return view('auth.login_old');
+Route::get('/login2', function () {
+    return view('auth.login_old');
 });
 
-Route::group(['middleware' => 'guest'], function()
-{
-  // Route::group(['prefix'=>'{company}'], function()
-  // Route::group(['domain'=>'{company}.officemate.test'], function()
-  // {
+Route::group(['middleware' => 'guest'], function () {
+    // Route::group(['prefix'=>'{company}'], function()
+    // Route::group(['domain'=>'{company}.officemate.test'], function()
+    // {
     Route::get('login', 'LoginController@login')->name('login');
     Route::post('login', 'LoginController@post_login')->name('post_login');
-  // });
+    // });
 
-  Route::post('/company_registration', 'LoginController@register_company')->name('register_company');
+    Route::post('/company_registration', 'LoginController@register_company')->name('register_company');
 
-  Route::get('/activate_pass/{id}/{code}', 'LoginController@activate_pass')->name('activate_pass');
-  Route::patch('/activate_pass2/{id}/{code}', 'LoginController@activate_pass2')->name('activate_pass2');
+    Route::get('/activate_pass/{id}/{code}', 'LoginController@activate_pass')->name('activate_pass');
+    Route::patch('/activate_pass2/{id}/{code}', 'LoginController@activate_pass2')->name('activate_pass2');
 });
 Route::get('/activate/{id}/{code}', 'LoginController@activate')->name('activate');
-
 
 Route::middleware(['auth'])->group(function () {
 
@@ -90,8 +83,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save_bulletin', 'BulletinController@save_bulletin')->name('save_bulletin');
     Route::post('bulletin/{id}', 'BulletinController@view_bulletin')->name('view_bulletin');
 
-
-
     Route::resource('roles', 'RoleController');
     Route::get('/assignroles', 'UserRoleAssignmentController@create')->name('roleassignment');
     Route::post('/assignroles', 'UserRoleAssignmentController@store');
@@ -112,7 +103,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('account', 'StaffController@manage_account')->name('manage_account');
     Route::get('edit-profile', 'UserController@edit_profile')->name('edit_profile');
 
-
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
     Route::patch('approve-biodata/{id}', 'StaffController@approve_biodata')->name('approve_biodata');
@@ -126,16 +116,14 @@ Route::middleware(['auth'])->group(function () {
 
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
 
-
-
     // Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');
     // Route::resource('customers', 'CustomerController');
 
     Route::get('documents', 'DocumentController@index')->name('documents');
     Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
     Route::post('document_store', 'DocumentController@store')->name('document_store');
-    Route::get('download-document/{file}', function($file){
-      return response()->download(storage_path("app/documents/".$file));
+    Route::get('download-document/{file}', function ($file) {
+        return response()->download(storage_path("app/documents/" . $file));
     })->name('docs');
     Route::resource('doctypes', 'DocTypeController');
 
@@ -145,8 +133,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('event/{id}', 'EventScheduleController@view_event')->name('view_event');
     Route::patch('update_event/{id}', 'EventScheduleController@update_event')->name('update_event');
     Route::delete('delete_event/{id}', 'EventScheduleController@delete_event')->name('delete_event');
-
-
 
     Route::get('gls/create2', 'GLController@create2')->name('gls.create2');
     Route::get('gls/{id}/edit2', 'GLController@edit2')->name('gls.edit2');
@@ -198,6 +184,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save_contact', 'CustomerController@save_contact')->name('save_contact');
     Route::get('edit_contact/{id}', 'CustomerController@edit_contact')->name('edit_contact');
     Route::patch('update_contact/{id}', 'CustomerController@update_contact')->name('update_contact');
+
+    // -- payroll
+
+    Route::get('payroll/details', 'PayrollController@details');
+
+    // -- end payroll
 });
 
 Route::get('/cls', function () {
@@ -208,11 +200,11 @@ Route::get('/cls', function () {
     return redirect()->route('home');
 });
 
-Route::get('/cda', function(){
-  exec('composer dump-autoload');
-  return redirect()->route('home');
+Route::get('/cda', function () {
+    exec('composer dump-autoload');
+    return redirect()->route('home');
 });
 
-Route::get('/account', function(){
-  dd( auth()->user()->staff->projects );
+Route::get('/account', function () {
+    dd(auth()->user()->staff->projects);
 });
