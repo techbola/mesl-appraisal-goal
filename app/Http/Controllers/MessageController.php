@@ -4,8 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Message;
+use App\User;
 use App\Staff;
 use App\MessageRecipient;
+
+use Event;
+use App\Events\NewMessageEvent;
+
+use Notification;
+use App\Notifications\NewMessage;
 
 use DB;
 
@@ -62,6 +69,17 @@ class MessageController extends Controller
         $rec->UserID = $to;
         $rec->save();
       }
+      // $msg = Message::where('MessageRef', $message->MessageRef)->with('recipients')->first();
+      // Notifs
+      $msg['from'] = $message->sender->FullName;
+      $msg['subject'] = $message->Subject;
+      $msg['body'] = str_limit($message->Body, 50);
+      // $msg['recipients'] = $message->recipients->pluck('id')->toArray();
+      $msg['recipients'] = $request->to;
+
+      Event::fire(new NewMessageEvent($msg));
+      Notification::send($message->recipients, new NewMessage($message));
+      // dd($msg);
 
       DB::commit();
       return redirect()->route('inbox')->with('success', 'Your message was sent successfully.');
@@ -103,7 +121,7 @@ class MessageController extends Controller
         $people = $people;
       } else {
         // Remove reply sender, replace with parent's sender. (haystack, start_key, end_key, replacement)
-        array_splice($people, $my_key, $my_key, $parent->FromID);
+        array_splice($people, $my_key, 1, $parent->FromID);
       }
 
       foreach ($people as $to) {
@@ -112,6 +130,17 @@ class MessageController extends Controller
         $rec->UserID = $to;
         $rec->save();
       }
+
+      // Notifs
+      $msg['from'] = $message->sender->FullName;
+      $msg['subject'] = $message->Subject;
+      $msg['body'] = str_limit($message->Body, 50);
+      // $msg['recipients'] = $message->recipients->pluck('id')->toArray();
+      $msg['recipients'] = $people;
+
+      Event::fire(new NewMessageEvent($msg));
+      $people_users = User::whereIn('id', $people)->get();
+      Notification::send($people_users, new NewMessage($message));
 
       DB::commit();
       return redirect()->route('view_message', $parent->MessageRef)->with('success', 'Your reply was sent successfully.');
@@ -125,6 +154,8 @@ class MessageController extends Controller
   public function view_message($id, $reply = null)
   {
     $message = Message::find($id);
+    // $message = Message::where('MessageRef', $id)->with('recipients')->first();
+    // dd($message);
     $user = auth()->user();
 
     $this->authorize('view-message', $message);

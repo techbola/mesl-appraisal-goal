@@ -377,15 +377,31 @@ class StaffController extends Controller
 
       try {
         DB::beginTransaction();
-        // if ($user->staff && $user->staff->StaffRef == $id && !$user->hasRole('admin')) {
-        if (!$user->hasRole('admin')) { // Non Admins
+        $staff = Staff::where('StaffRef', $id)->first();
+        $user_staff = User::find($staff->UserID);
+
+        if (!$user->hasRole('admin') && !$user->is_superadmin) { // Non Admins
           $staff = new StaffPending;
           $staff->UserID = $user->id;
           $staff->StaffRef = $user->staff->StaffRef;
           $staff->CompanyID = $user->staff->CompanyID;
+
+          // START PHOTO
+          if($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+            $file = $request->file('avatar');
+            $filename = strtolower( $user_staff->first_name.'_'.$user_staff->last_name.'_'.$user_staff->id.'.'.$request->avatar->extension() );
+
+            if( !File::exists(public_path('images/avatars')) && File::exists(public_path('images')) )
+              File::makeDirectory(public_path('images/avatars'));
+
+            Image::make($file)->orientate()->resize(300, null, function($constraint) { $constraint->aspectRatio(); })->save('images/avatars/'.$filename);
+            // Name to be saved to DB
+            $user_staff->avatar = $filename;
+          }
+          $user_staff->save();
+          // END PHOTO
+
         } else {
-          $staff = Staff::where('StaffRef', $id)->first();
-          $user_staff = User::find($staff->UserID);
 
           $user_staff->first_name = $request->FirstName;
           $user_staff->middle_name = $request->MiddleName;
@@ -402,7 +418,7 @@ class StaffController extends Controller
               File::makeDirectory(public_path('images/avatars'));
             elseif( !File::exists('images/avatars') && !File::exists(public_path('images')) )
               File::makeDirectory('images/avatars');
-            Image::make($file)->resize(300, null, function($constraint) { $constraint->aspectRatio(); })->save('images/avatars/'.$filename);
+            Image::make($file)->orientate()->resize(300, null, function($constraint) { $constraint->aspectRatio(); })->save('images/avatars/'.$filename);
             // Name to be saved to DB
             $user_staff->avatar = $filename;
           }
@@ -415,7 +431,7 @@ class StaffController extends Controller
         $staff->save();
 
         DB::commit();
-        return redirect()->back()->with('success', $staff->FullName.'\'s biodata was updated successfully');
+        return redirect()->back()->with('success', $user_staff->FullName.'\'s biodata was updated successfully');
 
       } catch (Exception $e) {
         DB::rollback();
