@@ -185,7 +185,7 @@
             <select class="new_select form-control select2" data-init-plugin="select2" name="account[]" required>
               <option value="">Select one</option>
               @foreach ($accounts as $account)
-                <option value="{{ $account->GLRef }}">{{ $account->Account }}</option>
+                <option value="{{ $account->GLRef }}">{{ str_replace('`', '', $account->Account) }}</option>
               @endforeach
             </select>
           </td>

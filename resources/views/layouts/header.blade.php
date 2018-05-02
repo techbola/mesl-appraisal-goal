@@ -455,31 +455,35 @@
 
       var channel = pusher.subscribe('officemate');
       channel.bind('App\\Events\\NewTaskEvent', function(data) {
-        console.log(data);
+        if (data['StaffID'] == '{{ auth()->user()->staff->StaffRef }}') {
+          console.log(data);
 
-        Push.create("Hello world!", {
-            body: "How's it hangin'?",
-            icon: '',
-            timeout: 50000,
-            // onClick: function () {
-            //     window.focus();
-            //     this.close();
-            // }
-        });
+          Push.create("New Task on OfficeMate", {
+              body: data['Task'],
+              icon: '{{ asset('assets/img/icons/stopwatch.png') }}',
+              requireInteraction: true,
+              // timeout: 50000,
+              // onClick: function () {
+              //     window.focus();
+              //     this.close();
+              // }
+          });
 
-        // $('.notif-list').prepend(`
-        //   <li>
-        //     <a href="${ data['link'] }">${ data['body'] }</a>
-        //   </li>
-        //   `);
+          // $('.notif-list').prepend(`
+          //   <li>
+          //     <a href="${ data['link'] }">${ data['body'] }</a>
+          //   </li>
+          //   `);
 
-        // Increment count by 1
-        // var notif = Number($('#notif').text());
-        // $('#notif').text(notif + 1);
+          // Increment count by 1
+          // var notif = Number($('#notif').text());
+          // $('#notif').text(notif + 1);
 
-        //Sound
-        var audio = new Audio('/assets/sound/chat.mp3');
-        audio.play();
+          //Sound
+          var audio = new Audio('/assets/sound/chat.mp3');
+          audio.play();
+        }
+
       });
     </script>
 

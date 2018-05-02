@@ -21,6 +21,10 @@ class ProjectTask extends Model
   {
     return $this->belongsTo('App\Staff', 'StaffID', 'StaffRef');
   }
+  public function poster()
+  {
+    return $this->belongsTo('App\User', 'CreatedBy');
+  }
   public function steps()
   {
     return $this->hasMany('App\Step', 'TaskID', 'TaskRef');

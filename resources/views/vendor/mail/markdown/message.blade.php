@@ -2,7 +2,8 @@
     {{-- Header --}}
     @slot('header')
         @component('mail::header', ['url' => config('app.url')])
-            {{ config('app.name') }}
+            {{-- {{ config('app.name') }} --}}
+            <img src="{{ asset('images/officemate.png') }}" alt="logo" width="120">
         @endcomponent
     @endslot
 

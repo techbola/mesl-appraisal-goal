@@ -42,12 +42,12 @@ class NewDocument extends Notification
     {
       $doc = $this->doc;
         return (new MailMessage)
-              ->subject('A New Event Was Posted')
+              ->subject('A New Document Was Posted')
               ->greeting('Hi '.$notifiable->first_name)
-              ->line($doc->poster->FullName.' has posted a new document on the events scheduler. Here\'s a preview and a button to read the full thing.')
+              ->line($doc->poster->FullName.' has posted a new document. Here\'s a preview and a button to read the full thing.')
               ->line('**Title: **'.$doc->Title)
               ->line('**Description: **'.str_limit(strip_tags($doc->Description), 200).'')
-              ->action('View Event', route('view_doc', $doc->EventRef));
+              ->action('View Document', route('view_doc', $doc->DocRef));
     }
 
     /**
