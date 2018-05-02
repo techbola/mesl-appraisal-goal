@@ -159,10 +159,14 @@ class ProjectController extends Controller
         $task->save();
 
         if (!empty($request->StaffID)) {
-          $staff = Staff::find($request->StaffID)->user;
-          Notification::send($staff, new NewTask($task));
+          $staff_user = Staff::find($request->StaffID)->user;
+
+          // I initiated the action so dont send notifications to me.
+          if ($staff_user->id != $user->id) {
+            Notification::send($staff_user, new NewTask($task));
+            Event::fire(new NewTaskEvent($task->toArray()));
+          }
         }
-        Event::fire(new NewTaskEvent($task->toArray()));
 
 
         // $project->assignees()->attach($request->Assignees);
