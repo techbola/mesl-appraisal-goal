@@ -107,7 +107,7 @@
                           <span class="name" style="min-width:120px; display: inline-block; {{ (!$msg->pivot->IsRead)? 'font-weight:bold;' : '' }}">{{ $msg->sender->FullName }}</span> <span class="" style="{{ (!$msg->pivot->IsRead)? 'font-weight:bold;' : '' }}">{{ $msg->Subject }}</span>
                           <span class="text-muted" style="font-size: 11px;">- {{ str_limit(strip_tags($msg->Body), '20') }}</span>
                           <span class="pull-right">
-                            <i class="glyphicon glyphicon-paperclip"></i>
+                            {{-- <i class="glyphicon glyphicon-paperclip"></i> --}}
                             <span class="label label-default m-l-5">
                               {{ ($msg->created_at->isToday())? $msg->created_at->format('g:i A') : $msg->created_at->format('jS M, Y') }}
                             </span>
