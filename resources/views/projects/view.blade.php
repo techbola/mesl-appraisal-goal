@@ -197,7 +197,7 @@
         <h4 class="card-title">Project Tasks <span class="badge badge-info badge-sm m-l-5">{{ count($project->tasks) }}</span></h4>
 
         {{-- TASK LIST --}}
-        <div class="scrollbar-outer">
+        <div style="max-height:400px; overflow-y:auto">
           <ul class="my-list{{ (count($project->tasks) > 3)? ' nicescroll mx-box':'' }}">
 
             @foreach ($project->tasks as $task)

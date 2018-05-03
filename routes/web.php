@@ -159,8 +159,28 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
+
+
+    // From vce
+    Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
+    Route::get('cash_entries/receipts', 'CashEntryController@Receipts')->name('Receipts');
+    Route::post('cash_entries_receipts', 'CashEntryController@storeReceipts');
+    Route::post('cash_entries_payments', 'CashEntryController@storePayments');
+    Route::get('cash_entries/purchase_on_credits', 'CashEntryController@purchase_on_credits')->name('PurchaseOnCredits');
+    Route::get('cash_entries/bill_posting', 'CashEntryController@bill_posting')->name('BillPosting');
+    Route::post('bill_posting', 'CashEntryController@post_bill');
+    Route::post('purchase_on_credits', 'CashEntryController@storepurchase_on_credits');
+    Route::get('cash_entries/bill_payment_list', 'CashEntryController@bill_payment_list')->name('BillPaymentList');
+    Route::post('pay_List', 'CashEntryController@store_bill_payment_list');
+    Route::post('process_payment', 'CashEntryController@customer_transfer_store');
+    Route::get('cash_entries/approve_posting', 'CashEntryController@approve_posting')->name('ApprovePosting');
+
     Route::resource('cash_entries', 'CashEntryController');
 
+    // Transactions
+    Route::get('transactions/showdetails', 'TransactionController@showDetails')->name('showDetails');
+    Route::get('transactions/transactionlist', 'TransactionController@TransactionList')->name('Transaction_List');
+    Route::post('transactions/transactionlistrange', 'TransactionController@TransactionListRange')->name('Transaction_List_Range');
     Route::get('transactions/multipost', 'TransactionController@multipost')->name('transactions.multipost');
     Route::post('transactions/multipost', 'TransactionController@multipost_store')->name('transactions.multipost.store');
 
@@ -176,6 +196,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/profit-loss2', 'ReportController@profit_loss2')->name('profit_loss');
     Route::get('reports/profit-loss3', 'ReportController@profit_loss3')->name('profit_loss3');
     Route::get('reports/loans-report', 'ReportController@loans_report')->name('loans_report');
+
+    Route::get('report/balance-sheet-vce', 'ReportController@balance_sheet_vce')->name('balance_sheet_vce');
+    Route::get('report/profit-loss-vce', 'ReportController@profit_loss_vce')->name('profit_loss_vce');
+    Route::post('accounting_period', 'ReportController@accounting_period')->name('accounting_period');
+    Route::get('bsdetails/{ref}/{to}', 'ReportController@bsdetails')->name('bsdetails');
+    Route::get('pldetails/{ref}/{to}', 'ReportController@pldetails')->name('pldetails');
 
     Route::get('reports/expired-loans', 'ReportController@matured_loans')->name('matured_loans');
     Route::get('reports/running-loans', 'ReportController@outstanding_loans')->name('outstanding_loans');
