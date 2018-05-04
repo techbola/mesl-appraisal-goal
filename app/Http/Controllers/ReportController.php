@@ -10,6 +10,7 @@ use App\GL;
 use DB;
 use Carbon\Carbon;
 use Auth;
+use App\Config;
 
 use Illuminate\Http\Request;
 
@@ -36,6 +37,90 @@ class ReportController extends Controller
       $categories = AccountCategory::whereIn('AccountCategoryRef', ['1', '2', '6'])->orderBy('AccountCategory')->get();
       return view('reports.balance_sheet2', compact('categories', 'from', 'to'));
     }
+
+
+    public function balance_sheet_vce()
+    {
+      $config = Config::where('ConfigRef', '1')->first();
+      if (empty($_GET['date'])) {
+        $date = date('Y-m-d');
+      } else {
+        $date = $_GET['date'];
+      }
+
+      $data = collect(\DB::select("exec procBalanceSheet '$date'"));
+      $fixed = $data->where('AccountCategory', 'Fixed Assets')->first();
+      $debtors = $data->where('AccountCategory', 'Debtors & Prepayments')->first();
+      $cash = $data->where('AccountCategory', 'Cash & Bank')->first();
+      $creditors = $data->where('AccountCategory', 'Creditors & Accruals')->first();
+      $tax = $data->where('AccountCategory', 'Tax Provision')->first();
+      $capital = $data->where('AccountCategory', 'Share Capital')->first();
+      $reserves = $data->where('AccountCategory', 'Reserves')->first();
+      $directors = $data->where('AccountCategory', 'Directors Current Account')->first();
+
+      $current_assets = ($debtors->Amount ?? '0') + ($cash->Amount ?? '0');
+      $amount_falling = ($creditors->Amount ?? '0') + ($tax->Amount ?? '0');
+      $net_current = $current_assets - $amount_falling;
+      $shareholders =  ($capital->Amount ?? '0') + ($reserves->Amount ?? '0') + ($directors->Amount ?? '0');
+
+      // dd($data);
+      return view('reports.balance_sheet_vce', compact('config', 'data', 'fixed', 'debtors', 'cash', 'creditors', 'tax', 'capital', 'reserves', 'directors', 'current_assets', 'amount_falling', 'net_current', 'shareholders', 'date'));
+    }
+
+    public function bsdetails($ref, $to)
+    {
+      $data = collect(\DB::select("exec procBSDetails '$to', '$ref'"));
+      $category = AccountCategory::where('AccountCategoryRef', $ref)->first();
+      // dd($data);
+      return view('reports.bsdetails', compact('data', 'date', 'category'));
+    }
+
+    public function pldetails($ref, $to)
+    {
+      $data = collect(\DB::select("exec procPLDetails '$to', '$ref'"));
+      $category = AccountCategory::where('AccountCategoryRef', $ref)->first();
+      // dd($data);
+      return view('reports.pldetails', compact('data', 'date', 'category'));
+    }
+
+    public function profit_loss_vce()
+    {
+      $config = Config::where('ConfigRef', '1')->first();
+      if (empty($_GET['from']) && empty($_GET['to'])) {
+        $from = date('Y-m-d', strtotime("3 months ago"));
+        $to = date('Y-m-d');
+      } else {
+        $from = $_GET['from'];
+        $to = $_GET['to'];
+      }
+
+      $data = collect(\DB::select("exec procProfitandLoss '$from', '$to'"));
+      $fee = $data->where('AccountCategory', 'Fee Income')->first();
+      $other = $data->where('AccountCategory', 'Other Income')->first();
+      $cost = $data->where('AccountCategory', 'Cost of Sales')->first();
+      $expense = $data->where('AccountCategory', 'Operating Expense')->first();
+      $provision = $data->where('AccountCategory', 'Provision for Taxes')->first();
+      $reserve = $data->where('AccountCategory', 'Transfer to Reserve')->first();
+
+      $fee_other = ($fee->Amount ?? '0') + ($other->Amount ?? '0');
+      $gross_profit = $fee_other - ($cost->Amount ?? '0');
+      $before_tax = $gross_profit - ($expense->Amount ?? '0');
+      $after_tax = $before_tax - ($provision->Amount ?? '0');
+
+
+      return view('reports.profit_loss_vce', compact('config', 'data', 'fee', 'other', 'cost', 'expense', 'provision', 'reserve', 'fee_other', 'gross_profit', 'before_tax', 'after_tax', 'from', 'to'));
+    }
+
+    public function accounting_period(Request $request)
+    {
+      $config = Config::where('ConfigRef', '1')->first();
+      $config->YearStart = $request->YearStart;
+      $config->YearEnd = $request->YearEnd;
+      $config->save();
+      return redirect()->back()->with('success', 'Accounting period saved successfully');
+    }
+
+
 
     public function trial_balance()
     {
