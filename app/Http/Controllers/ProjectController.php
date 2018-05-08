@@ -34,7 +34,7 @@ class ProjectController extends Controller
         if ($user->hasRole('admin')) {
           $projects = Project::where('CompanyID', $user->staff->CompanyID)->get();
         } else {
-          $projects = $user->staff->projects;
+          $projects = $user->staff->projects_extended;
         }
         $supervisors = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $assignees = Staff::where('CompanyID', $user->staff->CompanyID)->get();
@@ -66,6 +66,7 @@ class ProjectController extends Controller
           $project->CompanyID = auth()->user()->staff->CompanyID;
         }
         $project->CustomerID = $request->CustomerID;
+        $project->CreatedBy = $user->id;
         $project->save();
 
         // $project->assignees()->attach($request->Assignees);
@@ -123,6 +124,7 @@ class ProjectController extends Controller
           $project->CompanyID = auth()->user()->staff->CompanyID;
         }
         $project->CustomerID = $request->CustomerID;
+        $project->UpdatedBy = $user->id;
         $project->save();
 
         // $project->assignees()->attach($request->Assignees);

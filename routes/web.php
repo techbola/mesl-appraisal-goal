@@ -72,7 +72,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('edit_step/{id}', 'TaskController@edit_step')->name('edit_step');
     Route::delete('delete_step/{id}', 'TaskController@delete_step')->name('delete_step');
 
-    Route::get('company-assets', 'AssetController@index')->name('assets');
+    Route::get('fixed-assets', 'AssetController@index')->name('assets');
     Route::post('save-asset', 'AssetController@save_asset')->name('save_asset');
     Route::patch('update-asset/{id}', 'AssetController@update_asset')->name('update_asset');
     Route::delete('delete-asset/{id}', 'AssetController@delete_asset')->name('delete_asset');

@@ -15,6 +15,12 @@
 
 @section('content')
 
+  <style>
+    .brief * {
+      font-size: 15px !important;
+    }
+  </style>
+
   <!-- Page-Title -->
   {{-- <div class="row m-b-15">
     <div class="col-sm-12 clearfix">
@@ -117,7 +123,7 @@
   <!-- Start: Project Description -->
   <div class="card-box">
     <h4 class="card-title">Project Description / Brief</h4>
-    <div class="f15">{!! $project->Description ?? 'No Description Provided' !!}</div>
+    <div class="brief">{!! $project->Description ?? 'No Description Provided' !!}</div>
   </div>
 
   {{-- <div class="row">
