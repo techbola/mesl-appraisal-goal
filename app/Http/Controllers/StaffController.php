@@ -489,10 +489,11 @@ class StaffController extends Controller
             // } else {
             //     return back()->withInput()->with('error', 'Failed to update please try again.');
             // }
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return back()->withInput()->with('error', 'Failed to update please try again.');
         }
 
-        public function destroy($id)
-        {
-            //
-        }
     }
+}
