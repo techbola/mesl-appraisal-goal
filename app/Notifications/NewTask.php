@@ -16,9 +16,9 @@ class NewTask extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($task)
     {
-        //
+      $this->task = $task;
     }
 
     /**
@@ -40,10 +40,19 @@ class NewTask extends Notification
      */
     public function toMail($notifiable)
     {
+      $task = $this->task;
+      $company = $notifiable->staff->company->Company;
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('New Task at '.$company)
+            ->greeting('Hi, '.$notifiable->first_name)
+            ->line('You have been assigned a new task on the **"'. $task->project->Project .'"** project, here are the details of the task:')
+            ->line('**Task Title: **'.$task->Task)
+            ->line('**Due Date: **'.$task->EndDate)
+            ->line('**Created By: **'.$task->poster->FullName)
+            ->line('Use the button below to visit the project page on '.config('app.name').'.')
+            // ->line('**Description: **'.str_limit(strip_tags($doc->Description), 200).'')
+            ->action('Open Project Page', route('view_project', $task->project->ProjectRef));
     }
 
     /**

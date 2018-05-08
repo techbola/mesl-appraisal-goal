@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewDocument extends Notification
+class NewMessage extends Notification
 {
     use Queueable;
 
@@ -16,9 +16,9 @@ class NewDocument extends Notification
      *
      * @return void
      */
-    public function __construct($doc)
+    public function __construct($message)
     {
-        $this->doc = $doc;
+      $this->message = $message;
     }
 
     /**
@@ -40,14 +40,19 @@ class NewDocument extends Notification
      */
     public function toMail($notifiable)
     {
-      $doc = $this->doc;
+      $message = $this->message;
+      // $company = $notifiable->staff->company->Company;
+
         return (new MailMessage)
-              ->subject('A New Document Was Posted')
-              ->greeting('Hi '.$notifiable->first_name)
-              ->line($doc->poster->FullName.' has posted a new document. Here\'s a preview and a button to read the full thing.')
-              ->line('**Title: **'.$doc->Title)
-              ->line('**Description: **'.str_limit(strip_tags($doc->Description), 200).'')
-              ->action('View Document', route('view_doc', $doc->DocRef));
+        ->subject('New Message from '.$message->sender->FullName)
+        ->greeting('Hi, '.$notifiable->first_name)
+        ->line($message->sender->first_name.' sent you a message on OfficeMate. Here\'s what they said:')
+        ->line('**Subject: **'.$message->Subject)
+        ->line('**Date: **'.$message->created_at)
+        ->line('**Body: **'.$message->Body)
+        // ->line('Use the button below to visit the project page on '.config('app.name').'.')
+        // ->line('**Description: **'.str_limit(strip_tags($doc->Description), 200).'')
+        ->action('View On OfficeMate', route('view_message', $message->MessageRef));
     }
 
     /**

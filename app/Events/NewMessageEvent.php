@@ -10,18 +10,20 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NewMessageEvent
+class NewMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    protected $data;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+      $this->data = $data;
     }
 
     /**
@@ -29,8 +31,16 @@ class NewMessageEvent
      *
      * @return Channel|array
      */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
-    }
+     public function broadcastOn()
+     {
+         return new Channel('officemate');
+     }
+
+     public function broadcastWith() {
+       foreach ($this->data['recipients'] as $key => $value) {
+         $this->data['recipients'][$key] = (string)$value;
+       }
+       return $this->data;
+     }
+
 }

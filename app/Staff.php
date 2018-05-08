@@ -34,6 +34,15 @@ class Staff extends Model implements StaplerableInterface
       })->orWhere('SupervisorID', $staff_id)->get();
       return $projects;
     }
+    public function getProjectsExtendedAttribute()
+    {
+      // Same as getProjectsAttribute(), but Including projects I've CREATED (Even if I'm not involved).
+      $staff_id = $this->StaffRef;
+      $projects = Project::whereHas('tasks', function($query) use($staff_id){
+        $query->where('StaffID', $staff_id);
+      })->orWhere('SupervisorID', $staff_id)->orWhere('CreatedBy', $this->UserID)->get();
+      return $projects;
+    }
 
     public function getFullNameAttribute()
     {

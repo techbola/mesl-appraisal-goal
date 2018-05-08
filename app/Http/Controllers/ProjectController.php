@@ -16,6 +16,9 @@ use Auth;
 use Event;
 use App\Events\NewTaskEvent;
 
+use Notification;
+use App\Notifications\NewTask;
+
 class ProjectController extends Controller
 {
     public function index()
@@ -31,7 +34,7 @@ class ProjectController extends Controller
         if ($user->hasRole('admin')) {
           $projects = Project::where('CompanyID', $user->staff->CompanyID)->get();
         } else {
-          $projects = $user->staff->projects;
+          $projects = $user->staff->projects_extended;
         }
         $supervisors = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $assignees = Staff::where('CompanyID', $user->staff->CompanyID)->get();
@@ -63,6 +66,7 @@ class ProjectController extends Controller
           $project->CompanyID = auth()->user()->staff->CompanyID;
         }
         $project->CustomerID = $request->CustomerID;
+        $project->CreatedBy = $user->id;
         $project->save();
 
         // $project->assignees()->attach($request->Assignees);
@@ -120,6 +124,7 @@ class ProjectController extends Controller
           $project->CompanyID = auth()->user()->staff->CompanyID;
         }
         $project->CustomerID = $request->CustomerID;
+        $project->UpdatedBy = $user->id;
         $project->save();
 
         // $project->assignees()->attach($request->Assignees);
@@ -154,7 +159,17 @@ class ProjectController extends Controller
         $task->CreatedBy = $user->id;
 
         $task->save();
-        Event::fire(new NewTaskEvent($task->toArray()));
+
+        if (!empty($request->StaffID)) {
+          $staff_user = Staff::find($request->StaffID)->user;
+
+          // I initiated the action so dont send notifications to me.
+          if ($staff_user->id != $user->id) {
+            Notification::send($staff_user, new NewTask($task));
+            Event::fire(new NewTaskEvent($task->toArray()));
+          }
+        }
+
 
         // $project->assignees()->attach($request->Assignees);
         DB::commit();

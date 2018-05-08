@@ -200,13 +200,13 @@
               Trade Date: <span class="text-success m-l-5">{{ App\Config::find('1')->TradeDate }}</span>
             </div> --}}
 
-
+            {{-- Notification Icon --}}
             <div class="fa fa-bell m-r-15 m-t-15 f18"></div>
+
+            {{-- Message Icon --}}
             <a href="{{ route('inbox') }}" style="position:relative">
               <div class="fa fa-envelope m-r-15 m-t-15 f20"></div>
-              @if (count(auth()->user()->unread_inbox) > 0)
-                <span class="badge badge-danger badge-notif">{{ count(auth()->user()->unread_inbox) }}</span>
-              @endif
+                <span id="msg" class="badge badge-danger badge-notif" {{ (count(auth()->user()->unread_inbox) > 0)? '' : 'style=display:none' }}>{{ count(auth()->user()->unread_inbox) }}</span>
             </a>
 
             <div class="dropdown pull-right">
@@ -454,32 +454,55 @@
       });
 
       var channel = pusher.subscribe('officemate');
+      var audio = new Audio('/assets/sound/chat.mp3'); //Sound
+
       channel.bind('App\\Events\\NewTaskEvent', function(data) {
+        if (data['StaffID'] == '{{ auth()->user()->staff->StaffRef }}') {
+          console.log(data);
+
+          Push.create("New Task on OfficeMate", {
+              body: data['Task'],
+              icon: '{{ asset('images/site/stopwatch.png') }}',
+              requireInteraction: true,
+          });
+
+          // $('.notif-list').prepend(`
+          //   <li>
+          //     <a href="${ data['link'] }">${ data['body'] }</a>
+          //   </li>
+          //   `);
+
+          // Increment count by 1
+          // var notif = Number($('#notif').text());
+          // $('#notif').text(notif + 1);
+          audio.play();
+        }
+
+      });
+
+      channel.bind('App\\Events\\NewMessageEvent', function(data) {
         console.log(data);
+        console.log($.inArray('{{ auth()->user()->id }}', data['recipients']));
+        if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
+          Push.create("New Message From "+data['from'], {
+              body: data['subject'],
+              icon: '{{ asset('images/site/envelope.png') }}',
+              // requireInteraction: true,
+              timeout: 60000,
+          });
+          // $('.notif-list').prepend(`
+          //   <li>
+          //     <a href="${ data['link'] }">${ data['body'] }</a>
+          //   </li>
+          //   `);
 
-        Push.create("Hello world!", {
-            body: "How's it hangin'?",
-            icon: '',
-            timeout: 50000,
-            // onClick: function () {
-            //     window.focus();
-            //     this.close();
-            // }
-        });
+          // Increment count by 1
+          var msg = Number($('#msg').text());
+          $('#msg').show().text(msg + 1);
+          audio.play();
+        }
 
-        // $('.notif-list').prepend(`
-        //   <li>
-        //     <a href="${ data['link'] }">${ data['body'] }</a>
-        //   </li>
-        //   `);
 
-        // Increment count by 1
-        // var notif = Number($('#notif').text());
-        // $('#notif').text(notif + 1);
-
-        //Sound
-        var audio = new Audio('/assets/sound/chat.mp3');
-        audio.play();
       });
     </script>
 
