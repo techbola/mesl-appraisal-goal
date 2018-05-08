@@ -72,10 +72,19 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('edit_step/{id}', 'TaskController@edit_step')->name('edit_step');
     Route::delete('delete_step/{id}', 'TaskController@delete_step')->name('delete_step');
 
+    // FIxed Assets
     Route::get('fixed-assets', 'AssetController@index')->name('assets');
     Route::post('save-asset', 'AssetController@save_asset')->name('save_asset');
     Route::patch('update-asset/{id}', 'AssetController@update_asset')->name('update_asset');
     Route::delete('delete-asset/{id}', 'AssetController@delete_asset')->name('delete_asset');
+
+    // Amortisation
+    Route::get('amortisation', 'AmortisationController@index')->name('amortisation-index');
+    Route::get('amortisation-items', 'AmortisationController@items')->name('amortisation-items');
+    Route::post('save-amort', 'AmortisationController@save_amort')->name('save_amort');
+    Route::get('edit-amort/{id}', 'AmortisationController@edit_amort')->name('edit_amort');
+    Route::patch('update-amort/{id}', 'AmortisationController@update_amort')->name('update_amort');
+    Route::delete('delete-amort/{id}', 'AmortisationController@delete_amort')->name('delete_amort');
 
     Route::resource('clients', 'ClientController');
 
