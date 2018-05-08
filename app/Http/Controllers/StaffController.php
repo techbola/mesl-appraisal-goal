@@ -23,6 +23,7 @@ use App\Title;
 use App\Unit;
 use App\User;
 use App\StaffPending;
+use App\PayrollAdjustmentGroup;
 use Illuminate\Http\Request;
 
 use DB;
@@ -44,119 +45,118 @@ class StaffController extends Controller
         // return view('staff.index', compact('staffs'));
         $user = auth()->user();
         if ($user->is_superadmin) {
-          $staffs = Staff::all();
-          $companies = Company::all();
-          $roles = Role::all();
+            $staffs    = Staff::all();
+            $companies = Company::all();
+            $roles     = Role::all();
         } else {
-          $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
-          $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();
+            $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+            $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
         }
         return view('staff.index_', compact('staffs', 'companies', 'roles'));
     }
 
     public function post_invite(Request $request)
     {
-      $this->validate($request, [
-          'first_name'     => 'required',
-          'last_name'     => 'required',
-          'email'     => 'required|unique:users',
-          'role'     => 'required',
-      ]);
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name'  => 'required',
+            'email'      => 'required|unique:users',
+            'role'       => 'required',
+        ]);
 
+        try {
+            DB::beginTransaction();
 
-      try {
-        DB::beginTransaction();
+            $user                   = new User;
+            $user->first_name       = $request->first_name;
+            $user->last_name        = $request->last_name;
+            $user->email            = $request->email;
+            $user->code             = uniqid();
+            $user->password         = bcrypt(substr($user->code, -5));
+            $user->changed_password = '0';
+            $user->save();
 
-        $user = new User;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->code = uniqid();
-        $user->password = bcrypt( substr($user->code, -5) );
-        $user->changed_password = '0';
-        $user->save();
+            $staff         = new Staff;
+            $staff->UserID = $user->id;
+            if (auth()->user()->is_superadmin) {
+                $staff->CompanyID = $request->CompanyID;
+            } else {
+                $staff->CompanyID = auth()->user()->staff->company->CompanyRef;
+            }
+            // $staff->MobilePhone = $request->phone;
+            $staff->save();
 
-        $staff = new Staff;
-        $staff->UserID = $user->id;
-        if (auth()->user()->is_superadmin) {
-          $staff->CompanyID = $request->CompanyID;
-        } else {
-          $staff->CompanyID = auth()->user()->staff->company->CompanyRef;
+            // if (!empty($request->role)) {
+            //   $role = Role::where('id', $request->role)->first();
+            // } else {
+            //   $role = Role::where('name', 'staff')->first();
+            // }
+
+            // Role is now compulsory
+            $role = Role::where('id', $request->role)->first();
+            $user->roles()->attach($role->id);
+
+            DB::commit();
+            Notification::send($user, new StaffInvitation());
+
+            return redirect()->back()->with('success', $user->FullName . ' was invited successfully. Ask them to check their mail.');
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'This invitation could not be sent at this time.');
         }
-        // $staff->MobilePhone = $request->phone;
-        $staff->save();
-
-        // if (!empty($request->role)) {
-        //   $role = Role::where('id', $request->role)->first();
-        // } else {
-        //   $role = Role::where('name', 'staff')->first();
-        // }
-
-        // Role is now compulsory
-        $role = Role::where('id', $request->role)->first();
-        $user->roles()->attach($role->id);
-
-        DB::commit();
-        Notification::send($user, new StaffInvitation());
-
-        return redirect()->back()->with('success', $user->FullName.' was invited successfully. Ask them to check their mail.');
-      } catch (Exception $e) {
-        DB::rollback();
-        return redirect()->back()->with('error', 'This invitation could not be sent at this time.');
-      }
 
     }
 
     public function pending_biodata_list()
     {
-      $user = auth()->user();
-      if ($user->is_superadmin) {
-        $pendings = StaffPending::where('ApprovedBy', NULL)->get();
-      } else {
-        $pendings = StaffPending::where('CompanyID', $user->staff->CompanyID)->where('ApprovedBy', NULL)->get();
-      }
+        $user = auth()->user();
+        if ($user->is_superadmin) {
+            $pendings = StaffPending::where('ApprovedBy', null)->get();
+        } else {
+            $pendings = StaffPending::where('CompanyID', $user->staff->CompanyID)->where('ApprovedBy', null)->get();
+        }
 
-      return view('staff.pending_biodata_list', compact('user', 'pendings'));
+        return view('staff.pending_biodata_list', compact('user', 'pendings'));
     }
 
     public function pending_biodata($id)
     {
-      $user = auth()->user();
-      $pending = StaffPending::find($id);
-      $staff = Staff::find($pending->user->staff->StaffRef);
-      $pending2 = StaffPending::where('id', $id)->get(['MobilePhone', 'EmployeeNumber']);
+        $user     = auth()->user();
+        $pending  = StaffPending::find($id);
+        $staff    = Staff::find($pending->user->staff->StaffRef);
+        $pending2 = StaffPending::where('id', $id)->get(['MobilePhone', 'EmployeeNumber']);
 
-      return view('staff.pending_biodata', compact('user', 'pending', 'staff', 'pending2'));
+        return view('staff.pending_biodata', compact('user', 'pending', 'staff', 'pending2'));
     }
 
     public function approve_biodata($id)
     {
-      try {
-        DB::beginTransaction();
+        try {
+            DB::beginTransaction();
 
-        $user = Auth::user();
+            $user = Auth::user();
 
-        $pending = StaffPending::where('id', $id)->first();
-        $staff_data = $pending->replicate(['StaffRef', 'ApprovedBy', 'Age', 'deleted_at']);
-        // Any extra columns?
-        $pending->ApprovedBy = $user->id;
-        $pending->save();
-        // Fetch only the attributes
-        $staff_arr = $staff_data->getattributes();
-        // Copy & save to FCYTrade
-        // $staff = Staff::create($staff_arr);
-        $staff = Staff::find($pending->StaffRef);
-        // dd($staff_arr);
-        $staff->update($staff_arr);
-        // Soft delete from Pending
-        $pending->delete();
+            $pending    = StaffPending::where('id', $id)->first();
+            $staff_data = $pending->replicate(['StaffRef', 'ApprovedBy', 'Age', 'deleted_at']);
+            // Any extra columns?
+            $pending->ApprovedBy = $user->id;
+            $pending->save();
+            // Fetch only the attributes
+            $staff_arr = $staff_data->getattributes();
+            // Copy & save to FCYTrade
+            // $staff = Staff::create($staff_arr);
+            $staff = Staff::find($pending->StaffRef);
+            // dd($staff_arr);
+            $staff->update($staff_arr);
+            // Soft delete from Pending
+            $pending->delete();
 
-        DB::commit();
-        return redirect()->route('pending_biodata_list')->with('success', 'Profile changes approved successfully');
-      } catch (Exception $e) {
-        DB::rollback();
-        return redirect()->route('pending_biodata_list')->with('error', 'There was a problem approving the changes.');
-      }
+            DB::commit();
+            return redirect()->route('pending_biodata_list')->with('success', 'Profile changes approved successfully');
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->route('pending_biodata_list')->with('error', 'There was a problem approving the changes.');
+        }
 
     }
 
@@ -164,7 +164,7 @@ class StaffController extends Controller
     {
         $user = Auth::user();
 
-        $pending = StaffPending::where('id', $id)->first();
+        $pending             = StaffPending::where('id', $id)->first();
         $pending->ApprovedBy = '0';
         $pending->save();
 
@@ -193,7 +193,6 @@ class StaffController extends Controller
         return view('staff.showfulldetails', compact('details'));
     }
 
-
     public function create()
     {
         $titles      = Title::all();
@@ -208,7 +207,6 @@ class StaffController extends Controller
 
         return view('staff.create', compact('titles', 'locations', 'positions', 'roles', 'sexs', 'units', 'staff', 'departments', 'status'));
     }
-
 
     public function store(Request $request)
     {
@@ -242,7 +240,6 @@ class StaffController extends Controller
         }
     }
 
-
     public function show($id)
     {
         $detail = \DB::table('tblStaff')
@@ -262,24 +259,24 @@ class StaffController extends Controller
             ->where('StaffRef', $id)
             ->first();
 
-          $staff = Staff::find($id);
+        $staff = Staff::find($id);
         return view('staff.show', compact('detail', 'staff'));
     }
-
 
     public function edit_biodata($id)
     {
         $user = auth()->user();
 
-        $staffs    = Staff::all();
-        $staff     = Staff::where('StaffRef', $id)->first();
-        $religions = Religion::all();
-        $status    = MaritalStatus::all();
-        $states    = State::all();
-        $countries = Country::all();
-        $hmos      = HMO::all();
-        $hmoplans  = HMOPlan::all();
-        return view('staff.edit_biodata', compact('religions', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user'));
+        $staffs         = Staff::all();
+        $staff          = Staff::where('StaffRef', $id)->first();
+        $religions      = Religion::all();
+        $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');
+        $status         = MaritalStatus::all();
+        $states         = State::all();
+        $countries      = Country::all();
+        $hmos           = HMO::all();
+        $hmoplans       = HMOPlan::all();
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user'));
     }
 
     public function editFinanceDetails($id)
@@ -318,7 +315,6 @@ class StaffController extends Controller
         $staffs      = Staff::all();
         return view('staff.form', compact('titles', 'locations', 'positions', 'roles', 'sexs', 'units', 'staff', 'staffs', 'departments', 'status'));
     }
-
 
     public function updateFinanceDetails(Request $request, $id)
     {
@@ -362,65 +358,68 @@ class StaffController extends Controller
     public function updatebiodata(Request $request, $id)
     {
 // dd($request->all());
-      $this->validate($request, [
-          // 'TownCity'           => 'required',
-          'MobilePhone'        => 'required',
-          'AddressLine1'       => 'required',
-          'StateID'            => 'required',
-          'CountryID'            => 'required',
-          // 'NextofKIN'          => 'required',
-          // 'NextofKIN_Phone'    => 'required',
-          // 'PhotographLocation' => 'required',
-      ]);
+        $this->validate($request, [
+            // 'TownCity'           => 'required',
+            'MobilePhone'  => 'required',
+            'AddressLine1' => 'required',
+            'StateID'      => 'required',
+            'CountryID'    => 'required',
+            // 'NextofKIN'          => 'required',
+            // 'NextofKIN_Phone'    => 'required',
+            // 'PhotographLocation' => 'required',
+        ]);
 
-      $user = Auth::user();
+        $user = Auth::user();
 
-      try {
-        DB::beginTransaction();
-        // if ($user->staff && $user->staff->StaffRef == $id && !$user->hasRole('admin')) {
-        if (!$user->hasRole('admin')) { // Non Admins
-          $staff = new StaffPending;
-          $staff->UserID = $user->id;
-          $staff->StaffRef = $user->staff->StaffRef;
-          $staff->CompanyID = $user->staff->CompanyID;
-        } else {
-          $staff = Staff::where('StaffRef', $id)->first();
-          $user_staff = User::find($staff->UserID);
+        try {
+            DB::beginTransaction();
+            // if ($user->staff && $user->staff->StaffRef == $id && !$user->hasRole('admin')) {
+            if (!$user->hasRole('admin')) {
+                // Non Admins
+                $staff            = new StaffPending;
+                $staff->UserID    = $user->id;
+                $staff->StaffRef  = $user->staff->StaffRef;
+                $staff->CompanyID = $user->staff->CompanyID;
+            } else {
+                $staff      = Staff::where('StaffRef', $id)->first();
+                $user_staff = User::find($staff->UserID);
 
-          $user_staff->first_name = $request->FirstName;
-          $user_staff->middle_name = $request->MiddleName;
-          $user_staff->last_name = $request->LastName;
+                $user_staff->first_name  = $request->FirstName;
+                $user_staff->middle_name = $request->MiddleName;
+                $user_staff->last_name   = $request->LastName;
 
-          // START PHOTO
-          if($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
-            $file = $request->file('avatar');
-            $filename = strtolower( $user_staff->first_name.'_'.$user_staff->last_name.'_'.$user_staff->id.'.'.$request->avatar->extension() );
+                // START PHOTO
+                if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                    $file     = $request->file('avatar');
+                    $filename = strtolower($user_staff->first_name . '_' . $user_staff->last_name . '_' . $user_staff->id . '.' . $request->avatar->extension());
 
-            // Create the Avatars folder if doesn't exist. ('Intervention' doesnt create folders automatically)
-            // The first condition is for the default Laravel folder structure. The second condition will be used if the public folder becomes root (in live servers)
-            if( !File::exists(public_path('images/avatars')) && File::exists(public_path('images')) )
-              File::makeDirectory(public_path('images/avatars'));
-            elseif( !File::exists('images/avatars') && !File::exists(public_path('images')) )
-              File::makeDirectory('images/avatars');
-            Image::make($file)->resize(300, null, function($constraint) { $constraint->aspectRatio(); })->save('images/avatars/'.$filename);
-            // Name to be saved to DB
-            $user_staff->avatar = $filename;
-          }
-          $user_staff->save();
+                    // Create the Avatars folder if doesn't exist. ('Intervention' doesnt create folders automatically)
+                    // The first condition is for the default Laravel folder structure. The second condition will be used if the public folder becomes root (in live servers)
+                    if (!File::exists(public_path('images/avatars')) && File::exists(public_path('images'))) {
+                        File::makeDirectory(public_path('images/avatars'));
+                    } elseif (!File::exists('images/avatars') && !File::exists(public_path('images'))) {
+                        File::makeDirectory('images/avatars');
+                    }
 
-          // END PHOTO
+                    Image::make($file)->resize(300, null, function ($constraint) {$constraint->aspectRatio();})->save('images/avatars/' . $filename);
+                    // Name to be saved to DB
+                    $user_staff->avatar = $filename;
+                }
+                $user_staff->save();
+
+                // END PHOTO
+            }
+
+            $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar']));
+            $staff->save();
+
+            DB::commit();
+            return redirect()->back()->with('success', $staff->FullName . '\'s biodata was updated successfully');
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return back()->withInput()->with('error', 'Failed to update please try again.');
         }
-
-        $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar']));
-        $staff->save();
-
-        DB::commit();
-        return redirect()->back()->with('success', $staff->FullName.'\'s biodata was updated successfully');
-
-      } catch (Exception $e) {
-        DB::rollback();
-        return back()->withInput()->with('error', 'Failed to update please try again.');
-      }
 
         // if ($staff->update($request->except(['_token', '_method']))) {
         //     return redirect()->route('staff.showfulldetails', $id)->with('success', $staff->FullName.'\'s biodata was updated successfully');

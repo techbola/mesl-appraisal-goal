@@ -214,6 +214,15 @@
         {{ Form::textarea('Benficiary_Address', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Benficiary Address']) }}
       </div>
     </div>
+    @if($user->hasRole('admin'))
+    <div class="card-section p-l-5">Payroll Details</div>
+    <div class="col-sm-12">
+      <div class="form-group">
+        {{ Form::label('PayrollGroupID','Payroll Group') }}
+        {{ Form::select('PayrollGroupID', [ 0 =>  'Select a payroll group'] + $payroll_groups->pluck('GroupDescription', 'GroupRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
+      </div>
+    </div>
+    @endif
 
   </div>
 

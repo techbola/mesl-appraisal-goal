@@ -18,18 +18,18 @@
 </script>
 @if(session('success'))
 <script> 
-	showNotification('bar', "{{ session('success')}} ", 'top', 5000, 'success');
+	showNotification('bar', "{!! session('success')!!} ", 'top', 5000, 'success');
 </script>
 @elseif(session('error'))
 <script> 
-      showNotification('bar', "{{ session('error')}} ", 'top', 5000, 'danger');
+      showNotification('bar', "{!! session('error')!!} ", 'top', 5000, 'danger');
 </script>
 @elseif(session('info'))
 <script> 
-      showNotification('bar', "{{ session('info')}} ", 'top', 5000, 'info');
+      showNotification('bar', "{!! session('info')!!} ", 'top', 5000, 'info');
 </script>
 @elseif(session('warning'))
 <script> 
-      showNotification('bar', "{{ session('warning')}} ", 'top', 5000, 'warning');
+      showNotification('bar', "{!! session('warning')!!} ", 'top', 5000, 'warning');
 </script>
 @endif

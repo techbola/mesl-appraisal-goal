@@ -489,6 +489,12 @@
       // $('input[required]').parent().parent().find('label').addClass('req');
       $('input[required]').closest(".form-group").find('label').addClass('req');
       $('select[required]').closest(".form-group").find('label').addClass('req');
+
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
     </script>
 
     <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css') }}" rel="stylesheet" type="text/css">

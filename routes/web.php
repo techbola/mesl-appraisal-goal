@@ -187,7 +187,18 @@ Route::middleware(['auth'])->group(function () {
 
     // -- payroll
 
-    Route::get('payroll/details', 'PayrollController@details');
+    Route::get('payroll/details', 'PayrollController@details')->name('payroll.details');
+
+    // apply updates to employees
+    Route::post('/payroll/apply-updates', 'PayrollController@apply_updates');
+
+    // set payroll periods
+    Route::post('payroll/period', 'PayrollRateController@store');
+
+    Route::get('payroll/group/new', 'PayrollController@new_group')->name('payroll.group.new');
+
+    // Payroll Ad.justment
+    Route::post('payroll/group/store', 'PayrollAdjustmentController@store');
 
     // -- end payroll
 });
