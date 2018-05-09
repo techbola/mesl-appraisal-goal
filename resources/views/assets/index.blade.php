@@ -13,13 +13,13 @@
 @endsection
 
 @section('content')
-  <div class="card-box">
+  <div class="card-box" id="print-content">
     <div class="card-title pull-left">Company Assets</div>
 		<div class="pull-right">
 				<input type="text" class="search-table form-control pull-right" placeholder="Search">
 		</div>
 		<div class="clearfix"></div>
-    <table class="table table-striped table-bordered tableWithSearch">
+    <table class="table table-striped table-bordered tableWithSearch tableWithExportOptions">
       <thead>
         <th width="20%">Description</th>
 				<th>Category</th>
@@ -110,4 +110,8 @@
     $('.toggle_loc').html('<i class="fa fa-plus-circle text-success"></i>').attr('onclick', 'new_loc()');
   }
 	</script>
+
+	<script>
+    $('.exportOptions').append('<span class="btn btn-warning btn-cons m-l-10" onclick="window.print()"><i class="fa fa-print m-r-5"></i> Print</span>');
+  </script>
 @endpush
