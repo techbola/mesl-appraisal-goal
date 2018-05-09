@@ -50,4 +50,9 @@ class BulletinController extends Controller
     return redirect()->route('bulletin_board')->with('success', 'New bulletin was saved successfully.');
   }
 
+  public function view_bulletin($id)
+  {
+    return $this->index();
+  }
+
 }
