@@ -21,4 +21,9 @@ class Asset extends Model
     return $this->belongsTo('App\Location', 'LocationID');
   }
 
+  public function allotee()
+  {
+    return $this->belongsTo('App\Staff', 'AlloteeID');
+  }
+
 }
