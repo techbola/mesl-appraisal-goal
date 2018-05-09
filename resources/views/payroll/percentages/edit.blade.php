@@ -46,7 +46,11 @@
             {{-- <p class="p-b-10">We need payment information inorder to process your order</p> --}}
           </div>
           <div class="modal-body">	
-				
+				{{ Form::open(['action' => 'PayrollController@setup_percentages', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+				@include('payroll.percentages.form')
+
+				<button class="btn btn-complete" type="submit">Add Record</button>
+				{{ Form::close() }}
           </div>
         </div>
       </div>
