@@ -155,7 +155,6 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
 
-
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
     Route::get('cash_entries/receipts', 'CashEntryController@Receipts')->name('Receipts');
@@ -223,17 +222,18 @@ Route::middleware(['auth'])->group(function () {
     // -- payroll
 
     Route::get('payroll/details', 'PayrollController@details')->name('payroll.details');
-
     // apply updates to employees
     Route::post('/payroll/apply-updates', 'PayrollController@apply_updates');
-
     // set payroll periods
     Route::post('payroll/period', 'PayrollRateController@store');
-
     Route::get('payroll/group/new', 'PayrollController@new_group')->name('payroll.group.new');
-
     // Payroll Ad.justment
     Route::post('payroll/group/store', 'PayrollAdjustmentController@store');
+    // Payroll percentages
+    Route::get('payroll/setup-percentages', 'PayrollController@view_percentages')->name('payroll.setup_percentage');
+    Route::get('payroll/percentage/{id}', 'PayrollController@edit_percentage');
+    Route::patch('payroll/percentage/{id}', 'PayrollController@update_percentage');
+    Route::post('payroll/setup-percentages', 'PayrollController@setup_percentages');
 
     // -- end payroll
 });

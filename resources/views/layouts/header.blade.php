@@ -418,6 +418,10 @@
     <script src="{{ asset('assets/js/dataTables.js') }}" ></script>
     <script src="{{ asset('assets/js/scripts.js') }}" ></script>
 
+    <!-- smart-input -->
+    <script src="{{ asset('js/autonumeric/autoNumeric.min.js') }}"></script>
+    <!-- /smart input -->
+
     {{-- Filestyle --}}
     <script src="{{ asset('assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}"></script>
     <script>
@@ -582,6 +586,20 @@
         });
 
       </script>
+
+      <!-- initialize smart input -->
+      <script>
+        AutoNumeric.multiple('.smartinput', {
+            currencySymbol : '₦ ',
+            decimalCharacter : '.',
+            unformatOnSubmit: true,
+            modifyValueOnWheel: false,
+            minimumValue: 0,
+            decimalPlaces: 2,
+            decimalPlacesRawValue: 0,
+        });
+      </script>
+
 
   </body>
 </html>

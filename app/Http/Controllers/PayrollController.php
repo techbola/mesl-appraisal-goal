@@ -29,12 +29,56 @@ class PayrollController extends Controller
     {
         try {
             $procedures = \DB::statement("
-				EXEC procInsertNewEmployee2Payroll
-				EXEC procUpdateAllIndividualColumns
-    		");
+                EXEC procInsertNewEmployee2Payroll
+                EXEC procUpdateAllIndividualColumns
+            ");
             return response()->json('Updates applied successfully', 200);
         } catch (Exception $e) {
             return back()->withInput()->with('error', 'Failed to apply updates');
+        }
+    }
+
+    public function view_percentages()
+    {
+        $pp = PayrollLevel::select('*')->get();
+        return view('payroll.percentages.index', compact('pp'));
+    }
+
+    public function edit_percentage($id)
+    {
+        $pp = PayrollLevel::find($id);
+        return view('payroll.percentages.edit', compact('pp'));
+    }
+
+    public function setup_percentages(Request $request)
+    {
+        $pp        = new PayrollLevel($request->all());
+        $validator = \Validator::make($request->all(), [
+            'Scenario' => 'required',
+        ], [
+
+        ]);
+        if (!$validator->fails()) {
+            $pp->save();
+            return redirect()->route('payroll.setup_percentage')->with('success', 'Payroll percentage were set successfully');
+        } else {
+            return back()->withInput()->withErrors($validator)->with('error', 'Payroll percentage failed to save');
+        }
+    }
+
+    public function update_percentage(Request $request, $id)
+    {
+        $pp        = PayrollLevel::find($id);
+        $validator = \Validator::make($request->all(), [
+            'Scenario' => 'required',
+        ], [
+
+        ]);
+        if (!$validator->fails()) {
+            $pp->update($request->all());
+            return redirect()->route('payroll.setup_percentage')->with('success', 'Payroll percentage was updated successfully');
+        } else {
+            return back()->withInput()->withErrors($validator)->with('error', 'Payroll percentage failed to update');
         }
     }
 }

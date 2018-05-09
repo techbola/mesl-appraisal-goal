@@ -29,80 +29,80 @@
 
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('BaseAmount','Base Amount') }}
-				            {{ Form::number('BaseAmount', null, ['class'=> "form-control",'placeholder' => 'E.g 20000.00']) }}
+				            {{ Form::text('BaseAmount', null, ['class'=> "form-control smartinput",'placeholder' => 'E.g 20000.00']) }}
 				        </div>
 
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('GroupDescription','Group Description') }}
-				            {{ Form::number('GroupDescription', null, ['class'=> "form-control", 'placeholder' => 'E.g Cavidel Intern Employee']) }}
+				            {{ Form::text('GroupDescription', null, ['class'=> "form-control", 'placeholder' => 'E.g Cavidel Intern Employee']) }}
 				        </div>
 				</div>
 
 				<div class="row">
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('STIRate','STI Rate') }}
-				            {{ Form::number('STIRate', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('STIRate', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 					
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Basic','Basic') }}
-				            {{ Form::number('Basic', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Basic', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Housing','Housing') }}
-				            {{ Form::number('Housing', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Housing', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 				</div>
 
 				<div class="row">
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Transport','Transport') }}
-				            {{ Form::number('Transport', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Transport', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 					
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Utilities','Utilities') }}
-				            {{ Form::number('Utilities', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Utilities', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Leave','Leave') }}
-				            {{ Form::number('Leave', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Leave', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 				</div>
 
 				<div class="row">
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('MealSubsidy','Meal Subsidy') }}
-				            {{ Form::number('MealSubsidy', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('MealSubsidy', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 					
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Reimbursibles','Reimbursibles') }}
-				            {{ Form::number('Reimbursibles', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Reimbursibles', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Medicals','Medicals') }}
-				            {{ Form::number('Medicals', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Medicals', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 				</div>
 
 				<div class="row">
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Furniture','Furniture') }}
-				            {{ Form::number('Furniture', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Furniture', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 					
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Dressing','Dressing') }}
-				            {{ Form::number('Dressing', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Dressing', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('CarMaintenance','Car Maintenance') }}
-				            {{ Form::number('CarMaintenance', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('CarMaintenance', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 				</div>
 
@@ -110,34 +110,34 @@
 				<div class="row">
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('OtherAllowance','Other Allowance') }}
-				            {{ Form::number('OtherAllowance', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('OtherAllowance', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 					
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Drivers','Drivers') }}
-				            {{ Form::number('Drivers', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Drivers', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Travel','Travel') }}
-				            {{ Form::number('Travel', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Travel', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 				</div>
 
 				<div class="row">
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('ClubandProfessional','Club and Professional') }}
-				            {{ Form::number('ClubandProfessional', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('ClubandProfessional', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 					
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Bonus13thMonth','Bonus 13th Month') }}
-				            {{ Form::number('Bonus13thMonth', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Bonus13thMonth', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('ProductivityBonus','Productivity Bonus') }}
-				            {{ Form::number('ProductivityBonus', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('ProductivityBonus', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 				</div>
 
@@ -152,12 +152,12 @@
 					
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('LifeAssurance','Life Assurance') }}
-				            {{ Form::number('LifeAssurance', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('LifeAssurance', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 
 				        <div class="form-group col-sm-4">
 				            {{ Form::label('Welfare','Welfare') }}
-				            {{ Form::number('Welfare', null, ['class'=> "form-control", 'placeholder' => '0.00']) }}
+				            {{ Form::text('Welfare', null, ['class'=> "form-control smartinput", 'placeholder' => '0.00']) }}
 				        </div>
 				</div>
 
