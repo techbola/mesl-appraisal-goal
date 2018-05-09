@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Asset;
 use App\AssetCategory;
 use App\Location;
+use App\Staff;
+use App\User;
 
 class AssetController extends Controller
 {
@@ -16,8 +18,9 @@ class AssetController extends Controller
     $assets = Asset::where('CompanyID', $user->staff->CompanyID)->get();
     $categories = AssetCategory::where('CompanyID', $user->staff->CompanyID)->get();
     $locations = Location::where('CompanyID', $user->CompanyID)->get();
+    $employees = Staff::where('CompanyID', $user->CompanyID)->get();
 
-    return view('assets.index', compact('assets', 'categories', 'locations'));
+    return view('assets.index', compact('assets', 'categories', 'locations', 'employees'));
   }
 
   public function save_asset(Request $request)
@@ -50,6 +53,8 @@ class AssetController extends Controller
       $loc->save();
       $asset->LocationID = $loc->LocationRef;
     }
+
+    $asset->AlloteeID = $request->AlloteeID;
 
     $asset->save();
 
@@ -87,6 +92,7 @@ class AssetController extends Controller
       $asset->LocationID = $loc->LocationRef;
     }
 
+    $asset->AlloteeID = $request->AlloteeID;
     $asset->update();
 
     return redirect()->back()->with('success', 'The asset was updated successfully.');

@@ -19,6 +19,9 @@
       vertical-align: top;
       margin-top: 15px;
     }
+    .strike {
+      text-decoration: line-through;
+    }
   </style>
   <!-- Page-Title -->
   {{-- <div class="row m-b-15">
@@ -50,7 +53,7 @@
               {{ ( $user->staff && $user->staff->StaffRef != $task->StaffID && !$user->hasRole('admin') )? 'disabled' : '' }}
               >
 
-              <label for="step_id_{{ $step->StepRef }}" style="{{ ($step->Done)? 'text-decoration:line-through;':'' }}">{{ $step->Step }}</label>
+              <label for="step_id_{{ $step->StepRef }}" class="{{ ($step->Done)? 'strike':'' }}">{{ $step->Step }}</label>
             </div>
 
 
@@ -207,7 +210,11 @@
     var base = '{{ url('/') }}';
     $.get(base+'/toggle_step/'+id, function(data, status){
       console.log(data);
-      reload_steps();
+      // reload_steps();
+
+      $('#step_id_'+id).closest('div').find('label').toggleClass('strike');
+      $('.progress-bar').css({"width": data});
+      $('.progress-bar').text(data);
     });
 
   }

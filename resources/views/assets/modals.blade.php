@@ -91,6 +91,9 @@
             </div>
           </div>
 
+        </div>
+        <div class="row">
+
           <div class="col-md-6">
             <div class="form-group">
               {{ Form::label('SerialNo', 'Serial Number') }}
@@ -105,6 +108,15 @@
             </div>
           </div>
 
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              {{ Form::label('AlloteeID', 'Allotee') }}
+              {{ Form::select('AlloteeID', [''=>'Select Allotee'] + $employees->pluck('FullName', 'StaffRef')->toArray(),null, ['data-init-plugin'=>'select2', 'class' => 'full-width']) }}
+            </div>
+          </div>
         </div>
 
         <div class="text-right m-t-10">

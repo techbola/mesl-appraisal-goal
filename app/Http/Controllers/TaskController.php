@@ -39,7 +39,8 @@ class TaskController extends Controller
         $step->Done = '0';
       }
       $step->save();
-      return 'OK';
+      $task = ProjectTask::find($step->TaskID);
+      return $task->ProgressPercent;
     }
 
     public function edit_step(Request $request, $id)

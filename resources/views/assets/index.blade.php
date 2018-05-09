@@ -13,19 +13,24 @@
 @endsection
 
 @section('content')
-  <div class="card-box">
-    <div class="card-title">Company Assets</div>
-    <table class="table table-striped table-bordered tableWithSearch">
+  <div class="card-box" id="print-content">
+    <div class="card-title pull-left">Company Assets</div>
+		<div class="pull-right">
+				<input type="text" class="search-table form-control pull-right" placeholder="Search">
+		</div>
+		<div class="clearfix"></div>
+    <table class="table table-striped table-bordered tableWithSearch tableWithExportOptions">
       <thead>
         <th width="20%">Description</th>
 				<th>Category</th>
 				<th>Location</th>
-        <th>Quantity</th>
+        <th>Qty</th>
         <th>Unit Cost</th>
         <th>Total</th>
         <th>Purchased On</th>
 				<th>Serial No.</th>
 				<th>Asset No.</th>
+				<th>Allotee.</th>
         <th width="15%">Actions</th>
       </thead>
       <tbody>
@@ -40,6 +45,7 @@
 						<td>{{ $asset->PurchaseDate->format('jS M, Y') }}</td>
 						<td>{{ $asset->SerialNo }}</td>
 						<td>{{ $asset->AssetNo }}</td>
+						<td>{{ $asset->allotee->FullName ?? '&mdash;' }}</td>
 						<td>
 							<a href="#" data-toggle="modal" data-target="#edit_asset" class="btn btn-xs btn-inverse" @click="edit_asset({{ $asset }})">Edit</a>
 							<a href="#" class="btn btn-xs btn-danger" onclick="confirm2('Delete this asset?', '', 'delete_{{ $asset->AssetRef }}')">Delete</a>
@@ -104,4 +110,8 @@
     $('.toggle_loc').html('<i class="fa fa-plus-circle text-success"></i>').attr('onclick', 'new_loc()');
   }
 	</script>
+
+	<script>
+    $('.exportOptions').append('<span class="btn btn-warning btn-cons m-l-10" onclick="window.print()"><i class="fa fa-print m-r-5"></i> Print</span>');
+  </script>
 @endpush
