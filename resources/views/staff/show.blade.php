@@ -1,5 +1,12 @@
 @extends('layouts.master')
 
+@push('styles')
+  <link href='https://fonts.googleapis.com/css?family=Jaldi:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{ asset('assets/plugins/cd/accordion/reset.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/cd/accordion/style-white.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/loading/progress/loading-bar.css') }}">
+@endpush
+
 @section('content')
   <style media="screen">
   .bio-label {
@@ -9,6 +16,16 @@
   /* .card-box:nth-child(odd) {
 
   } */
+  .ldBar {
+    width:40px !important;
+    height: 40px !important;
+    margin:auto;
+    position: absolute;
+    right: 50px;
+    top: 0;
+    z-index: 9999;
+    font-size: 15px;
+  }
   </style>
 
     {{-- START CARD --}}
@@ -195,4 +212,134 @@
     </div>
     {{-- END CARD --}}
 
+    {{-- START PROJECTS --}}
+    <div class="row">
+      <div class="col-md-7">
+
+        <ul class="cd-accordion-menu animated">
+          @foreach ($staff->projects_extended as $project)
+            <li class="has-children">
+              <input type="checkbox" name ="project_{{ $project->ProjectRef }}" id="project_{{ $project->ProjectRef }}">
+              <label for="project_{{ $project->ProjectRef }}">
+                {{ $project->Project }}
+                {{-- Start Project Progress --}}
+                <div class="progress">
+                  <div class="progress progress-striped active progress-md m-b-0">
+                      <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ $project->progress_percent }};">
+                        {{ $project->progress_percent }}
+                      </div>
+                  </div>
+                </div>
+                {{-- End Project Progress --}}
+              </label>
+              <ul>
+                @foreach ($project->tasks as $task)
+                  <li class="has-children">
+                    <input type="checkbox" name ="task_{{ $task->TaskRef }}" id="task_{{ $task->TaskRef }}">
+                    <label for="task_{{ $task->TaskRef }}">
+                      {{ $task->Task }}
+                        {{-- Circle Progress count --}}
+                        <div class="ldBar label-center" data-value="{{ $task->progress }}" data-preset="circle" data-stroke="#39b54a" data-stroke-trail="#777" data-stroke-width="5" data-stroke-trail-width="1"></div>
+                        {{-- End Circle progress count --}}
+                    </label>
+                    <ul>
+                      {{-- <i class="fa {{ ($step->Done)? 'fa-check text-success' : 'fa-ellipsis-h text-inverse' }} m-r-5"></i> --}}
+                      @foreach ($task->steps as $step)
+                        <li><a href="#0" style="{{ ($step->Done)? 'text-decoration:line-through;color:#777' : '' }}">{{ $step->Step }}</a></li>
+                      @endforeach
+                    </ul>
+                  </li>
+                @endforeach
+              </ul>
+            </li>
+          @endforeach
+        </ul>
+
+      </div>
+    </div>
+
+    <ul class="cd-accordion-menu animated hidden">
+  		<li class="has-children">
+  			<input type="checkbox" name ="group-1" id="group-1">
+  			<label for="group-1">Group 1</label>
+
+      		<ul>
+      			<li class="has-children">
+      				<input type="checkbox" name ="sub-group-1" id="sub-group-1">
+    					<label for="sub-group-1">Sub Group 1</label>
+
+        					<ul>
+        						<li><a href="#0">Image</a></li>
+        						<li><a href="#0">Image</a></li>
+        						<li><a href="#0">Image</a></li>
+        					</ul>
+          			</li>
+          			<li class="has-children">
+          				<input type="checkbox" name ="sub-group-2" id="sub-group-2">
+    					<label for="sub-group-2">Sub Group 2</label>
+
+    					<ul>
+    						<li class="has-children">
+    							<input type="checkbox" name ="sub-group-level-3" id="sub-group-level-3">
+    							<label for="sub-group-level-3">Sub Group Level 3</label>
+
+    							<ul>
+    								<li><a href="#0">Image</a></li>
+    								<li><a href="#0">Image</a></li>
+    							</ul>
+    						</li>
+    						<li><a href="#0">Image</a></li>
+    					</ul>
+          			</li>
+          			<li><a href="#0">Image</a></li>
+    				<li><a href="#0">Image</a></li>
+          		</ul>
+    		</li>
+
+    		<li class="has-children">
+    			<input type="checkbox" name ="group-2" id="group-2">
+    			<label for="group-2">Group 2</label>
+
+    			<ul>
+    				<li><a href="#0">Image</a></li>
+    				<li><a href="#0">Image</a></li>
+    			</ul>
+    		</li>
+
+    		<li class="has-children">
+    			<input type="checkbox" name ="group-3" id="group-3">
+    			<label for="group-3">Group 3</label>
+
+    			<ul>
+    				<li><a href="#0">Image</a></li>
+    				<li><a href="#0">Image</a></li>
+    			</ul>
+    		</li>
+
+    		<li class="has-children">
+    			<input type="checkbox" name ="group-4" id="group-4">
+    			<label for="group-4">Group 4</label>
+
+    			<ul>
+    				<li class="has-children">
+    					<input type="checkbox" name ="sub-group-3" id="sub-group-3">
+    					<label for="sub-group-3">Sub Group 3</label>
+
+    					<ul>
+    						<li><a href="#0">Image</a></li>
+    						<li><a href="#0">Image</a></li>
+    					</ul>
+    				</li>
+    				<li><a href="#0">Image</a></li>
+    				<li><a href="#0">Image</a></li>
+    			</ul>
+    		</li>
+    	</ul> <!-- cd-accordion-menu -->
+    {{-- END PROJECTS --}}
+
   @endsection
+
+  @push('scripts')
+    <script src="{{ asset('assets/plugins/cd/accordion/main.js') }}" charset="utf-8"></script>
+    <script src="{{ asset('assets/plugins/loading/progress/loading-bar.min.js') }}" charset="utf-8"></script>
+  @endpush
