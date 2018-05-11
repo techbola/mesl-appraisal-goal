@@ -54,6 +54,12 @@
               >
 
               <label for="step_id_{{ $step->StepRef }}" class="{{ ($step->Done)? 'strike':'' }}">{{ $step->Step }}</label>
+
+              @if ($step->StartDate || $step->EndDate)
+                <div class="small text-muted p-l-25">
+                  {{ Carbon::parse($step->StartDate)->format('jS M, Y') }} &mdash; {{ Carbon::parse($step->EndDate)->format('jS M, Y') }}
+                </div>
+              @endif
             </div>
 
 
@@ -83,16 +89,33 @@
           @endforeach
         </ul>
 
-        <form action="{{ route('add_step', $task->TaskRef) }}" method="post">
+        <form action="{{ route('add_step', $task->TaskRef) }}" method="post" style="background:#f8f8f8; padding:10px 5px; border-radius:8px">
           {{ csrf_field() }}
           <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
               <div class="form-group">
                 <input type="text" name="Step" class="form-control" value="" placeholder="Add New Step" required>
               </div>
             </div>
-            <div class="col-md-3 p-l-0">
-              {{-- <input type="hidden" name="task_id" value="{{ $task->Task }}"> --}}
+            <div class="col-md-6">
+              <div class="form-group">
+                {{-- {{ Form::label('StartDate', 'Start Date' ) }} --}}
+                <div class="input-group date dp">
+                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                {{-- {{ Form::label('EndDate', 'End Date' ) }} --}}
+                <div class="input-group date dp">
+                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required']) }}
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 p-l-0">
               <input type="submit" class="btn btn-info btn-block" value="Add Step">
             </div>
           </div>

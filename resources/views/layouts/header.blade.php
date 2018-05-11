@@ -18,7 +18,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('pages/ico/76.png') }}">
     <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('pages/ico/120.png') }}">
     <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('pages/ico/152.png') }}">
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -556,7 +556,6 @@
 
       <script>
         $(document).ready(function() {
-          // $('.summernote').summernote();
 
           $('.summernote').summernote({
             // height: '100px',

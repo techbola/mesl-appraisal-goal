@@ -24,6 +24,8 @@ class TaskController extends Controller
       ]);
       $step = new Step;
       $step->Step = $request->Step;
+      $step->StartDate = $request->StartDate;
+      $step->EndDate = $request->EndDate;
       $step->TaskID = $id;
       $step->save();
 
