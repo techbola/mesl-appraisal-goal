@@ -248,7 +248,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('payroll/setup-percentages', 'PayrollController@setup_percentages');
 
     // payroll deductions
-    Route::get('payroll/deductions', 'PayrollController@view_deductions');
+    Route::get('payroll/deductions', 'PayrollController@view_deductions')->name('payroll.deduction');
     Route::post('/payroll/process-payroll', 'PayrollController@process_payroll');
 
     // -- end payroll
