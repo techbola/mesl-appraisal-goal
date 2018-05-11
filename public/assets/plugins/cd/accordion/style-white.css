@@ -7,25 +7,26 @@ Primary style
   box-sizing: border-box;
 }
 
-html {
+/* html {
   font-size: 62.5%;
-}
+} */
 
-body {
+/* body {
   font-size: 1.6rem;
   font-family: "Jaldi", sans-serif;
   color: #ffffff;
   background-color: #a0f6aa;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
+
 
 a {
-  color: #a0f6aa;
-  text-decoration: none;
+  /* color: #a0f6aa;
+  text-decoration: none; */
 }
 
-h1 {
+/* h1 {
   text-align: center;
   width: 90%;
   margin: 2em auto 0;
@@ -37,7 +38,7 @@ h1 {
   h1 {
     font-size: 3.2rem;
   }
-}
+} */
 
 input {
   font-family: "Jaldi", sans-serif;
@@ -101,15 +102,26 @@ Main Components
 .cd-accordion-menu label {
   cursor: pointer;
 }
-.cd-accordion-menu label::before, .cd-accordion-menu label::after {
+
+.cd-accordion-menu label::before {
   background-image: url(/assets/plugins/cd/accordion/cd-icons.svg);
   background-repeat: no-repeat;
 }
-.cd-accordion-menu ul label::before, .cd-accordion-menu ul label::after {
-  /* background-image: none; */
+
+.cd-accordion-menu label::after {
+  background: none;
+}
+
+.cd-accordion-menu ul label::before {
   background-image: url(/assets/plugins/cd/accordion/cd-icons.svg);
   background-repeat: no-repeat;
 }
+.cd-accordion-menu ul label::after {
+  background: none !important;
+  /* background-image: url(/assets/plugins/cd/accordion/cd-icons.svg); */
+  background-repeat: no-repeat;
+}
+
 .cd-accordion-menu label::before {
   /* arrow icon */
   left: 18px;
@@ -203,12 +215,12 @@ Main Components
 }
 @media only screen and (min-width: 600px) {
   .cd-accordion-menu label, .cd-accordion-menu a {
-    padding: 24px 24px 24px 82px;
-    font-size: 1.9rem;
+    padding: 18px 18px 18px 60px;
+    font-size: 19px;
   }
   .cd-accordion-menu ul label, .cd-accordion-menu ul a {
-    padding: 10px 10px 10px 40px;
-    font-size: 1.9rem;
+    padding: 13px 13px 13px 40px;
+    font-size: 18px;
   }
   .cd-accordion-menu label::before {
     left: 24px;
@@ -259,4 +271,28 @@ Main Components
 
 ul > li {
   padding: 0;
+}
+
+.cd-accordion-menu {
+  font-size: 1.6rem;
+  font-family: "Jaldi", sans-serif;
+  /* color: #ffffff; */
+  /* background-color: #a0f6aa; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 62.5%;
+}
+.cd-accordion-menu h1 {
+  text-align: center;
+  width: 90%;
+  margin: 2em auto 0;
+  font-size: 2.4rem;
+  color: #507b55;
+  font-weight: bold;
+  border-radius: 5px;
+}
+@media only screen and (min-width: 600px) {
+  .cd-accordion-menu h1 {
+    font-size: 3.2rem;
+  }
 }

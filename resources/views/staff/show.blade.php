@@ -16,6 +16,7 @@
   /* .card-box:nth-child(odd) {
 
   } */
+
   .ldBar {
     width:40px !important;
     height: 40px !important;
@@ -214,7 +215,7 @@
 
     {{-- START PROJECTS --}}
     <div class="row">
-      <div class="col-md-7">
+      <div class="col-md-12">
 
         <ul class="cd-accordion-menu animated">
           @foreach ($staff->projects_extended as $project)
@@ -223,7 +224,7 @@
               <label for="project_{{ $project->ProjectRef }}">
                 {{ $project->Project }}
                 {{-- Start Project Progress --}}
-                <div class="progress">
+                <div class="progress m-t-10">
                   <div class="progress progress-striped active progress-md m-b-0">
                       <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ $project->progress_percent }};">
                         {{ $project->progress_percent }}
