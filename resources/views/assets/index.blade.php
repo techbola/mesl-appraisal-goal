@@ -19,7 +19,7 @@
 				<input type="text" class="search-table form-control pull-right" placeholder="Search">
 		</div>
 		<div class="clearfix"></div>
-    <table class="table table-striped table-bordered tableWithSearch tableWithExportOptions">
+    <table class="table table-striped table-bordered tableWithSearch">
       <thead>
         <th width="20%">Description</th>
 				<th>Category</th>
