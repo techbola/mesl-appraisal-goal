@@ -14,11 +14,11 @@
 	<!-- START PANEL -->
 	<div class="card-box">
 		<div class="card-title pull-left">
-			Payroll Details
+			Deductions
 		</div>
 		<div class="pull-right">
 			<div class="col-xs-12">
-				<button id="apply_updates" class="btn btn-info" title="Updates Employee's payroll group">Apply update to employees</button>
+				<button id="process_payroll" class="btn btn-info" title="Updates Employee's payroll group">Process Payroll</button>
 				<input type="text" class="search-table form-control pull-right" placeholder="Search" style="width: 200px; margin-left: 10px">
 			</div>
 		</div>
@@ -26,24 +26,24 @@
 		<div class="panel-body">
 			<table class="table tableWithSearch table-striped table-bordered">
 				<thead>
-					<th>Staff Name</th>
+					{{-- <th>Staff Name</th>
 					<th>Basic</th>
 					<th>Housing</th>
 					<th>Transport</th>
 					<th>Gross Pay</th>
 					<th>Monthly Deduction</th>
-					<th>Net Pay</th>
+					<th>Net Pay</th> --}}
 				</thead>
 				<tbody>
-					@foreach($payroll_details as $pd)
+					@foreach($deductions as $deduction)
 					<tr>
-						<td>{{ $pd->staff->Fullname }}</td>
+						{{-- <td>{{ $pd->staff->Fullname }}</td>
 						<td>{{ number_format($pd->Basic, 2) }}</td>
 						<td>{{ number_format($pd->Housing, 2) }}</td>
 						<td>{{ number_format($pd->Transport, 2) }}</td>
 						<td>{{ number_format($pd->GrossPay, 2) }}</td>
 						<td>{{ number_format($pd->MonthlyDeduction, 2) }}</td>
-						<td>{{ number_format($pd->ToBeNetPay, 2) }}</td>
+						<td>{{ number_format($pd->ToBeNetPay, 2) }}</td> --}}
 					</tr>
 					@endforeach
 				</tbody>
@@ -111,15 +111,15 @@
 
 @push('scripts')
 <script>
-	$('#apply_updates').click(function(e) {
+	$('#process_payroll').click(function(e) {
 		// e.preventDefault();
 		var button_text = $(this).html();
 		var that = $(this);
 		$.ajax({
-			url: '{{ url('/payroll/apply-updates') }}',
+			url: '{{ url('/payroll/process-payroll') }}',
 			type: 'POST',
 			beforeSend: function(){
-				that.text('Applying Update...');
+				that.text('Processing Payroll...');
 			}
 		})
 		.done(function(data) {

@@ -125,8 +125,5 @@ class User extends Authenticatable
     }
 
     // relationship for staff payroll details
-    public function payroll_details()
-    {
-        return $this->hasMany(PayrollMonthly::class, 'StaffID');
-    }
+
 }

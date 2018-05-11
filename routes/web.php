@@ -93,12 +93,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('bulletin/{id}', 'BulletinController@view_bulletin')->name('view_bulletin');
 
     // post forum messages
-    Route::post('/send/forum-post',      	'ForumPostController@createPost');
-    Route::post('/send/forum-comment',   	'ForumPostController@postComment');
-    Route::get('/load/forum-post',       	'ForumPostController@loadPosts');
-    Route::get('/forum/reply/post/{id}', 	'ForumPostController@comments');
-    Route::get('/load/post/title/{id}',  	'ForumPostController@loadCard');
-    Route::get('/load/comments/{id}',    	'ForumPostController@loadComments');
+    Route::post('/send/forum-post', 'ForumPostController@createPost');
+    Route::post('/send/forum-comment', 'ForumPostController@postComment');
+    Route::get('/load/forum-post', 'ForumPostController@loadPosts');
+    Route::get('/forum/reply/post/{id}', 'ForumPostController@comments');
+    Route::get('/load/post/title/{id}', 'ForumPostController@loadCard');
+    Route::get('/load/comments/{id}', 'ForumPostController@loadComments');
 
     Route::resource('roles', 'RoleController');
     Route::get('/assignroles', 'UserRoleAssignmentController@create')->name('roleassignment');
@@ -230,18 +230,26 @@ Route::middleware(['auth'])->group(function () {
     // -- payroll
 
     Route::get('payroll/details', 'PayrollController@details')->name('payroll.details');
+
     // apply updates to employees
     Route::post('/payroll/apply-updates', 'PayrollController@apply_updates');
+
     // set payroll periods
     Route::post('payroll/period', 'PayrollRateController@store');
     Route::get('payroll/group/new', 'PayrollController@new_group')->name('payroll.group.new');
-    // Payroll Ad.justment
+
+    // Payroll Adjustment
     Route::post('payroll/group/store', 'PayrollAdjustmentController@store');
+
     // Payroll percentages
     Route::get('payroll/setup-percentages', 'PayrollController@view_percentages')->name('payroll.setup_percentage');
     Route::get('payroll/percentage/{id}', 'PayrollController@edit_percentage');
     Route::patch('payroll/percentage/{id}', 'PayrollController@update_percentage');
     Route::post('payroll/setup-percentages', 'PayrollController@setup_percentages');
+
+    // payroll deductions
+    Route::get('payroll/deductions', 'PayrollController@view_deductions');
+    Route::post('/payroll/process-payroll', 'PayrollController@process_payroll');
 
     // -- end payroll
 });

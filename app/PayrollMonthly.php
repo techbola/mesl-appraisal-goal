@@ -13,6 +13,6 @@ class PayrollMonthly extends Model
     // relate to users
     public function staff()
     {
-        return $this->belongsTo(Staff::class);
+        return $this->belongsTo(Staff::class, 'StaffID');
     }
 }

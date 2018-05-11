@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\PayrollMonthly;
 use App\PayrollLevel;
+use App\Deduction;
 use App\Month;
 
 class PayrollController extends Controller
@@ -12,8 +13,10 @@ class PayrollController extends Controller
     public function details()
     {
         // returns pen-ultimate/current payroll details
-        $logged_in_user  = auth()->user();
-        $payroll_details = $logged_in_user->payroll_details();
+        $logged_in_user = auth()->user();
+        // show last month's payroll details
+        $max_month       = PayrollMonthly::max('PayMonth');
+        $payroll_details = PayrollMonthly::where('PayMonth', $max_month)->get();
         // months
         $months = Month::select('Months', 'MonthsRef');
         return view('payroll.details', compact('payroll_details', 'months'));
@@ -79,6 +82,28 @@ class PayrollController extends Controller
             return redirect()->route('payroll.setup_percentage')->with('success', 'Payroll percentage was updated successfully');
         } else {
             return back()->withInput()->withErrors($validator)->with('error', 'Payroll percentage failed to update');
+        }
+    }
+
+    // deductions
+    public function view_deductions()
+    {
+        $deductions = Deduction::all();
+        return view('payroll.deductions.index', compact('deductions'));
+    }
+
+    // process payroll
+    public function process_payroll(Request $request)
+    {
+        try {
+            $procedures = \DB::statement("
+                EXEC procUpdateAllIndividualColumns
+                EXEC procUpdatePayrollMonthly
+                EXEC procProratePayrollMonthly
+            ");
+            return response()->json('Payroll updated successfully. <a href="' . route('payroll.details') . '">View Payroll</a>', 200);
+        } catch (Exception $e) {
+            return back()->withInput()->with('error', 'Failed to update payroll');
         }
     }
 }
