@@ -944,6 +944,15 @@ textarea { resize: vertical; }
   /* color: white; */
   border-bottom: none;
 }
+.nav-tabs.outside {
+  margin-bottom: 10px !important;
+}
+.nav-tabs.outside + .tab-content {
+  padding: 0 !important;
+}
+.nav-tabs.outside > li.active > a {
+  background: #fff !important;
+}
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
     /* border-color: white; */
     /* color: white; */
