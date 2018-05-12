@@ -936,3 +936,28 @@ textarea { resize: vertical; }
 .btn-info, .btn-inverse, .btn-success {
   border: none !important;
 }
+
+.nav-tabs > li.active > a {
+  /* background: #21252d; */
+  border-color: #ccc;
+  font-weight: bold;
+  /* color: white; */
+  border-bottom: none;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+    /* border-color: white; */
+    /* color: white; */
+    /* background-color: #21252d; */
+    border-bottom: none;
+    border-color: #ccc;
+}
+.nav-tabs > li > a {
+  font-weight: bold;
+  color: #777;
+  padding: 15px 35px;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+}
+.nav-tabs>li>a, .nav-tabs>li>a:hover, .nav-tabs>li>a:focus {
+  color: #777;
+}

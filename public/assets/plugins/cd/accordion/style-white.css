@@ -55,7 +55,7 @@ Main Components
   max-width: 600px;
   background: #4d5158;
   margin: 4em auto; */
-  box-shadow: 0 4px 40px #BBB;
+  /* box-shadow: 0 4px 40px #BBB; */
 }
 .cd-accordion-menu ul {
   /* by default hide all sub menus */
