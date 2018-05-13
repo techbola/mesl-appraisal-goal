@@ -37,7 +37,7 @@
 				<tbody>
 					@foreach($payroll_details as $pd)
 					<tr>
-						<td>{{ $pd->staff->Fullname }}</td>
+						<td>{{ $pd->staff->firstname. ' '. $pd->staff->lastname }}</td>
 						<td>{{ number_format($pd->Basic, 2) }}</td>
 						<td>{{ number_format($pd->Housing, 2) }}</td>
 						<td>{{ number_format($pd->Transport, 2) }}</td>
