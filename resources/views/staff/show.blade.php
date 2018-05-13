@@ -43,221 +43,247 @@
         </div>
         <div class="clearfix"></div>
 
-        <div class="m-b-10">
-          <img src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" class="avatar" height="120px" width="120px">
+
+        {{-- START TABS --}}
+        <ul class="nav nav-tabs">
+    		  <li class="active"><a data-toggle="tab" href="#biodata">BioData</a></li>
+    		  <li><a data-toggle="tab" href="#projects">Projects</a></li>
+    		</ul>
+        <div class="tab-content">
+          <div id="biodata" class="tab-pane fade in active">
+
+            {{-- Start Profile --}}
+            <div class="m-b-10">
+              <img src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" class="avatar" height="120px" width="120px">
+            </div>
+
+            <table class="table table-striped table-condensed hidden">
+              <tr>
+                <td>
+                  <span class="bio-label">First Name</span>
+                  <h5>{{ $staff->FirstName }}</h5>
+                </td>
+                <td>
+                  <span class="bio-label">First Name</span>
+                  <h5>{{ $staff->FirstName }}</h5>
+                </td>
+                <td>
+                  <span class="bio-label">First Name</span>
+                  <h5>{{ $staff->FirstName }}</h5>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="bio-label">First Name</span>
+                  <h5>{{ $staff->FirstName }}</h5>
+                </td>
+                <td>
+                  <span class="bio-label">First Name</span>
+                  <h5>{{ $staff->FirstName }}</h5>
+                </td>
+                <td>
+                  <span class="bio-label">First Name</span>
+                  <h5>{{ $staff->FirstName }}</h5>
+                </td>
+              </tr>
+            </table>
+
+            <div class="row m-b-10 m-t-20">
+              <div class="col-md-4">
+                <span class="bio-label">First Name</span>
+                <h5>{{ $staff->FirstName }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Middle Name</span>
+                <h5>{{ $staff->MiddleName }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Last Name</span>
+                <h5>{{ $staff->LastName }}</h5>
+              </div>
+            </div>
+
+            <div class="row m-b-10">
+              <div class="col-md-4">
+                <span class="bio-label">Personal Email</span>
+                <h5>{{ $staff->PersonalEmail ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Date of Birth</span>
+                <h5>{{ $staff->DateofBirth ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Home Phone</span>
+                <h5>{{ $staff->HomePhone ?? '&mdash;' }}</h5>
+              </div>
+            </div>
+
+            <div class="row m-b-10">
+              <div class="col-md-4">
+                <span class="bio-label">Mobile Phone</span>
+                <h5>{{ $staff->MobilePhone ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Work Phone</span>
+                <h5>{{ $staff->WorkPhone ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Religion</span>
+                <h5>{{ $detail->Religion ?? '&mdash;' }}</h5>
+              </div>
+            </div>
+
+            <div class="row m-b-10">
+              <div class="col-md-4">
+                <span class="bio-label">Marital Status</span>
+                <h5>{{ $detail->MaritalStatus ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">No. Of Children</span>
+                <h5>{{ $staff->NoofChildren ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Town / City</span>
+                <h5>{{ $detail->TownCity ?? '&mdash;' }}</h5>
+              </div>
+            </div>
+
+            <div class="row m-b-10">
+              <div class="col-md-4">
+                <span class="bio-label">State</span>
+                <h5>{{ $detail->State ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Country</span>
+                <h5>{{ $detail->Country ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Address 1</span>
+                <h5>{{ $detail->AddressLine1 ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Address 2</span>
+                <h5>{{ $detail->AddressLine2 ?? '&mdash;' }}</h5>
+              </div>
+            </div>
+
+            <div class="row m-b-10">
+              <div class="col-md-4">
+                <span class="bio-label">HMO</span>
+                <h5>{{ $detail->HMO ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">HMO Plan</span>
+                <h5>{{ $detail->HMOPlan ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">HMO Number</span>
+                <h5>{{ $detail->HMONumber ?? '&mdash;' }}</h5>
+              </div>
+            </div>
+
+            <div class="row m-b-10">
+              <div class="col-md-4">
+                <span class="bio-label">Next Of Kin</span>
+                <h5>{{ $detail->NextofKIN ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Next Of Kin Phone</span>
+                <h5>{{ $detail->NextofKIN_Phone ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Next Of Kin Email</span>
+                <h5>{{ $detail->NextofKIN_Email ?? '&mdash;' }}</h5>
+              </div>
+            </div>
+
+            <div class="row m-b-10">
+              <div class="col-md-4">
+                <span class="bio-label">Beneficiary</span>
+                <h5>{{ $detail->Beneficiary ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Beneficiary Phone</span>
+                <h5>{{ $detail->Beneficiary_Phone ?? '&mdash;' }}</h5>
+              </div>
+              <div class="col-md-4">
+                <span class="bio-label">Beneficiary Email</span>
+                <h5>{{ $detail->Beneficiary_Email ?? '&mdash;' }}</h5>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <span class="bio-label">Beneficiary Address</span>
+                <h5>{{ $detail->Beneficiary_Address ?? '&mdash;' }}</h5>
+              </div>
+            </div>
+            {{-- End Profile --}}
+
+          </div>
+          <div id="projects" class="tab-pane fade">
+
+
+            {{-- Start Projects --}}
+            <div class="row">
+              <div class="col-md-12">
+
+                <ul class="cd-accordion-menu animated">
+                  @foreach ($staff->projects_extended as $project)
+                    <li class="has-children">
+                      <input type="checkbox" name ="project_{{ $project->ProjectRef }}" id="project_{{ $project->ProjectRef }}">
+                      <label for="project_{{ $project->ProjectRef }}">
+                        {{ $project->Project }}
+                        {{-- Start Project Progress --}}
+                        <div class="progress m-t-10">
+                          <div class="progress progress-striped active progress-md m-b-0">
+                              <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ $project->progress_percent }};">
+                                {{ $project->progress_percent }}
+                              </div>
+                          </div>
+                        </div>
+                        {{-- End Project Progress --}}
+                      </label>
+                      <ul>
+                        @foreach ($project->tasks as $task)
+                          <li class="has-children">
+                            <input type="checkbox" name ="task_{{ $task->TaskRef }}" id="task_{{ $task->TaskRef }}">
+                            <label for="task_{{ $task->TaskRef }}">
+                              {{ $task->Task }}
+                                {{-- Circle Progress count --}}
+                                <div class="ldBar label-center" data-value="{{ $task->progress }}" data-preset="circle" data-stroke="#39b54a" data-stroke-trail="#777" data-stroke-width="5" data-stroke-trail-width="1"></div>
+                                {{-- End Circle progress count --}}
+                            </label>
+                            <ul>
+                              {{-- <i class="fa {{ ($step->Done)? 'fa-check text-success' : 'fa-ellipsis-h text-inverse' }} m-r-5"></i> --}}
+                              @foreach ($task->steps as $step)
+                                <li><a href="#0" style="{{ ($step->Done)? 'text-decoration:line-through;color:#777' : '' }}">{{ $step->Step }}</a></li>
+                              @endforeach
+                            </ul>
+                          </li>
+                        @endforeach
+                      </ul>
+                    </li>
+                  @endforeach
+                </ul>
+
+              </div>
+            </div>
+            {{-- End Projects --}}
+
+
+          </div>
         </div>
 
-        <table class="table table-striped table-condensed hidden">
-          <tr>
-            <td>
-              <span class="bio-label">First Name</span>
-              <h5>{{ $staff->FirstName }}</h5>
-            </td>
-            <td>
-              <span class="bio-label">First Name</span>
-              <h5>{{ $staff->FirstName }}</h5>
-            </td>
-            <td>
-              <span class="bio-label">First Name</span>
-              <h5>{{ $staff->FirstName }}</h5>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span class="bio-label">First Name</span>
-              <h5>{{ $staff->FirstName }}</h5>
-            </td>
-            <td>
-              <span class="bio-label">First Name</span>
-              <h5>{{ $staff->FirstName }}</h5>
-            </td>
-            <td>
-              <span class="bio-label">First Name</span>
-              <h5>{{ $staff->FirstName }}</h5>
-            </td>
-          </tr>
-        </table>
 
-        <div class="row m-b-10 m-t-20">
-          <div class="col-md-4">
-            <span class="bio-label">First Name</span>
-            <h5>{{ $staff->FirstName }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Middle Name</span>
-            <h5>{{ $staff->MiddleName }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Last Name</span>
-            <h5>{{ $staff->LastName }}</h5>
-          </div>
-        </div>
 
-        <div class="row m-b-10">
-          <div class="col-md-4">
-            <span class="bio-label">Personal Email</span>
-            <h5>{{ $staff->PersonalEmail ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Date of Birth</span>
-            <h5>{{ $staff->DateofBirth ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Home Phone</span>
-            <h5>{{ $staff->HomePhone ?? '&mdash;' }}</h5>
-          </div>
-        </div>
 
-        <div class="row m-b-10">
-          <div class="col-md-4">
-            <span class="bio-label">Mobile Phone</span>
-            <h5>{{ $staff->MobilePhone ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Work Phone</span>
-            <h5>{{ $staff->WorkPhone ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Religion</span>
-            <h5>{{ $detail->Religion ?? '&mdash;' }}</h5>
-          </div>
-        </div>
-
-        <div class="row m-b-10">
-          <div class="col-md-4">
-            <span class="bio-label">Marital Status</span>
-            <h5>{{ $detail->MaritalStatus ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">No. Of Children</span>
-            <h5>{{ $staff->NoofChildren ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Town / City</span>
-            <h5>{{ $detail->TownCity ?? '&mdash;' }}</h5>
-          </div>
-        </div>
-
-        <div class="row m-b-10">
-          <div class="col-md-4">
-            <span class="bio-label">State</span>
-            <h5>{{ $detail->State ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Country</span>
-            <h5>{{ $detail->Country ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Address 1</span>
-            <h5>{{ $detail->AddressLine1 ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Address 2</span>
-            <h5>{{ $detail->AddressLine2 ?? '&mdash;' }}</h5>
-          </div>
-        </div>
-
-        <div class="row m-b-10">
-          <div class="col-md-4">
-            <span class="bio-label">HMO</span>
-            <h5>{{ $detail->HMO ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">HMO Plan</span>
-            <h5>{{ $detail->HMOPlan ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">HMO Number</span>
-            <h5>{{ $detail->HMONumber ?? '&mdash;' }}</h5>
-          </div>
-        </div>
-
-        <div class="row m-b-10">
-          <div class="col-md-4">
-            <span class="bio-label">Next Of Kin</span>
-            <h5>{{ $detail->NextofKIN ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Next Of Kin Phone</span>
-            <h5>{{ $detail->NextofKIN_Phone ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Next Of Kin Email</span>
-            <h5>{{ $detail->NextofKIN_Email ?? '&mdash;' }}</h5>
-          </div>
-        </div>
-
-        <div class="row m-b-10">
-          <div class="col-md-4">
-            <span class="bio-label">Beneficiary</span>
-            <h5>{{ $detail->Beneficiary ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Beneficiary Phone</span>
-            <h5>{{ $detail->Beneficiary_Phone ?? '&mdash;' }}</h5>
-          </div>
-          <div class="col-md-4">
-            <span class="bio-label">Beneficiary Email</span>
-            <h5>{{ $detail->Beneficiary_Email ?? '&mdash;' }}</h5>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
-            <span class="bio-label">Beneficiary Address</span>
-            <h5>{{ $detail->Beneficiary_Address ?? '&mdash;' }}</h5>
-          </div>
-        </div>
 
       </div>
     </div>
     {{-- END CARD --}}
 
-    {{-- START PROJECTS --}}
-    <div class="row">
-      <div class="col-md-12">
 
-        <ul class="cd-accordion-menu animated">
-          @foreach ($staff->projects_extended as $project)
-            <li class="has-children">
-              <input type="checkbox" name ="project_{{ $project->ProjectRef }}" id="project_{{ $project->ProjectRef }}">
-              <label for="project_{{ $project->ProjectRef }}">
-                {{ $project->Project }}
-                {{-- Start Project Progress --}}
-                <div class="progress m-t-10">
-                  <div class="progress progress-striped active progress-md m-b-0">
-                      <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ $project->progress_percent }};">
-                        {{ $project->progress_percent }}
-                      </div>
-                  </div>
-                </div>
-                {{-- End Project Progress --}}
-              </label>
-              <ul>
-                @foreach ($project->tasks as $task)
-                  <li class="has-children">
-                    <input type="checkbox" name ="task_{{ $task->TaskRef }}" id="task_{{ $task->TaskRef }}">
-                    <label for="task_{{ $task->TaskRef }}">
-                      {{ $task->Task }}
-                        {{-- Circle Progress count --}}
-                        <div class="ldBar label-center" data-value="{{ $task->progress }}" data-preset="circle" data-stroke="#39b54a" data-stroke-trail="#777" data-stroke-width="5" data-stroke-trail-width="1"></div>
-                        {{-- End Circle progress count --}}
-                    </label>
-                    <ul>
-                      {{-- <i class="fa {{ ($step->Done)? 'fa-check text-success' : 'fa-ellipsis-h text-inverse' }} m-r-5"></i> --}}
-                      @foreach ($task->steps as $step)
-                        <li><a href="#0" style="{{ ($step->Done)? 'text-decoration:line-through;color:#777' : '' }}">{{ $step->Step }}</a></li>
-                      @endforeach
-                    </ul>
-                  </li>
-                @endforeach
-              </ul>
-            </li>
-          @endforeach
-        </ul>
-
-      </div>
-    </div>
 
     <ul class="cd-accordion-menu animated hidden">
   		<li class="has-children">
@@ -336,7 +362,6 @@
     			</ul>
     		</li>
     	</ul> <!-- cd-accordion-menu -->
-    {{-- END PROJECTS --}}
 
   @endsection
 
