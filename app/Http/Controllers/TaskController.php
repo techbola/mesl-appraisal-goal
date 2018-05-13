@@ -52,6 +52,8 @@ class TaskController extends Controller
         'Step' => 'required',
       ]);
       $step->Step = $request->Step;
+      $step->StartDate = $request->StartDate;
+      $step->EndDate = $request->EndDate;
       $step->save();
       return redirect()->back()->with('success', 'Step was updated successfully.');
     }

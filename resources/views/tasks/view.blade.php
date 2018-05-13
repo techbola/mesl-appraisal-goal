@@ -76,12 +76,42 @@
               <form action="{{ route('edit_step', $step->StepRef) }}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('PATCH') }}
-                <div class="input-group">
+                <div class="input-group hidden">
                   <input type="text" class="form-control input-sm" name="Step" value="{{ $step->Step }}">
                   <span class="input-group-btn">
-                    <input type="submit" name="edit_step" class="btn btn-sm btn-info" value="Save">
+                    <input type="submit" class="btn btn-sm btn-info" value="Save">
                   </span>
                 </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <input type="text" name="Step" class="form-control input-sm" value="{{ $step->Step }}" placeholder="Edit Step" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="input-group date dp">
+                        {{ Form::text('StartDate', $step->StartDate, ['class' => 'form-control input-sm', 'placeholder' => 'Start Date', 'required']) }}
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      {{-- {{ Form::label('EndDate', 'End Date' ) }} --}}
+                      <div class="input-group date dp">
+                        {{ Form::text('EndDate', $step->EndDate, ['class' => 'form-control input-sm', 'placeholder' => 'End Date', 'required']) }}
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 p-l-10">
+                    <input type="submit" class="btn btn-sm btn-info" value="Save">
+                    <a class="btn btn-sm btn-inverse m-l-10" href="#edit_step{{ $step->StepRef }}" data-toggle="collapse">Cancel</a>
+                  </div>
+                </div>
+                <hr>
               </form>
             </div>
           </li>
