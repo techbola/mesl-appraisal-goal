@@ -16,7 +16,9 @@ class PayrollController extends Controller
         $logged_in_user = auth()->user();
         // show last month's payroll details
         $max_month       = PayrollMonthly::max('PayMonth');
-        $payroll_details = PayrollMonthly::where('PayMonth', $max_month)->get();
+        $payroll_details = PayrollMonthly::where('PayMonth', $max_month)
+            ->where('GroupID', '<>', null)
+            ->get();
         // months
         $months = Month::select('Months', 'MonthsRef');
         return view('payroll.details', compact('payroll_details', 'months'));
@@ -101,7 +103,7 @@ class PayrollController extends Controller
                 EXEC procUpdatePayrollMonthly
                 EXEC procProratePayrollMonthly
             ");
-            return response()->json('Payroll updated successfully. <a href="' . route('payroll.details') . '">View Payroll</a>', 200);
+            return response()->json('Payroll updated successfully. <a href="' . route('payroll.details') . '"><b>View Payroll Summary</b></a>', 200);
         } catch (Exception $e) {
             return back()->withInput()->with('error', 'Failed to update payroll');
         }
