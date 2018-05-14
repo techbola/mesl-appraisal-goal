@@ -159,6 +159,12 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('update_event/{id}', 'EventScheduleController@update_event')->name('update_event');
     Route::delete('delete_event/{id}', 'EventScheduleController@delete_event')->name('delete_event');
 
+    Route::get('todos', 'TodoController@index')->name('todos');
+    Route::get('todos-calendar', 'TodoController@todos_calendar')->name('todos_calendar');
+    Route::get('get_todos', 'TodoController@get_todos')->name('get_todos'); // AJAX
+    Route::post('save_todo', 'TodoController@save_todo')->name('save_todo');
+
+
     Route::get('gls/create2', 'GLController@create2')->name('gls.create2');
     Route::get('gls/{id}/edit2', 'GLController@edit2')->name('gls.edit2');
     Route::post('gls/create2', 'GLController@storeLoan');
