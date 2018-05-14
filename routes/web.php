@@ -42,10 +42,14 @@ Route::get('/activate/{id}/{code}', 'LoginController@activate')->name('activate'
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
-    Route::resource('menus', 'MenuController');
-    Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
-    Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
 
+    // Route::middleware(['can:superadmin'])->group(function(){
+      Route::resource('menus', 'MenuController');
+      Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
+      Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
+    // });
+
+    // Menu Assignment For Company Admins
     Route::get('company-menus', 'MenuController@company_menus')->name('company_menus');
     Route::get('assign-menu/{id}', 'MenuController@edit_company_menu')->name('edit_company_menu');
     Route::patch('assign-menu/{id}', 'MenuController@update_company_menu')->name('update_company_menu');
@@ -69,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('edit_step/{id}', 'TaskController@edit_step')->name('edit_step');
     Route::delete('delete_step/{id}', 'TaskController@delete_step')->name('delete_step');
 
-    // FIxed Assets
+    // Fixed Assets
     Route::get('fixed-assets', 'AssetController@index')->name('assets');
     Route::post('save-asset', 'AssetController@save_asset')->name('save_asset');
     Route::patch('update-asset/{id}', 'AssetController@update_asset')->name('update_asset');

@@ -34,5 +34,15 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('edit-event', function ($user, $event) {
           return ( $user->id == $event->Initiator || ($user->staff->CompanyID == $event->CompanyID && in_array('admin', $user->roles->pluck('name')->toArray())) );
         });
+
+        // Super admins
+        Gate::define('superadmin', function ($user) {
+          return $user->is_superadmin;
+        });
+
+        // Company admins
+        Gate::define('company-admin', function ($user) {
+          return $user->hasRole('admin');
+        });
     }
 }

@@ -145,6 +145,7 @@ class MenuController extends Controller
 
   public function company_menus()
   {
+
     $user = auth()->user();
     $menus = Menu::where('slug', '!=', 'system')->orWhere('slug', NULL)->get();
     $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();

@@ -5,9 +5,10 @@
 		<div class="col-md-12">
 			<!-- START PANEL -->
 			<div class="card-box">
-				<div class="card-title pull-left">
-					Menus Listing
-				</div>
+        <div class="pull-left">
+          <div class="card-title">Menus Listing</div>
+          <p class="small text-muted pull-left">Admins can access all menus by default.</p>
+        </div>
 				<div class="pull-right">
 					<div class="col-xs-12">
 						<input type="text" class="search-table form-control pull-right" placeholder="Search">
