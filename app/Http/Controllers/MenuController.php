@@ -123,7 +123,6 @@ class MenuController extends Controller
       return redirect()->back()->withInput()->with('error', 'Menu could not updated, please try again.');
     }
 
-
   }
 
 
@@ -142,4 +141,73 @@ class MenuController extends Controller
       }
 
   }
+
+
+  public function company_menus()
+  {
+    $user = auth()->user();
+    $menus = Menu::where('slug', '!=', 'system')->orWhere('slug', NULL)->get();
+    $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();
+    // $routeCollection = \Route::getRoutes();
+    // $routeArray      = array();
+    //
+    // foreach ($routeCollection as $key => $value) {
+    //     array_push($routeArray, $value->getName());
+    // }
+    // $routes = array_filter($routeArray, function ($var) {return !is_null($var);});
+    return view('menus.index_company', compact('menus', 'roles'));
+  }
+
+  public function edit_company_menu($id)
+  {
+      $user = auth()->user();
+      $menu  = Menu::find($id);
+      // $menus = Menu::all();
+      $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();
+      // $routeCollection = \Route::getRoutes();
+      // $routeArray      = array();
+      //
+      // foreach ($routeCollection as $key => $value) {
+      //     array_push($routeArray, $value->getName());
+      // }
+      // $routes = array_filter($routeArray, function ($var) {return !is_null($var);});
+      return view('menus.edit_company', compact('menu', 'menus','routes', 'roles'));
+  }
+
+
+  public function update_company_menu(Request $request, $id)
+  {
+    $user = auth()->user();
+
+
+    try {
+      DB::beginTransaction();
+        $menu = Menu::find($id);
+        // $menu->name = $request->name;
+        // $menu->route = $request->route;
+        // $menu->parent_id = $request->parent_id;
+        // $menu->description = $request->description;
+        // $menu->save();
+
+
+        // Save menu roles
+        // $menu_roles = \DB::table('menu_role')->where('menu_id', $menu->id)->pluck('role_id');
+        $roles = Role::where('CompanyID', $user->staff->CompanyID)->get();
+        $menu->roles()->detach($roles->pluck('id'));
+        $menu->roles()->attach($request->roles);
+        // $menu->roles()->attach(array_diff($request->roles, $menu_roles->toArray()));
+
+        DB::commit();
+        return redirect()->route('company_menus')->with('success', 'Menu has been updated successfully');
+
+
+    } catch (Exception $e) {
+      DB::rollback();
+      return redirect()->back()->withInput()->with('error', 'Menu could not updated, please try again.');
+    }
+
+  }
+
+
+
 }

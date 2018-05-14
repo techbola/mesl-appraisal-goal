@@ -46,6 +46,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
     Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
 
+    Route::get('company-menus', 'MenuController@company_menus')->name('company_menus');
+    Route::get('assign-menu/{id}', 'MenuController@edit_company_menu')->name('edit_company_menu');
+    Route::patch('assign-menu/{id}', 'MenuController@update_company_menu')->name('update_company_menu');
+
     Route::get('staff', 'StaffController@index')->name('staff');
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');

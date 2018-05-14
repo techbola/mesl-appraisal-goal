@@ -87,5 +87,17 @@ class Menu extends Model
       else
         return '—';
     }
+    public function getCompanyRoleNamesAttribute(){
+      $user = auth()->user();
+      // dd($user->staff->CompanyID);
+      $menu_roles = $this->roles->where('CompanyID', $user->staff->CompanyID)->pluck('name');
+      foreach ($menu_roles as $role) {
+        $role_names[] = $role;
+      }
+      if(!empty($role_names) > 0)
+        return implode($role_names, ', ');
+      else
+        return '—';
+    }
 
 }
