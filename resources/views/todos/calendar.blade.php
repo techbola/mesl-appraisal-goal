@@ -83,13 +83,25 @@
         },
         // Before it's loaded
         eventRender: function(myevent, element) {
-          var url = '{{ url('/') }}/event/'+myevent.ref;
+          // var url = '{{ url('/') }}/event/'+myevent.ref;
+					var url = '';
           element.attr('href', url).attr('data-toggle', 'tooltip').attr('title', myevent.description).css('padding', '3px');
            element.tooltip({
              title: myevent.title.toString(),
              placement: 'bottom'
            });
-         }
+         },
+
+				 selectable: true,
+
+				 dayClick: function(date, jsEvent, view) {
+
+			     // alert('Clicked on: ' + date.format());
+					 window.location.href = '{{ url('/') }}/todos/?date='+date.format();
+
+					 // $(this).css('background-color', 'red');
+
+			   }
 
       });
 

@@ -33,13 +33,13 @@
       </div> --}}
 
       <div class="card-box steps_div">
-        <h4 class="card-title"><b>ToDo Items</b>
+        <h4 class="card-title"><b>ToDo Items {!! (!empty($date))? '— <span class="text-muted">'.$date.'</span>' : '' !!}</b>
           {{-- <span class="pull-right text-lowercase f13">{{ count($task->StepsUndone) }} of {{ count($task->steps) }} remaining</span> --}}
           <button class="btn btn-info btn-rounded pull-right" data-toggle="modal" data-target="#new_todo" style="margin-top:-10px">+ Add Item</button>
         </h4>
         {{-- <ul class="my-list" id="steps_list" data-task_id="{{ $task->TaskRef }}"> --}}
         <ul class="my-list">
-          @foreach($user->todos as $todo)
+          @forelse($todos as $todo)
           <li>
             <div class="checkbox checkbox-info inline-block" style="width:80%">
 
@@ -65,15 +65,38 @@
             </div>
 
             <div class="m-l-15 p-r-0 panel-collapse collapse m-b-15" id="edit_step{{ $todo->TodoRef }}">
-              <form action="{{ route('edit_step', $todo->TodoRef) }}" method="post">
+              <form action="{{ route('update_todo', $todo->TodoRef) }}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('PATCH') }}
-                @include('todos.form')
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      {{-- {{ Form::label('Todo', 'Todo Item' ) }} --}}
+                      {{ Form::text('Todo', $todo->Todo, ['class' => 'form-control input-sm', 'placeholder' => 'Enter todo', 'required']) }}
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      {{-- {{ Form::label('DueDate', 'Due Date' ) }} --}}
+                      <div class="input-group date dp">
+                        {{ Form::text('DueDate', $todo->DueDate, ['class' => 'form-control input-sm', 'placeholder' => 'Due Date', 'required']) }}
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                  </div>
+                </div>
               </form>
             </div>
           </li>
-
-          @endforeach
+          @empty
+            <div class="text-muted text-uppercase text-center m-t-10">
+              No Todo Items
+            </div>
+          @endforelse
         </ul>
 
       </div>
@@ -118,13 +141,13 @@
 
   function toggle_step(id) {
     var base = '{{ url('/') }}';
-    $.get(base+'/toggle_step/'+id, function(data, status){
+    $.get(base+'/toggle_todo/'+id, function(data, status){
       console.log(data);
       // reload_steps();
 
       $('#step_id_'+id).closest('div').find('label').toggleClass('strike');
-      $('.progress-bar').css({"width": data});
-      $('.progress-bar').text(data);
+      // $('.progress-bar').css({"width": data});
+      // $('.progress-bar').text(data);
     });
 
   }
