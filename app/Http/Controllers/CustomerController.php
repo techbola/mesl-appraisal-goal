@@ -52,7 +52,7 @@ class CustomerController extends Controller
   public function update_contact(Request $request, $id)
   {
     $this->validate($request, [
-      'Name' => 'required',
+      'Customer' => 'required',
     ]);
 
     $contact = Customer::find($id);

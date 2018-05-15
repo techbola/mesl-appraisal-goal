@@ -12,6 +12,7 @@
 	<div class="row">
 	  <div class="col-md-8 col-md-offset-2">
 			<div class="card-box">
+				@include('errors.list')
 		    <div class="card-title">Edit Contact</div>
 				{{ Form::model($contact, ['route' => ['update_contact', $contact->CustomerRef ], 'role' => 'form']) }}
 				{{ method_field('PATCH') }}
