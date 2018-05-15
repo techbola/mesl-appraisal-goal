@@ -16,9 +16,9 @@ class PayrollAdjustmentController extends Controller
             'Scenario.required' => 'Choose a payroll level',
         ]);
         if (!$validator->fails()) {
-            dd($request->all());
+            // dd($request->all());
             $payroll_adjustment_group->save();
-            return redirect()->route('payroll.group.new')->with('success', 'Payroll group was added successfully');
+            return redirect()->route('payroll.groups.new')->with('success', 'Payroll group was added successfully');
         } else {
             return back()->withInput()->withErrors($validator)->with('error', 'Payroll group failed to save');
         }

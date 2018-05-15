@@ -26,24 +26,20 @@
 		<div class="panel-body">
 			<table class="table tableWithSearch table-striped table-bordered">
 				<thead>
-					{{-- <th>Staff Name</th>
-					<th>Basic</th>
-					<th>Housing</th>
-					<th>Transport</th>
-					<th>Gross Pay</th>
-					<th>Monthly Deduction</th>
-					<th>Net Pay</th> --}}
+					<th>Staff Name</th>
+					<th>Deduction</th>
+					<th>Month</th>
+					<th>Amount</th>
+					<th>Action</th>
 				</thead>
 				<tbody>
-					@foreach($deductions as $deduction)
+					@foreach($current_deductions as $deduction)
 					<tr>
-						{{-- <td>{{ $pd->staff->Fullname }}</td>
-						<td>{{ number_format($pd->Basic, 2) }}</td>
-						<td>{{ number_format($pd->Housing, 2) }}</td>
-						<td>{{ number_format($pd->Transport, 2) }}</td>
-						<td>{{ number_format($pd->GrossPay, 2) }}</td>
-						<td>{{ number_format($pd->MonthlyDeduction, 2) }}</td>
-						<td>{{ number_format($pd->ToBeNetPay, 2) }}</td> --}}
+						<td>{{ $deduction->staff->Fullname }}</td>
+						<td>{{ $deduction->deduction}}</td>
+						<td>{{ \Carbon\Carbon::parse(max($max_date))->format('M') }}</td>
+						<td>{{ nairazify(number_format($deduction->Amount, 2)) }}</td>
+						<td></td>
 					</tr>
 					@endforeach
 				</tbody>

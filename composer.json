@@ -22,6 +22,9 @@
         "zizaco/entrust": "5.2.x-dev"
     },
     "autoload": {
+        "files": [
+            "app/helpers.php"
+        ],
         "classmap": [
             "database"
         ],
