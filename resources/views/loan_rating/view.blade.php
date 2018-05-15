@@ -6,7 +6,7 @@
 
 @section('content')
   <div class="card-box">
-    <h3 class="card-title">Loan Credit Rating For <span class="m-l-5 text-danger">{{ $rating->customer->Customer }}</span></h3>
+    <h3 class="card-title">Credit Rating For <span class="m-l-5 text-danger">{{ $rating->customer->Customer }}</span></h3>
     {{-- <div class="pull-right">
 			<div class="col-xs-12">
 				<input type="text" class="search-table form-control pull-right" placeholder="Search">

@@ -5,7 +5,7 @@
 @endpush
 
 @section('page-title')
-  Loan Credit Rating
+  Credit Rating
 @endsection
 
 @section('content')
@@ -66,7 +66,7 @@
 
     <div class="col-md-2" style="margin-top:62px">
       <div class="text-center" style="position:fixed">
-        <span class="theme-primary text-uppercase f16">CREDIT SCORE</span>
+        <span class="theme-primary text-uppercase f16" style="font-weight:bold; color:#665;text-shadow:2px 5px 10px #ccc">CREDIT SCORE</span>
         <br>
         <div id="score" class="m-t-10" style="font-size:20px;"></div>
         <div id="percent" class="text-info m-t-25" style="font-size:45px;">0%</div>
