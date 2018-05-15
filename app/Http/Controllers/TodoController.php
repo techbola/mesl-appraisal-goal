@@ -87,7 +87,7 @@ class TodoController extends Controller
         $todos = Todo::where('UserID', $user->id)->where('DueDate', $_GET['date'])->get();
         $date = Carbon::parse($_GET['date'])->format('jS M, Y');
       }
-      return view('todos.index', compact('user', 'todos', 'date'));
+      return view('todos.index_', compact('user', 'todos', 'date'));
     }
 
 

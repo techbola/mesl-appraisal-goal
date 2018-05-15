@@ -5,7 +5,7 @@
 @endsection
 
 @section('page-title')
-  Todo List
+  To-Do List
 @endsection
 
 @section('buttons')
@@ -33,7 +33,7 @@
       </div> --}}
 
       <div class="card-box steps_div">
-        <h4 class="card-title"><b>ToDo Items {!! (!empty($date))? '— <span class="text-muted">'.$date.'</span>' : '' !!}</b>
+        <h4 class="card-title"><b>To-Do Items {!! (!empty($date))? '— <span class="text-muted">'.$date.'</span>' : '' !!}</b>
           {{-- <span class="pull-right text-lowercase f13">{{ count($task->StepsUndone) }} of {{ count($task->steps) }} remaining</span> --}}
           <button class="btn btn-info btn-rounded pull-right" data-toggle="modal" data-target="#new_todo" style="margin-top:-10px">+ Add Item</button>
         </h4>
@@ -94,7 +94,7 @@
           </li>
           @empty
             <div class="text-muted text-uppercase text-center m-t-10">
-              No Todo Items
+              No To-Do Items
             </div>
           @endforelse
         </ul>
