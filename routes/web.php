@@ -146,10 +146,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('documents', 'DocumentController@index')->name('documents');
     Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
+
+    // sends document for approval
+    Route::get('my_documents/send/{id}', 'DocumentController@send')->name('send_document');
+    Route::get('my_documents/approvallist', 'DocumentController@approval_list')->name('docs_approvallist');
+
     Route::post('document_store', 'DocumentController@store')->name('document_store');
     Route::get('download-document/{file}', function ($file) {
         return response()->download(storage_path("app/documents/" . $file));
     })->name('docs');
+
     Route::resource('doctypes', 'DocTypeController');
 
     Route::get('events', 'EventScheduleController@index')->name('events');
@@ -261,7 +267,11 @@ Route::middleware(['auth'])->group(function () {
 
     // set payroll periods
     Route::post('payroll/period', 'PayrollRateController@store');
-    Route::get('payroll/group/new', 'PayrollController@new_group')->name('payroll.group.new');
+    // Payroll groups
+    Route::get('payroll/groups', 'PayrollController@groups')->name('payroll.groups.index');
+    Route::get('payroll/groups/edit/{id}', 'PayrollController@edit_group');
+    Route::patch('payroll/groups/{id}', 'PayrollController@update_group');
+    Route::get('payroll/groups/new', 'PayrollController@new_group')->name('payroll.groups.new');
 
     // Payroll Adjustment
     Route::post('payroll/group/store', 'PayrollAdjustmentController@store');
@@ -277,6 +287,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/payroll/process-payroll', 'PayrollController@process_payroll');
 
     // -- end payroll
+
+    // -- Workflow Module
+    Route::resource('workflow', 'WorkflowController');
+    Route::get('approvallist', 'ApprovalController@checklist')->name('approvallist');
+    Route::post('approvallist/approve', 'ApprovalController@approve');
+    Route::post('approvallist/reject', 'ApprovalController@reject');
 });
 
 Route::get('/cls', function () {

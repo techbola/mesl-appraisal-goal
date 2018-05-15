@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PayrollMonthly;
+use App\PayrollAdjustmentGroup;
 use App\PayrollLevel;
+use App\SeniorityLevel;
 use App\Deduction;
 use App\Month;
 
@@ -24,10 +26,44 @@ class PayrollController extends Controller
         return view('payroll.details', compact('payroll_details', 'months'));
     }
 
+    public function groups()
+    {
+        $payroll_levels   = PayrollLevel::select('Scenario', 'ScenarioRef')->get();
+        $payroll_groups   = PayrollAdjustmentGroup::all();
+        $seniority_levels = SeniorityLevel::select('SeniorityLevel', 'GradeLevel', 'SeniorityRef');
+        return view('payroll.groups.index', compact('payroll_levels', 'payroll_groups', 'seniority_levels'));
+    }
+
     public function new_group()
     {
-        $payroll_level = PayrollLevel::select('Scenario', 'ScenarioRef')->get();
-        return view('payroll.group.new', compact('payroll_level'));
+        $payroll_levels   = PayrollLevel::select('Scenario', 'ScenarioRef')->get();
+        $seniority_levels = SeniorityLevel::select('SeniorityLevel', 'GradeLevel', 'SeniorityRef');
+        return view('payroll.groups.new', compact('payroll_levels', 'seniority_levels'));
+    }
+
+    public function edit_group($id)
+    {
+        $pag              = PayrollAdjustmentGroup::find($id);
+        $payroll_levels   = PayrollLevel::select('Scenario', 'ScenarioRef')->get();
+        $seniority_levels = SeniorityLevel::select('SeniorityLevel', 'GradeLevel', 'SeniorityRef');
+
+        return view('payroll.groups.edit', compact('pag', 'payroll_levels', 'seniority_levels'));
+    }
+
+    public function update_group(Request $request, $id)
+    {
+        $pag       = PayrollAdjustmentGroup::find($id);
+        $validator = \Validator::make($request->all(), [
+
+        ], [
+
+        ]);
+        if (!$validator->fails()) {
+            $pag->update($request->all());
+            return redirect()->route('payroll.groups.index')->with('success', 'Payroll group was updated successfully');
+        } else {
+            return back()->withInput()->withErrors($validator)->with('error', 'Payroll group failed to update');
+        }
     }
 
     public function apply_updates(Request $request)
@@ -90,8 +126,9 @@ class PayrollController extends Controller
     // deductions
     public function view_deductions()
     {
-        $deductions = Deduction::all();
-        return view('payroll.deductions.index', compact('deductions'));
+        $max_date           = Deduction::max('EffectiveDate');
+        $current_deductions = Deduction::where('EffectiveDate', $max_date);
+        return view('payroll.deductions.index', compact('current_deductions', 'max_date'));
     }
 
     // process payroll

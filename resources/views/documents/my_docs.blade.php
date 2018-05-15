@@ -34,7 +34,7 @@
   					<th width="20%">Upload Date</th>
   					<th width="20%">Uploaded By</th>
   					<th width="15%">Download</th>
-  					{{-- <th width="10%">Actions</th> --}}
+  					<th width="10%">Actions</th>
 
   				</thead>
   				<tbody>
@@ -47,12 +47,13 @@
   							{{-- <td><a href="#" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
   							{{-- <td><a href="{{ $doctype->Path}}" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
   							<td><a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i></a></td>
-  							{{-- <td class="actions">
-  								<a href="{{ route('docmgts.details', ['id'=>$doc->DocRef]) }}" class="btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="Document details">View</a>
-  								@if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('staff'))
-  									<a href="{{ route('docmgts.show',[$doc->DocRef]) }}" class="btn btn-sm btn-complete">Assign</a>
-  								@endif
-  							</td> --}}
+  							<td class="actions">
+                  @if(!$doc->sent())
+  								<a href="{{ route('send_document', ['id' => $doc->DocRef]) }}" class="btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="Document details">Send</a>
+                  @else
+                  <a href="{{ route('send_document', ['id' => $doc->DocRef]) }}" class="btn btn-sm disabled m-r-5" data-toggle="tooltip" title="Document details">Sent <i cla></i></a>
+                  @endif
+  							</td>
   						</tr>
   					@endforeach
   				</tbody>
@@ -60,6 +61,9 @@
 
   	</div>
   	<!-- END PANEL -->
+
+
+
 
 		{{-- MODALS --}}
 		<!-- Modal -->

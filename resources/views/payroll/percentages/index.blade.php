@@ -23,7 +23,7 @@
 		</div>
 		<div class="clearfix"></div>
 		<div class="panel-body">
-			<table class="table tableWithSearch table-striped table-bordered">
+			<table class="tableWithSearch table-striped table-bordered">
 				<thead>				
 					<th>Scenrio</th>
 					<th>Basic</th>
