@@ -126,7 +126,7 @@ class User extends Authenticatable
 
     public function todos()
     {
-      return $this->hasMany('App\Todo', 'UserID');
+      return $this->hasMany('App\Todo', 'UserID')->orderBy('DueDate');
     }
 
     // relationship for staff payroll details

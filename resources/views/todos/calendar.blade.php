@@ -1,16 +1,16 @@
 @extends('layouts.master')
 
 @section('title')
-	Todo List
+	To-Do List
 @endsection
 
 @section('page-title')
-	Todo List
+	To-Do List
 @endsection
 
 @section('buttons')
-		<a href="{{ route('todos') }}" class="btn btn-info btn-rounded">Todo List</a>
-		<button class="btn btn-info btn-rounded" data-toggle="modal" data-target="#new_todo">+ New Todo</button>
+		<a href="{{ route('todos') }}" class="btn btn-info btn-rounded">To-Do List</a>
+		<button class="btn btn-info btn-rounded" data-toggle="modal" data-target="#new_todo">+ New To-Do</button>
 @endsection
 
 @push('styles')
@@ -31,7 +31,7 @@
           <div class="modal-header clearfix text-left">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
             </button>
-            <h5>Add New Todo</h5>
+            <h5>Add New To-Do</h5>
           </div>
           <div class="modal-body">
             <form action="{{ route('save_todo') }}" method="post">

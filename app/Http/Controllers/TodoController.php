@@ -12,20 +12,19 @@ class TodoController extends Controller
     public function todos_calendar()
     {
       $user = auth()->user();
-      // $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
-      // $todos = Todo::where('CompanyID', $user->staff->CompanyID)->get();
-      $todos_array = $user->todos->toArray();
-      // dd($events_array);
+      // $todos_array = $user->todos->toArray();
+      // dd($todos_array);
       return view('todos.calendar', compact('user', 'todos_array'));
     }
 
     public function get_todos()
     {
       $user = auth()->user();
-      // $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
+      // $todos = $user->todos->where('Done', '0')->get();
+      $todos = Todo::where('UserID', $user->id)->where('Done', '0')->get();
       $todos_array = [];
       $count = '0';
-      foreach ($user->todos as $todo) {
+      foreach ($todos as $todo) {
         $todos_array[$count]['ref'] = $todo->TodoRef;
         $todos_array[$count]['title'] = $todo->Todo;
         $todos_array[$count]['start'] = $todo->DueDate;
@@ -82,12 +81,14 @@ class TodoController extends Controller
       $user = auth()->user();
 
       if (empty($_GET['date'])) {
-        $todos = $user->todos;
+        $todos = Todo::where('UserID', $user->id)->where('Done', '0')->get();
+        $dones = Todo::where('UserID', $user->id)->where('Done', '1')->get();
       } else {
-        $todos = Todo::where('UserID', $user->id)->where('DueDate', $_GET['date'])->get();
+        $todos = Todo::where('UserID', $user->id)->where('DueDate', $_GET['date'])->where('Done', '0')->get();
+        $dones = Todo::where('UserID', $user->id)->where('DueDate', $_GET['date'])->where('Done', '1')->get();
         $date = Carbon::parse($_GET['date'])->format('jS M, Y');
       }
-      return view('todos.index_', compact('user', 'todos', 'date'));
+      return view('todos.index_', compact('user', 'todos','dones', 'date'));
     }
 
 

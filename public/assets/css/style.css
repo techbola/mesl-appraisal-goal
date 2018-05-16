@@ -945,7 +945,7 @@ textarea { resize: vertical; }
   border-bottom: none;
 }
 .nav-tabs.outside {
-  margin-bottom: 10px !important;
+  /* margin-bottom: 10px !important; */
 }
 .nav-tabs.outside + .tab-content {
   padding: 0 !important;
@@ -963,10 +963,18 @@ textarea { resize: vertical; }
 .nav-tabs > li > a {
   font-weight: bold;
   color: #777;
-  padding: 15px 35px;
   border-bottom: none;
-  border-radius: 5px 5px 0 0;
+  border-radius: 8px 8px 0 0;
+  /* padding: 15px 35px; */
+  font-family: Karla;
+  font-size: 15px;
+  padding: 14px 35px;
 }
 .nav-tabs>li>a, .nav-tabs>li>a:hover, .nav-tabs>li>a:focus {
   color: #777;
+}
+
+ul.nav-tabs.outside + .tab-content > .tab-pane > .card-box {
+    border-top: unset;
+    border-radius: 0 0 8px 8px;
 }
