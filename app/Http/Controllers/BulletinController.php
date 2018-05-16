@@ -14,11 +14,12 @@ class BulletinController extends Controller
 {
   public function index()
   {
+    $today = date('Y-m-d');
     $user = auth()->user();
     if ($user->is_superadmin) {
-      $bulletins = Bulletin::paginate(10);
+      $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->paginate(10);
     }
-    $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->orderBy('BulletinRef', 'desc')->paginate(10);
+    $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
 
     return view('bulletins.index', compact('user', 'bulletins'));
   }
@@ -38,6 +39,7 @@ class BulletinController extends Controller
     $bulletin = new Bulletin;
     $bulletin->Title = $request->Title;
     $bulletin->Body = $request->Body;
+    $bulletin->ExpiryDate = $request->ExpiryDate;
     $bulletin->CompanyID = $user->staff->CompanyID;
     $bulletin->CreatedBy = $user->id;
     $bulletin->CreatedDate = Carbon::now();

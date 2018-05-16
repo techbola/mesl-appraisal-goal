@@ -9,7 +9,7 @@ use Flysystem;
 use App\AutopayResponse;
 use App\LoanRatingOption;
 
-class Helpers extends Model
+class HelpersOld extends Model
 {
 
   public static function autopay_get_response($doc_name){
