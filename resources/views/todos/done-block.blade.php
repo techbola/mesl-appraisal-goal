@@ -1,7 +1,7 @@
 <div class="card-box steps_div">
   <h4 class="card-title"><b>Done Items {!! (!empty($date))? '— <span class="text-muted">'.$date.'</span>' : '' !!}</b>
     {{-- <span class="pull-right text-lowercase f13">{{ count($task->StepsUndone) }} of {{ count($task->steps) }} remaining</span> --}}
-    <button class="btn btn-info btn-rounded pull-right" data-toggle="modal" data-target="#new_todo" style="margin-top:-10px">+ Add Item</button>
+    {{-- <button class="btn btn-info btn-rounded pull-right" data-toggle="modal" data-target="#new_todo" style="margin-top:-10px">+ Add Item</button> --}}
   </h4>
   {{-- <ul class="my-list" id="steps_list" data-task_id="{{ $task->TaskRef }}"> --}}
   <ul class="my-list">
@@ -23,8 +23,8 @@
 
       <div class="step-actions inline-block text-right" style="width:18%">
         <a href="#edit_step{{ $done->TodoRef }}" data-toggle="collapse" aria-expanded="false" class="collapsed"><i class="fa fa-pencil text-warning"></i></a>
-        <a href="#" onclick="confirm2('Delete this todo?', '', 'delete_{{ $done->TodoRef }}')"><i class="fa fa-trash-o text-danger m-l-5"></i></a>
-        <form id="delete_{{ $done->TodoRef }}" class="hidden" action="{{ route('delete_step', $done->TodoRef) }}" method="post">
+        <a href="#" onclick="confirm2('Delete this To-Do?', '', 'delete_{{ $done->TodoRef }}')"><i class="fa fa-trash-o text-danger m-l-5"></i></a>
+        <form id="delete_{{ $done->TodoRef }}" class="hidden" action="{{ route('delete_todo', $done->TodoRef) }}" method="post">
           {{ csrf_field() }}
           {{ method_field('DELETE') }}
         </form>

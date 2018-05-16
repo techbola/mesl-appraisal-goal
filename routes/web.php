@@ -171,6 +171,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save_todo', 'TodoController@save_todo')->name('save_todo');
     Route::patch('update_todo/{id}', 'TodoController@update_todo')->name('update_todo');
     Route::get('toggle_todo/{id}', 'TodoController@toggle_todo')->name('toggle_todo'); // AJAX
+    Route::delete('delete_todo/{id}', 'TodoController@delete_todo')->name('delete_todo');
 
 
     // Loan Credit Rating

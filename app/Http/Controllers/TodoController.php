@@ -56,7 +56,7 @@ class TodoController extends Controller
       // $todo->Description = $todo->Description;
       $todo->save();
 
-      return redirect()->route('todos_calendar')->with('success', 'Todo was added successfully');
+      return redirect()->back()->with('success', 'Todo was added successfully');
     }
     public function update_todo(Request $request, $id)
     {
@@ -73,7 +73,7 @@ class TodoController extends Controller
       // $todo->Description = $todo->Description;
       $todo->update();
 
-      return redirect()->route('todos')->with('success', 'Todo was updated successfully');
+      return redirect()->back()->with('success', 'Todo was updated successfully');
     }
 
     public function index()
@@ -103,6 +103,15 @@ class TodoController extends Controller
       $todo->update();
 
       return 'OK';
+    }
+
+
+    public function delete_todo(Request $request, $id)
+    {
+      $todo = Todo::find($id);
+      $todo->delete();
+
+      return redirect()->back()->with('success', 'To-Do item was deleted successfully.');
     }
 
 }

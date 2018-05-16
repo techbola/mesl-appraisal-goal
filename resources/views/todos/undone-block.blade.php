@@ -23,8 +23,8 @@
 
       <div class="step-actions inline-block text-right" style="width:18%">
         <a href="#edit_step{{ $todo->TodoRef }}" data-toggle="collapse" aria-expanded="false" class="collapsed"><i class="fa fa-pencil text-warning"></i></a>
-        <a href="#" onclick="confirm2('Delete this todo?', '', 'delete_{{ $todo->TodoRef }}')"><i class="fa fa-trash-o text-danger m-l-5"></i></a>
-        <form id="delete_{{ $todo->TodoRef }}" class="hidden" action="{{ route('delete_step', $todo->TodoRef) }}" method="post">
+        <a href="#" onclick="confirm2('Delete this To-Do?', '', 'delete_{{ $todo->TodoRef }}')"><i class="fa fa-trash-o text-danger m-l-5"></i></a>
+        <form id="delete_{{ $todo->TodoRef }}" class="hidden" action="{{ route('delete_todo', $todo->TodoRef) }}" method="post">
           {{ csrf_field() }}
           {{ method_field('DELETE') }}
         </form>
