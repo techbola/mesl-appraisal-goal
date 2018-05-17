@@ -36,8 +36,7 @@
                             <th width="15%">Type</th>
                             <th width="20%">Upload Date</th>
                             <th width="20%">Uploaded By</th>
-                            <th width="15%">Download</th>
-                            <th width="10%">Actions</th>
+                            <th>Download</th>
                         </thead>
                         <tbody>
                             @foreach( $docs as $doc)
@@ -51,6 +50,12 @@
                                 <td>
                                     {{ $doc->Description }}
                                 </td>
+                                <td>{{ $doc->doctype->DocType ?? '' }}</td>
+                            <td>{{ date('jS M, Y - g:ia', strtotime($doc->UploadDate)) }}</td>
+                            <td>{{ $doc->initiator->FullName ?? '-' }}</td>
+                            {{-- <td><a href="#" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
+                            {{-- <td><a href="{{ $doctype->Path}}" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
+                            <td><a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i></a></td>
                                 
                             </tr>
                             @endforeach
@@ -103,7 +108,7 @@ $(function(){
             });
            var settings = {
             // "sDom": "<'exportOptions'>l f<'table-responsive 't> B <''<p i >>",
-             dom: "<'row'<'col-sm-4' <'exportOptions'T><'actionBtn'>> <'col-sm-4 text-center'B><'col-sm-4'f>> <'table-responsive 't> p",
+             dom: "<'row'<'col-sm-4'<'actionBtn'>> <'col-sm-4 text-center'B><'col-sm-4'f>> <'table-responsive 't> p",
             // "dom": 'Bfrtip',
             "destroy": true,
             "scrollCollapse": true,
