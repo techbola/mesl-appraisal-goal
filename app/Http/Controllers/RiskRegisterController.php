@@ -48,7 +48,7 @@ class RiskRegisterController extends Controller
     {
         $risk_register = RiskRegister::findOrFail($id);
         if ($risk_register->update($request->all())) {
-            return redirect()->route('risk-register.index')->with('success', 'Update on risk register was successful');
+            return redirect()->route('risk-registers.index')->with('success', 'Update on risk register was successful');
         } else {
             return back()->withInput()->with('error', 'Update to risk register failed');
         }
