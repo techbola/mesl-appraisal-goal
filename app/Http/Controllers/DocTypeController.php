@@ -81,7 +81,7 @@ class DocTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $DocType = \DB::table('tblDocType')->where('DocRef', $id);
+        $DocType = \DB::table('tblDocType')->where('DocTypeRef', $id);
         if ($DocType->update($request->except(['_token', '_method']))) {
             return redirect()->route('doctypes.create')->with('success', 'DocType was updated successfully');
         } else {

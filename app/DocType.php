@@ -8,4 +8,5 @@ class DocType extends Model
 {
   protected $table   = 'tblDocType';
   protected $guarded = ['DocTypeRef'];
+  public $timestamps = false;
 }

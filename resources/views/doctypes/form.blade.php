@@ -9,23 +9,19 @@
     @endpush
 @include('errors.list')
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('DocType', 'Document Type ') }}
-                        {{ Form::text('DocType', null, ['class' => 'form-control', 'placeholder' => 'Enter Document Type']) }}
-                </div>
+              {{ Form::label('DocType', 'Document Type ') }}
+              {{ Form::text('DocType', null, ['class' => 'form-control', 'placeholder' => 'Enter Document Type']) }}
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="form-group">
-                <div class="controls">
-                    <div class="m-t-25">
-                    </div>
-                    {{ Form::hidden('InputterID',auth()->user()->id) }}
-                    {{ Form::hidden('ModifierID',auth()->user()->id) }}
-                     {{ Form::submit( $buttonText, [ 'class' => 'btn btn-complete ' ]) }}
-                </div>
+              <div class="m-t-25">
+              </div>
+              {{-- {{ Form::hidden('InputterID',auth()->user()->id) }}
+              {{ Form::hidden('ModifierID',auth()->user()->id) }} --}}
+              {{ Form::submit( $buttonText, [ 'class' => 'btn btn-complete btn-block' ]) }}
             </div>
         </div>
     </div>

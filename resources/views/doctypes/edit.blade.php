@@ -8,11 +8,10 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		{{ Form::model($DocType, ['action' => ['DocTypeController@update', $DocType->DocRef ], 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+		{{ Form::model($DocType, ['action' => ['DocTypeController@update', $DocType->DocTypeRef ], 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
 		{{ method_field('PATCH') }}
 		@include('doctypes.form', ['buttonText' => 'Update Document Type'])
 		{{ Form::close() }}
 	</div>
 </div>
 @endsection
-
