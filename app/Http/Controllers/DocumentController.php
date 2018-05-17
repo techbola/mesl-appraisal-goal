@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Document;
 use App\DocType;
 use App\Role;
+use App\Staff;
 use Auth;
 use DB;
 
