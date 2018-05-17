@@ -475,6 +475,9 @@ audio, canvas, progress, video {
   text-overflow: unset;
   padding-top: 7px;
 }
+.sidebar-menu {
+  zoom: 95%;
+}
 
 
 /* BUTTONS */

@@ -3,7 +3,7 @@
 @section('content')
 <div class="card-box">
 	<div class="card-title">Create Document Type</div>
-	{{ Form::open(['action' => 'DocTypeController@store', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+	{{ Form::open(['action' => 'DocTypeController@store', 'autocomplete' => 'off', 'role' => 'form']) }}
 	@include('doctypes.form', ['buttonText' => 'Create Document Type '])
 	{{ Form::close() }}
 </div>
