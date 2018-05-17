@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('buttons')
 	{{-- <div class="clearfix m-b-20"> --}}
-		<a class="btn btn-info btn-rounded" href="{{ route('risk-register.create') }}">New Risk Register</a>
+		<a class="btn btn-info btn-rounded" href="{{ route('risk-registers.create') }}">New Risk Register</a>
 	{{-- </div> --}}
 @endsection
 @section('content')

@@ -29,7 +29,7 @@ class RiskRegisterController extends Controller
     {
         $risk_register = new RiskRegister($request->all());
         if ($risk_register->save()) {
-            return redirect()->route('risk-register.index')->with('success', 'Entry to risk register was successful');
+            return redirect()->route('risk-registers.index')->with('success', 'Entry to risk register was successful');
         } else {
             return back()->withInput()->with('error', 'Entry to risk register failed');
         }
