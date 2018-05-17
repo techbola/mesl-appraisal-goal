@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Document;
 use App\DocType;
 use App\Role;
+use App\Staff;
 use Auth;
 use DB;
 
@@ -83,12 +84,21 @@ class DocumentController extends Controller
 
                     if (!empty($request->Roles)) {
                         $assignees = [];
-                        foreach ($request->Roles as $role_id) {
+                        if(in_array('all', $request->Roles)){
+                            $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+                            foreach ($staffs as $staff) {
+                              $assignees[] = $staff->StaffRef;
+                            }
+                        } else {
+                          foreach ($request->Roles as $role_id) {
                             $role = Role::find($role_id);
                             foreach ($role->users as $r_user) {
-                                $assignees[] = $r_user->staff->StaffRef;
+                              $assignees[] = $r_user->staff->StaffRef;
                             }
+                          }
+
                         }
+
                         $document->assignees()->attach($assignees, ['Initiator' => $user->id]);
 
                     } else {

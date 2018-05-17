@@ -67,7 +67,7 @@ class DocTypeController extends Controller
     public function edit($id)
     {
         $DocTypes = DocType::all();
-        $DocType   = DocType::where('DocRef', $id)->first();
+        $DocType   = DocType::where('DocTypeRef', $id)->first();
         // return dd($TradeRef);
         return view('doctypes.edit', compact('DocType', 'DocTypes'));
     }

@@ -69,9 +69,12 @@ class PayrollController extends Controller
     public function apply_updates(Request $request)
     {
         try {
+            // $procedures = \DB::statement("
+            //     EXEC procInsertNewEmployee2Payroll
+            //     EXEC procUpdateAllIndividualColumns
+            // ");
             $procedures = \DB::statement("
-                EXEC procInsertNewEmployee2Payroll
-                EXEC procUpdateAllIndividualColumns
+                EXEC procRunPayroll
             ");
             return response()->json('Updates applied successfully', 200);
         } catch (Exception $e) {
