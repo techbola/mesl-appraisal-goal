@@ -32,7 +32,12 @@
                       <input type="checkbox" id="select-all">
                       <label for="select-all" class="text-white">Bulk Select</label>
                     </div></th>
-                            <th>Name</th>
+                           <th width="20%">Document Name</th>
+                            <th width="15%">Type</th>
+                            <th width="20%">Upload Date</th>
+                            <th width="20%">Uploaded By</th>
+                            <th width="15%">Download</th>
+                            <th width="10%">Actions</th>
                         </thead>
                         <tbody>
                             @foreach( $docs as $doc)
