@@ -44,9 +44,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     // Route::middleware(['can:superadmin'])->group(function(){
-      Route::resource('menus', 'MenuController');
-      Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
-      Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
+    Route::resource('menus', 'MenuController');
+    Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
+    Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
     // });
 
     // Menu Assignment For Company Admins
@@ -173,7 +173,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('toggle_todo/{id}', 'TodoController@toggle_todo')->name('toggle_todo'); // AJAX
     Route::delete('delete_todo/{id}', 'TodoController@delete_todo')->name('delete_todo');
 
-
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
     Route::get('/new_loan_rating', 'LoanRatingController@create')->name('new_loan_rating');
@@ -181,7 +180,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/loan_rating/{id}', 'LoanRatingController@view')->name('view_loan_rating');
     Route::patch('/approve_loan_rating/{id}', 'LoanRatingController@approve')->name('approve_loan_rating');
     Route::patch('/reject_loan_rating/{id}', 'LoanRatingController@reject')->name('reject_loan_rating');
-
 
     Route::get('gls/create2', 'GLController@create2')->name('gls.create2');
     Route::get('gls/{id}/edit2', 'GLController@edit2')->name('gls.edit2');
@@ -294,6 +292,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('approvallist', 'ApprovalController@checklist')->name('approvallist');
     Route::post('approvallist/approve', 'ApprovalController@approve');
     Route::post('approvallist/reject', 'ApprovalController@reject');
+
+    // Risk Register
+    Route::resource('risk-registers', 'RiskRegisterController');
 });
 
 Route::get('/cls', function () {
