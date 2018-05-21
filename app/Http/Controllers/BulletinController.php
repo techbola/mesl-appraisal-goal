@@ -20,8 +20,9 @@ class BulletinController extends Controller
       $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->paginate(10);
     }
     $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
+    $archives = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
 
-    return view('bulletins.index', compact('user', 'bulletins'));
+    return view('bulletins.index', compact('user', 'bulletins', 'archives'));
   }
 
   public function save_bulletin(Request $request)

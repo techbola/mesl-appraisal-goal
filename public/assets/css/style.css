@@ -723,6 +723,8 @@ h1, h2, h3, h4, h5, h6 {
 .thumb-40 {
   width: 40px;
   height: 40px;
+  object-fit: cover;
+  object-position: top;
 }
 /* Inbox-widget */
 .inbox-widget .inbox-item {
@@ -739,6 +741,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .inbox-widget .inbox-item img {
   width: 40px;
+  height: 40px;
+  object-fit: cover;
+  object-position: top;
 }
 .inbox-widget .inbox-item .inbox-item-author {
   color: #333333;
@@ -869,6 +874,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .badge-info {
   background-color: #2ea1f8 !important;
+}
+
+.badge-tab {
+  margin-left: 5px;
+  vertical-align: text-top;
 }
 .text-primary, .text-info {
   color: #2ea1f8 !important;
