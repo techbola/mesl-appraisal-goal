@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +12,7 @@ class Client extends Model
   
   public function projects()
   {
-    return $this->hasMany('App\Project', 'ClientID');
+    return $this->hasMany('Cavidel\Project', 'ClientID');
   }
 
 }

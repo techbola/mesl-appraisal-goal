@@ -29,27 +29,27 @@
         </tr>
         <tr>
           <td style="font-weight:bold">Rate</td>
-          <td>{{ App\HelpersOld::get_option('Rate', $rating->Rate) }}%</td>
+          <td>{{ Cavidel\HelpersOld::get_option('Rate', $rating->Rate) }}%</td>
         </tr>
         <tr>
           <td style="font-weight:bold">BusinessLine</td>
-          <td>{{ App\HelpersOld::get_option('BusinessLine', $rating->BusinessLine) }}</td>
+          <td>{{ Cavidel\HelpersOld::get_option('BusinessLine', $rating->BusinessLine) }}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">OfficeAddress</td>
-          <td>{{ App\HelpersOld::get_option('OfficeAddress', $rating->OfficeAddress) }}</td>
+          <td>{{ Cavidel\HelpersOld::get_option('OfficeAddress', $rating->OfficeAddress) }}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">ResidentialAddress</td>
-          <td>{{ App\HelpersOld::get_option('ResidentialAddress', $rating->ResidentialAddress) }}</td>
+          <td>{{ Cavidel\HelpersOld::get_option('ResidentialAddress', $rating->ResidentialAddress) }}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">Purpose</td>
-          <td>{{ App\HelpersOld::get_option('Purpose', $rating->Purpose) }}</td>
+          <td>{{ Cavidel\HelpersOld::get_option('Purpose', $rating->Purpose) }}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">LoanType</td>
-          <td>{{ App\HelpersOld::get_option('LoanType', $rating->LoanType) }}</td>
+          <td>{{ Cavidel\HelpersOld::get_option('LoanType', $rating->LoanType) }}</td>
         </tr>
       </tbody>
     </table>

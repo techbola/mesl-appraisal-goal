@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Todo;
+use Cavidel\Todo;
 use Carbon;
 
 class TodoController extends Controller

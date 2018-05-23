@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 

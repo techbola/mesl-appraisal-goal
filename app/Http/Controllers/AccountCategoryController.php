@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\AccountCategory;
+use Cavidel\AccountCategory;
 use Illuminate\Http\Request;
 
 class AccountCategoryController extends Controller

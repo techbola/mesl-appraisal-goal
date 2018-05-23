@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Project;
-use App\Staff;
-use App\User;
-use App\ProjectTask;
-use App\ProjectChat;
-use App\Client;
-use App\Customer;
+use Cavidel\Project;
+use Cavidel\Staff;
+use Cavidel\User;
+use Cavidel\ProjectTask;
+use Cavidel\ProjectChat;
+use Cavidel\Client;
+use Cavidel\Customer;
 use DB;
 use Auth;
 use Carbon;
 
 use Event;
-use App\Events\NewTaskEvent;
+use Cavidel\Events\NewTaskEvent;
+use Cavidel\Events\ProjectChatEvent;
 
 use Notification;
-use App\Notifications\NewTask;
+use Cavidel\Notifications\NewTask;
+use Cavidel\Notifications\ProjectChatNotification;
 
 class ProjectController extends Controller
 {
@@ -238,11 +240,39 @@ class ProjectController extends Controller
         'Body' => 'required'
       ]);
 
+      $project = Project::find($request->ProjectID);
+
       $msg = new ProjectChat;
       $msg->Body = $request->Body;
       $msg->ProjectID = $request->ProjectID;
       $msg->StaffID = auth()->user()->staff->StaffRef;
       $msg->save();
+
+      // Recipients to array
+      $people = $project->user_ids;
+      // Get sender's array key
+      $my_key = array_search($msg->staff->UserID, $people);
+
+      // Remove sender, replace with nothing. (haystack, start_key, count, replacement)
+      array_splice($people, $my_key, 1);
+
+
+      $event_data = [
+        'body' => $msg->Body,
+        'project_id' => $msg->ProjectID,
+        'project' => $msg->project->Project,
+        'sender' => $msg->staff->user->FullName,
+        'sender_id' => $msg->StaffID,
+        'date' => $msg->created_at->format('jS M, Y g:ia'),
+        'recipients' => $people,
+        'link' => route('view_project', $msg->ProjectID),
+        'text' => 'New chat message in "'.$msg->project->Project.'" by '.$msg->staff->user->FullName
+      ];
+      $users = User::whereIn('id', $people)->get();
+
+      Event::fire(new ProjectChatEvent( $event_data ));
+      Notification::send($users, new ProjectChatNotification($msg));
+
       return redirect()->back()->with('success', 'Your message was posted.');
     }
 

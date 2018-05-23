@@ -1,6 +1,6 @@
 <?php
 
-// namespace App;
+// namespace Cavidel;
 
 // appends naira to strings
 if (!function_exists('nairazify')) {

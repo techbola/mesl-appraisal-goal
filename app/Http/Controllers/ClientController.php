@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
 use DB;
-use App\Client;
+use Cavidel\Client;
 
 class ClientController extends Controller
 {

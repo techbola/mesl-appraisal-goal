@@ -197,11 +197,51 @@
 
             {{-- Trade Date --}}
             {{-- <div class="m-r-30 m-t-10 font-title f16" style="display:inline-block">
-              Trade Date: <span class="text-success m-l-5">{{ App\Config::find('1')->TradeDate }}</span>
+              Trade Date: <span class="text-success m-l-5">{{ Cavidel\Config::find('1')->TradeDate }}</span>
             </div> --}}
 
             {{-- Notification Icon --}}
-            <div class="fa fa-bell m-r-15 m-t-15 f18"></div>
+            {{-- <div class="fa fa-bell m-r-15 m-t-15 f18"></div> --}}
+
+            <!-- START NOTIFICATION LIST -->
+            <ul class="notification-list no-style">
+              <li class="inline">
+                <div class="dropdown">
+
+
+                  <a href="javascript:;" id="notification-center" class="" data-toggle="dropdown" style="position:relative">
+                    <div class="fa fa-bell m-r-15 m-t-15 f18"></div>
+                    <span id="notif" class="badge badge-danger badge-notif" {{ (count(auth()->user()->unreadNotifications) > 0)? '' : 'style=display:none' }}>{{ count(auth()->user()->unreadNotifications) }}</span>
+                  </a>
+
+                  <!-- START Notification Dropdown -->
+                  <div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="notification-center">
+                    <!-- START Notification -->
+                    <div class="notification-panel">
+                      <!-- START Notification Body-->
+                      <div class="notification-body scrollable">
+
+                          <ul class="notif-list">
+                          </ul>
+
+                      </div>
+                      <!-- END Notification Body-->
+                      <!-- START Notification Footer-->
+                      <div class="notification-footer text-center">
+                        <a href="#" class="">Read all notifications</a>
+                        <a data-toggle="refresh" class="portlet-refresh text-black pull-right" href="#">
+                          <i class="pg-refresh_new"></i>
+                        </a>
+                      </div>
+                      <!-- START Notification Footer-->
+                    </div>
+                    <!-- END Notification -->
+                  </div>
+                  <!-- END Notification Dropdown -->
+                </div>
+              </li>
+            </ul>
+            <!-- END NOTIFICATIONS LIST -->
 
             {{-- Message Icon --}}
             <a href="{{ route('inbox') }}" style="position:relative">
@@ -460,7 +500,7 @@
       var channel = pusher.subscribe('officemate');
       var audio = new Audio('/assets/sound/chat.mp3'); //Sound
 
-      channel.bind('App\\Events\\NewTaskEvent', function(data) {
+      channel.bind('Cavidel\\Events\\NewTaskEvent', function(data) {
         if (data['StaffID'] == '{{ auth()->user()->staff->StaffRef }}') {
           console.log(data);
 
@@ -484,28 +524,43 @@
 
       });
 
-      channel.bind('App\\Events\\NewMessageEvent', function(data) {
+      channel.bind('Cavidel\\Events\\NewMessageEvent', function(data) {
         console.log(data);
         console.log($.inArray('{{ auth()->user()->id }}', data['recipients']));
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Message From "+data['from'], {
               body: data['subject'],
               icon: '{{ asset('images/site/envelope.png') }}',
-              // requireInteraction: true,
-              timeout: 60000,
+              requireInteraction: true,
           });
-          // $('.notif-list').prepend(`
-          //   <li>
-          //     <a href="${ data['link'] }">${ data['body'] }</a>
-          //   </li>
-          //   `);
 
-          // Increment count by 1
           var msg = Number($('#msg').text());
           $('#msg').show().text(msg + 1);
           audio.play();
         }
 
+      });
+
+      channel.bind('Cavidel\\Events\\ProjectChatEvent', function(data) {
+        console.log(data);
+
+        if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
+          Push.create("New Chat In Project: \""+data['project']+"\"", {
+              body: data['body'],
+              icon: '{{ asset('images/site/envelope.png') }}',
+              requireInteraction: true,
+          });
+
+          $('.notif-list').prepend(`
+            <li>
+              <a href="${ data['link'] }">${ data['text'] }</a>
+            </li>
+            `);
+
+          var notif = Number($('#notif').text());
+          $('#notif').show().text(notif + 1);
+          audio.play();
+        }
 
       });
     </script>

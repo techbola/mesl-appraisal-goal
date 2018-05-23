@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -35,31 +35,31 @@ class User extends Authenticatable
 
     public function staff()
     {
-        return $this->hasOne('App\Staff', 'UserID');
+        return $this->hasOne('Cavidel\Staff', 'UserID');
     }
     // public function type()
     // {
-    //   return $this->belongsToMany('App\UserType', 'user_id', 'type_id');
+    //   return $this->belongsToMany('Cavidel\UserType', 'user_id', 'type_id');
     // }
     public function types()
     {
-        return $this->belongsToMany('App\UserType', 'usertype', 'user_id', 'type_id');
+        return $this->belongsToMany('Cavidel\UserType', 'usertype', 'user_id', 'type_id');
     }
     public function roles()
     {
-        return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id');
+        return $this->belongsToMany('Cavidel\Role', 'role_user', 'user_id', 'role_id');
     }
     public function inbox()
     {
-        return $this->belongsToMany('App\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->withPivot('IsRead', 'IsDeleted');
+        return $this->belongsToMany('Cavidel\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->withPivot('IsRead', 'IsDeleted');
     }
     public function sent_messages()
     {
-        return $this->hasMany('App\Message', 'FromID')->orderBy('MessageRef', 'desc');
+        return $this->hasMany('Cavidel\Message', 'FromID')->orderBy('MessageRef', 'desc');
     }
     public function unread_inbox()
     {
-        return $this->hasMany('App\MessageRecipient', 'UserID')->where('IsRead', false);
+        return $this->hasMany('Cavidel\MessageRecipient', 'UserID')->where('IsRead', false);
     }
 
     public function abbreviation($string)
@@ -126,7 +126,7 @@ class User extends Authenticatable
 
     public function todos()
     {
-      return $this->hasMany('App\Todo', 'UserID')->orderBy('DueDate');
+      return $this->hasMany('Cavidel\Todo', 'UserID')->orderBy('DueDate');
     }
 
     // relationship for staff payroll details

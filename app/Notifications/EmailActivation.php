@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace Cavidel\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;

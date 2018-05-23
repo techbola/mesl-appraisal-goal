@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class LoanRatingStatus extends Model
 
   public function reviewer()
   {
-    return $this->belongsTo('App\User', 'UserID', 'id');
+    return $this->belongsTo('Cavidel\User', 'UserID', 'id');
   }
 }

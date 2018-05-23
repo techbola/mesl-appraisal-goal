@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\Country;
+use Cavidel\Country;
 use Illuminate\Http\Request;
 
 class CountryController extends Controller

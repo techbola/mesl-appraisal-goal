@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\RiskRegister;
-use App\RiskType;
-use App\ResidualRiskType;
-use App\RiskTreatment;
+use Cavidel\RiskRegister;
+use Cavidel\RiskType;
+use Cavidel\ResidualRiskType;
+use Cavidel\RiskTreatment;
 use Illuminate\Http\Request;
 
 class RiskRegisterController extends Controller

@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
-use \App\ProjectStatus;
+use \Cavidel\ProjectStatus;
 
 class Project extends Model
 {
@@ -14,7 +14,7 @@ class Project extends Model
 
   // public function assignees()
   // {
-  //   return $this->belongsToMany('App\Staff', 'tblProjectStaff', 'project_id', 'staff_id');
+  //   return $this->belongsToMany('Cavidel\Staff', 'tblProjectStaff', 'project_id', 'staff_id');
   // }
 
   public function getAssigneesAttribute()
@@ -27,13 +27,32 @@ class Project extends Model
     return $staff;
   }
 
+  public function getUsersAttribute()
+  {
+    $tasks = ProjectTask::select('StaffID')->where('ProjectID', $this->ProjectRef)->groupBy('StaffID')->with('staff')->get();
+    $users = [];
+    foreach ($tasks as $task) {
+      $users[] = $task->staff->user;
+    }
+    return $users;
+  }
+  public function getUserIdsAttribute()
+  {
+    $tasks = ProjectTask::select('StaffID')->where('ProjectID', $this->ProjectRef)->groupBy('StaffID')->with('staff')->get();
+    $user_ids = [];
+    foreach ($tasks as $task) {
+      $user_ids[] = $task->staff->UserID;
+    }
+    return $user_ids;
+  }
+
   public function supervisor()
   {
-    return $this->belongsTo('App\Staff', 'SupervisorID', 'StaffRef');
+    return $this->belongsTo('Cavidel\Staff', 'SupervisorID', 'StaffRef');
   }
   // public function status()
   // {
-  //   return $this->belongsTo('App\ProjectStatus', 'StatusID');
+  //   return $this->belongsTo('Cavidel\ProjectStatus', 'StatusID');
   // }
   public function getStatusAttribute()
   {
@@ -45,19 +64,19 @@ class Project extends Model
   }
   public function customer()
   {
-    return $this->belongsTo('App\Customer', 'CustomerID');
+    return $this->belongsTo('Cavidel\Customer', 'CustomerID');
   }
   public function tasks()
   {
-    return $this->hasMany('App\ProjectTask', 'ProjectID', 'ProjectRef');
+    return $this->hasMany('Cavidel\ProjectTask', 'ProjectID', 'ProjectRef');
   }
   public function issues()
   {
-    return $this->hasMany('App\IssueItem', 'ProjectID', 'ProjectRef');
+    return $this->hasMany('Cavidel\IssueItem', 'ProjectID', 'ProjectRef');
   }
   public function chats()
   {
-    return $this->hasMany('App\ProjectChat', 'ProjectID', 'ProjectRef');
+    return $this->hasMany('Cavidel\ProjectChat', 'ProjectID', 'ProjectRef');
   }
 
   public function assignees_list()

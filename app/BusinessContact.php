@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class BusinessContact extends Model
 
   public function country()
   {
-    return $this->belongsTo('App\Country', 'CountryID', 'CountryRef');
+    return $this->belongsTo('Cavidel\Country', 'CountryID', 'CountryRef');
   }
 }

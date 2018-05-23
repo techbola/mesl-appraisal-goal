@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
 use Storage;
 use Flysystem;
-use App\AutopayResponse;
-use App\LoanRatingOption;
+use Cavidel\AutopayResponse;
+use Cavidel\LoanRatingOption;
 
 class HelpersOld extends Model
 {

@@ -1,13 +1,13 @@
 <?php
-namespace App\Http\Controllers;
-use App\Customer;
-use App\GL;
-use App\PostingType;
-use App\Transaction;
-use App\TransactionType;
+namespace Cavidel\Http\Controllers;
+use Cavidel\Customer;
+use Cavidel\GL;
+use Cavidel\PostingType;
+use Cavidel\Transaction;
+use Cavidel\TransactionType;
 use Illuminate\Http\Request;
 
-use App\Staff;
+use Cavidel\Staff;
 use Auth;
 use DB;
 

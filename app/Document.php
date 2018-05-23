@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,22 +15,22 @@ class Document extends Model
 
     public function assignees_old()
     {
-        return $this->hasMany('App\DocAssign', 'DocID', 'DocRef');
+        return $this->hasMany('Cavidel\DocAssign', 'DocID', 'DocRef');
     }
 
     public function assignees()
     {
-        return $this->belongsToMany('App\Staff', 'tblDocAssign', 'DocID', 'StaffID');
+        return $this->belongsToMany('Cavidel\Staff', 'tblDocAssign', 'DocID', 'StaffID');
     }
 
     public function doctype()
     {
-        return $this->belongsTo('App\DocType', 'DocTypeID', 'DocTypeRef');
+        return $this->belongsTo('Cavidel\DocType', 'DocTypeID', 'DocTypeRef');
     }
 
     public function initiator()
     {
-        return $this->belongsTo('App\User', 'Initiator', 'id');
+        return $this->belongsTo('Cavidel\User', 'Initiator', 'id');
     }
 
     // sent documnts

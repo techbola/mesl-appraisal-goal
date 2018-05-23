@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Message;
-use App\User;
-use App\Staff;
-use App\MessageRecipient;
+use Cavidel\Message;
+use Cavidel\User;
+use Cavidel\Staff;
+use Cavidel\MessageRecipient;
 
 use Event;
-use App\Events\NewMessageEvent;
+use Cavidel\Events\NewMessageEvent;
 
 use Notification;
-use App\Notifications\NewMessage;
+use Cavidel\Notifications\NewMessage;
 
 use DB;
 
@@ -120,7 +120,7 @@ class MessageController extends Controller
         // $people = array_diff($people, [$my_key]);
         $people = $people;
       } else {
-        // Remove reply sender, replace with parent's sender. (haystack, start_key, end_key, replacement)
+        // Remove reply sender, replace with parent's sender. (haystack, start_key, count, replacement)
         array_splice($people, $my_key, 1, $parent->FromID);
       }
 

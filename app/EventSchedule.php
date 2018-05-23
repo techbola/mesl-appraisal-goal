@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class EventSchedule extends Model
 
   public function poster()
   {
-    return $this->belongsTo('App\User', 'Initiator');
+    return $this->belongsTo('Cavidel\User', 'Initiator');
   }
 
 }

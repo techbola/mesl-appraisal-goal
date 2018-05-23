@@ -4,11 +4,11 @@
 <div class="panel panel-transparent">
 	<div class="panel-heading">
 		<div class="panel-title">
-			Search For Product(s) & Service(s) 
+			Search For Product(s) & Service(s)
 		</div>
 	</div><br>
 	<div class="panel-body">
-   
+
 		<div class="panel panel-transparent">
 		<div class="panel-heading">
 			<div class="panel-title">
@@ -52,7 +52,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(App\Billing::details($billresult->GroupID) as $d)
+								@foreach(Cavidel\Billing::details($billresult->GroupID) as $d)
 								<tr>
 									<td>{{ $d->BillingDate }}</td>
 									<td>{{ $d->ServiceDesc }}</td>
@@ -98,7 +98,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(App\Billing::details($billresult->GroupID) as $d)
+								@foreach(Cavidel\Billing::details($billresult->GroupID) as $d)
 								<tr>
 									<td>{{ $d->BillingDate }}</td>
 									<td>{{ $d->ServiceDesc }}</td>
@@ -121,4 +121,3 @@
 	</div>
 </div>
 @endsection
-
