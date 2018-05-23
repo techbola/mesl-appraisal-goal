@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Workflow;
+use Validator;
 use Illuminate\Http\Request;
 
 class WorkflowController extends Controller
@@ -43,6 +44,10 @@ class WorkflowController extends Controller
     public function store(Request $request)
     {
         $workflow = new Workflow($request->all());
+        $this->validate($request, [
+            'RequesterID' => 'reqiuired',
+            'ApproverID1' => 'required',
+        ]);
 
         if ($workflow->save()) {
             return redirect()->route('workflow.create')->with('success', 'Workflow updated successfully');

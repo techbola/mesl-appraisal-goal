@@ -283,6 +283,8 @@ Route::middleware(['auth'])->group(function () {
 
     // payroll deductions
     Route::get('payroll/deductions', 'PayrollController@view_deductions')->name('payroll.deduction');
+    Route::get('payroll/deductions/manual', 'PayrollController@get_manual_deductions')->name('payroll.deduction.manual');
+    Route::post('payroll/deductions/manual', 'PayrollController@post_manual_deductions')->name('payroll.deductions.store');
     Route::post('/payroll/process-payroll', 'PayrollController@process_payroll');
 
     // -- end payroll

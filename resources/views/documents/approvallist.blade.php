@@ -8,69 +8,88 @@
 }
 </style>
 @endpush
-@section('bottom-content')
-<section class="bg-white container-fluid container-fixed">
-    <div class="panel panel-transparent" id="bondslist">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    Approval List
-                </div>
-                <div class="pull-right">
-                    <div class="col-xs-12">
-                        {{-- <input class="form-control pull-right search-table" placeholder="Search" type="text"> --}}
-                    </div>
-                </div>
-                <div class="clearfix">
+
+@section('content')
+
+    {{-- <div class="clearfix m-b-20">
+        <button class="btn btn-info pull-right" data-toggle="modal" data-target="#new_doc">New Document</button>
+    </div> --}}
+
+    <!-- START PANEL -->
+    <div class="card-box">
+            <div class="card-title pull-left">Document Listing</div>
+            <div class="pull-right">
+                <div class="col-xs-12">
+                    <input type="text" class="search-table form-control pull-right" placeholder="Search">
                 </div>
             </div>
+            <div class="clearfix"></div>
+            <table class="table tableWithSearch_a">
+                <thead>
+                    <th>
+                        <div class="checkbox check-info">
+                          <input type="checkbox" id="select-all">
+                          <label for="select-all" class="text-white">Bulk Select</label>
+                        </div>
+                    </th>
+                    <th width="20%">Document Name</th>
+                    <th width="15%">Type</th>
+                    <th width="20%">Upload Date</th>
+                    <th width="20%">Uploaded By</th>
+                    <th>Download</th>
+                </thead>
+                <tbody>
+                    @foreach( $docs as $doc)
+                    <tr>
+                        <td>
+                            <div class="checkbox check-info">
+                              <input type="checkbox" id="select-all-child-{{ $doc->DocRef }}" class="select-all-child" value="{{ $doc->DocRef }}">
+                              <label for="select-all-child-{{ $doc->DocRef }}" class="text-white"></label>
+                            </div>
+                        </td>
+                        <td>
+                            {{ $doc->Description }}
+                        </td>
+                        <td>{{ $doc->doctype->DocType ?? '' }}</td>
+                        <td>{{ date('jS M, Y - g:ia', strtotime($doc->UploadDate)) }}</td>
+                        <td>{{ $doc->initiator->FullName ?? '-' }}</td>
+                        {{-- <td><a href="#" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
+                        {{-- <td><a href="{{ $doctype->Path}}" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
+                        <td>
+                            <a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i>
+                            </a>
+                        </td>
+                        
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+    </div>
+    <!-- END PANEL -->
 
-            <div class="panel-body">
-                
-                <table class="table tableWithSearch_a">
-                        <thead>
-                            <th><div class="checkbox check-info">
-                      <input type="checkbox" id="select-all">
-                      <label for="select-all" class="text-white">Bulk Select</label>
-                    </div></th>
-                           <th width="20%">Document Name</th>
-                            <th width="15%">Type</th>
-                            <th width="20%">Upload Date</th>
-                            <th width="20%">Uploaded By</th>
-                            <th>Download</th>
-                        </thead>
-                        <tbody>
-                            @foreach( $docs as $doc)
-                            <tr>
-                                <td>
-                                    <div class="checkbox check-info">
-                      <input type="checkbox" id="select-all-child-{{ $doc->DocRef }}" class="select-all-child" value="{{ $doc->DocRef }}">
-                      <label for="select-all-child-{{ $doc->DocRef }}" class="text-white"></label>
+
+
+
+        {{-- MODALS --}}
+        <!-- Modal -->
+        <div class="modal fade slide-up disable-scroll" id="new_doc" tabindex="-1" role="dialog" aria-hidden="false">
+            <div class="modal-dialog ">
+                <div class="modal-content-wrapper">
+                    <div class="modal-content">
+                        <div class="modal-header clearfix text-left">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+                            </button>
+                            <h5>Upload New Document</h5>
+                        </div>
+                        <div class="modal-body">
+                            
+                        </div>
                     </div>
-                                </td>
-                                <td>
-                                    {{ $doc->Description }}
-                                </td>
-                                <td>{{ $doc->doctype->DocType ?? '' }}</td>
-                            <td>{{ date('jS M, Y - g:ia', strtotime($doc->UploadDate)) }}</td>
-                            <td>{{ $doc->initiator->FullName ?? '-' }}</td>
-                            {{-- <td><a href="#" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
-                            {{-- <td><a href="{{ $doctype->Path}}" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
-                            <td><a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i></a></td>
-                                
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                </div>
             </div>
         </div>
-
-        <hr>
-
-
-</section> <hr>
-
-
 @endsection
+
 
 
 
@@ -99,7 +118,6 @@ $(function(){
     });
 });
 </script>
-
         <script>
             $.ajaxSetup({
                 headers: {
@@ -108,7 +126,7 @@ $(function(){
             });
            var settings = {
             // "sDom": "<'exportOptions'>l f<'table-responsive 't> B <''<p i >>",
-             dom: "<'row'<'col-sm-4'<'actionBtn'>> <'col-sm-4 text-center'B><'col-sm-4'f>> <'table-responsive 't> p",
+             dom: "<'row'<'col-sm-4'<'actionBtn'>> <'col-sm-4 text-center'B><'col-sm-4'>> <'table-responsive 't> p",
             // "dom": 'Bfrtip',
             "destroy": true,
             "scrollCollapse": true,
