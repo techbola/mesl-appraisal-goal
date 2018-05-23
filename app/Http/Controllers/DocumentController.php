@@ -46,6 +46,7 @@ class DocumentController extends Controller
         $doc             = Document::findorFail($id);
         $doc->NotifyFlag = true;
         if ($doc->save()) {
+            // TODO: send notification here
             return redirect()->route('my_documents')->with('success', 'Document has been sent for approval successfully');
         } else {
             return back()->withInput()->with('error', 'Failed to send document for approval');
@@ -84,18 +85,18 @@ class DocumentController extends Controller
 
                     if (!empty($request->Roles)) {
                         $assignees = [];
-                        if(in_array('all', $request->Roles)){
+                        if (in_array('all', $request->Roles)) {
                             $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
                             foreach ($staffs as $staff) {
-                              $assignees[] = $staff->StaffRef;
+                                $assignees[] = $staff->StaffRef;
                             }
                         } else {
-                          foreach ($request->Roles as $role_id) {
-                            $role = Role::find($role_id);
-                            foreach ($role->users as $r_user) {
-                              $assignees[] = $r_user->staff->StaffRef;
+                            foreach ($request->Roles as $role_id) {
+                                $role = Role::find($role_id);
+                                foreach ($role->users as $r_user) {
+                                    $assignees[] = $r_user->staff->StaffRef;
+                                }
                             }
-                          }
 
                         }
 

@@ -1,26 +1,34 @@
 @extends('layouts.master')
-
 @section('content')
-<div class="panel panel-transparent">
-	<div class="panel-heading">
-		<div class="panel-title">
-			Set Approval Levels 
-		</div>
-	</div>
-	<div class="panel-body">
-		{{ Form::open(['action' => 'WorkflowController@store', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
-		@include('workflow.form', ['buttonText' => 'Set Workflow'])
-		{{ Form::close() }}
-	</div>
-</div>
-@endsection
 
-@section('bottom-content')
+	{{-- <div class="clearfix m-b-20">
+		<button class="btn btn-info pull-right" data-toggle="modal" data-target="#new_doc">New Document</button>
+	</div> --}}
 
+  	<!-- START PANEL -->
+  	<div class="card-box">
+  			<div class="card-title pull-left">Set Approval Levels</div>
+  			<div class="pull-right">
+  				<div class="col-xs-12">
+  					<input type="text" class="search-table form-control pull-right" placeholder="Search">
+  				</div>
+  			</div>
+  			<div class="clearfix"></div>
+  			{{ Form::open(['action' => 'WorkflowController@store', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+				@include('workflow.form', ['buttonText' => 'Set Workflow'])
+			{{ Form::close() }}
 
-<div class="panel">
-	<div class="panel-body">
-		<table class="table tableWithSearch">
+  	</div>
+
+  	<div class="card-box">
+  			<div class="card-title pull-left">Workflows per module</div>
+  			<div class="pull-right">
+  				<div class="col-xs-12">
+  					<input type="text" class="search-table form-control pull-right" placeholder="Search">
+  				</div>
+  			</div>
+  			<div class="clearfix"></div>
+  			<table class="table tableWithSearch">
 	<thead>
 		<th>Module </th>
 		<th>Initiator</th>
@@ -51,7 +59,13 @@
 		@endforeach
 	</tbody>
 </table>
-	</div>
-</div>
+
+  	</div>
+  	<!-- END PANEL -->
+
+
 
 @endsection
+
+
+

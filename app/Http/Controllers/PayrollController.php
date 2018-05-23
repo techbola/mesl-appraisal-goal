@@ -8,6 +8,8 @@ use App\PayrollAdjustmentGroup;
 use App\PayrollLevel;
 use App\SeniorityLevel;
 use App\Deduction;
+use App\DeductionItem;
+use App\Staff;
 use App\Month;
 
 class PayrollController extends Controller
@@ -132,6 +134,31 @@ class PayrollController extends Controller
         $max_date           = Deduction::max('EffectiveDate');
         $current_deductions = Deduction::where('EffectiveDate', $max_date);
         return view('payroll.deductions.index', compact('current_deductions', 'max_date'));
+    }
+
+    public function get_manual_deductions()
+    {
+        $employees       = Staff::select('UserID')->get();
+        $deduction_types = DeductionItem::select('DeductionItem', 'DeductionItemRef')->get();
+        return view('payroll.deductions.manual', compact('employees', 'deduction_types'));
+    }
+
+    public function post_manual_deductions(Request $request)
+    {
+        $deduction = new Deduction($request->all());
+        $validator = \Validator::make($request->all(), [
+            'DeductionID'   => 'required',
+            'Amount'        => 'required',
+            'EffectiveDate' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Deduction entry failed', 'errors' => $validator->errors()]);
+        } else {
+            // save entry
+            if ($deduction->save()) {
+                return response()->json('Deduction entry was successful');
+            }
+        }
     }
 
     // process payroll

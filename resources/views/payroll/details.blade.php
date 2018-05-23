@@ -43,7 +43,7 @@
 						<td>{{ number_format($pd->Transport, 2) }}</td>
 						<td>{{ number_format($pd->GrossPay, 2) }}</td>
 						<td>{{ number_format($pd->TotalDeductions, 2) }}</td>
-						<td>{{ number_format($pd->NetPay, 2) }}</td>
+						<td>{{ number_format($pd->ToBeNetPay, 2) }}</td>
 					</tr>
 					@endforeach
 				</tbody>
