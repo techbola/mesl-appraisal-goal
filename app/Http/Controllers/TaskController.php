@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\ProjectTask;
-use App\Step;
-use App\Staff;
+use Cavidel\ProjectTask;
+use Cavidel\Step;
+use Cavidel\Staff;
 
 class TaskController extends Controller
 {

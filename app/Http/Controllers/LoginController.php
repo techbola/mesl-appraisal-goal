@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Company;
-use App\Role;
-use App\UserType;
-use App\Staff;
+use Cavidel\User;
+use Cavidel\Company;
+use Cavidel\Role;
+use Cavidel\UserType;
+use Cavidel\Staff;
 use DB;
 use Hash;
 use Notification;
-use App\Notifications\EmailActivation;
+use Cavidel\Notifications\EmailActivation;
 use Auth;
 
 class LoginController extends Controller

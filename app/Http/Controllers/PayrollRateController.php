@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\PayrollRate;
+use Cavidel\PayrollRate;
 use Illuminate\Http\Request;
 
 class PayrollRateController extends Controller

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PayrollAdjustmentGroup;
+use Cavidel\PayrollAdjustmentGroup;
 
 class PayrollAdjustmentController extends Controller
 {

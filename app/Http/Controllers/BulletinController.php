@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Bulletin;
-use App\User;
+use Cavidel\Bulletin;
+use Cavidel\User;
 use Carbon\Carbon;
 
-use App\Notifications\NewBulletin;
+use Cavidel\Notifications\NewBulletin;
 use Notification;
 
 class BulletinController extends Controller

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\Role;
-use App\Company;
+use Cavidel\Role;
+use Cavidel\Company;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller

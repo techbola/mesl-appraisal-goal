@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +11,7 @@ class AccountGroup extends Model
     public $timestamps = false;
 
     public function account_types(){
-      return $this->hasMany('App\AccountType', 'AccountGroupID', 'id');
+      return $this->hasMany('Cavidel\AccountType', 'AccountGroupID', 'id');
     }
 
     public function totalClearedBalance(){

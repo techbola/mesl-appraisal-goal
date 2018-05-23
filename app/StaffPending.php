@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,7 +18,7 @@ class StaffPending extends Model
 
   public function user()
   {
-    return $this->belongsTo('App\User', 'UserID');
+    return $this->belongsTo('Cavidel\User', 'UserID');
   }
 
 }

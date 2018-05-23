@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\IssueItem;
-use App\IssueCategory;
-use App\Project;
+use Cavidel\IssueItem;
+use Cavidel\IssueCategory;
+use Cavidel\Project;
 
 class IssueController extends Controller
 {

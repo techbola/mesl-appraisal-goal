@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,19 +15,19 @@ class ProjectTask extends Model
 
   public function project()
   {
-    return $this->belongsTo('App\Project', 'ProjectID', 'ProjectRef');
+    return $this->belongsTo('Cavidel\Project', 'ProjectID', 'ProjectRef');
   }
   public function staff()
   {
-    return $this->belongsTo('App\Staff', 'StaffID', 'StaffRef');
+    return $this->belongsTo('Cavidel\Staff', 'StaffID', 'StaffRef');
   }
   public function poster()
   {
-    return $this->belongsTo('App\User', 'CreatedBy');
+    return $this->belongsTo('Cavidel\User', 'CreatedBy');
   }
   public function steps()
   {
-    return $this->hasMany('App\Step', 'TaskID', 'TaskRef');
+    return $this->hasMany('Cavidel\Step', 'TaskID', 'TaskRef');
   }
 
   public function getProgressAttribute()

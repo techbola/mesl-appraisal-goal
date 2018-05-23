@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,12 +12,12 @@ class IssueCategory extends Model
 
   public function items()
   {
-    return $this->hasMany('App\IssueItem', 'CategoryID');
+    return $this->hasMany('Cavidel\IssueItem', 'CategoryID');
   }
 
   public function poster()
   {
-    return $this->belongsTo('App\User', 'CreatedBy');
+    return $this->belongsTo('Cavidel\User', 'CreatedBy');
   }
 
 }

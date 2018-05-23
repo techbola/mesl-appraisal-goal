@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\Role;
+use Cavidel\Role;
 use Illuminate\Http\Request;
 
 class MenuRoleAssignmentController extends Controller

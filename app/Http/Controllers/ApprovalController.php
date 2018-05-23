@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Document;
+use Cavidel\Document;
 class ApprovalController extends Controller
 {
     public function approve(Request $request)

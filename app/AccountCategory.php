@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +11,6 @@ class AccountCategory extends Model
     public $timestamps = false;
 
     public function account_groups(){
-      return $this->hasMany('App\AccountGroup', 'AccountCategoryID', 'AccountCategoryRef');
+      return $this->hasMany('Cavidel\AccountGroup', 'AccountCategoryID', 'AccountCategoryRef');
     }
 }

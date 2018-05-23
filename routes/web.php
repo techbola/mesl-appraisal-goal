@@ -173,6 +173,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('toggle_todo/{id}', 'TodoController@toggle_todo')->name('toggle_todo'); // AJAX
     Route::delete('delete_todo/{id}', 'TodoController@delete_todo')->name('delete_todo');
 
+    Route::get('notes', 'StickyNoteController@index')->name('notes');
+
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
     Route::get('/new_loan_rating', 'LoanRatingController@create')->name('new_loan_rating');
@@ -304,6 +306,7 @@ Route::get('/cls', function () {
     Artisan::call('cache:clear');
     Artisan::call('route:clear');
     Artisan::call('config:clear');
+    Artisan::call('config:cache');
     return redirect()->route('home');
 });
 
@@ -313,5 +316,6 @@ Route::get('/cda', function () {
 });
 
 Route::get('/account', function () {
-    dd(auth()->user()->staff->projects);
+    $project = Cavidel\Project::find('2');
+    return $project->user_ids;
 });

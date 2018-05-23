@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,27 +13,27 @@ class GL extends Model
 
 
     public function customer(){
-      return $this->belongsTo('App\Customer', 'CustomerID', 'CustomerRef');
+      return $this->belongsTo('Cavidel\Customer', 'CustomerID', 'CustomerRef');
     }
 
     public function account_type(){
-      return $this->belongsTo('App\AccountType', 'AccountTypeID', 'AccountTypeRef');
+      return $this->belongsTo('Cavidel\AccountType', 'AccountTypeID', 'AccountTypeRef');
     }
 
     public function currency(){
-      return $this->belongsTo('App\Currency', 'CurrencyID', 'CurrencyRef');
+      return $this->belongsTo('Cavidel\Currency', 'CurrencyID', 'CurrencyRef');
     }
 
     public function bank(){
-      return $this->belongsTo('App\Bank', 'BankID', 'BankRef');
+      return $this->belongsTo('Cavidel\Bank', 'BankID', 'BankRef');
     }
 
     public function branch(){
-      return $this->belongsTo('App\Branch', 'BranchID', 'BranchRef');
+      return $this->belongsTo('Cavidel\Branch', 'BranchID', 'BranchRef');
     }
 
     public function loan_type(){
-      return $this->belongsTo('App\LoanType', 'LoanTypeID', 'LoanTypeRef');
+      return $this->belongsTo('Cavidel\LoanType', 'LoanTypeID', 'LoanTypeRef');
     }
 
 

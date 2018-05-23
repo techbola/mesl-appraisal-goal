@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\AccountType;
-use App\AccountCategory;
-use App\AccountGroup;
+use Cavidel\AccountType;
+use Cavidel\AccountCategory;
+use Cavidel\AccountGroup;
 use Illuminate\Http\Request;
 
 class AccountTypeController extends Controller

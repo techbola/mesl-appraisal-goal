@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\User;
-use App\Workflow;
 use Validator;
+use Cavidel\User;
+use Cavidel\Workflow;
 use Illuminate\Http\Request;
 
 class WorkflowController extends Controller

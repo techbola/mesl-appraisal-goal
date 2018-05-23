@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Asset;
-use App\AssetCategory;
-use App\Location;
-use App\Staff;
-use App\User;
+use Cavidel\Asset;
+use Cavidel\AssetCategory;
+use Cavidel\Location;
+use Cavidel\Staff;
+use Cavidel\User;
 
 class AssetController extends Controller
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\Company;
+use Cavidel\Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller

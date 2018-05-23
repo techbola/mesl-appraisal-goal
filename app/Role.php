@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace Cavidel;
 
 use Zizaco\Entrust\EntrustRole;
 
@@ -18,15 +18,15 @@ class Role extends EntrustRole
     // }
     public function menus()
     {
-        return $this->belongsToMany('App\Menu');
+        return $this->belongsToMany('Cavidel\Menu');
     }
     public function users()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('Cavidel\User');
     }
     public function company()
     {
-        return $this->belongsTo('App\Company', 'CompanyID', 'CompanyRef');
+        return $this->belongsTo('Cavidel\Company', 'CompanyID', 'CompanyRef');
     }
 
 }

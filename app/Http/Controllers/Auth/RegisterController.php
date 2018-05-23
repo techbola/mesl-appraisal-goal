@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Cavidel\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\User;
+use Cavidel\Http\Controllers\Controller;
+use Cavidel\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,7 +58,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \Cavidel\User
      */
     protected function create(array $data)
     {

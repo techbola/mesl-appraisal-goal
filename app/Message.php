@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,17 +12,17 @@ class Message extends Model
 
   public function sender()
   {
-    return $this->belongsTo('App\User', 'FromID');
+    return $this->belongsTo('Cavidel\User', 'FromID');
   }
 
   public function recipients()
   {
-    return $this->belongsToMany('App\User', 'tblMessageRecipients', 'MessageID', 'UserID')->withPivot('IsRead', 'IsDeleted');
+    return $this->belongsToMany('Cavidel\User', 'tblMessageRecipients', 'MessageID', 'UserID')->withPivot('IsRead', 'IsDeleted');
   }
 
   public function replies()
   {
-      return $this->hasMany('App\Message', 'ParentID', 'MessageRef')->orderBy('created_at', 'desc');
+      return $this->hasMany('Cavidel\Message', 'ParentID', 'MessageRef')->orderBy('created_at', 'desc');
   }
 
 }

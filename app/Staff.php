@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Codesleeve\Stapler\ORM\EloquentTrait;
 use Codesleeve\Stapler\ORM\StaplerableInterface;
@@ -16,15 +16,15 @@ class Staff extends Model implements StaplerableInterface
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'UserID');
+        return $this->belongsTo('Cavidel\User', 'UserID');
     }
     public function company()
     {
-        return $this->belongsTo('App\Company', 'CompanyID');
+        return $this->belongsTo('Cavidel\Company', 'CompanyID');
     }
     public function tasks()
     {
-        return $this->hasMany('App\ProjectTask', 'StaffID', 'StaffRef');
+        return $this->hasMany('Cavidel\ProjectTask', 'StaffID', 'StaffRef');
     }
     public function getProjectsAttribute()
     {

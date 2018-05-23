@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,10 +11,10 @@ class Transaction extends Model
     public $timestamps = false;
 
     public function gl(){
-      return $this->belongsTo('App\GL', 'GLID', 'GLRef');
+      return $this->belongsTo('Cavidel\GL', 'GLID', 'GLRef');
     }
 
     public function currency(){
-      return $this->belongsTo('App\Currency', 'CurrencyID', 'CurrencyRef');
+      return $this->belongsTo('Cavidel\Currency', 'CurrencyID', 'CurrencyRef');
     }
 }

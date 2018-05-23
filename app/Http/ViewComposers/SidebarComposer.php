@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\ViewComposers;
+namespace Cavidel\Http\ViewComposers;
 
-// use App\User;
-use App\Menu;
+// use Cavidel\User;
+use Cavidel\Menu;
 use Illuminate\View\View;
 
 class SidebarComposer

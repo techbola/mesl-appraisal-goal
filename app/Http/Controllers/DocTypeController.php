@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\DocType;
+use Cavidel\DocType;
 use Illuminate\Http\Request;
 
 class DocTypeController extends Controller

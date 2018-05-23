@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\EventSchedule;
-use App\User;
+use Cavidel\EventSchedule;
+use Cavidel\User;
 
-use App\Notifications\NewCalendarEvent;
+use Cavidel\Notifications\NewCalendarEvent;
 use Notification;
 
 class EventScheduleController extends Controller

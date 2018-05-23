@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PayrollMonthly;
-use App\PayrollAdjustmentGroup;
-use App\PayrollLevel;
-use App\SeniorityLevel;
-use App\Deduction;
-use App\DeductionItem;
-use App\Staff;
-use App\Month;
+
+use Cavidel\PayrollMonthly;
+use Cavidel\PayrollAdjustmentGroup;
+use Cavidel\PayrollLevel;
+use Cavidel\SeniorityLevel;
+use Cavidel\Deduction;
+use Cavidel\DeductionItem;
+use Cavidel\Month;
+use Cavidel\Staff;
 
 class PayrollController extends Controller
 {

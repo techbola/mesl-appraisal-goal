@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,17 +13,17 @@ class Asset extends Model
 
   public function category()
   {
-    return $this->belongsTo('App\AssetCategory', 'CategoryID');
+    return $this->belongsTo('Cavidel\AssetCategory', 'CategoryID');
   }
 
   public function location()
   {
-    return $this->belongsTo('App\Location', 'LocationID');
+    return $this->belongsTo('Cavidel\Location', 'LocationID');
   }
 
   public function allotee()
   {
-    return $this->belongsTo('App\Staff', 'AlloteeID');
+    return $this->belongsTo('Cavidel\Staff', 'AlloteeID');
   }
 
 }
