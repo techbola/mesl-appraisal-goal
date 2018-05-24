@@ -133,7 +133,7 @@
 
 @push('scripts')
   <script>
-  function reload_steps() {
+  function reload_page() {
     location.reload();
     // $("#steps_div").load(location.href+" #steps_div>*","");
     // $("#steps_div").hide().fadeIn('fast');
@@ -148,6 +148,9 @@
       $('#step_id_'+id).closest('div').find('label').toggleClass('strike');
       // $('.progress-bar').css({"width": data});
       // $('.progress-bar').text(data);
+    }).done(function(){
+
+      location.reload();
     });
 
   }
