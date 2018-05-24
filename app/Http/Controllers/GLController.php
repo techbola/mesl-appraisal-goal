@@ -114,6 +114,9 @@ class GLController extends Controller
         $gl = new GL($request->all());
         $this->validate($request, [
             'CustomerID' => 'required',
+            'AccountTypeID'=>'required',
+            'CurrencyID'=>'required',
+            'BranchID'=>'required',
         ]);
         if ($gl->save()) {
             return redirect()->route('gls.create')->with('success', 'GL was added successfully');
