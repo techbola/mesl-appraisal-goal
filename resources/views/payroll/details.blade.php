@@ -31,6 +31,8 @@
 					<th>Housing</th>
 					<th>Transport</th>
 					<th>Gross Pay</th>
+					<th>Pension</th>
+					<th>PAYE Tax</th>
 					<th>Monthly Deduction</th>
 					<th>Net Pay</th>
 				</thead>
@@ -42,6 +44,8 @@
 						<td>{{ number_format($pd->Housing, 2) }}</td>
 						<td>{{ number_format($pd->Transport, 2) }}</td>
 						<td>{{ number_format($pd->GrossPay, 2) }}</td>
+						<td>{{ number_format($pd->Pension, 2) }}</td>
+						<td>{{ number_format($pd->PAYETax, 2) }}</td>
 						<td>{{ number_format($pd->TotalDeductions, 2) }}</td>
 						<td>{{ number_format($pd->ToBeNetPay, 2) }}</td>
 					</tr>
