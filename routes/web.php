@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
 
+    Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
+
     // Route::middleware(['can:superadmin'])->group(function(){
     Route::resource('menus', 'MenuController');
     Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');

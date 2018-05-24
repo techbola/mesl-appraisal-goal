@@ -137,11 +137,11 @@
   <link rel="stylesheet" href="{{ asset('assets/plugins/altair/uikit.almost-flat.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/plugins/altair/main.min.css') }}">
   <!-- common functions -->
-  <script src="http://altair_html.tzdthemes.com/assets/js/common.min.js"></script>
+  <script src="{{ asset('assets/plugins/altair/common.min.js') }}" charset="utf-8"></script>
   <!-- uikit functions -->
   <script src="{{ asset('assets/plugins/altair/uikit_custom.min.js') }}" charset="utf-8"></script>
   <!-- altair common functions/helpers -->
-  <script src="http://altair_html.tzdthemes.com/assets/js/altair_admin_common.min.js"></script>
+  <script src="{{ asset('assets/plugins/altair/admin_common.min.js') }}" charset="utf-8"></script>
   <script src="{{ asset('assets/plugins/altair/handlebars.min.js') }}" charset="utf-8"></script>
   <script src="{{ asset('assets/plugins/altair/handlebars_helpers.min.js') }}" charset="utf-8"></script>
   <script src="{{ asset('assets/plugins/sticky_notes/sticky_notes.js') }}" charset="utf-8"></script>

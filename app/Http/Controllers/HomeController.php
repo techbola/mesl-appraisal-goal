@@ -2,6 +2,8 @@
 
 namespace Cavidel\Http\Controllers;
 
+use Cavidel\User;
+
 class HomeController extends Controller
 {
     public function __construct()
@@ -12,6 +14,12 @@ class HomeController extends Controller
     public function index()
     {
         return view('dashboard');
+    }
+
+    public function read_notification($id)
+    {
+      $user = auth()->user();
+      dd($user->unreadNotifications);
     }
 
 }

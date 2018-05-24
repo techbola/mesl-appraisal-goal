@@ -230,11 +230,11 @@
 
 
   <!-- common functions -->
-  <script src="http://altair_html.tzdthemes.com/assets/js/common.min.js"></script>
+  <script src="{{ asset('assets/plugins/altair/common.min.js') }}" charset="utf-8"></script>
   <!-- uikit functions -->
   {{-- <script src="http://altair_html.tzdthemes.com/assets/js/uikit_custom.min.js"></script> --}}
   <!-- altair common functions/helpers -->
-  <script src="http://altair_html.tzdthemes.com/assets/js/altair_admin_common.min.js"></script>
+  <script src="{{ asset('assets/plugins/altair/admin_common.min.js') }}" charset="utf-8"></script>
 
 
   <link rel="stylesheet" href="{{ asset('assets/plugins/gantt/gantt.min.css') }}">

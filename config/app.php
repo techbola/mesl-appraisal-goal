@@ -181,6 +181,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         // Codesleeve\LaravelStapler\Providers\L5ServiceProvider::class,
 
+        Barryvdh\Debugbar\ServiceProvider::class,
+
         Intervention\Image\ImageServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
@@ -238,6 +240,7 @@ return [
         // 'Image'        => Intervention\Image\Facades\Image::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Carbon' => Carbon\Carbon::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 
