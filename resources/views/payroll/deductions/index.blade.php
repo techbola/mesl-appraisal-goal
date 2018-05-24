@@ -18,7 +18,8 @@
 		</div>
 		<div class="pull-right">
 			<div class="col-xs-12">
-				<button id="process_payroll" class="btn btn-info" title="Updates Employee's payroll group">Process Payroll</button>
+				<button id="process_payroll" class="btn btn-success" title="Updates Employee's payroll group">Process Payroll</button>
+				<a href="{{ route('payroll.deduction.manual') }}" class="btn btn-info" title="Updates Employee's payroll group">Add Deductions/Payments</a>
 				<input type="text" class="search-table form-control pull-right" placeholder="Search" style="width: 200px; margin-left: 10px">
 			</div>
 		</div>

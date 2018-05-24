@@ -283,6 +283,9 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('payroll/percentage/{id}', 'PayrollController@update_percentage');
     Route::post('payroll/setup-percentages', 'PayrollController@setup_percentages');
 
+    // payroll reports
+    Route::get('payroll/reports/cummulative', 'PayrollController@get_cummulative');
+
     // payroll deductions
     Route::get('payroll/deductions', 'PayrollController@view_deductions')->name('payroll.deduction');
     Route::get('payroll/deductions/manual', 'PayrollController@get_manual_deductions')->name('payroll.deduction.manual');
