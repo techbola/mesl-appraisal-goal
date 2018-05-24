@@ -26,7 +26,42 @@
             </div>
         </div>
 
-        <div class="uk-grid-width-small-1-2 uk-grid-width-medium-1-4 uk-container-center uk-margin-large-top" data-uk-grid="{gutter: 20, controls: '#notes_grid_filter'}" id="notes_grid"></div>
+        <div class="uk-grid-width-small-1-2 uk-grid-width-medium-1-4 uk-container-center uk-margin-large-top" data-uk-grid="{gutter: 20, controls: '#notes_grid_filter'}" id="notes_grid">
+          @foreach ($user->sticky_notes as $note)
+            <div @{{#exists labels}}data-uk-filter="@{{#each labels }}@{{#ifCond @key '>' 0}},@{{/ifCond}}@{{ text_safe }}@{{/each}}"@{{/exists}}>
+                <div class="md-card {{ $note->Color }}">
+                    <div class="uk-position-absolute uk-position-top-right uk-margin-small-right uk-margin-small-top">
+                        <a href="#" class="note_action_remove"><i class="md-icon material-icons">&#xE5CD;</i></a>
+
+                    </div>
+                    <div class="md-card-content">
+                        <h2 class="heading_b uk-margin-large-right">{{ $note->Title }}</h2>
+                        <p>{{ $note->Body }}</p>
+                        {{-- @{{#exists checklist}}
+                            <ul class="uk-list">
+                                @{{#each checklist }}
+                                <li class="uk-margin-small-top">
+                                    <input type="checkbox" id="checkbox_@{{#if id}}@{{id}}@{{else}}@{{@../index}}_@{{@index}}@{{/if}}" data-md-icheck @{{#if checked}}checked@{{/if}}/>
+                                    <label for="checkbox_@{{#if id}}@{{id}}@{{else}}@{{@../index}}_@{{@index}}@{{/if}}" class="inline-label">@{{title}}</label>
+                                </li>
+                                @{{/each}}
+                            </ul>
+                        @{{/exists}}
+                        @{{#exists labels}}
+                        <div class="uk-margin-medium-top">
+                            @{{#each labels }}
+                            <span class="uk-badge uk-badge-@{{ type }}">@{{ text }}</span>
+                            @{{/each}}
+                        </div>
+                        @{{/exists}} --}}
+                        {{-- @{{#exists time}} --}}
+                            <span class="uk-margin-top uk-text-italic uk-text-muted uk-display-block uk-text-small">{{ $note->created_at->format('jS M Y g:ia') }}</span>
+                        {{-- @{{/exists}} --}}
+                    </div>
+                </div>
+            </div>
+          @endforeach
+        </div>
 
     </div>
 </div>

@@ -176,6 +176,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('delete_todo/{id}', 'TodoController@delete_todo')->name('delete_todo');
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
+    Route::post('store_note', 'StickyNoteController@store')->name('store_note');
 
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
