@@ -5,7 +5,7 @@ namespace Cavidel\Http\Controllers;
 use Cavidel\AccountType;
 use Cavidel\Branch;
 use Cavidel\Currency;
-use Cavidel\Customer;
+use Cavidel\Customers;
 // use Cavidel\Frequency;
 use Cavidel\GL;
 // use Cavidel\LoanRePaymentType;
@@ -39,13 +39,13 @@ class GLController extends Controller
      */
     public function create()
     {
-        $customers     = Customer::all();
+        $customers     = Customers::all();
         $branches      = Branch::all();
         $currencies    = Currency::all();
         $staff         = Staff::all();
         // $status        = LoanStatus::all();
         // $frequencies   = Frequency::all();
-        $account_types = AccountType::all()->where('AccountTypeRef', '<>', 2);
+        $account_types = AccountType::all()->where('AccountTypeRef', '<>', 1);
         $gls           = \DB::table('tblGL')
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
             ->leftJoin('tblAccountType', 'tblGL.AccountTypeID', '=', 'tblAccountType.AccountTypeRef')
@@ -68,7 +68,7 @@ class GLController extends Controller
     {
         $loanrepaymenttype = LoanRePaymentType::all();
 
-        $customers     = Customer::all();
+        $customers     = Customers::all();
         $branches      = Branch::all();
         $currencies    = Currency::all()->where('CurrencyRef', 1);
         $staff         = Staff::all();
@@ -163,7 +163,7 @@ class GLController extends Controller
     {
         // $gls = GL::all();
         $gl            = GL::where('GLRef', $id)->first();
-        $customers     = Customer::all();
+        $customers     = Customers::all();
         $branches      = Branch::all();
         $currencies    = Currency::all();
         $account_types = AccountType::all();
@@ -181,7 +181,7 @@ class GLController extends Controller
         // $gls = GL::all();
         $gl = GL::where('GLRef', $id)->first();
 
-        $customers     = Customer::all();
+        $customers     = Customers::all();
         $branches      = Branch::all();
         $currencies    = Currency::all();
         $staff         = Staff::all();
