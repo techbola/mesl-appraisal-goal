@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $table   = 'tblCustomer';
+    protected $table   = 'tblContacts';
     protected $guarded = ['CustomerRef'];
     public $primaryKey = 'CustomerRef';
 
