@@ -195,7 +195,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/customer_transfer', 'CashEntryController@customer_transfer')->name('customer_transfer');
     Route::post('cash_entries/customer_transfer', 'CashEntryController@customer_transfer_store');
     Route::get('cash_entries/Imprest', 'CashEntryController@Imprest')->name('Imprest');
-    Route::get('cash_entries/storeImprest', 'CashEntryController@storeImprest');
+    Route::post('cash_entries/storeImprest', 'CashEntryController@storeImprest');
     Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
