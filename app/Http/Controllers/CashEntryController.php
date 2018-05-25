@@ -815,8 +815,8 @@ public function Imprest()
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? and tblGL.Description like '%Petty Cash%'
-                         Order By tblGL.AccountTypeID,tblGL.Description", [2]));
+                         Where (tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?) and (tblGL.Description like '%Petty Cash%' OR tblGL.Description like '%Card%')
+                         Order By tblGL.AccountTypeID,tblGL.Description", [2,3]));
 
         $cashentries = \DB::table('tblCashEntry')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
