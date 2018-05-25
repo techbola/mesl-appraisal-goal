@@ -178,6 +178,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('notes', 'StickyNoteController@index')->name('notes');
     Route::post('store_note', 'StickyNoteController@store')->name('store_note');
 
+    Route::get('call-memo/create/{id}', 'CallMemoController@create')->name('create_call_memo');
+    Route::get('call-memo/{id}', 'CallMemoController@view')->name('view_call_memo');
+
+
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
     Route::get('/new_loan_rating', 'LoanRatingController@create')->name('new_loan_rating');
