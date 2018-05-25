@@ -815,7 +815,7 @@ public function Imprest()
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? and tblGL.Description like '%Imprest%'
+                         Where tblGL.AccountTypeID = ? and tblGL.Description like '%Petty Cash%'
                          Order By tblGL.AccountTypeID,tblGL.Description", [2]));
 
         $cashentries = \DB::table('tblCashEntry')
