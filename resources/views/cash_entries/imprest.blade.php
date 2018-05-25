@@ -16,10 +16,10 @@
 @endsection
 
 
-@section('bottom-content')
-<div class="container-fluid container-fixed-lg bg-white">
+<!--  @section('bottom-content')
+<div class="container-fluid container-fixed-lg bg-white">  -->
 	<!-- START PANEL -->
-	<div class="panel panel-transparent">
+	<!-- <div class="panel panel-transparent">
 		<div class="panel-heading">
 			<div class="panel-title">
 			<div class="panel-title">
@@ -60,10 +60,10 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
+	</div> -->
 	<!-- END PANEL -->
-</div>
-@endsection
+<!-- </div>
+@endsection -->
 
 
 

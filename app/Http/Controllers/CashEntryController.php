@@ -806,7 +806,7 @@ public function Imprest()
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?", [15, 16, 13]));
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?", [5, 14]));
 
          $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description 
                          AS CUST_ACCT
@@ -815,7 +815,7 @@ public function Imprest()
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? and tblGL.Description like '%Cash Imprest%'
+                         Where tblGL.AccountTypeID = ? and tblGL.Description like '%Imprest%'
                          Order By tblGL.AccountTypeID,tblGL.Description", [2]));
 
         $cashentries = \DB::table('tblCashEntry')
