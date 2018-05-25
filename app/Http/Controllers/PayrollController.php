@@ -162,6 +162,19 @@ class PayrollController extends Controller
         }
     }
 
+    // cummulative
+    public function get_cummulative()
+    {
+        $cummulatives = collect(\DB::select("
+                EXEC procCummulativeSchedule
+            "));
+        $cummulatives = $cummulatives->transform(function ($item, $key) {
+            $item->Fullname = Staff::where('UserID', $item->StaffID)->first()->Fullname;
+            return $item;
+        });
+        return view('payroll.reports.cummulative', compact('cummulatives'));
+    }
+
     // process payroll
     public function process_payroll(Request $request)
     {
