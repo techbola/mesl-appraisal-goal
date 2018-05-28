@@ -39,7 +39,7 @@ class GLController extends Controller
      */
     public function create()
     {
-        $customers     = Customers::all();
+        $customers     = DB::table('tblCustomer')->get();
         $branches      = Branch::all();
         $currencies    = Currency::all();
         $staff         = Staff::all();

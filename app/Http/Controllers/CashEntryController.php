@@ -447,7 +447,7 @@ class CashEntryController extends Controller
     {
         $configs          = Config::first();
         $customers        = Customer::all();
-        $customer_details = collect(\DB::select("SELECT GLRef, tblCustomer.Customer + ' - ' + tblAccountType.AccountType + ' / ' + CASE WHEN CustomerID = 195 THEN tblGL.Description ELSE '/' END + ' - ' + tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+        $customer_details = collect(\DB::select("SELECT GLRef, concat(tblCustomer.Customer, ' - ' , tblAccountType.AccountType , ' / ' , CASE WHEN CustomerID = 1 THEN tblGL.Description ELSE '/' END , ' - ' , tblCurrency.Currency , CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00')))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN

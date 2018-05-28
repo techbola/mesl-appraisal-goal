@@ -87,11 +87,18 @@
           <div class="col-md-10 col-md-offset-1">
             <div class="form-group">
               <label>Discussion Point <span class="badge badge-inverse badge-tab">${disc_id}</span></label>
-              <textarea name="discussions[]" class="form-control" placeholder="Discussion Point"></textarea>
+              <textarea name="discussions[]" class="form-control summernote" placeholder="Discussion Point"></textarea>
             </div>
           </div>
         </div>
         `);
+        $('.summernote').summernote({
+          height: '100px',
+          toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['color', ['color']],
+          ]
+        });
     });
 
     // <div class="row m-b-10">
