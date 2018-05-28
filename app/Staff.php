@@ -66,6 +66,11 @@ class Staff extends Model implements StaplerableInterface
         return $this->hasMany(PayrollMonthly::class, 'StaffID');
     }
 
+    public function bank()
+    {
+        return $this->hasOne(Bank::class, 'BankRef', 'BankID');
+    }
+
     public function __construct(array $attributes = array())
     {
         $this->hasAttachedFile('PhotographLocation', [
