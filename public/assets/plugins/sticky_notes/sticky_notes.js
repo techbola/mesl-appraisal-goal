@@ -163,12 +163,12 @@ altair_sticky_notes = {
         })
     },
     actions: function() {
-        $grid.on("click", ".note_action_remove", function() {
-            var e = $(this).closest(".md-card").parent();
-            e.addClass("uk-animation-scale-up uk-animation-reverse"), setTimeout(function() {
-                e.remove()
-            }, 300)
-        })
+        // $grid.on("click", ".note_action_remove", function() {
+        //     var e = $(this).closest(".md-card").parent();
+        //     e.addClass("uk-animation-scale-up uk-animation-reverse"), setTimeout(function() {
+        //         e.remove()
+        //     }, 300)
+        // });
     },
     load_notes: function() {
         var e = Handlebars.compile($note_template)([
