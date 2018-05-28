@@ -39,7 +39,7 @@ class GLController extends Controller
      */
     public function create()
     {
-        $customers     = Customers::all();
+        $customers     = Custome::all();
         $branches      = Branch::all();
         $currencies    = Currency::all();
         $staff         = Staff::all();
@@ -68,7 +68,7 @@ class GLController extends Controller
     {
         $loanrepaymenttype = LoanRePaymentType::all();
 
-        $customers     = Customers::all();
+        $customers     = Customer::all();
         $branches      = Branch::all();
         $currencies    = Currency::all()->where('CurrencyRef', 1);
         $staff         = Staff::all();
@@ -166,7 +166,7 @@ class GLController extends Controller
     {
         // $gls = GL::all();
         $gl            = GL::where('GLRef', $id)->first();
-        $customers     = Customers::all();
+        $customers     = Customer::all();
         $branches      = Branch::all();
         $currencies    = Currency::all();
         $account_types = AccountType::all();
@@ -184,7 +184,7 @@ class GLController extends Controller
         // $gls = GL::all();
         $gl = GL::where('GLRef', $id)->first();
 
-        $customers     = Customers::all();
+        $customers     = Customer::all();
         $branches      = Branch::all();
         $currencies    = Currency::all();
         $staff         = Staff::all();
