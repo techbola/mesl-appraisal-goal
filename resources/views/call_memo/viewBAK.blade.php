@@ -9,12 +9,6 @@
 @endsection
 
 @section('content')
-  <style media="screen">
-    .thead {
-      font-weight: bold;
-      font-size: 13px !important;
-    }
-  </style>
   <div class="card-box">
     <div class="card-title">
       Call Memo - {{ $contact->Customer }} {{ ($contact->Organization)? '- '.$contact->Organization : '' }}
@@ -30,73 +24,44 @@
           <th>Meeting Date</th>
         </tr>
       </thead>
-      @if (count($contact->call_memos) == 0)
-        <tbody>
-          <tr class="m-t-20 m-b-20">
-            <td colspan="5">
-              No Call Memos Created Yet
-            </td>
-          </tr>
-        </tbody>
-      @endif
-      @foreach ($contact->call_memos as $memo)
-
-        <tbody>
+      <tbody>
+        @foreach ($contact->call_memos as $memo)
           <tr>
-            <td class="details-control" style="cursor:pointer"><i class="fa fa-plus-circle text-success f20" onclick="toggle_row('memo_{{ $memo->CallMemoRef }}')"></i></td>
+            <td class="details-control" style="cursor:pointer"><i class="fa fa-plus-circle text-success f20"></i></td>
             <td>{{ $memo->Attendees }}</td>
             <td>{{ $memo->Handouts }}</td>
             <td>{{ $memo->Location }}</td>
             <td>
               {{ $memo->MeetingDate }}
-              <a class="m-l-15 add_point pointer btn btn-xs btn-info pull-right" data-toggle="modal" data-target="#disc_point" onclick="get_memo_id('{{ $memo->CallMemoRef }}')"> <i class="fa fa-plus m-r-5"></i> Discussion Point</a>
+              <a class="m-l-15 add_point pointer btn btn-xs btn-info" data-toggle="modal" data-target="#disc_point" onclick="get_memo_id('{{ $memo->CallMemoRef }}')">New Discussion</a>
             </td>
           </tr>
-        </tbody>
-        <tbody id="memo_{{ $memo->CallMemoRef }}" style="display:none">
-
           @php $disc_count = 0; @endphp
           @foreach ($memo->discussions as $discuss)
 
             @php $disc_count++; @endphp
-            {{-- <tbody> --}}
             <tr>
               <td></td>
               <td class="small"><b>Discussion Point {{ $disc_count }}</b></td>
               <td colspan="2" class="small">{!! $discuss->DiscussionPoint !!}</td>
               <td>
                 {{-- <a class="add_point f20 pointer" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus-circle text-success" data-toggle="tooltip" title="Add Action Point"></i></a> --}}
-                <div class="pull-right">
-                  <a class="add_point pointer btn btn-xs btn-success" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus m-r-5"></i> Action Point</a>
-                  {{-- <i class="fa fa-level-up m-l-10 m-r-5"></i> --}}
-                </div>
+                <a class="add_point pointer btn btn-xs btn-success" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')">New Action</a>
               </td>
             </tr>
-          {{-- </tbody> --}}
-          @if (count($discuss->actions) > 0)
-            <tr>
-              <td></td>
-              <td></td>
-              <td class="thead">Action Point</td>
-              <td class="thead">Responsibility</td>
-              <td class="thead">Timeline</td>
-            </tr>
-          @endif
             @foreach ($discuss->actions as $action)
-              {{-- <tbody> --}}
-
               <tr>
                 <td></td>
                 <td></td>
-                <td class="small"><i class="fa fa-bullseye text-muted m-r-5 f16"></i> {{ $action->ActionPoint }}</td>
-                <td class="small"><i class="fa fa-user text-muted m-r-5 f15"></i> {{ $action->user->FullName }}</td>
-                <td class="small"><i class="fa fa-clock-o text-muted m-r-5 f16"></i> {{ $action->StartDate.' - '.$action->EndDate  }}</td>
+                <td class="small"><i class="fa fa-bullseye m-r-5 f16"></i> {{ $action->ActionPoint }}</td>
+                <td class="small"><i class="fa fa-user m-r-5 f16"></i> {{ $action->user->FullName }}</td>
+                <td class="small"><i class="fa fa-clock-o m-r-5 f16"></i> {{ $action->StartDate.' - '.$action->EndDate  }}</td>
               </tr>
             @endforeach
 
           @endforeach
-        </tbody>
         @endforeach
+      </tbody>
     </table>
   </div>
 
@@ -230,9 +195,5 @@
       var form_action = "{{ url('/') }}"+"/call-memo/store_discussion_point/"+id;
       $('#disc_point').find('form').attr('action', form_action);
     };
-
-    function toggle_row(id) {
-      $('#'+id).toggle();
-    }
   </script>
 @endpush

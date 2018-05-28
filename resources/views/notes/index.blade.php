@@ -31,7 +31,7 @@
             <div @{{#exists labels}}data-uk-filter="@{{#each labels }}@{{#ifCond @key '>' 0}},@{{/ifCond}}@{{ text_safe }}@{{/each}}"@{{/exists}}>
                 <div class="md-card {{ $note->Color }}">
                     <div class="uk-position-absolute uk-position-top-right uk-margin-small-right uk-margin-small-top">
-                        <a href="#" class="note_action_remove"><i class="md-icon material-icons">&#xE5CD;</i></a>
+                        <a href="#" class="note_action_remove" onclick="confirm2('Delete this note?', '', 'delete_{{ $note->NoteRef }}')"><i class="md-icon material-icons">&#xE5CD;</i></a>
 
                     </div>
                     <div class="md-card-content">
@@ -60,6 +60,11 @@
                     </div>
                 </div>
             </div>
+
+            <form id="delete_{{ $note->NoteRef }}" action="{{ route('delete_note', $note->NoteRef) }}" method="post" style="display:none">
+              {{ csrf_field() }}
+              {{ method_field('DELETE') }}
+            </form>
           @endforeach
         </div>
 

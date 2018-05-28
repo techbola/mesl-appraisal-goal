@@ -24,4 +24,11 @@ class StickyNoteController extends Controller
     return $note->Title.' saved.';
   }
 
+public function delete(Request $request, $id)
+{
+  $note = StickyNote::find($id);
+  $note->delete();
+  return redirect()->back()->with('success', 'Note deleted successfully');
+}
+
 }
