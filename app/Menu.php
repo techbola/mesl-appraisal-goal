@@ -35,17 +35,17 @@ class Menu extends Model
 
     public function hasSubmenu($menu_id)
     {
-        $user = Auth::user();
+        $user   = Auth::user();
         $system = Menu::where('name', 'System Setup')->first();
 
         // $menu = Menu::find($menu_id);
-        if ($user->is_superadmin || auth()->user()->hasRole('admin'))
-          $user_submenus = Menu::where('parent_id', $menu_id)->get();
-        elseif(auth()->user()->hasRole('admin'))
-          $user_submenus = Menu::where('parent_id', $menu_id)->where('parent_id', '!=', $system->id)->get();
-        else
-          $user_submenus = \Auth::user()->roles()->first()->menus->where('parent_id', $menu_id);
-
+        if ($user->is_superadmin || auth()->user()->hasRole('admin')) {
+            $user_submenus = Menu::where('parent_id', $menu_id)->get();
+        } elseif (auth()->user()->hasRole('admin')) {
+            $user_submenus = Menu::where('parent_id', $menu_id)->where('parent_id', '!=', $system->id)->get();
+        } else {
+            $user_submenus = \Auth::user()->roles()->first()->menus->where('parent_id', $menu_id);
+        }
 
         // if ($menu->children->count() > 0) {
         if ($user_submenus->count() > 0) {
@@ -62,7 +62,7 @@ class Menu extends Model
                         echo '<span class="icon-thumbnail">' . $this->abbreviation($child->name) . '</span>';
                     } else {
                         // echo '<li>' . link_to_route($child->route, $title = $child->name, $parameters = array(), $attributes = array());
-                        echo '<li><a href="'.route($child->route).'">'.$child->name.'</a>';
+                        echo '<li><a href="' . route($child->route) . '">' . $child->name . '</a>';
                         echo '<span class="icon-thumbnail">' . $this->abbreviation($child->name) . '</span>';
                     }
 
@@ -77,27 +77,33 @@ class Menu extends Model
     }
 
     // ASSESSORS
-    public function getRoleNamesAttribute(){
-      $menu_roles = $this->roles->pluck('name');
-      foreach ($menu_roles as $role) {
-        $role_names[] = $role;
-      }
-      if(!empty($role_names) > 0)
-        return implode($role_names, ', ');
-      else
-        return '—';
+    public function getRoleNamesAttribute()
+    {
+        $menu_roles = $this->roles->pluck('name');
+        foreach ($menu_roles as $role) {
+            $role_names[] = $role;
+        }
+        if (!empty($role_names) > 0) {
+            return implode($role_names, ', ');
+        } else {
+            return '—';
+        }
+
     }
-    public function getCompanyRoleNamesAttribute(){
-      $user = auth()->user();
-      // dd($user->staff->CompanyID);
-      $menu_roles = $this->roles->where('CompanyID', $user->staff->CompanyID)->pluck('name');
-      foreach ($menu_roles as $role) {
-        $role_names[] = $role;
-      }
-      if(!empty($role_names) > 0)
-        return implode($role_names, ', ');
-      else
-        return '—';
+    public function getCompanyRoleNamesAttribute()
+    {
+        $user = auth()->user();
+        // dd($user->staff->CompanyID);
+        $menu_roles = $this->roles->where('CompanyID', $user->staff->CompanyID)->pluck('name');
+        foreach ($menu_roles as $role) {
+            $role_names[] = $role;
+        }
+        if (!empty($role_names) > 0) {
+            return implode($role_names, ', ');
+        } else {
+            return '—';
+        }
+
     }
 
 }

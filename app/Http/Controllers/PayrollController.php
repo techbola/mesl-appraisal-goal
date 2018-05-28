@@ -186,6 +186,17 @@ class PayrollController extends Controller
         });
         return view('payroll.reports.individual', compact('payroll_details'));
     }
+    public function get_netpay_to_bank()
+    {
+        $nptb = \DB::select("
+            EXEC procNetPayToBank
+        ");
+        $nptb = collect($nptb)->transform(function ($item, $key) {
+            $item->Fullname = Staff::where('UserID', $item->StaffID)->first()->Fullname;
+            return $item;
+        });
+        return view('payroll.reports.nptb', compact('nptb'));
+    }
 
     // process payroll
     public function process_payroll(Request $request)

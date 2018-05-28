@@ -276,10 +276,11 @@ class StaffController extends Controller
         $countries      = Country::all();
         $hmos           = HMO::all();
         $hmoplans       = HMOPlan::all();
-        $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
-        $role = User::find($staff->UserID)->roles;
+        $roles          = Role::where('CompanyID', $user->staff->CompanyID)->get();
+        $role           = User::find($staff->UserID)->roles;
+        $banks          = Bank::all();
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks'));
     }
 
     public function editFinanceDetails($id)

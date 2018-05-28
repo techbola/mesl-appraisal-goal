@@ -223,6 +223,24 @@
       </div>
     </div>
     @if($user->hasRole('admin'))
+
+    <div class="card-section p-l-5">Bank Details</div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        {{ Form::label('BankID','Choose Bank') }}
+        {{ Form::select('BankID', [ 0 =>  'Select a Bank'] + $banks->pluck('Bank', 'BankRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Bank", 'data-init-plugin' => "select2"]) }}
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        {{ Form::label('BankAcctNumber','Bank Account Number') }}
+        {{ Form::text('BankAcctNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter Bank Account Number']) }}
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
     <div class="card-section p-l-5">Payroll Details</div>
     <div class="col-sm-12">
       <div class="form-group">

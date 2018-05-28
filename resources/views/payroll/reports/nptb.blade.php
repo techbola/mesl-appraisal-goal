@@ -14,7 +14,7 @@
 	<!-- START PANEL -->
 	<div class="card-box">
 		<div class="card-title pull-left">
-			Individual Payroll Report.
+			Net Pay to Bank Report.
 		</div>
 		<div class="pull-right">
 			<div class="col-xs-12">
@@ -27,47 +27,17 @@
 				<thead>
 
 					<th>Staff Name</th>
-					<th>Basic</th>
-					<th>Housing</th>
-					<th>Transport</th>
-					<th>13<sup>th</sup> Month</th>
-					<th>Leave</th>
-					<th>Dressing</th>
-					<th>Veh. Maintenance</th>
-					<th>Drivers</th>
-					<th>Lunch</th>
-					<td>Travel</td>
-					<th>Furniture</th>
-					<th>Club/Pro</th>
-					<th>Gross Pay</th>
-					<th>Taxable Base</th>
-					<th>Total Deduction</th>
-					<th>PAYE Tax</th>
+					<th>Bank Account Number</th>
 					<th>Net Pay</th>
-					<th>Annual Net Pay</th>
+					<th>Bank Name</th>
 				</thead>
 				<tbody>
-					@foreach($payroll_details as $pd)
+					@foreach($nptb as $np)
 					<tr>
-						<td>{{ $pd->Fullname ?? 'No Name' }}</td>
-						<td>{{ number_format($pd->Basic, 2) }}</td>
-						<td>{{ number_format($pd->Housing, 2) }}</td>
-						<td>{{ number_format($pd->Transport, 2) }}</td>
-						<td>{{ number_format($pd->Bonus13thMonth, 2) }}</td>
-						<td>{{ number_format($pd->Leave, 2) }}</td>
-						<td>{{ number_format($pd->Dressing, 2) }}</td>
-						<td>{{ number_format($pd->CarMaintenance, 2) }}</td>
-						<td>{{ number_format($pd->Drivers, 2) }}</td>
-						<td>{{ number_format($pd->MealSubsidy, 2) }}</td>
-						<td>{{ number_format($pd->Travel, 2) }}</td>
-						<td>{{ number_format($pd->Furniture, 2) }}</td>
-						<td>{{ number_format($pd->ClubandProfessional, 2) }}</td>
-						<td>{{ number_format($pd->GrossPay, 2) }}</td>
-						<td>{{ number_format($pd->TaxableBase, 2) }}</td>
-						<td>{{ number_format($pd->TotalDeductions, 2) }}</td>
-						<td>{{ number_format($pd->PAYETax, 2) }}</td>
-						<td>{{ number_format($pd->NetPay, 2) }}</td>
-						<td>{{ number_format($pd->AnnualNetPayTaxed, 2) }}</td>
+						<td>{{ $np->Fullname ?? 'No Name' }}</td>
+						<td>{{ $np->BankAcctNumber }}</td>
+						<td>{{ $np->MonthlyNetPay }}</td>
+						<td>{{ $np->BankName }}</td>
 					</tr>
 					@endforeach
 				</tbody>
