@@ -304,6 +304,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('payroll/deductions/manual', 'PayrollController@post_manual_deductions')->name('payroll.deductions.store');
     Route::post('/payroll/process-payroll', 'PayrollController@process_payroll');
 
+    // payslip
+    Route::get('payslip', 'PayrollController@payslip_individual');
+
     // -- end payroll
 
     // -- Workflow Module
