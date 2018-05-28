@@ -307,7 +307,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/payroll/process-payroll', 'PayrollController@process_payroll');
 
     // payslip
-    Route::get('payslip', 'PayrollController@payslip_individual');
+    Route::get('payslip', 'PayrollController@payslip_individual')->name('individual-payslip');
 
     // -- end payroll
 
