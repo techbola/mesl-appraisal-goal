@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
 
+    Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
+
     // Route::middleware(['can:superadmin'])->group(function(){
     Route::resource('menus', 'MenuController');
     Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
@@ -174,6 +176,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('delete_todo/{id}', 'TodoController@delete_todo')->name('delete_todo');
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
+    Route::post('store_note', 'StickyNoteController@store')->name('store_note');
+
+    Route::get('call-memo/create/{id}', 'CallMemoController@create')->name('create_call_memo');
+    Route::get('call-memo/{id}', 'CallMemoController@view')->name('view_call_memo');
+
 
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
@@ -191,6 +198,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('cash_entries/customer_transfer', 'CashEntryController@customer_transfer')->name('customer_transfer');
     Route::post('cash_entries/customer_transfer', 'CashEntryController@customer_transfer_store');
+    Route::get('cash_entries/Imprest', 'CashEntryController@Imprest')->name('Imprest');
+    Route::post('cash_entries/storeImprest', 'CashEntryController@storeImprest');
     Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');

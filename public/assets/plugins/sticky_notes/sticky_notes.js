@@ -90,6 +90,7 @@ altair_sticky_notes = {
                 a = t.val(),
                 i = $("#note_f_content"),
                 r = i.val().replace(/\n/g, "<br />");
+
             if (t.removeClass("md-input-danger"), i.removeClass("md-input-danger"), "" == a) return t.addClass("md-input-danger"), void altair_md.update_input(t);
             if ("" == r) return i.addClass("md-input-danger"), void altair_md.update_input(i);
             if (a && r) {
@@ -124,6 +125,11 @@ altair_sticky_notes = {
                         })
                     }), s && (l[0].labels = s)
                 }
+                // Save note to db
+                $.post('/store_note', {Title: l[0].title, Body: l[0].content, Color: l[0].color}, function(data, status){
+                  console.log(data);
+                });
+                // console.log(l);
                 var m = Handlebars.compile($note_template)(l);
                 $grid.prepend(m), $window.resize(), altair_md.checkbox_radio($grid.find("[data-md-icheck]")), hide_note_form()
             }

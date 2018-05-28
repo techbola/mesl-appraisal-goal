@@ -119,14 +119,14 @@ class User extends Authenticatable
         return $this->staff->CompanyID;
     }
 
-    public function tasks()
-    {
-
-    }
-
     public function todos()
     {
       return $this->hasMany('Cavidel\Todo', 'UserID')->orderBy('DueDate');
+    }
+
+    public function sticky_notes()
+    {
+      return $this->hasMany('Cavidel\StickyNote', 'UserID')->orderBy('created_at');
     }
 
     // relationship for staff payroll details

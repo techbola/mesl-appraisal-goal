@@ -220,9 +220,16 @@
                     <div class="notification-panel">
                       <!-- START Notification Body-->
                       <div class="notification-body scrollable">
-
+                        @if (auth()->check())
+                          <?php $user = auth()->user(); ?>
                           <ul class="notif-list">
+                            @foreach ($user->unreadNotifications as $notif)
+                              <li>
+                                <a href="{{ $notif->data['link'] ?? '#' }}">{{ $notif->data['text'] ?? '' }}</a>
+                              </li>
+                            @endforeach
                           </ul>
+                        @endif
 
                       </div>
                       <!-- END Notification Body-->

@@ -4,9 +4,9 @@ namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Customers extends Model
 {
-    protected $table   = 'tblContacts';
+    protected $table   = 'tblCustomer';
     protected $guarded = ['CustomerRef'];
     public $primaryKey = 'CustomerRef';
 

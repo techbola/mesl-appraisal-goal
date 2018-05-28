@@ -276,7 +276,10 @@ class StaffController extends Controller
         $countries      = Country::all();
         $hmos           = HMO::all();
         $hmoplans       = HMOPlan::all();
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user'));
+        $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
+        $role = User::find($staff->UserID)->roles;
+        // dd($role->pluck('id', 'name'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role'));
     }
 
     public function editFinanceDetails($id)
@@ -426,9 +429,12 @@ class StaffController extends Controller
                 $user_staff->save();
 
                 // END PHOTO
+
+                $user_staff->roles()->detach();
+                $user_staff->roles()->attach($request->role);
             }
 
-            $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar']));
+            $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar', 'role']));
             $staff->save();
 
             DB::commit();

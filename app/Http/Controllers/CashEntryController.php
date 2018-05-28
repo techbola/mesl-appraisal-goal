@@ -795,5 +795,49 @@ class CashEntryController extends Controller
             return view('cash_entries.approve_posting', compact('cashentries'));
      }
 
+public function Imprest()
+    {
+        $configs          = Config::first();
+        $customers        = Customer::all();
+        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description 
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?", [5, 14]));
 
+         $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description 
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where (tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?) and (tblGL.Description like '%Petty Cash%' OR tblGL.Description like '%Card%')
+                         Order By tblGL.AccountTypeID,tblGL.Description", [2,3]));
+
+        $cashentries = \DB::table('tblCashEntry')
+            ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
+            ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
+            // ->where('PostingTypeID', '=', 1)
+            ->where('tblCashEntry.CurrencyID', 1)
+            ->where('tblCashEntry.Posted', 0)
+            ->get();
+        return view('cash_entries.Imprest', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
+    }
+
+     public function storeImprest(Request $request)
+      {
+        $cashentries = new CashEntry($request->all());
+        $this->validate($request, [
+            'Amount' => 'required',
+        ]);
+        if ($cashentries->save()) {
+            return redirect()->route('Imprest')->with('success', 'Posting was successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Posting failed to save');
+        }
+     }
 }
