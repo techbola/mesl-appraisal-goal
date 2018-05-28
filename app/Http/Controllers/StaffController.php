@@ -430,8 +430,10 @@ class StaffController extends Controller
 
                 // END PHOTO
 
-                $user_staff->roles()->detach();
-                $user_staff->roles()->attach($request->role);
+                if(!$user->hasRole('admin')){
+                  $user_staff->roles()->detach();
+                  $user_staff->roles()->attach($request->role);
+                }
             }
 
             $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar', 'role']));
