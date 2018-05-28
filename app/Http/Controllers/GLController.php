@@ -5,7 +5,7 @@ namespace Cavidel\Http\Controllers;
 use Cavidel\AccountType;
 use Cavidel\Branch;
 use Cavidel\Currency;
-use Cavidel\Customers;
+use Cavidel\Customer;
 // use Cavidel\Frequency;
 use Cavidel\GL;
 // use Cavidel\LoanRePaymentType;
