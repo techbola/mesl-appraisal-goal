@@ -9,14 +9,14 @@
 @endpush
 @include('errors.list')
 <div class="row">
-    <!-- <div class="col-sm-6">
+    <div class="col-sm-6">
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('CustomerID', 'Customer') }}
                 {{ Form::select('CustomerID', [ '' =>  'Select Customer'] + $customers->pluck('Customer', 'CustomerRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2"]) }}
             </div>
         </div>
-    </div> -->
+    </div>
 
     <div class="col-sm-6">
         <div class="form-group">
