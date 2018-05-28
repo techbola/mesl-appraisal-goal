@@ -40,7 +40,7 @@ class IssueController extends Controller
     $project = Project::find($id);
     $issues = IssueItem::where('ProjectID', $id)->get();
 
-    return view('issues.project_issues', compact('issues', 'project'));
+    return view('issues.project_issues1', compact('issues', 'project'));
   }
 
 
