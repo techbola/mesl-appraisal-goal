@@ -183,7 +183,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('call-memo/store_action_point/{discussion}', 'CallMemoController@store_action_point')->name('store_action_point');
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
 
-
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
     Route::get('/new_loan_rating', 'LoanRatingController@create')->name('new_loan_rating');
@@ -295,7 +294,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('payroll/setup-percentages', 'PayrollController@setup_percentages');
 
     // payroll reports
-    Route::get('payroll/reports/cummulative', 'PayrollController@get_cummulative');
+    Route::get('payroll/reports/cummulative', 'PayrollController@get_cummulative')->name('payroll.reports.cumulative');
+    Route::get('payroll/reports/individual', 'PayrollController@get_individual')->name('payroll.reports.individual');
 
     // payroll deductions
     Route::get('payroll/deductions', 'PayrollController@view_deductions')->name('payroll.deduction');
