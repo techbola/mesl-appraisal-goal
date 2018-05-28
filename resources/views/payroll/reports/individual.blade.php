@@ -41,14 +41,14 @@
 					<th>Club/Pro</th>
 					<th>Gross Pay</th>
 					<th>Taxable Base</th>
-					<th>Total Deductions</th>
+					<th>Total Deduction</th>
+					<th>PAYE Tax</th>
 					<th>Net Pay</th>
 					<th>Annual Net Pay</th>
 				</thead>
 				<tbody>
 					@foreach($payroll_details as $pd)
 					<tr>
-						
 						<td>{{ $pd->Fullname ?? 'No Name' }}</td>
 						<td>{{ $pd->Basic }}</td>
 						<td>{{ $pd->Housing }}</td>
