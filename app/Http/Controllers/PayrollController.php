@@ -192,7 +192,9 @@ class PayrollController extends Controller
             EXEC procNetPayToBank
         ");
         $nptb = collect($nptb)->transform(function ($item, $key) {
-            $item->Fullname = Staff::where('UserID', $item->StaffID)->first()->Fullname;
+            $item->Fullname       = Staff::where('UserID', $item->StaffID)->first()->Fullname;
+            $item->BankAcctNumber = Staff::where('UserID', $item->StaffID)->first()->BankAcctNumber ?? '-';
+            $item->BankName       = Staff::where('UserID', $item->StaffID)->first()->bank->Bank ?? '-';
             return $item;
         });
         return view('payroll.reports.nptb', compact('nptb'));

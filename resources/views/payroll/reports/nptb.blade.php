@@ -37,7 +37,7 @@
 						<td>{{ $np->Fullname ?? 'No Name' }}</td>
 						<td>{{ $np->BankAcctNumber }}</td>
 						<td>{{ $np->MonthlyNetPay }}</td>
-						<td>{{ $np->BankName }}</td>
+						<td>{{ $np->BankName  }}</td>
 					</tr>
 					@endforeach
 				</tbody>
