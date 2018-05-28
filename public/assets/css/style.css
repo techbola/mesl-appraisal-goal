@@ -991,3 +991,6 @@ ul.nav-tabs.outside + .tab-content > .tab-pane > .card-box {
     border-top: unset;
     border-radius: 0 0 8px 8px;
 }
+.pointer {
+  cursor: pointer;
+}

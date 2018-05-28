@@ -43,6 +43,10 @@ class Project extends Model
     foreach ($tasks as $task) {
       $user_ids[] = $task->staff->UserID;
     }
+    // Include supervisor if not already in
+    if (!in_array($this->supervisor->UserID, $user_ids)) {
+      array_push($user_ids, $this->supervisor->UserID);
+    }
     return $user_ids;
   }
 
@@ -76,7 +80,7 @@ class Project extends Model
   }
   public function chats()
   {
-    return $this->hasMany('Cavidel\ProjectChat', 'ProjectID', 'ProjectRef');
+    return $this->hasMany('Cavidel\ProjectChat', 'ProjectID', 'ProjectRef')->orderBy('created_at', 'desc');
   }
 
   public function assignees_list()

@@ -21,4 +21,8 @@ class Customer extends Model
       return $this->belongsTo('Cavidel\Country', 'CountryID', 'CountryRef');
     }
 
+    public function call_memos()
+    {
+      return $this->hasMany('Cavidel\CallMemo', 'CustomerID');
+    }
 }

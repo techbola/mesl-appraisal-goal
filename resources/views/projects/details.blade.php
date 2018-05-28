@@ -126,7 +126,7 @@
       <h4 class="card-title"><b>Project Chat</b></h4>
 
       <!-- Show scrollbar if updates are more than 3 -->
-      <div class="inbox-widget<?php if(count($project->chats) > 6){ echo ' nicescroll mx-box'; } ?>">
+      <div class="inbox-widget<?php if(count($project->chats) > 6){ echo ' nicescroll mx-box'; } ?>" style="overflow-y: auto;max-height: 300px;">
 
         @if ($project->chats)
           @foreach ($project->chats as $chat)

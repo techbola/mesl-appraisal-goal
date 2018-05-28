@@ -137,7 +137,10 @@
                     <a href="#"><i class="material-icons md-24">&#xE3B7;</i></a>
                     <div class="uk-dropdown uk-dropdown-blank" id="notes_cp"></div>
                 </div><!--
-                --><div class="uk-button-dropdown uk-margin-left" data-uk-dropdown="{mode:'click'}">
+                -->
+
+                <!-- Labels Button -->
+                <!-- <div class="uk-button-dropdown uk-margin-left" data-uk-dropdown="{mode:'click'}">
                     <a href="#"><i class="material-icons md-24">&#xE892;</i></a>
                     <div class="uk-dropdown uk-dropdown-blank" id="dropdown_labels">
                         @{{#each labels }}
@@ -147,8 +150,12 @@
                             </div>
                         @{{/each}}
                     </div>
-                </div><!--
-                --><a href="#" class="uk-margin-left" data-uk-toggle="{target:'#notes_checklist'}"><i class="material-icons md-24">&#xE065;</i></a>
+                </div> -->
+
+                <!--
+                -->
+                <!-- Sub Todos List -->
+                <!-- <a href="#" class="uk-margin-left" data-uk-toggle="{target:'#notes_checklist'}"><i class="material-icons md-24">&#xE065;</i></a> -->
             </div>
             <div class="uk-float-right">
                 <a href="#" class="md-btn md-btn-primary" id="note_add">Add Note</a>
