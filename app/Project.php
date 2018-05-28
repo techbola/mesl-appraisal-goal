@@ -80,7 +80,7 @@ class Project extends Model
   }
   public function chats()
   {
-    return $this->hasMany('Cavidel\ProjectChat', 'ProjectID', 'ProjectRef');
+    return $this->hasMany('Cavidel\ProjectChat', 'ProjectID', 'ProjectRef')->orderBy('created_at', 'desc');
   }
 
   public function assignees_list()
