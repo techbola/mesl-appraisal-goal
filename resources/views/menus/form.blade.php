@@ -54,3 +54,4 @@
 					<div class="pull-right">
 						{{ Form::submit($buttonText, ['class' => 'btn btn-complete']) }}
 					</div>
+					<div class="clearfix"></div>

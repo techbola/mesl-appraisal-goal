@@ -14,7 +14,7 @@
 	<!-- START PANEL -->
 	<div class="card-box">
 		<div class="card-title pull-left">
-			Payroll Cummulative Report
+			Payroll Cummulative Report.
 		</div>
 		<div class="pull-right">
 			<div class="col-xs-12">
