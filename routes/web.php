@@ -178,8 +178,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('notes', 'StickyNoteController@index')->name('notes');
     Route::post('store_note', 'StickyNoteController@store')->name('store_note');
 
-    Route::get('call-memo/create/{id}', 'CallMemoController@create')->name('create_call_memo');
-    Route::get('call-memo/{id}', 'CallMemoController@view')->name('view_call_memo');
+    Route::get('call-memo/create/{customer}', 'CallMemoController@create')->name('create_call_memo');
+    Route::post('call-memo/store/{customer}', 'CallMemoController@store')->name('store_call_memo');
+    Route::post('call-memo/store_action_point/{discussion}', 'CallMemoController@store_action_point')->name('store_action_point');
+    Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
 
 
     // Loan Credit Rating
