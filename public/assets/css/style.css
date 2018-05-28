@@ -994,3 +994,7 @@ ul.nav-tabs.outside + .tab-content > .tab-pane > .card-box {
 .pointer {
   cursor: pointer;
 }
+/* Fix callendar overflow issue */
+.fc-scroller {
+  overflow-x: visible !Important;
+}
