@@ -24,7 +24,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Attendees</label>
-                <input type="text" class="form-control" name="Attendees" placeholder="Attendees">
+                <input type="text" class="form-control" name="Attendees" placeholder="Attendees" required>
               </div>
             </div>
             <div class="col-md-6">
@@ -39,17 +39,33 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Location</label>
-                <input type="text" class="form-control" name="Location" placeholder="Location">
+                <input type="text" class="form-control" name="Location" placeholder="Location" required>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label>Meeting Date</label>
                 <div class="input-group date dp">
-                  <input type="text" class="form-control" name="MeetingDate" placeholder="MeetingDate">
+                  <input type="text" class="form-control" name="MeetingDate" placeholder="MeetingDate" required>
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              {{-- <div class="form-group">
+                <label>Attendees Emails</label>
+                <textarea name="Emails" rows="2" class="form-control" placeholder="Enter emails of attendees. Comma separated."></textarea>
+              </div> --}}
+
+              <div class="form-group required">
+                <label>Attendees Emails</label>
+                <span class="help">Type an email, then press enter.</span>
+                <input name="AttendeeEmails" class="tagsinput custom-tag-input" type="text" value="" placeholder="Enter emails of attendees."/>
+              </div>
+
             </div>
           </div>
 
@@ -77,6 +93,19 @@
 @endsection
 
 @push('scripts')
+
+  <script src="{{ asset('assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js') }}" charset="utf-8"></script>
+  <script type="text/javascript">
+    $('.custom-tag-input').tagsinput({
+      confirmKeys: [13, 188],
+      trimValue: true
+    });
+
+    $('.bootstrap-tagsinput input').blur(function() {
+      $('.custom-tag-input').tagsinput('add', $(this).val());
+      $(this).val('');
+    });
+  </script>
   <script>
     var discussions = $('#discussions');
     var disc_id = 0;

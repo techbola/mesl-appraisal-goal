@@ -16,4 +16,9 @@ class CallMemoAction extends Model
     return $this->belongsTo('Cavidel\User', 'UserID');
   }
 
+  public function status()
+  {
+    return $this->belongsTo('Cavidel\CallMemoActionStatus', 'StatusID');
+  }
+
 }

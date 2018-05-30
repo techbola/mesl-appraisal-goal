@@ -183,6 +183,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('call-memo/store/{customer}', 'CallMemoController@store')->name('store_call_memo');
     Route::post('call-memo/store_action_point/{discussion}', 'CallMemoController@store_action_point')->name('store_action_point');
     Route::post('call-memo/store_discussion_point/{memo}', 'CallMemoController@store_discussion_point')->name('store_discussion_point');
+    Route::post('call-memo/email_attendees/{memo}', 'CallMemoController@email_attendees')->name('email_attendees');
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
 
     // Loan Credit Rating

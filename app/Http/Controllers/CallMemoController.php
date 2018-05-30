@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use Cavidel\CallMemo;
 use Cavidel\CallMemoDiscussion;
 use Cavidel\CallMemoAction;
+use Cavidel\CallMemoActionStatus;
 use Cavidel\Customer;
 use Cavidel\Staff;
+use Cavidel\HelpersOld;
+use Mail;
 
 use DB;
 
@@ -18,7 +21,8 @@ class CallMemoController extends Controller
     $user = auth()->user();
     $contact = Customer::find($id);
     $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
-    return view('call_memo.view', compact('contact', 'staffs'));
+    $statuses = CallMemoActionStatus::all();
+    return view('call_memo.view', compact('contact', 'staffs', 'statuses'));
   }
 
   public function create($id)
@@ -42,6 +46,7 @@ class CallMemoController extends Controller
           $memo->MeetingDate = $request->MeetingDate;
           $memo->CompanyID = $user->staff->CompanyID;
           $memo->CustomerID = $id;
+          $memo->AttendeeEmails = $request->AttendeeEmails;
           $memo->save();
 
           if (!empty($request->discussions)) {
@@ -69,6 +74,7 @@ public function store_action_point(Request $request, $id)
   $action->EndDate = $request->EndDate;
   $action->UserID = $request->UserID;
   $action->DiscussionID = $id;
+  $action->StatusID = $request->StatusID;
   $action->save();
 
   return redirect()->back()->with('success', 'Action point saved successfully');
@@ -88,6 +94,17 @@ public function store_discussion_point(Request $request, $id)
   $disc->save();
 
   return redirect()->back()->with('success', 'Discussion point saved successfully');
+}
+
+public function email_attendees(Request $request, $id)
+{
+  $memo = CallMemo::find($id);
+  // dd($memo->customer);
+  $emails = explode(',', $memo->AttendeeEmails);
+  foreach ($emails as $email) {
+    HelpersOld::send_mail($email, $memo);
+  }
+  return redirect()->back()->with('success', 'The attendees have been emailed successfully');
 }
 
 }
