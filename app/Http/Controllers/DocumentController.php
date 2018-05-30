@@ -7,6 +7,7 @@ use Cavidel\Document;
 use Cavidel\DocType;
 use Cavidel\Role;
 use Cavidel\Staff;
+use Cavidel\Workflow;
 use Auth;
 use DB;
 
@@ -56,8 +57,18 @@ class DocumentController extends Controller
 
     public function approval_list()
     {
-        $docs = Document::where('ApproverID', auth()->user()->id)->get();
-        return view('documents.approvallist', compact('docs'));
+        // all approval IDs for a documents.
+        $document_workflow = Workflow::where('ModuleID', 1)->get(['ApproverID1', 'ApproverID2', 'ApproverID3', 'ApproverID4', 'ApproverID5', 'ApproverID6', 'ApproverID7', 'ApproverID8', 'ApproverID9', 'ApproverID10']);
+
+        // unapproved docs
+        $unapproved_docs = Document::where('ApproverID', auth()->user()->id)->get();
+
+        // approved docs
+        $approved_docs = Document::where('ApproverID', 0)
+            ->where('ApprovedFlag', 1)
+            ->get();
+
+        return view('documents.approvallist', compact('approved_docs', 'unapproved_docs'));
     }
 
     public function store(Request $request)

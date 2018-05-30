@@ -319,6 +319,11 @@ Route::middleware(['auth'])->group(function () {
 
     // Risk Register
     Route::resource('risk-registers', 'RiskRegisterController');
+    //  End Risk register
+
+    // Begin Memorandum
+    Route::resource('memos', 'MemoController');
+    // End Memorandum
 });
 
 Route::get('/cls', function () {
