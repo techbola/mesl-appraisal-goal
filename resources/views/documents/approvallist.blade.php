@@ -16,56 +16,108 @@
     </div> --}}
 
     <!-- START PANEL -->
-    <div class="card-box">
-            <div class="card-title pull-left">Document Listing</div>
+    <div class="card-box hide">
+           
             <div class="pull-right">
                 <div class="col-xs-12">
                     <input type="text" class="search-table form-control pull-right" placeholder="Search">
                 </div>
             </div>
-            <div class="clearfix"></div>
-            <table class="table tableWithSearch_a">
-                <thead>
-                    <th>
-                        <div class="checkbox check-info">
-                          <input type="checkbox" id="select-all">
-                          <label for="select-all" class="text-white">Bulk Select</label>
-                        </div>
-                    </th>
-                    <th width="20%">Document Name</th>
-                    <th width="15%">Type</th>
-                    <th width="20%">Upload Date</th>
-                    <th width="20%">Uploaded By</th>
-                    <th>Download</th>
-                </thead>
-                <tbody>
-                    @foreach( $docs as $doc)
-                    <tr>
-                        <td>
-                            <div class="checkbox check-info">
-                              <input type="checkbox" id="select-all-child-{{ $doc->DocRef }}" class="select-all-child" value="{{ $doc->DocRef }}">
-                              <label for="select-all-child-{{ $doc->DocRef }}" class="text-white"></label>
-                            </div>
-                        </td>
-                        <td>
-                            {{ $doc->Description }}
-                        </td>
-                        <td>{{ $doc->doctype->DocType ?? '' }}</td>
-                        <td>{{ date('jS M, Y - g:ia', strtotime($doc->UploadDate)) }}</td>
-                        <td>{{ $doc->initiator->FullName ?? '-' }}</td>
-                        {{-- <td><a href="#" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
-                        {{-- <td><a href="{{ $doctype->Path}}" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
-                        <td>
-                            <a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i>
-                            </a>
-                        </td>
-                        
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="clearfix"></div>   
     </div>
     <!-- END PANEL -->
+    <!-- Tabs For Documents -->
+    {{-- START TABS --}}
+     <h3 class="card-title">Document Listing</h3>
+      <ul class="nav nav-tabs outside">
+        <li class="active"><a data-toggle="tab" href="#unapproved">UnApproved Documents &nbsp; <span class="badge badge-primary">{{ $unapproved_docs->count() }}</span></a></li>
+        <li><a data-toggle="tab" href="#approved">Approved Documents &nbsp; <span class="badge badge-primary">{{ $approved_docs->count() }}</span></a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="unapproved" class="tab-pane fade in active">
+          
+            <div class="card-box ">
+                <table class="table tableWithSearch_a">
+                    <thead>
+                        <th>
+                            <div class="checkbox check-info">
+                              <input type="checkbox" id="select-all">
+                              <label for="select-all" class="text-white">Bulk Select</label>
+                            </div>
+                        </th>
+                        <th width="20%">Document Name</th>
+                        <th width="15%">Type</th>
+                        <th width="20%">Upload Date</th>
+                        <th width="20%">Uploaded By</th>
+                        <th>Download</th>
+                    </thead>
+                    <tbody>
+                        @foreach( $unapproved_docs as $doc)
+                        <tr>
+                            <td>
+                                <div class="checkbox check-info">
+                                  <input type="checkbox" id="select-all-child-{{ $doc->DocRef }}" class="select-all-child" value="{{ $doc->DocRef }}">
+                                  <label for="select-all-child-{{ $doc->DocRef }}" class="text-white"></label>
+                                </div>
+                            </td>
+                            <td>
+                                {{ $doc->Description }}
+                            </td>
+                            <td>{{ $doc->doctype->DocType ?? '' }}</td>
+                            <td>{{ date('jS M, Y - g:ia', strtotime($doc->UploadDate)) }}</td>
+                            <td>{{ $doc->initiator->FullName ?? '-' }}</td>
+                            {{-- <td><a href="#" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
+                            {{-- <td><a href="{{ $doctype->Path}}" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
+                            <td>
+                                <a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i>
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div id="approved" class="tab-pane fade">
+
+          
+          <div class="card-box">
+            <table class="table tableWithSearch">
+                    <thead>
+                        <th width="">Document Name</th>
+                        <th width="">Type</th>
+                        <th width="">Upload Date</th>
+                        <th width="">Uploaded By</th>
+                        <th>Download</th>
+                    </thead>
+                    <tbody>
+                        @foreach( $approved_docs as $doc)
+                        <tr>
+                            <td>
+                                {{ $doc->Description }}
+                            </td>
+                            <td>{{ $doc->doctype->DocType ?? '' }}</td>
+                            <td>{{ date('jS M, Y - g:ia', strtotime($doc->UploadDate)) }}</td>
+                            <td>{{ $doc->initiator->FullName ?? '-' }}</td>
+                            {{-- <td><a href="#" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
+                            {{-- <td><a href="{{ $doctype->Path}}" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
+                            <td>
+                                <a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i>
+                                </a>
+                            </td>
+                            
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+          </div>
+
+        </div>
+      </div>
+  {{-- END TABS --}}
+    <!-- End tabs for documents -->
 
 
 

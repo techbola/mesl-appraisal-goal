@@ -200,6 +200,18 @@ class PayrollController extends Controller
         return view('payroll.reports.nptb', compact('nptb'));
     }
 
+    // payslip
+    public function payslip_individual()
+    {
+        $max_month      = PayrollMonthly::max('PayMonth');
+        $current_year   = \Carbon\Carbon::now()->format('Y');
+        $payslip_detail = PayrollMonthly::where('StaffID', auth()->user()->staff->StaffRef)
+            ->where('PayMonth', $max_month)
+            ->where('PayYear', $current_year)
+            ->first();
+        return view('staff.payslip', compact('payslip_detail'));
+    }
+
     // process payroll
     public function process_payroll(Request $request)
     {
