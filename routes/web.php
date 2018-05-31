@@ -181,6 +181,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('call-memo/create/{customer}', 'CallMemoController@create')->name('create_call_memo');
     Route::post('call-memo/store/{customer}', 'CallMemoController@store')->name('store_call_memo');
+    Route::get('call-memo/edit/{id}', 'CallMemoController@edit')->name('edit_call_memo');
+    Route::patch('call-memo/update/{id}', 'CallMemoController@update')->name('update_call_memo');
     Route::post('call-memo/store_action_point/{discussion}', 'CallMemoController@store_action_point')->name('store_action_point');
     Route::get('call-memo/edit_action_point/{id}', 'CallMemoController@edit_action_point')->name('edit_action_point');
     Route::patch('call-memo/update_action_point/{id}', 'CallMemoController@update_action_point')->name('update_action_point');
@@ -344,7 +346,7 @@ Route::get('/cda', function () {
     return redirect()->route('home');
 });
 
-Route::get('/account', function () {
-    $project = Cavidel\Project::find('2');
-    return $project->user_ids;
+Route::get('/testing', function () {
+    $memo = Cavidel\CallMemo::find('17');
+    return view('pdf.call_memo', compact('memo'));
 });

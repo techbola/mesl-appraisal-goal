@@ -1,13 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8">
-    {{-- <title></title> --}}
+    <title></title>
+
   </head>
-  <body>
-
-
+  <body style="font-family:sans-serif">
     <style>
+      .my-list {
+        padding-left: 0px;
+        margin-top: 50px;
+      }
+      .my-list li {
+        padding: 10px 0;
+        border-bottom: 1px solid #f1f1f1;
+        margin-bottom: 0;
+        list-style: none;
+      }
+      .my-list li:first-child {
+        padding-top: 0px;
+      }
+      .my-list li:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      /* Bootstrap */
       body {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 14px;
@@ -15,6 +33,104 @@
         color: #333;
         background-color: #fff;
       }
+      table {
+        border-spacing: 0;
+        border-collapse: collapse;
+      }
+      td,
+      th {
+        padding: 0;
+      }
+      thead {
+        display: table-header-group;
+      }
+      tr,
+      img {
+        page-break-inside: avoid;
+      }
+      .table {
+        border-collapse: collapse !important;
+      }
+      .table td,
+      .table th {
+        background-color: #fff !important;
+      }
+      .table-bordered th,
+      .table-bordered td {
+        border: 1px solid #ddd !important;
+      }
+    }
+    .label {
+      border: 1px solid #000;
+    }
+    .label {
+      display: inline;
+      padding: .2em .6em .3em;
+      font-size: 75%;
+      font-weight: bold;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .25em;
+    }
+    a.label:hover,
+    a.label:focus {
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .label:empty {
+      display: none;
+    }
+    .btn .label {
+      position: relative;
+      top: -1px;
+    }
+    .label-default {
+      background-color: #777;
+    }
+    .label-default[href]:hover,
+    .label-default[href]:focus {
+      background-color: #5e5e5e;
+    }
+    .label-primary {
+      background-color: #337ab7;
+    }
+    .label-primary[href]:hover,
+    .label-primary[href]:focus {
+      background-color: #286090;
+    }
+    .label-success {
+      background-color: #5cb85c;
+    }
+    .label-success[href]:hover,
+    .label-success[href]:focus {
+      background-color: #449d44;
+    }
+    .label-info {
+      background-color: #5bc0de;
+    }
+    .label-info[href]:hover,
+    .label-info[href]:focus {
+      background-color: #31b0d5;
+    }
+    .label-warning {
+      background-color: #f0ad4e;
+    }
+    .label-warning[href]:hover,
+    .label-warning[href]:focus {
+      background-color: #ec971f;
+    }
+    .label-danger {
+      background-color: #d9534f;
+    }
+    .label-danger[href]:hover,
+    .label-danger[href]:focus {
+      background-color: #c9302c;
+    }
+      /*******************/
       table {
         background-color: transparent;
       }
@@ -255,90 +371,87 @@
           border-bottom: 0;
         }
       }
+      /* Bring back Bootstrap styles that Pages.css was overriding */
+    .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+        padding: 10px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        line-height: 1.42857143 !important;
+        vertical-align: top !important;
+    }
+    .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+      border-top: 1px solid #ddd;
+    }
+    .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+        /* border: 1px solid #555; */
+        border: 1px solid #ddd;
+    }
+    .table-bordered {
+        /* border: 1px solid #555 !important; */
+        border: 1px solid #ddd !important;
+    }
+    .table-bordered th {
+      border-bottom: 0 !important;
+      color: #999 !important;
+      background-color: #f5f5f6 !important;
+      text-transform: capitalize !important;
+    }
+    .table-bordered tbody tr td {
+      font-size: 14px;
+    }
     </style>
 
-      Hi,
-      <br>
+    <h3 style="text-align:center">Meeting Notes For Meeting With {{ $memo->customer->Customer }}</h3>
+    <div style="text-align:center">Date: {{ \Carbon::parse($memo->MeetingDate)->format('d M, Y') }}</div>
+    <br><hr><br>
 
-      You are receiving this memo because you were part of the meeting with {{ $memo->customer->Customer }}.
+    {{-- <h4><u>CUSTOMER</u></h4>
+    <br> --}}
+    <ul class="my-list">
+      <li><b>Attendees:</b> {{ $memo->Attendees }}</li>
+      <li><b>Handouts:</b> {{ $memo->Handouts }}</li>
+      <li><b>Attendees:</b> {{ $memo->Location }}</li>
+      <li><b>Meeting Date:</b> {{ $memo->MeetingDate }}</li>
+    </ul>
 
-      <b>Attendeees:</b> {{ $memo->Attendees }}.
-      <br>
-      <b>Meeting Date:</b> {{ $memo->MeetingDate }}.
-      <br>
-      <b>Location:</b> {{ $memo->Location }}.
-      <br>
-      <b>Handouts:</b> {{ $memo->Handouts }}.
+    <table class="table-bordered table-responsive">
+      <tbody>
 
+        @php $disc_count = 0; @endphp
+        @foreach ($memo->discussions as $discuss)
 
-      <table id="#call_memo" class="table table-bordered" border="1">
-        <thead>
-          <tr>
-            <th>Attendees</th>
-            <th>Handouts</th>
-            <th>Location</th>
-            <th>Meeting Date</th>
+          @php $disc_count++; @endphp
+          {{-- <tbody> --}}
+          <tr class="disc_row">
+            <td class="small"><b>Discussion Point {{ $disc_count }}</b></td>
+            <td colspan="3" class="small">{!! $discuss->DiscussionPoint !!}</td>
+
           </tr>
-        </thead>
-
-
-        <tbody>
-          <tr>
-            <td>{{ $memo->Attendees }}</td>
-            <td>{{ $memo->Handouts }}</td>
-            <td>{{ $memo->Location }}</td>
-            <td>
-              {{ $memo->MeetingDate }}
-
-            </td>
-          </tr>
-        </tbody>
-        <tbody id="memo_{{ $memo->CallMemoRef }}" style="display:none">
-
-          @php $disc_count = 0; @endphp
-          @foreach ($memo->discussions as $discuss)
-
-            @php $disc_count++; @endphp
-            {{-- <tbody> --}}
-            <tr class="disc_row">
+          {{-- </tbody> --}}
+          @if (count($discuss->actions) > 0)
+            <tr class="action_row">
               <td></td>
-              <td class="small"><b>Discussion Point {{ $disc_count }}</b></td>
-              <td colspan="2" class="small">{!! $discuss->DiscussionPoint !!}</td>
-              <td>
-                {{-- <a class="add_point f20 pointer" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus-circle text-success" data-toggle="tooltip" title="Add Action Point"></i></a> --}}
-                <div class="pull-right">
-
-                  {{-- <i class="fa fa-level-up m-l-10 m-r-5"></i> --}}
-                </div>
-              </td>
+              <th class="thead">Action Point</th>
+              <th class="thead">Responsibility</th>
+              <th class="thead">Timeline</th>
+              {{-- <td class="thead">Status</td> --}}
             </tr>
-            {{-- </tbody> --}}
-            @if (count($discuss->actions) > 0)
-              <tr class="action_row">
-                <td></td>
-                <td></td>
-                <td class="thead">Action Point</td>
-                <td class="thead">Responsibility</td>
-                <td class="thead">Timeline</td>
-                {{-- <td class="thead">Status</td> --}}
-              </tr>
-            @endif
-            @foreach ($discuss->actions as $action)
-              {{-- <tbody> --}}
+          @endif
+          @foreach ($discuss->actions as $action)
+            {{-- <tbody> --}}
 
-              <tr class="action_row">
-                <td></td>
-                <td><span class="label label-{{ $action->status->Color }} pull-right">{{ $action->status->Status }}</span></td>
-                <td class="small"><i class="fa fa-bullseye text-muted m-r-5 f16"></i> {{ $action->ActionPoint }}</td>
-                <td class="small"><i class="fa fa-user text-muted m-r-5 f15"></i> {{ $action->user->FullName }}</td>
-                <td class="small"><i class="fa fa-clock-o text-muted m-r-5 f16"></i> {{ $action->StartDate.' - '.$action->EndDate  }}</td>
-                {{-- <td class="small"><span class="label label-info">status</span></td> --}}
-              </tr>
-            @endforeach
-
+            <tr class="action_row">
+              <td><span class="label label-{{ $action->status->Color }} pull-right">{{ $action->status->Status }}</span></td>
+              <td class="small"><i class="fa fa-bullseye text-muted m-r-5 f16"></i> {{ $action->ActionPoint }}</td>
+              <td class="small"><i class="fa fa-user text-muted m-r-5 f15"></i> {{ $action->user->FullName }}</td>
+              <td class="small"><i class="fa fa-clock-o text-muted m-r-5 f16"></i> {{ $action->StartDate.' - '.$action->EndDate  }}</td>
+              {{-- <td class="small"><span class="label label-info">status</span></td> --}}
+            </tr>
           @endforeach
-        </tbody>
-      </table>
+
+        @endforeach
+      </tbody>
+    </table>
 
 
   </body>
