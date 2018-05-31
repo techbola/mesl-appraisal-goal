@@ -11,8 +11,10 @@ use Cavidel\Customer;
 use Cavidel\Staff;
 use Cavidel\HelpersOld;
 use Mail;
+use Cavidel\Mail\SendCallMemo;
 
 use DB;
+use PDF;
 
 class CallMemoController extends Controller
 {
@@ -60,7 +62,34 @@ class CallMemoController extends Controller
     });
 
     return redirect()->route('view_call_memo', $id)->with('success', 'Call memo saved successfully');
+  }
 
+  public function update(Request $request, $id)
+  {
+    $user = auth()->user();
+
+    DB::transaction(function() use($request, $user, $id) {
+
+          $memo = CallMemo::find($id);
+          $memo->Attendees = $request->Attendees;
+          $memo->Handouts = $request->Handouts;
+          $memo->Location = $request->Location;
+          $memo->MeetingDate = $request->MeetingDate;
+          // $memo->CompanyID = $user->staff->CompanyID;
+          // $memo->CustomerID = $id;
+          $memo->AttendeeEmails = $request->AttendeeEmails;
+          $memo->update();
+
+          // if (!empty($request->discussions)) {
+          //   foreach ($request->discussions as $key => $discuss) {
+          //     $disc = new CallMemoDiscussion;
+          //     $disc->DiscussionPoint = $discuss;
+          //     $disc->CallMemoID = $memo->CallMemoRef;
+          //     $disc->save();
+          //   }
+          // }
+    });
+    return redirect()->back()->with('success', 'The Call memo has been updated successfully');
   }
 
   public function store_action_point(Request $request, $id)
@@ -122,8 +151,20 @@ class CallMemoController extends Controller
     $memo = CallMemo::find($id);
     // dd($memo->customer);
     $emails = explode(',', $memo->AttendeeEmails);
+    // foreach ($emails as $email) {
+    //   HelpersOld::send_mail($email, $memo);
+    // }
+
+    // Transform emails to user objects
+    // $users = [];
+    // foreach($emails as $key => $email){
+    //   $u = [];
+    //   $u['email'] = $email;
+    //   $u['name'] = 'Name';
+    //   $users[$key] = (object)$u;
+    // }
     foreach ($emails as $email) {
-      HelpersOld::send_mail($email, $memo);
+      Mail::to($email)->send(new SendCallMemo($memo));
     }
     return redirect()->back()->with('success', 'The attendees have been emailed successfully');
   }

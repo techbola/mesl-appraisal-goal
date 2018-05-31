@@ -63,11 +63,25 @@
             </td>
             <td>
               <span class="pull-right">
-                <a href="#" onclick="confirm2('Send memo to attendees', '', 'email_attendees_{{ $memo->CallMemoRef }}')" class="btn btn-inverse btn-xs"><i class="fa fa-envelope m-r-5"></i> Send</a>
+                <a href="#" onclick="confirm2('Send memo to attendees?', '', 'email_attendees_{{ $memo->CallMemoRef }}')" class="btn btn-inverse btn-xs"><i class="fa fa-envelope m-r-5"></i> Send</a>
                 <form id="email_attendees_{{ $memo->CallMemoRef }}" class="hidden" action="{{ route('email_attendees', $memo->CallMemoRef) }}" method="post">
                   {{ csrf_field() }}
                 </form>
-                <a class="m-l-15 add_point pointer btn btn-xs btn-info" data-toggle="modal" data-target="#disc_point" onclick="get_memo_id('{{ $memo->CallMemoRef }}')"> <i class="fa fa-plus m-r-5"></i> Discussion Point</a>
+                <a class="m-l-10 add_point pointer btn btn-xs btn-info" data-toggle="modal" data-target="#disc_point" onclick="get_memo_id('{{ $memo->CallMemoRef }}')"> <i class="fa fa-plus m-r-5"></i> Discussion</a>
+                <a class="m-l-5 pointer btn btn-xs btn-warning" data-toggle="modal" data-target="#edit_memo" @click="edit_memo({{ $memo }})">Edit</a>
+
+                {{-- <div class="btn-group">
+                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      ... <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="">Account Statement</a></li>
+                      <li><a href="">Interest Accruals</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li><a href="">Edit Account</a></li>
+                    </ul>
+                  </div> --}}
+
               </span>
             </td>
           </tr>
@@ -209,7 +223,6 @@
 
 
   {{-- Add Discussion Point --}}
-
   <div class="modal fade" id="disc_point" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -238,7 +251,101 @@
       </div>
     </div>
   </div>
+
+  {{-- Edit Memo --}}
+  <div class="modal fade" id="edit_memo" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h5 class="card-title">Edit Memo</h5>
+        </div>
+        <div class="modal-body">
+          @include('errors.list')
+          <form class="" action="" method="post">
+            {{ csrf_field() }}
+            {{ method_field('PATCH') }}
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Attendees</label>
+                  <input type="text" class="form-control" name="Attendees" placeholder="Attendees" required v-model="memo.Attendees">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Handouts</label>
+                  <input type="text" class="form-control" name="Handouts" placeholder="Handouts" v-model="memo.Handouts">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Location</label>
+                  <input type="text" class="form-control" name="Location" placeholder="Location" required v-model="memo.Location">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Meeting Date</label>
+                  <div class="input-group date dp">
+                    <input type="text" class="form-control" name="MeetingDate" placeholder="MeetingDate" v-model="memo.MeetingDate" required>
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+
+                <div class="form-group required">
+                  <label>Attendees Emails</label>
+                  <span class="help">Type an email, then press enter.</span>
+                  <input name="AttendeeEmails" class="tagsinput custom-tag-input" type="text" placeholder="Enter emails of attendees."/>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="text-right m-t-10">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-info">Submit</button>
+            </div>
+
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
 @endsection
+
+@push('vue')
+  <script src="{{ asset('assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js') }}" charset="utf-8"></script>
+  <script>
+
+		new Vue({
+			el: '#app',
+			data: {
+				memo: {},
+			},
+			methods: {
+				edit_memo(memo) {
+					this.memo = memo;
+          var form_action = "{{ url('/') }}"+"/call-memo/update/"+this.memo.CallMemoRef;
+          $('#edit_memo').find('form').attr('action', form_action);
+          $('.custom-tag-input').tagsinput('removeAll');
+          $('.custom-tag-input').tagsinput('add', this.memo.AttendeeEmails);
+				},
+			},
+		});
+	</script>
+@endpush
 
 @push('scripts')
   <script>
@@ -277,5 +384,19 @@
     function toggle_row(id) {
       $('#'+id).toggle();
     }
+  </script>
+
+
+  <script src="{{ asset('assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js') }}" charset="utf-8"></script>
+  <script type="text/javascript">
+    $('.custom-tag-input').tagsinput({
+      confirmKeys: [13, 188],
+      trimValue: true
+    });
+
+    $('.bootstrap-tagsinput input').blur(function() {
+      $('.custom-tag-input').tagsinput('add', $(this).val());
+      $(this).val('');
+    });
   </script>
 @endpush
