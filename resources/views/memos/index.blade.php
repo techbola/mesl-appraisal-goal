@@ -1,4 +1,16 @@
 @extends('layouts.master')
+@section('title')
+  Memorandum
+@endsection
+
+@section('page-title')
+  Memorandum
+@endsection
+
+@section('buttons')
+  <a href="{{ route('memos.create') }}" class="btn btn-info btn-rounded pull-right" >New Memo</a>
+@endsection
+
 @section('content')
 
   	<!-- START PANEL -->
