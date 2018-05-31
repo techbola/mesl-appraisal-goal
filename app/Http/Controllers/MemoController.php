@@ -86,11 +86,16 @@ class MemoController extends Controller
         // unapproved docs
         $unapproved_memos = Memo::where('ApproverID', auth()->user()->id)
             ->where('NotifyFlag', 1)
+
             ->get();
 
         // approved docs
         $approved_memos = Memo::where('ApproverID', 0)
             ->where('ApprovedFlag', 1)
+            ->whereIn('ApproverID1', [auth()->user()->id])
+            ->orWhereIn('ApproverID2', [auth()->user()->id])
+            ->orWhereIn('ApproverID3', [auth()->user()->id])
+            ->orWhereIn('ApproverID4', [auth()->user()->id])
             ->get();
 
         return view('memos.approvallist', compact('approved_memos', 'unapproved_memos'));
