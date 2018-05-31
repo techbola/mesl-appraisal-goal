@@ -36,7 +36,7 @@
                     </div>
                     <div class="md-card-content">
                         <h2 class="heading_b uk-margin-large-right">{{ $note->Title }}</h2>
-                        <p>{{ $note->Body }}</p>
+                        <p>{!! $note->Body !!}</p>
                         {{-- @{{#exists checklist}}
                             <ul class="uk-list">
                                 @{{#each checklist }}

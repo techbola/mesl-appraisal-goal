@@ -8,6 +8,7 @@ use Storage;
 use Flysystem;
 use Cavidel\AutopayResponse;
 use Cavidel\LoanRatingOption;
+use Mail;
 
 class HelpersOld extends Model
 {
@@ -106,6 +107,13 @@ class HelpersOld extends Model
     $key = LoanRatingOption::where('Slug', $slug)->first();
 
     return $key->{Static::num_words($num)};
+  }
+
+  public static function send_mail($email, $memo) {
+    Mail::send('mails.call_memo', ['email' => $email, 'memo' => $memo], function($message) use($email, $memo) {
+      $message->to($email);
+      $message->subject('Memo For Meeting With '.$memo->customer->Customer);
+    });
   }
 
 }

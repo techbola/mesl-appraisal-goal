@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use Cavidel\CallMemo;
 use Cavidel\CallMemoDiscussion;
 use Cavidel\CallMemoAction;
+use Cavidel\CallMemoActionStatus;
 use Cavidel\Customer;
 use Cavidel\Staff;
+use Cavidel\HelpersOld;
+use Mail;
 
 use DB;
 
@@ -18,7 +21,8 @@ class CallMemoController extends Controller
     $user = auth()->user();
     $contact = Customer::find($id);
     $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
-    return view('call_memo.view', compact('contact', 'staffs'));
+    $statuses = CallMemoActionStatus::all();
+    return view('call_memo.view', compact('contact', 'staffs', 'statuses', 'user'));
   }
 
   public function create($id)
@@ -42,6 +46,7 @@ class CallMemoController extends Controller
           $memo->MeetingDate = $request->MeetingDate;
           $memo->CompanyID = $user->staff->CompanyID;
           $memo->CustomerID = $id;
+          $memo->AttendeeEmails = $request->AttendeeEmails;
           $memo->save();
 
           if (!empty($request->discussions)) {
@@ -58,36 +63,83 @@ class CallMemoController extends Controller
 
   }
 
-public function store_action_point(Request $request, $id)
-{
-  $user = auth()->user();
+  public function store_action_point(Request $request, $id)
+  {
+    $user = auth()->user();
 
-  // $discuss = CallMemoDiscussion::find($id);
-  $action = new CallMemoAction;
-  $action->ActionPoint = $request->ActionPoint;
-  $action->StartDate = $request->StartDate;
-  $action->EndDate = $request->EndDate;
-  $action->UserID = $request->UserID;
-  $action->DiscussionID = $id;
-  $action->save();
+    // $discuss = CallMemoDiscussion::find($id);
+    $action = new CallMemoAction;
+    $action->ActionPoint = $request->ActionPoint;
+    $action->StartDate = $request->StartDate;
+    $action->EndDate = $request->EndDate;
+    $action->UserID = $request->UserID;
+    $action->DiscussionID = $id;
+    $action->StatusID = $request->StatusID;
+    $action->save();
 
-  return redirect()->back()->with('success', 'Action point saved successfully');
-}
+    return redirect()->back()->with('success', 'Action point saved successfully');
+  }
 
-public function store_discussion_point(Request $request, $id)
-{
-  $user = auth()->user();
+  public function edit_action_point($id) {
+    $action = CallMemoAction::find($id);
+    $statuses = CallMemoActionStatus::all();
 
-  // $discuss = CallMemoDiscussion::find($id);
-  $disc = new CallMemoDiscussion;
-  $disc->DiscussionPoint = $request->DiscussionPoint;
-  // $disc->StartDate = $request->StartDate;
-  // $disc->EndDate = $request->EndDate;
-  // $disc->UserID = $request->UserID;
-  $disc->CallMemoID = $id;
-  $disc->save();
+    return view('call_memo.edit_action', compact('action', 'statuses'));
+  }
 
-  return redirect()->back()->with('success', 'Discussion point saved successfully');
-}
+  public function update_action_point(Request $request, $id)
+  {
+    $user = auth()->user();
+
+    // $discuss = CallMemoDiscussion::find($id);
+    $action = CallMemoAction::find($id);
+    // $action->ActionPoint = $request->ActionPoint;
+    // $action->StartDate = $request->StartDate;
+    // $action->EndDate = $request->EndDate;
+    // $action->UserID = $request->UserID;
+    // $action->DiscussionID = $id;
+    $action->StatusID = $request->StatusID;
+    $action->Comment = $request->Comment;
+    $action->update();
+
+    return redirect()->route('call-memo-actions')->with('success', 'Action point updated successfully');
+  }
+
+  public function store_discussion_point(Request $request, $id)
+  {
+    $user = auth()->user();
+
+    $disc = new CallMemoDiscussion;
+    $disc->DiscussionPoint = $request->DiscussionPoint;
+    $disc->CallMemoID = $id;
+    $disc->save();
+
+    return redirect()->back()->with('success', 'Discussion point saved successfully');
+  }
+
+  public function email_attendees(Request $request, $id)
+  {
+    $memo = CallMemo::find($id);
+    // dd($memo->customer);
+    $emails = explode(',', $memo->AttendeeEmails);
+    foreach ($emails as $email) {
+      HelpersOld::send_mail($email, $memo);
+    }
+    return redirect()->back()->with('success', 'The attendees have been emailed successfully');
+  }
+
+  public function call_memo_actions()
+  {
+    $user = auth()->user();
+
+    // $actions = CallMemoAction::where('StaffID', $user->staff->StaffRef)->get();
+    $call_memos = CallMemo::whereHas('discussions', function($query1) use($user){
+      $query1->whereHas('actions', function($query2) use($user){
+        $query2->where('UserID', $user->id);
+      });
+    })->get();
+    $statuses = CallMemoActionStatus::all();
+    return view('call_memo.staff_actions', compact('call_memos', 'user', 'statuses'));
+  }
 
 }
