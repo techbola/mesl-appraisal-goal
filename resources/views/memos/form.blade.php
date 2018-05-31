@@ -1,7 +1,25 @@
 @push('styles')
 <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css') }}" media="screen" rel="stylesheet" type="text/css">
     @endpush
-@include('errors.list')
+    @include('errors.list')
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('request_type_id', 'Request Type') }}
+                    {{ Form::select('request_type_id', ['' => 'Select Request Type'] + $request_types->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request Type']) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('receiver_id', 'To') }}
+                    {{ Form::select('receiver_id', ['' => 'Select Approver'] + $employees->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Approver']) }}
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
@@ -22,22 +40,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6">
-            <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('request_type_id', 'Request Type') }}
-                    {{ Form::select('request_type_id', ['' => 'Select Request Type'] + $request_types->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request Type']) }}
-                </div>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-    <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('body', 'Body') }}
-                    {{ Form::textarea('body', null, ['class' => 'form-control','rows' => 3, 'placeholder' => 'Be expressive']) }}
+                    {{ Form::textarea('body', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Be expressive']) }}
                 </div>
             </div>
         </div> 

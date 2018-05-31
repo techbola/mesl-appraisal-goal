@@ -3,7 +3,11 @@
 namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
+use Notification;
+use Cavidel\Notifications\MemoApproval;
 use Cavidel\User;
+use Cavidel\Staff;
 use Cavidel\Memo;
 use Cavidel\RequestType;
 
@@ -29,13 +33,23 @@ class MemoController extends Controller
 
     public function send($id)
     {
-        $memo             = Memo::findorFail($id);
-        $memo->NotifyFlag = true;
-        if ($memo->save()) {
-            // TODO: send notification here
-            return redirect()->route('memos.index')->with('success', 'Memo has been sent for approval successfully');
-        } else {
-            return back()->withInput()->with('error', 'Failed to send Memo for approval');
+        try {
+            DB::beginTransaction();
+            $memo             = Memo::findorFail($id);
+            $memo->NotifyFlag = true;
+            if ($memo->save()) {
+                // TODO: send notification here
+                $next_approver = $memo->ApproverID != 0 ? Staff::where('UserID', $memo->ApproverID)->first()->user : null;
+                if (!is_null($next_approver)) {
+                    Notification::send($next_approver, new MemoApproval($memo));
+                }
+                DB::commit();
+                return redirect()->route('memos.index')->with('success', 'Memo has been sent for approval successfully');
+            } else {
+                return back()->withInput()->with('error', 'Failed to send Memo for approval');
+            }
+        } catch (Exception $e) {
+            DB::rollback();
         }
 
     }
@@ -47,20 +61,33 @@ class MemoController extends Controller
             'purpose'         => 'required',
             'request_type_id' => 'required',
             'body'            => 'required',
+            'receiver_id'     => 'required',
         ], [
             'request_type_id.required' => 'Choosing a request type is compulsory',
+            'receiver_id.required'     => 'Choosing a receipient is compulsory',
         ]);
-        $new_memo             = new Memo($request->all());
-        $new_memo->ApproverID = $request->ApproverID1;
+        $new_memo               = new Memo($request->all());
+        $new_memo->initiator_id = auth()->user()->id;
+        $new_memo->ApproverID   = $request->ApproverID1;
         if ($new_memo->save()) {
             // $new_memo->update(['ApproverID' => 'ApproverID1']);
+
             return redirect()->route('memos.create')->with('success', 'Memo was created successfully. <a href="' . route('memos.index') . '">Go to queue</a>');
         }
     }
 
     public function show($id)
     {
-
+        $memo = Memo::where('id', $id)->get();
+        // dd($memo->subject);
+        $memo = $memo->transform(function ($item, $key) {
+            $item->sender    = $item->initiator->Fullname;
+            $item->approvers = $item->approvers();
+            $item->approved  = $item->approved();
+            $item->status    = $item->status();
+            return $item;
+        });
+        return $memo->first();
     }
 
     public function edit($id)

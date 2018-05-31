@@ -45,10 +45,11 @@
                           <label for="select-all" class="text-white">Bulk Select</label>
                         </div>
                     </th>
-                    <th width="5%">Subject</th>
+                    <th width="10%">Subject</th>
                     <th width="10%">Purpose</th>
+                    <th width="10%">Initiator</th>
                     <th width="20%">Body</th>
-                    <th width="15%">Approvers</th>
+                    <th width="10%">Approvers</th>
 
                   </thead>
                   <tbody>
@@ -62,7 +63,8 @@
                         </td>
                         <td>{{ $memo->subject }}</td>
                         <td>{{ $memo->purpose }}</td>
-                        <td>{{ str_limit($memo->body,20, '...') }}</td>
+                        <td>{{ $memo->initiator->Fullname }}</td>
+                        <td>{!! str_limit($memo->body,50, '...') !!}</td>
                         <td>
                             {{ $memo->approvers() }}
                         </td>
@@ -79,10 +81,11 @@
           <div class="card-box">
             <table class="table tableWithSearch">
           <thead>
-            <th width="5%">Subject</th>
+            <th width="15%">Subject</th>
             <th width="10%">Purpose</th>
+            <th width="10%">Initiator</th>
             <th width="20%">Body</th>
-            <th width="15%">Approvers</th>
+            <th width="10%">Approvers</th>
 
           </thead>
           <tbody>
@@ -90,7 +93,8 @@
               <tr>
                 <td>{{ $memo->subject }}</td>
                 <td>{{ $memo->purpose }}</td>
-                <td>{!! str_limit($memo->body,20, '...') !!}</td>
+                <td>{{ $memo->initiator->Fullname }}</td>
+                <td>{!! str_limit($memo->body,50, '...') !!}</td>
                 <td>{!! $memo->approvers() !!}</td>
               </tr>
             @endforeach
