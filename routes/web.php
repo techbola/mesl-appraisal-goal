@@ -45,11 +45,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
-    // Route::middleware(['can:superadmin'])->group(function(){
-    Route::resource('menus', 'MenuController');
-    Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
-    Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
-    // });
+    Route::middleware(['can:superadmin'])->group(function(){
+      Route::resource('menus', 'MenuController');
+      Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
+      Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
+    });
 
     // Menu Assignment For Company Admins
     Route::get('company-menus', 'MenuController@company_menus')->name('company_menus');
@@ -182,9 +182,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('call-memo/create/{customer}', 'CallMemoController@create')->name('create_call_memo');
     Route::post('call-memo/store/{customer}', 'CallMemoController@store')->name('store_call_memo');
     Route::post('call-memo/store_action_point/{discussion}', 'CallMemoController@store_action_point')->name('store_action_point');
+    Route::get('call-memo/edit_action_point/{id}', 'CallMemoController@edit_action_point')->name('edit_action_point');
+    Route::patch('call-memo/update_action_point/{id}', 'CallMemoController@update_action_point')->name('update_action_point');
     Route::post('call-memo/store_discussion_point/{memo}', 'CallMemoController@store_discussion_point')->name('store_discussion_point');
     Route::post('call-memo/email_attendees/{memo}', 'CallMemoController@email_attendees')->name('email_attendees');
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
+    Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
 
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');

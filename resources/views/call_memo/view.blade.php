@@ -38,12 +38,13 @@
           <th>Handouts</th>
           <th>Location</th>
           <th>Meeting Date</th>
+          <th></th>
         </tr>
       </thead>
       @if (count($contact->call_memos) == 0)
         <tbody>
           <tr class="m-t-20 m-b-20">
-            <td colspan="5">
+            <td colspan="6">
               No Call Memos Created Yet
             </td>
           </tr>
@@ -59,6 +60,8 @@
             <td>{{ $memo->Location }}</td>
             <td>
               {{ $memo->MeetingDate }}
+            </td>
+            <td>
               <span class="pull-right">
                 <a href="#" onclick="confirm2('Send memo to attendees', '', 'email_attendees_{{ $memo->CallMemoRef }}')" class="btn btn-inverse btn-xs"><i class="fa fa-envelope m-r-5"></i> Send</a>
                 <form id="email_attendees_{{ $memo->CallMemoRef }}" class="hidden" action="{{ route('email_attendees', $memo->CallMemoRef) }}" method="post">
@@ -79,7 +82,7 @@
             <tr class="disc_row">
               <td></td>
               <td class="small"><b>Discussion Point {{ $disc_count }}</b></td>
-              <td colspan="2" class="small">{!! $discuss->DiscussionPoint !!}</td>
+              <td colspan="3" class="small">{!! $discuss->DiscussionPoint !!}</td>
               <td>
                 {{-- <a class="add_point f20 pointer" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus-circle text-success" data-toggle="tooltip" title="Add Action Point"></i></a> --}}
                 <div class="pull-right">
@@ -89,12 +92,14 @@
               </td>
             </tr>
           {{-- </tbody> --}}
+
           @if (count($discuss->actions) > 0)
             <tr class="action_row">
               <td></td>
               <td></td>
               <td class="thead">Action Point</td>
               <td class="thead">Responsibility</td>
+              <td class="thead">Comment</td>
               <td class="thead">Timeline</td>
               {{-- <td class="thead">Status</td> --}}
             </tr>
@@ -107,8 +112,16 @@
                 <td><span class="label label-{{ $action->status->Color }} pull-right">{{ $action->status->Status }}</span></td>
                 <td class="small"><i class="fa fa-bullseye text-muted m-r-5 f16"></i> {{ $action->ActionPoint }}</td>
                 <td class="small"><i class="fa fa-user text-muted m-r-5 f15"></i> {{ $action->user->FullName }}</td>
-                <td class="small"><i class="fa fa-clock-o text-muted m-r-5 f16"></i> {{ $action->StartDate.' - '.$action->EndDate  }}</td>
-                {{-- <td class="small"><span class="label label-info">status</span></td> --}}
+                <td class="small"><i class="pg-comment text-muted m-r-5 f15"></i> {{ $action->Comment ?? '&mdash;' }}</td>
+                <td class="small">
+                  <i class="fa fa-clock-o text-muted m-r-5 f16"></i> {{ $action->StartDate.' - '.$action->EndDate  }}
+
+                  @if ($user->id == $action->user->id)
+                    <a href="{{ route('edit_action_point', $action->id) }}" class="pull-right"><i class="fa fa-pencil text-warning f16"></i></a>
+                  @endif
+                </td>
+
+
               </tr>
             @endforeach
 
