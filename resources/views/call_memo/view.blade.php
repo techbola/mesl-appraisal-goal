@@ -38,7 +38,7 @@
           <th>Handouts</th>
           <th>Location</th>
           <th>Meeting Date</th>
-          <th></th>
+          <th width="20%"></th>
         </tr>
       </thead>
       @if (count($contact->call_memos) == 0)
