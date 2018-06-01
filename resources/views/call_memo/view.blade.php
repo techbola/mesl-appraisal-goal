@@ -53,8 +53,8 @@
       @foreach ($contact->call_memos as $memo)
 
         <tbody>
-          <tr>
-            <td class="details-control" style="cursor:pointer"><i class="fa fa-plus-circle text-success f20" onclick="toggle_row('memo_{{ $memo->CallMemoRef }}')"></i></td>
+          <tr id="parent_{{ $memo->CallMemoRef }}">
+            <td class="details-control" style="cursor:pointer"><i class="fa fa-plus-circle text-success f20" onclick="toggle_row('{{ $memo->CallMemoRef }}')"></i></td>
             <td>{{ $memo->Attendees }}</td>
             <td>{{ $memo->Handouts }}</td>
             <td>{{ $memo->Location }}</td>
@@ -382,7 +382,8 @@
     };
 
     function toggle_row(id) {
-      $('#'+id).toggle();
+      $('#memo_'+id).toggle();
+      $('#parent_'+id+' td.details-control i').toggleClass('fa fa-plus-circle text-success').toggleClass('fa fa-minus-circle text-danger');
     }
   </script>
 

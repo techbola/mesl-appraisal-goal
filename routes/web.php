@@ -177,6 +177,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
     Route::post('store_note', 'StickyNoteController@store')->name('store_note');
+    Route::post('store_checklist', 'StickyNoteController@store_checklist')->name('store_checklist');
     Route::delete('delete_note/{id}', 'StickyNoteController@delete')->name('delete_note');
 
     Route::get('call-memo/create/{customer}', 'CallMemoController@create')->name('create_call_memo');

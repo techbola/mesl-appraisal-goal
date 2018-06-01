@@ -126,7 +126,7 @@ class User extends Authenticatable
 
     public function sticky_notes()
     {
-      return $this->hasMany('Cavidel\StickyNote', 'UserID')->orderBy('created_at');
+      return $this->hasMany('Cavidel\StickyNote', 'UserID')->orderBy('created_at', 'desc');
     }
 
     // relationship for staff payroll details
