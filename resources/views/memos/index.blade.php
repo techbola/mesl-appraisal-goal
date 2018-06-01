@@ -46,11 +46,11 @@
                         <td>{{ $memo->subject }}</td>
                         <td>{{ $memo->purpose }}</td>
                         <td>
-                          {!! str_limit($memo->body,50, '...') !!} <br>
-                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info"><small>Read More</small></a>
+                         {{ str_limit(strip_tags($memo->body), 50, '...') }} <br>
+                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
                         </td>
                         <td>
-                            @if($memo->status() == 1) <!-- approved -->
+                            @if($memo->status() === true) <!-- approved -->
                                 <label class="label label-success">Approved</label>
                             @else
                                 <label class="label label-default">{{ $memo->status() }}</label>    
@@ -89,11 +89,11 @@
                     <td>{{ $memo->subject }}</td>
                     <td>{{ $memo->purpose }}</td>
                     <td>
-                      {!! str_limit($memo->body,50, '...') !!} <br>
+                     {{ str_limit(strip_tags($memo->body), 50, '...') }} <br>
                       <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
                     </td>
                     <td>
-                        @if($memo->status() == 1) <!-- approved -->
+                        @if($memo->status() === true ) <!-- approved -->
                             <label class="label label-success">Approved</label>
                         @else
                             <label class="label label-default">{{ $memo->status() }}</label>    
