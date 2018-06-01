@@ -4,12 +4,17 @@ namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use File;
+use Image;
+use ZipArchive;
+use Storage;
 use Notification;
 use Cavidel\Notifications\MemoApproval;
 use Cavidel\User;
 use Cavidel\Staff;
 use Cavidel\Memo;
 use Cavidel\RequestType;
+use Cavidel\MemoAttachment;
 
 class MemoController extends Controller
 {
@@ -66,13 +71,38 @@ class MemoController extends Controller
             'request_type_id.required' => 'Choosing a request type is compulsory',
             'receiver_id.required'     => 'Choosing a receipient is compulsory',
         ]);
-        $new_memo               = new Memo($request->all());
-        $new_memo->initiator_id = auth()->user()->id;
-        $new_memo->ApproverID   = $request->ApproverID1;
-        if ($new_memo->save()) {
-            // $new_memo->update(['ApproverID' => 'ApproverID1']);
+        try {
 
-            return redirect()->route('memos.create')->with('success', 'Memo was created successfully. <a href="' . route('memos.index') . '">Go to queue</a>');
+            DB::beginTransaction();
+            $new_memo               = new Memo($request->except('memo_attachment'));
+            $new_memo->initiator_id = auth()->user()->staff->StaffRef;
+            $new_memo->ApproverID   = $request->ApproverID1;
+            if ($new_memo->save()) {
+                // START attachment
+                if ($request->hasFile('memo_attachment')) {
+                    foreach ($request->memo_attachment as $key => $value) {
+                        $file     = $request->file('memo_attachment')[$key];
+                        $filename = $file->hashName();
+
+                        if (!File::exists(public_path('images/memo_attachments')) && File::exists(public_path('images'))) {
+                            File::makeDirectory(public_path('images/memo_attachments'));
+                        }
+
+                        Image::make($file)->orientate()->resize(300, null, function ($constraint) {$constraint->aspectRatio();})->save('images/memo_attachments/' . $filename);
+                        // $attachment = new MemoAttachment;
+                        MemoAttachment::create([
+                            'memo_id'             => $new_memo->id,
+                            'attachment_location' => $filename,
+                        ]);
+                    }
+                }
+                // END attachment upload
+                DB::commit();
+                return redirect()->route('memos.create')->with('success', 'Memo was created successfully. <a href="' . route('memos.index') . '">Go to queue</a>');
+            }
+
+        } catch (Exception $e) {
+            DB::rollback();
         }
     }
 
@@ -81,10 +111,11 @@ class MemoController extends Controller
         $memo = Memo::where('id', $id)->get();
         // dd($memo->subject);
         $memo = $memo->transform(function ($item, $key) {
-            $item->sender    = $item->initiator->Fullname;
-            $item->approvers = $item->approvers();
-            $item->approved  = $item->approved();
-            $item->status    = $item->status();
+            $item->sender      = $item->initiator->Fullname;
+            $item->approvers   = $item->approvers();
+            $item->approved    = $item->approved();
+            $item->status      = $item->status();
+            $item->attachments = $item->attachments;
             return $item;
         });
         return $memo->first();
@@ -175,6 +206,21 @@ class MemoController extends Controller
         return response()->json([
             'message' => 'Memo was rejected successfully',
         ])->setStatusCode(200);
+    }
+
+    public function download_memo_attachments($id)
+    {
+        $memo    = Memo::find($id);
+        $files   = $memo->attachments;
+        $zipname = $memo->subject . '.zip';
+        $zip     = new ZipArchive;
+        $zip->open($zipname, ZipArchive::CREATE);
+        foreach ($files as $file) {
+            $zip->addFile($file, storage_path('memo_attachments'));
+        }
+        $zip->close();
+        // dd($zip);
+        // return response()->download($zipname);
     }
 
     public function destroy($id)

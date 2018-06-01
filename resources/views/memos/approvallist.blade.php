@@ -67,6 +67,9 @@
                         <td>
                             {{ str_limit(strip_tags($memo->body), 50, '...') }} <br>
                             <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
+                            &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
+                            <i>
+
                         </td>
                         <td>
                             {{ $memo->approvers() }}
@@ -100,6 +103,7 @@
                         <td>
                             {{ str_limit(strip_tags($memo->body), 50, '...') }} <br>
                             <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
+                            &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                         </td>
                         <td>
                             {{ $memo->approvers() }}

@@ -9,7 +9,7 @@
   			<div class="card-title pull-left">Create Memo</div>
   			<div class="clearfix"></div>
   			
-  			{{ Form::open(['action' => 'MemoController@store', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+  			{{ Form::open(['action' => 'MemoController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}
 				@include('memos.form', ['buttonText' => 'Create Memo'])
 			{{ Form::close() }}
 

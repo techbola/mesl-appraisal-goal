@@ -45,10 +45,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
-    Route::middleware(['can:superadmin'])->group(function(){
-      Route::resource('menus', 'MenuController');
-      Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
-      Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
+    Route::middleware(['can:superadmin'])->group(function () {
+        Route::resource('menus', 'MenuController');
+        Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
+        Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
     });
 
     // Menu Assignment For Company Admins
@@ -329,6 +329,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Begin Memorandum
     // sends memo for approval
+    Route::get('memos/download/{id}', 'MemoController@download_memo_attachments')->name('download-attachment');
     Route::get('memos/send/{id}', 'MemoController@send')->name('send_memo');
     Route::get('memos/approvallist', 'MemoController@approval_list')->name('memos_approvallist');
     Route::post('memos/approve', 'MemoController@approve');
