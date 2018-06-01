@@ -28,7 +28,7 @@
 
         <div class="uk-grid-width-small-1-2 uk-grid-width-medium-1-4 uk-container-center uk-margin-large-top" data-uk-grid="{gutter: 20, controls: '#notes_grid_filter'}" id="notes_grid">
           @foreach ($user->sticky_notes as $note)
-            <div @{{#exists labels}}data-uk-filter="@{{#each labels }}@{{#ifCond @key '>' 0}},@{{/ifCond}}@{{ text_safe }}@{{/each}}"@{{/exists}}>
+            <div class="content-editable" @{{#exists labels}}data-uk-filter="@{{#each labels }}@{{#ifCond @key '>' 0}},@{{/ifCond}}@{{ text_safe }}@{{/each}}"@{{/exists}}>
                 <div class="md-card {{ $note->Color }}">
                     <div class="uk-position-absolute uk-position-top-right uk-margin-small-right uk-margin-small-top">
                         <a href="#" class="note_action_remove" onclick="confirm2('Delete this note?', '', 'delete_{{ $note->NoteRef }}')"><i class="md-icon material-icons">&#xE5CD;</i></a>

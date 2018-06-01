@@ -401,8 +401,8 @@
     }
     </style>
 
-    <div class="" style="text-align:center; width:60%">
-      <img src="{{ asset('images/officemate.png') }}" alt="Officemate">
+    <div class="" style="text-align:center;">
+      <img src="{{ asset('images/officemate.png') }}" alt="Officemate" width="250px">
     </div>
 
     <h3 style="text-align:center">Meeting Notes For Meeting With {{ $memo->customer->Customer }}</h3>
