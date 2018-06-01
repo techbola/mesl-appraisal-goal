@@ -34,6 +34,8 @@ Route::group(['middleware' => 'guest'], function () {
 
     Route::post('/company_registration', 'LoginController@register_company')->name('register_company');
 
+    // Route::get('/edit_company', 'LoginController@register_company')->name('register_company');
+
     Route::get('/activate_pass/{id}/{code}', 'LoginController@activate_pass')->name('activate_pass');
     Route::patch('/activate_pass2/{id}/{code}', 'LoginController@activate_pass2')->name('activate_pass2');
 });

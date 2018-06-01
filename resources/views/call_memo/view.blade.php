@@ -101,7 +101,20 @@
                 {{-- <a class="add_point f20 pointer" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus-circle text-success" data-toggle="tooltip" title="Add Action Point"></i></a> --}}
                 <div class="pull-right">
                   <a class="add_point pointer btn btn-xs btn-success" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus m-r-5"></i> Action Point</a>
-                  {{-- <i class="fa fa-level-up m-l-10 m-r-5"></i> --}}
+
+
+                  <div class="dropdown">
+                      <a type="button" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-ellipsis-h"></i> <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="">Account Statement</a></li>
+                        <li><a href="">Interest Accruals</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="">Edit Account</a></li>
+                      </ul>
+                    </div>
+
                 </div>
               </td>
             </tr>
