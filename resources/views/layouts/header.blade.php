@@ -387,13 +387,14 @@
     <!-- BEGIN VENDOR JS -->
 
 
-
+  
     <script src="{{ asset('js/uikit.js') }}"></script>
 
 
     <script src="{{ asset('assets/plugins/pace/pace.min.js') }}" ></script>
 
     <script src="{{ asset('assets/plugins/jquery/jquery-1.11.1.min.js') }}"></script>
+
     <script src="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.js') }}" ></script>
     <script src="{{ asset('assets/plugins/modernizr.custom.js') }}" ></script>
     <script src="{{ asset('assets/plugins/boostrapv3/js/bootstrap.min.js') }}" ></script>
@@ -423,7 +424,6 @@
 
 
     <script src="{{ asset('assets/plugins/multiselect/js/jquery.selectlistactions.js') }}"></script>
-
     {{-- Filestyle --}}
     <script src="{{ asset('assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}"></script>
     <style media="screen">

@@ -13,6 +13,11 @@ class Memo extends Model
         return $this->belongsTo(Staff::class);
     }
 
+    public function attachments()
+    {
+        return $this->hasMany(MemoAttachment::class);
+    }
+
     public function sent()
     {
         return $this->NotifyFlag;
@@ -23,7 +28,7 @@ class Memo extends Model
         if ($this->NotifyFlag == 0) {
             return 'Not Sent';
         } elseif ($this->ApproverID == 0) {
-            return 1;
+            return true;
         } elseif ($this->ApproverID == $this->ApproverID1) {
             return 'With Approver 1 ' . '(' . Staff::where('UserID', $this->ApproverID1)->first()->Fullname . ')';
         } elseif ($this->ApproverID == $this->ApproverID2) {
@@ -55,7 +60,21 @@ class Memo extends Model
             array_push($approvers_array, Staff::where('UserID', $this->ApproverID4)->first()->Fullname);
         }
 
-        return implode(',', $approvers_array);
+        return implode(', ', $approvers_array);
+    }
+
+    public function approved()
+    {
+        if ($this->ApproverID == 0 && $this->ApprovedFlag == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function initiator()
+    {
+        return $this->belongsTo(Staff::class, 'initiator_id', 'StaffRef');
     }
 
 }
