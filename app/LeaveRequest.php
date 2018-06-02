@@ -21,6 +21,4 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo('Cavidel\LeaveType', 'AbsenceTypeID');
     }
-
-    public $timestamps = false;
 }
