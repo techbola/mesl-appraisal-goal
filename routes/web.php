@@ -34,6 +34,8 @@ Route::group(['middleware' => 'guest'], function () {
 
     Route::post('/company_registration', 'LoginController@register_company')->name('register_company');
 
+    // Route::get('/edit_company', 'LoginController@register_company')->name('register_company');
+
     Route::get('/activate_pass/{id}/{code}', 'LoginController@activate_pass')->name('activate_pass');
     Route::patch('/activate_pass2/{id}/{code}', 'LoginController@activate_pass2')->name('activate_pass2');
 });
@@ -45,11 +47,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
-    // Route::middleware(['can:superadmin'])->group(function(){
-    Route::resource('menus', 'MenuController');
-    Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
-    Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
-    // });
+
+    Route::middleware(['can:superadmin'])->group(function () {
+        Route::resource('menus', 'MenuController');
+        Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
+        Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
+    });
 
     // Menu Assignment For Company Admins
     Route::get('company-menus', 'MenuController@company_menus')->name('company_menus');
@@ -149,6 +152,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('leave_notification/{elem_value}', 'LeaveRequestController@leave_notification');
     Route::get('request_date/{start_date}/{numberdays}', 'LeaveRequestController@retrieve_details');
 
+
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
 
     // Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');
@@ -185,13 +189,21 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
     Route::post('store_note', 'StickyNoteController@store')->name('store_note');
+    Route::post('store_checklist', 'StickyNoteController@store_checklist')->name('store_checklist');
     Route::delete('delete_note/{id}', 'StickyNoteController@delete')->name('delete_note');
 
     Route::get('call-memo/create/{customer}', 'CallMemoController@create')->name('create_call_memo');
     Route::post('call-memo/store/{customer}', 'CallMemoController@store')->name('store_call_memo');
+
+    Route::get('call-memo/edit/{id}', 'CallMemoController@edit')->name('edit_call_memo');
+    Route::patch('call-memo/update/{id}', 'CallMemoController@update')->name('update_call_memo');
     Route::post('call-memo/store_action_point/{discussion}', 'CallMemoController@store_action_point')->name('store_action_point');
+    Route::get('call-memo/edit_action_point/{id}', 'CallMemoController@edit_action_point')->name('edit_action_point');
+    Route::patch('call-memo/update_action_point/{id}', 'CallMemoController@update_action_point')->name('update_action_point');
     Route::post('call-memo/store_discussion_point/{memo}', 'CallMemoController@store_discussion_point')->name('store_discussion_point');
+    Route::post('call-memo/email_attendees/{memo}', 'CallMemoController@email_attendees')->name('email_attendees');
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
+    Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
 
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
@@ -214,8 +226,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
-
-    
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
@@ -332,6 +342,15 @@ Route::middleware(['auth'])->group(function () {
     //  End Risk register
 
     // Begin Memorandum
+
+    // sends memo for approval
+    Route::get('memos/download/{id}', 'MemoController@download_memo_attachments')->name('download-attachment');
+    Route::get('memos/send/{id}', 'MemoController@send')->name('send_memo');
+    Route::get('memos/approvallist', 'MemoController@approval_list')->name('memos_approvallist');
+    Route::post('memos/approve', 'MemoController@approve');
+    Route::post('memos/reject', 'MemoController@reject');
+
+    // main memo routes
     Route::resource('memos', 'MemoController');
     // End Memorandum
 });
@@ -350,7 +369,8 @@ Route::get('/cda', function () {
     return redirect()->route('home');
 });
 
-Route::get('/account', function () {
-    $project = Cavidel\Project::find('2');
-    return $project->user_ids;
+
+Route::get('/testing', function () {
+    $memo = Cavidel\CallMemo::find('17');
+    return view('pdf.call_memo', compact('memo'));
 });

@@ -45,7 +45,8 @@
 }
 th {
   font-family: Karla !important;
-  font-size: 15px !important;
+
+  font-size: 12px !important;
 }
 .form-group label:not(.error) {
   font-family: Karla;
@@ -96,7 +97,8 @@ th {
   word-break: break-word;
 }
 .table tbody tr td {
-  font-size: 15px;
+
+  font-size: 13px;
 }
 .table-responsive {
   clear: both;
@@ -996,5 +998,26 @@ ul.nav-tabs.outside + .tab-content > .tab-pane > .card-box {
 }
 /* Fix callendar overflow issue */
 .fc-scroller {
-  overflow-x: visible !Important;
+
+  overflow-x: visible !important;
+}
+
+/* badges inside tables tds */
+td > .badge, .modal .badge {
+  padding: 4px 10px !important;
+}
+
+/* download icon inside memo table */
+.feather-download {
+  fill: #fff;
+}
+
+.download-wrapper {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    line-height: 25px;
+    text-align: center;
+    display: inline-block;
+    padding: 0 !important;
 }

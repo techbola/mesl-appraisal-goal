@@ -15,4 +15,10 @@ class CallMemo extends Model
     return $this->hasMany('Cavidel\CallMemoDiscussion', 'CallMemoID');
   }
 
+
+  public function customer()
+  {
+    return $this->belongsTo('Cavidel\Customer', 'CustomerID');
+  }
+
 }

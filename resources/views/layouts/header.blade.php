@@ -32,7 +32,7 @@
     <link href="{{ asset('assets/plugins/jquery-scrollbar/jquery.scrollbar.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <link href="{{ asset('assets/plugins/bootstrap-select2/select2.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <link href="{{ asset('assets/plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
-
+    <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-tag/bootstrap-tagsinput.css') }}">
  {{-- <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> --}}
 
      <link href="{{ asset('assets/plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -386,8 +386,6 @@
 </div><!-- end vue init -->
     <!-- BEGIN VENDOR JS -->
 
-
-
     <script src="{{ asset('js/uikit.js') }}"></script>
 
 
@@ -423,7 +421,6 @@
 
 
     <script src="{{ asset('assets/plugins/multiselect/js/jquery.selectlistactions.js') }}"></script>
-
     {{-- Filestyle --}}
     <script src="{{ asset('assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}"></script>
     <style media="screen">

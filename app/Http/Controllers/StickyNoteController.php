@@ -4,6 +4,7 @@ namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Cavidel\StickyNote;
+use Cavidel\StickyNoteChecklist;
 
 class StickyNoteController extends Controller
 {
@@ -15,20 +16,36 @@ class StickyNoteController extends Controller
 
   public function store(Request $request)
   {
+
+    // return $request->Checklist;
     $note = new StickyNote;
     $note->Title = trim($request->Title);
     $note->Body = $request->Body;
     $note->Color = $request->Color;
     $note->UserID = auth()->user()->id;
     $note->save();
+
+    foreach ($request->Checklist as $check) {
+      $ch = new StickyNoteChecklist;
+      $ch->Title = $check['title'];
+      $ch->Checked = $check['checked'];
+      $ch->NoteID = $note->NoteRef;
+      $ch->save();
+    }
+
     return $note->Title.' saved.';
   }
 
-public function delete(Request $request, $id)
-{
-  $note = StickyNote::find($id);
-  $note->delete();
-  return redirect()->back()->with('success', 'Note deleted successfully');
-}
+  public function delete(Request $request, $id)
+  {
+    $note = StickyNote::find($id);
+    $note->delete();
+    return redirect()->back()->with('success', 'Note deleted successfully');
+  }
+
+  // public function store_checklist(Request $request, $note_id)
+  // {
+  //   $note = StickyNote::find($id);
+  // }
 
 }

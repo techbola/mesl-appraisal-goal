@@ -186,6 +186,8 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
+        Barryvdh\DomPDF\ServiceProvider::class,
+
     ],
 
     /*
@@ -241,6 +243,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Carbon' => Carbon\Carbon::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

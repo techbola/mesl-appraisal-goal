@@ -9,8 +9,9 @@
 @endsection
 
 @section('buttons')
-  {{-- <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#edit_task"><i class="fa fa-pencil m-r-5"></i>Edit Task</a>
-  <a href="" class="btn btn-sm btn-danger m-l-10" onclick="return confirm('Are you sure you want to delete this task?')"><i class="fa fa-trash m-r-5"></i>Delete</a> --}}
+
+  <a class="btn btn-sm btn-info btn-rounded" href="{{ route('todos_calendar') }}"><i class="fa fa-calendar m-r-5"></i> Back to Calendar</a>
+  {{-- <a href="" class="btn btn-sm btn-danger m-l-10" onclick="return confirm('Are you sure you want to delete this task?')"><i class="fa fa-trash m-r-5"></i>Delete</a> --}}
 @endsection
 
 @section('content')

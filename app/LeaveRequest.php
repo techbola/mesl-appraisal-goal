@@ -8,6 +8,7 @@ class LeaveRequest extends Model
 {
     protected $table   = 'tblLeaveRequest';
     protected $guarded = ['LeaveRequestRef'];
+
     public $primaryKey   = 'CompanyRef';
     public $timestamps = false;
 
@@ -21,4 +22,5 @@ class LeaveRequest extends Model
         return $this->belongsTo('Cavidel\LeaveType', 'AbsenceTypeID');
     }
 
+    public $timestamps = false;
 }

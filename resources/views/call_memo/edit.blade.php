@@ -5,7 +5,7 @@
 @endsection --}}
 
 @section('title')
-  New Call Memo
+  Update Call Memo
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
 
       <div class="card-box">
         <div class="card-title">
-          Create Call Memo - {{ $contact->Customer }}
+          Update Call Memo - {{ $contact->Customer }}
         </div>
 
         <form class="" action="{{ route('store_call_memo', $contact->CustomerRef) }}" method="post">
@@ -24,14 +24,13 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Attendees</label>
-
-                <input type="text" class="form-control" name="Attendees" placeholder="Attendees" required>
+                <input type="text" class="form-control" name="Attendees" placeholder="Attendees" value="{{ $memo->Attendees }}" required>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label>Handouts</label>
-                <input type="text" class="form-control" name="Handouts" placeholder="Handouts">
+                <input type="text" class="form-control" name="Handouts" placeholder="Handouts" value="{{ $memo->Handouts }}">
               </div>
             </div>
           </div>
@@ -40,15 +39,14 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Location</label>
-                <input type="text" class="form-control" name="Location" placeholder="Location" required>
+                <input type="text" class="form-control" name="Location" placeholder="Location" value="{{ $memo->Location }}" required>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label>Meeting Date</label>
                 <div class="input-group date dp">
-
-                  <input type="text" class="form-control" name="MeetingDate" placeholder="MeetingDate" required>
+                  <input type="text" class="form-control" name="MeetingDate" placeholder="MeetingDate" value="{{ $memo->MeetingDate }}" required>
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -65,11 +63,12 @@
               <div class="form-group required">
                 <label>Attendees Emails</label>
                 <span class="help">Type an email, then press enter.</span>
-                <input name="AttendeeEmails" class="tagsinput custom-tag-input" type="text" value="" placeholder="Enter emails of attendees."/>
+                <input name="AttendeeEmails" class="tagsinput custom-tag-input" type="text" value="" placeholder="Enter emails of attendees." value="{{ $memo->AttendeeEmails }}"/>
               </div>
 
             </div>
           </div>
+
           <hr>
           {{-- <button type="button" id="add_discussion" class="btn btn-inverse pull-right m-t-10 m-b-20"><i class="fa fa-plus"></i> Discussion Point</button> --}}
           <div class="clearfix"></div>
