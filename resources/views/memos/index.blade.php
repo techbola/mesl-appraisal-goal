@@ -127,7 +127,7 @@
 
 
     <!-- Modal -->
-  <div class="modal fade slide-up disable-scroll" id="show-memo" role="dialog" aria-hidden="false">
+  <div class="modal fade slide-up" id="show-memo" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
         <div class="modal-content">
@@ -136,7 +136,7 @@
             </button>
             <h4 class="semi-bold pull-left">Internal Memo</h4>
             <div class="pull-right">
-              <button class="btn btn-default" onclick="print_memo()">Print Memo</button>
+              <button class="btn btn-default m-r-15" onclick="print_memo()">Print Memo</button>
             </div>
             <div class="clearfix"></div>
             <div class="row">
@@ -155,6 +155,7 @@
             
           </div>
           <div class="modal-footer">
+            <span class="files"></span>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -175,7 +176,7 @@
       $('.preview_memo').click(function(e) {
         e.preventDefault();
         let url = $(this).prop('href');
-        let memo_path = '/images/memo_attachments/';
+        let memo_path = '{{ asset('storage/memo_attachments') }}/';
           $("#show-memo").find('.memo-subject').html(' ');
           $("#show-memo").find('.memo-purpose').html(' ');
           $("#show-memo").find('.memo-status').html(' ');
@@ -198,13 +199,13 @@
             }
           $("#show-memo").modal('show');
           if(data.approved == true){
-            $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="100">');
+            $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="30">');
           }
           // list attachements
           if(data.attachments.length > 0 ){
             $.each(data.attachments, function(index, val) {
-              $('#show-memo .modal-footer').prepend(`
-                <a href="${memo_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
+               $('#show-memo .modal-footer .files').append(`
+                <a href="${ memo_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
               `);
             });
           }

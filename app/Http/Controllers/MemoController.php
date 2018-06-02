@@ -10,6 +10,7 @@ use ZipArchive;
 use Storage;
 use Notification;
 use Cavidel\Notifications\MemoApproval;
+use Cavidel\Notifications\MemoReceipient;
 use Cavidel\User;
 use Cavidel\Staff;
 use Cavidel\Memo;
@@ -66,10 +67,10 @@ class MemoController extends Controller
             'purpose'         => 'required',
             'request_type_id' => 'required',
             'body'            => 'required',
-            'receiver_id'     => 'required',
+            // 'receiver_id'     => 'required',
         ], [
             'request_type_id.required' => 'Choosing a request type is compulsory',
-            'receiver_id.required'     => 'Choosing a receipient is compulsory',
+            // 'receiver_id.required'     => 'Choosing a receipient is compulsory',
         ]);
         try {
 
@@ -84,11 +85,10 @@ class MemoController extends Controller
                         $file     = $request->file('memo_attachment')[$key];
                         $filename = $file->hashName();
 
-                        if (!File::exists(public_path('images/memo_attachments')) && File::exists(public_path('images'))) {
-                            File::makeDirectory(public_path('images/memo_attachments'));
+                        if (!File::exists(public_path('memo_attachments'))) {
+                            File::makeDirectory(public_path('memo_attachments'));
                         }
-
-                        Image::make($file)->orientate()->resize(300, null, function ($constraint) {$constraint->aspectRatio();})->save('images/memo_attachments/' . $filename);
+                        $value->store('memo_attachments');
                         // $attachment = new MemoAttachment;
                         MemoAttachment::create([
                             'memo_id'             => $new_memo->id,
@@ -98,7 +98,7 @@ class MemoController extends Controller
                 }
                 // END attachment upload
                 DB::commit();
-                return redirect()->route('memos.create')->with('success', 'Memo was created successfully. <a href="' . route('memos.index') . '">Go to queue</a>');
+                return redirect()->route('memos.create')->with('success', 'Memo was created successfully.');
             }
 
         } catch (Exception $e) {
@@ -171,12 +171,25 @@ class MemoController extends Controller
         $new_array    = array();
         foreach ($SelectedID as $value) {
             array_push($new_array, intval($value));
-        }
-        $selected_ids = (implode(',', $new_array));
+            $approve_proc = \DB::statement(
+                "EXEC procApproveRequest  '$ApprovedDate', '$value', $ModuleID, '$Comment', $ApproverID, $ApprovedFlag"
+            );
+            $memo = Memo::find($value);
 
-        $approve_proc = \DB::statement(
-            "EXEC procApproveRequest  '$ApprovedDate', '$selected_ids', $ModuleID, '$Comment', $ApproverID, $ApprovedFlag"
-        );
+            $next_approver = $memo->ApproverID != 0 ? Staff::where('UserID', $memo->ApproverID)->first()->user : null;
+
+            // $receipients = Staff::where('UserID', $memo->receipients)->first();
+
+            if (!is_null($next_approver) || $next_approver != 0) {
+                Notification::send($next_approver, new MemoApproval($memo));
+            } else {
+                // send mail to reciepient, notifying them of the memo approval
+                // Notification::send($receipients, new MemoReceipient($memo));
+            }
+        }
+        // $selected_ids = (implode(',', $new_array));
+
+        // Send Notification to next Approver
 
         return response()->json([
             'message' => 'Memo was approved successfully',

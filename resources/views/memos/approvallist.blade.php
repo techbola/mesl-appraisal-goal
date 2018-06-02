@@ -65,10 +65,10 @@
                         <td>{{ $memo->purpose }}</td>
                         <td>{{ $memo->initiator->Fullname }}</td>
                         <td>
-                            {{ str_limit(strip_tags($memo->body), 50, '...') }} <br>
-                            <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
-                            &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
-                            <i>
+                           <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
+                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
+                          &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
+                          &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
 
                         </td>
                         <td>
@@ -101,9 +101,10 @@
                         <td>{{ $memo->purpose }}</td>
                         <td>{{ $memo->initiator->Fullname }}</td>
                         <td>
-                            {{ str_limit(strip_tags($memo->body), 50, '...') }} <br>
-                            <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
-                            &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
+                            <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
+                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
+                          &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
+                          &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
                         <td>
                             {{ $memo->approvers() }}
@@ -123,21 +124,25 @@
 
 
         {{-- MODALS --}}
-         <!-- Modal -->
-  <div class="modal fade slide-up disable-scroll" id="show-memo" role="dialog" aria-hidden="false">
+    <!-- Modal -->
+  <div class="modal fade slide-up" id="show-memo" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
         <div class="modal-content">
           <div class="modal-header clearfix text-left">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
             </button>
-            <h4 class="semi-bold">Internal Memo</h4>
+            <h4 class="semi-bold pull-left">Internal Memo</h4>
+            <div class="pull-right">
+              <button class="btn btn-default m-r-15" onclick="print_memo()">Print Memo</button>
+            </div>
+            <div class="clearfix"></div>
             <div class="row">
               <div class="col-sm-6">
                 <h5 class="memo-subject"></h5>
                 <p class=""><b>Purpose: </b> <span class="memo-purpose"></span></p>
                 <p class=""><b>Approvers: </b> <span class="memo-approvers"></span></p>
-                <label class="label memo-status"></label>
+                <label class="badge memo-status"></label>
               </div>
               <div class="col-sm-6">
                 <div class="memo-approved text-right"></div>
@@ -148,7 +153,8 @@
             
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <span class="files"></span>
+            <button type="button" class="btn btn-complete" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -166,6 +172,7 @@
 @push('scripts')
         <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
         </script>
+        <script src="{{ asset('js/printThis.js') }}"></script>
 
         <script language="javascript">
 $(function(){
@@ -307,7 +314,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
             window.location.href  = "{{ route('memos_approvallist') }}";
          } else {
             alert('Rejection failed');
-            return false
+            return false;
          }
          
      })
@@ -319,28 +326,53 @@ var table = $('.tableWithSearch_a').DataTable(settings);
     });
 
   // memo preview
-     $('.preview_memo').click(function(e) {
+      $('.preview_memo').click(function(e) {
         e.preventDefault();
         let url = $(this).prop('href');
-                  $("#show-memo").find('.memo-subject').html(' ');
-          $("#show-memo").find('.memo-purpose').html(' ');
-          $("#show-memo").find('.memo-status').html(' ');
-          $("#show-memo").find('.memo-approvers').html(' ');
-          $("#show-memo").find('.memo-body').html(' ');
-          $("#show-memo").find('.memo-approved').html(' ');
+        let memo_path = '/images/memo_attachments/';
+
+        // clear fields
+        $("#show-memo").find('.memo-subject').html(' ');
+        $("#show-memo").find('.memo-purpose').html(' ');
+        $("#show-memo").find('.memo-status').html(' ');
+        $("#show-memo").find('.memo-status').removeClass('badge-success')
+        $("#show-memo").find('.memo-approvers').html(' ');
+        $("#show-memo").find('.memo-body').html(' ');
+        $("#show-memo").find('.memo-approved').html(' ');
+        $('#show-memo .modal-footer .files').html(' ');
+        // clear fields
+
         $.get(url, function(data) {
           // activate modal
           $("#show-memo").find('.memo-subject').html(data.subject);
           $("#show-memo").find('.memo-purpose').html(data.purpose);
-          $("#show-memo").find('.memo-status').html(data.status);
+          // $("#show-memo").find('.memo-status').html(data.status);
           $("#show-memo").find('.memo-approvers').html(data.approvers);
           $("#show-memo").find('.memo-body').html(data.body);
+           if(data.approved === true){
+              $("#show-memo").find('.memo-status').html('approved');
+              $("#show-memo").find('.memo-status').addClass('badge-success')
+            } else {
+              $("#show-memo").find('.memo-status').html(data.status);
+            }
           $("#show-memo").modal('show');
           if(data.approved == true){
-            $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="100">');
+            $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="30">');
+          }
+          // list attachements
+          if(data.attachments.length > 0 ){
+            $.each(data.attachments, function(index, val) {
+              $('#show-memo .modal-footer .files').append(`
+                <a href="${ memo_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
+              `);
+            });
           }
         });
       });
+
+      function print_memo() {
+        return $("#show-memo").printThis();
+      }
 </script>
         
 @endpush
