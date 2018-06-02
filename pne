@@ -1,0 +1,266 @@
+[1mdiff --git a/app/Helpers.php b/app/Helpers.php[m
+[1mindex 2cd2f36..6040cf0 100644[m
+[1m--- a/app/Helpers.php[m
+[1m+++ b/app/Helpers.php[m
+[36m@@ -1,111 +1,11 @@[m
+ <?php[m
+ [m
+[31m-namespace App;[m
+[32m+[m[32m// namespace App;[m
+ [m
+[31m-use Illuminate\Database\Eloquent\Model;[m
+[31m-[m
+[31m-use Storage;[m
+[31m-use Flysystem;[m
+[31m-use App\AutopayResponse;[m
+[31m-use App\LoanRatingOption;[m
+[31m-[m
+[31m-class Helpers extends Model[m
+[31m-{[m
+[31m-[m
+[31m-  public static function autopay_get_response($doc_name){[m
+[31m-[m
+[31m-    // CHECK ERROR FOLDER[m
+[31m-    $files = Storage::disk('interswitch')->files('ERROR/');[m
+[31m-    foreach ($files as $file) {[m
+[31m-      if (strpos($file, $doc_name) !== false) {[m
+[31m-          // $filename = substr($file, strpos($file, 'Northline'));[m
+[31m-          $filename = $file;[m
+[31m-      }[m
+[31m-      continue;[m
+[32m+[m[32m// appends naira to strings[m
+[32m+[m[32mif (!function_exists('nairazify')) {[m
+[32m+[m[32m    function nairazify($str, $separator = '')[m
+[32m+[m[32m    {[m
+[32m+[m[32m        return !starts_with($str, '₦') ? '₦' . $separator . $str : $eparator . $str;[m
+     }[m
+[31m-[m
+[31m-    if (!empty($filename)) {[m
+[31m-      $error_file_contents = Flysystem::connection('interswitch')->read($filename);[m
+[31m-      $lines = explode("\r\n", $error_file_contents);[m
+[31m-      foreach ($lines as $line) {[m
+[31m-        $error_codes = AutopayResponse::pluck('code');[m
+[31m-[m
+[31m-        $code = substr($line, strrpos($line, ",") + 1);[m
+[31m-        // dd($code);[m
+[31m-        $get_error = AutopayResponse::where('code', $code)->first();[m
+[31m-        if(count($get_error) > 0)[m
+[31m-        break;[m
+[31m-      }[m
+[31m-      if(count($get_error) > 0)[m
+[31m-      return $get_error;[m
+[31m-[m
+[31m-    }[m
+[31m-[m
+[31m-    // CHECK OUT FOLDER[m
+[31m-    $out_files = Storage::disk('interswitch')->files('OUT/');[m
+[31m-    foreach ($out_files as $out_file) {[m
+[31m-      if (strpos($out_file, $doc_name) !== false) {[m
+[31m-          // $filename = substr($file, strpos($file, 'Northline'));[m
+[31m-          $out_filename = $out_file;[m
+[31m-          // break;[m
+[31m-      }[m
+[31m-    }[m
+[31m-[m
+[31m-    if (!empty($out_filename)) {[m
+[31m-      $out_file_contents = Flysystem::connection('interswitch')->read($out_filename);[m
+[31m-      $out_lines = explode("\r\n", $out_file_contents);[m
+[31m-      foreach ($out_lines as $out_line) {[m
+[31m-        $error_codes = AutopayResponse::pluck('code');[m
+[31m-[m
+[31m-        $out_code = substr($out_line, strrpos($out_line, ",") + 1);[m
+[31m-        // dd($code);[m
+[31m-        $get_out = AutopayResponse::where('code', $out_code)->first();[m
+[31m-        if(count($get_out) > 0)[m
+[31m-        break;[m
+[31m-      }[m
+[31m-      if(count($get_out) > 0)[m
+[31m-      return $get_out;[m
+[31m-    }[m
+[31m-[m
+[31m-  }[m
+[31m-[m
+[31m-  public static function autopay_update_log($id, $code){[m
+[31m-    if (empty($id) || empty($code)) {[m
+[31m-      return FALSE;[m
+[31m-    } else {[m
+[31m-      $log = AutopayLog::where('id', $id)->first();[m
+[31m-      $log->ResponseCode = $code;[m
+[31m-      $log->save();[m
+[31m-      return TRUE;[m
+[31m-    }[m
+[31m-  }[m
+[31m-[m
+[31m-  public static function num_words($num)[m
+[31m-  {[m
+[31m-    $array = [[m
+[31m-      'One' => '1',[m
+[31m-      'Two' => '2',[m
+[31m-      'Three' => '3',[m
+[31m-      'Four' => '4',[m
+[31m-      'Five' => '5',[m
+[31m-      'Six' => '6',[m
+[31m-      'Seven' => '7',[m
+[31m-      'Eight' => '8',[m
+[31m-      'Nine' => '9',[m
+[31m-    ];[m
+[31m-    foreach ($array as $key => $value) {[m
+[31m-      if($num == $value)[m
+[31m-        $word = $key;[m
+[31m-        continue;[m
+[31m-    }[m
+[31m-    return $word;[m
+[31m-  }[m
+[31m-[m
+[31m-  public static function get_option($slug, $num)[m
+[31m-  {[m
+[31m-    $key = LoanRatingOption::where('Slug', $slug)->first();[m
+[31m-[m
+[31m-    return $key->{Static::num_words($num)};[m
+[31m-  }[m
+[31m-[m
+ }[m
+[1mdiff --git a/app/Http/Controllers/DocumentController.php b/app/Http/Controllers/DocumentController.php[m
+[1mindex 1bba819..b0466eb 100644[m
+[1m--- a/app/Http/Controllers/DocumentController.php[m
+[1m+++ b/app/Http/Controllers/DocumentController.php[m
+[36m@@ -46,6 +46,7 @@[m [mclass DocumentController extends Controller[m
+         $doc             = Document::findorFail($id);[m
+         $doc->NotifyFlag = true;[m
+         if ($doc->save()) {[m
+[32m+[m[32m            // TODO: send notification here[m
+             return redirect()->route('my_documents')->with('success', 'Document has been sent for approval successfully');[m
+         } else {[m
+             return back()->withInput()->with('error', 'Failed to send document for approval');[m
+[36m@@ -84,18 +85,18 @@[m [mclass DocumentController extends Controller[m
+ [m
+                     if (!empty($request->Roles)) {[m
+                         $assignees = [];[m
+[31m-                        if(in_array('all', $request->Roles)){[m
+[32m+[m[32m                        if (in_array('all', $request->Roles)) {[m
+                             $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();[m
+                             foreach ($staffs as $staff) {[m
+[31m-                              $assignees[] = $staff->StaffRef;[m
+[32m+[m[32m                                $assignees[] = $staff->StaffRef;[m
+                             }[m
+                         } else {[m
+[31m-                          foreach ($request->Roles as $role_id) {[m
+[31m-                            $role = Role::find($role_id);[m
+[31m-                            foreach ($role->users as $r_user) {[m
+[31m-                              $assignees[] = $r_user->staff->StaffRef;[m
+[32m+[m[32m                            foreach ($request->Roles as $role_id) {[m
+[32m+[m[32m                                $role = Role::find($role_id);[m
+[32m+[m[32m                                foreach ($role->users as $r_user) {[m
+[32m+[m[32m                                    $assignees[] = $r_user->staff->StaffRef;[m
+[32m+[m[32m                                }[m
+                             }[m
+[31m-                          }[m
+ [m
+                         }[m
+ [m
+[1mdiff --git a/app/Http/Controllers/WorkflowController.php b/app/Http/Controllers/WorkflowController.php[m
+[1mindex 7b1f235..1de24e9 100644[m
+[1m--- a/app/Http/Controllers/WorkflowController.php[m
+[1m+++ b/app/Http/Controllers/WorkflowController.php[m
+[36m@@ -4,6 +4,7 @@[m [mnamespace App\Http\Controllers;[m
+ [m
+ use App\User;[m
+ use App\Workflow;[m
+[32m+[m[32muse Validator;[m
+ use Illuminate\Http\Request;[m
+ [m
+ class WorkflowController extends Controller[m
+[36m@@ -43,6 +44,10 @@[m [mclass WorkflowController extends Controller[m
+     public function store(Request $request)[m
+     {[m
+         $workflow = new Workflow($request->all());[m
+[32m+[m[32m        $this->validate($request, [[m
+[32m+[m[32m            'RequesterID' => 'reqiuired',[m
+[32m+[m[32m            'ApproverID1' => 'required',[m
+[32m+[m[32m        ]);[m
+ [m
+         if ($workflow->save()) {[m
+             return redirect()->route('workflow.create')->with('success', 'Workflow updated successfully');[m
+[1mdiff --git a/resources/views/documents/approvallist.blade.php b/resources/views/documents/approvallist.blade.php[m
+[1mindex 230eb8a..561d28e 100644[m
+[1m--- a/resources/views/documents/approvallist.blade.php[m
+[1m+++ b/resources/views/documents/approvallist.blade.php[m
+[36m@@ -8,72 +8,91 @@[m
+ }[m
+ </style>[m
+ @endpush[m
+[31m-@section('bottom-content')[m
+[31m-<section class="bg-white container-fluid container-fixed">[m
+[31m-    <div class="panel panel-transparent" id="bondslist">[m
+[31m-            <div class="panel-heading">[m
+[31m-                <div class="panel-title">[m
+[31m-                    Approval List[m
+[31m-                </div>[m
+[31m-                <div class="pull-right">[m
+[31m-                    <div class="col-xs-12">[m
+[31m-                        {{-- <input class="form-control pull-right search-table" placeholder="Search" type="text"> --}}[m
+[31m-                    </div>[m
+[31m-                </div>[m
+[31m-                <div class="clearfix">[m
+[32m+[m
+[32m+[m[32m@section('content')[m
+[32m+[m
+[32m+[m[32m    {{-- <div class="clearfix m-b-20">[m
+[32m+[m[32m        <button class="btn btn-info pull-right" data-toggle="modal" data-target="#new_doc">New Document</button>[m
+[32m+[m[32m    </div> --}}[m
+[32m+[m
+[32m+[m[32m    <!-- START PANEL -->[m
+[32m+[m[32m    <div class="card-box">[m
+[32m+[m[32m            <div class="card-title pull-left">Document Listing</div>[m
+[32m+[m[32m            <div class="pull-right">[m
+[32m+[m[32m                <div class="col-xs-12">[m
+[32m+[m[32m                    <input type="text" class="search-table form-control pull-right" placeholder="Search">[m
+                 </div>[m
+             </div>[m
+[31m-[m
+[31m-            <div class="panel-body">[m
+[31m-                [m
+[31m-                <table class="table tableWithSearch_a">[m
+[31m-                        <thead>[m
+[31m-                            <th><div class="checkbox check-info">[m
+[31m-                      <input type="checkbox" id="select-all">[m
+[31m-                      <label for="select-all" class="text-white">Bulk Select</label>[m
+[31m-                    </div></th>[m
+[31m-                           <th width="20%">Document Name</th>[m
+[31m-                            <th width="15%">Type</th>[m
+[31m-                            <th width="20%">Upload Date</th>[m
+[31m-                            <th width="20%">Uploaded By</th>[m
+[31m-                            <th>Download</th>[m
+[31m-                        </thead>[m
+[31m-                        <tbody>[m
+[31m-                            @foreach( $docs as $doc)[m
+[31m-                            <tr>[m
+[31m-                                <td>[m
+[31m-                                    <div class="checkbox check-info">[m
+[31m-                      <input type="checkbox" id="select-all-child-{{ $doc->DocRef }}" class="select-all-child" value="{{ $doc->DocRef }}">[m
+[31m-                      <label for="select-all-child-{{ $doc->DocRef }}" class="text-white"></label>[m
+[32m+[m[32m            <div class="clearfix"></div>[m
+[32m+[m[32m            <table class="table tableWithSearch_a">[m
+[32m+[m[32m                <thead>[m
+[32m+[m[32m                    <th>[m
+[32m+[m[32m                        <div class="checkbox check-info">[m
+[32m+[m[32m                          <input type="checkbox" id="select-all">[m
+[32m+[m[32m                          <label for="select-all" class="text-white">Bulk Select</label>[m
+[32m+[m[32m                        </div>[m
+[32m+[m[32m                    </th>[m
+[32m+[m[32m                    <th width="20%">Document Name</th>[m
+[32m+[m[32m                    <th width="15%">Type</th>[m
+[32m+[m[32m                    <th width="20%">Upload Date</th>[m
+[32m+[m[32m                    <th width="20%">Uploaded By</th>[m
+[32m+[m[32m                    <th>Download</th>[m
+[32m+[m[32m                </thead>[m
+[32m+[m[32m                <tbody>[m
+[32m+[m[32m                    @foreach( $docs as $doc)[m
+[32m+[m[32m                    <tr>[m
+[32m+[m[32m                        <td>[m
+[32m+[m[32m                            <div class="checkbox check-info">[m
+[32m+[m[32m                              <input type="checkbox" id="select-all-child-{{ $doc->DocRef }}" class="select-all-child" value="{{ $doc->DocRef }}">[m
+[32m+[m[32m                              <label for="select-all-child-{{ $doc->DocRef }}" class="text-white"></label>[m
+[32m+[m[32m                            </div>[m
+[32m+[m[32m                        </td>[m
+[32m+[m
