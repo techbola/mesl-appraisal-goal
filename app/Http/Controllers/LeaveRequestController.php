@@ -171,6 +171,7 @@ class LeaveRequestController extends Controller
                          \DB::rollback();
                           return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
                        }
+                    }
     /**
      * Display a listing of the resource.
      *
