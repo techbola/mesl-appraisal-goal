@@ -401,6 +401,10 @@
     }
     </style>
 
+    <div class="" style="text-align:center;">
+      <img src="{{ asset('images/officemate.png') }}" alt="Officemate" width="250px">
+    </div>
+
     <h3 style="text-align:center">Meeting Notes For Meeting With {{ $memo->customer->Customer }}</h3>
     <div style="text-align:center">Date: {{ \Carbon::parse($memo->MeetingDate)->format('d M, Y') }}</div>
     <br><hr><br>
@@ -410,7 +414,7 @@
     <ul class="my-list">
       <li><b>Attendees:</b> {{ $memo->Attendees }}</li>
       <li><b>Handouts:</b> {{ $memo->Handouts }}</li>
-      <li><b>Attendees:</b> {{ $memo->Location }}</li>
+      <li><b>Location:</b> {{ $memo->Location }}</li>
       <li><b>Meeting Date:</b> {{ $memo->MeetingDate }}</li>
     </ul>
 

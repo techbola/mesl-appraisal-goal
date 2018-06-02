@@ -28,7 +28,7 @@
 
         <div class="uk-grid-width-small-1-2 uk-grid-width-medium-1-4 uk-container-center uk-margin-large-top" data-uk-grid="{gutter: 20, controls: '#notes_grid_filter'}" id="notes_grid">
           @foreach ($user->sticky_notes as $note)
-            <div @{{#exists labels}}data-uk-filter="@{{#each labels }}@{{#ifCond @key '>' 0}},@{{/ifCond}}@{{ text_safe }}@{{/each}}"@{{/exists}}>
+            <div class="content-editable" @{{#exists labels}}data-uk-filter="@{{#each labels }}@{{#ifCond @key '>' 0}},@{{/ifCond}}@{{ text_safe }}@{{/each}}"@{{/exists}}>
                 <div class="md-card {{ $note->Color }}">
                     <div class="uk-position-absolute uk-position-top-right uk-margin-small-right uk-margin-small-top">
                         <a href="#" class="note_action_remove" onclick="confirm2('Delete this note?', '', 'delete_{{ $note->NoteRef }}')"><i class="md-icon material-icons">&#xE5CD;</i></a>
@@ -37,23 +37,26 @@
                     <div class="md-card-content">
                         <h2 class="heading_b uk-margin-large-right">{{ $note->Title }}</h2>
                         <p>{!! $note->Body !!}</p>
-                        {{-- @{{#exists checklist}}
-                            <ul class="uk-list">
-                                @{{#each checklist }}
-                                <li class="uk-margin-small-top">
-                                    <input type="checkbox" id="checkbox_@{{#if id}}@{{id}}@{{else}}@{{@../index}}_@{{@index}}@{{/if}}" data-md-icheck @{{#if checked}}checked@{{/if}}/>
-                                    <label for="checkbox_@{{#if id}}@{{id}}@{{else}}@{{@../index}}_@{{@index}}@{{/if}}" class="inline-label">@{{title}}</label>
-                                </li>
-                                @{{/each}}
-                            </ul>
-                        @{{/exists}}
-                        @{{#exists labels}}
+
+                        @if (count($note->checklists) > 0)
+                          <ul class="uk-list">
+                            @foreach ($note->checklists as $check)
+                              <li class="uk-margin-small-top">
+                                <input type="checkbox" id="checkbox_{{ $check->id }}" data-md-icheck {{ ($check->Checked)? 'checked':'' }}/>
+                                <label for="checkbox_{{ $check->id }}" class="inline-label">{{ $check->Title }}</label>
+                              </li>
+                            @endforeach
+                          </ul>
+                        @endif
+
+                        {{-- @{{#exists labels}}
                         <div class="uk-margin-medium-top">
                             @{{#each labels }}
                             <span class="uk-badge uk-badge-@{{ type }}">@{{ text }}</span>
                             @{{/each}}
                         </div>
                         @{{/exists}} --}}
+
                         {{-- @{{#exists time}} --}}
                             <span class="uk-margin-top uk-text-italic uk-text-muted uk-display-block uk-text-small">{{ $note->created_at->format('jS M Y g:ia') }}</span>
                         {{-- @{{/exists}} --}}
@@ -89,6 +92,7 @@
             <div class="md-card-content">
                 <h2 class="heading_b uk-margin-large-right">@{{ title }}</h2>
                 <p>@{{{ content }}}</p>
+
                 @{{#exists checklist}}
                     <ul class="uk-list">
                         @{{#each checklist }}
@@ -99,6 +103,7 @@
                         @{{/each}}
                     </ul>
                 @{{/exists}}
+
                 @{{#exists labels}}
                 <div class="uk-margin-medium-top">
                     @{{#each labels }}
@@ -160,7 +165,7 @@
                 <!--
                 -->
                 <!-- Sub Todos List -->
-                <!-- <a href="#" class="uk-margin-left" data-uk-toggle="{target:'#notes_checklist'}"><i class="material-icons md-24">&#xE065;</i></a> -->
+                <a href="#" class="uk-margin-left" data-uk-toggle="{target:'#notes_checklist'}"><i class="material-icons md-24">&#xE065;</i></a>
             </div>
             <div class="uk-float-right">
                 <a href="#" class="md-btn md-btn-primary" id="note_add">Add Note</a>

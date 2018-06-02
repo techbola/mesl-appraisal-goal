@@ -53,8 +53,8 @@
       @foreach ($contact->call_memos as $memo)
 
         <tbody>
-          <tr>
-            <td class="details-control" style="cursor:pointer"><i class="fa fa-plus-circle text-success f20" onclick="toggle_row('memo_{{ $memo->CallMemoRef }}')"></i></td>
+          <tr id="parent_{{ $memo->CallMemoRef }}">
+            <td class="details-control" style="cursor:pointer"><i class="fa fa-plus-circle text-success f20" onclick="toggle_row('{{ $memo->CallMemoRef }}')"></i></td>
             <td>{{ $memo->Attendees }}</td>
             <td>{{ $memo->Handouts }}</td>
             <td>{{ $memo->Location }}</td>
@@ -101,7 +101,20 @@
                 {{-- <a class="add_point f20 pointer" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus-circle text-success" data-toggle="tooltip" title="Add Action Point"></i></a> --}}
                 <div class="pull-right">
                   <a class="add_point pointer btn btn-xs btn-success" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus m-r-5"></i> Action Point</a>
-                  {{-- <i class="fa fa-level-up m-l-10 m-r-5"></i> --}}
+
+
+                  <div class="dropdown">
+                      <a type="button" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-ellipsis-h"></i> <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="">Account Statement</a></li>
+                        <li><a href="">Interest Accruals</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="">Edit Account</a></li>
+                      </ul>
+                    </div>
+
                 </div>
               </td>
             </tr>
@@ -382,7 +395,8 @@
     };
 
     function toggle_row(id) {
-      $('#'+id).toggle();
+      $('#memo_'+id).toggle();
+      $('#parent_'+id+' td.details-control i').toggleClass('fa fa-plus-circle text-success').toggleClass('fa fa-minus-circle text-danger');
     }
   </script>
 

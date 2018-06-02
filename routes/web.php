@@ -34,6 +34,8 @@ Route::group(['middleware' => 'guest'], function () {
 
     Route::post('/company_registration', 'LoginController@register_company')->name('register_company');
 
+    // Route::get('/edit_company', 'LoginController@register_company')->name('register_company');
+
     Route::get('/activate_pass/{id}/{code}', 'LoginController@activate_pass')->name('activate_pass');
     Route::patch('/activate_pass2/{id}/{code}', 'LoginController@activate_pass2')->name('activate_pass2');
 });
@@ -177,6 +179,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
     Route::post('store_note', 'StickyNoteController@store')->name('store_note');
+    Route::post('store_checklist', 'StickyNoteController@store_checklist')->name('store_checklist');
     Route::delete('delete_note/{id}', 'StickyNoteController@delete')->name('delete_note');
 
     Route::get('call-memo/create/{customer}', 'CallMemoController@create')->name('create_call_memo');

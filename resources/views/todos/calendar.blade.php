@@ -68,6 +68,7 @@
           basicWeek: 'Week',
           year: 'Year'
         },
+				defaultView: 'basicWeek',
         eventClick: function(myevent, jsEvent, view) {
 
           // alert('Event: ' + myevent.title);
