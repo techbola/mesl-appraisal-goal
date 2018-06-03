@@ -7,10 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Memo extends Model
 {
     protected $guarded = ['id'];
+    protected $casts   = [
+        'recipients' => 'array',
+    ];
 
     public function memos()
     {
         return $this->belongsTo(Staff::class);
+    }
+
+    public function getRecipientsAttribute($value)
+    {
+        return array_map('intval', json_decode($value));
     }
 
     public function attachments()
@@ -21,6 +29,11 @@ class Memo extends Model
     public function sent()
     {
         return $this->NotifyFlag;
+    }
+
+    public function processed()
+    {
+        return $this->processed_flag;
     }
 
     public function status()

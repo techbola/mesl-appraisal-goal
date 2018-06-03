@@ -336,6 +336,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('memos/send/{id}', 'MemoController@send')->name('send_memo');
     Route::get('memos/approvallist', 'MemoController@approval_list')->name('memos_approvallist');
     Route::post('memos/approve', 'MemoController@approve');
+    Route::post('memos/process', 'MemoController@process')->name('process_memo');
     Route::post('memos/reject', 'MemoController@reject');
 
     // main memo routes

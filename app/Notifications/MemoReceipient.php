@@ -43,14 +43,14 @@ class MemoReceipient extends Notification
         $memo = $this->memo;
 
         return (new MailMessage)
-            ->subject('Memo Approval Request at ')
+            ->subject('Approved Memo Needs Your Action')
             ->greeting('Hi, ' . $notifiable->first_name)
             ->line('**Memo Subject: **' . $memo->subject)
             ->line('**Date Created: **' . $memo->created_at)
             ->line('**Created By: **' . $memo->initiator->FullName)
-            ->line('Use the button below to visit the approval page ' . config('app.name') . '.')
+            ->line('Use the button below to visit the approval page and Navigate to your Memo Inbox Tab ' . config('app.name') . '.')
             // ->line('**Description: **'.str_limit(strip_tags($doc->Description), 200).'')
-            ->action('Open Memo Approval Page', route('memos_approvallist'));
+            ->action('Go to Memo Inbox', route('memos_approvallist'));
     }
 
     /**

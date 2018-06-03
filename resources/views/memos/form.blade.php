@@ -14,8 +14,8 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('receipients', 'To') }}
-                    {{ Form::select('receipients', ['' => 'Select Approver'] + $employees->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'multiple', 'data-placeholder' => 'Select Approver']) }}
+                    {{ Form::label('recipients', 'To') }}
+                    {{ Form::select('recipients[]',$employees->pluck('name','id'),null, ['class' => 'full-width','data-init-plugin' => "select2", 'multiple', 'data-placeholder' => 'Select Approver']) }}
                 </div>
             </div>
         </div>
@@ -29,8 +29,8 @@
                 </div>
             </div>
         </div> 
-
-        <div class="col-sm-6">
+        <div class="clearfix"></div>
+        <div class="col-sm-12">
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('purpose', 'Purpose') }}

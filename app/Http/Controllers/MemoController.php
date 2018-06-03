@@ -22,8 +22,17 @@ class MemoController extends Controller
 
     public function index()
     {
-        $memos = Memo::all();
-        return view('memos.index', compact('memos'));
+        $memos           = Memo::all();
+        $my_memos        = $memos->where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 1);
+        $my_unsent_memos = $memos->where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 0);
+        $memo_inbox      = $memos->where('NotifyFlag', 1)
+            ->where('ApprovedFlag', 1)
+            ->where('ApproverID', 0)
+            ->filter(function ($value) {
+                return array_intersect($value->recipients, [auth()->user()->id]);
+            });
+
+        return view('memos.index', compact('memos', 'my_memos', 'my_unsent_memos', 'memo_inbox'));
     }
 
     public function create()
@@ -78,21 +87,23 @@ class MemoController extends Controller
             $new_memo               = new Memo($request->except('memo_attachment'));
             $new_memo->initiator_id = auth()->user()->staff->StaffRef;
             $new_memo->ApproverID   = $request->ApproverID1;
+            // $new_memo->recipients   = json_encode($request->recipients);
             if ($new_memo->save()) {
                 // START attachment
                 if ($request->hasFile('memo_attachment')) {
                     foreach ($request->memo_attachment as $key => $value) {
                         $file     = $request->file('memo_attachment')[$key];
-                        $filename = $file->hashName();
+                        $filename = uniqid() . '-' . $file->getClientOriginalName();
 
                         if (!File::exists(public_path('memo_attachments'))) {
                             File::makeDirectory(public_path('memo_attachments'));
                         }
-                        $value->store('memo_attachments');
+                        // $value->storeAs('memo_attachments', $filename);
+                        Storage::disk('public')->put('memo_attachments', $file);
                         // $attachment = new MemoAttachment;
                         MemoAttachment::create([
                             'memo_id'             => $new_memo->id,
-                            'attachment_location' => $filename,
+                            'attachment_location' => $file->hashName(),
                         ]);
                     }
                 }
@@ -100,7 +111,6 @@ class MemoController extends Controller
                 DB::commit();
                 return redirect()->route('memos.create')->with('success', 'Memo was created successfully.');
             }
-
         } catch (Exception $e) {
             DB::rollback();
         }
@@ -177,14 +187,22 @@ class MemoController extends Controller
             $memo = Memo::find($value);
 
             $next_approver = $memo->ApproverID != 0 ? Staff::where('UserID', $memo->ApproverID)->first()->user : null;
+            $recipients    = $memo->recipients;
+            $recipients    = collect($recipients);
 
-            // $receipients = Staff::where('UserID', $memo->receipients)->first();
+            $recipients->transform(function ($item, $key) {
+                $item = Staff::where('UserID', $item)->first()->user;
+                return $item;
+            });
+
+            // $recipients = Staff::where('UserID', $memo->recipients)->first();
+            // return $recipients;
 
             if (!is_null($next_approver) || $next_approver != 0) {
                 Notification::send($next_approver, new MemoApproval($memo));
             } else {
                 // send mail to reciepient, notifying them of the memo approval
-                // Notification::send($receipients, new MemoReceipient($memo));
+                Notification::send($recipients->all(), new MemoReceipient($memo));
             }
         }
         // $selected_ids = (implode(',', $new_array));
@@ -194,6 +212,22 @@ class MemoController extends Controller
         return response()->json([
             'message' => 'Memo was approved successfully',
         ])->setStatusCode(200);
+    }
+
+    public function process(Request $request)
+    {
+
+        try {
+            DB::beginTransaction();
+            $memo                 = Memo::find($request->id);
+            $memo->processed_flag = 1;
+            if ($memo->save()) {
+                DB::commit();
+                return redirect('/memos')->with('success', 'Memo was marked as complete');
+            }
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 
     public function reject(Request $request)
