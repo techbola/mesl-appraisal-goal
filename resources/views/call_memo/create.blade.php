@@ -24,6 +24,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Attendees</label>
+
                 <input type="text" class="form-control" name="Attendees" placeholder="Attendees" required>
               </div>
             </div>
@@ -46,6 +47,7 @@
               <div class="form-group">
                 <label>Meeting Date</label>
                 <div class="input-group date dp">
+
                   <input type="text" class="form-control" name="MeetingDate" placeholder="MeetingDate" required>
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
@@ -68,7 +70,6 @@
 
             </div>
           </div>
-
           <hr>
           {{-- <button type="button" id="add_discussion" class="btn btn-inverse pull-right m-t-10 m-b-20"><i class="fa fa-plus"></i> Discussion Point</button> --}}
           <div class="clearfix"></div>

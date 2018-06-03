@@ -1,6 +1,7 @@
 <div class="card-box steps_div">
   <h4 class="card-title"><b>To-Do Items {!! (!empty($date))? '— <span class="text-muted">'.$date.'</span>' : '' !!}</b>
     {{-- <span class="pull-right text-lowercase f13">{{ count($task->StepsUndone) }} of {{ count($task->steps) }} remaining</span> --}}
+
     <button class="btn btn-sm btn-info btn-rounded pull-right" data-toggle="modal" data-target="#new_todo" style="margin-top:-10px">+ Add Item</button>
   </h4>
   {{-- <ul class="my-list" id="steps_list" data-task_id="{{ $task->TaskRef }}"> --}}

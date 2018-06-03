@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
+
     Route::middleware(['can:superadmin'])->group(function () {
         Route::resource('menus', 'MenuController');
         Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
@@ -141,7 +142,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('companies', 'CompanyController');
     Route::resource('departments', 'DepartmentController');
-    Route::resource('leaverequest', 'LeaveRequestController');
+
+    // Leave Request
+    Route::get('leave_request/create', 'LeaveRequestController@leave_request')->name('LeaveRequest');
+    Route::post('store_leave_request', 'LeaveRequestController@store_leave_request');
+    Route::get('leave_request/index', 'LeaveRequestController@dashboard')->name('LeaveDashBoard');
+    Route::get('leave_request/leave_approval', 'LeaveRequestController@leave_approval')->name('LeaveApproval');
+    Route::post('approve_leave_request', 'LeaveRequestController@approve_leave_request');
+    Route::get('leave_notification/{elem_value}', 'LeaveRequestController@leave_notification');
+    Route::get('request_date/{start_date}/{numberdays}', 'LeaveRequestController@retrieve_details');
+
 
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
 
@@ -184,6 +194,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('call-memo/create/{customer}', 'CallMemoController@create')->name('create_call_memo');
     Route::post('call-memo/store/{customer}', 'CallMemoController@store')->name('store_call_memo');
+
     Route::get('call-memo/edit/{id}', 'CallMemoController@edit')->name('edit_call_memo');
     Route::patch('call-memo/update/{id}', 'CallMemoController@update')->name('update_call_memo');
     Route::post('call-memo/store_action_point/{discussion}', 'CallMemoController@store_action_point')->name('store_action_point');
@@ -331,6 +342,7 @@ Route::middleware(['auth'])->group(function () {
     //  End Risk register
 
     // Begin Memorandum
+
     // sends memo for approval
     Route::get('memos/download/{id}', 'MemoController@download_memo_attachments')->name('download-attachment');
     Route::get('memos/send/{id}', 'MemoController@send')->name('send_memo');
@@ -357,6 +369,7 @@ Route::get('/cda', function () {
     exec('composer dump-autoload');
     return redirect()->route('home');
 });
+
 
 Route::get('/testing', function () {
     $memo = Cavidel\CallMemo::find('17');

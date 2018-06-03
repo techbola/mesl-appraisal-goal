@@ -45,6 +45,7 @@
 }
 th {
   font-family: Karla !important;
+
   font-size: 12px !important;
 }
 .form-group label:not(.error) {
@@ -96,6 +97,7 @@ th {
   word-break: break-word;
 }
 .table tbody tr td {
+
   font-size: 13px;
 }
 .table-responsive {
@@ -996,6 +998,7 @@ ul.nav-tabs.outside + .tab-content > .tab-pane > .card-box {
 }
 /* Fix callendar overflow issue */
 .fc-scroller {
+
   overflow-x: visible !important;
 }
 

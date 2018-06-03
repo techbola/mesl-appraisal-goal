@@ -19,6 +19,7 @@ class CreateMemosTable extends Migration
             $table->string('subject')->nullable();
             $table->string('purpose')->nullable();
             $table->text('body');
+
             $table->boolean('ApprovedFlag')->default(0);
             $table->boolean('NotifyFlag')->default(0);
             $table->date('ApprovalDate')->nullable();

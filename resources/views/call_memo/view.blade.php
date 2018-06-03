@@ -24,12 +24,10 @@
 @endpush
 
 @section('content')
-
   <div class="card-box">
     <div class="card-title">
       Call Memo - {{ $contact->Customer }} {{ ($contact->Organization)? '- '.$contact->Organization : '' }}
     </div>
-
     <table id="#call_memo" class="table table-bordered">
       <thead>
         <tr>
@@ -60,6 +58,7 @@
             <td>{{ $memo->Location }}</td>
             <td>
               {{ $memo->MeetingDate }}
+
             </td>
             <td>
               <span class="pull-right">
@@ -103,6 +102,7 @@
                   <a class="add_point pointer btn btn-xs btn-success" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus m-r-5"></i> Action Point</a>
 
 
+
                   <div class="dropdown">
                       <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-ellipsis-h"></i> <span class="caret"></span>
@@ -114,7 +114,6 @@
                         <li><a href="">Edit Account</a></li>
                       </ul>
                     </div>
-
                 </div>
               </td>
             </tr>
@@ -126,6 +125,7 @@
               <td></td>
               <td class="thead">Action Point</td>
               <td class="thead">Responsibility</td>
+
               <td class="thead">Comment</td>
               <td class="thead">Timeline</td>
               {{-- <td class="thead">Status</td> --}}
@@ -147,8 +147,6 @@
                     <a href="{{ route('edit_action_point', $action->id) }}" class="pull-right"><i class="fa fa-pencil text-warning f16"></i></a>
                   @endif
                 </td>
-
-
               </tr>
             @endforeach
 
@@ -178,6 +176,7 @@
                 {{-- <input type="text" name="ActionPoint" class="form-control" placeholder="Enter action point"> --}}
                 <textarea name="ActionPoint" rows="2" class="form-control" placeholder="Enter action point"></textarea>
               </div>
+
             </div>
             <div class="col-md-6">
               <div class="form-group">

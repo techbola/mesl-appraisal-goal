@@ -3,6 +3,7 @@
 namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use DB;
 use File;
 use Image;
@@ -37,6 +38,7 @@ class MemoController extends Controller
 
     public function create()
     {
+
         $employees = User::all();
         $employees = $employees->transform(function ($item, $key) {
             $item->name = $item->Fullname;
@@ -76,6 +78,7 @@ class MemoController extends Controller
             'purpose'         => 'required',
             'request_type_id' => 'required',
             'body'            => 'required',
+
             // 'receiver_id'     => 'required',
         ], [
             'request_type_id.required' => 'Choosing a request type is compulsory',
@@ -118,6 +121,7 @@ class MemoController extends Controller
 
     public function show($id)
     {
+
         $memo = Memo::where('id', $id)->get();
         // dd($memo->subject);
         $memo = $memo->transform(function ($item, $key) {
@@ -135,7 +139,6 @@ class MemoController extends Controller
     {
         $memo = Memo::find($id);
         return view('memos.edit', compact('memo'));
-
     }
 
     public function update(Request $request, $id)
@@ -272,6 +275,7 @@ class MemoController extends Controller
 
     public function destroy($id)
     {
+
         $memo = Memo::find($id);
         if ($menu->delete()) {
             return redirect()->route('memos.index')->with('success', 'Memo was deleted successfully');

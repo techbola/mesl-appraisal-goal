@@ -126,6 +126,7 @@ altair_sticky_notes = {
                     }), s && (l[0].labels = s)
                 }
                 // Save note to db
+
                 $.post('/store_note', {Title: l[0].title, Body: l[0].content, Color: l[0].color, Checklist: l[0].checklist}, function(data, status){
                   console.log(data);
                 });

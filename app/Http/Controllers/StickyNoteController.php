@@ -16,6 +16,7 @@ class StickyNoteController extends Controller
 
   public function store(Request $request)
   {
+
     // return $request->Checklist;
     $note = new StickyNote;
     $note->Title = trim($request->Title);

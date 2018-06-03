@@ -36,6 +36,20 @@
                     </div>
                     <div class="md-card-content">
                         <h2 class="heading_b uk-margin-large-right">{{ $note->Title }}</h2>
+<<<<<<< HEAD
+                        <p>{{ $note->Body }}</p>
+                        {{-- @{{#exists checklist}}
+                            <ul class="uk-list">
+                                @{{#each checklist }}
+                                <li class="uk-margin-small-top">
+                                    <input type="checkbox" id="checkbox_@{{#if id}}@{{id}}@{{else}}@{{@../index}}_@{{@index}}@{{/if}}" data-md-icheck @{{#if checked}}checked@{{/if}}/>
+                                    <label for="checkbox_@{{#if id}}@{{id}}@{{else}}@{{@../index}}_@{{@index}}@{{/if}}" class="inline-label">@{{title}}</label>
+                                </li>
+                                @{{/each}}
+                            </ul>
+                        @{{/exists}}
+                        @{{#exists labels}}
+=======
                         <p>{!! $note->Body !!}</p>
 
                         @if (count($note->checklists) > 0)
@@ -50,13 +64,17 @@
                         @endif
 
                         {{-- @{{#exists labels}}
+>>>>>>> d4a4e83af749fdd55f1b056141729e905888c267
                         <div class="uk-margin-medium-top">
                             @{{#each labels }}
                             <span class="uk-badge uk-badge-@{{ type }}">@{{ text }}</span>
                             @{{/each}}
                         </div>
                         @{{/exists}} --}}
+<<<<<<< HEAD
+=======
 
+>>>>>>> d4a4e83af749fdd55f1b056141729e905888c267
                         {{-- @{{#exists time}} --}}
                             <span class="uk-margin-top uk-text-italic uk-text-muted uk-display-block uk-text-small">{{ $note->created_at->format('jS M Y g:ia') }}</span>
                         {{-- @{{/exists}} --}}
@@ -92,7 +110,10 @@
             <div class="md-card-content">
                 <h2 class="heading_b uk-margin-large-right">@{{ title }}</h2>
                 <p>@{{{ content }}}</p>
+<<<<<<< HEAD
+=======
 
+>>>>>>> d4a4e83af749fdd55f1b056141729e905888c267
                 @{{#exists checklist}}
                     <ul class="uk-list">
                         @{{#each checklist }}
@@ -103,7 +124,10 @@
                         @{{/each}}
                     </ul>
                 @{{/exists}}
+<<<<<<< HEAD
+=======
 
+>>>>>>> d4a4e83af749fdd55f1b056141729e905888c267
                 @{{#exists labels}}
                 <div class="uk-margin-medium-top">
                     @{{#each labels }}
@@ -165,7 +189,11 @@
                 <!--
                 -->
                 <!-- Sub Todos List -->
+<<<<<<< HEAD
+                <!-- <a href="#" class="uk-margin-left" data-uk-toggle="{target:'#notes_checklist'}"><i class="material-icons md-24">&#xE065;</i></a> -->
+=======
                 <a href="#" class="uk-margin-left" data-uk-toggle="{target:'#notes_checklist'}"><i class="material-icons md-24">&#xE065;</i></a>
+>>>>>>> d4a4e83af749fdd55f1b056141729e905888c267
             </div>
             <div class="uk-float-right">
                 <a href="#" class="md-btn md-btn-primary" id="note_add">Add Note</a>

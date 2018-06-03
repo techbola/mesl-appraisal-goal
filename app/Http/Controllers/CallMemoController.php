@@ -62,6 +62,7 @@ class CallMemoController extends Controller
     });
 
     return redirect()->route('view_call_memo', $id)->with('success', 'Call memo saved successfully');
+
   }
 
   public function update(Request $request, $id)
