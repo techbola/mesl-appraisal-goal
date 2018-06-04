@@ -10,9 +10,9 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
-	{{ Form::model($workflow, ['action' => ['WorkflowController@update', $workflow->WorkflowRef ], 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+	{{ Form::model($memo, ['action' => ['MemoController@update', $memo->id ], 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
 		{{ method_field('PATCH') }}
-		@include('workflow.form', ['buttonText' => 'Update Workflow'])
+		@include('memos.form', ['buttonText' => 'Update Memo'])
 	{{ Form::close() }}
 </div>
 @endsection

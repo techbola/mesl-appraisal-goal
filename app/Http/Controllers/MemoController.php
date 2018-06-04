@@ -52,19 +52,39 @@ class MemoController extends Controller
     {
         try {
             DB::beginTransaction();
-            $memo             = Memo::findorFail($id);
-            $memo->NotifyFlag = true;
-            if ($memo->save()) {
-                // TODO: send notification here
-                $next_approver = $memo->ApproverID != 0 ? Staff::where('UserID', $memo->ApproverID)->first()->user : null;
-                if (!is_null($next_approver)) {
-                    Notification::send($next_approver, new MemoApproval($memo));
-                }
+            $memo       = Memo::findorFail($id);
+            $recipients = $memo->recipients;
+            $recipients = collect($recipients);
+
+            $recipients->transform(function ($item, $key) {
+                $item = Staff::where('UserID', $item)->first()->user;
+                return $item;
+            });
+
+            // if no approvers
+            if ($memo->ApproverID == 0) {
+                // send meo to recipients
+                $memo->ApprovedFlag = true;
+                $memo->NotifyFlag   = true;
+                $memo->save();
                 DB::commit();
-                return redirect()->route('memos.index')->with('success', 'Memo has been sent for approval successfully');
+                Notification::send($recipients->all(), new MemoReceipient($memo));
+                return redirect()->route('memos.index')->with('success', 'Memo has been sent to recipients successfully');
             } else {
-                return back()->withInput()->with('error', 'Failed to send Memo for approval');
+                $memo->NotifyFlag = true;
+                if ($memo->save()) {
+                    // TODO: send notification here
+                    $next_approver = $memo->ApproverID != 0 ? Staff::where('UserID', $memo->ApproverID)->first()->user : null;
+                    if (!is_null($next_approver)) {
+                        Notification::send($next_approver, new MemoApproval($memo));
+                    }
+                    DB::commit();
+                    return redirect()->route('memos.index')->with('success', 'Memo has been sent for approval successfully');
+                } else {
+                    return back()->withInput()->with('error', 'Failed to send Memo for approval');
+                }
             }
+
         } catch (Exception $e) {
             DB::rollback();
         }
@@ -77,6 +97,7 @@ class MemoController extends Controller
             'subject'         => 'required',
             'purpose'         => 'required',
             'request_type_id' => 'required',
+            'recipients'      => 'required',
             'body'            => 'required',
 
             // 'receiver_id'     => 'required',
@@ -95,12 +116,8 @@ class MemoController extends Controller
                 // START attachment
                 if ($request->hasFile('memo_attachment')) {
                     foreach ($request->memo_attachment as $key => $value) {
-                        $file     = $request->file('memo_attachment')[$key];
-                        $filename = uniqid() . '-' . $file->getClientOriginalName();
-
-                        if (!File::exists(public_path('memo_attachments'))) {
-                            File::makeDirectory(public_path('memo_attachments'));
-                        }
+                        $file = $request->file('memo_attachment')[$key];
+                        // $filename = uniqid() . '-' . $file->getClientOriginalName();
                         // $value->storeAs('memo_attachments', $filename);
                         Storage::disk('public')->put('memo_attachments', $file);
                         // $attachment = new MemoAttachment;
@@ -125,11 +142,12 @@ class MemoController extends Controller
         $memo = Memo::where('id', $id)->get();
         // dd($memo->subject);
         $memo = $memo->transform(function ($item, $key) {
-            $item->sender      = $item->initiator->Fullname;
-            $item->approvers   = $item->approvers();
-            $item->approved    = $item->approved();
-            $item->status      = $item->status();
-            $item->attachments = $item->attachments;
+            $item->sender         = $item->initiator->Fullname;
+            $item->approvers      = $item->approvers();
+            $item->approved       = $item->approved();
+            $item->status         = $item->status();
+            $item->attachments    = $item->attachments;
+            $item->recipient_list = $item->recipients_list();
             return $item;
         });
         return $memo->first();
@@ -137,14 +155,20 @@ class MemoController extends Controller
 
     public function edit($id)
     {
-        $memo = Memo::find($id);
-        return view('memos.edit', compact('memo'));
+        $memo      = Memo::find($id);
+        $employees = User::all();
+        $employees = $employees->transform(function ($item, $key) {
+            $item->name = $item->Fullname;
+            return $item;
+        });
+        $request_types = RequestType::all();
+        return view('memos.edit', compact('memo', 'employees', 'request_types'));
     }
 
     public function update(Request $request, $id)
     {
         $memo = Memo::find($id);
-        if ($memo->update($request->all())) {
+        if ($memo->update($request->except('memo_attachment'))) {
             return redirect()->route('memos.create')->with('success', 'Memo has been updated successfully');
         } else {
             return back()->withInput()->with('error', 'Memo failed to updated');
@@ -197,9 +221,6 @@ class MemoController extends Controller
                 $item = Staff::where('UserID', $item)->first()->user;
                 return $item;
             });
-
-            // $recipients = Staff::where('UserID', $memo->recipients)->first();
-            // return $recipients;
 
             if (!is_null($next_approver) || $next_approver != 0) {
                 Notification::send($next_approver, new MemoApproval($memo));

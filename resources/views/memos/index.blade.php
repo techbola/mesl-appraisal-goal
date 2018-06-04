@@ -48,7 +48,7 @@
                         <td>{{ $memo->purpose }}</td>
                         <td>
                          <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
-                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
+                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
                           &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
@@ -61,9 +61,11 @@
                         </td>
                         <td class="actions" width="130">
                           @if(!$memo->sent())
+                          <a href="{{ route('memos.edit', ['id' => $memo->id ]) }}" class="btn btn-sm btn-info">Edit </a>
                           <a href="{{ route('send_memo', ['id' => $memo->id]) }}" class="btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send</a>
                           @else
-                          <a href="{{ route('send_memo', ['id' => $memo->id]) }}" class="btn btn-sm disabled m-r-5" data-toggle="tooltip" title="">Sent</a>
+                          <a href="{{ route('memos.edit', ['id' => $memo->id ]) }}" class="btn btn-sm disabled ">Edit </a>
+                          <a href="{{ route('send_memo', ['id' => $memo->id]) }}" class="btn btn-sm disabled m-r-5" data-toggle="tooltip" title="">Sent </a>
                           @endif
                         </td>
                       </tr>
@@ -93,7 +95,7 @@
                     <td>{{ $memo->purpose }}</td>
                     <td>
                      <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
-                      <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
+                      <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
                       &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                       &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></a> --}}
                     </td>
@@ -141,7 +143,7 @@
                     <td>{{ $memo->purpose }}</td>
                     <td>
                      <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
-                      <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
+                      <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
                       &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                       &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></a> --}}
                     </td>
@@ -192,8 +194,9 @@
             <div class="clearfix"></div>
             <div class="row">
               <div class="col-sm-6">
-                <h5 class="memo-subject"></h5>
+                <p class=""><b>Subject: </b> <span class="memo-subject"></span></p>
                 <p class=""><b>Purpose: </b> <span class="memo-purpose"></span></p>
+                <p class=""><b>Recipients: </b> <span class="memo-recipients"></span></p>
                 <p class=""><b>Approvers: </b> <span class="memo-approvers"></span></p>
                 <label class="badge memo-status"></label>
               </div>
@@ -233,7 +236,9 @@
           $("#show-memo").find('.memo-status').html(' ');
           $("#show-memo").find('.memo-status').removeClass('badge-success')
           $("#show-memo").find('.memo-approvers').html(' ');
+          $("#show-memo").find('.memo-recipients').html(' ');
           $("#show-memo").find('.memo-body').html(' ');
+           $('#show-memo .modal-footer .files').html(' ');
           $("#show-memo").find('.memo-approved').html(' ');
         $.get(url, function(data) {
           // activate modal
@@ -242,16 +247,15 @@
           // $("#show-memo").find('.memo-status').html(data.status);
           $("#show-memo").find('.memo-approvers').html(data.approvers);
           $("#show-memo").find('.memo-body').html(data.body);
+          $("#show-memo").find('.memo-recipients').html(data.recipient_list.join(', '));
            if(data.approved === true){
               $("#show-memo").find('.memo-status').html('approved');
-              $("#show-memo").find('.memo-status').addClass('badge-success')
+              $("#show-memo").find('.memo-status').addClass('badge-success');
+              $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="30">');
             } else {
               $("#show-memo").find('.memo-status').html(data.status);
             }
           $("#show-memo").modal('show');
-          if(data.approved == true){
-            $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="30">');
-          }
           // list attachements
           if(data.attachments.length > 0 ){
             $.each(data.attachments, function(index, val) {
