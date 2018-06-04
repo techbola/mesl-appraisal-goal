@@ -506,7 +506,7 @@
 
       channel.bind('Cavidel\\Events\\NewTaskEvent', function(data) {
         if (data['StaffID'] == '{{ auth()->user()->staff->StaffRef }}') {
-          console.log(data);
+          // console.log(data);
 
           Push.create("New Task on OfficeMate", {
               body: data['Task'],
@@ -529,7 +529,7 @@
       });
 
       channel.bind('Cavidel\\Events\\NewMessageEvent', function(data) {
-        console.log(data);
+        // console.log(data);
         console.log($.inArray('{{ auth()->user()->id }}', data['recipients']));
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Message From "+data['from'], {
@@ -546,7 +546,7 @@
       });
 
       channel.bind('Cavidel\\Events\\ProjectChatEvent', function(data) {
-        console.log(data);
+        // console.log(data);
 
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Chat In Project: \""+data['project']+"\"", {

@@ -361,8 +361,7 @@ Route::get('/cls', function () {
     Artisan::call('cache:clear');
     Artisan::call('route:clear');
     Artisan::call('config:clear');
-    Artisan::call('config:cache');
-    return redirect()->route('home');
+    return redirect('/');
 });
 
 Route::get('/cda', function () {

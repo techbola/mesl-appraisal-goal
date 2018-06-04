@@ -120,7 +120,7 @@ class ProjectController extends Controller
       $gantt = json_encode($gantt);
       // dd((object)$gantt);
 
-      return view('projects.view', compact('project', 'staffs', 'supervisors', 'assignees', 'customers', 'gantt'));
+      return view('projects.view_', compact('project', 'staffs', 'supervisors', 'assignees', 'customers', 'gantt'));
     }
 
     public function update(Request $request, $id)
