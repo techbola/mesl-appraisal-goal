@@ -22,6 +22,15 @@ class Memo extends Model
         return array_map('intval', json_decode($value));
     }
 
+    public function recipients_list()
+    {
+        $recipients_array = collect($this->recipients)->transform(function ($item, $key) {
+            $item = User::find($item)->full_name;
+            return $item;
+        });
+        return $recipients_array;
+    }
+
     public function attachments()
     {
         return $this->hasMany(MemoAttachment::class);
@@ -52,7 +61,6 @@ class Memo extends Model
         } elseif ($this->ApproverID == $this->ApproverID4) {
             return 'With Approver 4 ' . '(' . Staff::where('UserID', $this->ApproverID4)->first()->Fullname . ')';
         }
-
     }
 
     public function approvers()
@@ -90,5 +98,4 @@ class Memo extends Model
     {
         return $this->belongsTo(Staff::class, 'initiator_id', 'StaffRef');
     }
-
 }

@@ -139,8 +139,9 @@
             <div class="clearfix"></div>
             <div class="row">
               <div class="col-sm-6">
-                <h5 class="memo-subject"></h5>
+                <<p class=""><b>Subject: </b> <span class="memo-subject"></span></p>
                 <p class=""><b>Purpose: </b> <span class="memo-purpose"></span></p>
+                <p class=""><b>Recipients: </b> <span class="memo-recipients"></span></p>
                 <p class=""><b>Approvers: </b> <span class="memo-approvers"></span></p>
                 <label class="badge memo-status"></label>
               </div>
@@ -329,19 +330,16 @@ var table = $('.tableWithSearch_a').DataTable(settings);
       $('.preview_memo').click(function(e) {
         e.preventDefault();
         let url = $(this).prop('href');
-        let memo_path = '/images/memo_attachments/';
-
-        // clear fields
-        $("#show-memo").find('.memo-subject').html(' ');
-        $("#show-memo").find('.memo-purpose').html(' ');
-        $("#show-memo").find('.memo-status').html(' ');
-        $("#show-memo").find('.memo-status').removeClass('badge-success')
-        $("#show-memo").find('.memo-approvers').html(' ');
-        $("#show-memo").find('.memo-body').html(' ');
-        $("#show-memo").find('.memo-approved').html(' ');
-        $('#show-memo .modal-footer .files').html(' ');
-        // clear fields
-
+        let memo_path = '{{ asset('storage/memo_attachments') }}/';
+          $("#show-memo").find('.memo-subject').html(' ');
+          $("#show-memo").find('.memo-purpose').html(' ');
+          $("#show-memo").find('.memo-status').html(' ');
+          $("#show-memo").find('.memo-status').removeClass('badge-success')
+          $("#show-memo").find('.memo-approvers').html(' ');
+          $("#show-memo").find('.memo-recipients').html(' ');
+          $("#show-memo").find('.memo-body').html(' ');
+           $('#show-memo .modal-footer .files').html(' ');
+          $("#show-memo").find('.memo-approved').html(' ');
         $.get(url, function(data) {
           // activate modal
           $("#show-memo").find('.memo-subject').html(data.subject);
@@ -349,21 +347,20 @@ var table = $('.tableWithSearch_a').DataTable(settings);
           // $("#show-memo").find('.memo-status').html(data.status);
           $("#show-memo").find('.memo-approvers').html(data.approvers);
           $("#show-memo").find('.memo-body').html(data.body);
+          $("#show-memo").find('.memo-recipients').html(data.recipient_list.join(', '));
            if(data.approved === true){
               $("#show-memo").find('.memo-status').html('approved');
-              $("#show-memo").find('.memo-status').addClass('badge-success')
+              $("#show-memo").find('.memo-status').addClass('badge-success');
+              $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="30">');
             } else {
               $("#show-memo").find('.memo-status').html(data.status);
             }
           $("#show-memo").modal('show');
-          if(data.approved == true){
-            $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="30">');
-          }
           // list attachements
           if(data.attachments.length > 0 ){
             $.each(data.attachments, function(index, val) {
-              $('#show-memo .modal-footer .files').append(`
-                <a href="${ memo_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
+               $('#show-memo .modal-footer .files').append(`
+                <a target="_blank" href="${ memo_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
               `);
             });
           }
