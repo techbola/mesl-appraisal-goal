@@ -64,7 +64,7 @@
 
               <div class="form-group required">
                 <label>Attendees Emails</label>
-                <span class="help">Type an email, then press enter.</span>
+                <span class="help">Type an email, then press enter or comma.</span>
                 <input name="AttendeeEmails" class="tagsinput custom-tag-input" type="text" value="" placeholder="Enter emails of attendees."/>
               </div>
 
