@@ -303,7 +303,12 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label>Meeting Type</label>
-                  <input type="text" class="form-control" name="MeetingType" placeholder="Meeting type" v-model="memo.MeetingType" required>
+                  <select class="form-control select2" name="MeetingTypeID" data-init-plugin="select2" placeholder="Select meeting type" v-model="memo.MeetingTypeID">
+                    <option value=""></option>
+                    @foreach ($meeting_types as $type)
+                      <option value="{{ $type->MeetingTypeRef }}" {{ ($memo->MeetingTypeID == $type->MeetingTypeRef)? 'selected' : '' }}>{{ $type->MeetingType }}</option>
+                    @endforeach
+                  </select>
                 </div>
               </div>
               <div class="col-md-4">
@@ -360,6 +365,7 @@
           $('#edit_memo').find('form').attr('action', form_action);
           $('.custom-tag-input').tagsinput('removeAll');
           $('.custom-tag-input').tagsinput('add', this.memo.AttendeeEmails);
+          $('#edit_memo select[name="MeetingTypeID"]').val(this.memo.MeetingTypeID).trigger('change');;
 				},
 			},
 		});

@@ -9,8 +9,9 @@
 @endsection
 
 @section('buttons')
-  <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#edit_task"><i class="fa fa-pencil m-r-5"></i>Edit Task</a>
-  <a href="" class="btn btn-sm btn-danger m-l-10" onclick="return confirm('Are you sure you want to delete this task?')"><i class="fa fa-trash m-r-5"></i>Delete</a>
+  <a href="{{ route('view_project', $task->ProjectID) }}" class="btn btn-sm btn-info btn-rounded"><i class="fa fa-arrow-left m-r-5"></i>Back to Project</a>
+  <a class="btn btn-sm btn-info btn-rounded m-l-10" data-toggle="modal" data-target="#edit_task"><i class="fa fa-pencil m-r-5"></i>Edit Task</a>
+  <a href="" class="btn btn-sm btn-danger btn-rounded m-l-10" onclick="return confirm('Are you sure you want to delete this task?')"><i class="fa fa-trash m-r-5"></i>Delete</a>
 @endsection
 
 @section('content')
@@ -157,36 +158,25 @@
 
       <div class="col-md-6">
 
-        <div class="card-box">
-          <h4 class="card-title"><b>Task Details</b></h4>
 
-          <ul class="my-list">
-              <li class="row card-list-item list-inline">
-                <div class="col-md-6"><b>Task Title:</b></div> <span class="col-md-6">{{ $task->Task }}</span>
-              </li>
-              <li class="row card-list-item list-inline">
-                <div class="col-md-6"><b>Assigned To:</b></div> <span class="col-md-6">{{ ($task->staff)? $task->staff->FullName : 'Unassigned' }}</span>
-              </li>
-              <li class="row card-list-item list-inline">
-                <div class="col-md-6"><b>Due Date:</b></div> <span class="col-md-6">{{ ($task->EndDate)? Carbon::parse($task->EndDate)->format('jS M, Y') : '&mdash;' }}</span>
-              </li>
-              <li class="row card-list-item list-inline">
-                <div class="col-md-6"><b>From Project:</b></div> <span class="col-md-6"><a href="{{ route('view_project', $task->ProjectID) }}">{{ $task->project->Project }}</a></span>
-              </li>
+        {{-- START TABS --}}
+        <ul class="nav nav-tabs outside">
+          <li class="active"><a data-toggle="tab" href="#details">Details</a></li>
+          <li><a data-toggle="tab" href="#updates">Updates <span class="badge badge-info badge-sm badge-tab">0</span></a></li>
+        </ul>
+        <div class="tab-content">
+          <div id="details" class="tab-pane fade in active">
 
-              <li class="row card-list-item list-inline">
-                <div class="col-md-6"><b>Progress:</b></div> <span class="col-md-6">
-                  <!-- Start Progress -->
-                      <div class="progress progress-striped active progress-lg m-b-0">
-                        <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ $task->ProgressPercent }};">
-                            {{ $task->ProgressPercent }}
-                        </div>
-                      </div>
-                  <!-- End Progress -->
-                </span>
-              </li>
-          </ul>
+            @include('tasks.details')
+
+          </div>
+          <div id="updates" class="tab-pane fade">
+
+            @include('tasks.updates')
+
+          </div>
         </div>
+        {{-- END TABS --}}
 
       </div>
     <!-- End Task Details -->

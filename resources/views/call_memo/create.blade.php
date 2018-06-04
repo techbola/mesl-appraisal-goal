@@ -46,7 +46,13 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label>Meeting Type</label>
-                <input type="text" class="form-control" name="MeetingType" placeholder="Meeting type" required>
+                {{-- <input type="text" class="form-control" name="MeetingType" placeholder="Meeting type" required> --}}
+                <select class="form-control select2" name="MeetingTypeID" data-init-plugin="select2" placeholder="Select meeting type">
+                  <option value=""></option>
+                  @foreach ($meeting_types as $type)
+                    <option value="{{ $type->MeetingTypeRef }}">{{ $type->MeetingType }}</option>
+                  @endforeach
+                </select>
               </div>
             </div>
             <div class="col-md-4">

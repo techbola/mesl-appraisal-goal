@@ -49,7 +49,7 @@ class NewMessage extends Notification
         ->line($message->sender->first_name.' sent you a message on OfficeMate. Here\'s what they said:')
         ->line('**Subject: **'.$message->Subject)
         ->line('**Date: **'.$message->created_at)
-        ->line('**Body: **'.$message->Body)
+        ->line('**Body: **'.strip_tags($message->Body))
         // ->line('Use the button below to visit the project page on '.config('app.name').'.')
         // ->line('**Description: **'.str_limit(strip_tags($doc->Description), 200).'')
         ->action('View On OfficeMate', route('view_message', $message->MessageRef));

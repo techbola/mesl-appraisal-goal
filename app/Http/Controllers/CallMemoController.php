@@ -7,6 +7,7 @@ use Cavidel\CallMemo;
 use Cavidel\CallMemoDiscussion;
 use Cavidel\CallMemoAction;
 use Cavidel\CallMemoActionStatus;
+use Cavidel\CallMemoMeetingType;
 use Cavidel\Customer;
 use Cavidel\Staff;
 use Cavidel\HelpersOld;
@@ -24,14 +25,16 @@ class CallMemoController extends Controller
     $contact = Customer::find($id);
     $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
     $statuses = CallMemoActionStatus::all();
-    return view('call_memo.view', compact('contact', 'staffs', 'statuses', 'user'));
+    $meeting_types = CallMemoMeetingType::all();
+    return view('call_memo.view', compact('contact', 'staffs', 'statuses', 'user', 'meeting_types'));
   }
 
   public function create($id)
   {
 
     $contact = Customer::find($id);
-    return view('call_memo.create', compact('contact'));
+    $meeting_types = CallMemoMeetingType::all();
+    return view('call_memo.create', compact('contact', 'meeting_types'));
   }
 
   public function store(Request $request, $id)
@@ -46,7 +49,7 @@ class CallMemoController extends Controller
           $memo->Handouts = $request->Handouts;
           $memo->Location = $request->Location;
           $memo->MeetingDate = $request->MeetingDate;
-          $memo->MeetingType = $request->MeetingType;
+          $memo->MeetingTypeID = $request->MeetingTypeID;
           $memo->CompanyID = $user->staff->CompanyID;
           $memo->CustomerID = $id;
           $memo->AttendeeEmails = $request->AttendeeEmails;
@@ -77,7 +80,7 @@ class CallMemoController extends Controller
           $memo->Handouts = $request->Handouts;
           $memo->Location = $request->Location;
           $memo->MeetingDate = $request->MeetingDate;
-          $memo->MeetingType = $request->MeetingType;
+          $memo->MeetingTypeID = $request->MeetingTypeID;
           // $memo->CompanyID = $user->staff->CompanyID;
           // $memo->CustomerID = $id;
           $memo->AttendeeEmails = $request->AttendeeEmails;
