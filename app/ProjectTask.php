@@ -29,6 +29,10 @@ class ProjectTask extends Model
   {
     return $this->hasMany('Cavidel\Step', 'TaskID', 'TaskRef');
   }
+  public function updates()
+  {
+    return $this->hasMany('Cavidel\TaskUpdate', 'TaskID', 'TaskRef');
+  }
 
   public function getProgressAttribute()
   {
