@@ -168,8 +168,6 @@
                 -->
                 <!-- Sub Todos List -->
 
-                <!-- <a href="#" class="uk-margin-left" data-uk-toggle="{target:'#notes_checklist'}"><i class="material-icons md-24">&#xE065;</i></a> -->
-
                 <a href="#" class="uk-margin-left" data-uk-toggle="{target:'#notes_checklist'}"><i class="material-icons md-24">&#xE065;</i></a>
 
             </div>

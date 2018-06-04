@@ -39,8 +39,8 @@
         <th>Department</th>
         <th>Organization</th>
         <th width="12%">Phone</th>
-				<th width="20%">Email</th>
-        <th width="15%">Actions</th>
+				<th width="15%">Email</th>
+        <th width="20%">Actions</th>
       </thead>
       <tfoot class="thead">
         <th width="15%">Name</th>
@@ -48,8 +48,8 @@
         <th>Department</th>
         <th>Organization</th>
         <th width="12%">Phone</th>
-				<th width="20%">Email</th>
-        <th width="15%">Actions</th>
+				<th width="15%">Email</th>
+        <th width="20%">Actions</th>
       </tfoot>
       <tbody>
 				@foreach ($contacts as $contact)
@@ -168,7 +168,7 @@ var table = $('#contacts').DataTable();
             if (key === $('#contacts tfoot th')) {
                 return false
             }
-            $(this).html('<input type="text" class="form-control input-sm" placeholder="' + $.trim(title) + '" />');
+            $(this).html('<input type="text" class="my-input input-sm" placeholder="' + $.trim(title) + '" />');
         });
  table.columns().every(function() {
             var that = this;
