@@ -46,6 +46,7 @@ class CallMemoController extends Controller
           $memo->Handouts = $request->Handouts;
           $memo->Location = $request->Location;
           $memo->MeetingDate = $request->MeetingDate;
+          $memo->MeetingType = $request->MeetingType;
           $memo->CompanyID = $user->staff->CompanyID;
           $memo->CustomerID = $id;
           $memo->AttendeeEmails = $request->AttendeeEmails;
@@ -76,6 +77,7 @@ class CallMemoController extends Controller
           $memo->Handouts = $request->Handouts;
           $memo->Location = $request->Location;
           $memo->MeetingDate = $request->MeetingDate;
+          $memo->MeetingType = $request->MeetingType;
           // $memo->CompanyID = $user->staff->CompanyID;
           // $memo->CustomerID = $id;
           $memo->AttendeeEmails = $request->AttendeeEmails;

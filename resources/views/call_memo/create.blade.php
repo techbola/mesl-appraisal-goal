@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
-{{-- @section('buttons')
-  <a href="{{ route('create_call_memo') }}" class="btn btn-sm btn-info btn-rounded">New Memo</a>
-@endsection --}}
+@section('page-title')
+  New Meeting Note
+@endsection
 
 @section('title')
-  New Call Memo
+  New Meeting Note
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
 
       <div class="card-box">
         <div class="card-title">
-          Create Call Memo - {{ $contact->Customer }}
+          Create a New Meeting Note with <span class="text-muted">{{ $contact->Customer }}</span>
         </div>
 
         <form class="" action="{{ route('store_call_memo', $contact->CustomerRef) }}" method="post">
@@ -37,13 +37,19 @@
           </div>
 
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group">
                 <label>Location</label>
                 <input type="text" class="form-control" name="Location" placeholder="Location" required>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Meeting Type</label>
+                <input type="text" class="form-control" name="MeetingType" placeholder="Meeting type" required>
+              </div>
+            </div>
+            <div class="col-md-4">
               <div class="form-group">
                 <label>Meeting Date</label>
                 <div class="input-group date dp">
