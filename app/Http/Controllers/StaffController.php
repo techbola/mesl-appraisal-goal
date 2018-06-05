@@ -396,10 +396,10 @@ class StaffController extends Controller
 
         $this->validate($request, [
             // 'TownCity'           => 'required',
-            'MobilePhone'  => 'required',
-            'AddressLine1' => 'required',
-            'StateID'      => 'required',
-            'CountryID'    => 'required',
+            // 'MobilePhone'  => 'required',
+            // 'AddressLine1' => 'required',
+            // 'StateID'      => 'required',
+            // 'CountryID'    => 'required',
             // 'NextofKIN'          => 'required',
             // 'NextofKIN_Phone'    => 'required',
             // 'PhotographLocation' => 'required',
