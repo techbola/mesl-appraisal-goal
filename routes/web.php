@@ -104,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
 
     Route::get('bulletins', 'BulletinController@index')->name('bulletin_board');
+    Route::get('bulletins/department', 'BulletinController@department_bulletins')->name('department_bulletins');
     Route::post('save_bulletin', 'BulletinController@save_bulletin')->name('save_bulletin');
     Route::get('bulletin/{id}', 'BulletinController@view_bulletin')->name('view_bulletin');
 

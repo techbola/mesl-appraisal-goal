@@ -110,6 +110,7 @@ class CallMemoController extends Controller
     $action->UserID = $request->UserID;
     $action->DiscussionID = $id;
     $action->StatusID = $request->StatusID;
+    $action->InitiatorID = $user->id;
     $action->save();
 
     return redirect()->back()->with('success', 'Action point saved successfully');

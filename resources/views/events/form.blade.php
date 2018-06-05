@@ -1,5 +1,23 @@
 <div class="row">
   <div class="col-md-12">
+    {{-- <div class="form-group">
+      <label>Select Recipient Department</label>
+      <select class="form-control select2" name="DepartmentID" data-init-plugin="select2" required>
+        <option value="">Select Department</option>
+        @foreach ($departments as $dept)
+          <option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
+        @endforeach
+      </select>
+    </div> --}}
+
+    <div class="form-group">
+      {{ Form::label('DepartmentID', 'Select Recipient Department') }}
+      {{-- <a class="pull-right toggle_loc toggle_icon" onclick="new_loc()"> <i class="fa fa-plus-circle text-success"></i> </a> --}}
+      {{ Form::select('DepartmentID', $departments->pluck('Department', 'DepartmentRef')->toArray(),null, ['data-init-plugin'=>'select2', 'class' => 'full-width select_loc']) }}
+    </div>
+  </div>
+
+  <div class="col-md-12">
     <div class="form-group">
       {{ Form::label('Event', 'Event Title' ) }}
       {{-- <input type="text" class="form-control" name="Event" placeholder="Enter event title" required> --}}
