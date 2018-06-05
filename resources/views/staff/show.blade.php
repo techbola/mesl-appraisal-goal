@@ -40,7 +40,7 @@
           {{ $staff->FullName }}'s BioData
         </div>
         <div class="pull-right">
-          <a href="{{ route('staff.edit_biodata',[$detail->StaffRef]) }}" title="" class="btn btn-info btn-cons" id="show-modal">
+          <a href="{{ route('staff.edit_biodata',[$staff->StaffRef]) }}" title="" class="btn btn-info btn-cons" id="show-modal">
             <i class="fa fa-plus"></i>
             Edit Details
           </a>
