@@ -39,7 +39,7 @@
     $(function() {
 
       $('#calendar').fullCalendar({
-        events: '{{ url('/') }}/get_todos',
+        events: '{{ url('/') }}/get_todos/{{ $staff->StaffRef }}',
         header: {
           left:   'title',
           center: '',
