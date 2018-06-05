@@ -306,7 +306,7 @@
                   <select class="form-control select2" name="MeetingTypeID" data-init-plugin="select2" placeholder="Select meeting type" v-model="memo.MeetingTypeID">
                     <option value=""></option>
                     @foreach ($meeting_types as $type)
-                      <option value="{{ $type->MeetingTypeRef }}" {{ ($memo->MeetingTypeID == $type->MeetingTypeRef)? 'selected' : '' }}>{{ $type->MeetingType }}</option>
+                      <option value="{{ $type->MeetingTypeRef }}">{{ $type->MeetingType }}</option>
                     @endforeach
                   </select>
                 </div>

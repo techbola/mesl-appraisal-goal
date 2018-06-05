@@ -148,7 +148,8 @@
             <!-- START ACTION BAR -->
             <div class="header-inner">
               <a href="#" class="btn-link toggle-sidebar visible-sm-inline-block visible-xs-inline-block padding-5" data-toggle="sidebar">
-                <span class="icon-set menu-hambuger"></span>
+                {{-- <span class="icon-set menu-hambuger"></span> --}}
+                <span class="pg-menu_justify"></span>
               </a>
             </div>
             <!-- END ACTION BAR -->
