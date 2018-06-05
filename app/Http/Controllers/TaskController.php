@@ -7,6 +7,7 @@ use Cavidel\ProjectTask;
 use Cavidel\Step;
 use Cavidel\Staff;
 use Cavidel\TaskUpdate;
+use Carbon;
 
 class TaskController extends Controller
 {
@@ -38,10 +39,11 @@ class TaskController extends Controller
       $step = Step::find($id);
       if ($step->Done == '0') {
         $step->Done = '1';
+        $step->CompletedDate = Carbon::now();
       } else {
         $step->Done = '0';
       }
-      $step->save();
+      $step->update();
       $task = ProjectTask::find($step->TaskID);
       return $task->ProgressPercent;
     }

@@ -4,6 +4,7 @@ namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Cavidel\Todo;
+use Cavidel\Staff;
 use Carbon;
 
 class TodoController extends Controller
@@ -17,11 +18,17 @@ class TodoController extends Controller
       return view('todos.calendar', compact('user', 'todos_array'));
     }
 
-    public function get_todos()
+    public function get_todos($staff_id = '')
     {
       $user = auth()->user();
+
+      if (!empty($staff_id)) {
+        $staff = Staff::find($staff_id);
+        $todos = Todo::where('UserID', $staff->UserID)->where('Done', '0')->get();
+      } else {
+        $todos = Todo::where('UserID', $user->id)->where('Done', '0')->get();
+      }
       // $todos = $user->todos->where('Done', '0')->get();
-      $todos = Todo::where('UserID', $user->id)->where('Done', '0')->get();
       $todos_array = [];
       $count = '0';
       foreach ($todos as $todo) {

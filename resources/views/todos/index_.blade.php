@@ -28,7 +28,6 @@
 
   <div class="row">
     <div class="col-md-7">
-
       {{-- <div class="card-box">
         @include('todos.form')
       </div> --}}
@@ -51,7 +50,6 @@
         </div>
       </div>
       {{-- END TABS --}}
-
 
     </div>
 
