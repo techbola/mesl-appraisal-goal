@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Cavidel\ProjectTask;
 use Cavidel\Step;
 use Cavidel\Staff;
+use Cavidel\TaskUpdate;
 
 class TaskController extends Controller
 {
@@ -64,6 +65,23 @@ class TaskController extends Controller
       $step->delete();
 
       return redirect()->back()->with('success', 'Step was deleted successfully.');
+    }
+
+    public function save_taskupdate(Request $request, $task_id)
+    {
+      $this->validate($request, [
+        'Body' => 'required'
+      ]);
+
+      $task = ProjectTask::find($task_id);
+
+      $msg = new TaskUpdate;
+      $msg->Body = $request->Body;
+      $msg->TaskID = $task_id;
+      $msg->StaffID = auth()->user()->staff->StaffRef;
+      $msg->save();
+
+      return redirect()->back()->with('success', 'Your update was posted.');
     }
 
 }
