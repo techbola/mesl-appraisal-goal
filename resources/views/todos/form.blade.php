@@ -7,13 +7,20 @@
     </div>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-6">
     <div class="form-group">
       {{ Form::label('DueDate', 'Due Date' ) }}
       <div class="input-group date dp">
         {{ Form::text('DueDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Due Date', 'required']) }}
         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
       </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="form-group">
+      {{ Form::label('UserID', 'Assign To') }}
+      {{-- <span class="help">Leave empty to assign to yourself.</span> --}}
+      {{ Form::select('UserID', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'UserID')->toArray(), auth()->id(), ['class'=> "full-width", 'data-init-plugin' => "select2"]) }}
     </div>
   </div>
 

@@ -392,7 +392,6 @@ class StaffController extends Controller
 
     public function updatebiodata(Request $request, $id)
     {
-// dd($request->all());
 
         $this->validate($request, [
             // 'TownCity'           => 'required',

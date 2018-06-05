@@ -15,7 +15,8 @@ class TodoController extends Controller
       $user = auth()->user();
       // $todos_array = $user->todos->toArray();
       // dd($todos_array);
-      return view('todos.calendar', compact('user', 'todos_array'));
+      $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+      return view('todos.calendar', compact('user', 'todos_array', 'staffs'));
     }
 
     public function get_todos($staff_id = '')
@@ -57,7 +58,7 @@ class TodoController extends Controller
       $todo = new Todo;
       $todo->Todo = $request->Todo;
       $todo->DueDate = $request->DueDate;
-      $todo->UserID = $user->id;
+      $todo->UserID = $request->UserID;
       $todo->Initiator = $user->id;
       $todo->CompanyID = $user->staff->CompanyID;
       // $todo->Description = $todo->Description;
@@ -95,7 +96,8 @@ class TodoController extends Controller
         $dones = Todo::where('UserID', $user->id)->where('DueDate', $_GET['date'])->where('Done', '1')->get();
         $date = Carbon::parse($_GET['date'])->format('jS M, Y');
       }
-      return view('todos.index_', compact('user', 'todos','dones', 'date'));
+      $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+      return view('todos.index_', compact('user', 'todos','dones', 'date', 'staffs'));
     }
 
 
