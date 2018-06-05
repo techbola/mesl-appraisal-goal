@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="{{ asset('assets/plugins/loading/progress/loading-bar.css') }}">
 @endpush
 
+@section('buttons')
+    <a class="btn btn-sm btn-info btn-rounded" href="/staff">Back to Employees</a>
+@endsection
+
 @section('content')
   <style media="screen">
   .bio-label {
