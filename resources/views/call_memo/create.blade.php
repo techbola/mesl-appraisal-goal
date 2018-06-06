@@ -139,6 +139,9 @@
           toolbar: [
             ['style', ['bold', 'italic', 'underline', 'clear']],
             ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture']],
           ]
         });
     });

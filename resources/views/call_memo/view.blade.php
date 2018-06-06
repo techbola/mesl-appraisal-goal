@@ -52,6 +52,8 @@
       @endif
       @foreach ($contact->call_memos as $memo)
 
+@if (in_array($user->email, explode(',', $memo->AttendeeEmails)))
+
         <tbody>
           <tr id="parent_{{ $memo->CallMemoRef }}">
             <td class="details-control" style="cursor:pointer"><i class="fa fa-plus-circle text-success f20" onclick="toggle_row('{{ $memo->CallMemoRef }}')"></i></td>
@@ -154,6 +156,8 @@
 
           @endforeach
         </tbody>
+
+@endif
         @endforeach
     </table>
   </div>
