@@ -24,8 +24,8 @@ class TodoController extends Controller
       $user = auth()->user();
 
       if (!empty($staff_id)) {
-        $staffs = Staff::find($staff_id);
-        $todos = Todo::where('UserID', $staffs->UserID)->where('Done', '0')->get();
+        $staff = Staff::find($staff_id);
+        $todos = Todo::where('UserID', $staff->UserID)->where('Done', '0')->get();
       } else {
         $todos = Todo::where('UserID', $user->id)->where('Done', '0')->get();
       }
