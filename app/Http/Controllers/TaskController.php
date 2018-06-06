@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Cavidel\ProjectTask;
 use Cavidel\Step;
 use Cavidel\Staff;
+use Cavidel\TaskUpdate;
+use Carbon;
 
 class TaskController extends Controller
 {
@@ -37,10 +39,11 @@ class TaskController extends Controller
       $step = Step::find($id);
       if ($step->Done == '0') {
         $step->Done = '1';
+        $step->CompletedDate = Carbon::now();
       } else {
         $step->Done = '0';
       }
-      $step->save();
+      $step->update();
       $task = ProjectTask::find($step->TaskID);
       return $task->ProgressPercent;
     }
@@ -64,6 +67,23 @@ class TaskController extends Controller
       $step->delete();
 
       return redirect()->back()->with('success', 'Step was deleted successfully.');
+    }
+
+    public function save_taskupdate(Request $request, $task_id)
+    {
+      $this->validate($request, [
+        'Body' => 'required'
+      ]);
+
+      $task = ProjectTask::find($task_id);
+
+      $msg = new TaskUpdate;
+      $msg->Body = $request->Body;
+      $msg->TaskID = $task_id;
+      $msg->StaffID = auth()->user()->staff->StaffRef;
+      $msg->save();
+
+      return redirect()->back()->with('success', 'Your update was posted.');
     }
 
 }

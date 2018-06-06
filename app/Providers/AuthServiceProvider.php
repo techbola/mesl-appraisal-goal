@@ -44,5 +44,15 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('company-admin', function ($user) {
           return $user->hasRole('admin');
         });
+
+        // Task owner (assignee)
+        Gate::define('task-owner', function ($user, $task) {
+          return ($user->staff->StaffRef == $task->StaffID || $user->staff->StaffRef == $task->project->SupervisorID);
+        });
+
+        // Project supervisor & company admins
+        Gate::define('project-supervisor', function ($user, $project) {
+          return ($user->staff->StaffRef == $project->SupervisorID || $user->hasRole('admin'));
+        });
     }
 }

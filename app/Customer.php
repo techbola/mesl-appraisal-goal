@@ -23,6 +23,6 @@ class Customer extends Model
 
     public function call_memos()
     {
-      return $this->hasMany('Cavidel\CallMemo', 'CustomerID');
+      return $this->hasMany('Cavidel\CallMemo', 'CustomerID')->orderBy('MeetingDate', 'desc');
     }
 }

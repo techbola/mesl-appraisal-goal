@@ -49,6 +49,19 @@
           {{ Form::select('role', [ '' =>  'Select Role'] + $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
       </div>
+      <div class="col-md-12">
+        <div class="form-group required">
+          <label>Departments</label>
+          {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
+          {{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
+
+          <select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple">
+            @foreach ($departments as $dept)
+              <option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
     @endif
     <div class="col-sm-4">
         <div class="form-group">
@@ -272,5 +285,11 @@
       };
       $('.dp').datepicker(options);
   });
+  </script>
+
+  <script>
+    $(document).ready(function(){
+      $('select[name="DepartmentID[]"]').val(Array( {{$staff->DepartmentID}} )).trigger('change');
+    });
   </script>
 @endpush

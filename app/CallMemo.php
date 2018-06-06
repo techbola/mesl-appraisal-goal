@@ -21,4 +21,9 @@ class CallMemo extends Model
     return $this->belongsTo('Cavidel\Customer', 'CustomerID');
   }
 
+  public function meeting_type()
+  {
+    return $this->belongsTo('Cavidel\CallMemoMeetingType', 'MeetingTypeID');
+  }
+
 }

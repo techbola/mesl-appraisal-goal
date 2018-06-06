@@ -148,7 +148,8 @@
             <!-- START ACTION BAR -->
             <div class="header-inner">
               <a href="#" class="btn-link toggle-sidebar visible-sm-inline-block visible-xs-inline-block padding-5" data-toggle="sidebar">
-                <span class="icon-set menu-hambuger"></span>
+                {{-- <span class="icon-set menu-hambuger"></span> --}}
+                <span class="pg-menu_justify"></span>
               </a>
             </div>
             <!-- END ACTION BAR -->
@@ -506,7 +507,7 @@
 
       channel.bind('Cavidel\\Events\\NewTaskEvent', function(data) {
         if (data['StaffID'] == '{{ auth()->user()->staff->StaffRef }}') {
-          console.log(data);
+          // console.log(data);
 
           Push.create("New Task on OfficeMate", {
               body: data['Task'],
@@ -529,7 +530,7 @@
       });
 
       channel.bind('Cavidel\\Events\\NewMessageEvent', function(data) {
-        console.log(data);
+        // console.log(data);
         console.log($.inArray('{{ auth()->user()->id }}', data['recipients']));
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Message From "+data['from'], {
@@ -546,7 +547,7 @@
       });
 
       channel.bind('Cavidel\\Events\\ProjectChatEvent', function(data) {
-        console.log(data);
+        // console.log(data);
 
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Chat In Project: \""+data['project']+"\"", {

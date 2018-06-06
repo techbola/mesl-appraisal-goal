@@ -36,13 +36,24 @@
           </div>
 
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group">
                 <label>Location</label>
                 <input type="text" class="form-control" name="Location" placeholder="Location" value="{{ $memo->Location }}" required>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Meeting Type</label>
+                <select class="form-control select2" name="MeetingTypeID" data-init-plugin="select2" placeholder="Select meeting type">
+                  <option value=""></option>
+                  @foreach ($meeting_types as $type)
+                    <option value="{{ $type->MeetingTypeRef }}" {{ ($memo->MeetingTypeID == $type->MeetingTypeRef)? 'selected' : '' }}>{{ $type->MeetingType }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
               <div class="form-group">
                 <label>Meeting Date</label>
                 <div class="input-group date dp">

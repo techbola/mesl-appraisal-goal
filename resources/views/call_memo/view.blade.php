@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('buttons')
-  <a href="{{ route('create_call_memo', $contact->CustomerRef) }}" class="btn btn-sm btn-info btn-rounded">New Memo</a>
+  <a href="{{ route('create_call_memo', $contact->CustomerRef) }}" class="btn btn-sm btn-info btn-rounded">New Meeting Note</a>
 @endsection
 
 @section('title')
@@ -27,7 +27,7 @@
 
   <div class="card-box">
     <div class="card-title">
-      Call Memo - {{ $contact->Customer }} {{ ($contact->Organization)? '- '.$contact->Organization : '' }}
+      Meeting Notes with &mdash; <span class="text-muted small">{{ $contact->Customer }} {{ ($contact->Organization)? '('.$contact->Organization.')' : '' }}</span>
     </div>
 
     <table id="#call_memo" class="table table-bordered">
@@ -271,7 +271,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h5 class="card-title">Edit Memo</h5>
+          <h5 class="card-title">Edit Meeting Note</h5>
         </div>
         <div class="modal-body">
           @include('errors.list')
@@ -294,13 +294,24 @@
             </div>
 
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label>Location</label>
                   <input type="text" class="form-control" name="Location" placeholder="Location" required v-model="memo.Location">
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Meeting Type</label>
+                  <select class="form-control select2" name="MeetingTypeID" data-init-plugin="select2" placeholder="Select meeting type" v-model="memo.MeetingTypeID">
+                    <option value=""></option>
+                    @foreach ($meeting_types as $type)
+                      <option value="{{ $type->MeetingTypeRef }}">{{ $type->MeetingType }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
                 <div class="form-group">
                   <label>Meeting Date</label>
                   <div class="input-group date dp">
@@ -354,6 +365,7 @@
           $('#edit_memo').find('form').attr('action', form_action);
           $('.custom-tag-input').tagsinput('removeAll');
           $('.custom-tag-input').tagsinput('add', this.memo.AttendeeEmails);
+          $('#edit_memo select[name="MeetingTypeID"]').val(this.memo.MeetingTypeID).trigger('change');;
 				},
 			},
 		});

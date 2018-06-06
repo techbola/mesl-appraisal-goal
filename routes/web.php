@@ -77,6 +77,8 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('edit_step/{id}', 'TaskController@edit_step')->name('edit_step');
     Route::delete('delete_step/{id}', 'TaskController@delete_step')->name('delete_step');
 
+    Route::post('save_taskupdate/{id}', 'TaskController@save_taskupdate')->name('save_taskupdate');
+
     // Fixed Assets
     Route::get('fixed-assets', 'AssetController@index')->name('assets');
     Route::post('save-asset', 'AssetController@save_asset')->name('save_asset');
@@ -101,6 +103,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
 
     Route::get('bulletins', 'BulletinController@index')->name('bulletin_board');
+    Route::get('bulletins/department', 'BulletinController@department_bulletins')->name('department_bulletins');
     Route::post('save_bulletin', 'BulletinController@save_bulletin')->name('save_bulletin');
     Route::get('bulletin/{id}', 'BulletinController@view_bulletin')->name('view_bulletin');
 
@@ -179,7 +182,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('todos', 'TodoController@index')->name('todos');
     Route::get('todos-calendar', 'TodoController@todos_calendar')->name('todos_calendar');
-    Route::get('get_todos', 'TodoController@get_todos')->name('get_todos'); // AJAX
+    Route::get('get_todos/{staff?}', 'TodoController@get_todos')->name('get_todos'); // AJAX
     Route::post('save_todo', 'TodoController@save_todo')->name('save_todo');
     Route::patch('update_todo/{id}', 'TodoController@update_todo')->name('update_todo');
     Route::get('toggle_todo/{id}', 'TodoController@toggle_todo')->name('toggle_todo'); // AJAX
@@ -365,8 +368,7 @@ Route::get('/cls', function () {
     Artisan::call('cache:clear');
     Artisan::call('route:clear');
     Artisan::call('config:clear');
-    Artisan::call('config:cache');
-    return redirect()->route('home');
+    return redirect('/');
 });
 
 Route::get('/cda', function () {

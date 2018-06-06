@@ -5,6 +5,7 @@ namespace Cavidel\Http\Controllers;
 use Illuminate\Http\Request;
 use Cavidel\EventSchedule;
 use Cavidel\User;
+use Cavidel\Department;
 
 use Cavidel\Notifications\NewCalendarEvent;
 use Notification;
@@ -18,15 +19,19 @@ class EventScheduleController extends Controller
     $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
     $events_array = $events->toArray();
     // dd($events_array);
-    return view('events.index', compact('events', 'events_array'));
+    $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+
+    return view('events.index', compact('events', 'events_array', 'departments'));
   }
 
   public function get_events()
   {
     $user = auth()->user();
-    $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
+    $user_departments = explode(',', $user->staff->DepartmentID);
+    $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->get();
     $events_array = [];
     $count = '0';
+
     foreach ($events as $event) {
       $events_array[$count]['ref'] = $event->EventRef;
       $events_array[$count]['title'] = $event->Event;
@@ -47,7 +52,8 @@ class EventScheduleController extends Controller
     $this->validate($request, [
       'Event' => 'required',
       'StartDate' => 'required',
-      'EndDate' => 'required'
+      'EndDate' => 'required',
+      'DepartmentID' => 'required',
     ]);
 
     $event = new EventSchedule;
@@ -59,6 +65,7 @@ class EventScheduleController extends Controller
     $event->Initiator = $user->id;
     $event->CompanyID = $user->staff->CompanyID;
     $event->Description = $request->Description;
+    $event->DepartmentID = $request->DepartmentID;
     $event->save();
 
     $all = User::whereHas('staff', function($query) use($user) {
@@ -74,9 +81,11 @@ class EventScheduleController extends Controller
 
   public function view_event($id)
   {
+    $user = auth()->user();
     $event = EventSchedule::find($id);
+    $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
 
-    return view('events.view', compact('event'));
+    return view('events.view', compact('event', 'departments'));
   }
 
   public function update_event(Request $request, $id)
@@ -90,7 +99,8 @@ class EventScheduleController extends Controller
     $this->validate($request, [
       'Event' => 'required',
       'StartDate' => 'required',
-      'EndDate' => 'required'
+      'EndDate' => 'required',
+      'DepartmentID' => 'required',
     ]);
 
     $event->Event = $request->Event;
@@ -101,6 +111,7 @@ class EventScheduleController extends Controller
     $event->Initiator = $user->id;
     $event->CompanyID = $user->staff->CompanyID;
     $event->Description = $request->Description;
+    $event->DepartmentID = $request->DepartmentID;
     $event->save();
 
     return redirect()->route('events')->with('success', 'Event was updated successfully');

@@ -74,6 +74,16 @@
               </div>
 
               <div class="form-group">
+                <label>Select Recipient Department</label>
+                <select class="form-control select2" name="DepartmentID" data-init-plugin="select2" required>
+                  <option value="">Select Department</option>
+                  @foreach ($departments as $dept)
+                    <option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
+                  @endforeach
+                </select>
+              </div>
+
+              <div class="form-group">
                 {{ Form::label('ExpiryDate', 'Expiry Date' ) }}
                 <div class="input-group date dp">
                   {{ Form::text('ExpiryDate', null, ['class' => 'form-control', 'placeholder' => 'Expiry Date', 'required']) }}
