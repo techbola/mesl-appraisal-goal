@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('buttons')
-  <a href="{{ route('memos.index') }}" class="btn btn-info btn-rounded pull-right" >My Memos</a>
+  <a href="{{ route('memos.index') }}" class="btn btn-info btn-rounded pull-right" >Complaints Form</a>
 @endsection
 @section('content')
 
@@ -9,9 +9,9 @@
   			<div class="card-title pull-left">Create Memo</div>
   			<div class="clearfix"></div>
   			
-  			{{ Form::open(['action' => 'MemoController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}
-				@include('memos.form', ['buttonText' => 'Create Memo'])
-			{{ Form::close() }}
+			 {{ Form::open(['action' => 'MemoController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}
+          @include('estate_management.complaints.form', ['buttonText' => 'Create Memo'])
+		   {{ Form::close() }}
 
   	</div>
 

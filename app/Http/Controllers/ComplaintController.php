@@ -4,18 +4,24 @@ namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Cavidel\Location;
+use Cavidel\Staff;
+use Cavidel\Client;
 
 class ComplaintController extends Controller
 {
     public function index()
     {
 
-        return view('estate_management.complaints.index', comapct());
+        return view('estate_management.complaints.index');
     }
 
     public function create()
     {
-        return view('estate_management.complaints.create', compact());
+        $clients   = Client::all();
+        $clients   = Location::all();
+        $locations = Location::all();
+        return view('estate_management.complaints.create', compact('locations', 'clients'));
     }
 
     public function store(Request $request)

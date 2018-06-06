@@ -6,16 +6,16 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('request_type_id', 'Request Type') }}
-                    {{ Form::select('request_type_id', ['' => 'Select Request Type'] + $request_types->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request Type']) }}
+                    {{ Form::label('client_id', 'Request Type') }}
+                    {{ Form::select('client_id', ['' => 'Select Request Type'] + $clients->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request Type']) }}
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('recipients', 'To') }}
-                    {{ Form::select('recipients[]',$employees->pluck('name','id'),null, ['class' => 'full-width','data-init-plugin' => "select2", 'multiple', 'data-placeholder' => 'Select Approver']) }}
+                    {{ Form::label('location_id', 'To') }}
+                    {{ Form::select('location_id',$locations->pluck('name','id'),null, ['class' => 'full-width','data-init-plugin' => "select2", 'multiple', 'data-placeholder' => 'Select Approver']) }}
                 </div>
             </div>
         </div>
@@ -50,57 +50,6 @@
         </div> 
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('memo_attachment[]', 'Attach Files') }}
-                    {{ Form::file('memo_attachment[]',  ['class' => '','multiple' => 'multiple']) }}
-                </div>
-            </div>
-        </div> 
-    </div>
-
-<hr>
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('ApproverID1', 'Approver 1') }}
-                    {{ Form::select('ApproverID1', [0 => 'Select Approver'] + $employees->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Approver']) }}
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6">
-            <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('ApproverID2', 'Approver 2') }}
-                    {{ Form::select('ApproverID2', [0 => 'Select Approver'] + $employees->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Approver']) }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('ApproverID3', 'Approver 3') }}
-                    {{ Form::select('ApproverID3', [0 => 'Select Approver'] + $employees->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Approver']) }}
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6">
-            <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('ApproverID4', 'Approver 4') }}
-                    {{ Form::select('ApproverID4', [0 => 'Select Approver'] + $employees->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Approver']) }}
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- action buttons -->
     <div class="row">

@@ -358,8 +358,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Estate Management
 
-    Route::prefix('admin')->group(function () {
-        Route::resource('estate-management', 'ComplaintController');
+    Route::prefix('estate-management')->group(function () {
+        Route::resource('complaint', 'ComplaintController');
     });
 });
 
