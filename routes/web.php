@@ -47,7 +47,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
-
     Route::middleware(['can:superadmin'])->group(function () {
         Route::resource('menus', 'MenuController');
         Route::get('menus/edit/{id}', 'MenuController@edit')->name('edit_menu');
@@ -151,7 +150,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('approve_leave_request', 'LeaveRequestController@approve_leave_request');
     Route::get('leave_notification/{elem_value}', 'LeaveRequestController@leave_notification');
     Route::get('request_date/{start_date}/{numberdays}', 'LeaveRequestController@retrieve_details');
-
 
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
 
@@ -354,6 +352,12 @@ Route::middleware(['auth'])->group(function () {
     // main memo routes
     Route::resource('memos', 'MemoController');
     // End Memorandum
+
+    // Estate Management
+
+    Route::prefix('admin')->group(function () {
+        Route::resource('estate-management', 'ComplaintController');
+    });
 });
 
 Route::get('/cls', function () {
@@ -369,7 +373,6 @@ Route::get('/cda', function () {
     exec('composer dump-autoload');
     return redirect()->route('home');
 });
-
 
 Route::get('/testing', function () {
     $memo = Cavidel\CallMemo::find('17');
