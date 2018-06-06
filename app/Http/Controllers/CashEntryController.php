@@ -799,7 +799,7 @@ public function Imprest()
     {
         $configs          = Config::first();
         $customers        = Customer::all();
-        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description 
+        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
@@ -808,7 +808,7 @@ public function Imprest()
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?", [5, 14]));
 
-         $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description 
+         $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
@@ -823,7 +823,7 @@ public function Imprest()
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
             // ->where('PostingTypeID', '=', 1)
             ->where('tblCashEntry.CurrencyID', 1)
-            ->where('tblCashEntry.Posted', 0)
+            // ->where('tblCashEntry.Posted', 0)
             ->get();
         return view('cash_entries.Imprest', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
     }

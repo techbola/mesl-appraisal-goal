@@ -45,7 +45,7 @@
 					<td>{{ $cashentry->BankSlipNo}}</td> --}}
 					<td>{{ $cashentry->Narration}}</td>
 					<td class="actions">
-						<a href="{{ route('cash_entries.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">View / Post</a>
+						{{-- <a href="{{ route('cash_entries.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">View / Post</a> --}}
 					</td>
 				</tr>
 				@endforeach
