@@ -67,7 +67,7 @@
 
 		{{-- MODALS --}}
 		<!-- Modal -->
-		<div class="modal fade slide-up disable-scroll" id="new_doc" tabindex="-1" role="dialog" aria-hidden="false">
+		<div class="modal fade slide-up disable-scroll" id="new_doc" role="dialog" aria-hidden="false">
 			<div class="modal-dialog ">
 				<div class="modal-content-wrapper">
 					<div class="modal-content">
