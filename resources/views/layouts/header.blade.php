@@ -630,7 +630,8 @@
               // ['height', ['height']],
               ['table', ['table']],
               ['insert', ['link', 'picture']],
-            ]
+            ],
+            dialogsInBody: true,
           });
 
           $('.timepicker').timepicker({template: 'modal'}).on('show.timepicker', function(e) {

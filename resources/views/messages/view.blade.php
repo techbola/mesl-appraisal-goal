@@ -94,23 +94,5 @@
 @endsection
 
 @push('scripts')
-  <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/css/summernote.css') }}" />
-  <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}" charset="utf-8"></script>
-  <script>
-    $('.summernote').summernote({
-      // height: '100px',
-      placeholder: 'Enter your message here',
-      toolbar: [
-        // [groupName, [list of button]]
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        // ['font', ['strikethrough', 'superscript', 'subscript']],
-        // ['fontsize', ['fontsize']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        // ['height', ['height']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture']],
-      ]
-    });
-  </script>
+
 @endpush

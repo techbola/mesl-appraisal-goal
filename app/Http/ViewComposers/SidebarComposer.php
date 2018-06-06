@@ -31,6 +31,7 @@ class SidebarComposer
         $roles = \DB::table('roles')->pluck('id', 'name');
         $system = Menu::where('name', 'System Setup')->first();
         $menus = Menu::where('parent_id', 0)->get();
+        $dashboard = Menu::where('name', 'Dashboard')->first();
 
         // If user has roles, return their parent and child menus
         if($user->is_superadmin){
@@ -51,6 +52,6 @@ class SidebarComposer
             $child_menus = [];
         }
         // $view->with('parent_menus', $parent_menus);
-        $view->with( compact('parent_menus', 'child_menus', 'menus') );
+        $view->with( compact('parent_menus', 'child_menus', 'menus', 'dashboard') );
     }
 }
