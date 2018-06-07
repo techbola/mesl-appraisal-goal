@@ -7,7 +7,6 @@
     "require": {
         "php": ">=5.6.4",
         "barryvdh/laravel-debugbar": "~2.4",
-
         "barryvdh/laravel-dompdf": "^0.8.2",
         "codesleeve/laravel-stapler": "dev-master",
         "guzzlehttp/guzzle": "^6.3",
@@ -15,7 +14,8 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
-        "pusher/pusher-php-server": "~2.6"        
+        "pusher/pusher-php-server": "~2.6",
+        "rap2hpoutre/laravel-log-viewer": "^0.14.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -28,7 +28,9 @@
             "app/helpers.php"
         ],
         "classmap": [
-            "database"
+            "database",
+            "app/Http/Controllers",
+            "app/"
         ],
         "psr-4": {
             "Cavidel\\": "app/"
