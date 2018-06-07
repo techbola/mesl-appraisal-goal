@@ -45,9 +45,9 @@ class TodoAssigned extends Notification
       $initiator = $todo->initiator->FullName;
 
         return (new MailMessage)
-            ->subject('New To-Do at '.$company)
+            ->subject('New To-Do Item at '.$company)
             ->greeting('Hi, '.$notifiable->first_name)
-            ->line($initiator->FullName.' has assigned a new to-do item to you. Here\'s what they said:')
+            ->line($initiator.' has assigned a new to-do item to you. Here\'s what they said:')
             ->line('**To-Do Item: **'.$todo->Todo)
             ->line('**Due Date: **'.$todo->DueDate)
             ->line('Use the button below to see your to-dos list on '.config('app.name').'.')
@@ -63,8 +63,18 @@ class TodoAssigned extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            //
-        ];
+      $todo = $this->todo;
+
+      return [
+        'body' => $chat->Body,
+        'project_id' => $chat->ProjectID,
+        'project' => $chat->project->Project,
+        'sender' => $chat->staff->user->FullName,
+        'sender_id' => $chat->StaffID,
+        'date' => $chat->created_at->format('jS M, Y g:ia'),
+        'link' => route('view_project', $chat->ProjectID),
+        'text' => 'New chat message in "'.$chat->project->Project.'" by '.$chat->staff->user->FullName
+      ];
+
     }
 }

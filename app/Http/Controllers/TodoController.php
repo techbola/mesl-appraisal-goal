@@ -7,6 +7,9 @@ use Cavidel\Todo;
 use Cavidel\Staff;
 use Carbon;
 
+use Notification;
+use Cavidel\Notifications\TodoAssigned;
+
 class TodoController extends Controller
 {
 
@@ -63,6 +66,10 @@ class TodoController extends Controller
       $todo->CompanyID = $user->staff->CompanyID;
       // $todo->Description = $todo->Description;
       $todo->save();
+
+      if ($user->id != $request->UserID) {
+        Notification::send($todo->user, new TodoAssigned($todo));
+      }
 
       return redirect()->back()->with('success', 'Todo was added successfully');
     }
