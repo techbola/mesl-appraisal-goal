@@ -145,9 +145,9 @@
             <div class="clearfix"></div>
             <div class="row">
               <div class="col-sm-6">
-                <<p class=""><b>Subject: </b> <span class="memo-subject"></span></p>
+                <p class=""><b>Subject: </b> <span class="memo-subject"></span></p>
                 <p class=""><b>Purpose: </b> <span class="memo-purpose"></span></p>
-                <p class=""><b>Recipients: </b> <span class="memo-recipients"></span></p>
+                <p class=""><b>To: </b> <span class="memo-recipients"></span></p>
                 <p class=""><b>Approvers: </b> <span class="memo-approvers"></span></p>
                 <label class="badge memo-status"></label>
               </div>
