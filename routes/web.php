@@ -2,7 +2,6 @@
 // Please leave the arrangement of this file as is
 
 Auth::routes();
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 Route::group(['domain' => 'officemate.test'], function () {
     Route::any('/123', function () {
@@ -44,6 +43,7 @@ Route::get('/activate/{id}/{code}', 'LoginController@activate')->name('activate'
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
