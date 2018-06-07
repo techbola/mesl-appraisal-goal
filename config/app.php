@@ -184,7 +184,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
 
         Intervention\Image\ImageServiceProvider::class,
-        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+        // Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
         Barryvdh\DomPDF\ServiceProvider::class,
 
