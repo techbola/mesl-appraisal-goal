@@ -72,7 +72,7 @@
                         <td>{{ $memo->initiator->Fullname }}</td>
                         <td>
                            <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
-                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
+                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
                           &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
 
@@ -108,7 +108,7 @@
                         <td>{{ $memo->initiator->Fullname }}</td>
                         <td>
                             <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
-                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>Read More</small></a>
+                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
                           &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
@@ -144,14 +144,14 @@
             </div>
             <div class="clearfix"></div>
             <div class="row">
-              <div class="col-sm-6">
+              <div class="col-sm-10">
                 <p class=""><b>Subject: </b> <span class="memo-subject"></span></p>
                 <p class=""><b>Purpose: </b> <span class="memo-purpose"></span></p>
                 <p class=""><b>To: </b> <span class="memo-recipients"></span></p>
                 <p class=""><b>Approvers: </b> <span class="memo-approvers"></span></p>
                 <label class="badge memo-status"></label>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-2">
                 <div class="memo-approved text-right"></div>
               </div>
             </div>
