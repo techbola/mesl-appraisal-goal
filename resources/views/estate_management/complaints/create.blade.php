@@ -12,7 +12,6 @@
 			 {{ Form::open(['action' => 'ComplaintController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}
           @include('estate_management.complaints.form', ['buttonText' => 'Log Complaint'])
 		   {{ Form::close() }}
-
   	</div>
 
   	<div class="card-box hide">
@@ -26,6 +25,10 @@
   	<!-- END PANEL -->
 
 @endsection
+
+@push('scripts')
+
+@endpush
 
 
 

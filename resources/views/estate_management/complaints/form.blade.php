@@ -44,7 +44,6 @@
     <div class="row">
         <div class="pull-right">
             {{ Form::submit( $buttonText, [ 'class' => 'btn btn-complete ' ]) }}
-				{{-- {{ Form::reset('reset fields',[ 'class' => 'btn btn-transparent ' ]) }} --}}
         </div>
     </div>
     @push('scripts')
