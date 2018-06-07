@@ -78,6 +78,7 @@ class TodoController extends Controller
       $todo = Todo::find($id);
       $todo->Todo = $request->Todo;
       $todo->DueDate = $request->DueDate;
+      $todo->UserID = $request->UserID;
       // $todo->Description = $todo->Description;
       $todo->update();
 

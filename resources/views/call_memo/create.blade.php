@@ -128,7 +128,7 @@
         <div class="row m-b-10">
           <div class="col-md-10 col-md-offset-1">
             <div class="form-group">
-              <label>Discussion Point <span class="badge badge-inverse badge-tab">${disc_id}</span></label>
+              <label>Discussion Point <span class="badge badge-inverse badge-tab">${disc_id}</span></label><i class="fa fa-times-circle text-danger delete f20 pull-right"></i>
               <textarea name="discussions[]" class="form-control summernote" placeholder="Discussion Point"></textarea>
             </div>
           </div>
@@ -144,6 +144,11 @@
             ['insert', ['link', 'picture']],
           ]
         });
+    });
+    // Delete Discussions
+    $("body").on("click", ".delete", function (e) {
+      if (confirm('Remove this discussion?'))
+        $(this).closest(".row").remove();
     });
 
     // <div class="row m-b-10">
