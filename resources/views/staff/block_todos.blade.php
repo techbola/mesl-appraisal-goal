@@ -7,28 +7,6 @@
     <div id="calendar"></div>
   </div>
 
-  {{-- MODALS --}}
-  <!-- Modal -->
-  <div class="modal fade slide-up disable-scroll" id="new_todo" tabindex="-1" role="dialog" aria-hidden="false">
-    <div class="modal-dialog ">
-      <div class="modal-content-wrapper">
-        <div class="modal-content">
-          <div class="modal-header clearfix text-left">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
-            </button>
-            <h5>Add New To-Do</h5>
-          </div>
-          <div class="modal-body">
-            <form action="{{ route('save_todo') }}" method="post">
-              {{ csrf_field() }}
-              @include('todos.form')
-
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
 
 @push('scripts')

@@ -21,7 +21,6 @@
             <div class="col-md-12">
               <div class="form-group form-group-default">
                 <label>TO:</label>
-                {{-- <input name="to" data-role="tagsinput" class="form-control tagsinput" type="text" value=""> --}}
                 <select name="to[]" data-init-plugin="select2" class="form-control" multiple required>
                   @foreach ($staffs as $staff)
                     <option value="{{ $staff->UserID }}">{{ $staff->FullName }}</option>
@@ -57,30 +56,5 @@
 @endsection
 
 @push('scripts')
-  <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/css/summernote.css') }}" />
-  <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}" charset="utf-8"></script>
 
-  <script>
-    $(document).ready(function() {
-      // $('.summernote').summernote();
-
-      $('.summernote').summernote({
-        // height: '100px',
-        placeholder: 'Enter your message here',
-        toolbar: [
-          // [groupName, [list of button]]
-          ['style', ['bold', 'italic', 'underline', 'clear']],
-          // ['font', ['strikethrough', 'superscript', 'subscript']],
-          // ['fontsize', ['fontsize']],
-          ['color', ['color']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          // ['height', ['height']],
-          ['table', ['table']],
-          ['insert', ['link', 'picture']],
-        ]
-      });
-
-    });
-
-  </script>
 @endpush

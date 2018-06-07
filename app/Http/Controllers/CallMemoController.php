@@ -26,6 +26,8 @@ class CallMemoController extends Controller
     $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
     $statuses = CallMemoActionStatus::all();
     $meeting_types = CallMemoMeetingType::all();
+    // $memos = DB::table('tblCallMemo')->whereRaw('FIND_IN_SET('.$user->email.', AttendeeEmails)')->get();
+    // dd($memos);
     return view('call_memo.view', compact('contact', 'staffs', 'statuses', 'user', 'meeting_types'));
   }
 
