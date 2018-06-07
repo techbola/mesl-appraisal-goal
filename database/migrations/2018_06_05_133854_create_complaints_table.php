@@ -18,8 +18,9 @@ class CreateComplaintsTable extends Migration
             $table->integer('client_id');
             $table->string('allocation');
             $table->integer('location_id');
-            $table->string('findings', 255)->nullable(); // comments
-            $table->decimal(18, 4)->nullable();
+            $table->string('complaints', 255)->nullable(); // comments
+            $table->boolean('notify_flag')->default(0);
+            $table->boolean('resolved_flag')->default(0);
             $table->timestamps();
         });
     }

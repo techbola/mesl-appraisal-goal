@@ -108,12 +108,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('bulletin/{id}', 'BulletinController@view_bulletin')->name('view_bulletin');
 
     // post forum messages
-    Route::post('/send/forum-post', 'ForumPostController@createPost');
-    Route::post('/send/forum-comment', 'ForumPostController@postComment');
-    Route::get('/load/forum-post', 'ForumPostController@loadPosts');
-    Route::get('/forum/reply/post/{id}', 'ForumPostController@comments');
-    Route::get('/load/post/title/{id}', 'ForumPostController@loadCard');
-    Route::get('/load/comments/{id}', 'ForumPostController@loadComments');
+    // Route::post('/send/forum-post', 'ForumPostController@createPost');
+    // Route::post('/send/forum-comment', 'ForumPostController@postComment');
+    // Route::get('/load/forum-post', 'ForumPostController@loadPosts');
+    // Route::get('/forum/reply/post/{id}', 'ForumPostController@comments');
+    // Route::get('/load/post/title/{id}', 'ForumPostController@loadCard');
+    // Route::get('/load/comments/{id}', 'ForumPostController@loadComments');
 
     Route::resource('roles', 'RoleController');
     Route::get('/assignroles', 'UserRoleAssignmentController@create')->name('roleassignment');
@@ -358,8 +358,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Estate Management
 
-    Route::prefix('estate-management')->group(function () {
-        Route::resource('complaint', 'ComplaintController');
+    Route::name('estate-management.')->prefix('estate-management')->group(function () {
+        Route::get('complaints/send/{id}', 'ComplaintController@send')->name('send-complaints');
+        Route::resource('complaints', 'ComplaintController');
     });
 });
 

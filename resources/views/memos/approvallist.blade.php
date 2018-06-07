@@ -9,6 +9,12 @@
 </style>
 @endpush
 
+@section('buttons')
+  <a href="{{ route('memos.create') }}" class="btn btn-info btn-rounded pull-right btn-sm" >New Memo</a>
+  <a href="{{ route('memos.index') }}" class="btn btn-info btn-rounded pull-right m-r-5 btn-sm" >View Memos <span class="badge m-l-5">{{ $my_unsent_memos->count() }}</span>
+  </a>
+@endsection
+
 @section('content')
 
     {{-- <div class="clearfix m-b-20">

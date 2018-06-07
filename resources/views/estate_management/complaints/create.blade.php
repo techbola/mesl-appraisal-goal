@@ -1,16 +1,16 @@
 @extends('layouts.master')
 @section('buttons')
-  <a href="{{ route('memos.index') }}" class="btn btn-info btn-rounded pull-right" >Complaints Form</a>
+  <a href="{{ route('estate-management.complaints.index') }}" class="btn btn-info btn-rounded pull-right" >Complaints List</a>
 @endsection
 @section('content')
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Create Memo</div>
+  			<div class="card-title pull-left">Create Complaint</div>
   			<div class="clearfix"></div>
   			
-			 {{ Form::open(['action' => 'MemoController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}
-          @include('estate_management.complaints.form', ['buttonText' => 'Create Memo'])
+			 {{ Form::open(['action' => 'ComplaintController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}
+          @include('estate_management.complaints.form', ['buttonText' => 'Log Complaint'])
 		   {{ Form::close() }}
 
   	</div>

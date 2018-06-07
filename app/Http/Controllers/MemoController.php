@@ -23,17 +23,20 @@ class MemoController extends Controller
 
     public function index()
     {
-        $memos           = Memo::all();
-        $my_memos        = $memos->where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 1);
-        $my_unsent_memos = $memos->where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 0);
-        $memo_inbox      = $memos->where('NotifyFlag', 1)
+        $memos            = Memo::all();
+        $my_memos         = $memos->where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 1);
+        $my_unsent_memos  = $memos->where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 0);
+        $unapproved_memos = Memo::where('ApproverID', auth()->user()->id)
+            ->where('NotifyFlag', 1)
+            ->get();
+        $memo_inbox = $memos->where('NotifyFlag', 1)
             ->where('ApprovedFlag', 1)
             ->where('ApproverID', 0)
             ->filter(function ($value) {
                 return array_intersect($value->recipients, [auth()->user()->id]);
             });
 
-        return view('memos.index', compact('memos', 'my_memos', 'my_unsent_memos', 'memo_inbox'));
+        return view('memos.index', compact('memos', 'my_memos', 'my_unsent_memos', 'memo_inbox', 'unapproved_memos'));
     }
 
     public function create()
@@ -181,9 +184,8 @@ class MemoController extends Controller
         // unapproved docs
         $unapproved_memos = Memo::where('ApproverID', auth()->user()->id)
             ->where('NotifyFlag', 1)
-
             ->get();
-
+        $my_unsent_memos = Memo::where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 0);
         // approved docs
         $approved_memos = Memo::where('ApproverID', 0)
             ->where('ApprovedFlag', 1)
@@ -193,7 +195,7 @@ class MemoController extends Controller
             ->orWhereIn('ApproverID4', [auth()->user()->id])
             ->get();
 
-        return view('memos.approvallist', compact('approved_memos', 'unapproved_memos'));
+        return view('memos.approvallist', compact('approved_memos', 'unapproved_memos', 'my_unsent_memos'));
     }
 
     public function approve(Request $request)
