@@ -149,7 +149,7 @@
     $("body").on("click", ".delete", function (e) {
       if (confirm('Remove this discussion?'))
         // $(this).closest(".row").fadeOut(300).remove();
-        $(this).closest(".row").fadeOut(900, function(){
+        $(this).closest(".row").fadeOut(700, function(){
           $(this).remove();
         });
     });

@@ -24,7 +24,7 @@
           </div>
           <div class="form-group">
             <label>Comment</label>
-            <textarea name="Comment" rows="2" class="form-control" placeholder="Enter comments.">{{ $action->Comment }}</textarea>
+            <textarea name="Comment" rows="2" class="summernote form-control" placeholder="Enter comments.">{{ $action->Comment }}</textarea>
           </div>
           <div class="form-group">
             <label>Status</label>

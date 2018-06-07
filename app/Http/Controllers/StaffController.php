@@ -309,9 +309,10 @@ class StaffController extends Controller
 
         $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
         $staff_departments = explode(',', $staff->DepartmentID);
+        $supervisors = Staff::where('CompanyID', $user->CompanyID)->get();
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors'));
     }
 
     public function editFinanceDetails($id)

@@ -435,7 +435,8 @@ audio, canvas, progress, video {
 /* NOTIF */
 .notif-list {
   padding: 10px;
-  font-size: 15px;
+  /* font-size: 15px; */
+  font-size: 13px;
 }
 .notif-list li {
   padding: 10px 0;

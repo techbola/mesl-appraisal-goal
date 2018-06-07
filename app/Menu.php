@@ -39,19 +39,19 @@ class Menu extends Model
         $system = Menu::where('name', 'System Setup')->first();
 
         // $menu = Menu::find($menu_id);
-        if ($user->is_superadmin || auth()->user()->hasRole('admin')) {
-            $user_submenus = Menu::where('parent_id', $menu_id)->get();
-        } elseif (auth()->user()->hasRole('admin')) {
-            $user_submenus = Menu::where('parent_id', $menu_id)->where('parent_id', '!=', $system->id)->get();
+        if ($user->is_superadmin || $user->hasRole('admin')) {
+            $user_submenus = Menu::where('parent_id', $menu_id)->with('children')->get();
+        } elseif ($user->hasRole('admin')) {
+            $user_submenus = Menu::where('parent_id', $menu_id)->where('parent_id', '!=', $system->id)->with('children')->get();
         } else {
             $user_submenus = \Auth::user()->roles()->first()->menus->where('parent_id', $menu_id);
         }
 
         // if ($menu->children->count() > 0) {
-        if ($user_submenus->count() > 0) {
+        if (count($user_submenus) > 0) {
             echo "<ul class=\"sub-menu\">";
             foreach ($user_submenus as $key => $child) {
-                if ($child->children()->count() > 0) {
+                if (count($child->children) > 0) {
                     echo '<li><a href="javascript:;">' .
                     '<span class="top-level title">' . $child->name . '</span>' .
                     '<span class="arrow"></span></a>' .
@@ -67,7 +67,7 @@ class Menu extends Model
                     }
 
                 }
-                $this->hasSubmenu($child->id);
+                // $this->hasSubmenu($child->id);
                 echo "</li>";
             }
             echo "</ul>";

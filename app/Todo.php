@@ -10,4 +10,10 @@ class Todo extends Model
   protected $guarded = ['TodoRef'];
   public $timestamps = false;
   public $primaryKey = 'TodoRef';
+
+  public function initiator()
+  {
+    return $this->belongsTo('App\User', 'Initiator');
+  }
+  
 }
