@@ -63,18 +63,20 @@ class TodoAssigned extends Notification
      */
     public function toArray($notifiable)
     {
-      $todo = $this->todo;
+      // $todo = $this->todo;
+      //
+      // return [
+      //   'body' => $chat->Body,
+      //   'project_id' => $chat->ProjectID,
+      //   'project' => $chat->project->Project,
+      //   'sender' => $chat->staff->user->FullName,
+      //   'sender_id' => $chat->StaffID,
+      //   'date' => $chat->created_at->format('jS M, Y g:ia'),
+      //   'link' => route('view_project', $chat->ProjectID),
+      //   'text' => 'New chat message in "'.$chat->project->Project.'" by '.$chat->staff->user->FullName
+      // ];
 
-      return [
-        'body' => $chat->Body,
-        'project_id' => $chat->ProjectID,
-        'project' => $chat->project->Project,
-        'sender' => $chat->staff->user->FullName,
-        'sender_id' => $chat->StaffID,
-        'date' => $chat->created_at->format('jS M, Y g:ia'),
-        'link' => route('view_project', $chat->ProjectID),
-        'text' => 'New chat message in "'.$chat->project->Project.'" by '.$chat->staff->user->FullName
-      ];
+      return [];
 
     }
 }
