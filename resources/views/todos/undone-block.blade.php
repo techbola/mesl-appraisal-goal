@@ -36,19 +36,29 @@
           {{ csrf_field() }}
           {{ method_field('PATCH') }}
           <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                {{-- {{ Form::label('Todo', 'Todo Item' ) }} --}}
-                {{ Form::text('Todo', $todo->Todo, ['class' => 'form-control input-sm', 'placeholder' => 'Enter todo', 'required']) }}
-              </div>
-            </div>
+            <div class="col-md-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    {{-- {{ Form::label('Todo', 'Todo Item' ) }} --}}
+                    {{ Form::text('Todo', $todo->Todo, ['class' => 'form-control input-sm', 'placeholder' => 'Enter todo', 'required']) }}
+                  </div>
+                </div>
 
-            <div class="col-md-4">
-              <div class="form-group">
-                {{-- {{ Form::label('DueDate', 'Due Date' ) }} --}}
-                <div class="input-group date dp">
-                  {{ Form::text('DueDate', $todo->DueDate, ['class' => 'form-control input-sm', 'placeholder' => 'Due Date', 'required']) }}
-                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    {{-- {{ Form::label('DueDate', 'Due Date' ) }} --}}
+                    <div class="input-group date dp">
+                      {{ Form::text('DueDate', $todo->DueDate, ['class' => 'form-control input-sm', 'placeholder' => 'Due Date', 'required']) }}
+                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    {{-- <span class="help">Leave empty to assign to yourself.</span> --}}
+                    {{ Form::select('UserID', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'UserID')->toArray(), $todo->UserID, ['class'=> "form-control input-sm select2", 'data-init-plugin' => "select2"]) }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -56,6 +66,9 @@
               <button type="submit" class="btn btn-sm btn-success">Submit</button>
             </div>
           </div>
+
+
+
         </form>
       </div>
     </li>

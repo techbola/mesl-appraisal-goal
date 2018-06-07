@@ -49,7 +49,7 @@
           {{ Form::select('role', [ '' =>  'Select Role'] + $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-6">
         <div class="form-group required">
           <label>Departments</label>
           {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
@@ -60,6 +60,12 @@
               <option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
             @endforeach
           </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Supervisor</label>
+          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
       </div>
     @endif
