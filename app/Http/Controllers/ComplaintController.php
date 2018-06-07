@@ -68,4 +68,21 @@ class ComplaintController extends Controller
         }
 
     }
+
+    public function edit($id)
+    {
+        $complaint = Complaint::find($id);
+        $clients   = Client::all();
+        $locations = Location::all();
+        return view('estate_management.complaints.edit', compact('complaint', 'clients', 'locations'));
+
+    }
+
+    public function update(Request $request, $id)
+    {
+        $complaint = Complaint::find($id);
+        if ($complaint->update($request->all())) {
+            return redirect()->route('estate-management.complaints.edit', ['id' => $id])->with('success', 'Complaint was updated successfully');
+        }
+    }
 }
