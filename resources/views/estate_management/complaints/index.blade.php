@@ -163,25 +163,24 @@
             <p class="p-b-10">Choose which department to send complain to</p>
           </div>
           <div class="modal-body">
-
-        {{ Form::open(['action' => 'ComplaintController@send']) }}
-          <div class="row">
-            <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('current_queue', 'Department') }}
-                    <input type="hidden" name="complaint_id" value="">
-                    {{ Form::select('current_queue',[ '' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location', 'required']) }}
+            {{ Form::open(['action' => 'ComplaintController@send']) }}
+              <div class="row">
+                <div class="form-group">
+                    <div class="controls">
+                        {{ Form::label('current_queue', 'Department') }}
+                        <input type="hidden" name="complaint_id" value="">
+                        {{ Form::select('current_queue',[ '' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location', 'required']) }}
+                    </div>
                 </div>
-            </div>
-          </div>
+              </div>
 
-          <div class="row">
-            <div class="">
-              <button class="btn btn-success">Send Complaint</button>
-              
-            </div>
-          </div>
-        {{ Form::close() }}
+              <div class="row">
+                <div class="">
+                  <button class="btn btn-success">Send Complaint</button>
+                  
+                </div>
+              </div>
+            {{ Form::close() }}
           </div>
         </div>
       </div>
@@ -204,7 +203,7 @@
           </div>
           <div class="modal-body">
 
-        {{ Form::open(['action' => 'ComplaintController@comment']) }}
+        {{ Form::open(['action' => 'ComplaintController@comment', 'files' => true]) }}
           <div class="row">
             <div class="form-group">
                 <div class="controls">
@@ -214,20 +213,30 @@
                 </div>
             </div>
 
+
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('cost', 'Cost') }}
-                    <input type="hidden" name="complaint_id" value="">
-                    <input type="text" name="cost" class="form-control">
+                    {{ Form::label('complaint_attachment[]', 'Attach Files') }}
+                    {{ Form::file('complaint_attachment[]',  ['class' => '','multiple' => 'multiple']) }}
                 </div>
             </div>
+            
 
+          </div>
+
+          <div class="row">
+              <div class="form-group">
+                  <div class="controls">
+                      {{ Form::label('cost', 'Total Cost') }}
+                      <input type="text" name="cost" class="form-control">
+                  </div>
+              </div>
+            <div class="clearfix"></div>
           </div>
 
           <div class="row">
             <div class="">
               <button class="btn btn-success">Post Comment</button>
-              
             </div>
           </div>
         {{ Form::close() }}
@@ -252,10 +261,11 @@
         // e.preventDefault();
         var value_ = $(this).data('comp-id');
         var target = $(this).data('target');
+        console.log(value_);
         $(target).find('[name=complaint_id]').val(value_);
+        console.log($(target));
       });
     });
-
 
 
   </script>

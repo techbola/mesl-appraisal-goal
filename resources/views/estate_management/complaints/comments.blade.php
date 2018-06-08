@@ -9,10 +9,28 @@
   			<div class="card-title pull-left">Discussion</div>
   			<div class="clearfix"></div>
   			@foreach($complaint_discussions as $cd)
-        <p>
-          <span class="commenter label label-info">{{ $cd->department->Department }}</span>
-          {!! $cd->comment !!}
-        </p> <hr>
+        <div>
+         <div class="row">
+            <div class="col-sm-7">
+              <span class="commenter badge badge-info">{{ $cd->department->Department }}</span> <br><br>
+              {!! $cd->comment !!}
+              <b>Cost:</b> {{ nairazify(number_format($cd->cost, 2)) }} <br>
+              <p>Attachments</p>
+              @foreach(collect($comments->where('id',$cd->id)->first()->attachments)->all() as $v)
+              <span><a href="{{ asset('storage/complaint_attachments/'.$v->attachment_location) }}"></a></span>
+              @endforeach
+            </div>
+
+
+            <div class="col-sm-5">
+              <span>
+                <i class="test-info">
+                  {{ \Carbon\Carbon::parse($cd->created_at)->diffForHumans() }}
+                </i>
+              </span>
+            </div>
+         </div>
+        </div> <hr>
         @endforeach
 			 
   	</div>

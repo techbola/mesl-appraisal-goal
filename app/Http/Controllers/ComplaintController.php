@@ -4,11 +4,13 @@ namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Storage;
 use Cavidel\Location;
 use Cavidel\Complaint;
 use Cavidel\Client;
 use Cavidel\Department;
 use Cavidel\ComplaintComment;
+use Cavidel\ComplaintAttachment;
 
 class ComplaintController extends Controller
 {
@@ -17,6 +19,7 @@ class ComplaintController extends Controller
         $clients    = Client::all();
         $locations  = Location::all();
         $complaints = Complaint::all();
+        $comments   = ComplaintComment::all();
         // dd($complaint_discussions);
         $departments = Department::get(['Department', 'DepartmentRef']);
         // ------------------------------- //
@@ -25,7 +28,7 @@ class ComplaintController extends Controller
         $complaint_sent_to_dept = Complaint::whereIn('current_queue', $my_departments)->get();
         $complaint_discussions  = Complaint::whereIn('current_queue', $my_departments)->get();
 
-        return view('estate_management.complaints.index', compact('locations', 'clients', 'complaints', 'departments', 'complaint_sent_to_dept'));
+        return view('estate_management.complaints.index', compact('locations', 'clients', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept'));
     }
 
     public function create()
@@ -96,30 +99,46 @@ class ComplaintController extends Controller
             $complaint = Complaint::find($request->complaint_id)->first();
             // dd($complaint);
             // create comment
-            $complaint->comments()->create([
-                'comment'         => $request->comment,
-                'status'          => $request->status,
-                'has_cost'        => $request->has_cost ?? 0,
-                'cost'            => $request->cost,
-                'queue_sender_id' => auth()->user()->staff->departments->first()->DepartmentRef ?? 1, //dept_id
-            ]);
-            DB::commit();
-            return redirect()->route('estate-management.complaints.index')->with('success', 'Feedback posted. ');
+            $comment                  = new ComplaintComment($request->except('complaint_attachment'));
+            $comment->complaint_id    = $request->complaint_id;
+            $comment->has_cost        = $request->has_cost ?? 0;
+            $comment->queue_sender_id = auth()->user()->staff->departments->first()->DepartmentRef ?? 1; //dept_id
+
+            if ($comment->save()) {
+                // attachment_upload
+                if ($request->hasFile('complaint_attachment')) {
+                    foreach ($request->complaint_attachment as $key => $value) {
+                        $file = $request->file('complaint_attachment')[$key];
+                        // $filename = uniqid() . '-' . $file->getClientOriginalName();
+                        // $value->storeAs('complaint_attachments', $filename);
+                        Storage::disk('public')->put('complaint_attachments', $file);
+                        // $attachment = new MemoAttachment;
+                        ComplaintAttachment::create([
+                            'complaint_id'        => $request->complaint_id,
+                            'comment_id'          => $comment->id,
+                            'attachment_location' => $file->hashName(),
+                        ]);
+                    }
+                }
+                DB::commit();
+                return redirect()->route('estate-management.complaints.index')->with('success', 'Feedback posted. ');
+            }
+
         } catch (Exception $e) {
             DB::rollback();
             return $e;
         }
-
     }
 
     public function view_comments($id)
     {
         $complaint             = Complaint::find($id);
+        $comments              = ComplaintComment::all();
         $complaint_discussions = $complaint->comments->transform(function ($item, $key) {
             $item->department = Department::find($item->queue_sender_id);
             return $item;
         });
-        return view('estate_management.complaints.comments', compact('complaint_discussions', 'complaint'));
+        return view('estate_management.complaints.comments', compact('complaint_discussions', 'complaint', 'comments'));
     }
 
     public function update(Request $request, $id)
