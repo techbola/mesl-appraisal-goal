@@ -35,21 +35,21 @@
           <tbody>
 
             @foreach($leave_requests as $leave_request)
-              <tr>
+                <tr>
                 <td>{{$leave_request->leave_type->LeaveType}}</td>
                 <td>{{$leave_request->StartDate}}</td>
                 <td>{{$leave_request->ReturnDate}}</td>
                 <td>{{$leave_request->NumberofDays}}</td>
                 <td>
                   @if($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1 && is_null($leave_request->ApproverID) && $leave_request->CompletedFlag == 1 )
-                  <label class="label label-danger"> Leave request is completed </label>
+                  <label class="label label-success"> Approved </label>
                   @else
                     @if($leave_request->NotifyFlag == 0 && $leave_request->RejectionFlag != 1)
                     <label class="label label-default">Leave Request has not been sent for approval.</label>
                   @elseif($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1)
-                    <label class="label label-success"> leave is pending with {{$leave_request->user->first_name ?? ''}} {{$leave_request->user->last_name ?? ''}}</label>
+                    <label class="label label-default"> pending with {{$leave_request->user->first_name ?? ''}} {{$leave_request->user->last_name ?? ''}}</label>
                   @else
-                  <label class="label label-danger"> Your leave request was rejected by {{$leave_request->user->first_name ?? ''}} {{$leave_request->user->last_name ?? ''}}</label>
+                  <label class="label label-danger"> Rejected by {{$leave_request->user->first_name ?? ''}} {{$leave_request->user->last_name ?? ''}}</label>
                   @endif
                   @endif
                 </td>

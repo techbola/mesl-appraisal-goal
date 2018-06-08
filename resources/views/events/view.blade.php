@@ -22,13 +22,17 @@
   <div class="card-box">
     <div class="card-title">{{ $event->Event }}</div>
     <div class="m-t-20 m-b-15">
-			<span class="label label-info btn-rounded">{{ Carbon\Carbon::parse($event->StartDate)->format('jS M Y') }} - <span class="text-black">{{ Carbon\Carbon::parse($event->StartTime)->format('g:iA') }}</span></span>
+			<span class="label label-info btn-rounded">{{ Carbon\Carbon::parse($event->StartDate)->format('jS M Y') }}</span>
 			 to
-			<span class="label label-info btn-rounded">{{ Carbon\Carbon::parse($event->EndDate)->format('jS M Y') }} - <span class="text-black">{{ Carbon\Carbon::parse($event->EndTime)->format('g:iA') }}</span></span>
+			<span class="label label-info btn-rounded">{{ Carbon\Carbon::parse($event->EndDate)->format('jS M Y') }}</span>
+		</div>
+
+		<div class="m-b-15">
+			From <span class="text-black bold">{{ Carbon\Carbon::parse($event->StartTime)->format('g:iA') }}</span> to <span class="text-black bold">{{ Carbon\Carbon::parse($event->EndTime)->format('g:iA') }}</span> daily
 		</div>
 
     <div class="f13 m-b-15"><b>Posted by
-      <img width="22" height="22" alt="" src="{{ asset('images/avatars/'.$event->poster->avatar) }}" style="border-radius:50%">
+      <img width="22" height="22" alt="" src="{{ asset('images/avatars/'.$event->poster->avatar) }}" style="border-radius:50%" class="m-l-5">
       <span class="">{{ $event->poster->FullName }}</span>
       </b>
     </div>
@@ -56,7 +60,7 @@
             </form> --}}
             {{ Form::model($event, ['action' => ['EventScheduleController@update_event', $event->EventRef ], 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
         		  {{ method_field('PATCH') }}
-              @include('events.form', ['StartTime' => Carbon::parse($event->StartTime)->format('G:i:s'), 'EndTime' => Carbon::parse($event->EndTime)->format('G:i:s')])
+              @include('events.form', ['StartTime' => $event->StartTime, 'EndTime' => $event->EndTime])
             {{ Form::close() }}
           </div>
         </div>
@@ -68,8 +72,5 @@
 
 
 @push('scripts')
-  <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css') }}" rel="stylesheet" type="text/css">
-  <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
-  <link href="{{ asset('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet" type="text/css">
-  <script src="{{ asset('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js') }}"></script>
+
 @endpush

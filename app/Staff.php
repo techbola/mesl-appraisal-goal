@@ -75,6 +75,11 @@ class Staff extends Model implements StaplerableInterface
         return $this->hasOne(Bank::class, 'BankRef', 'BankID');
     }
 
+    public function scorecards()
+    {
+      return $this->hasMany('Cavidel\ScoreCard', 'StaffID');
+    }
+
     public function __construct(array $attributes = array())
     {
         $this->hasAttachedFile('PhotographLocation', [

@@ -33,8 +33,6 @@ Route::group(['middleware' => 'guest'], function () {
 
     Route::post('/company_registration', 'LoginController@register_company')->name('register_company');
 
-    // Route::get('/edit_company', 'LoginController@register_company')->name('register_company');
-
     Route::get('/activate_pass/{id}/{code}', 'LoginController@activate_pass')->name('activate_pass');
     Route::patch('/activate_pass2/{id}/{code}', 'LoginController@activate_pass2')->name('activate_pass2');
 });
@@ -44,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+    Route::get('/edit-company/{id}', 'CompanyController@edit')->name('edit_company');
+    Route::patch('/update-company/{id}', 'CompanyController@update')->name('update_company');
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
@@ -206,6 +207,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
 
+
+    // Score Card
+    Route::get('scorecard/create/{id}', 'ScoreCardController@create')->name('create_scorecard');
+    Route::post('save_scorecard/{id}', 'ScoreCardController@store')->name('save_scorecard');
+
+
+
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
     Route::get('/new_loan_rating', 'LoanRatingController@create')->name('new_loan_rating');
@@ -291,6 +299,23 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save_contact', 'CustomerController@save_contact')->name('save_contact');
     Route::get('edit_contact/{id}', 'CustomerController@edit_contact')->name('edit_contact');
     Route::patch('update_contact/{id}', 'CustomerController@update_contact')->name('update_contact');
+
+    // Billing
+    Route::get('billings/search_client', 'BillingController@search_client')->name('SearchClient');
+    Route::post('client_search', 'BillingController@client_search');
+    Route::post('billings.new_bill', 'BillingController@new_bill')->name('NewBill');
+    Route::get('billings/notification_Billing/{id}/{billcode}', 'BillingController@notification_bill')->name('NotificationBilling');
+    Route::get('get_newProduct/{cat_id}', 'BillingController@get_product'); //Ajax
+    Route::get('get_new_product_price/{prod_id}', 'BillingController@get_price'); //Ajax
+    Route::post('add_new_product_to_bill_list', 'BillingController@save_bill_item');
+    Route::get('billings/bill/{client_id}/{code}', 'BillingController@bill')->name('Bill');
+    Route::get('billings/view_bill/{id}', 'BillingController@view_bill')->name('View_Client_Bill_List');
+
+    //ClientDocument
+    Route::get('client_document/client_document_list/{id}', 'ClientDocumentController@client_list')->name('Client_Document_List');
+    Route::get('client_document/add_client_document/{id}', 'ClientDocumentController@add_client_document')->name('Add_Client_Document');
+    Route::post('post_client_document', 'ClientDocumentController@store_client_document');
+    Route::post('delete_client_document', 'ClientDocumentController@delete_client_document');
 
     // -- payroll
 
@@ -380,6 +405,7 @@ Route::get('/cda', function () {
 });
 
 Route::get('/testing', function () {
+
     $memo = Cavidel\CallMemo::find('17');
     return view('pdf.call_memo', compact('memo'));
 });

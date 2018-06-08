@@ -54,6 +54,7 @@
 
       $('#calendar').fullCalendar({
         events: '{{ url('/') }}/get_events',
+				allDay: true,
         header: {
           left:   'title',
           center: '',
