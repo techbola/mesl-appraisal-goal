@@ -54,9 +54,9 @@ class ClientDocumentController extends Controller
             $client_document->Filename = $filenametostore;
 
             if ($client_document->save()) {
-                return redirect()->route('Client_Document_List', [$request->ClientID])->with('success', 'Patient Investigation was added successfully');
+                return redirect()->route('Client_Document_List', [$request->ClientID])->with('success', 'Client Document uploaded successfully');
             } else {
-                return redirect()->back()->withInput()->with('error', 'Investigation failed to save');
+                return redirect()->back()->withInput()->with('error', 'Client Document failed to upload');
             }
         }
     }

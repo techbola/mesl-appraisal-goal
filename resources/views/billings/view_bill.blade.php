@@ -13,7 +13,7 @@
 @endsection
 
 @section('buttons')
-  <a href="{{ route('Add_Client_Document', [$client_details->ClientRef]) }}" class="btn btn-info btn-rounded pull-right" >Add New Document</a>
+
 @endsection
 
 @section('content')
@@ -38,7 +38,7 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $client_detail->GroupID }}</td>{id}/{billcode}
                 <td>{{ $client_detail->BillingDate }}</td>
-                <td><a href="{{ route('NotificationBilling',[$investigation->DocRef]) }}" class="btn btn-sm btn-info"></a>Add Item</td>
+                <td><a href="{{-- {{ route('NotificationBilling',[$investigation->DocRef]) }} --}}" class="btn btn-sm btn-info"></a>Add Item</td>
                 <td><a href="#" class="btn btn-sm btn-success"></a>View Bill</td>
                 
               </tr>
