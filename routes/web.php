@@ -300,6 +300,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit_contact/{id}', 'CustomerController@edit_contact')->name('edit_contact');
     Route::patch('update_contact/{id}', 'CustomerController@update_contact')->name('update_contact');
 
+    // Billing
+    Route::get('billings/search_client', 'BillingController@search_client')->name('SearchClient');
+    Route::post('client_search', 'BillingController@client_search');
+    Route::post('billings.new_bill', 'BillingController@new_bill')->name('NewBill');
+    Route::get('billings/notification_Billing/{id}/{billcode}', 'BillingController@notification_bill')->name('NotificationBilling');
+    Route::get('get_newProduct/{cat_id}', 'BillingController@get_product'); //Ajax
+    Route::get('get_new_product_price/{prod_id}', 'BillingController@get_price'); //Ajax
+    Route::post('add_new_product_to_bill_list', 'BillingController@save_bill_item');
+    Route::get('billings/bill/{client_id}/{code}', 'BillingController@bill')->name('Bill');
+    Route::get('billings/view_bill/{id}', 'BillingController@view_bill')->name('View_Client_Bill_List');
+
+    //ClientDocument
+    Route::get('client_document/client_document_list/{id}', 'ClientDocumentController@client_list')->name('Client_Document_List');
+    Route::get('client_document/add_client_document/{id}', 'ClientDocumentController@add_client_document')->name('Add_Client_Document');
+    Route::post('post_client_document', 'ClientDocumentController@store_client_document');
+    Route::post('delete_client_document', 'ClientDocumentController@delete_client_document');
+
     // -- payroll
 
     Route::get('payroll/details', 'PayrollController@details')->name('payroll.details');

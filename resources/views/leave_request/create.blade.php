@@ -9,7 +9,7 @@
 	</div>
 	<div class="panel-body">
 		<div class="col-md-10">
-		{{ Form::open(['action' => 'LeaveRequestController@store_leave_request', 'autocomplete' => 'off', 'role' => 'form']) }}
+		{{ Form::open(['action' => 'LeaveRequestController@store_leave_request', 'autocomplete' => 'off', 'role' => 'form', 'files'=> true]) }}
 		@include('leave_request.form', ['buttonText' => 'Request For Leave'])
 		{{ Form::close() }}
 		</div>

@@ -1,4 +1,19 @@
 @extends('layouts.master')
+
+@push('styles')
+  <style>
+    .tooltip-inner {
+    max-width: 200px;
+    padding: 20px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    background-color: red;
+    border-radius: 4px;
+}
+  </style>  
+@endpush
+
 @section('title')
   Leave Request Approval
 @endsection
@@ -24,6 +39,7 @@
         <div class="clearfix"></div>
          {{ Form::open(['action' => 'LeaveRequestController@approve_leave_request', 'autocomplete' => 'off', 'role' => 'form']) }}
          <p><input type="submit" name="approve" class="btn btn-sm btn-primary" value="Approve">  <input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject"></p>
+         <p style="color : red">Note : Leave Request highlighted in red are within the company restricted leave days</p>
         <table class="table tableWithSearch table-bordered">
           <thead>
             <th width="10%">Action</th>
@@ -35,46 +51,50 @@
           </thead>
           <tbody>
 
-            @foreach($leave_requests as $leave_request)
+            @foreach($leave_check as $leave_request)
+                @if($leave_request->status > 0)
+              <tr>
+                <td style="background: #fba1a0"><input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" required></td>
+                <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
+                <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
+                <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
+                <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
+                <td style="background: #fba1a0">{{$leave_request->NumberofDays}} 
+                    @if(!is_null($leave_request->HandOverNote))
+                    <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
+                  <label class="label label-success">Download attachment</label></td>
+                    @endif</td>
+              </tr>
+              @else
               <tr>
                 <td><input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" required></td>
-                <td>{{$leave_request->first_name}} {{$leave_request->last_name}}</td>
+                <td>{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}}</td>
                 <td>{{$leave_request->LeaveType}}</td>
                 <td>{{$leave_request->StartDate}}</td>
                 <td>{{$leave_request->ReturnDate}}</td>
-                <td>{{$leave_request->NumberofDays}}</td>
+                <td>{{$leave_request->NumberofDays}}days 
+                    @if(!is_null($leave_request->HandOverNote))
+                    <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
+                  <label class="label label-success">Download attachment</label></td>
+                    @endif</td>
+                </td>
               </tr>
+               @endif
               @endforeach
-           {{--  @foreach ($memos as $memo)
-              <tr>
-                <td>{{ $memo->subject }}</td>
-                <td>{{ $memo->purpose }}</td>
-                <td>{{ str_limit($memo->body,20, '...') }}</td>
-                <td>
-                    @if($memo->status() == 1) <!-- approved -->
-                        <label class="label label-success">Approved</label>
-                    @else
-                        <label class="label label-default">{{ $memo->status() }}</label>    
-                    @endif
-                </td>
-                <td class="actions">
-                  @if(!$memo->sent())
-                  <a href="{{ route('send_memo', ['id' => $memo->id]) }}" class="btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send</a>
-                  @else
-                  <a href="{{ route('send_memo', ['id' => $memo->id]) }}" class="btn btn-sm disabled m-r-5" data-toggle="tooltip" title="">Sent <i cla></i></a>
-                  @endif
-                </td>
-              </tr>
-            @endforeach --}}
           </tbody>
         </table>
     {{ Form::close() }}
     </div>
     <!-- END PANEL -->
-
-
-
 @endsection
+
+@push('scripts')
+  <script>
+    $(jQuery(document)).ready(function($) {
+     $('#test').tooltip('show');
+    });
+  </script>
+@endpush
 
 
 
