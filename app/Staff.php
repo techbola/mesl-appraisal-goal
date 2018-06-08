@@ -26,6 +26,10 @@ class Staff extends Model implements StaplerableInterface
     {
         return $this->hasMany('Cavidel\ProjectTask', 'StaffID', 'StaffRef');
     }
+    public function departments()
+    {
+        return $this->hasMany(Department::class, 'DepartmentRef', 'DepartmentID');
+    }
     public function getProjectsAttribute()
     {
         $staff_id = $this->StaffRef;

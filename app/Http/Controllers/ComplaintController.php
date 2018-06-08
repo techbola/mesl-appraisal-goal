@@ -7,6 +7,8 @@ use DB;
 use Cavidel\Location;
 use Cavidel\Complaint;
 use Cavidel\Client;
+use Cavidel\Department;
+use Cavidel\ComplaintComment;
 
 class ComplaintController extends Controller
 {
@@ -15,7 +17,14 @@ class ComplaintController extends Controller
         $clients    = Client::all();
         $locations  = Location::all();
         $complaints = Complaint::all();
-        return view('estate_management.complaints.index', compact('locations', 'clients', 'complaints'));
+        // dd($complaint_discussions);
+        $departments = Department::get(['Department', 'DepartmentRef']);
+        // ------------------------------- //
+        $staff                  = auth()->user()->staff;
+        $my_departments         = Department::whereIn('DepartmentRef', $staff->departments)->get();
+        $complaint_sent_to_dept = Complaint::whereIn('current_queue', $my_departments)->get();
+
+        return view('estate_management.complaints.index', compact('locations', 'clients', 'complaints', 'departments', 'complaint_sent_to_dept'));
     }
 
     public function create()
@@ -25,12 +34,13 @@ class ComplaintController extends Controller
         return view('estate_management.complaints.create', compact('locations', 'clients'));
     }
 
-    public function send($id)
+    public function send(Request $request)
     {
         try {
+            $complaint = Complaint::find($request->complaint_id);
             DB::beginTransaction();
-            // if no approvers
-            $complaint->notify_flag = true;
+            $complaint->notify_flag   = true; // flag complaint as sent [denotes that process has started]
+            $complaint->current_queue = $request->current_queue; // department that sees it next
             $complaint->save();
             DB::commit();
             return redirect()->route('estate-management.complaints.index')->with('success', 'Complaint was sent successfully');
@@ -54,7 +64,7 @@ class ComplaintController extends Controller
         }
 
         //  save record
-        $complaint = new Complaint($request->all());
+        $complaint = new Complaint($request->all() + ['sender_id' => auth()->user()->id]);
 
         try {
             DB::beginTransaction();
@@ -76,6 +86,36 @@ class ComplaintController extends Controller
         $locations = Location::all();
         return view('estate_management.complaints.edit', compact('complaint', 'clients', 'locations'));
 
+    }
+
+    public function comment(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $complaint = Complaint::find($request->complaint_id)->first();
+            // dd($complaint);
+            // create comment
+            $complaint->comments()->create([
+                'comment'         => $request->comment,
+                'status'          => $request->status,
+                'has_cost'        => $request->has_cost ?? 0,
+                'cost'            => $request->cost,
+                'queue_sender_id' => auth()->user()->id, //dept_id
+            ]);
+            DB::commit();
+            return redirect()->route('estate-management.complaints.index')->with('success', 'Feedback posted. ');
+        } catch (Exception $e) {
+            DB::rollback();
+            return $e;
+        }
+
+    }
+
+    public function view_comments($id)
+    {
+        $complaint             = Complaint::find($id);
+        $complaint_discussions = $complaint->comments;
+        return view('estate_management.complaints.comments', compact('complaint_discussions', 'complaint'));
     }
 
     public function update(Request $request, $id)

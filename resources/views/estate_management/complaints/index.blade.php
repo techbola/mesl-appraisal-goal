@@ -25,7 +25,7 @@
 
       <ul class="nav nav-tabs outside">
         <li class="active"><a data-toggle="tab" href="#unapproved">Unsent Complaints &nbsp; <span class="badge badge-warning"></span></a></li>
-        <li><a data-toggle="tab" href="#approved">Sent Complaints &nbsp; <span class="badge badge-success"></span></a></li>
+        <li><a data-toggle="tab" href="#approved">Recieved Complaints &nbsp; <span class="badge badge-success">{{ $complaint_sent_to_dept->count() }}</span></a></li>
         <li><a data-toggle="tab" href="#inbox">Complaints Inbox &nbsp; <span class="badge badge-danger"></span></a></li>
       </ul>
       <div class="tab-content">
@@ -52,13 +52,14 @@
                      <td>
                        <span class="badge">Not Sent</span>
                      </td>
-                     <td class="actions" width="130">
+                     <td class="actions" width="140">
                        @if(!$comp->sent())
                         <a href="{{ route('estate-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm btn-info">Edit </a>
-                        <a href="{{ route('estate-management.send-complaints', ['id' => $comp->id]) }}" class="btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send</a>
+                        <a href="#" data-toggle="modal" data-target="#send_to" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send To <i style="margin-left: 7px" class="m-l-10 fa fa-chevron-right"></i></a>
+
                         @else
                         <a href="{{ route('estate-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm disabled ">Edit </a>
-                        <a href="{{ route('estate-management.send-complaints', ['id' => $comp->id]) }}" class="btn btn-sm disabled m-r-5" data-toggle="tooltip" title="">Sent </a>
+                        <a href="{{ route('estate-management.send-complaints')}}" class="btn btn-sm disabled m-r-5" data-toggle="tooltip" title="">Sent </a>
                         @endif
                      </td>
                    </tr>
@@ -72,6 +73,39 @@
 
           
           <div class="card-box">
+            <table class="table tableWithSearch">
+                <thead>
+                  <th>Client's Name</th>
+                  <th>Allocation</th>
+                  <th>Location</th>
+                  <th>Complaints</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </thead>
+                <tbody>
+                 @foreach($complaint_sent_to_dept as $comp)
+                 <tr>
+                   <td>{{ $comp->client->Name }}</td>
+                   <td>{{ $comp->allocation }}</td>
+                   <td>{{ $comp->location->Location }}</td>
+                   <td>{!! $comp->complaints !!}</td>
+                   <td>
+                     <span class="badge">Not Sent</span>
+                   </td>
+                   <td class="actions" width="170">
+                     @if(!$comp->sent())
+                      <a href="{{ route('estate-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm btn-info">Edit </a>
+                      <a href="#" data-toggle="modal" data-target="#send_to" data-comp-id="{{ $comp->id }}" class="btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send To <i style="margin-left: 7px" class="m-l-10 fa fa-chevron-right"></i></a>
+
+                      @else
+                      <a href="{{ route('estate-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm disabled ">Edit </a>
+                      <a href="#" data-toggle="modal" data-target="#comment" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-info m-r-5 m-t-5" data-toggle="tooltip" title="">Comment</a>
+                      @endif
+                   </td>
+                 </tr>
+                 @endforeach
+                </tbody>
+            </table>
           </div>
 
         </div>
@@ -91,6 +125,93 @@
   	<!-- END PANEL -->
 
 
+<!-- Modal -->
+  <div class="modal fade slide-up disable-scroll" id="send_to" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+      <div class="modal-content-wrapper">
+        <div class="modal-content">
+          <div class="modal-header clearfix text-left">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+            </button>
+            <h4>Send Complaint to Department</h4>
+            <p class="p-b-10">Choose which department to send complain to</p>
+          </div>
+          <div class="modal-body">
+
+        {{ Form::open(['action' => 'ComplaintController@send']) }}
+          <div class="row">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('current_queue', 'Department') }}
+                    <input type="hidden" name="complaint_id" value="">
+                    {{ Form::select('current_queue',[ '' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location', 'required']) }}
+                </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="">
+              <button class="btn btn-success">Send Complaint</button>
+              
+            </div>
+          </div>
+        {{ Form::close() }}
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+  </div>
+  <!-- /.modal-dialog -->
+
+
+  <!-- Comment Modal -->
+  <div class="modal fade slide-up disable-scroll" id="comment" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+      <div class="modal-content-wrapper">
+        <div class="modal-content">
+          <div class="modal-header clearfix text-left">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+            </button>
+            <h4>Comment on: </h4>
+            <p class="p-b-10">Choose which department to send complain to</p>
+          </div>
+          <div class="modal-body">
+
+        {{ Form::open(['action' => 'ComplaintController@comment']) }}
+          <div class="row">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('current_queue', 'Comment') }}
+                    <input type="hidden" name="complaint_id" value="">
+                    <textarea name="comment" id="comment" cols="30" rows="4" class="summernote"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('cost', 'Cost') }}
+                    <input type="hidden" name="complaint_id" value="">
+                    <input type="text" name="cost" class="form-control">
+                </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="">
+              <button class="btn btn-success">Post Comment</button>
+              
+            </div>
+          </div>
+        {{ Form::close() }}
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+  </div>
+  <!-- /.modal-dialog -->
  
 
 
@@ -101,6 +222,12 @@
   <script src="{{ asset('js/printThis.js') }}"></script>
   <script>
     $(function(){
+      $('.putter').click(function(e){
+        // e.preventDefault();
+        var value_ = $(this).data('comp-id');
+        var target = $(this).data('target');
+        $(target).find('[name=complaint_id]').val(value_);
+      });
     });
 
 
