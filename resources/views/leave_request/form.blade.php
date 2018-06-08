@@ -13,7 +13,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('AbsenceTypeID','Absence Type') }}
-            {{ Form::select('AbsenceTypeID', [ '' =>  'Absence Type'] + $leave_type->pluck('LeaveType', 'LeaveTypeRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Absence Type", 'data-init-plugin' => "select2"]) }}
+            {{ Form::select('AbsenceTypeID', [ '' =>  'Absence Type'] + $leave_type->pluck('LeaveType', 'LeaveTypeRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Absence Type", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
 
@@ -26,6 +26,8 @@
       </div>
     </div>
   </div>
+
+  
 
   <div class="col-md-3">
     <div class="form-group">
@@ -136,11 +138,24 @@
     @push('scripts')
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
     </script>
+    <script src="{{ asset('assets/plugins/fullcalendar/fullcalendar.js') }}" charset="utf-8"></script>
     <script>
-        $(function(){
-        $('.dp').datepicker();
-    })
-    </script>
+    $(function(){
+        var options = {
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+        };
+        $('.dp').datepicker(options);
+    });
+
+    $('.timepicker').timepicker().on('show.timepicker', function(e) {
+        var widget = $('.bootstrap-timepicker-widget');
+        widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
+        widget.find('.glyphicon-chevron-down').removeClass().addClass('pg-arrow_minimize');
+        widget.attr("style", "z-index: 9999999 !important; box-shadow: 0 6px 12px rgba(0,0,0,.175); border: 1px solid #ccc");
+    });
+  </script>
 
     <script>
         function getValue()
