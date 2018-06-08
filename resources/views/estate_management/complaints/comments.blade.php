@@ -6,12 +6,15 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Create Complaint</div>
+  			<div class="card-title pull-left">Discussion</div>
   			<div class="clearfix"></div>
-  			
-			 {{ Form::open(['action' => 'ComplaintController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}
-          @include('estate_management.complaints.form', ['buttonText' => 'Log Complaint'])
-		   {{ Form::close() }}
+  			@foreach($complaint_discussions as $cd)
+        <p>
+          <span class="commenter label label-info">{{ $cd->department->Department }}</span>
+          {!! $cd->comment !!}
+        </p> <hr>
+        @endforeach
+			 
   	</div>
 
   	<div class="card-box hide">

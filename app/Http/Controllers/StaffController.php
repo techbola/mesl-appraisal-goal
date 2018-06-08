@@ -79,9 +79,9 @@ class StaffController extends Controller
             $user->changed_password = '0';
             $user->save();
 
-            $staff         = new Staff;
-            $staff->UserID = $user->id;
-            $staff_departments = implode(',', $request->DepartmentID);
+            $staff               = new Staff;
+            $staff->UserID       = $user->id;
+            $staff_departments   = implode(',', $request->DepartmentID);
             $staff->DepartmentID = $staff_departments;
             if (auth()->user()->is_superadmin) {
                 $staff->CompanyID = $request->CompanyID;
@@ -267,22 +267,22 @@ class StaffController extends Controller
         $staff = Staff::find($id);
 
         $colors = ["#E65100", "#EF6C00", "#F57C00", "#558B2F", "#689F38", "#7CB342", "#8BC34A", "#4527A0", "#512DA8", "#5E35B1", "#673AB7", "#0277BD", "#0288D1", "#039BE5"];
-        $gantt = [];
+        $gantt  = [];
 
         // foreach ($staff->projects as $project) {
         //   // code...
         // }
         foreach ($staff->tasks as $key => $gtask) {
-          $gantt[$key]['name'] = $gtask->Task;
-          $gantt[$key]['series'] = [];
-          foreach ($gtask->steps as $step_key => $gstep) {
-            $gantt[$key]['series'][$step_key]['name'] = $gstep->Step;
-            $gantt[$key]['series'][$step_key]['sub_series'] = [];
-            $gantt[$key]['series'][$step_key]['sub_series'][0]['id'] = $step_key;
-            $gantt[$key]['series'][$step_key]['sub_series'][0]['start'] = ($gstep->StartDate)? Carbon::parse($gstep->StartDate)->format('m-d-y') : date('m-d-Y');
-            $gantt[$key]['series'][$step_key]['sub_series'][0]['end'] = ($gstep->EndDate)? Carbon::parse($gstep->EndDate)->format('m-d-y') : date('m-d-Y');
-            $gantt[$key]['series'][$step_key]['sub_series'][0]['color'] = $colors[array_rand($colors)];
-          }
+            $gantt[$key]['name']   = $gtask->Task;
+            $gantt[$key]['series'] = [];
+            foreach ($gtask->steps as $step_key => $gstep) {
+                $gantt[$key]['series'][$step_key]['name']                   = $gstep->Step;
+                $gantt[$key]['series'][$step_key]['sub_series']             = [];
+                $gantt[$key]['series'][$step_key]['sub_series'][0]['id']    = $step_key;
+                $gantt[$key]['series'][$step_key]['sub_series'][0]['start'] = ($gstep->StartDate) ? Carbon::parse($gstep->StartDate)->format('m-d-y') : date('m-d-Y');
+                $gantt[$key]['series'][$step_key]['sub_series'][0]['end']   = ($gstep->EndDate) ? Carbon::parse($gstep->EndDate)->format('m-d-y') : date('m-d-Y');
+                $gantt[$key]['series'][$step_key]['sub_series'][0]['color'] = $colors[array_rand($colors)];
+            }
         }
         $gantt = json_encode($gantt);
 
@@ -293,8 +293,8 @@ class StaffController extends Controller
     {
         $user = auth()->user();
 
-        $staffs         = Staff::all();
-        $staff          = Staff::where('StaffRef', $id)->first();
+        $staffs = Staff::all();
+        $staff  = Staff::where('StaffRef', $id)->first();
 
         $religions      = Religion::all();
         $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');
@@ -307,9 +307,9 @@ class StaffController extends Controller
         $role           = User::find($staff->UserID)->roles;
         $banks          = Bank::all();
 
-        $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+        $departments       = Department::where('CompanyID', $user->staff->CompanyID)->get();
         $staff_departments = explode(',', $staff->DepartmentID);
-        $supervisors = Staff::where('CompanyID', $user->CompanyID)->get();
+        $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
 
         // dd($role->pluck('id', 'name'));
         return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors'));
@@ -444,7 +444,6 @@ class StaffController extends Controller
                 $user_staff->middle_name = $request->MiddleName;
                 $user_staff->last_name   = $request->LastName;
 
-
                 // START PHOTO
                 if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                     $file     = $request->file('avatar');
@@ -466,9 +465,9 @@ class StaffController extends Controller
 
                 // END PHOTO
 
-                if(!$user->hasRole('admin')){
-                  $user_staff->roles()->detach();
-                  $user_staff->roles()->attach($request->role);
+                if (!$user->hasRole('admin')) {
+                    $user_staff->roles()->detach();
+                    $user_staff->roles()->attach($request->role);
                 }
             }
 
