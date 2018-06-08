@@ -107,7 +107,7 @@ class BillingController extends Controller
     public function view_bill($id)
     {
         $bill_id        = $id;
-        $client_details = Client::where('ClientRef', $id)->get();
+        $client_details = Client::where('ClientRef', $bill_id)->first();
         $bill_details   = Billing::where('ClientID', $bill_id)->get();
         return view('billings.view_bill', compact('client_details', 'bill_details'));
     }
