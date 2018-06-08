@@ -11,9 +11,14 @@ class Todo extends Model
   public $timestamps = false;
   public $primaryKey = 'TodoRef';
 
+  public function user()
+  {
+    return $this->belongsTo('Cavidel\User', 'UserID');
+  }
+
   public function initiator()
   {
-    return $this->belongsTo('App\User', 'Initiator');
+    return $this->belongsTo('Cavidel\User', 'Initiator');
   }
-  
+
 }

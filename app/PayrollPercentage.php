@@ -4,7 +4,7 @@ namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PayrollMonthly extends Model
+class PayrollPercentage extends Model
 {
     protected $table   = 'tblPayrollMonthly';
     protected $guarded = ['PayrollRef'];

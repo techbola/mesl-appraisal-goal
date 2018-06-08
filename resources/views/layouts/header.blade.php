@@ -549,7 +549,6 @@
       });
 
       channel.bind('Cavidel\\Events\\ProjectChatEvent', function(data) {
-        // console.log(data);
 
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Chat In Project: \""+data['project']+"\"", {
