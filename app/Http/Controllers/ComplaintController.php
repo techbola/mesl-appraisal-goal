@@ -148,4 +148,12 @@ class ComplaintController extends Controller
             return redirect()->route('estate-management.complaints.edit', ['id' => $id])->with('success', 'Complaint was updated successfully');
         }
     }
+
+    public function show($id)
+    {
+        $client    = Client::find($id);
+        $clients   = Client::all();
+        $locations = Location::all();
+        return view('estate_management.complaints.create2', compact('locations', 'clients', 'client'));
+    }
 }
