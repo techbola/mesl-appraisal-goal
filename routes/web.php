@@ -206,6 +206,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
 
+
+    // Score Card
+    Route::get('scorecard/create', 'ScoreCardController@create')->name('create_scorecard');
+    Route::post('save_scorecard', 'ScoreCardController@store')->name('save_scorecard');
+
+
+
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
     Route::get('/new_loan_rating', 'LoanRatingController@create')->name('new_loan_rating');
@@ -378,6 +385,8 @@ Route::get('/cda', function () {
 });
 
 Route::get('/testing', function () {
+
+  dd(date('2017-01-01', strtotime('+1 day')));
     $memo = Cavidel\CallMemo::find('17');
     return view('pdf.call_memo', compact('memo'));
 });

@@ -635,7 +635,8 @@
             dialogsInBody: true,
           });
 
-          $('.timepicker').timepicker({template: 'modal'}).on('show.timepicker', function(e) {
+
+          $('.timepicker').timepicker({template: 'modal', defaultTime: false }).on('show.timepicker', function(e) {
               var widget = $('.bootstrap-timepicker-widget');
               widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
               widget.find('.glyphicon-chevron-down').removeClass().addClass('pg-arrow_minimize');
