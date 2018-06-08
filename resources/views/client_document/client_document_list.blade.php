@@ -5,6 +5,10 @@
     .modal.fade.fill-in.in {
     background-color: rgba(107, 101, 101, 0.73);
 }
+
+tfoot{
+      display: table-header-group;
+     }
   </style>
 @endpush
 
@@ -26,17 +30,25 @@
   	<div class="card-box">
   			<div class="card-title pull-left">Document List for <span style="color: #2a9df5">{{ $client_details->Name }}</span></div><div class="clearfix"></div>
         <div class="row">
-          <table class="table tabel-hover table-striped">
+          <table  class="table tableWithExportOptions" id="transactions">
             <thead>
-              <tr>
                 <th></th>
                     <th>Uploaded Date</th>
                     <th>Document Type</th>
                     <th>Initator</th>
-                    <th>View Document</th>
-                    <th>Action</th>
-              </tr>
+                    <th>Description</th>
+                    <th >view</th>
+                    <th >Delete</th>
             </thead>
+            <tfoot class="thead">
+                    <th></th>
+                    <th>Uploaded Date</th>
+                    <th>Document Type</th>
+                    <th>Initator</th>
+                    <th>Description</th>
+                    <th >view</th>
+                    <th >Delete</th>
+            </tfoot>
             <tbody>
               @foreach($client_documents as $client_document)
               <tr>
@@ -44,8 +56,10 @@
                 <td>{{ $client_document->UploadDate }}</td>
                 <td>{{ $client_document->DocType }}</td>
                 <td>{{ $client_document->Initiator }}</td>
-                <td><a href="{{ asset( 'storage/ClientDocument/'.$client_document->Filename)}}" class="btn btn-sm btn-info">View Document</a></td>
-                <td> 
+                <td>{{ $client_document->Description }}</td>
+                <td>
+                  <a href="{{ asset( 'storage/ClientDocument/'.$client_document->Filename)}}" class="btn btn-sm btn-info">View Document</a></td>
+                  <td>
                   <a href="#" data-id="{{ $client_document->DocRef }}" data-ref="{{ $client_details->ClientRef }}"  data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-sm btn-danger"> Delete Document</a>
                 </td>
               </tr>
@@ -72,7 +86,7 @@
                 <div class="modal-body">
                   <div class="row">
                     <div class="col-md-9" style="color: #000">
-                     Thsi document will be deleted <span style="font-weight: 800" id="pat_name"></span> on Click of the button 
+                     This document will be deleted <span style="font-weight: 800" id="pat_name"></span> on Click of the button 
                     </div>
                     <div class="col-md-3 no-padding sm-m-t-10 sm-text-center">
                       {{ Form::open(['action' => 'ClientDocumentController@delete_client_document', 'autocomplete' => 'off', 'role' => 'form']) }}
@@ -110,6 +124,130 @@
 
           });
   </script>
+
+<script src="{{ asset('js/jquery.tabledit.js') }}"></script>
+<script>
+  $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+  // $('#transactions').editableTableWidget();
+  // $(document).ready(function(){
+     var settings = {
+    "sDom": "<'exportOptions'T><'table-responsive't><'row'<p i>>",
+    "sPaginationType": "bootstrap",
+    "destroy": true,
+    "scrollCollapse": true,
+    "oLanguage": {
+        "sLengthMenu": "_MENU_ ",
+        "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+    },
+     // "columnDefs": [
+     //        {
+     //            "targets": [ 3 ],
+     //            "visible": false
+     //        }
+     //    ],
+    "iDisplayLength": 20,
+    "oTableTools": {
+        "sSwfPath": "../assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
+        "aButtons": [{
+            "sExtends": "csv",
+            "sButtonText": "<i class='pg-grid'></i>",
+        }, {
+            "sExtends": "xls",
+            "sButtonText": "<i class='fa fa-file-excel-o'></i>",
+        }, {
+            "sExtends": "pdf",
+            "sButtonText": "<i class='fa fa-file-pdf-o'></i>",
+        }, {
+            "sExtends": "copy",
+            "sButtonText": "<i class='fa fa-copy'></i>",
+        }]
+    },
+    fnDrawCallback: function(oSettings) {
+        $('.export-options-container').append($('.exportOptions'));
+    }
+};
+
+
+var table = $('#transactions').DataTable(settings);
+ $('#transactions tfoot th').each(function(key, val) {
+            var title = $(this).text();
+            if (key === $('#transactions tfoot th')) {
+                return false
+            }
+            $(this).html('<input type="text" class="form-control" placeholder="' + $.trim(title) + '" />');
+        });
+ table.columns().every(function() {
+            var that = this;
+            $('input', this.footer()).on('keyup change', function() {
+                if (that.search() !== this.value) {
+                    that.search(this.value).draw();
+                }
+            });
+        });
+  // });
+</script>
+
+{{-- <script>
+var initTableWithExportOptions = function() {
+  var table = $('.tableWithExportOptions');
+      var settings = {
+        "order": [],
+          "sDom": "<'exportOptions pull-right m-t-10 m-b-10'T><'table-responsive't><'row'<p i>>",
+          "destroy": true,
+          "scrollCollapse": true,
+          "oLanguage": {
+              "sLengthMenu": "_MENU_ ",
+              "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+          },
+          "iDisplayLength": 20,
+          "oTableTools": {
+              "sSwfPath": "/assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
+              "aButtons": [{
+                  "sExtends": "csv",
+                  "sButtonText": "<i class='pg-grid'></i>",
+              }, {
+                  "sExtends": "xls",
+                  "sButtonText": "<i class='fa fa-file-excel-o'></i>",
+              }, {
+                  "sExtends": "pdf",
+                  "sButtonText": "<i class='fa fa-file-pdf-o'></i>",
+              }, {
+                  "sExtends": "copy",
+                  "sButtonText": "<i class='fa fa-copy'></i>",
+              }]
+          },
+          fnDrawCallback: function(oSettings) {
+              $('.export-options-container').append($('.exportOptions'));
+              $('#ToolTables_tableWithExportOptions_0').tooltip({
+                  title: 'Export as CSV',
+                  container: 'body'
+              });
+              $('#ToolTables_tableWithExportOptions_1').tooltip({
+                  title: 'Export as Excel',
+                  container: 'body'
+              });
+              $('#ToolTables_tableWithExportOptions_2').tooltip({
+                  title: 'Export as PDF',
+                  container: 'body'
+              });
+              $('#ToolTables_tableWithExportOptions_3').tooltip({
+                  title: 'Copy data',
+                  container: 'body'
+              });
+          }
+      };
+      table.dataTable(settings);
+}
+initTableWithExportOptions();
+</script> --}}
+
+<script>
+  $('.exportOptions').append('<span class="btn btn-info btn-cons m-l-10" onclick="window.print()"><i class="fa fa-print m-r-5"></i> Print</span>');
+</script>
 
 @endpush
 

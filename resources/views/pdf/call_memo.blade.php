@@ -401,8 +401,8 @@
     }
     </style>
 
-    <div class="" style="text-align:center;">
-      <img src="{{ asset('images/officemate.png') }}" alt="Officemate" width="250px">
+    <div class="" style="text-align:center; margin-bottom:20px">
+      <img src="{{ asset('images/logos/'.auth()->user()->staff->company->Logo) }}" alt="{{ auth()->user()->staff->company->Company }}" width="200px">
     </div>
 
     <h3 style="text-align:center">Meeting Notes For Meeting With {{ $memo->customer->Customer }}</h3>
@@ -456,6 +456,11 @@
         @endforeach
       </tbody>
     </table>
+
+
+    <div style="float:right; margin:20px 15px">
+      <img src="{{ asset('images/officemate.png') }}" alt="Officemate" width="100px">
+    </div>
 
 
   </body>
