@@ -99,6 +99,9 @@
 
                       @else
                       <a href="{{ route('estate-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm disabled ">Edit </a>
+                      @if($comp->current_queue == auth()->user()->staff->departments->first()->DepartmentRef)
+                         <a href="#" data-toggle="modal" data-target="#send_to" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send To <i style="margin-left: 7px" class="m-l-10 fa fa-chevron-right"></i></a>
+                      @endif
                       <a href="#" data-toggle="modal" data-target="#comment" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-info m-r-5 m-t-5" data-toggle="tooltip" title="">Comment</a>
                       @endif
                    </td>
@@ -114,7 +117,30 @@
 
           
           <div class="card-box">
-          
+            <table class="table tableWithSearch">
+                <thead>
+                  <th>Client's Name</th>
+                  <th>Allocation</th>
+                  <th>Location</th>
+                  <th>Complaints</th>
+                  <th>View Comments</th>
+                </thead>
+                <tbody>
+                 @foreach($complaint_sent_to_dept as $comp)
+                 <tr>
+                   <td>{{ $comp->client->Name }}</td>
+                   <td>{{ $comp->allocation }}</td>
+                   <td>{{ $comp->location->Location }}</td>
+                   <td>{!! $comp->complaints !!}</td>
+                   <td>
+                     <a href="{{ route('estate-management.view-comments', ['id' => $comp->id]) }}">
+                        View Discussions
+                     </a>
+                   </td>
+                 </tr>
+                 @endforeach
+                </tbody>
+            </table>
           </div>
 
         </div>

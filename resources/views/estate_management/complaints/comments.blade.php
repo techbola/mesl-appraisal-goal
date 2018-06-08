@@ -6,11 +6,11 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Discussion on: </div>
+  			<div class="card-title pull-left">Discussion</div>
   			<div class="clearfix"></div>
   			@foreach($complaint_discussions as $cd)
         <p>
-          <span class="commenter text-info">{{ $cd->id }}</span>
+          <span class="commenter label label-info">{{ $cd->department->Department }}</span>
           {!! $cd->comment !!}
         </p> <hr>
         @endforeach

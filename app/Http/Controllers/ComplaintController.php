@@ -23,6 +23,7 @@ class ComplaintController extends Controller
         $staff                  = auth()->user()->staff;
         $my_departments         = Department::whereIn('DepartmentRef', $staff->departments)->get();
         $complaint_sent_to_dept = Complaint::whereIn('current_queue', $my_departments)->get();
+        $complaint_discussions  = Complaint::whereIn('current_queue', $my_departments)->get();
 
         return view('estate_management.complaints.index', compact('locations', 'clients', 'complaints', 'departments', 'complaint_sent_to_dept'));
     }
@@ -100,7 +101,7 @@ class ComplaintController extends Controller
                 'status'          => $request->status,
                 'has_cost'        => $request->has_cost ?? 0,
                 'cost'            => $request->cost,
-                'queue_sender_id' => auth()->user()->id, //dept_id
+                'queue_sender_id' => auth()->user()->staff->departments->first()->DepartmentRef ?? 1, //dept_id
             ]);
             DB::commit();
             return redirect()->route('estate-management.complaints.index')->with('success', 'Feedback posted. ');
@@ -114,7 +115,10 @@ class ComplaintController extends Controller
     public function view_comments($id)
     {
         $complaint             = Complaint::find($id);
-        $complaint_discussions = $complaint->comments;
+        $complaint_discussions = $complaint->comments->transform(function ($item, $key) {
+            $item->department = Department::find($item->queue_sender_id);
+            return $item;
+        });
         return view('estate_management.complaints.comments', compact('complaint_discussions', 'complaint'));
     }
 

@@ -10,6 +10,6 @@ class ComplaintComment extends Model
 
     public function complaint()
     {
-        return $this->hasOne(Complaint::class);
+        return $this->hasOne(Complaint::class, 'complaint_id');
     }
 }
