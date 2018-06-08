@@ -28,4 +28,14 @@ class Complaint extends Model
         return $this->hasOne(Client::class, 'ClientRef', 'client_id');
     }
 
+    public function status()
+    {
+        if ($this->resolved_flag === true) {
+            return 'resolved';
+        } else {
+            return 'pending';
+        }
+
+    }
+
 }

@@ -50,7 +50,7 @@
                      <td>{{ $comp->location->Location }}</td>
                      <td>{!! $comp->complaints !!}</td>
                      <td>
-                       <span class="badge">Not Sent</span>
+                       <span class="badge">{{ $comp->status() }}</span>
                      </td>
                      <td class="actions" width="140">
                        @if(!$comp->sent())
@@ -90,7 +90,7 @@
                    <td>{{ $comp->location->Location }}</td>
                    <td>{!! $comp->complaints !!}</td>
                    <td>
-                     <span class="badge">Not Sent</span>
+                     <span class="badge">{{ $comp->status() }}</span>
                    </td>
                    <td class="actions" width="170">
                      @if(!$comp->sent())
