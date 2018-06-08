@@ -45,8 +45,8 @@
                 <td>{{ $client_document->DocType }}</td>
                 <td>{{ $client_document->Initiator }}</td>
                 <td><a href="{{ asset( 'storage/ClientDocument/'.$client_document->Filename)}}" class="btn btn-sm btn-info">View Document</a></td>
-                <td>
-                  <a href="#" data-id="{{ $client_document->DocRef }}"  data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-sm btn-danger"> Delete Document</a>
+                <td> 
+                  <a href="#" data-id="{{ $client_document->DocRef }}" data-ref="{{ $client_details->ClientRef }}"  data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-sm btn-danger"> Delete Document</a>
                 </td>
               </tr>
               @endforeach
@@ -77,7 +77,8 @@
                     <div class="col-md-3 no-padding sm-m-t-10 sm-text-center">
                       {{ Form::open(['action' => 'ClientDocumentController@delete_client_document', 'autocomplete' => 'off', 'role' => 'form']) }}
                             <input type="hidden" name="doc_id" id="getValue">
-                            <input type="submit" class="btn btn-sm btn-danger" value="Create New Bill">
+                            <input type="hidden" name="client_id" id="getRef">
+                            <input type="submit" class="btn btn-sm btn-danger" value="Delete Document">
                       {{ Form::close() }}
                       {{-- <a href="{{ route('NotificationBilling',[$customerDetails->PatientRef]) }}" class="btn btn-primary btn-lg btn-large fs-15" title="">Create Bill</a> --}}
                     </div>
@@ -103,6 +104,9 @@
     $(document).on("click", "#btnFillSizeToggler2", function() {
             var id = $(this).data('id');
             $("#modalFillIn #getValue").val(id);
+
+             var ref = $(this).data('ref');
+            $("#modalFillIn #getRef").val(ref);
 
           });
   </script>

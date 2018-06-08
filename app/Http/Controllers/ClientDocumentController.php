@@ -63,10 +63,11 @@ class ClientDocumentController extends Controller
 
     public function delete_client_document(Request $request)
     {
-        $id    = $request->doc_id;
-        $trans = ClientDocument::where('DocRef', '=', $id)->delete();
+        $id         = $request->doc_id;
+        $client_ref = $request->client_id;
+        $trans      = ClientDocument::where('DocRef', '=', $id)->delete();
         if ($trans) {
-            return redirect()->route('Client_Document_List', [$id])->with('success', 'Document Deleted Successfully');
+            return redirect()->route('Client_Document_List', [$client_ref])->with('success', 'Document Deleted Successfully');
         } else {
             return redirect()->back()->with('error', 'Document deletion was not successful');
         }

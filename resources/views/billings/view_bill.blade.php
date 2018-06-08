@@ -26,26 +26,23 @@
             <thead>
               <tr>
                 <th></th>
+                    <th>Billing Code</th>
                     <th>Billing Date</th>
-                    <th>Document Type</th>
-                    <th>Initator</th>
-                    <th>View Document</th>
+                    <th>Add to bill</th>
                     <th>Action</th>
               </tr>
             </thead>
             <tbody>
-            {{--   @foreach($client_documents as $client_document)
+              @foreach($client_details as $client_detail)NotificationBilling
               <tr>
                 <td>{{ $loop->index + 1 }}</td>
-                <td>{{ $client_document->UploadDate }}</td>
-                <td>{{ $client_document->DocType }}</td>
-                <td>{{ $client_document->Initiator }}</td>
-                <td><a href="{{ asset( 'storage/ClientDocument/'.$client_document->Filename)}}" class="btn btn-sm btn-info">View Document</a></td>
-                <td>
-                  <a href="#" data-id="{{ $client_document->DocRef }}"  data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-sm btn-danger"> Delete Document</a>
-                </td>
+                <td>{{ $client_detail->GroupID }}</td>{id}/{billcode}
+                <td>{{ $client_detail->BillingDate }}</td>
+                <td><a href="{{ route('NotificationBilling',[$investigation->DocRef]) }}" class="btn btn-sm btn-info"></a>Add Item</td>
+                <td><a href="#" class="btn btn-sm btn-success"></a>View Bill</td>
+                
               </tr>
-              @endforeach --}}
+              @endforeach
             </tbody>
           </table>
         </div>

@@ -104,9 +104,12 @@ class BillingController extends Controller
         return view('billings.bill', compact('client_details', 'code', 'bill_header', 'total_bill', 'bills'));
     }
 
-    // public function view_bill()
-    // {
-    //     public
-    // }
+    public function view_bill($id)
+    {
+        $bill_id        = $id;
+        $client_details = Client::where('ClientRef', $id)->get();
+        $bill_details   = Billing::where('ClientID', $bill_id)->get();
+        return view('billings.view_bill', compact('client_details', 'bill_details'));
+    }
 
 }
