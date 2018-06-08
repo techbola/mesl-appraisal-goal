@@ -33,8 +33,6 @@ Route::group(['middleware' => 'guest'], function () {
 
     Route::post('/company_registration', 'LoginController@register_company')->name('register_company');
 
-    // Route::get('/edit_company', 'LoginController@register_company')->name('register_company');
-
     Route::get('/activate_pass/{id}/{code}', 'LoginController@activate_pass')->name('activate_pass');
     Route::patch('/activate_pass2/{id}/{code}', 'LoginController@activate_pass2')->name('activate_pass2');
 });
@@ -44,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+    Route::get('/edit-company/{id}', 'CompanyController@edit')->name('edit_company');
+    Route::patch('/update-company/{id}', 'CompanyController@update')->name('update_company');
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
@@ -208,8 +209,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Score Card
-    Route::get('scorecard/create', 'ScoreCardController@create')->name('create_scorecard');
-    Route::post('save_scorecard', 'ScoreCardController@store')->name('save_scorecard');
+    Route::get('scorecard/create/{id}', 'ScoreCardController@create')->name('create_scorecard');
+    Route::post('save_scorecard/{id}', 'ScoreCardController@store')->name('save_scorecard');
 
 
 
@@ -388,7 +389,6 @@ Route::get('/cda', function () {
 
 Route::get('/testing', function () {
 
-  dd(date('2017-01-01', strtotime('+1 day')));
     $memo = Cavidel\CallMemo::find('17');
     return view('pdf.call_memo', compact('memo'));
 });

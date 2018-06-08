@@ -20,7 +20,7 @@
         New Score Card
       </h3>
 
-      <form class="" action="{{ route('save_scorecard') }}" method="post">
+      <form class="" action="{{ route('save_scorecard', $staff->StaffRef) }}" method="post">
         {{ csrf_field() }}
         <table class="table table-bordered table-stripped">
           <thead>
