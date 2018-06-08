@@ -56,6 +56,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone Number</th>
+                <th>Address</th>
                 <th width="30%">Actions</th>
               </tr>
             </thead>
@@ -66,6 +67,7 @@
                 <td>{{ $result->Name }}</td>
                 <td>{{ $result->Email }}</td>
                 <td>{{ $result->Phone }}</td>
+                <td>{{ $result->Address }}</td>
                 <td>
                   <a href="#" data-id="{{ $result->ClientRef }}" data-pat="{{ $result->Name }}"  data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-sm btn-success"><i class="fa fa-cc-mastercard"></i>  Create Bill</a>
                   <a href="{{ route('View_Client_Bill_List',[$result->ClientRef]) }}" title="" class="btn btn-sm btn-warning"><i class="fa fa-clipboard"></i>  view Bill(s)</a>

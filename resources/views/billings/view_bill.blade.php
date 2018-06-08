@@ -34,7 +34,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach($client_documents as $client_document)
+            {{--   @foreach($client_documents as $client_document)
               <tr>
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $client_document->UploadDate }}</td>
@@ -45,7 +45,7 @@
                   <a href="#" data-id="{{ $client_document->DocRef }}"  data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-sm btn-danger"> Delete Document</a>
                 </td>
               </tr>
-              @endforeach
+              @endforeach --}}
             </tbody>
           </table>
         </div>
