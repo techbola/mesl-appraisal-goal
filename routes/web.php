@@ -207,12 +207,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
 
-
     // Score Card
     Route::get('scorecard/create/{id}', 'ScoreCardController@create')->name('create_scorecard');
     Route::post('save_scorecard/{id}', 'ScoreCardController@store')->name('save_scorecard');
-
-
 
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
@@ -387,6 +384,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('complaints/view-comment/{id}', 'ComplaintController@view_comments')->name('view-comments');
         Route::post('complaints/comment', 'ComplaintController@comment')->name('post-comment');
         Route::post('complaints/send', 'ComplaintController@send')->name('send-complaints');
+        // Route::get('complaints', 'ComplaintController');
         Route::resource('complaints', 'ComplaintController');
     });
 });
