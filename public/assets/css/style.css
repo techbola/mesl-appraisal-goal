@@ -1013,7 +1013,7 @@ ul.nav-tabs.outside + .tab-content > .tab-pane > .card-box {
 }
 
 /* badges inside tables tds */
-td > .badge, .modal .badge {
+td > .badge, .modal .badge, .card-box .badge {
   padding: 4px 10px !important;
 }
 
@@ -1040,4 +1040,10 @@ td > .badge, .modal .badge {
 /* Fix New Bootstrap Popover */
 .note-popover.popover.in.note-table-popover.bottom {
   z-index: 9999999999;
+}
+
+a[href$="docx"]::after{
+  font-family: 'FontAwesome';
+  font-size: 2em;
+  content: '\f1c2';
 }

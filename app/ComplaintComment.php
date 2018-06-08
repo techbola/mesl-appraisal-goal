@@ -12,4 +12,9 @@ class ComplaintComment extends Model
     {
         return $this->hasOne(Complaint::class, 'complaint_id');
     }
+
+    public function attachments()
+    {
+        return $this->hasMany(ComplaintAttachment::class, 'comment_id');
+    }
 }
