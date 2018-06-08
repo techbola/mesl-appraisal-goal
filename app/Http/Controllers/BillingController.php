@@ -108,7 +108,11 @@ class BillingController extends Controller
     {
         $bill_id        = $id;
         $client_details = Client::where('ClientRef', $bill_id)->first();
-        $bill_details   = Billing::where('ClientID', $bill_id)->get();
+        $bill_details   = Billing::select('GroupID', 'BillingDate')
+            ->where('ClientID', $bill_id)
+            ->groupBy('GroupID', 'BillingDate')
+            ->orderBy('BillingDate', 'DESC')
+            ->get();
         return view('billings.view_bill', compact('client_details', 'bill_details'));
     }
 
