@@ -52,6 +52,8 @@
       @endif
       @foreach ($contact->call_memos as $memo)
 
+@if (in_array($user->email, explode(',', $memo->AttendeeEmails)))
+
         <tbody>
           <tr id="parent_{{ $memo->CallMemoRef }}">
             <td class="details-control" style="cursor:pointer"><i class="fa fa-plus-circle text-success f20" onclick="toggle_row('{{ $memo->CallMemoRef }}')"></i></td>
@@ -137,9 +139,9 @@
               <tr class="action_row">
                 <td></td>
                 <td><span class="label label-{{ $action->status->Color }} pull-right">{{ $action->status->Status }}</span></td>
-                <td class="small"><i class="fa fa-bullseye text-muted m-r-5 f16"></i> {{ $action->ActionPoint }}</td>
+                <td class="small"><i class="fa fa-bullseye text-muted m-r-5 f16"></i> {!! $action->ActionPoint !!}</td>
                 <td class="small"><i class="fa fa-user text-muted m-r-5 f15"></i> {{ $action->user->FullName }}</td>
-                <td class="small"><i class="pg-comment text-muted m-r-5 f15"></i> {{ $action->Comment ?? '&mdash;' }}</td>
+                <td class="small"><i class="pg-comment text-muted m-r-5 f15"></i> {!! $action->Comment ?? '&mdash;' !!}</td>
                 <td class="small">
                   <i class="fa fa-clock-o text-muted m-r-5 f16"></i> {{ $action->StartDate.' - '.$action->EndDate  }}
 
@@ -154,6 +156,8 @@
 
           @endforeach
         </tbody>
+
+@endif
         @endforeach
     </table>
   </div>

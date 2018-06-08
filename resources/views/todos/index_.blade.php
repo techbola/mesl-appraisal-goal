@@ -28,7 +28,6 @@
 
   <div class="row">
     <div class="col-md-7">
-
       {{-- <div class="card-box">
         @include('todos.form')
       </div> --}}
@@ -52,7 +51,6 @@
       </div>
       {{-- END TABS --}}
 
-
     </div>
 
 
@@ -61,7 +59,7 @@
 
 
   <!-- Modal -->
-  <div class="modal fade slide-up disable-scroll" id="new_todo" tabindex="-1" role="dialog" aria-hidden="false">
+  <div class="modal fade slide-up disable-scroll" id="new_todo" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
         <div class="modal-content">

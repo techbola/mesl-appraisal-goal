@@ -435,7 +435,8 @@ audio, canvas, progress, video {
 /* NOTIF */
 .notif-list {
   padding: 10px;
-  font-size: 15px;
+  /* font-size: 15px; */
+  font-size: 13px;
 }
 .notif-list li {
   padding: 10px 0;
@@ -876,7 +877,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media (max-width: 991px) {
   .header {
-    background-color: #36404a !important;  
+    background-color: #36404a !important;
   }
 }
 
@@ -1034,4 +1035,9 @@ td > .badge, .modal .badge {
   width: 100%;
   border: 1px solid #ddd !important;
   border-radius: 3px !important;
+}
+
+/* Fix New Bootstrap Popover */
+.note-popover.popover.in.note-table-popover.bottom {
+  z-index: 9999999999;
 }

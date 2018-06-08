@@ -7,7 +7,6 @@
     "require": {
         "php": ">=5.6.4",
         "barryvdh/laravel-debugbar": "~2.4",
-
         "barryvdh/laravel-dompdf": "^0.8.2",
         "codesleeve/laravel-stapler": "dev-master",
         "guzzlehttp/guzzle": "^6.3",
@@ -29,7 +28,9 @@
             "app/helpers.php"
         ],
         "classmap": [
-            "database"
+            "database",
+            "app/Http/Controllers",
+            "app/"
         ],
         "psr-4": {
             "Cavidel\\": "app/"

@@ -47,7 +47,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // Task owner (assignee)
         Gate::define('task-owner', function ($user, $task) {
-          return ($user->staff->StaffRef == $task->StaffID);
+          return ($user->staff->StaffRef == $task->StaffID || $user->staff->StaffRef == $task->project->SupervisorID);
         });
 
         // Project supervisor & company admins

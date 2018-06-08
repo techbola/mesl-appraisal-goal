@@ -6,9 +6,10 @@
 @section('page-title')
   Internal Memo
 @endsection
-
+ 
 @section('buttons')
   <a href="{{ route('memos.create') }}" class="btn btn-info btn-rounded pull-right" >New Memo</a>
+  <a href="{{ route('memos_approvallist') }}" class="btn btn-info btn-rounded m-r-5 pull-right" >Approvals <span class="badge m-l-5">{{ $unapproved_memos->count() }}</span></a>
 @endsection
 
 @section('content')
@@ -193,14 +194,14 @@
             </div>
             <div class="clearfix"></div>
             <div class="row">
-              <div class="col-sm-6">
+              <div class="col-sm-10">
                 <p class=""><b>Subject: </b> <span class="memo-subject"></span></p>
                 <p class=""><b>Purpose: </b> <span class="memo-purpose"></span></p>
-                <p class=""><b>Recipients: </b> <span class="memo-recipients"></span></p>
+                <p class=""><b>To: </b> <span class="memo-recipients"></span></p>
                 <p class=""><b>Approvers: </b> <span class="memo-approvers"></span></p>
                 <label class="badge memo-status"></label>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-2">
                 <div class="memo-approved text-right"></div>
               </div>
             </div>

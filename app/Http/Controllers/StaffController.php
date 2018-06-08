@@ -25,6 +25,7 @@ use Cavidel\User;
 use Cavidel\StaffPending;
 use Cavidel\PayrollAdjustmentGroup;
 use Illuminate\Http\Request;
+use Carbon;
 
 use DB;
 use Notification;
@@ -52,11 +53,13 @@ class StaffController extends Controller
             $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
             $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
         }
-        return view('staff.index_', compact('staffs', 'companies', 'roles'));
+        $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+        return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments'));
     }
 
     public function post_invite(Request $request)
     {
+
         $this->validate($request, [
             'first_name' => 'required',
             'last_name'  => 'required',
@@ -76,8 +79,10 @@ class StaffController extends Controller
             $user->changed_password = '0';
             $user->save();
 
-            $staff         = new Staff;
-            $staff->UserID = $user->id;
+            $staff               = new Staff;
+            $staff->UserID       = $user->id;
+            $staff_departments   = implode(',', $request->DepartmentID);
+            $staff->DepartmentID = $staff_departments;
             if (auth()->user()->is_superadmin) {
                 $staff->CompanyID = $request->CompanyID;
             } else {
@@ -242,33 +247,55 @@ class StaffController extends Controller
 
     public function show($id)
     {
-        $detail = \DB::table('tblStaff')
-            ->leftJoin('tblReligion', 'tblStaff.ReligionID', '=', 'tblReligion.ReligionRef')
-            ->leftJoin('tblState', 'tblStaff.StateID', '=', 'tblState.StateRef')
-            ->leftJoin('tblCountry', 'tblStaff.CountryID', '=', 'tblCountry.CountryRef')
-            ->leftJoin('tblMaritalStatus', 'tblStaff.MaritalStatusID', '=', 'tblMaritalStatus.MaritalStatusRef')
-            ->leftJoin('tblHMO', 'tblStaff.HMOID', '=', 'tblHMO.HMORef')
-            ->leftJoin('tblHMOPlan', 'tblStaff.HMOPlanID', '=', 'tblHMOPlan.HMOPlanRef')
-            ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
-            ->leftJoin('tblDepartment', 'tblStaff.DepartmentID', '=', 'tblDepartment.DepartmentRef')
-            ->leftJoin('tblUnit', 'tblStaff.UnitID', '=', 'tblUnit.UnitRef')
-            ->leftJoin('roles', 'tblStaff.RoleID', '=', 'roles.id')
-            ->leftJoin('tblPosition', 'tblStaff.PositionID', '=', 'tblPosition.PositionRef')
-            ->leftJoin('tblGradeLevel', 'tblStaff.GradeLevelID', '=', 'tblGradeLevel.GradeLevelRef')
-            ->leftJoin('tblPFA', 'tblStaff.PFAID', '=', 'tblPFA.PFARef')
-            ->where('StaffRef', $id)
-            ->first();
+        // $detail = \DB::table('tblStaff')
+        //     ->leftJoin('tblReligion', 'tblStaff.ReligionID', '=', 'tblReligion.ReligionRef')
+        //     ->leftJoin('tblState', 'tblStaff.StateID', '=', 'tblState.StateRef')
+        //     ->leftJoin('tblCountry', 'tblStaff.CountryID', '=', 'tblCountry.CountryRef')
+        //     ->leftJoin('tblMaritalStatus', 'tblStaff.MaritalStatusID', '=', 'tblMaritalStatus.MaritalStatusRef')
+        //     ->leftJoin('tblHMO', 'tblStaff.HMOID', '=', 'tblHMO.HMORef')
+        //     ->leftJoin('tblHMOPlan', 'tblStaff.HMOPlanID', '=', 'tblHMOPlan.HMOPlanRef')
+        //     ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
+        //     ->leftJoin('tblDepartment', 'tblStaff.DepartmentID', '=', 'tblDepartment.DepartmentRef')
+        //     ->leftJoin('tblUnit', 'tblStaff.UnitID', '=', 'tblUnit.UnitRef')
+        //     ->leftJoin('roles', 'tblStaff.RoleID', '=', 'roles.id')
+        //     ->leftJoin('tblPosition', 'tblStaff.PositionID', '=', 'tblPosition.PositionRef')
+        //     ->leftJoin('tblGradeLevel', 'tblStaff.GradeLevelID', '=', 'tblGradeLevel.GradeLevelRef')
+        //     ->leftJoin('tblPFA', 'tblStaff.PFAID', '=', 'tblPFA.PFARef')
+        //     ->where('StaffRef', $id)
+        //     ->first();
 
         $staff = Staff::find($id);
-        return view('staff.show', compact('detail', 'staff'));
+
+        $colors = ["#E65100", "#EF6C00", "#F57C00", "#558B2F", "#689F38", "#7CB342", "#8BC34A", "#4527A0", "#512DA8", "#5E35B1", "#673AB7", "#0277BD", "#0288D1", "#039BE5"];
+        $gantt  = [];
+
+        // foreach ($staff->projects as $project) {
+        //   // code...
+        // }
+        foreach ($staff->tasks as $key => $gtask) {
+            $gantt[$key]['name']   = $gtask->Task;
+            $gantt[$key]['series'] = [];
+            foreach ($gtask->steps as $step_key => $gstep) {
+                $gantt[$key]['series'][$step_key]['name']                   = $gstep->Step;
+                $gantt[$key]['series'][$step_key]['sub_series']             = [];
+                $gantt[$key]['series'][$step_key]['sub_series'][0]['id']    = $step_key;
+                $gantt[$key]['series'][$step_key]['sub_series'][0]['start'] = ($gstep->StartDate) ? Carbon::parse($gstep->StartDate)->format('m-d-y') : date('m-d-Y');
+                $gantt[$key]['series'][$step_key]['sub_series'][0]['end']   = ($gstep->EndDate) ? Carbon::parse($gstep->EndDate)->format('m-d-y') : date('m-d-Y');
+                $gantt[$key]['series'][$step_key]['sub_series'][0]['color'] = $colors[array_rand($colors)];
+            }
+        }
+        $gantt = json_encode($gantt);
+
+        return view('staff.show', compact('detail', 'staff', 'gantt'));
     }
 
     public function edit_biodata($id)
     {
         $user = auth()->user();
 
-        $staffs         = Staff::all();
-        $staff          = Staff::where('StaffRef', $id)->first();
+        $staffs = Staff::all();
+        $staff  = Staff::where('StaffRef', $id)->first();
+
         $religions      = Religion::all();
         $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');
         $status         = MaritalStatus::all();
@@ -279,8 +306,13 @@ class StaffController extends Controller
         $roles          = Role::where('CompanyID', $user->staff->CompanyID)->get();
         $role           = User::find($staff->UserID)->roles;
         $banks          = Bank::all();
+
+        $departments       = Department::where('CompanyID', $user->staff->CompanyID)->get();
+        $staff_departments = explode(',', $staff->DepartmentID);
+        $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
+
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors'));
     }
 
     public function editFinanceDetails($id)
@@ -361,14 +393,13 @@ class StaffController extends Controller
 
     public function updatebiodata(Request $request, $id)
     {
-// dd($request->all());
 
         $this->validate($request, [
             // 'TownCity'           => 'required',
-            'MobilePhone'  => 'required',
-            'AddressLine1' => 'required',
-            'StateID'      => 'required',
-            'CountryID'    => 'required',
+            // 'MobilePhone'  => 'required',
+            // 'AddressLine1' => 'required',
+            // 'StateID'      => 'required',
+            // 'CountryID'    => 'required',
             // 'NextofKIN'          => 'required',
             // 'NextofKIN_Phone'    => 'required',
             // 'PhotographLocation' => 'required',
@@ -405,6 +436,9 @@ class StaffController extends Controller
                 // END PHOTO
 
             } else {
+                $staff_departments = implode(',', $request->DepartmentID);
+                // dd($staff_departments);
+                $staff->DepartmentID = $staff_departments;
 
                 $user_staff->first_name  = $request->FirstName;
                 $user_staff->middle_name = $request->MiddleName;
@@ -431,13 +465,13 @@ class StaffController extends Controller
 
                 // END PHOTO
 
-                if(!$user->hasRole('admin')){
-                  $user_staff->roles()->detach();
-                  $user_staff->roles()->attach($request->role);
+                if (!$user->hasRole('admin')) {
+                    $user_staff->roles()->detach();
+                    $user_staff->roles()->attach($request->role);
                 }
             }
 
-            $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar', 'role']));
+            $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar', 'role', 'DepartmentID']));
             $staff->save();
 
             DB::commit();

@@ -26,6 +26,10 @@ class Staff extends Model implements StaplerableInterface
     {
         return $this->hasMany('Cavidel\ProjectTask', 'StaffID', 'StaffRef');
     }
+    public function departments()
+    {
+        return $this->hasMany(Department::class, 'DepartmentRef', 'DepartmentID');
+    }
     public function getProjectsAttribute()
     {
         $staff_id = $this->StaffRef;
@@ -69,6 +73,11 @@ class Staff extends Model implements StaplerableInterface
     public function bank()
     {
         return $this->hasOne(Bank::class, 'BankRef', 'BankID');
+    }
+
+    public function scorecards()
+    {
+      return $this->hasMany('Cavidel\ScoreCard', 'StaffID');
     }
 
     public function __construct(array $attributes = array())

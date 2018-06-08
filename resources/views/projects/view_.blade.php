@@ -143,7 +143,7 @@
 
 
   <!-- EDIT Modal -->
-  <div class="modal fade slide-up disable-scroll" id="edit_project" role="dialog" aria-hidden="false">
+  <div class="modal fade slide-up" id="edit_project" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
         <div class="modal-content">
@@ -165,7 +165,7 @@
   {{-- END EDIT MODAL --}}
 
   {{-- START USER TASKS MODAL --}}
-  <div class="modal fade slide-up disable-scroll" id="user_tasks" tabindex="-1" role="dialog" aria-hidden="false">
+  <div class="modal fade slide-up" id="user_tasks" tabindex="-1" role="dialog" aria-hidden="false">
     <div class="modal-dialog">
       <div class="modal-content-wrapper">
         <div class="modal-content">
@@ -459,6 +459,9 @@
     };
   </script>
   {{-- End Gantt --}}
+  <script>
+    $('.summernote').summernote();
+  </script>
 @endpush
 
 @push('vue')

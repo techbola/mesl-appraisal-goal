@@ -36,7 +36,12 @@ class EventScheduleController extends Controller
       $events_array[$count]['ref'] = $event->EventRef;
       $events_array[$count]['title'] = $event->Event;
       $events_array[$count]['start'] = $event->StartDate;
-      $events_array[$count]['end'] = $event->EndDate;
+
+      $date[$count] = date_create($event->EndDate);
+      date_add($date[$count], date_interval_create_from_date_string('1 days'));
+      $end_date = date_format($date[$count], 'Y-m-d');
+
+      $events_array[$count]['end'] = $end_date;
       $events_array[$count]['description'] = str_limit($event->Description, '100');
       $count++;
     }

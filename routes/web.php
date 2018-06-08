@@ -2,7 +2,6 @@
 // Please leave the arrangement of this file as is
 
 Auth::routes();
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 Route::group(['domain' => 'officemate.test'], function () {
     Route::any('/123', function () {
@@ -44,6 +43,7 @@ Route::get('/activate/{id}/{code}', 'LoginController@activate')->name('activate'
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
@@ -108,12 +108,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('bulletin/{id}', 'BulletinController@view_bulletin')->name('view_bulletin');
 
     // post forum messages
-    Route::post('/send/forum-post', 'ForumPostController@createPost');
-    Route::post('/send/forum-comment', 'ForumPostController@postComment');
-    Route::get('/load/forum-post', 'ForumPostController@loadPosts');
-    Route::get('/forum/reply/post/{id}', 'ForumPostController@comments');
-    Route::get('/load/post/title/{id}', 'ForumPostController@loadCard');
-    Route::get('/load/comments/{id}', 'ForumPostController@loadComments');
+    // Route::post('/send/forum-post', 'ForumPostController@createPost');
+    // Route::post('/send/forum-comment', 'ForumPostController@postComment');
+    // Route::get('/load/forum-post', 'ForumPostController@loadPosts');
+    // Route::get('/forum/reply/post/{id}', 'ForumPostController@comments');
+    // Route::get('/load/post/title/{id}', 'ForumPostController@loadCard');
+    // Route::get('/load/comments/{id}', 'ForumPostController@loadComments');
 
     Route::resource('roles', 'RoleController');
     Route::get('/assignroles', 'UserRoleAssignmentController@create')->name('roleassignment');
@@ -182,7 +182,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('todos', 'TodoController@index')->name('todos');
     Route::get('todos-calendar', 'TodoController@todos_calendar')->name('todos_calendar');
-    Route::get('get_todos', 'TodoController@get_todos')->name('get_todos'); // AJAX
+    Route::get('get_todos/{staff?}', 'TodoController@get_todos')->name('get_todos'); // AJAX
     Route::post('save_todo', 'TodoController@save_todo')->name('save_todo');
     Route::patch('update_todo/{id}', 'TodoController@update_todo')->name('update_todo');
     Route::get('toggle_todo/{id}', 'TodoController@toggle_todo')->name('toggle_todo'); // AJAX
@@ -205,6 +205,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('call-memo/email_attendees/{memo}', 'CallMemoController@email_attendees')->name('email_attendees');
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
+
+
+    // Score Card
+    Route::get('scorecard/create', 'ScoreCardController@create')->name('create_scorecard');
+    Route::post('save_scorecard', 'ScoreCardController@store')->name('save_scorecard');
+
+
 
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
@@ -372,6 +379,15 @@ Route::middleware(['auth'])->group(function () {
     // main memo routes
     Route::resource('memos', 'MemoController');
     // End Memorandum
+
+    // Estate Management
+
+    Route::name('estate-management.')->prefix('estate-management')->group(function () {
+        Route::get('complaints/view-comment/{id}', 'ComplaintController@view_comments')->name('view-comments');
+        Route::post('complaints/comment', 'ComplaintController@comment')->name('post-comment');
+        Route::post('complaints/send', 'ComplaintController@send')->name('send-complaints');
+        Route::resource('complaints', 'ComplaintController');
+    });
 });
 
 Route::get('/cls', function () {
@@ -388,6 +404,8 @@ Route::get('/cda', function () {
 });
 
 Route::get('/testing', function () {
+
+  dd(date('2017-01-01', strtotime('+1 day')));
     $memo = Cavidel\CallMemo::find('17');
     return view('pdf.call_memo', compact('memo'));
 });

@@ -91,19 +91,21 @@
         <ul class="menu-items" style="margin-top: 30px">
 
           {{-- DASHBOARD ONLY --}}
-          @foreach($parent_menus as $menu)
-            <?php if($menu->name != 'Dashboard') continue; ?>
-           <li  {{-- @if($parent_menus->first() == $menu) class="m-t-30" @endif --}} >
-            <a href="{{ $menu->route != '#' ? route($menu->route) : "#" }}" class="">
-              <span class="title">{{$menu->name }}</span>
-              @if($menu->children()->count() > 0 )
-              <span class="arrow"></span>
-              @endif
-            </a>
-            <span class="icon-thumbnail">{{ substr($menu->name, 0, 2) }}</span>
-            {{$menu->hasSubmenu($menu->id ) }}
-          </li>
-          @endforeach
+          {{-- @foreach($parent_menus as $menu)
+            @if($menu->name != 'Dashboard') continue; @endif --}}
+            @if ($dashboard)
+              <li>
+                <a href="{{ $dashboard->route != '#' ? route($dashboard->route) : "#" }}" class="">
+                  <span class="title">{{$dashboard->name }}</span>
+                  @if(count($dashboard->children) > 0 )
+                    <span class="arrow"></span>
+                  @endif
+                </a>
+                <span class="icon-thumbnail">{{ substr($dashboard->name, 0, 2) }}</span>
+                {{$dashboard->hasSubmenu($dashboard->id ) }}
+              </li>
+            @endif
+          {{-- @endforeach --}}
 
           {{-- OTHERS EXCEPT DASHBOARD --}}
           @foreach($parent_menus as $menu)
@@ -111,7 +113,7 @@
            <li>
             <a href="{{ $menu->route != '#' ? route($menu->route) : "#" }}" class="">
               <span class="title" data-toggle="tooltip" data-placement="right" title="{{ $menu->name }}">{{$menu->name }}</span>
-              @if($menu->children()->count() > 0 )
+              @if(count($menu->children) > 0 )
               <span class="arrow"></span>
               @endif
             </a>
@@ -547,7 +549,6 @@
       });
 
       channel.bind('Cavidel\\Events\\ProjectChatEvent', function(data) {
-        // console.log(data);
 
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Chat In Project: \""+data['project']+"\"", {
@@ -630,10 +631,12 @@
               // ['height', ['height']],
               ['table', ['table']],
               ['insert', ['link', 'picture']],
-            ]
+            ],
+            dialogsInBody: true,
           });
 
-          $('.timepicker').timepicker({template: 'modal'}).on('show.timepicker', function(e) {
+
+          $('.timepicker').timepicker({template: 'modal', defaultTime: false }).on('show.timepicker', function(e) {
               var widget = $('.bootstrap-timepicker-widget');
               widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
               widget.find('.glyphicon-chevron-down').removeClass().addClass('pg-arrow_minimize');

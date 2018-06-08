@@ -61,6 +61,13 @@
                   {{ Carbon::parse($step->StartDate)->format('jS M, Y') }} &mdash; {{ Carbon::parse($step->EndDate)->format('jS M, Y') }}
                 </div>
               @endif
+              @if ($step->CompletedDate)
+                <div class="small text-success">
+                  <i class="fa fa-check m-r-5"></i> {{ Carbon::parse($step->EndDate)->format('jS M, Y') }}
+                </div>
+              @endif
+              <div class="clearfix"></div>
+
             </div>
 
 
