@@ -39,7 +39,7 @@ class ScoreCardController extends Controller
         $row->InitiatorID = $user->staff->StaffRef;
         $row->save();
       }
-      return redirect()->route('staff.show', $staff->StaffRef)->with('success', 'Score card was saved successfully.');
+      return redirect()->back()->with('success', 'Score card was saved successfully.');
   }
 
   public function update(Request $request, $id){
