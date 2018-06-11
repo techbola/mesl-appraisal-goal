@@ -17,8 +17,8 @@
 @endsection
 
 @section('buttons')
-  <a href="{{ route('LeaveRequest') }}" class="btn btn-info btn-rounded pull-right" >Add New Client</a> &nbsp &nbsp
-  <a href="{{ route('LeaveRequest') }}" class="btn btn-success btn-rounded pull-right" >Add New Product or Service</a>
+  {{-- <a href="{{ route('LeaveRequest') }}" class="btn btn-info btn-rounded pull-right" >Add New Client</a> &nbsp &nbsp
+  <a href="{{ route('LeaveRequest') }}" class="btn btn-success btn-rounded pull-right" >Add New Product or Service</a> --}}
 @endsection
 
 @section('content')
@@ -72,7 +72,7 @@
                   <a href="#" data-id="{{ $result->ClientRef }}" data-pat="{{ $result->Name }}"  data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-xs btn-success"><i class="fa fa-cc-mastercard"></i>  Create Bill</a>
                   <a href="{{ route('View_Client_Bill_List',[$result->ClientRef]) }}" title="" class="btn btn-xs btn-warning"><i class="fa fa-clipboard"></i>  view Bill(s)</a>
                   <a href="{{ route('Client_Document_List',[$result->ClientRef]) }}" title="" class="btn btn-xs btn-info"><i class="fa fa-file-text-o"></i>  Documents</a>
-                  {{-- <a href="{{ route('estate-management.complaints',[$result->ClientRef]) }}" title="" class="btn btn-xs btn-info"><i class="fa fa-file-text-o"></i>  Documents</a> --}}
+                  <a href="{{ route('estate-management.complaints.show',[$result->ClientRef]) }}" title="" class="btn btn-xs btn-primary"><i class="fa fa-file-text-o"></i> Fix My House</a>
                 </td>
               </tr>
               @endforeach

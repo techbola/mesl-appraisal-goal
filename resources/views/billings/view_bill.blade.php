@@ -20,7 +20,7 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Bill List for <span style="color: #2a9df5">{{ $client_details->Name }}</span></div><div class="clearfix"></div>
+  			<div class="card-title pull-left">Bills List for <span style="color: #2a9df5">{{ $client_details->Name }}</span></div><div class="clearfix"></div>
         <div class="row">
           <table class="table tabel-hover table-striped">
             <thead>
@@ -33,13 +33,13 @@
               </tr>
             </thead>
             <tbody>
-              @foreach($client_details as $client_detail)NotificationBilling
+              @foreach($bill_details as $bill_detail)
               <tr>
                 <td>{{ $loop->index + 1 }}</td>
-                <td>{{ $client_detail->GroupID }}</td>{id}/{billcode}
-                <td>{{ $client_detail->BillingDate }}</td>
-                <td><a href="{{-- {{ route('NotificationBilling',[$investigation->DocRef]) }} --}}" class="btn btn-sm btn-info"></a>Add Item</td>
-                <td><a href="#" class="btn btn-sm btn-success"></a>View Bill</td>
+                <td>{{ $bill_detail->GroupID }}</td>
+                <td>{{ $bill_detail->BillingDate }}</td>
+                <td><a href="{{ route('NotificationBilling',[$client_details->ClientRef, $bill_detail->GroupID]) }}" class="btn btn-sm btn-info">Add Item</a></td>
+                <td><a href="{{ route('Bill',[$client_details->ClientRef, $bill_detail->GroupID]) }}" class="btn btn-sm btn-success">View Bill</a></td>
                 
               </tr>
               @endforeach
