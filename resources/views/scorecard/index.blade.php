@@ -58,7 +58,13 @@
 
           <td class="actions">
             <a href="#" class="btn btn-xs btn-inverse" data-toggle="modal" data-target="#edit_item" @click="edit_item({{ $score }})">Edit</a>
-            {{-- <a href="#" class="btn btn-xs btn-danger">Delete</a> --}}
+            @can ('company-admin')
+              <a onclick="confirm2('Delete this item?', '', 'delete_{{ $score->ScoreCardRef }}')" class="btn btn-xs btn-danger">Delete</a>
+              <form id="delete_{{ $score->ScoreCardRef }}" class="hidden" action="{{ route('delete_scorecard', $score->ScoreCardRef) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+              </form>
+            @endcan
           </td>
 
         </tr>

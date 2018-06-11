@@ -59,4 +59,12 @@ class ScoreCardController extends Controller
       return redirect()->back()->with('success', 'Score card was updated successfully.');
   }
 
+  public function delete(Request $request, $id)
+  {
+    $score = ScoreCard::find($id);
+
+    $score->delete();
+    return redirect()->back()->with('success', 'Score card item was deleted successfully.');
+  }
+
 }

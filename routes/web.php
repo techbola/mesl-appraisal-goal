@@ -212,6 +212,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('update_scorecard/{id}', 'ScoreCardController@update')->name('update_scorecard');
     Route::get('scorecard/create/{id}', 'ScoreCardController@create')->name('create_scorecard');
     Route::post('save_scorecard/{id}', 'ScoreCardController@store')->name('save_scorecard');
+    Route::delete('delete_scorecard/{id}', 'ScoreCardController@delete')->name('delete_scorecard');
 
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');
