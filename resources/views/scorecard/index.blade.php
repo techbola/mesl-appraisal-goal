@@ -11,7 +11,10 @@
 @section('content')
 
   <div class="card-box">
-    <div class="card-title">Your Score Card</div>
+    <div class="card-title pull-left">Your Score Card</div>
+    <div class="pull-right">
+				<input type="text" class="search-table form-control pull-right" placeholder="Search">
+		</div>
     <table class="table table-bordered table-striped tableWithSearch">
     <thead>
       <tr>
