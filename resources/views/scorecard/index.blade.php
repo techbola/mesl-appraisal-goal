@@ -55,7 +55,7 @@
 
           <td class="actions">
             <a href="#" class="btn btn-xs btn-inverse" data-toggle="modal" data-target="#edit_item" @click="edit_item({{ $score }})">Edit</a>
-            <a href="#" class="btn btn-xs btn-danger">Delete</a>
+            {{-- <a href="#" class="btn btn-xs btn-danger">Delete</a> --}}
           </td>
 
         </tr>
