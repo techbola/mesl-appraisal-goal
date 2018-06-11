@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('buttons')
-  <a href="{{ route('estate-management.complaints.index') }}" class="btn btn-info btn-rounded pull-right" >Complaints List</a>
+  <a href="{{ route('facility-management.complaints.index') }}" class="btn btn-info btn-rounded pull-right" >Complaints List</a>
 @endsection
 @section('content')
 
@@ -15,10 +15,8 @@
               <span class="commenter badge badge-info">{{ $cd->department->Department }}</span> <br><br>
               {!! $cd->comment !!}
               <b>Cost:</b> {{ nairazify(number_format($cd->cost, 2)) }} <br>
-              <p>Attachments</p>
-              @foreach(collect($comments->where('id',$cd->id)->first()->attachments)->all() as $v)
-              <span><a href="{{ asset('storage/complaint_attachments/'.$v->attachment_location) }}"></a></span>
-              @endforeach
+              {{-- <p>Attachments</p> --}}
+             
             </div>
 
 
@@ -27,7 +25,11 @@
                 <i class="test-info">
                   {{ \Carbon\Carbon::parse($cd->created_at)->diffForHumans() }}
                 </i>
-              </span>
+              </span> <br>
+
+                @foreach(collect($comments->where('id',$cd->id)->first()->attachments)->all() as $v)
+                  <div><a href="{{ asset('storage/complaint_attachments/'.$v->attachment_location) }}"></a></div>
+                @endforeach
             </div>
          </div>
         </div> <hr>

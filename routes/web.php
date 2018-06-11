@@ -383,7 +383,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Estate Management
 
-    Route::name('estate-management.')->prefix('estate-management')->group(function () {
+    Route::name('facility-management.')->prefix('facility-management')->group(function () {
         Route::get('complaints/view-comment/{id}', 'ComplaintController@view_comments')->name('view-comments');
         Route::post('complaints/comment', 'ComplaintController@comment')->name('post-comment');
         Route::post('complaints/send', 'ComplaintController@send')->name('send-complaints');
