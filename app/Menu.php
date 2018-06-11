@@ -36,13 +36,9 @@ class Menu extends Model
     public function hasSubmenu($menu_id)
     {
         $user   = Auth::user();
-        $system = Menu::where('name', 'System Setup')->first();
 
-        // $menu = Menu::find($menu_id);
         if ($user->is_superadmin || $user->hasRole('admin')) {
             $user_submenus = Menu::where('parent_id', $menu_id)->with('children')->get();
-        } elseif ($user->hasRole('admin')) {
-            $user_submenus = Menu::where('parent_id', $menu_id)->where('parent_id', '!=', $system->id)->with('children')->get();
         } else {
             $user_submenus = \Auth::user()->roles()->first()->menus->where('parent_id', $menu_id);
         }

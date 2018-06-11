@@ -51,7 +51,7 @@ class User extends Authenticatable
     }
     public function inbox()
     {
-        return $this->belongsToMany('Cavidel\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->withPivot('IsRead', 'IsDeleted');
+        return $this->belongsToMany('Cavidel\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->with('sender')->withPivot('IsRead', 'IsDeleted');
     }
     public function sent_messages()
     {

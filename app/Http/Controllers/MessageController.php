@@ -140,7 +140,7 @@ class MessageController extends Controller
       $msg['recipients'] = $people;
 
       DB::commit();
-      
+
       Event::fire(new NewMessageEvent($msg));
       $people_users = User::whereIn('id', $people)->get();
       Notification::send($people_users, new NewMessage($message));
