@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('buttons')
-  <a href="{{ route('estate-management.complaints.index') }}" class="btn btn-info btn-rounded pull-right" >Complaints List</a>
+  <a href="{{ route('facility-management.complaints.index') }}" class="btn btn-info btn-rounded pull-right" >Complaints List</a>
 @endsection
 @section('content')
 
@@ -9,8 +9,8 @@
   			<div class="card-title pull-left">Create Complaint</div>
   			<div class="clearfix"></div>
   			
-			 {{ Form::model($client,['action' => 'ComplaintController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}
-          @include('estate_management.complaints.form', ['buttonText' => 'Log Complaint'])
+			 {{ Form::open(['action' => 'ComplaintController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}
+          @include('facility_management.complaints.form', ['buttonText' => 'Log Complaint'])
 		   {{ Form::close() }}
   	</div>
 

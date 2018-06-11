@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('buttons')
-  <a href="{{ route('estate-management.complaints.index') }}" class="btn btn-info btn-rounded pull-right" >Complaints List</a>
+  <a href="{{ route('facility-management.complaints.index') }}" class="btn btn-info btn-rounded pull-right" >Complaints List</a>
 @endsection
 @section('content')
 
