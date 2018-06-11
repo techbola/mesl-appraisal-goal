@@ -27,8 +27,8 @@
             <tr>
               <th>KPI</th>
               <th>Target</th>
-              <th>Achievement</th>
-              <th>Comment</th>
+              {{-- <th>Achievement</th>
+              <th>Comment</th> --}}
               <th>PeriodFrom</th>
               <th>PeriodTo</th>
               <th></th>
@@ -45,14 +45,16 @@
               <td>
                 <input type="text" name="Target[]" class="form-control input-sm" value="" required>
               </td>
+
               {{-- ACHIEVEMENT --}}
-              <td>
+              {{-- <td>
                 <input type="text" name="Achievement[]" class="form-control input-sm" value="" required>
-              </td>
+              </td> --}}
               {{-- COMMENT --}}
-              <td>
+              {{-- <td>
                 <input type="text" name="Comment[]" class="form-control input-sm" value="" required>
-              </td>
+              </td> --}}
+
               {{-- PERIOD FROM --}}
               <td>
                 <div class="input-group date dp">

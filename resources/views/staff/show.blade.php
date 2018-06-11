@@ -55,7 +55,9 @@
     		  <li class="{{ (isset($_GET['gantt']))? 'active':'' }}"><a data-toggle="tab" href="#gantt" onclick="load_gantt()">Gantt Chart</a></li>
     		  <li class="{{ (isset($_GET['todos']))? 'active':'' }}"><a data-toggle="tab" href="#todos" onclick="load_todos()">To-Dos</a></li>
     		  <li><a data-toggle="tab" href="#scorecard">Score Card</a></li>
+    		  <li><a data-toggle="tab" href="#scorecard">Task Update Reports</a></li>
     		</ul>
+
         <div class="tab-content">
           <div id="biodata" class="tab-pane fade {{ (isset($_GET['gantt']) || isset($_GET['todos']))? '':'in active' }}">
             @include('staff.block_biodata')

@@ -1,4 +1,4 @@
-<a href="{{ route('create_scorecard', $staff->StaffRef) }}" class="btn btn-sm btn-info pull-right"><i class="fa fa-plus"></i> Create ScoreCard</a>
+{{-- <a href="{{ route('create_scorecard', $staff->StaffRef) }}" class="btn btn-sm btn-info pull-right"><i class="fa fa-plus"></i> Create ScoreCard</a> --}}
 
 
 
