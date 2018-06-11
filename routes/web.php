@@ -208,6 +208,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
 
     // Score Card
+    Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
+    Route::patch('update_scorecard/{id}', 'ScoreCardController@update')->name('update_scorecard');
     Route::get('scorecard/create/{id}', 'ScoreCardController@create')->name('create_scorecard');
     Route::post('save_scorecard/{id}', 'ScoreCardController@store')->name('save_scorecard');
 
