@@ -28,14 +28,14 @@ class ComplaintController extends Controller
         $complaint_sent_to_dept = Complaint::whereIn('current_queue', $my_departments)->get();
         $complaint_discussions  = Complaint::whereIn('current_queue', $my_departments)->get();
 
-        return view('estate_management.complaints.index', compact('locations', 'clients', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept'));
+        return view('facility_management.complaints.index', compact('locations', 'clients', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept'));
     }
 
     public function create()
     {
         $clients   = Client::all();
         $locations = Location::all();
-        return view('estate_management.complaints.create', compact('locations', 'clients'));
+        return view('facility_management.complaints.create', compact('locations', 'clients'));
     }
 
     public function send(Request $request)
@@ -47,7 +47,7 @@ class ComplaintController extends Controller
             $complaint->current_queue = $request->current_queue; // department that sees it next
             $complaint->save();
             DB::commit();
-            return redirect()->route('estate-management.complaints.index')->with('success', 'Complaint was sent successfully');
+            return redirect()->route('facility-management.complaints.index')->with('success', 'Complaint was sent successfully');
 
         } catch (Exception $e) {
             DB::rollback();
@@ -64,7 +64,7 @@ class ComplaintController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('estate-management.complaints.index')->with('danger', 'Complaints failed to save');
+            return redirect()->route('facility-management.complaints.index')->with('danger', 'Complaints failed to save');
         }
 
         //  save record
@@ -74,7 +74,7 @@ class ComplaintController extends Controller
             DB::beginTransaction();
             $complaint->save();
             DB::commit();
-            return redirect()->route('estate-management.complaints.create')->with('success', 'Compaints have been saved successfully');
+            return redirect()->route('facility-management.complaints.create')->with('success', 'Compaints have been saved successfully');
 
         } catch (Exception $e) {
             DB::rollback();
@@ -88,7 +88,7 @@ class ComplaintController extends Controller
         $complaint = Complaint::find($id);
         $clients   = Client::all();
         $locations = Location::all();
-        return view('estate_management.complaints.edit', compact('complaint', 'clients', 'locations'));
+        return view('facility_management.complaints.edit', compact('complaint', 'clients', 'locations'));
 
     }
 
@@ -121,7 +121,7 @@ class ComplaintController extends Controller
                     }
                 }
                 DB::commit();
-                return redirect()->route('estate-management.complaints.index')->with('success', 'Feedback posted. ');
+                return redirect()->route('facility-management.complaints.index')->with('success', 'Feedback posted. ');
             }
 
         } catch (Exception $e) {
@@ -138,14 +138,14 @@ class ComplaintController extends Controller
             $item->department = Department::find($item->queue_sender_id);
             return $item;
         });
-        return view('estate_management.complaints.comments', compact('complaint_discussions', 'complaint', 'comments'));
+        return view('facility_management.complaints.comments', compact('complaint_discussions', 'complaint', 'comments'));
     }
 
     public function update(Request $request, $id)
     {
         $complaint = Complaint::find($id);
         if ($complaint->update($request->all())) {
-            return redirect()->route('estate-management.complaints.edit', ['id' => $id])->with('success', 'Complaint was updated successfully');
+            return redirect()->route('facility-management.complaints.edit', ['id' => $id])->with('success', 'Complaint was updated successfully');
         }
     }
 
@@ -154,6 +154,6 @@ class ComplaintController extends Controller
         $client    = Client::find($id);
         $clients   = Client::all();
         $locations = Location::all();
-        return view('estate_management.complaints.create2', compact('locations', 'clients', 'client'));
+        return view('facility_management.complaints.create2', compact('locations', 'clients', 'client'));
     }
 }

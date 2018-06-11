@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('buttons')
-  <a href="{{ route('estate-management.complaints.create') }}" class="btn btn-info btn-rounded pull-right" >New Complaint</a>
+  <a href="{{ route('facility-management.complaints.create') }}" class="btn btn-info btn-rounded pull-right" >New Complaint</a>
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
 	<div class="clearfix"></div>
 	{{ Form::model($complaint, ['action' => ['ComplaintController@update', $complaint->id ], 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
 		{{ method_field('PATCH') }}
-		@include('estate_management.complaints.form', ['buttonText' => 'Update Complaint'])
+		@include('facility_management.complaints.form', ['buttonText' => 'Update Complaint'])
 	{{ Form::close() }}
 </div>
 @endsection

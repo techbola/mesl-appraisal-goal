@@ -8,7 +8,7 @@
 @endsection
 
 @section('buttons')
-  <a href="{{ route('estate-management.complaints.create') }}" class="btn btn-info btn-rounded pull-right" >Log Complaints</a>
+  <a href="{{ route('facility-management.complaints.create') }}" class="btn btn-info btn-rounded pull-right" >Log Complaints</a>
 @endsection
 
 @section('content')
@@ -54,12 +54,12 @@
                      </td>
                      <td class="actions" width="140">
                        @if(!$comp->sent())
-                        <a href="{{ route('estate-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm btn-info">Edit </a>
+                        <a href="{{ route('facility-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm btn-info">Edit </a>
                         <a href="#" data-toggle="modal" data-target="#send_to" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send To <i style="margin-left: 7px" class="m-l-10 fa fa-chevron-right"></i></a>
 
                         @else
-                        <a href="{{ route('estate-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm disabled ">Edit </a>
-                        <a href="{{ route('estate-management.send-complaints')}}" class="btn btn-sm disabled m-r-5" data-toggle="tooltip" title="">Sent </a>
+                        <a href="{{ route('facility-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm disabled ">Edit </a>
+                        <a href="{{ route('facility-management.send-complaints')}}" class="btn btn-sm disabled m-r-5" data-toggle="tooltip" title="">Sent </a>
                         @endif
                      </td>
                    </tr>
@@ -94,11 +94,11 @@
                    </td>
                    <td class="actions" width="170">
                      @if(!$comp->sent())
-                      <a href="{{ route('estate-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm btn-info">Edit </a>
+                      <a href="{{ route('facility-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm btn-info">Edit </a>
                       <a href="#" data-toggle="modal" data-target="#send_to" data-comp-id="{{ $comp->id }}" class="btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send To <i style="margin-left: 7px" class="m-l-10 fa fa-chevron-right"></i></a>
 
                       @else
-                      <a href="{{ route('estate-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm disabled ">Edit </a>
+                      <a href="{{ route('facility-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm disabled ">Edit </a>
                       @if($comp->current_queue == auth()->user()->staff->departments->first()->DepartmentRef)
                          <a href="#" data-toggle="modal" data-target="#send_to" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send To <i style="margin-left: 7px" class="m-l-10 fa fa-chevron-right"></i></a>
                       @endif
@@ -133,7 +133,7 @@
                    <td>{{ $comp->location->Location }}</td>
                    <td>{!! $comp->complaints !!}</td>
                    <td>
-                     <a href="{{ route('estate-management.view-comments', ['id' => $comp->id]) }}">
+                     <a href="{{ route('facility-management.view-comments', ['id' => $comp->id]) }}">
                         View Discussions
                      </a>
                    </td>

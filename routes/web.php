@@ -316,6 +316,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('post_client_document', 'ClientDocumentController@store_client_document');
     Route::post('delete_client_document', 'ClientDocumentController@delete_client_document');
 
+    //ProductService
+    Route::post('store_product_srvice', 'ProductServiceController@store');
+
     // -- payroll
 
     Route::get('payroll/details', 'PayrollController@details')->name('payroll.details');
@@ -382,7 +385,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Estate Management
 
-    Route::name('estate-management.')->prefix('estate-management')->group(function () {
+    Route::name('facility-management.')->prefix('facility-management')->group(function () {
         Route::get('complaints/view-comment/{id}', 'ComplaintController@view_comments')->name('view-comments');
         Route::post('complaints/comment', 'ComplaintController@comment')->name('post-comment');
         Route::post('complaints/send', 'ComplaintController@send')->name('send-complaints');

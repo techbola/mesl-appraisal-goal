@@ -4,7 +4,9 @@ namespace Cavidel\Http\Controllers;
 
 use Cavidel\Client;
 use Cavidel\Billing;
+use Cavidel\Location;
 use Cavidel\ProductCategory;
+use Cavidel\ProductService;
 use Cavidel\Staff;
 use Illuminate\Http\Request;
 
@@ -12,14 +14,18 @@ class BillingController extends Controller
 {
     public function search_client()
     {
-        return view('billings.search_client');
+        $product_categories = ProductCategory::all();
+        $locations          = Location::all();
+        return view('billings.search_client', compact('product_categories', 'locations'));
     }
 
     public function client_search(Request $request)
     {
-        $client_name = $request->client_name;
-        $results     = Client::where('Name', 'like', '%' . $client_name . '%')->get();
-        return view('billings.search_result', compact('results'));
+        $product_categories = ProductCategory::all();
+        $locations          = Location::all();
+        $client_name        = $request->client_name;
+        $results            = Client::where('Name', 'like', '%' . $client_name . '%')->get();
+        return view('billings.search_result', compact('results', 'product_categories', 'locations'));
     }
 
     public function new_bill(Request $request)

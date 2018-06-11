@@ -19,8 +19,7 @@
 @endsection
 
 @section('buttons')
-  <a href="{{ route('LeaveRequest') }}" class="btn btn-info btn-rounded pull-right" >Add New Client</a> &nbsp &nbsp
-  <a href="{{ route('LeaveRequest') }}" class="btn btn-success btn-rounded pull-right" >Add New Product or Service</a>
+
 @endsection
 
 @section('content')
@@ -72,22 +71,22 @@
                   </div><hr>
 
                   <div class="row" style="padding: 20px">
-                    <table class="table table-hover">
+                    <table class="table table-hover table-bordered">
                       <thead>
-                        <th style="color: #000">S/N</th>
-                        <th style="color: #000">Service</th>
-                        <th style="color: #000">Unit Price</th>
-                        <th style="color: #000">Qty</th>
-                        <th style="color: #000">Amount</th>
+                        <th style="color: #000; text-align: center; color: #000 !important">S/N</th>
+                        <th style="color: #000; text-align: center; color: #000 !important">Service</th>
+                        <th style="color: #000; text-align: center; color: #000 !important">Unit Price</th>
+                        <th style="color: #000; text-align: center; color: #000 !important">Qty</th>
+                        <th style="color: #000; text-align: center; color: #000 !important">Amount</th>
                       </thead>
                       <tbody>
                         @foreach($bills as $bill)
                         <tr>
-                          <td>{{ $loop->index + 1 }}</td>
-                          <td>{{ $bill->Produt_ServiceType }}</td>
-                          <td>{{ $bill->UnitPrice }}</td>
-                          <td>{{ $bill->Quantity }}</td>
-                          <td>{{ $bill->Price }}</td>
+                          <td style="text-align: center;">{{ $loop->index + 1 }}</td>
+                          <td style="text-align: center;">{{ $bill->Produt_ServiceType }}</td>
+                          <td style="text-align: center;">{{ $bill->UnitPrice }}</td>
+                          <td style="text-align: center;">{{ $bill->Quantity }}</td>
+                          <td style="text-align: center;">{{ $bill->Price }}</td>
                         </tr>
                         @endforeach
                       </tbody>
@@ -96,8 +95,8 @@
                         <td></th>
                         <td></th>
                         <td></th>
-                        <td style="font-weight: 800; background: #95cbf5">Tax</th>
-                        <td style="font-weight: 800; background: #95cbf5"></th>
+                        <td style="font-weight: 800; background: #95cbf5; text-align: center;">Tax</th>
+                        <td style="font-weight: 800; background: #95cbf5; text-align: center;"></th>
                         </tr>
                       </tfoot>
                       <tfoot>
@@ -105,8 +104,8 @@
                           <td></th>
                         <td></th>
                         <td></th>
-                        <td style="font-weight: 800">Total</th>
-                        <td style="font-weight: 800">&#8358;{{ number_format($total_bill,2) }}</th>
+                        <td style="font-weight: 800; text-align: center;">Total</th>
+                        <td style="font-weight: 800; text-align: center;">&#8358;{{ number_format($total_bill,2) }}</th>
                         </tr>
                       </tfoot>
                     </table>
