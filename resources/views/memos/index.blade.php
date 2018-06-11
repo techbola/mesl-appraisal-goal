@@ -210,7 +210,7 @@
             
           </div>
           <div class="modal-footer">
-            <div class="files"></div>
+            <span class="files"></span>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -261,7 +261,7 @@
           if(data.attachments.length > 0 ){
             $.each(data.attachments, function(index, val) {
                $('#show-memo .modal-footer .files').append(`
-                <a target="_blank" href="${ memo_path+val.attachment_location}"></a>&nbsp;
+                <a target="_blank" href="${ memo_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
               `);
             });
           }
