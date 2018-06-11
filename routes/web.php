@@ -314,6 +314,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('post_client_document', 'ClientDocumentController@store_client_document');
     Route::post('delete_client_document', 'ClientDocumentController@delete_client_document');
 
+    //ProductService
+    Route::post('store_product_srvice', 'ProductServiceController@store');
+
     // -- payroll
 
     Route::get('payroll/details', 'PayrollController@details')->name('payroll.details');

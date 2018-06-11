@@ -1,4 +1,13 @@
 @extends('layouts.master')
+
+@push('styles')
+  <style>
+    .modal.fade.fill-in.in {
+    background-color: rgba(107, 101, 101, 0.73);
+}
+  </style>
+@endpush
+
 @section('title')
   Search for Client(s)
 @endsection
@@ -8,8 +17,8 @@
 @endsection
 
 @section('buttons')
-  {{-- <a href="{{ route('LeaveRequest') }}" class="btn btn-info btn-rounded pull-right" >Add New Client</a> &nbsp &nbsp
-  <a href="{{ route('LeaveRequest') }}" class="btn btn-success btn-rounded pull-right" >Add New Product or Service</a> --}}
+  <a href="#" data-target="#modalFillIn2" data-toggle="modal" id="btnFillSizeToggler2"  class="btn btn-info btn-rounded pull-right" >Add New Client</a> &nbsp &nbsp
+   <a href="#" data-target="#modalFillIn3" data-toggle="modal" id="btnFillSizeToggler3"  class="btn btn-success btn-rounded pull-right" >Add New Product or Service</a>
 @endsection
 
 @section('content')
@@ -33,6 +42,177 @@
         </div>
   	</div>
   	<!-- END PANEL -->
+
+
+      <div class="page-content-wrapper ">
+<div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="modalFillIn2" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div style="background: #fff; width: 900px; padding: 30px">
+                <div class="modal-header">
+                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #000">Add New Client</span></h5>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+
+                      {{ Form::open(['action' => 'ClientController@store', 'autocomplete' => 'off', 'role' => 'form']) }}
+                            <div class="row">
+
+                              <div class="col-sm-4">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('FileNo' ) }}
+                                               {{ Form::text('FileNo', null, ['class' => 'form-control', 'placeholder' => 'Enter File No', 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-sm-4">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('Name' ) }}
+                                               {{ Form::text('Name', null, ['class' => 'form-control', 'placeholder' => 'Client Name', 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-sm-4">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('HouseType' ) }}
+                                               {{ Form::text('HouseType', null, ['class' => 'form-control', 'placeholder' => 'House Type', 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-sm-4">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('BlockAllocation' ) }}
+                                               {{ Form::text('BlockAllocation', null, ['class' => 'form-control', 'placeholder' => 'Input Block Allocation', 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-sm-4">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('UnitAllocation' ) }}
+                                               {{ Form::text('UnitAllocation', null, ['class' => 'form-control', 'placeholder' => 'Input Unit Allocation', 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-sm-4">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('Phone' ) }}
+                                               {{ Form::text('Phone', null, ['class' => 'form-control', 'placeholder' => 'Phone Number', 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-sm-4">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('Email' ) }}
+                                               {{ Form::text('Email', null, ['class' => 'form-control', 'placeholder' => 'Input Email Address']) }}
+                                       </div>
+                                  </div>
+                              </div>
+
+                            </div>
+                            <input type="submit" class="btn btn-sm btn-info pull-right" value="Create New Client">
+                      {{ Form::close() }}
+                  </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+                </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+      </div>
+
+
+       <div class="page-content-wrapper ">
+<div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="modalFillIn3" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div style="background: #fff; width: 600px; padding: 30px">
+                <div class="modal-header">
+                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #000">Add New Product or Service</span></h5>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+
+                      {{ Form::open(['action' => 'ProductServiceController@store', 'autocomplete' => 'off', 'role' => 'form']) }}
+
+                              <div class="col-sm-6">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('Product Category' ) }}
+                                              {{ Form::select('CategoryID', [ '' =>  'Select Product Category'] + $product_categories->pluck('ProductCategory', 'ProductCategoryRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Product Category", 'data-init-plugin' => "select2", 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-sm-6">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('Product Service' ) }}
+                                               {{ Form::text('ProductService', null, ['class' => 'form-control', 'placeholder' => 'Product Service', 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+                              <div class="clearfix"></div>
+
+                              <div class="col-sm-6">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('Location' ) }}
+                                               {{ Form::select('LocationID', [ '' =>  'Select Location'] + $locations->pluck('Location', 'LocationRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Location", 'data-init-plugin' => "select2", 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-sm-6">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('Price' ) }}
+                                               {{ Form::text('Price', null, ['class' => 'form-control', 'placeholder' => 'Price', 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+                            <input type="submit" class="btn btn-sm btn-info pull-right" value="Add Product or Service">
+                      {{ Form::close() }}
+                  </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+                </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+      </div>
 @endsection
 
 @push('scripts')

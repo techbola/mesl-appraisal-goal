@@ -11,7 +11,7 @@
 
   <div class="card-box">
     <div class="clearfix">
-      <div class="card-title pull-left">Clients Management</div>
+      <div class="card-title pull-left">Create New Client</div>
       <div class="pull-right">
         <div class="col-xs-12">
           <input type="text" class="search-table form-control pull-right" placeholder="Search">
@@ -19,26 +19,6 @@
       </div>
     </div>
 
-    <table class="table tableWithSearch table-striped table-condensed">
-      <thead>
-        <tr>
-          <th>Client Name</th>
-          <th>Projects</th>
-          <th>Date Added</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        @foreach ($clients as $client)
-          <tr>
-            <td>{{ $client->Name }}</td>
-            <td>{{ count($client->projects) }}</td>
-            <td>{{ $client->created_at ?? '' }}</td>
-          </tr>
-        @endforeach
-      </tbody>
-
-    </table>
 
   </div>
 
