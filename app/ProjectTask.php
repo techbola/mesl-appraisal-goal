@@ -31,7 +31,7 @@ class ProjectTask extends Model
   }
   public function updates()
   {
-    return $this->hasMany('Cavidel\TaskUpdate', 'TaskID', 'TaskRef');
+    return $this->hasMany('Cavidel\TaskUpdate', 'TaskID', 'TaskRef')->orderBy('created_at', 'desc');
   }
 
   public function getProgressAttribute()

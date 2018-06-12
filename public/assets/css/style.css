@@ -421,18 +421,22 @@ audio, canvas, progress, video {
 .my-list {
     padding-left: 0px;
 }
-.my-list>li {
+.my-list li {
     padding: 10px 0;
-    border-bottom: 1px solid #f1f1f1;
+    /* border-bottom: 1px solid #f1f1f1; */
+    border-bottom: 1px solid #dddddd;
     margin-bottom: 0;
     list-style: none;
 }
-.my-list>li:first-child {
+.my-list li:first-child {
     padding-top: 0px;
 }
-.my-list>li:last-child {
+.my-list li:last-child {
     border-bottom: none;
     padding-bottom: 0;
+}
+.my-list.uniform li:first-child, .my-list.uniform li:first-child {
+  padding: 10px 0;
 }
 /* NOTIF */
 
