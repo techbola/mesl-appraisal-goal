@@ -969,7 +969,7 @@ ul.nav-tabs.outside+.tab-content>.tab-pane>.card-box {
 }
 /* badges inside tables tds */
 
-td>.badge, .modal .badge, .card-box .badge {
+td>.badge, .modal .badge {
     padding: 4px 10px !important;
 }
 /* download icon inside memo table */

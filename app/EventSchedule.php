@@ -11,6 +11,15 @@ class EventSchedule extends Model
   protected $primaryKey   = 'EventRef';
   // protected $dates = ['StartDate', 'EndDate']; // Breaks fullcalendar
 
+  static public function boot()
+  {
+      parent::boot();
+
+      static::addGlobalScope(function ($query) {
+          $query->orderBy('StartDate', 'desc');
+      });
+  }
+
   public function poster()
   {
     return $this->belongsTo('Cavidel\User', 'Initiator');

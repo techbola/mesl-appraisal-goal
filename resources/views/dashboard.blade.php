@@ -1,57 +1,36 @@
 @extends('layouts.master')
+
+@section('page-title')
+  Dashboard
+@endsection
+
 @section('content')
   {{-- <div class="text-center">
     <img src="{{ asset('assets/img/backgrounds/cavidel-slide.jpg') }}" alt="" width="95%">
   </div> --}}
 
-  <div class="row">
+  <style media="screen">
+    img.icon {
+      filter: sepia(0.3);
+    }
+  </style>
 
-    {{-- <div class="col-md-4">
-      <!-- START WIDGET widget_statTile-->
-      <div class="widget-10 panel no-border bg-white no-margin widget-loader-bar">
-        <div class="panel-heading top-left top-right ">
-          <div class="panel-title text-black hint-text">
-            <span class="font-montserrat fs-11 all-caps">Weekly Sales <i class="fa fa-chevron-right"></i></span>
-          </div>
-          <div class="panel-controls">
-            <ul>
-              <li><a data-toggle="refresh" class="portlet-refresh text-black" href="#"><i class="portlet-icon portlet-icon-refresh"></i></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="panel-body p-t-40">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4 class="no-margin p-b-5 text-danger semi-bold">APPL 2.032</h4>
-              <div class="pull-left small">
-                <span>WMHC</span>
-                <span class=" text-success font-montserrat"><i class="fa fa-caret-up m-l-10"></i> 9%</span>
-              </div>
-              <div class="pull-left m-l-20 small">
-                <span>HCRS</span>
-                <span class=" text-danger font-montserrat"><i class="fa fa-caret-up m-l-10"></i> 21%</span>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-          </div>
-          <div class="p-t-10 full-width">
-            <a href="#" class="btn-circle-arrow b-grey"><i class="pg-arrow_minimize text-danger"></i></a>
-            <span class="hint-text small">Show more</span>
-          </div>
-        </div>
-      </div>
-      <!-- END WIDGET -->
-    </div> --}}
+  {{-- START TOP BLOCKS --}}
+  <div class="row">
 
     <div class="col-md-4">
       <div class="card-box">
-        <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Pending Meeting Actions</div>
-        <h3 class="no-margin p-b-5 text-info semi-bold">{{ $pending_meeting_actions }}</h3>
+        <div class="inline m-r-10 m-t-10" style="vertical-align:top">
+          <img class="icon" src="{{ asset('assets/img/icons/suitcase.svg') }}" alt="" width="40px">
+        </div>
+        <div class="inline">
+          <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Pending Meeting Actions</div>
+          <h3 class="no-margin p-b-5 text-info bold">{{ $pending_meeting_actions }}</h3>
+        </div>
         {{-- <div class="small">
-          <span>WMHC</span>
+          <span>Office</span>
           <span class=" text-success font-montserrat"><i class="fa fa-caret-up m-l-10"></i> 9%</span>
-          <span class="m-l-20">HCRS</span>
+          <span class="m-l-20">Mate</span>
           <span class=" text-danger font-montserrat"><i class="fa fa-caret-up m-l-10"></i> 21%</span>
         </div> --}}
       </div>
@@ -59,18 +38,124 @@
 
     <div class="col-md-4">
       <div class="card-box">
-        <div class="font-title f16 bold m-b-10 text-uppercase hint-text">To-Dos Today</div>
-        <h3 class="no-margin p-b-5 text-info semi-bold">{{ count($todos_today) }}</h3>
+        <div class="inline m-r-10 m-t-10" style="vertical-align:top">
+          <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+        </div>
+        <div class="inline">
+          <div class="font-title f16 bold m-b-10 text-uppercase hint-text">To-Dos Today</div>
+          <h3 class="no-margin p-b-5 text-info bold">{{ count($todos_today) }}</h3>
+        </div>
       </div>
     </div>
 
     <div class="col-md-4">
       <div class="card-box">
-        <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Tasks</div>
-        <h3 class="no-margin p-b-5 text-info semi-bold">{{ count($tasks) }}</h3>
+        <div class="inline m-r-10 m-t-10" style="vertical-align:top">
+          <img class="icon" src="{{ asset('assets/img/icons/task.svg') }}" alt="" width="40px">
+        </div>
+        <div class="inline">
+          <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Tasks</div>
+          <h3 class="no-margin p-b-5 text-info bold">{{ count($tasks) }}</h3>
+        </div>
       </div>
     </div>
 
   </div>
+  {{-- END TOP BLOCKS --}}
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="row">
+        {{-- Events --}}
+        <div class="col-md-12">
+          <div class="card-box">
+            <div class="card-title">Upcoming Events</div>
+
+            <div class="my-list">
+              @foreach ($events as $item)
+                <li>
+                  <div class="thumbnail-wrapper d24 circular">
+                    {{-- <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar) }}"> --}}
+                    <i class="fa fa-calendar"></i>
+                  </div>
+
+                  <div class="inline m-l-10">
+                    <div class="" style="margin-top:0 !important">{{ $item->Event }}</div>
+                    <div class="no-margin text-muted small">
+                      {{ (Carbon::parse($item->StartDate)->isToday())? 'Today' : ''.Carbon::parse($item->StartDate)->format('jS M, Y') }} &mdash; {{ (Carbon::parse($item->EndDate)->isToday())? 'Today' : ''.Carbon::parse($item->EndDate)->format('jS M, Y') }}
+                    </div>
+                  </div>
+                </li>
+              @endforeach
+            </div>
+
+          </div>
+        </div>
+        {{-- End Events --}}
+
+        {{-- Bulletins --}}
+        <div class="col-md-12">
+          <div class="card-box">
+            <div class="card-title">Bulletin Board</div>
+
+            <div class="my-list">
+              @foreach ($bulletins as $item)
+                <li>
+                  <div class="thumbnail-wrapper d24 circular">
+                    <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar) }}">
+                  </div>
+
+                  <div class="inline m-l-10">
+                    <div class="" style="margin-top:0 !important">{{ $item->Title }}</div>
+                    <div class="no-margin text-muted small">
+                      <span>{{ $item->poster->FullName }}</span> &mdash; {{ ($item->CreatedDate->isToday())? 'Today' : ''.$item->CreatedDate->format('jS M, Y') }} at {{ $item->CreatedDate->format('g:ia') }}
+                    </div>
+                  </div>
+                </li>
+              @endforeach
+            </div>
+
+          </div>
+        </div>
+        {{-- End Bulletins --}}
+      </div>
+    </div>
+
+    {{-- Todos Week --}}
+    <div class="col-md-4">
+      <div class="card-box">
+        <div class="card-title">To-Dos This Week <span class="badge badge-info badge-sm badge-tab">{{ count($todos_week) }}</span></div>
+
+        <div class="my-list">
+          @foreach ($todos_week as $item)
+            <li>
+              {{-- <div class="thumbnail-wrapper d24 circular">
+                <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar) }}">
+              </div> --}}
+
+              <div class="inline m-l-10">
+                <div class="" style="margin-top:0 !important">{{ $item->Todo }}</div>
+                <div class="no-margin text-muted small">
+                  <span>{{ Carbon::parse($item->DueDate)->format('jS M, Y') }}</span>
+                </div>
+              </div>
+            </li>
+          @endforeach
+        </div>
+
+      </div>
+    </div>
+    {{-- End Todos Week --}}
+  </div>
+
 
 @endsection
+
+@push('scripts')
+  <script src="{{ asset('assets/plugins/feathericons/feather.min.js') }}" charset="utf-8"></script>
+  <i data-feather="circle"></i>
+
+<script>
+  feather.replace()
+</script>
+@endpush
