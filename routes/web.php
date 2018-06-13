@@ -203,6 +203,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('call-memo/edit_action_point/{id}', 'CallMemoController@edit_action_point')->name('edit_action_point');
     Route::patch('call-memo/update_action_point/{id}', 'CallMemoController@update_action_point')->name('update_action_point');
     Route::post('call-memo/store_discussion_point/{memo}', 'CallMemoController@store_discussion_point')->name('store_discussion_point');
+    Route::patch('call-memo/update_discussion/{id}', 'CallMemoController@update_discussion_point')->name('update_discussion_point');
     Route::post('call-memo/email_attendees/{memo}', 'CallMemoController@email_attendees')->name('email_attendees');
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');

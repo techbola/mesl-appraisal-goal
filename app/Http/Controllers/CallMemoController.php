@@ -156,6 +156,17 @@ class CallMemoController extends Controller
         return redirect()->back()->with('success', 'Discussion point saved successfully');
     }
 
+    public function update_discussion_point(Request $request, $id)
+    {
+        $user = auth()->user();
+
+        $disc                  = CallMemoDiscussion::find($id);
+        $disc->DiscussionPoint = $request->DiscussionPoint;
+        $disc->update();
+
+        return redirect()->back()->with('success', 'Discussion point was updated successfully');
+    }
+
     public function email_attendees(Request $request, $id)
     {
         $memo = CallMemo::find($id);

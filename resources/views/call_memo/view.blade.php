@@ -52,7 +52,7 @@
       @endif
       @foreach ($contact->call_memos as $memo)
 
-@if (in_array($user->email, explode(',', $memo->AttendeeEmails)))
+@if (in_array($user->email, explode(',', $memo->AttendeeEmails)) || $user->hasRole('admin'))
 
         <tbody>
           <tr id="parent_{{ $memo->CallMemoRef }}">
@@ -102,20 +102,20 @@
               <td>
                 {{-- <a class="add_point f20 pointer" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus-circle text-success" data-toggle="tooltip" title="Add Action Point"></i></a> --}}
                 <div class="pull-right">
-                  <a class="add_point pointer btn btn-xs btn-success" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus m-r-5"></i> Action Point</a>
+                  {{-- <a class="add_point pointer btn btn-xs btn-success" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')"><i class="fa fa-plus m-r-5"></i> Action Point</a> --}}
 
-{{--
+
                   <div class="dropdown">
-                      <a type="button" class="dropdown-toggle" data-toggle="dropdown" id="disc_dropdown_{{  }}">
-                        <i class="fa fa-ellipsis-h"></i> <span class="caret"></span>
+                      <a type="button" class=" btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" {{--id="disc_dropdown_{{ 'test' }}" --}}>
+                        {{-- <i class="fa fa-ellipsis-h"></i> --}} Actions <span class="caret"></span>
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="">Account Statement</a></li>
-                        <li><a href="">Interest Accruals</a></li>
+                        <li><a class="pointer" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')">Add Action Point</a></li>
+                        <li><a class="pointer" data-toggle="modal" data-target="#edit_disc" @click="edit_discussion({{ $discuss }})">Edit Discussion</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="">Edit Account</a></li>
+                        <li><a class="pointer">Delete</a></li>
                       </ul>
-                    </div> --}}
+                    </div>
 
                 </div>
               </td>
@@ -262,8 +262,35 @@
               <button type="submit" class="btn btn-info">Submit</button>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  {{-- Edit Discussion Point --}}
+  <div class="modal fade" id="edit_disc" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h5 class="card-title">Edit Discussion Point</h5>
+        </div>
+        <div class="modal-body">
+          @include('errors.list')
+          <form id="edit_disc_form" class="" action="" method="post">
+            {{ csrf_field() }}
+            {{ method_field('PATCH') }}
+            <div class="form-group">
+              <label for="">Discussion Point</label>
+              {{-- <input type="text" name="ActionPoint" class="form-control" placeholder="Enter action point"> --}}
+              <textarea name="DiscussionPoint" class="summernote" v-model="discussion.DiscussionPoint">@{{ discussion.DiscussionPoint }}</textarea>
+            </div>
 
+            <div class="text-right m-t-10">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-info">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -361,6 +388,8 @@
 			el: '#app',
 			data: {
 				memo: {},
+        discussion: {},
+        action: {},
 			},
 			methods: {
 				edit_memo(memo) {
@@ -369,7 +398,13 @@
           $('#edit_memo').find('form').attr('action', form_action);
           $('.custom-tag-input').tagsinput('removeAll');
           $('.custom-tag-input').tagsinput('add', this.memo.AttendeeEmails);
-          $('#edit_memo select[name="MeetingTypeID"]').val(this.memo.MeetingTypeID).trigger('change');;
+          $('#edit_memo select[name="MeetingTypeID"]').val(this.memo.MeetingTypeID).trigger('change');
+				},
+				edit_discussion(discussion) {
+					this.discussion = discussion;
+          var form_action = "{{ url('/') }}"+"/call-memo/update_discussion/"+this.discussion.id;
+          $('#edit_disc').find('form').attr('action', form_action);
+          $('#edit_disc_form').find('.note-editable').html(this.discussion.DiscussionPoint);
 				},
 			},
 		});
@@ -383,7 +418,7 @@
 
     // Add event listener for opening and closing details
     $('#call_memo tbody').on('click', 'td.details-control', function () {
-      console.log('click');
+      // console.log('click');
         var tr = $(this).closest('tr');
         var row = table.row( tr );
 
