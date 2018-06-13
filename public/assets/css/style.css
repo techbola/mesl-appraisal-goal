@@ -589,6 +589,10 @@ audio, canvas, progress, video {
     background: linear-gradient(180deg, #fd9a18, #f16911) !important;
     border-color: #f16911 !important;
 }
+.btn-default {
+  background: linear-gradient(180deg, #fff, #ddd) !important;
+  border: 1px solid #ccc !important;
+}
 .btn-form {
     margin-left: 7px;
     margin-top: 20px;

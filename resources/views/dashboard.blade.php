@@ -9,11 +9,6 @@
     <img src="{{ asset('assets/img/backgrounds/cavidel-slide.jpg') }}" alt="" width="95%">
   </div> --}}
 
-  <style media="screen">
-    img.icon {
-      filter: sepia(0.3);
-    }
-  </style>
 
   {{-- START TOP BLOCKS --}}
   <div class="row">
@@ -21,7 +16,7 @@
     <div class="col-md-4">
       <div class="card-box">
         <div class="inline m-r-10 m-t-10" style="vertical-align:top">
-          <img class="icon" src="{{ asset('assets/img/icons/suitcase.svg') }}" alt="" width="40px">
+          <img class="icon" src="{{ asset('assets/img/icons/suitcase.svg') }}" alt="" width="40px" style="filter: sepia(0.3);">
         </div>
         <div class="inline">
           <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Pending Meeting Actions</div>
@@ -51,7 +46,7 @@
     <div class="col-md-4">
       <div class="card-box">
         <div class="inline m-r-10 m-t-10" style="vertical-align:top">
-          <img class="icon" src="{{ asset('assets/img/icons/task.svg') }}" alt="" width="40px">
+          <img class="icon" src="{{ asset('assets/img/icons/task.svg') }}" alt="" width="40px" style="filter: brightness(0.92);">
         </div>
         <div class="inline">
           <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Tasks</div>

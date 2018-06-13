@@ -201,7 +201,8 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('call-memo/update/{id}', 'CallMemoController@update')->name('update_call_memo');
     Route::post('call-memo/store_action_point/{discussion}', 'CallMemoController@store_action_point')->name('store_action_point');
     Route::get('call-memo/edit_action_point/{id}', 'CallMemoController@edit_action_point')->name('edit_action_point');
-    Route::patch('call-memo/update_action_point/{id}', 'CallMemoController@update_action_point')->name('update_action_point');
+    Route::patch('call-memo/update_action_point/{id}', 'CallMemoController@update_action_point')->name('update_action_point'); // FOR ASSIGNED REVIEWERS
+    Route::patch('call-memo/update_action/{id}', 'CallMemoController@update_action')->name('update_action'); // FOR ADMIN MODAL
     Route::post('call-memo/store_discussion_point/{memo}', 'CallMemoController@store_discussion_point')->name('store_discussion_point');
     Route::patch('call-memo/update_discussion/{id}', 'CallMemoController@update_discussion_point')->name('update_discussion_point');
     Route::post('call-memo/email_attendees/{memo}', 'CallMemoController@email_attendees')->name('email_attendees');

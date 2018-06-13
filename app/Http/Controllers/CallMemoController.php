@@ -136,7 +136,22 @@ class CallMemoController extends Controller
         // $action->StartDate = $request->StartDate;
         // $action->EndDate = $request->EndDate;
         // $action->UserID = $request->UserID;
-        // $action->DiscussionID = $id;
+        $action->StatusID = $request->StatusID;
+        $action->Comment  = $request->Comment;
+        $action->update();
+
+        return redirect()->route('call-memo-actions')->with('success', 'Action point updated successfully');
+    }
+
+    public function update_action(Request $request, $id)
+    {
+        $user = auth()->user();
+
+        $action = CallMemoAction::find($id);
+        $action->ActionPoint = $request->ActionPoint;
+        $action->StartDate = $request->StartDate;
+        $action->EndDate = $request->EndDate;
+        $action->UserID = $request->UserID;
         $action->StatusID = $request->StatusID;
         $action->Comment  = $request->Comment;
         $action->update();
