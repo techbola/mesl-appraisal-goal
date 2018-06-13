@@ -107,7 +107,8 @@ class BillingController extends Controller
         $bill_header    = Billing::select('BillingDate')->first();
         $total_bill     = Billing::where('GroupID', $code)->sum('Price');
         $bills          = Billing::where('GroupID', $code)->get();
-        return view('billings.bill', compact('client_details', 'code', 'bill_header', 'total_bill', 'bills'));
+        $tax            = ($total_bill / 100) * 5;
+        return view('billings.bill', compact('client_details', 'code', 'bill_header', 'total_bill', 'bills', 'tax'));
     }
 
     public function view_bill($id)

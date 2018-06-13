@@ -313,6 +313,33 @@ Route::middleware(['auth'])->group(function () {
     Route::get('client_document/add_client_document/{id}', 'ClientDocumentController@add_client_document')->name('Add_Client_Document');
     Route::post('post_client_document', 'ClientDocumentController@store_client_document');
     Route::post('delete_client_document', 'ClientDocumentController@delete_client_document');
+    Route::get('client_document/approve_document', 'ClientDocumentController@approve_document')->name('Approve_Document');
+    Route::post('Approve_document', 'ClientDocumentController@approve_post_document');
+
+    // Policies
+
+    Route::get('policies/index', 'PolicyController@index')->name('Policy');
+    Route::get('policies/create', 'PolicyController@create')->name('CreateNewPolicy');
+    Route::post('Post_Policies', 'PolicyController@store_policy');
+    Route::get('delete_policy/{id}', 'PolicyController@delete_policy');
+    Route::get('update_policy/{id}/{policy}', 'PolicyController@update_policy');
+
+    // Policies Segment
+
+    Route::get('policysegments/create', 'PolicySegmentController@create')->name('CreateNewPolicySegment');
+    Route::post('Post_Policy_segment', 'PolicySegmentController@store_policy');
+    Route::get('delete_policy_segment/{id}', 'PolicySegmentController@delete_policy_segment');
+    Route::get('update_policy_segment/{id}/{segment}/{policy}', 'PolicySegmentController@update_policy_segment');
+
+    // Policy Statment
+
+    Route::get('policyStatement/create', 'PolicyStatementController@create')->name('CreateNewPolicyStatement');
+    Route::post('get_newSegment/{policy}', 'PolicyStatementController@get_newSegment');
+    Route::post('Post_Policy_statement', 'PolicyStatementController@Post_Policy_statement');
+    Route::get('statement_result/{policy}/{segment}', 'PolicyStatementController@statement_result');
+    Route::get('delete_policy_statement/{id}', 'PolicyStatementController@delete_policy_statement');
+    Route::get('get_statement_record/{id}', 'PolicyStatementController@get_statement_record');
+    Route::post('Update_Policy_statement/{id}', 'PolicyStatementController@Update_Policy_statement');
 
     //ProductService
     Route::post('store_product_srvice', 'ProductServiceController@store');

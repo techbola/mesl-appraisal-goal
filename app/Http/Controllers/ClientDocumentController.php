@@ -61,6 +61,27 @@ class ClientDocumentController extends Controller
         }
     }
 
+    public function approve_document()
+    {
+        $client_documents = \DB::table('tblClientDocuments')
+            ->join('tblDocType', 'tblClientDocuments.DocType_id', '=', 'tblDocType.DocTypeRef')
+            ->where('Status', 0)
+            ->get();
+        return view('client_document.approve_document', compact('client_documents'));
+    }
+
+    public function approve_post_document(Request $request)
+    {
+        $doc_id         = $request->doc_id;
+        $update_details = \DB::table('tblClientDocuments')->where('DocRef', $doc_id)->update(['Status' => 1]);
+        if ($update_details) {
+            return redirect()->route('Approve_Document')->with('success', 'Document Approved');
+        } else {
+            return redirect()->back()->with('error', 'Document Not Approved');
+        }
+
+    }
+
     public function delete_client_document(Request $request)
     {
         $id         = $request->doc_id;
