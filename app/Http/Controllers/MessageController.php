@@ -77,11 +77,12 @@ class MessageController extends Controller
       // $msg['recipients'] = $message->recipients->pluck('id')->toArray();
       $msg['recipients'] = $request->to;
 
+      DB::commit();
+
       Event::fire(new NewMessageEvent($msg));
       Notification::send($message->recipients, new NewMessage($message));
       // dd($msg);
 
-      DB::commit();
       return redirect()->route('inbox')->with('success', 'Your message was sent successfully.');
     } catch (Exception $e) {
       DB::rollback();
@@ -138,11 +139,12 @@ class MessageController extends Controller
       // $msg['recipients'] = $message->recipients->pluck('id')->toArray();
       $msg['recipients'] = $people;
 
+      DB::commit();
+
       Event::fire(new NewMessageEvent($msg));
       $people_users = User::whereIn('id', $people)->get();
       Notification::send($people_users, new NewMessage($message));
 
-      DB::commit();
       return redirect()->route('view_message', $parent->MessageRef)->with('success', 'Your reply was sent successfully.');
     } catch (Exception $e) {
       DB::rollback();

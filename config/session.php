@@ -123,7 +123,7 @@ return [
     |
     */
 
-    'cookie' => 'laravel_session',
+    'cookie' => str_slug(env('APP_URL', 'laravel2')).'_session',
 
     /*
     |--------------------------------------------------------------------------

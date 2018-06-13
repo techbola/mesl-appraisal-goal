@@ -457,6 +457,12 @@
             }))
         }
     };
+
+    // $(document).ready(function(){
+    //   setTimeout(function(){
+    //     $("div.ganttview-vtheader-group-name").remove();
+    //   }, 5000);
+    // });
   </script>
   {{-- End Gantt --}}
   <script>

@@ -201,15 +201,20 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('call-memo/update/{id}', 'CallMemoController@update')->name('update_call_memo');
     Route::post('call-memo/store_action_point/{discussion}', 'CallMemoController@store_action_point')->name('store_action_point');
     Route::get('call-memo/edit_action_point/{id}', 'CallMemoController@edit_action_point')->name('edit_action_point');
-    Route::patch('call-memo/update_action_point/{id}', 'CallMemoController@update_action_point')->name('update_action_point');
+    Route::patch('call-memo/update_action_point/{id}', 'CallMemoController@update_action_point')->name('update_action_point'); // FOR ASSIGNED REVIEWERS
+    Route::patch('call-memo/update_action/{id}', 'CallMemoController@update_action')->name('update_action'); // FOR ADMIN MODAL
     Route::post('call-memo/store_discussion_point/{memo}', 'CallMemoController@store_discussion_point')->name('store_discussion_point');
+    Route::patch('call-memo/update_discussion/{id}', 'CallMemoController@update_discussion_point')->name('update_discussion_point');
     Route::post('call-memo/email_attendees/{memo}', 'CallMemoController@email_attendees')->name('email_attendees');
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
 
     // Score Card
+    Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
+    Route::patch('update_scorecard/{id}', 'ScoreCardController@update')->name('update_scorecard');
     Route::get('scorecard/create/{id}', 'ScoreCardController@create')->name('create_scorecard');
     Route::post('save_scorecard/{id}', 'ScoreCardController@store')->name('save_scorecard');
+    Route::delete('delete_scorecard/{id}', 'ScoreCardController@delete')->name('delete_scorecard');
 
     // Loan Credit Rating
     Route::get('/loan_rating/index', 'LoanRatingController@index')->name('loan_ratings');

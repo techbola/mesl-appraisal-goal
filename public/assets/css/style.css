@@ -421,18 +421,22 @@ audio, canvas, progress, video {
 .my-list {
     padding-left: 0px;
 }
-.my-list>li {
+.my-list li {
     padding: 10px 0;
-    border-bottom: 1px solid #f1f1f1;
+    /* border-bottom: 1px solid #f1f1f1; */
+    border-bottom: 1px solid #dddddd;
     margin-bottom: 0;
     list-style: none;
 }
-.my-list>li:first-child {
+.my-list li:first-child {
     padding-top: 0px;
 }
-.my-list>li:last-child {
+.my-list li:last-child {
     border-bottom: none;
     padding-bottom: 0;
+}
+.my-list.uniform li:first-child, .my-list.uniform li:first-child {
+  padding: 10px 0;
 }
 /* NOTIF */
 
@@ -584,6 +588,10 @@ audio, canvas, progress, video {
     background: #fd9a18 !important;
     background: linear-gradient(180deg, #fd9a18, #f16911) !important;
     border-color: #f16911 !important;
+}
+.btn-default {
+  background: linear-gradient(180deg, #fff, #ddd) !important;
+  border: 1px solid #ccc !important;
 }
 .btn-form {
     margin-left: 7px;
@@ -965,7 +973,7 @@ ul.nav-tabs.outside+.tab-content>.tab-pane>.card-box {
 }
 /* badges inside tables tds */
 
-td>.badge, .modal .badge, .card-box .badge {
+td>.badge, .modal .badge {
     padding: 4px 10px !important;
 }
 /* download icon inside memo table */
