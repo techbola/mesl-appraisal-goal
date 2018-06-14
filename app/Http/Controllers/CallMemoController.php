@@ -156,7 +156,7 @@ class CallMemoController extends Controller
         $action->Comment  = $request->Comment;
         $action->update();
 
-        return redirect()->route('call-memo-actions')->with('success', 'Action point updated successfully');
+        return redirect()->back()->with('success', 'Action point updated successfully');
     }
 
     public function store_discussion_point(Request $request, $id)

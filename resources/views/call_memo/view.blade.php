@@ -150,7 +150,7 @@
                       Actions <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                      {{-- <li><a class="pointer" data-toggle="modal" data-target="#edit_action" @click="edit_action({{ $action }})">Edit Action Point</a></li> --}}
+                      <li><a class="pointer" data-toggle="modal" data-target="#edit_action" @click="edit_action({{ $action }})">Edit Action Point</a></li>
                       @if ($user->id == $action->user->id)
                         <li><a href="{{ route('edit_action_point', $action->id) }}" class="pointer">Review Action</a></li>
                       @endif
@@ -267,7 +267,7 @@
               <div class="form-group">
                 <label for="">Action Point</label>
                 {{-- <input type="text" name="ActionPoint" class="form-control" placeholder="Enter action point"> --}}
-                <textarea name="ActionPoint" rows="2" class="form-control" placeholder="Enter action point"></textarea>
+                <textarea name="ActionPoint" rows="2" class="form-control" placeholder="Enter action point" v-model="action.ActionPoint"></textarea>
               </div>
             </div>
             <div class="col-md-6">
@@ -296,7 +296,7 @@
               <div class="form-group">
                 {{ Form::label('StartDate', 'Start Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
+                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required', 'v-model' => 'action.StartDate']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -305,7 +305,7 @@
               <div class="form-group">
                 {{ Form::label('EndDate', 'End Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required']) }}
+                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required', 'v-model' => 'action.EndDate']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -497,6 +497,10 @@
 					this.action = action;
           var form_action = "{{ url('/') }}"+"/call-memo/update_action/"+this.action.id;
           $('#edit_action').find('form').attr('action', form_action);
+          $('#edit_action select[name="UserID"]').val(this.action.UserID).trigger('change');
+          $('#edit_action select[name="StatusID"]').val(this.action.StatusID).trigger('change');
+          $('#edit_action input[name="StartDate"]').val(this.action.StartDate).trigger('keyup');
+          $('#edit_action input[name="EndDate"]').val(this.action.EndDate).trigger('keyup');
 				},
 			},
 		});

@@ -21,4 +21,10 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo('Cavidel\LeaveType', 'AbsenceTypeID');
     }
+
+
+    public function requester()
+    {
+        return $this->belongsTo('Cavidel\User', 'StaffID');
+    }
 }
