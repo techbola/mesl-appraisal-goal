@@ -62,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff', 'StaffController@index')->name('staff');
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
+    Route::post('reinvite_staff/{id}', 'StaffController@reinvite_staff')->name('reinvite_staff');
 
     Route::get('projects', 'ProjectController@index')->name('projects');
     Route::post('store_project', 'ProjectController@store')->name('store_project');

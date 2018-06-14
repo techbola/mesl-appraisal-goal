@@ -42,6 +42,10 @@
 								<span class="label label-success">Active</span>
 							@else
 								<span class="label label-danger">Inactive</span>
+								<a class="btn btn-xs btn-inverse m-l-5" onclick="confirm2('Re-invite {{ $staff->user->first_name }}?', '', 'invite_{{ $staff->user->id }}')"><i class="fa fa-refresh"></i> ReInvite</a>
+								<form id="invite_{{ $staff->user->id }}" class="hidden" action="{{ route('reinvite_staff', $staff->user->id) }}" method="post">
+									{{ csrf_field() }}
+								</form>
 							@endif
 							{{-- {{ ($staff->user->is_activated)? '<span class="label label-success">Activated</span>' : '<span class="label label-danger">Not Activated</span>' }} --}}
 						</td>
