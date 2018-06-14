@@ -13,59 +13,57 @@ tfoot{
 @endpush
 
 @section('title')
-  Client Document list
+  Approve Documents
 @endsection
 
 @section('page-title')
-  Client Document list
+  Approve Documents
 @endsection
 
 @section('buttons')
-<a href="{{ route('Approve_Document') }}" class="btn btn-primary btn-rounded pull-right" >Approve Posted Documents</a>
-  <a href="{{ route('Add_Client_Document', [$client_details->ClientRef]) }}" class="btn btn-info btn-rounded pull-right" >Add New Document</a>
+
 @endsection
 
 @section('content')
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Document List for <span style="color: #2a9df5">{{ $client_details->Name }}</span></div><div class="clearfix"></div>
+  			<div class="card-title pull-left">List of unapproved Documents</div><div class="clearfix"></div>
         <div class="row">
           <table  class="table tableWithExportOptions" id="transactions">
-            <thead> 
-                <th style="width: 10px !important"></th>
+            <thead>
+                <th></th>
                     <th>Uploaded Date</th>
                     <th>Document Type</th>
                     <th>Initator</th>
                     <th>Description</th>
+                    <th>Approve</th>
                     <th >view</th>
                     <th >Delete</th>
             </thead>
-            <tfoot class="thead">
-                    <th style="width: 10px !important"></th>
+            {{-- <tfoot class="thead">
+                    <th></th>
                     <th>Uploaded Date</th>
                     <th>Document Type</th>
                     <th>Initator</th>
                     <th>Description</th>
+                    <th>Approve</th>
                     <th >view</th>
                     <th >Delete</th>
-            </tfoot>
+            </tfoot> --}}
             <tbody>
               @foreach($client_documents as $client_document)
               <tr>
-                <td style="width: 10px !important">{{ $loop->index + 1 }}</td>
+                <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $client_document->UploadDate }}</td>
                 <td>{{ $client_document->DocType }}</td>
                 <td>{{ $client_document->Initiator }}</td>
                 <td>{{ $client_document->Description }}</td>
+                <td><a href="#" data-id="{{ $client_document->DocRef }}"  data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-sm btn-success">Approve Document</a></td>
                 <td>
                   <a href="{{ asset( 'storage/ClientDocument/'.$client_document->Filename)}}" class="btn btn-sm btn-info">View Document</a></td>
                   <td>
-                    @if($client_document->Status == 0)
-                  <a href="#" data-id="{{ $client_document->DocRef }}" data-ref="{{ $client_details->ClientRef }}"  data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-sm btn-danger"> Delete Document</a>
-                  @else
-                    <a href="#" class="btn btn-sm btn-default disabled"> Delete Document</a>
-                  @endif
+                  <a href="#" data-id="{{ $client_document->DocRef }}"   data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-sm btn-danger"> Delete Document</a>
                 </td>
               </tr>
               @endforeach
@@ -94,15 +92,13 @@ tfoot{
                      This document will be deleted <span style="font-weight: 800" id="pat_name"></span> on Click of the button 
                     </div>
                     <div class="col-md-3 no-padding sm-m-t-10 sm-text-center">
-                      {{ Form::open(['action' => 'ClientDocumentController@delete_client_document', 'autocomplete' => 'off', 'role' => 'form']) }}
+                      {{ Form::open(['action' => 'ClientDocumentController@approve_post_document', 'autocomplete' => 'off', 'role' => 'form']) }}
                             <input type="hidden" name="doc_id" id="getValue">
-                            <input type="hidden" name="client_id" id="getRef">
-                            <input type="submit" class="btn btn-sm btn-danger" value="Delete Document">
+                            <input type="submit" class="btn btn-sm btn-success" value="Approve Document">
                       {{ Form::close() }}
-                      {{-- <a href="{{ route('NotificationBilling',[$customerDetails->PatientRef]) }}" class="btn btn-primary btn-lg btn-large fs-15" title="">Create Bill</a> --}}
                     </div>
                   </div>
-                  <p class="text-right sm-text-center hinted-text p-t-10 p-r-10" style="color: red">Please be sure of the document you want to delete.</p>
+                  <p class="text-right sm-text-center hinted-text p-t-10 p-r-10" style="color: green">Please be sure of the document you want to delete.</p>
                 </div>
                 <div class="modal-footer">
                 </div>
@@ -123,9 +119,6 @@ tfoot{
     $(document).on("click", "#btnFillSizeToggler2", function() {
             var id = $(this).data('id');
             $("#modalFillIn #getValue").val(id);
-
-             var ref = $(this).data('ref');
-            $("#modalFillIn #getRef").val(ref);
 
           });
   </script>
@@ -195,11 +188,10 @@ var table = $('#transactions').DataTable(settings);
         });
   // });
 </script>
-
+{{-- 
 <script>
   $('.exportOptions').append('<span class="btn btn-info btn-cons m-l-10" onclick="window.print()"><i class="fa fa-print m-r-5"></i> Print</span>');
-</script>
-
+</script> --}}
 @endpush
 
 

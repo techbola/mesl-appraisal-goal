@@ -84,9 +84,9 @@
                         <tr>
                           <td style="text-align: center;">{{ $loop->index + 1 }}</td>
                           <td style="text-align: center;">{{ $bill->Produt_ServiceType }}</td>
-                          <td style="text-align: center;">{{ $bill->UnitPrice }}</td>
+                          <td style="text-align: center;">&#8358;{{ number_format($bill->UnitPrice, 2) }}</td>
                           <td style="text-align: center;">{{ $bill->Quantity }}</td>
-                          <td style="text-align: center;">{{ $bill->Price }}</td>
+                          <td style="text-align: center;">&#8358;{{ number_format($bill->Price, 2) }}</td>
                         </tr>
                         @endforeach
                       </tbody>
@@ -96,7 +96,7 @@
                         <td></th>
                         <td></th>
                         <td style="font-weight: 800; background: #95cbf5; text-align: center;">Tax</th>
-                        <td style="font-weight: 800; background: #95cbf5; text-align: center;"></th>
+                        <td style="font-weight: 800; background: #95cbf5; text-align: center;">&#8358;{{ number_format($tax, 2) }}</th>
                         </tr>
                       </tfoot>
                       <tfoot>

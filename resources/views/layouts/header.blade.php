@@ -402,7 +402,7 @@
     <script src="{{ asset('assets/plugins/jquery/jquery-easy.js') }}" ></script>
     <script src="{{ asset('assets/plugins/jquery-unveil/jquery.unveil.min.js') }}" ></script>
     <script src="{{ asset('assets/plugins/jquery-bez/jquery.bez.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/plugins/jquery-ios-list/jquery.ioslist.min.js') }}" ></script> --}}
+    <script src="{{ asset('assets/plugins/jquery-ios-list/jquery.ioslist.min.js') }}" ></script>
     <script src="{{ asset('assets/plugins/jquery-actual/jquery.actual.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
     <script  src="{{ asset('assets/plugins/bootstrap-select2/select2.min.js') }}"></script>
