@@ -191,7 +191,7 @@
               <div class="inline m-l-10">
                 <div class="" style="margin-top:0 !important">{{ $item->Subject }}</div>
                 <div class="no-margin text-muted small">
-                  <span>{{ $item->sender->FullName }}</span> &mdash; {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
+                 {{--  <span>{{ $item->sender->FullName }}</span> &mdash; {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }} --}}
                 </div>
                 <div class="small bg-light">
                   {!! str_limit(strip_tags($item->Body), 30) !!}
