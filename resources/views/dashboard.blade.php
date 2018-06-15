@@ -185,7 +185,7 @@
           @foreach ($messages->take('3') as $item)
             <li>
               <div class="thumbnail-wrapper d24 circular">
-                <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->sender->avatar ?? '-')}}">
+                {{-- <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->sender->avatar)}}"> --}}
               </div>
 
               <div class="inline m-l-10">
@@ -215,7 +215,7 @@
           @foreach ($unapproved_memos->take('3') as $item)
             <li>
               <div class="thumbnail-wrapper d24 circular">
-                <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->sender->avatar ?? '-') }}">
+                {{-- <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->sender->avatar) }}"> --}}
               </div>
 
               <div class="inline m-l-10">
