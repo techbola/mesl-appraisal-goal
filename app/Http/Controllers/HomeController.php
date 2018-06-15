@@ -31,7 +31,7 @@ class HomeController extends Controller
       $tasks = ProjectTask::where('StaffID', $user->staff->StaffRef)->whereHas('steps', function($q){
         $q->where('Done', 0);
       })->get();
-      $messages = $user->unread_inbox;
+      $messages = $user->unread_messages;
       $leave_requests = LeaveRequest::where('ApproverID', $user->id)->where('CompletedFlag', '0')->get();
       $bulletins = Bulletin::where('CompanyID', $user->CompanyID)->whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
       $events = EventSchedule::where('CompanyID', $user->CompanyID)->limit('3')->get();
