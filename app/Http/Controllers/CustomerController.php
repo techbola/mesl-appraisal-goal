@@ -41,9 +41,11 @@ class CustomerController extends Controller
       $contact->AccountFlag = '0';
     }
     // $contact->Assignees = $request->Assignees;
-    $assignees = implode(',', $request->Assignees);
-    $contact->Assignees = $assignees;
-    $contact->InitiatorID = auth()->user()->id;
+    if (!empty($request->Assignees)) {
+      $assignees = implode(',', $request->Assignees);
+      $contact->Assignees = $assignees;
+    }
+    $contact->InputterID = auth()->user()->id;
     $contact->save();
 
     return redirect()->back()->with('success', $contact->Customer.' was saved successfully.');
@@ -70,8 +72,10 @@ class CustomerController extends Controller
 
     $contact = Customer::find($id);
     $contact->fill($request->except(['_token', '_method','Assignees']));
-    $assignees = implode(',', $request->Assignees);
-    $contact->Assignees = $assignees;
+    if (!empty($request->Assignees)) {
+      $assignees = implode(',', $request->Assignees);
+      $contact->Assignees = $assignees;
+    }
     $contact->update();
 
     return redirect()->route('business_contacts')->with('success', $contact->Name.' was updated successfully.');

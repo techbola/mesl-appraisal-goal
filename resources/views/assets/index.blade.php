@@ -19,7 +19,7 @@
 				<input type="text" class="search-table form-control pull-right" placeholder="Search">
 		</div>
 		<div class="clearfix"></div>
-    <table class="table table-striped table-bordered tableWithSearch">
+    <table id="assets" class="table table-striped table-bordered tableWithSearch">
       <thead>
         <th width="20%">Description</th>
 				<th>Category</th>
@@ -31,8 +31,21 @@
 				<th>Serial No.</th>
 				<th>Asset No.</th>
 				<th>Allotee.</th>
-        <th width="15%">Actions</th>
+        <th width="12%">Actions</th>
       </thead>
+      <tfoot class="thead">
+        <th width="20%">Description</th>
+				<th>Category</th>
+				<th>Location</th>
+        <th>Qty</th>
+        <th>Unit Cost</th>
+        <th>Total</th>
+        <th>Purchased On</th>
+				<th>Serial No.</th>
+				<th>Asset No.</th>
+				<th>Allotee.</th>
+        <th width="12%">Actions</th>
+      </tfoot>
       <tbody>
 				@foreach ($assets as $asset)
 					<tr>
@@ -114,4 +127,29 @@
 	<script>
     $('.exportOptions').append('<span class="btn btn-warning btn-cons m-l-10" onclick="window.print()"><i class="fa fa-print m-r-5"></i> Print</span>');
   </script>
+@endpush
+
+@push('scripts')
+	<script>
+		var table = $('#assets').DataTable();
+		// var tfoot = $('#assets thead tr').clone().prop('id', 'tfoot');
+		// $('#assets thead').after('<tfoot></tfoot>');
+		// $('#assets tfoot').append(tfoot);
+		$('#assets tfoot th').each(function(key, val) {
+					var title = $(this).text();
+					if (key === $('#assets tfoot th')) {
+							return false
+					}
+					$(this).html('<input type="text" class="my-input input-sm" placeholder="' + $.trim(title) + '" />');
+			});
+		 table.columns().every(function() {
+			var that = this;
+			$('input', this.footer()).on('keyup change', function() {
+					if (that.search() !== this.value) {
+							that.search(this.value).draw();
+					}
+			});
+		});
+		$('#assets tfoot tr').appendTo('#assets thead');
+	</script>
 @endpush

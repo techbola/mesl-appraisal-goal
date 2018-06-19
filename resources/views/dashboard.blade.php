@@ -128,7 +128,7 @@
         <div class="card-title">To-Dos This Week <span class="badge badge-danger badge-sm badge-tab">{{ count($todos_week) }}</span></div>
 
         <div class="my-list">
-          @forelse ($todos_week as $item)
+          @forelse ($todos_week->take('5') as $item)
             <li>
               {{-- <div class="thumbnail-wrapper d24 circular">
                 <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar) }}">
@@ -149,30 +149,35 @@
       </div>
       {{-- End Todos Week --}}
 
-      {{-- Leave Requests --}}
+      {{-- Memos --}}
       <div class="card-box">
-        <div class="card-title">Leave Requests <span class="badge badge-danger badge-sm badge-tab">{{ count($leave_requests) }}</span></div>
-
-        <div class="my-list">
-          @foreach ($leave_requests as $item)
-            <li>
-              <div class="thumbnail-wrapper d24 circular">
-                <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->requester->avatar) }}">
-              </div>
-
-              <div class="inline m-l-10">
-                <div class="" style="margin-top:0 !important">{{ $item->requester->FullName }}</div>
-                <div class="no-margin text-muted small">
-                  <span>From <b>{{ Carbon::parse($item->StartDate)->format('jS M, Y') }}</b> To <b>{{ Carbon::parse($item->ReturnDate)->format('jS M, Y') }}</b></span>
-                </div>
-                <div class="label label-inverse m-t-5">{{ $item->NumberofDays }} Days</div>
-              </div>
-            </li>
-          @endforeach
+        <div class="card-title">
+          Unapproved Memos <span class="badge badge-danger badge-sm badge-tab">{{ count($unapproved_memos) }}</span>
+          <a href="{{ route('memos_approvallist') }}" class="label label-inverse pull-right btn-rounded text-capitalize">See all <i class="fa fa-arrow-right m-l-5"></i></a>
         </div>
 
+        {{-- <div class="my-list">
+        @foreach ($unapproved_memos->take('3') as $item)
+        <li>
+        <div class="thumbnail-wrapper d24 circular">
+        <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->sender->avatar) }}">
       </div>
-      {{-- End Leave Requests --}}
+
+      <div class="inline m-l-10">
+      <div class="" style="margin-top:0 !important">{{ $item->Subject }}</div>
+      <div class="no-margin text-muted small">
+      <span>{{ $item->sender->FullName }}</span> &mdash; {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
+    </div>
+    <div class="small bg-light">
+    {!! str_limit(strip_tags($item->Body), 30) !!}
+  </div>
+</div>
+</li>
+@endforeach
+</div> --}}
+
+</div>
+      {{-- End Memos --}}
     </div>
 
     <div class="col-md-4">
@@ -211,35 +216,30 @@
       </div>
       {{-- End Messages --}}
 
-      {{-- Messages --}}
+      {{-- Leave Requests --}}
       <div class="card-box">
-        <div class="card-title">
-          Unapproved Memos <span class="badge badge-danger badge-sm badge-tab">{{ count($unapproved_memos) }}</span>
-          <a href="{{ route('memos_approvallist') }}" class="label label-inverse pull-right btn-rounded text-capitalize">See all <i class="fa fa-arrow-right m-l-5"></i></a>
-        </div>
+        <div class="card-title">Leave Requests <span class="badge badge-danger badge-sm badge-tab">{{ count($leave_requests) }}</span></div>
 
-        {{-- <div class="my-list">
-          @foreach ($unapproved_memos->take('3') as $item)
+        <div class="my-list">
+          @foreach ($leave_requests as $item)
             <li>
               <div class="thumbnail-wrapper d24 circular">
-                <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->sender->avatar) }}">
+                <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->requester->avatar) }}">
               </div>
 
               <div class="inline m-l-10">
-                <div class="" style="margin-top:0 !important">{{ $item->Subject }}</div>
+                <div class="" style="margin-top:0 !important">{{ $item->requester->FullName }}</div>
                 <div class="no-margin text-muted small">
-                  <span>{{ $item->sender->FullName }}</span> &mdash; {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
+                  <span>From <b>{{ Carbon::parse($item->StartDate)->format('jS M, Y') }}</b> To <b>{{ Carbon::parse($item->ReturnDate)->format('jS M, Y') }}</b></span>
                 </div>
-                <div class="small bg-light">
-                  {!! str_limit(strip_tags($item->Body), 30) !!}
-                </div>
+                <div class="label label-inverse m-t-5">{{ $item->NumberofDays }} Days</div>
               </div>
             </li>
           @endforeach
-        </div> --}}
+        </div>
 
       </div>
-      {{-- End Messages --}}
+      {{-- End Leave Requests --}}
     </div>
 
   </div> {{-- Close Row --}}
