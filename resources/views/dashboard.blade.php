@@ -211,7 +211,7 @@
           <a href="{{ route('memos_approvallist') }}" class="label label-inverse pull-right btn-rounded text-capitalize">See all <i class="fa fa-arrow-right m-l-5"></i></a>
         </div>
 
-        <div class="my-list">
+        {{-- <div class="my-list">
           @foreach ($unapproved_memos->take('3') as $item)
             <li>
               <div class="thumbnail-wrapper d24 circular">
@@ -229,7 +229,7 @@
               </div>
             </li>
           @endforeach
-        </div>
+        </div> --}}
 
       </div>
       {{-- End Messages --}}

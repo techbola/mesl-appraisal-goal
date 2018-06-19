@@ -57,7 +57,7 @@
                 <option value="">Select Location</option>
                 @foreach ($locations as $location)
 
-                  <option value="{{ $location->LocationRef }}" {{ ($asset->LocationID == $location->LocationRef)? 'selected' : '' }}>{{ $location->Location }}</option>
+                  <option value="{{ $location->LocationRef }}">{{ $location->Location }}</option>
                 @endforeach
               </select>
 

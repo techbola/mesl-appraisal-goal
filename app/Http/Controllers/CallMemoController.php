@@ -219,4 +219,16 @@ class CallMemoController extends Controller
         return view('call_memo.staff_actions', compact('call_memos', 'user', 'statuses'));
     }
 
+    public function fetch_discussion($id)
+    {
+      $disc = CallMemoDiscussion::find($id);
+      return $disc;
+    }
+
+    public function fetch_action($id)
+    {
+      $action = CallMemoAction::find($id);
+      return $action;
+    }
+
 }

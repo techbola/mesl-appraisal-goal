@@ -209,6 +209,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('call-memo/email_attendees/{memo}', 'CallMemoController@email_attendees')->name('email_attendees');
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
+    Route::get('fetch_discussion/{id}', 'CallMemoController@fetch_discussion'); // AJAX
+    Route::get('fetch_action/{id}', 'CallMemoController@fetch_action'); // AJAX
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
