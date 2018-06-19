@@ -90,7 +90,7 @@ hr {
     <div class="page-content-wrapper ">
 <div class="content ">
           <!-- Modal -->
-          <div class="modal fade fill-in" id="modalFillIn2" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+          <div class="modal fade fill-in" id="modalFillIn2"  role="dialog" aria-hidden="true" style="display: none;">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
               <i class="pg-close" style="color: #fff"></i>
             </button>
@@ -108,7 +108,7 @@ hr {
                       <div class="col-sm-6">
                           <div class="form-group">
                               {{ Form::label('UserID','Staff Name') }}
-                              {{ Form::select('UserID', [ '' =>  'Select Staff Name'] + $users->pluck('Fullname', 'id')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Staff", 'data-init-plugin' => "select2", 'required']) }}
+                              {{ Form::select('UserID', [ 0 =>  'Select Staff Name'] + $users->pluck('Fullname', 'id')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Staff",'id'=>'mySelect2',  'data-init-plugin' => "select2"]) }}
                           </div>
                       </div>
 
@@ -187,6 +187,11 @@ $(document).ready(function() {
    
 });
  
+</script>
+<script>
+    $('#mySelect2').select2({
+        dropdownParent: $('#modalFillIn2')
+    });
 </script>
 
 @endpush
