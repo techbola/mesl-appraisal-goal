@@ -1011,6 +1011,9 @@ td>.badge, .modal .badge {
 .no-color {
   color: unset;
 }
+.table-cell {
+  display: table-cell !important;
+}
 
 
 a[href$="xls"]::after, a[href$="xlsx"]::after {
