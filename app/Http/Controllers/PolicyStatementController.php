@@ -4,6 +4,7 @@ namespace Cavidel\Http\Controllers;
 
 use Cavidel\Policy;
 use Cavidel\PolicySegment;
+use Cavidel\PolicyApprover;
 use Cavidel\PolicyStatement;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,8 @@ class PolicyStatementController extends Controller
 {
     public function create()
     {
+        $id       = \Auth()->user()->id;
+        $check    = PolicyApprover::where('UserID', $id)->first();
         $policies = Policy::all();
         $segments = \DB::table('tblPolicyStatement')
             ->join('users', 'tblPolicyStatement.EnteredBy', '=', 'users.id')
@@ -18,7 +21,7 @@ class PolicyStatementController extends Controller
             ->join('tblPolicySegment', 'tblPolicyStatement.SegmentID', '=', 'tblPolicySegment.SegmentRef')
             ->orderBy('StatementRef', 'desc')
             ->get();
-        return view('policystatements.create', compact('policies', 'segments'));
+        return view('policystatements.create', compact('policies', 'segments', 'check'));
     }
 
     public function Post_Policy_statement(Request $request)
