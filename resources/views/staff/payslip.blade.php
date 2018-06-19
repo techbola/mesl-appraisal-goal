@@ -37,7 +37,7 @@
                         <h5 class="semi-bold m-t-0">{{ auth()->user()->staff->Fullname }}</h5>
                         <address>                          
                           <br>
-                           <strong>Month/Year: </strong> {{ $payslip_detail->PayMonthYear }}
+                           <strong>Month/Year: </strong> {{ $payslip_detail->PayMonthYear ?? '-' }}
                         </address>
                     </div>
                 </div>
@@ -270,7 +270,7 @@
                     </div>
                     <div class="col-md-5 text-right bg-master-darker col-sm-height padding-15 d-flex flex-column justify-content-center align-items-end">
                         <h5 class="font-montserrat all-caps small no-margin hint-text text-white bold">Net Pay</h5>
-                        <h1 class="no-margin text-white">{{ nairazify(number_format($payslip_detail->MonthlyNetPay, 2)) }}</h1>
+                        <h1 class="no-margin text-white">{{ nairazify(number_format($payslip_detail->ToBeNetPay, 2)) }}</h1>
                     </div>
                 </div>
             </div>
