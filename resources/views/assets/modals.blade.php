@@ -94,19 +94,19 @@
         </div>
         <div class="row">
 
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="form-group">
               {{ Form::label('SerialNo', 'Serial Number') }}
               {{ Form::text('SerialNo', null, ['v-model'=>'asset.SerialNo', 'class' => 'form-control', 'placeholder' => 'Serial Number']) }}
             </div>
           </div>
 
-          <div class="col-md-6">
+          {{-- <div class="col-md-6">
             <div class="form-group">
               {{ Form::label('AssetNo', 'Asset Number') }}
               {{ Form::text('AssetNo', null, ['v-model'=>'asset.AssetNo', 'class' => 'form-control', 'placeholder' => 'Asset Number']) }}
             </div>
-          </div>
+          </div> --}}
 
         </div>
 
