@@ -14,7 +14,7 @@
 			<div class="card-box">
 				@include('errors.list')
 		    <div class="card-title">Edit Contact</div>
-				{{ Form::model($contact, ['route' => ['update_contact', $contact->CustomerRef ], 'role' => 'form']) }}
+				{{ Form::model($person, ['route' => ['update_contact', $person->CustomerRef ], 'role' => 'form']) }}
 				{{ method_field('PATCH') }}
 				@include('contacts.form')
 				<button type="submit" class="btn btn-info">Submit</button>

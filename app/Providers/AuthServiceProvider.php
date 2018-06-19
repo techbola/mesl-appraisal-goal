@@ -54,5 +54,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('project-supervisor', function ($user, $project) {
           return ($user->staff->StaffRef == $project->SupervisorID || $user->hasRole('admin'));
         });
+
+        Gate::define('see-contact', function ($user, $contact) {
+          return ($user->id == $contact->InitiatorID || in_array($user->id, explode(',', $contact->Attendees)) || $user->hasRole('admin'));
+        });
     }
 }

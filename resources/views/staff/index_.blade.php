@@ -50,8 +50,9 @@
 							{{-- {{ ($staff->user->is_activated)? '<span class="label label-success">Activated</span>' : '<span class="label label-danger">Not Activated</span>' }} --}}
 						</td>
 						<td class="actions">
-							<a href="{{ route('staff.show',[$staff->StaffRef]) }}" class="btn btn-sm btn-info">View</a>
-							<a href="{{ route('staff.edit_biodata',[$staff->StaffRef]) }}" class="btn btn-sm btn-inverse">Edit</a>
+							<a href="{{ route('staff.show',[$staff->StaffRef]) }}" class="btn btn-xs btn-info">View</a>
+							<a href="" class="btn btn-xs btn-inverse" data-toggle="modal" data-target="#edit_staff" @click="edit_staff({{ $staff }})">Edit</a>
+							<a href="{{ route('staff.edit_biodata',[$staff->StaffRef]) }}" class="btn btn-xs btn-inverse">Edit Biodata</a>
 						</td>
 					</tr>
 					@endforeach
@@ -62,7 +63,7 @@
 	<!-- END PANEL -->
 
 	{{-- MODALS --}}
-	<!-- Modal -->
+	<!-- Modal - Invite Staff -->
   <div class="modal fade slide-up disable-scroll" id="new_staff" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
@@ -136,4 +137,92 @@
     </div>
   </div>
   <!-- /.modal-dialog -->
+
+
+	<!-- Modal - Invite Staff -->
+  <div class="modal fade slide-up disable-scroll" id="edit_staff" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+      <div class="modal-content-wrapper">
+        <div class="modal-content">
+          <div class="modal-header clearfix text-left">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+            </button>
+            <h5>Edit Staff Details</h5>
+            {{-- <p class="p-b-10">We need payment information inorder to process your order</p> --}}
+          </div>
+          <div class="modal-body">
+
+						<form action="" method="post">
+							{{ csrf_field() }}
+							{{ method_field('PATCH') }}
+							<div class="row">
+							  <div class="col-md-6">
+							    <div class="form-group">
+							      <label>First Name</label>
+							      <input type="text" class="form-control" name="first_name" placeholder="First Name" required v-model="staff.user.first_name">
+							    </div>
+							  </div>
+							  <div class="col-md-6">
+							    <div class="form-group">
+							      <label>Last Name</label>
+							      <input type="text" class="form-control" name="last_name" placeholder="Last Name" required v-model="staff.user.last_name">
+							    </div>
+							  </div>
+
+							  <div class="col-md-6">
+							    <div class="form-group">
+							      <label>Email Address</label>
+							      <input type="text" class="form-control" name="email" placeholder="Email Address" required v-model="staff.user.email">
+							    </div>
+							  </div>
+							  {{-- <div class="col-md-6">
+							    <div class="form-group">
+							      <label class="req">Role</label>
+										{{ Form::select('role', [ '' =>  'Select Role'] + $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+							    </div>
+							  </div>
+								<div class="col-md-12">
+									<div class="form-group required">
+										<label>Departments</label>
+										<select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple">
+											@foreach ($departments as $dept)
+												<option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
+											@endforeach
+										</select>
+									</div>
+								</div> --}}
+
+							</div>
+							<button type="submit" class="btn btn-info btn-form">Submit</button>
+						</form>
+
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+  </div>
+  <!-- /.modal-dialog -->
 @endsection
+
+
+@push('vue')
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				staff: {
+					user: {},
+				},
+			},
+			methods: {
+				edit_staff(staff){
+					this.staff = staff;
+					console.log(staff);
+					var form_action = "{{ url('/') }}"+"/update_staff_admin/"+staff.StaffRef;
+					$('#edit_staff').find('form').attr('action', form_action);
+				}
+			},
+		})
+	</script>
+@endpush

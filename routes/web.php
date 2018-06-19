@@ -63,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
     Route::post('reinvite_staff/{id}', 'StaffController@reinvite_staff')->name('reinvite_staff');
+    Route::patch('update_staff_admin/{id}', 'StaffController@update_staff_admin')->name('update_staff_admin');
 
     Route::get('projects', 'ProjectController@index')->name('projects');
     Route::post('store_project', 'ProjectController@store')->name('store_project');
