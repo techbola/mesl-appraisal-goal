@@ -205,10 +205,11 @@ class PayrollController extends Controller
     {
         $max_month      = PayrollMonthly::max('PayMonth');
         $current_year   = \Carbon\Carbon::now()->format('Y');
-        $payslip_detail = PayrollMonthly::where(['StaffID' => auth()->user()->staff->StaffRef])
+        $payslip_detail = PayrollMonthly::where('StaffID', auth()->user()->staff->StaffRef)
             ->where('PayMonth', $max_month)
             ->where('PayYear', $current_year)
             ->first();
+        // dd($payslip_detail);
         return view('staff.payslip', compact('payslip_detail'));
     }
 
