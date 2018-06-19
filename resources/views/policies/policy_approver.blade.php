@@ -34,7 +34,6 @@ hr {
              
          </ul>
       </div><div class="clearfix"></div>
-      @if(count($check) >= 1)
       <div style="padding: 30px">
          <ul class="nav nav-pills pull-right">
              <li><a style="background: #bbb" href="{{ route('Policy') }}">Return to Policy Page</a></li>
@@ -43,7 +42,6 @@ hr {
              <li><a href="#" style="color: #fff" data-target="#modalFillIn2" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-lg btn-info">Staff Policy Permissions</a></li>
          </ul>
       </div><div class="clearfix"></div>
-      @endif
   			<div class="card-title pull-left">List Policy Approvers</div><div class="clearfix"></div>
            <div class="row"><hr>
               <div class="col-md-8 col-md-offset-2">
