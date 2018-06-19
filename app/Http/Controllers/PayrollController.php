@@ -209,6 +209,7 @@ class PayrollController extends Controller
             ->where('PayMonth', $max_month)
             ->where('PayYear', $current_year)
             ->first();
+        // dd($payslip_detail);
         return view('staff.payslip', compact('payslip_detail'));
     }
 
