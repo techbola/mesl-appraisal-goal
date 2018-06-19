@@ -53,6 +53,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('Cavidel\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->with('sender')->withPivot('IsRead', 'IsDeleted');
     }
+    public function unread_messages()
+    {
+        return $this->belongsToMany('Cavidel\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->with('sender')->withPivot('IsRead', 'IsDeleted')->wherePivot('IsRead', false);
+    }
     public function sent_messages()
     {
         return $this->hasMany('Cavidel\Message', 'FromID')->orderBy('MessageRef', 'desc');
@@ -121,12 +125,11 @@ class User extends Authenticatable
 
     public function todos()
     {
-      return $this->hasMany('Cavidel\Todo', 'UserID')->orderBy('DueDate');
+      return $this->hasMany('Cavidel\Todo', 'UserID')->orderBy('DueDate', 'desc');
     }
 
     public function sticky_notes()
     {
-
       return $this->hasMany('Cavidel\StickyNote', 'UserID')->orderBy('created_at', 'desc');
     }
 

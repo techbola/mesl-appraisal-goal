@@ -2,13 +2,14 @@
 
 namespace Cavidel;
 
-use Codesleeve\Stapler\ORM\EloquentTrait;
-use Codesleeve\Stapler\ORM\StaplerableInterface;
+// use Codesleeve\Stapler\ORM\EloquentTrait;
+// use Codesleeve\Stapler\ORM\StaplerableInterface;
 use Illuminate\Database\Eloquent\Model;
 
-class Staff extends Model implements StaplerableInterface
+class Staff extends Model
 {
-    use EloquentTrait;
+  // implements StaplerableInterface
+    // use EloquentTrait;
     protected $table   = 'tblStaff';
     protected $guarded = ['StaffRef'];
     public $timestamps = false;
@@ -80,16 +81,16 @@ class Staff extends Model implements StaplerableInterface
       return $this->hasMany('Cavidel\ScoreCard', 'StaffID');
     }
 
-    public function __construct(array $attributes = array())
-    {
-        $this->hasAttachedFile('PhotographLocation', [
-            'styles' => [
-                'medium' => '300x400',
-                'thumb'  => '200x300',
-            ],
-        ]);
-
-        parent::__construct($attributes);
-    }
+    // public function __construct(array $attributes = array())
+    // {
+    //     $this->hasAttachedFile('PhotographLocation', [
+    //         'styles' => [
+    //             'medium' => '300x400',
+    //             'thumb'  => '200x300',
+    //         ],
+    //     ]);
+    //
+    //     parent::__construct($attributes);
+    // }
 
 }

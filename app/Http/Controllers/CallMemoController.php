@@ -156,7 +156,7 @@ class CallMemoController extends Controller
         $action->Comment  = $request->Comment;
         $action->update();
 
-        return redirect()->route('call-memo-actions')->with('success', 'Action point updated successfully');
+        return redirect()->back()->with('success', 'Action point updated successfully');
     }
 
     public function store_discussion_point(Request $request, $id)
@@ -217,6 +217,18 @@ class CallMemoController extends Controller
         })->get();
         $statuses = CallMemoActionStatus::all();
         return view('call_memo.staff_actions', compact('call_memos', 'user', 'statuses'));
+    }
+
+    public function fetch_discussion($id)
+    {
+      $disc = CallMemoDiscussion::find($id);
+      return $disc;
+    }
+
+    public function fetch_action($id)
+    {
+      $action = CallMemoAction::find($id);
+      return $action;
     }
 
 }

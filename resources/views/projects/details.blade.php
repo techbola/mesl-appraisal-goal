@@ -105,7 +105,7 @@
         {{-- @foreach ($project->tasks as $task) --}}
           <li>
             <ul class="list-inline">
-                <li><img src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" class="img-circle thumb-40" alt=""></li>
+                <li style="border-bottom: none;"><img src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" class="img-circle thumb-40" alt=""></li>
                 <li>
                   <a data-toggle="modal" data-target="#user_tasks" @click="user_tasks({{ $project->tasks->where('StaffID', $staff->StaffRef) }}, '{{ $staff->FullName }}')" style="cursor: pointer">{{ $staff->FullName }}</a>
                   @if($project->supervisor && $staff->StaffRef == $project->supervisor->StaffRef)

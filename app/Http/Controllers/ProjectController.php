@@ -86,7 +86,7 @@ class ProjectController extends Controller
     public function view_project($id)
     {
       $user = auth()->user();
-      $project = Project::find($id);
+      $project = Project::where('ProjectRef', $id)->with(['tasks.staff', 'chats.staff', 'tasks.steps'])->first();
 
       // dd(Carbon::parse($project->EndDate)->format('m/d/Y'));
 
@@ -95,11 +95,11 @@ class ProjectController extends Controller
       // For Edit Form
       if ($user->is_superadmin) {
         $supervisors = Staff::all();
-        $assignees = Staff::all();
+        // $assignees = Staff::all();
         $customers = Customer::all();
       } else{
         $supervisors = Staff::where('CompanyID', $user->staff->CompanyID)->get();
-        $assignees = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+        // $assignees = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $customers = Customer::where('CompanyID', $user->staff->CompanyID)->get();
       }
 

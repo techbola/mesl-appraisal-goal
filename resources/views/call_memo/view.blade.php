@@ -111,7 +111,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                       <li><a class="pointer" data-toggle="modal" data-target="#action_point" onclick="get_disc_id('{{ $discuss->id }}')">Add Action Point</a></li>
-                      <li><a class="pointer" data-toggle="modal" data-target="#edit_disc" @click="edit_discussion({{ $discuss }})">Edit Discussion</a></li>
+                      <li><a class="pointer" data-toggle="modal" data-target="#edit_disc" @click="edit_discussion('{{ $discuss->id }}')">Edit Discussion</a></li>
                       {{-- <li role="separator" class="divider"></li>
                       <li><a class="pointer">Delete</a></li> --}}
                     </ul>
@@ -150,7 +150,7 @@
                       Actions <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                      {{-- <li><a class="pointer" data-toggle="modal" data-target="#edit_action" @click="edit_action({{ $action }})">Edit Action Point</a></li> --}}
+                      <li><a class="pointer" data-toggle="modal" data-target="#edit_action" @click="edit_action('{{ $action->id }}')">Edit Action Point</a></li>
                       @if ($user->id == $action->user->id)
                         <li><a href="{{ route('edit_action_point', $action->id) }}" class="pointer">Review Action</a></li>
                       @endif
@@ -267,7 +267,7 @@
               <div class="form-group">
                 <label for="">Action Point</label>
                 {{-- <input type="text" name="ActionPoint" class="form-control" placeholder="Enter action point"> --}}
-                <textarea name="ActionPoint" rows="2" class="form-control" placeholder="Enter action point"></textarea>
+                <textarea name="ActionPoint" rows="2" class="form-control" placeholder="Enter action point" v-model="action.ActionPoint"></textarea>
               </div>
             </div>
             <div class="col-md-6">
@@ -296,7 +296,7 @@
               <div class="form-group">
                 {{ Form::label('StartDate', 'Start Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
+                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required', 'v-model' => 'action.StartDate']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -305,7 +305,7 @@
               <div class="form-group">
                 {{ Form::label('EndDate', 'End Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required']) }}
+                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required', 'v-model' => 'action.EndDate']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -487,16 +487,24 @@
           $('.custom-tag-input').tagsinput('add', this.memo.AttendeeEmails);
           $('#edit_memo select[name="MeetingTypeID"]').val(this.memo.MeetingTypeID).trigger('change');
 				},
-				edit_discussion(discussion) {
-					this.discussion = discussion;
-          var form_action = "{{ url('/') }}"+"/call-memo/update_discussion/"+this.discussion.id;
-          $('#edit_disc').find('form').attr('action', form_action);
-          $('#edit_disc_form').find('.note-editable').html(this.discussion.DiscussionPoint);
+				edit_discussion(id) {
+          $.get('/fetch_discussion/'+id, function(data, status){
+            this.discussion = data;
+            var form_action = "{{ url('/') }}"+"/call-memo/update_discussion/"+data.id;
+            $('#edit_disc').find('form').attr('action', form_action);
+            $('#edit_disc_form').find('.note-editable').html(data.DiscussionPoint);
+          });
 				},
-				edit_action(action) {
-					this.action = action;
-          var form_action = "{{ url('/') }}"+"/call-memo/update_action/"+this.action.id;
-          $('#edit_action').find('form').attr('action', form_action);
+				edit_action(id) {
+          $.get('/fetch_action/'+id, function(data, status) {
+            this.action = data;
+            var form_action = "{{ url('/') }}"+"/call-memo/update_action/"+data.id;
+            $('#edit_action').find('form').attr('action', form_action);
+            $('#edit_action select[name="UserID"]').val(data.UserID).trigger('change');
+            $('#edit_action select[name="StatusID"]').val(data.StatusID).trigger('change');
+            $('#edit_action input[name="StartDate"]').val(data.StartDate).trigger('keyup');
+            $('#edit_action input[name="EndDate"]').val(data.EndDate).trigger('keyup');
+          });
 				},
 			},
 		});

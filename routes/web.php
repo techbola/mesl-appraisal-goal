@@ -62,6 +62,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff', 'StaffController@index')->name('staff');
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
+    Route::post('reinvite_staff/{id}', 'StaffController@reinvite_staff')->name('reinvite_staff');
+    Route::patch('update_staff_admin/{id}', 'StaffController@update_staff_admin')->name('update_staff_admin');
 
     Route::get('projects', 'ProjectController@index')->name('projects');
     Route::post('store_project', 'ProjectController@store')->name('store_project');
@@ -208,6 +210,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('call-memo/email_attendees/{memo}', 'CallMemoController@email_attendees')->name('email_attendees');
     Route::get('call-memo/{customer}', 'CallMemoController@view')->name('view_call_memo');
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
+    Route::get('fetch_discussion/{id}', 'CallMemoController@fetch_discussion'); // AJAX
+    Route::get('fetch_action/{id}', 'CallMemoController@fetch_action'); // AJAX
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');

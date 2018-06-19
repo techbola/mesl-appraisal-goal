@@ -53,21 +53,25 @@
       </tfoot>
       <tbody>
 				@foreach ($contacts as $contact)
-					<tr>
-						<td>{{ $contact->Customer }}</td>
-						<td>{{ $contact->Position }}</td>
-						<td>{{ $contact->Department }}</td>
-						<td>{{ $contact->Organization }}</td>
-						<td>{{ $contact->OfficePhone1 }}</td>
-						<td>{{ $contact->OfficeEmail }}</td>
-						<td>
-							{{-- <a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="text-warning f16"><i class="fa fa-pencil"></i></a> --}}
-							<a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="btn btn-xs btn-inverse">Edit</a>
-							<a href="javascript:void()" data-toggle="modal" data-target="#view_contact" @click="get_contact({{ $contact }})" class="btn btn-xs btn-info">View</a>
-							<a href="{{ route('view_call_memo', $contact->CustomerRef) }}" class="btn btn-xs btn-inverse">Meeting Notes</a>
-							{{-- <a href="javascript:void()" class="btn btn-xs btn-info">View</a> --}}
-						</td>
-					</tr>
+					@can ('see-contact', $contact)
+						<tr>
+							<td>{{ $contact->Customer }}</td>
+							<td>{{ $contact->Position }}</td>
+							<td>{{ $contact->Department }}</td>
+							<td>{{ $contact->Organization }}</td>
+							<td>{{ $contact->OfficePhone1 }}</td>
+							<td>{{ $contact->OfficeEmail }}</td>
+							<td>
+								{{-- <a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="text-warning f16"><i class="fa fa-pencil"></i></a> --}}
+								@if ($user->hasRole('admin'))
+									<a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="btn btn-xs btn-inverse">Edit</a>
+								@endif
+								<a href="javascript:void()" data-toggle="modal" data-target="#view_contact" @click="get_contact({{ $contact }})" class="btn btn-xs btn-info">View</a>
+								<a href="{{ route('view_call_memo', $contact->CustomerRef) }}" class="btn btn-xs btn-inverse">Meeting Notes</a>
+								{{-- <a href="javascript:void()" class="btn btn-xs btn-info">View</a> --}}
+							</td>
+						</tr>
+					@endcan
 				@endforeach
       </tbody>
     </table>

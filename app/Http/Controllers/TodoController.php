@@ -97,11 +97,11 @@ class TodoController extends Controller
       $user = auth()->user();
 
       if (empty($_GET['date'])) {
-        $todos = Todo::where('UserID', $user->id)->where('Done', '0')->get();
-        $dones = Todo::where('UserID', $user->id)->where('Done', '1')->get();
+        $todos = Todo::where('UserID', $user->id)->where('Done', '0')->orderBy('DueDate', 'desc')->get();
+        $dones = Todo::where('UserID', $user->id)->where('Done', '1')->orderBy('DueDate', 'desc')->get();
       } else {
-        $todos = Todo::where('UserID', $user->id)->where('DueDate', $_GET['date'])->where('Done', '0')->get();
-        $dones = Todo::where('UserID', $user->id)->where('DueDate', $_GET['date'])->where('Done', '1')->get();
+        $todos = Todo::where('UserID', $user->id)->where('DueDate', $_GET['date'])->where('Done', '0')->orderBy('DueDate', 'desc')->get();
+        $dones = Todo::where('UserID', $user->id)->where('DueDate', $_GET['date'])->where('Done', '1')->orderBy('DueDate', 'desc')->get();
         $date = Carbon::parse($_GET['date'])->format('jS M, Y');
       }
       $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();

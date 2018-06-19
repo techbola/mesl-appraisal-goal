@@ -608,6 +608,9 @@ audio, canvas, progress, video {
 .label-success {
     background: #39b54a !important;
 }
+.label-inverse {
+    background: #3f4958 !important;
+}
 /* TEXT */
 
 .text-success {
@@ -1000,6 +1003,16 @@ td>.badge, .modal .badge {
 .note-popover.popover.in.note-table-popover.bottom {
     z-index: 9999999999;
 }
+.bg-light {
+  background:#f8f8f8;
+  padding:10px 5px;
+  border-radius:7px;
+}
+.no-color {
+  color: unset;
+}
+
+
 a[href$="xls"]::after, a[href$="xlsx"]::after {
     /*font-family: 'FontAwesome';*/
     /*position: absolute;
