@@ -238,7 +238,7 @@ class PayrollController extends Controller
             ->where('PayYear', $year)
             ->first();
         return dd($payslip_detail);
-        return redirect()->route('individual-payslip')->with('payslip_detail', $payslip_detail);
+        // return redirect()->route('individual-payslip')->with('payslip_detail', $payslip_detail);
     }
 
     // process payroll
