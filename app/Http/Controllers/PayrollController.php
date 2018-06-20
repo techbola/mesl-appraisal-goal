@@ -250,10 +250,11 @@ class PayrollController extends Controller
             ->get();
         // dd($payslip_detail);
         $payslip_detail->transform(function ($item, $key) {
-            $item->Fullname = Staff::find($item->StaffID)->FullName;
+            $item->Fullname = Staff::find($item->StaffID)->full_name;
             return $item;
         });
         $payslip_detail = $payslip_detail->first();
+
         return view('payroll.reports.payslip_general', compact('payslip_detail'));
     }
 
