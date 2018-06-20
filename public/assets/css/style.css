@@ -1008,6 +1008,12 @@ td>.badge, .modal .badge {
   padding:10px 5px;
   border-radius:7px;
 }
+.no-color {
+  color: unset;
+}
+.table-cell {
+  display: table-cell !important;
+}
 
 
 a[href$="xls"]::after, a[href$="xlsx"]::after {

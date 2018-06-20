@@ -63,6 +63,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
     Route::post('reinvite_staff/{id}', 'StaffController@reinvite_staff')->name('reinvite_staff');
+    Route::patch('update_staff_admin/{id}', 'StaffController@update_staff_admin')->name('update_staff_admin');
 
     Route::get('projects', 'ProjectController@index')->name('projects');
     Route::post('store_project', 'ProjectController@store')->name('store_project');
@@ -331,13 +332,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('Post_Policies', 'PolicyController@store_policy');
     Route::get('delete_policy/{id}', 'PolicyController@delete_policy');
     Route::get('update_policy/{id}/{policy}', 'PolicyController@update_policy');
+    Route::get('policies/policy_approver', 'PolicyController@policy_approver')->name('PolicyApprover');
+    Route::post('store_policy_approvers', 'PolicyController@store_policy_approvers');
+    Route::get('change_policy_approvers/{id}', 'PolicyController@change_policy_approvers');
+    Route::get('policy_segments/{policy_id}', 'PolicyController@policy_segments');
 
     // Policies Segment
 
     Route::get('policysegments/create', 'PolicySegmentController@create')->name('CreateNewPolicySegment');
     Route::post('Post_Policy_segment', 'PolicySegmentController@store_policy');
     Route::get('delete_policy_segment/{id}', 'PolicySegmentController@delete_policy_segment');
-    Route::get('update_policy_segment/{id}/{segment}/{policy}', 'PolicySegmentController@update_policy_segment');
+    Route::get('update_policy_segment/{id}/{segment}', 'PolicySegmentController@update_policy_segment');
 
     // Policy Statment
 
@@ -348,6 +353,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('delete_policy_statement/{id}', 'PolicyStatementController@delete_policy_statement');
     Route::get('get_statement_record/{id}', 'PolicyStatementController@get_statement_record');
     Route::post('Update_Policy_statement/{id}', 'PolicyStatementController@Update_Policy_statement');
+
+    // Process Management
+
+    Route::get('processes/index', 'ProcessController@index')->name('ProcessManagement');
+    Route::get('process/create', 'ProcessController@create')->name('CreateNewProcess');
+    Route::post('Post_Process', 'ProcessController@store_process');
+    Route::get('delete_process/{id}', 'ProcessController@delete_process');
+    Route::get('update_process/{id}/{pro}', 'ProcessController@update_process');
 
     //ProductService
     Route::post('store_product_srvice', 'ProductServiceController@store');

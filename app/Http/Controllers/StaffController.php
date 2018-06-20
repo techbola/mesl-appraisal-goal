@@ -119,6 +119,16 @@ class StaffController extends Controller
       return redirect()->back()->with('success', $user->FullName . ' was re-invited successfully. Ask them to check their mail -- '.$user->email);
     }
 
+    public function update_staff_admin(Request $request, $id)
+    {
+      $staff = Staff::find($id);
+      $staff->user->first_name = $request->first_name;
+      $staff->user->last_name = $request->last_name;
+      $staff->user->email = $request->email;
+      $staff->user->update();
+      return redirect()->back()->with('success', 'Staff was updated successfully');
+    }
+
     public function pending_biodata_list()
     {
         $user = auth()->user();

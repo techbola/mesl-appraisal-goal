@@ -125,12 +125,11 @@ class User extends Authenticatable
 
     public function todos()
     {
-      return $this->hasMany('Cavidel\Todo', 'UserID')->orderBy('DueDate');
+      return $this->hasMany('Cavidel\Todo', 'UserID')->orderBy('DueDate', 'desc');
     }
 
     public function sticky_notes()
     {
-
       return $this->hasMany('Cavidel\StickyNote', 'UserID')->orderBy('created_at', 'desc');
     }
 

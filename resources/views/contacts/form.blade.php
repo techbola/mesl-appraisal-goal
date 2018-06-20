@@ -109,6 +109,13 @@
 
   <div class="col-md-12">
     <div class="form-group">
+      {!! Form::label('Assignees', 'Members who can see this contact.') !!}
+      {!! Form::select('Assignees[]', $users->pluck('FullName', 'id')->toArray(), (!empty($person))? explode(',', $person->Assignees) : null, ['class'=>'full-width', 'data-init-plugin'=>'select2', 'multiple']) !!}
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="form-group">
       {!! Form::label('AccountFlag', 'Account Flag') !!}
       {!! Form::select('AccountFlag', ['' => 'No'] + ['1' => 'Yes'], null, ['class'=>'full-width', 'data-init-plugin'=>'select2']) !!}
     </div>

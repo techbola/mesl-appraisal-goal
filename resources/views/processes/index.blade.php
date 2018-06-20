@@ -17,11 +17,11 @@ hr {
 @endpush
 
 @section('title')
-  Policies
+  Process Management
 @endsection
 
 @section('page-title')
-  Policies
+  Process Management
 @endsection
 
 @section('buttons')
@@ -32,23 +32,19 @@ s
 
   	<!-- START PANEL -->
   	<div class="card-box">
-      @if(count($check) >= 1)
       <div style="padding: 30px">
          <ul class="nav nav-pills pull-right">
-             <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create New/View Policy Approvers</a></li>
-             <li role="presentation" class="active"><a href="{{ route('CreateNewPolicySegment') }}">Create New/View Policy Segments</a></li>
-             <li role="presentation" class="active"><a href="{{ route('CreateNewPolicyStatement') }}">Create New/View Policy Statements</a></li>
-             <li><a class="btn btn-info btn-sm" style="color: #fff" href="{{ route('CreateNewPolicy') }}">Create New/View Policies</a></li>
+             <li role="presentation" class="active"><a href="{{ route('ProcessManagement') }}">Add New/View Processes</a></li>
+             <li><a class="btn btn-info btn-sm" style="color: #fff" href="{{ route('CreateNewPolicy') }}">Create New Process Steps</a></li>
          </ul>
       </div><div class="clearfix"></div>
-      @endif
-  			<div class="card-title pull-left" style="font-size: 20px !important">Company Policies</div><div class="clearfix"></div>
+  			<div class="card-title pull-left" style="font-size: 20px !important">Company Process Management Module</div><div class="clearfix"></div>
            <div class="row"><hr>
                <div class="col-md-4">
                  <div class="form-group">
                     <div class="controls">
                         {{ Form::label('Select Policy' ) }}
-                            {{ Form::select('PolicyID', [ '' =>  'Select Policy'] + $policies->pluck('Policy', 'PolicyRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'policy_id', 'onchange' => 'get_segments()', 'data-init-plugin' => "select2", 'required']) }}
+                            {{ Form::select('PolicyID', [ '' =>  'Select Policy'] + $processes->pluck('Policy', 'PolicyRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'policy_id', 'onchange' => 'get_segments()', 'data-init-plugin' => "select2", 'required']) }}
                     </div>
                   </div>
 

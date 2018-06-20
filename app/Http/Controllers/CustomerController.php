@@ -5,12 +5,17 @@ namespace Cavidel\Http\Controllers;
 use Illuminate\Http\Request;
 use Cavidel\Customer;
 use Cavidel\Country;
+use Cavidel\User;
 
 class CustomerController extends Controller
 {
   public function index()
   {
     $user = auth()->user();
+    $users = User::whereHas('staff', function($q) use($user){
+      $q->where('CompanyID', $user->CompanyID);
+    })->get();
+
     if ($user->is_superadmin) {
       $contacts = Customer::orderBy('Customer')->get();
     } else {
@@ -19,7 +24,7 @@ class CustomerController extends Controller
     $countries = Country::orderBy('Country', 'asc')->get();
 
 
-    return view('contacts.index', compact('user','contacts','countries'));
+    return view('contacts.index', compact('user','contacts','countries', 'users'));
   }
 
   public function save_contact(Request $request)
@@ -28,13 +33,19 @@ class CustomerController extends Controller
       'Customer' => 'required',
     ]);
 
-    $contact = Customer::create($request->except(['_token']));
+    $contact = Customer::create($request->except(['_token','Assignees']));
     $contact->CompanyID = auth()->user()->staff->CompanyID;
     if(!empty($request->AccountFlag)){
       $contact->AccountFlag = '1';
     } else {
       $contact->AccountFlag = '0';
     }
+    // $contact->Assignees = $request->Assignees;
+    if (!empty($request->Assignees)) {
+      $assignees = implode(',', $request->Assignees);
+      $contact->Assignees = $assignees;
+    }
+    $contact->InputterID = auth()->user()->id;
     $contact->save();
 
     return redirect()->back()->with('success', $contact->Customer.' was saved successfully.');
@@ -43,10 +54,14 @@ class CustomerController extends Controller
   public function edit_contact($id)
   {
     $user = auth()->user();
-    $contact = Customer::find($id);
+    $person = Customer::find($id);
     $countries = Country::orderBy('Country', 'asc')->get();
 
-    return view('contacts.edit', compact('user','contact','countries'));
+    $users = User::whereHas('staff', function($q) use($user){
+      $q->where('CompanyID', $user->CompanyID);
+    })->get();
+
+    return view('contacts.edit', compact('user','person','countries', 'users'));
   }
 
   public function update_contact(Request $request, $id)
@@ -56,7 +71,12 @@ class CustomerController extends Controller
     ]);
 
     $contact = Customer::find($id);
-    $contact->update($request->except(['_token', '_method']));
+    $contact->fill($request->except(['_token', '_method','Assignees']));
+    if (!empty($request->Assignees)) {
+      $assignees = implode(',', $request->Assignees);
+      $contact->Assignees = $assignees;
+    }
+    $contact->update();
 
     return redirect()->route('business_contacts')->with('success', $contact->Name.' was updated successfully.');
   }

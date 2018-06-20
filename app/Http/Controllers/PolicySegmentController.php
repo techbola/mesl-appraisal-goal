@@ -4,6 +4,7 @@ namespace Cavidel\Http\Controllers;
 
 use Cavidel\Policy;
 use Cavidel\PolicySegment;
+use Cavidel\PolicyApprover;
 use Illuminate\Http\Request;
 
 class PolicySegmentController extends Controller
@@ -11,13 +12,15 @@ class PolicySegmentController extends Controller
 
     public function create()
     {
+        $id       = \Auth()->user()->id;
+        $check    = PolicyApprover::where('UserID', $id)->first();
         $policies = Policy::all();
         $segments = \DB::table('tblPolicySegment')
             ->join('users', 'tblPolicySegment.EnteredBy', '=', 'users.id')
             ->join('tblPolicy', 'tblPolicySegment.PolicyID', '=', 'tblPolicy.PolicyRef')
             ->orderBy('SegmentRef', 'desc')
             ->get();
-        return view('policysegments.create', compact('policies', 'segments'));
+        return view('policysegments.create', compact('policies', 'segments', 'check'));
     }
 
     public function store_policy(Request $request)
@@ -39,12 +42,11 @@ class PolicySegmentController extends Controller
         return 'done';
     }
 
-    public function update_policy_segment($id, $segment, $policy)
+    public function update_policy_segment($id, $segment)
     {
-        $id        = $id;
-        $policy_id = $policy;
-        $seg       = $segment;
-        $trans     = \DB::table('tblpolicySegment')->where('SegmentRef', $id)->update(['PolicyID' => $policy_id, 'Segment' => $seg]);
+        $id    = $id;
+        $seg   = $segment;
+        $trans = \DB::table('tblpolicySegment')->where('SegmentRef', $id)->update(['Segment' => $seg]);
         return 'done';
     }
 
