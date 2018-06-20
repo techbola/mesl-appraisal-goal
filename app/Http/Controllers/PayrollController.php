@@ -213,6 +213,33 @@ class PayrollController extends Controller
         return view('staff.payslip', compact('payslip_detail'));
     }
 
+    public function payslip_general()
+    {
+        $employees = Staff::all()->filter(function ($item) {
+            return $item->CompanyID = auth()->user()->staff->CompanyID;
+        });
+
+        $months = Month::select('Months', 'MonthsRef')->get();
+
+        $years = year_range(2018, 2030); // returns a collection
+
+        return view('payroll.reports.payslip_search', compact('employees', 'months', 'years'));
+    }
+
+    public function payslip_general_post(Request $request)
+    {
+        $month    = $request->PayMonth;
+        $year     = $request->PayYear;
+        $staff_id = $request->StaffID;
+        $payslips = PayrollMonthly::where(['PayMonth' => $month, 'PayYear' => $year, 'StaffID' => $staff_id])->get();
+        // return $payslips;
+        $payslip_detail = PayrollMonthly::where('StaffID', $staff_id)
+            ->where('PayMonth', $month)
+            ->where('PayYear', $year)
+            ->first();
+        return redirect()->route('individual-payslip')->with('payslip_detail', $payslip_detail);
+    }
+
     // process payroll
     public function process_payroll(Request $request)
     {

@@ -389,10 +389,13 @@ Route::middleware(['auth'])->group(function () {
 
     // payslip
     Route::get('payslip', 'PayrollController@payslip_individual')->name('individual-payslip');
+    // All employees payslip
+    Route::get('payslips', 'PayrollController@payslip_general')->name('general-payslip');
+    Route::post('payslips', 'PayrollController@payslip_general_post')->name('general-payslip-post');
 
     // -- end payroll
 
-    // -- Workflow Module
+    // -- Workflow Module1
     Route::resource('workflow', 'WorkflowController');
     Route::get('approvallist', 'ApprovalController@checklist')->name('approvallist');
     Route::post('approvallist/approve', 'ApprovalController@approve');

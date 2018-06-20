@@ -73,9 +73,9 @@
 				{{ Form::open(['action' => 'PayrollRateController@store']) }}
 					<div class="row">
 						<div class="form-group col-sm-6">
-				            {{ Form::label('MonthStartDate','Start Date') }}
+				            {{ Form::label('MonthStartDate','Month Start Date') }}
 				            <div class="input-group date dp">
-				                {{ Form::text('MonthStartDate', null, ['class' => 'form-control', 'placeholder' => 'Satrt Date']) }}
+				                {{ Form::text('MonthStartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date']) }}
 				                <span class="input-group-addon">
 				                    <i class="fa fa-calendar">
 				                    </i>
@@ -84,7 +84,7 @@
 				        </div>
 
 				        <div class="form-group col-sm-6">
-				            {{ Form::label('MonthStartDate','Month Start Date') }}
+				            {{ Form::label('MonthStartDate','Month End Date') }}
 				            <div class="input-group date dp">
 				                {{ Form::text('MonthEndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date']) }}
 				                <span class="input-group-addon">

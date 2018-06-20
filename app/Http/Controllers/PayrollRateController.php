@@ -14,7 +14,7 @@ class PayrollRateController extends Controller
             'MonthEndDate'   => 'required',
         ], [
             'MonthStartDate.required' => 'Choose a Start Date',
-            'MonthEndDate.required'   => 'Choose a End Date',
+            'MonthEndDate.required'   => 'Choose an End Date',
         ]);
         $payroll_period = PayrollRate::first();
         $payroll_period->update($request->all());
