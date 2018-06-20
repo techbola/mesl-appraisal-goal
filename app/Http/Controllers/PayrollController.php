@@ -247,8 +247,13 @@ class PayrollController extends Controller
         $payslip_detail = PayrollMonthly::where('StaffID', $staff_id)
             ->where('PayMonth', $month)
             ->where('PayYear', $year)
-            ->first();
+            ->get();
         // dd($payslip_detail);
+        $payslip_detail->transform(function ($item, $key) {
+            $item->Fullname = Staff::find($item->StaffID)->FullName;
+            return $item;
+        });
+        $payslip_detail = $payslip_detail->first();
         return view('payroll.reports.payslip_general', compact('payslip_detail'));
     }
 

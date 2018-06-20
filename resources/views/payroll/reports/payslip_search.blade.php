@@ -13,7 +13,7 @@
     {{-- START CARD --}}
     <div class="card-box  m-t-20" style="width: 100%">
         <div class="card-title pull-left">
-            Individual Payroll Report.
+            General Payroll Report.
         </div>
         <div class="pull-right">
             <div class="col-xs-12">
@@ -26,7 +26,7 @@
                    <div class="row">
                        <div class="col-sm-4 form-group">
                             {{ Form::label('StaffID', 'Staff') }}
-                            {{ Form::select('StaffID', ['' => 'Select Staff'] + $employees->pluck('FullName', 'StaffRef')->toArray(), auth()->user()->id, ['class' => 'full-width', 'data-init-plugin' => "select2"] ) }}
+                            {{ Form::select('StaffID', ['' => 'Select Staff'] + $employees->pluck('FullName', 'StaffRef')->toArray(), auth()->user()->staff->StaffRef, ['class' => 'full-width', 'data-init-plugin' => "select2"] ) }}
                        </div>
 
                        <div class="col-sm-4 form-group">

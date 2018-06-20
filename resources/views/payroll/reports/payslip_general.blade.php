@@ -18,8 +18,8 @@
                 <div class="pull-left">
                     <img style="width: 150px" alt="" class="invoice-logo" data-src-retina="{{ asset('images/officemate.png') }}" data-src="{{ asset('images/officemate.png') }}" src="{{ asset('images/officemate.png') }}">
                     <address class="m-t-10">
-                      Apple Enterprise Sales
-                      <br>(877) 412-7753.
+                      Company's Address
+                      <br>(234) 412-7753.
                       <br>
                     </address>
                 </div>
@@ -34,7 +34,7 @@
                 <div class="row">
                     <div class="col-lg-9 col-sm-height sm-no-padding">
                         <p class="small no-margin">Payslip For</p>
-                        <h5 class="semi-bold m-t-0">{{ auth()->user()->staff->Fullname }}</h5>
+                        <h5 class="semi-bold m-t-0">{{ $payslip_detail->Fullname }}</h5>
                         <address>                          
                           <br>
                            <strong>Month/Year: </strong> {{ $payslip_detail->PayMonthYear ?? '-' }}
