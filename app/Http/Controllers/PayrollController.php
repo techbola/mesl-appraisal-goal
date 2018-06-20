@@ -213,6 +213,18 @@ class PayrollController extends Controller
         return view('staff.payslip', compact('payslip_detail'));
     }
 
+    public function payslip_all()
+    {
+        $max_month      = PayrollMonthly::max('PayMonth');
+        $current_year   = \Carbon\Carbon::now()->format('Y');
+        $payslip_detail = PayrollMonthly::where('StaffID', auth()->user()->staff->StaffRef)
+            ->where('PayMonth', $max_month)
+            ->where('PayYear', $current_year)
+            ->first();
+        // dd($payslip_detail);
+        return view('staff.payslip', compact('payslip_detail'));
+    }
+
     public function payslip_general()
     {
         $employees = Staff::all()->filter(function ($item) {
@@ -231,17 +243,13 @@ class PayrollController extends Controller
         $month    = $request->PayMonth;
         $year     = $request->PayYear;
         $staff_id = $request->StaffID;
-        $payslips = PayrollMonthly::where('PayMonth', $month)
-            ->where('PayYear', $year)
-            ->where('StaffID', $staff_id)
-            ->get();
         // return $payslips;
         $payslip_detail = PayrollMonthly::where('StaffID', $staff_id)
             ->where('PayMonth', $month)
             ->where('PayYear', $year)
             ->first();
-        return dd($payslip_detail);
-        // return redirect()->route('individual-payslip')->with('payslip_detail', $payslip_detail);
+        // dd($payslip_detail);
+        return view('payroll.reports.payslip_general', compact('payslip_detail'));
     }
 
     // process payroll
