@@ -231,7 +231,10 @@ class PayrollController extends Controller
         $month    = $request->PayMonth;
         $year     = $request->PayYear;
         $staff_id = $request->StaffID;
-        $payslips = PayrollMonthly::where(['PayMonth' => $month, 'PayYear' => $year, 'StaffID' => $staff_id])->get();
+        $payslips = PayrollMonthly::where('PayMonth', $month)
+            ->where('PayYear', $year)
+            ->where('StaffID', $staff_id)
+            ->get();
         // return $payslips;
         $payslip_detail = PayrollMonthly::where('StaffID', $staff_id)
             ->where('PayMonth', $month)
