@@ -10,6 +10,14 @@
 				Edit Company Details
 			</div>
 
+      <div class="m-b-30">
+        @if ($company->Logo)
+          <img src="{{ asset('images/logos/'.$company->Logo) }}" alt="" width="100px" style="border-radius:100%">
+        @else
+          <div class="text-muted f18 m-l-5 m-t-30">No logo uploaded yet.</div>
+        @endif
+      </div>
+
 			<form action="{{ route('update_company', $company->CompanyRef) }}" method="post" enctype="multipart/form-data">
 				{{ csrf_field() }}
 				{{ method_field('PATCH') }}
