@@ -26,7 +26,7 @@
                    <div class="row">
                        <div class="col-sm-4 form-group">
                             {{ Form::label('StaffID', 'Staff') }}
-                            {{ Form::select('StaffID', ['' => 'Select Staff'] + $employees->pluck('FullName', 'UserID')->toArray(), auth()->user()->id, ['class' => 'full-width', 'data-init-plugin' => "select2"] ) }}
+                            {{ Form::select('StaffID', ['' => 'Select Staff'] + $employees->pluck('FullName', 'StaffRef')->toArray(), auth()->user()->id, ['class' => 'full-width', 'data-init-plugin' => "select2"] ) }}
                        </div>
 
                        <div class="col-sm-4 form-group">
