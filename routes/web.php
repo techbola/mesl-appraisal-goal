@@ -43,10 +43,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-    Route::get('/edit-company/{id}', 'CompanyController@edit')->name('edit_company');
+    Route::get('/edit-company/{id?}', 'CompanyController@edit')->name('edit_company');
     Route::patch('/update-company/{id}', 'CompanyController@update')->name('update_company');
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
+
+    Route::get('/help', 'HomeController@help')->name('help');
 
     Route::middleware(['can:superadmin'])->group(function () {
         Route::resource('menus', 'MenuController');
@@ -453,11 +455,19 @@ Route::get('/cls', function () {
 
 Route::get('/cda', function () {
     exec('composer dump-autoload');
-    return redirect()->route('home');
+    return redirect('/');
 });
 
 Route::get('/testing', function () {
+    return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
 
-    $memo = Cavidel\CallMemo::find('17');
-    return view('pdf.call_memo', compact('memo'));
+    <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+    <iframe src = "/assets/plugins/ViewerJS/#/docs/notes.pdf" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
+    </div>
+    </div>
+    ';
+
+    // $memo = Cavidel\CallMemo::find('17');
+    // return view('pdf.call_memo', compact('memo'));
 });

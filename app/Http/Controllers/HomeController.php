@@ -46,4 +46,9 @@ class HomeController extends Controller
       dd($user->unreadNotifications);
     }
 
+    public function help()
+    {
+      return view('help');
+    }
+
 }
