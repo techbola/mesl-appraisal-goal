@@ -399,6 +399,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('payroll/reports/cummulative', 'PayrollController@get_cummulative')->name('payroll.reports.cumulative');
     Route::get('payroll/reports/individual', 'PayrollController@get_individual')->name('payroll.reports.individual');
     Route::get('payroll/reports/netpay-to-bank', 'PayrollController@get_netpay_to_bank')->name('payroll.reports.netpay-to-bank');
+    Route::get('payroll/reports/reconciliation', 'PayrollReconController@index')->name('payroll.reports.recon');
 
     // payroll deductions
     Route::get('payroll/deductions', 'PayrollController@view_deductions')->name('payroll.deduction');

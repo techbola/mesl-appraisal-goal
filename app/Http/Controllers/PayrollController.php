@@ -192,7 +192,7 @@ class PayrollController extends Controller
             EXEC procNetPayToBank
         ");
         $nptb = collect($nptb)->transform(function ($item, $key) {
-            $item->Fullname       = Staff::where('UserID', $item->StaffID)->first()->Fullname;
+            $item->Fullname       = Staff::where('UserID', $item->StaffID)->first()->Fullname ?? '-';
             $item->BankAcctNumber = Staff::where('UserID', $item->StaffID)->first()->BankAcctNumber ?? '-';
             $item->BankName       = Staff::where('UserID', $item->StaffID)->first()->bank->Bank ?? '-';
             return $item;
@@ -248,6 +248,9 @@ class PayrollController extends Controller
             ->where('PayMonth', $month)
             ->where('PayYear', $year)
             ->get();
+        if ($payslip_detail->count() == 0) {
+            return back()->withInput()->with('error', 'Payroll details not available');
+        }
         // dd($payslip_detail);
         $payslip_detail->transform(function ($item, $key) {
             $item->Fullname = Staff::find($item->StaffID)->full_name;
