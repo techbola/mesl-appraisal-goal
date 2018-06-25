@@ -83,6 +83,7 @@ class StaffController extends Controller
             $staff->UserID       = $user->id;
             $staff_departments   = implode(',', $request->DepartmentID);
             $staff->DepartmentID = $staff_departments;
+            $staff->SupervisorID = $request->SupervisorID;
             if (auth()->user()->is_superadmin) {
                 $staff->CompanyID = $request->CompanyID;
             } else {
@@ -556,4 +557,14 @@ class StaffController extends Controller
         }
 
     }
+
+    public function subordinates()
+    {
+      $user = auth()->user();
+      $staffs = $user->staff->subordinates;
+      // $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
+
+      return view('staff.subordinates', compact('staffs', 'companies', 'roles'));
+    }
+
 }

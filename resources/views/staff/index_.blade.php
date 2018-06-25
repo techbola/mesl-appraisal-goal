@@ -117,6 +117,14 @@
 										</select>
 									</div>
 								</div>
+
+								<div class="col-md-12">
+							    <div class="form-group">
+							      <label class="req">Supervisor</label>
+										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+							    </div>
+							  </div>
+
 								@if (auth()->user()->is_superadmin)
 									<div class="col-md-6">
 										<div class="form-group">
@@ -126,8 +134,10 @@
 									</div>
 								@endif
 
+
+
 							</div>
-							<button type="submit" class="btn btn-info">Submit</button>
+							<button type="submit" class="btn btn-info btn-form">Submit</button>
 						</form>
 
           </div>

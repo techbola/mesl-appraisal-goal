@@ -144,6 +144,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
     Route::patch('approve-biodata/{id}', 'StaffController@approve_biodata')->name('approve_biodata');
     Route::patch('reject-biodata/{id}', 'StaffController@reject_biodata')->name('reject_biodata');
+    Route::get('subordinates', 'StaffController@subordinates')->name('subordinates');
 
     Route::resource('staff', 'StaffController');
 
@@ -462,15 +463,16 @@ Route::get('/cda', function () {
 });
 
 Route::get('/testing', function () {
-  return view('testing');
-    return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
-
-    <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-    <iframe src = "/assets/plugins/ViewerJS/#/docs/notes.pdf" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
-    </div>
-    </div>
-    ';
+  return dirname(dirname(__FILE__));
+  // return view('testing');
+  //   return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
+  //
+  //   <div class="row">
+  //   <div class="col-md-8 col-md-offset-2">
+  //   <iframe src = "/assets/plugins/ViewerJS/#/docs/notes.pdf" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
+  //   </div>
+  //   </div>
+  //   ';
 
     // $memo = Cavidel\CallMemo::find('17');
     // return view('pdf.call_memo', compact('memo'));
