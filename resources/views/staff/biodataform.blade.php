@@ -23,30 +23,30 @@
 <br>
 
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('FirstName','First Name') }}
         {{ Form::text('FirstName', $staff->FirstName,  ['class' => 'form-control', 'placeholder' => 'First name']) }}
         {{-- <input type="text" value="{{ $staff->FullName }}" class="form-control" readonly> --}}
       </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('MiddleName','Middle Name') }}
         {{ Form::text('MiddleName', $staff->MiddleName,  ['class' => 'form-control', 'placeholder' => 'Middle name']) }}
       </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('LastName','Last Name') }}
         {{ Form::text('LastName', $staff->LastName,  ['class' => 'form-control', 'placeholder' => 'Last name']) }}
       </div>
     </div>
     @if (auth()->user()->hasRole('admin'))
-      <div class="col-sm-3">
+      <div class="col-sm-6">
         <div class="form-group">
-          <label class="req">Role</label>
-          {{ Form::select('role', [ '' =>  'Select Role'] + $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+          <label class="req">Roles</label>
+          {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
         </div>
       </div>
       <div class="col-md-6">

@@ -51,7 +51,7 @@ class StaffController extends Controller
             $roles     = Role::all();
         } else {
             $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
-            $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
+            $roles  = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
         }
         $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
         return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments'));
@@ -64,7 +64,7 @@ class StaffController extends Controller
             'first_name' => 'required',
             'last_name'  => 'required',
             'email'      => 'required|unique:users',
-            'role'       => 'required',
+            'roles'       => 'required',
         ]);
 
         try {
@@ -81,8 +81,10 @@ class StaffController extends Controller
 
             $staff               = new Staff;
             $staff->UserID       = $user->id;
-            $staff_departments   = implode(',', $request->DepartmentID);
-            $staff->DepartmentID = $staff_departments;
+            if (!empty($request->DepartmentID)) {
+              $staff_departments   = implode(',', $request->DepartmentID);
+              $staff->DepartmentID = $staff_departments;
+            }
             $staff->SupervisorID = $request->SupervisorID;
             if (auth()->user()->is_superadmin) {
                 $staff->CompanyID = $request->CompanyID;
@@ -99,8 +101,11 @@ class StaffController extends Controller
             // }
 
             // Role is now compulsory
-            $role = Role::where('id', $request->role)->first();
-            $user->roles()->attach($role->id);
+            foreach ($request->roles as $role_id) {
+              $user->roles()->attach($role_id);
+            }
+            // $role = Role::where('id', $request->role)->first();
+            // $user->roles()->attach($role->id);
 
             DB::commit();
             Notification::send($user, new StaffInvitation());
@@ -321,7 +326,7 @@ class StaffController extends Controller
         $countries      = Country::all();
         $hmos           = HMO::all();
         $hmoplans       = HMOPlan::all();
-        $roles          = Role::where('CompanyID', $user->staff->CompanyID)->get();
+        $roles          = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
         $role           = User::find($staff->UserID)->roles;
         $banks          = Bank::all();
 
@@ -454,9 +459,10 @@ class StaffController extends Controller
                 // END PHOTO
 
             } else {
+              if (!empty($request->DepartmentID)) {
                 $staff_departments = implode(',', $request->DepartmentID);
-                // dd($staff_departments);
                 $staff->DepartmentID = $staff_departments;
+              }
 
                 $user_staff->first_name  = $request->FirstName;
                 $user_staff->middle_name = $request->MiddleName;
@@ -483,13 +489,13 @@ class StaffController extends Controller
 
                 // END PHOTO
 
-                if (!$user->hasRole('admin')) {
+                // if ($user->id != $user_staff->id) {
                     $user_staff->roles()->detach();
-                    $user_staff->roles()->attach($request->role);
-                }
+                    $user_staff->roles()->attach($request->roles);
+                // }
             }
 
-            $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar', 'role', 'DepartmentID']));
+            $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar', 'roles', 'DepartmentID']));
             $staff->save();
 
             DB::commit();

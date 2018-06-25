@@ -99,9 +99,9 @@
 							    </div>
 							  </div>
 							  <div class="col-md-6">
-							    <div class="form-group">
-							      <label class="req">Role</label>
-										{{ Form::select('role', [ '' =>  'Select Role'] + $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+									<div class="form-group">
+							      <label class="req">Supervisor</label>
+										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
 							    </div>
 							  </div>
 								<div class="col-md-12">
@@ -119,10 +119,10 @@
 								</div>
 
 								<div class="col-md-12">
-							    <div class="form-group">
-							      <label class="req">Supervisor</label>
-										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
-							    </div>
+									<div class="form-group">
+									 <label class="req">Roles</label>
+									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+								 </div>
 							  </div>
 
 								@if (auth()->user()->is_superadmin)
