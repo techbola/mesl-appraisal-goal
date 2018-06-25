@@ -214,6 +214,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
     Route::get('fetch_discussion/{id}', 'CallMemoController@fetch_discussion'); // AJAX
     Route::get('fetch_action/{id}', 'CallMemoController@fetch_action'); // AJAX
+    Route::get('download_meeting_report/{name}', function($name) {
+      return Storage::download('/meeting_files/'.$name);
+    })->name('download_meeting_report');
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
@@ -459,6 +462,7 @@ Route::get('/cda', function () {
 });
 
 Route::get('/testing', function () {
+  return view('testing');
     return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
 
     <div class="row">

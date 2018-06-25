@@ -72,6 +72,8 @@
                 <a class="m-l-10 add_point pointer btn btn-xs btn-info" data-toggle="modal" data-target="#disc_point" onclick="get_memo_id('{{ $memo->CallMemoRef }}')"> <i class="fa fa-plus m-r-5"></i> Discussion</a>
                 <a class="m-l-5 pointer btn btn-xs btn-warning" data-toggle="modal" data-target="#edit_memo" @click="edit_memo({{ $memo }})">Edit</a>
 
+                <a href="{{-- route('download_meeting_report', ) --}}">Download</a>
+
                 {{-- <div class="btn-group">
                     <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       ... <span class="caret"></span>
