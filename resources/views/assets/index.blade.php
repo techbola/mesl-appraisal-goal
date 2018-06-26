@@ -13,12 +13,15 @@
 @endsection
 
 @section('content')
-  <div class="card-box" id="print-content">
+  <div class="card-box">
     <div class="card-title pull-left">Company Assets</div>
 		<div class="pull-right">
 				<input type="text" class="search-table form-control pull-right" placeholder="Search">
 		</div>
 		<div class="clearfix"></div>
+
+		<span class="btn btn-inverse" onclick="window.print()"><i class="fa fa-qrcode m-r-5"></i> Print tags</span>
+
     <table id="assets" class="table table-striped table-bordered tableWithSearch">
       <thead>
         <th width="20%">Description</th>
@@ -75,6 +78,23 @@
   </div>
 
     @include('assets.modals')
+
+		{{-- Tags --}}
+		<div class="print-hidden" id="print-content">
+			@foreach ($assets as $asset)
+				<div class="tag-list">
+					<li>
+						<div class="table-cell p-r-10">{{ QRCode::text('Asset name: '.strtoupper($asset->Description).' // Purchase Date: '.$asset->PurchaseDate->format('jS M, Y'))->svg() }}</div>
+						<div class="table-cell" style="vertical-align:middle">
+							<div class="f15">{{ $asset->Description }}</div>
+							<div class="f22 m-t-10">{{ $asset->AssetNo ?? '&mdash;' }}</div>
+							<div class="f15 m-t-10">Serial: {{ $asset->SerialNo }}</div>
+						</div>
+					</li>
+				</div>
+			@endforeach
+		</div>
+		{{-- End Tags --}}
 @endsection
 
 @push('vue')

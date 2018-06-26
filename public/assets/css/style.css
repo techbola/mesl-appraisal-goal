@@ -438,6 +438,13 @@ audio, canvas, progress, video {
 .my-list.uniform li:first-child, .my-list.uniform li:first-child {
   padding: 10px 0;
 }
+.tag-list li {
+    padding: 20px 10px;
+    /* border-bottom: 2px dashed #555; */
+    border: 2px dashed #777;
+    margin-bottom: 0;
+    list-style: none;
+}
 /* NOTIF */
 
 .notif-list {
@@ -875,17 +882,24 @@ h1, h2, h3, h4, h5, h6 {
 .select2-search-choice-close:before {
     color: #ffffff !important;
 }
+.print-hidden {
+  visibility: hidden;
+}
 @media print {
     body * {
         visibility: hidden;
+        /* display:none; */
     }
     #print-content, #print-content * {
-        visibility: visible;
+        visibility: visible !important;
+        /* display: block !important; */
     }
     #print-content {
         position: absolute;
         left: 0;
+        right: 0;
         top: 0;
+        bottom:0;
     }
 }
 /* Start Dashblocks */

@@ -187,6 +187,7 @@ return [
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
         Barryvdh\DomPDF\ServiceProvider::class,
+        LaravelQRCode\Providers\QRCodeServiceProvider::class,
 
     ],
 
@@ -245,6 +246,7 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'QRCode' => LaravelQRCode\Facades\QRCode::class,
 
     ],
 
