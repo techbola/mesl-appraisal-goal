@@ -3,7 +3,7 @@
   <div class="col-md-12">
 
     <ul class="cd-accordion-menu animated">
-      @foreach ($staff->projects_extended as $project)
+      @foreach ($staff->projects_extended->load('tasks') as $project)
         <li class="has-children">
           <input type="checkbox" name ="project_{{ $project->ProjectRef }}" id="project_{{ $project->ProjectRef }}">
           <label for="project_{{ $project->ProjectRef }}">

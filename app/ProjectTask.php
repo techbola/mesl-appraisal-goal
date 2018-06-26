@@ -11,6 +11,8 @@ class ProjectTask extends Model
   public $primaryKey = 'TaskRef';
   // public $dates = ['EndDate'];
 
+  public $with = ['steps'];
+
   protected $appends = ['progress', 'progress_percent'];
 
   public function project()

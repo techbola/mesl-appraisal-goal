@@ -15,7 +15,7 @@ class AssetController extends Controller
   public function index()
   {
     $user = auth()->user();
-    $assets = Asset::where('CompanyID', $user->staff->CompanyID)->get();
+    $assets = Asset::where('CompanyID', $user->staff->CompanyID)->with(['location', 'category', 'allotee'])->get();
     $categories = AssetCategory::where('CompanyID', $user->staff->CompanyID)->get();
     $locations = Location::where('CompanyID', $user->CompanyID)->get();
     $employees = Staff::where('CompanyID', $user->CompanyID)->get();
