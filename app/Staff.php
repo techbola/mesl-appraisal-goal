@@ -5,11 +5,17 @@ namespace Cavidel;
 // use Codesleeve\Stapler\ORM\EloquentTrait;
 // use Codesleeve\Stapler\ORM\StaplerableInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Staff extends Model
 {
+  use SoftDeletes;
+
+  protected $dates = ['deleted_at'];
+
   // implements StaplerableInterface
-    // use EloquentTrait;
+  // use EloquentTrait;
+  
     protected $table   = 'tblStaff';
     protected $guarded = ['StaffRef'];
     public $timestamps = false;

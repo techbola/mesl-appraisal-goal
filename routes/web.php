@@ -143,6 +143,8 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('staff/{id}/bio_data_details', 'StaffController@updatebiodata');
     Route::get('account', 'StaffController@manage_account')->name('manage_account');
     Route::get('edit-profile', 'UserController@edit_profile')->name('edit_profile');
+    Route::patch('disengage/{id}', 'UserController@disengage')->name('disengage');
+    Route::patch('reengage/{id}', 'UserController@reengage')->name('reengage');
 
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
