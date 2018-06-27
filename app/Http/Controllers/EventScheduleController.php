@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Cavidel\EventSchedule;
 use Cavidel\User;
 use Cavidel\Department;
+use Cavidel\Staff;
 
 use Cavidel\Notifications\NewCalendarEvent;
 use Notification;
@@ -29,6 +30,7 @@ class EventScheduleController extends Controller
     $user = auth()->user();
     $user_departments = explode(',', $user->staff->DepartmentID);
     $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->get();
+    $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->where('DateofBirth', '!=', '')->where('DateofBirth', '!=', NULL)->get();
     $events_array = [];
     $count = '0';
 
@@ -45,6 +47,18 @@ class EventScheduleController extends Controller
       $events_array[$count]['description'] = str_limit($event->Description, '100');
       $count++;
     }
+    // foreach ($staffs as $staff) {
+    //   $events_array[$count]['ref'] = '00',
+    //   $events_array[$count]['title'] = $staff->FullName.'\'s Birthday',
+    //   $events_array[$count]['start'] = $staff->DateofBirth,
+    //     $date[$count] = date_create($staff->DateofBirth);
+    //     date_add($date[$count], date_interval_create_from_date_string('1 days'));
+    //     $end_date = date_format($date[$count], 'Y-m-d');
+    //   $events_array[$count]['end'] = $end_date,
+    //   $events_array[$count]['description'] = '';
+    //   $count++;
+    // }
+
     // $events_json = $events->toJson();
     // dd($events_array);
     return json_encode($events_array);

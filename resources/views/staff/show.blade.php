@@ -46,6 +46,15 @@
               <i class="fa fa-plus"></i>
               Edit Details
             </a>
+            @if (!$staff->trashed() && !$staff->user->hasRole('admin'))
+              <a class="btn btn-danger" onclick="confirm2('Disengage this staff?', '', 'disengage_form')">
+                <i class="fa fa-times"></i> Disengage
+              </a>
+              <form class="hidden" id="disengage_form" action="{{ route('disengage', $staff->UserID) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('PATCH') }}
+              </form>
+            @endif
           </div>
         @endcan
 

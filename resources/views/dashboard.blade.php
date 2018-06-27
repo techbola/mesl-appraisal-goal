@@ -73,23 +73,52 @@
             </div>
 
             <div class="my-list">
-              @forelse ($events->take('3') as $item)
-                <li>
-                  <div class="thumbnail-wrapper d24 circular">
-                    {{-- <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar()) }}"> --}}
-                    <i class="fa fa-calendar"></i>
-                  </div>
+              @if (count($events) > 0) {{-- || count($birthdays) > 0 --}}
 
-                  <div class="table-cell p-l-10">
-                    <div class="" style="margin-top:0 !important">{{ $item->Event }}</div>
-                    <div class="no-margin text-muted small">
-                      {{ (Carbon::parse($item->StartDate)->isToday())? 'Today' : ''.Carbon::parse($item->StartDate)->format('jS M, Y') }} &mdash; {{ (Carbon::parse($item->EndDate)->isToday())? 'Today' : ''.Carbon::parse($item->EndDate)->format('jS M, Y') }}
+                @foreach ($events->take('3') as $item)
+                  <li>
+                    <div class="thumbnail-wrapper d24 circular">
+                      {{-- <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar()) }}"> --}}
+                      <i class="fa fa-calendar"></i>
                     </div>
-                  </div>
-                </li>
-              @empty
+
+                    <div class="table-cell p-l-10">
+                      <div class="" style="margin-top:0 !important">{{ $item->Event }}</div>
+                      <div class="no-margin text-muted small">
+                        {{ (Carbon::parse($item->StartDate)->isToday())? 'Today' : ''.Carbon::parse($item->StartDate)->format('jS M, Y') }} &mdash; {{ (Carbon::parse($item->EndDate)->isToday())? 'Today' : ''.Carbon::parse($item->EndDate)->format('jS M, Y') }}
+                      </div>
+                    </div>
+                  </li>
+                @endforeach
+
+
+                {{-- @if (count($birthdays) > 0)
+                  <i class="fa fa-birthday-cake m-r-5"></i>
+                  <span class="bold f14">Birthdays Today</span>
+                @endif
+                @foreach ($birthdays as $item)
+                  @if (Carbon::parse($item->DateofBirth)->isBirthday())
+                    <li>
+                      <div class="thumbnail-wrapper d24 circular">
+                        <!-- <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->user->avatar()) }}"> -->
+                        <i class="fa fa-birthday-cake"></i>
+                      </div>
+
+                      <div class="table-cell p-l-10">
+                        <div class="" style="margin-top:0 !important">{{ $item->FullName }}'s Birthday</div>
+                        <div class="no-margin text-muted small">
+                          {{ (Carbon::parse($item->DateofBirth)->isBirthday(Carbon::now()))? 'Today' : ''.Carbon::parse($item->DateofBirth)->format('jS M') }}
+                        </div>
+                      </div>
+                    </li>
+                  @endif
+                @endforeach --}}
+
+              @else
                 @emptylist()
-              @endforelse
+              @endif
+
+
             </div>
 
           </div>
@@ -250,6 +279,33 @@
                 <div class="label label-inverse m-t-5">{{ $item->NumberofDays }} Days</div>
               </div>
             </li>
+          @endforeach
+        </div>
+
+      </div>
+      {{-- End Leave Requests --}}
+
+      {{-- Leave Requests --}}
+      <div class="card-box">
+        <div class="card-title">Birthdays Today</div>
+
+        <div class="my-list">
+          @foreach ($birthdays as $item)
+            @if (Carbon::parse($item->DateofBirth)->isBirthday())
+              <li>
+                <div class="thumbnail-wrapper d24 circular">
+                  <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->user->avatar()) }}">
+                  {{-- <i class="fa fa-birthday-cake"></i> --}}
+                </div>
+
+                <div class="table-cell p-l-10">
+                  <div class="" style="margin-top:0 !important">{{ $item->FullName }} <i class="fa fa-birthday-cake m-l-5"></i></div>
+                  <div class="no-margin text-muted small">
+                    {{ (Carbon::parse($item->DateofBirth)->isBirthday(Carbon::now()))? 'Today' : ''.Carbon::parse($item->DateofBirth)->format('jS M') }}
+                  </div>
+                </div>
+              </li>
+            @endif
           @endforeach
         </div>
 
