@@ -73,7 +73,7 @@
             </div>
 
             <div class="my-list">
-              @if (count($events) > 0 || count($birthdays) > 0)
+              @if (count($events) > 0) {{-- || count($birthdays) > 0 --}}
 
                 @foreach ($events->take('3') as $item)
                   <li>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Cavidel\EventSchedule;
 use Cavidel\User;
 use Cavidel\Department;
+use Cavidel\Staff;
 
 use Cavidel\Notifications\NewCalendarEvent;
 use Notification;
