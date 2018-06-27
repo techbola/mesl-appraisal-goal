@@ -15,6 +15,8 @@ class Staff extends Model
     public $timestamps = false;
     public $primaryKey = 'StaffRef';
 
+    public $with = ['user'];
+
     public function user()
     {
         return $this->belongsTo('Cavidel\User', 'UserID');

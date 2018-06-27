@@ -3,6 +3,7 @@
 namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
+use QRCode;
 
 class Asset extends Model
 {
@@ -10,6 +11,8 @@ class Asset extends Model
   protected $guarded = ['AssetRef'];
   public $primaryKey = 'AssetRef';
   public $dates = ['PurchaseDate'];
+
+  // protected $appends = ['qrcode'];
 
   public function category()
   {
@@ -24,6 +27,11 @@ class Asset extends Model
   public function allotee()
   {
     return $this->belongsTo('Cavidel\Staff', 'AlloteeID');
+  }
+
+  public function getQrcodeAttribute()
+  {
+    return QRCode::text('Asset name: '.strtoupper($this->Description).' // Purchase Date: '.$this->PurchaseDate->format('jS M, Y'))->svg();
   }
 
 }

@@ -89,6 +89,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save-asset', 'AssetController@save_asset')->name('save_asset');
     Route::patch('update-asset/{id}', 'AssetController@update_asset')->name('update_asset');
     Route::delete('delete-asset/{id}', 'AssetController@delete_asset')->name('delete_asset');
+    Route::post('get_assets_print', 'AssetController@get_assets_print')->name('get_assets_print'); // AJAX
+
+    //Search
+    Route::get('search', 'SearchController@index')->name('search');
 
     // Amortisation
     Route::get('amortisation', 'AmortisationController@index')->name('amortisation-index');

@@ -43,7 +43,7 @@
         <th>Actions</th>
       </thead>
       <tbody>
-        @foreach ($projects as $project)
+        @foreach ($projects->load('supervisor') as $project)
           <tr>
           <td><a href="{{ route('view_project', $project->ProjectRef) }}">{{ $project->Project}}</a></td>
           <td>

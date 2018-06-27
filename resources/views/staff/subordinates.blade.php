@@ -27,7 +27,13 @@
 				<tbody>
 					@foreach ($staffs as $staff)
 						<tr>
-						<td><a href="{{ route('staff.show', $staff->StaffRef) }}" title="">{{ $staff->user->FullName}}</a></td>
+						<td>
+							@if (auth()->user()->hasRole('admin'))
+								<a href="{{ route('staff.show', $staff->StaffRef) }}" title="">{{ $staff->user->FullName}}</a>
+							@else
+								{{ $staff->user->FullName}}
+							@endif
+						</td>
 						<td>{{ $staff->user->email }}</td>
 						<td>{{ $staff->MobilePhone }}</td>
 						<td>{{ $staff->TownCity }} {{ ($staff->state)? '/ '.$staff->state->State : '' }} {{ ($staff->country)? '/ '.$staff->country->Country : '' }}</td>

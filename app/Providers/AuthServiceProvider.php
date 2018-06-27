@@ -42,7 +42,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // Company admins
         Gate::define('company-admin', function ($user) {
-          return $user->hasRole('admin');
+          return ($user->hasRole('admin') || $user->is_superadmin);
         });
 
         // Task owner (assignee)
@@ -62,6 +62,10 @@ class AuthServiceProvider extends ServiceProvider
         // Company admins
         Gate::define('edit-company', function ($user, $company) {
           return ($user->is_superadmin || $company->CompanyRef == $user->CompanyID);
+        });
+        // Company admins
+        Gate::define('edit-profile', function ($user, $profile_user) {
+          return ($user->is_superadmin || $user->hasRole('admin') || $user->id == $profile_user->id);
         });
     }
 }
