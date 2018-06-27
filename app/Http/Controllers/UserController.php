@@ -24,18 +24,21 @@ public function disengage($id)
   if ($user->hasRole('admin')) {
     return redirect()->back()->with('error', 'Cannot disengage an admin.');
   }
-  $user->delete();
-  $user->staff->delete();
+  $user->is_disengaged = '1';
+  $user->update();
 
-  return redirect()->back()->with('success', $user->FullName.' was disengaged successfully');
+  return redirect()->route('staff.index')->with('success', $user->FullName.' was disengaged successfully');
 }
 
 public function restore($id)
 {
   $this->authorize('company-admin');
-  $user = User::withTrashed()->where('id', $id)->first();
-  $user->restore_user();
-  $user->staff->restore_user();
+  // $user = User::withTrashed()->where('id', $id)->first();
+  // $user->restore_user();
+  // $user->staff->restore_user();
+  $user = User::find($id);
+  $user->is_disengaged = '0';
+  $user->update();
 
   return redirect()->back()->with('success', $user->FullName.' was re-engaged successfully');
 }

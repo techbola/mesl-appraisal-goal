@@ -46,7 +46,7 @@
               <i class="fa fa-plus"></i>
               Edit Details
             </a>
-            @if (!$staff->trashed() && !$staff->user->hasRole('admin'))
+            @if (!$staff->is_disengaged && !$staff->user->hasRole('admin'))
               <a class="btn btn-danger" onclick="confirm2('Disengage this staff?', '', 'disengage_form')">
                 <i class="fa fa-times"></i> Disengage
               </a>

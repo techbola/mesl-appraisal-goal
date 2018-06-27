@@ -615,6 +615,9 @@ audio, canvas, progress, video {
 .label-success {
     background: #39b54a !important;
 }
+.label-warning {
+    background: #fd9a18 !important;
+}
 .label-inverse {
     background: #3f4958 !important;
 }

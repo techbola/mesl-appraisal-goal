@@ -30,7 +30,7 @@ class LoginController extends Controller
 
     $user = User::where('email', $request->email)->where('is_activated', '0')->first();
 
-    if (Auth::attempt(['email'=>$request->email, 'password'=>$request->password, 'is_activated'=>'1'])) {
+    if (Auth::attempt(['email'=>$request->email, 'password'=>$request->password, 'is_activated'=>'1', 'is_disengaged'=>'0'])) {
       return redirect()->intended('/');
     } elseif($user) {
       return redirect()->back()->withErrors('Your account has not been activated.');
