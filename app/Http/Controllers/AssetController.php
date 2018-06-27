@@ -9,6 +9,8 @@ use Cavidel\Location;
 use Cavidel\Staff;
 use Cavidel\User;
 
+use QRCode;
+
 class AssetController extends Controller
 {
 
@@ -21,6 +23,17 @@ class AssetController extends Controller
     $employees = Staff::where('CompanyID', $user->CompanyID)->get();
 
     return view('assets.index', compact('assets', 'categories', 'locations', 'employees'));
+  }
+
+  public function get_assets_print(Request $request)
+  {
+    // return $request->assets;
+    $assets = Asset::whereIn('AssetRef', $request->assets)->with(['location', 'category', 'allotee'])->get();
+
+    // foreach ($assets as $asset) {
+    //   $asset->qrcode2 = QRCode::text('Asset name: '.strtoupper($asset->Description).' // Purchase Date: '.$asset->PurchaseDate->format('jS M, Y'))->svg();
+    // }
+    return $assets->each->append('qrcode');
   }
 
   public function save_asset(Request $request)

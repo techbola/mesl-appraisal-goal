@@ -39,12 +39,16 @@
         <div class="card-title pull-left">
           {{ $staff->FullName }}'s BioData
         </div>
-        <div class="pull-right">
-          <a href="{{ route('staff.edit_biodata',[$staff->StaffRef]) }}" title="" class="btn btn-info btn-cons" id="show-modal">
-            <i class="fa fa-plus"></i>
-            Edit Details
-          </a>
-        </div>
+
+        @can ('edit-profile', $staff->user)
+          <div class="pull-right">
+            <a href="{{ route('staff.edit_biodata',[$staff->StaffRef]) }}" title="" class="btn btn-info btn-cons" id="show-modal">
+              <i class="fa fa-plus"></i>
+              Edit Details
+            </a>
+          </div>
+        @endcan
+
         <div class="clearfix"></div>
 
 

@@ -40,6 +40,7 @@ class StaffController extends Controller
 
     public function index()
     {
+      $this->authorize('company-admin');
         // $staffs = \DB::table('tblStaff')
         //     ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
         //     ->get();
@@ -314,10 +315,12 @@ class StaffController extends Controller
 
     public function edit_biodata($id)
     {
+        $staff  = Staff::where('StaffRef', $id)->first();
+        $this->authorize('edit-profile', $staff->user);
+
         $user = auth()->user();
 
         $staffs = Staff::all();
-        $staff  = Staff::where('StaffRef', $id)->first();
 
         $religions      = Religion::all();
         $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');

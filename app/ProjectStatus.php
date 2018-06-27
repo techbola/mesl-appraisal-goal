@@ -8,4 +8,5 @@ class ProjectStatus extends Model
 {
   protected $table = 'tblProjectStatus';
   protected $guarded = ['id'];
+
 }

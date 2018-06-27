@@ -11,6 +11,9 @@ class Project extends Model
   protected $guarded = ['ProjectRef'];
   public $primaryKey = 'ProjectRef';
 
+  public $with = ['tasks'];
+  protected $appends = ['status', 'progress', 'progress_percent'];
+
 
   // public function assignees()
   // {
