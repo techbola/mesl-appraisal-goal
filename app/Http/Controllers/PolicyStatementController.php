@@ -14,12 +14,12 @@ class PolicyStatementController extends Controller
     {
         $id       = \Auth()->user()->id;
         $check    = PolicyApprover::where('UserID', $id)->first();
-        $policies = Policy::all();
+        $policies = Policy::orderBy('Policy', 'asc')->get();
         $segments = \DB::table('tblPolicyStatement')
             ->join('users', 'tblPolicyStatement.EnteredBy', '=', 'users.id')
             ->join('tblPolicy', 'tblPolicyStatement.PolicyID', '=', 'tblPolicy.PolicyRef')
             ->join('tblPolicySegment', 'tblPolicyStatement.SegmentID', '=', 'tblPolicySegment.SegmentRef')
-            ->orderBy('StatementRef', 'desc')
+            ->orderBy('StatementRef', 'asc')
             ->get();
         return view('policystatements.create', compact('policies', 'segments', 'check'));
     }

@@ -27,7 +27,7 @@
       <ul class="nav nav-tabs outside">
         <li class="active"><a data-toggle="tab" href="#unapproved">Unsent Memos &nbsp; <span class="badge badge-warning">{{ $my_unsent_memos->count() }}</span></a></li>
         <li><a data-toggle="tab" href="#approved">Sent Memos &nbsp; <span class="badge badge-success">{{ $my_memos->count() }}</span></a></li>
-        <li><a data-toggle="tab" href="#inbox">Memo Inbox &nbsp; <span class="badge badge-danger">{{ $memo_inbox->where('processed_flag', 0)->count() }}</span></a></li>
+        <li><a data-toggle="tab" href="#inbox">Memo Inbox &nbsp; <span class="badge badge-danger">{{ $memo_inbox->count() }}</span></a></li>
       </ul>
       <div class="tab-content">
         <div id="unapproved" class="tab-pane fade in active">

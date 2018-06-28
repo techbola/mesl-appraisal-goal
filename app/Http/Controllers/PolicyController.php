@@ -14,7 +14,7 @@ class PolicyController extends Controller
     {
         $id       = \Auth()->user()->id;
         $check    = PolicyApprover::where('UserID', $id)->first();
-        $policies = Policy::all();
+        $policies = Policy::orderBy('Policy', 'asc')->get();
         return view('policies.index', compact('policies', 'check'));
     }
 
