@@ -42,9 +42,10 @@ class MemoController extends Controller
     public function create()
     {
 
-        $employees = User::all();
+        $employees = Staff::where('CompanyID', auth()->user()->CompanyID)->get();
+        // dd($employees);
         $employees = $employees->transform(function ($item, $key) {
-            $item->name = $item->Fullname;
+            $item->name = $item->FullName;
             return $item;
         });
         $request_types = RequestType::all();
