@@ -31,7 +31,7 @@ tfoot{
       <div style="padding: 30px">
         
       </div><div class="clearfix"></div>
-      @if(count($check) >= 1)
+      @if(count($check) == 1)
       <div style="padding: 30px">
          <ul class="nav nav-pills pull-right">
              {{-- <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create Policy Approver</a></li> --}}
@@ -88,7 +88,7 @@ tfoot{
     <div class="page-content-wrapper ">
 <div class="content ">
           <!-- Modal -->
-          <div class="modal fade fill-in" id="modalFillIn2" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+          <div class="modal fade fill-in" id="modalFillIn2"  role="dialog" aria-hidden="true" style="display: none;">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
               <i class="pg-close" style="color: #fff"></i>
             </button>

@@ -11,7 +11,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             <div class="controls">
-                {{ Form::label('PatientName', 'Patient Name') }}
+                {{ Form::label('staffName', 'Staff Name') }}
                 <p class="form-control text-primary">
                     {{ $client_details->Name }}
                 </p>

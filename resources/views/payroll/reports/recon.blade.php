@@ -25,7 +25,7 @@
 		<div class="panel-body">
 			<table id="recon" class="table tableWithSearch table-striped table-bordered">
 				<thead>
-					<th></th>
+					{{-- <th></th> --}}
 					<th>Full Name</th>
 					<th>Old Deduction</th>
 					<th>New Deduction</th>
@@ -35,7 +35,7 @@
 					<th>Net Pay Difference</th>
 				</thead>
 				<tfoot class="thead">
-					<th></th>
+					{{-- <th></th> --}}
 					<th>Full Name</th>
 					<th>Old Deduction</th>
 					<th>New Deduction</th>
@@ -47,7 +47,7 @@
 				<tbody>
 					@foreach($recons as $recon)
 					<tr>
-						<td></td>
+						{{-- <td></td> --}}
 						<td>{{ $recon->staff->Fullname ?? 'No Name' }}</td>
 						<td>{{ number_format($recon->PreviousDeductions, 2) }}</td>
 						<td>{{ number_format($recon->LatestDeductions, 2) }}</td>

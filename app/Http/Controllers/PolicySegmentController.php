@@ -14,7 +14,7 @@ class PolicySegmentController extends Controller
     {
         $id       = \Auth()->user()->id;
         $check    = PolicyApprover::where('UserID', $id)->first();
-        $policies = Policy::all();
+        $policies = Policy::orderBy('Policy', 'asc')->get();
         $segments = \DB::table('tblPolicySegment')
             ->join('users', 'tblPolicySegment.EnteredBy', '=', 'users.id')
             ->join('tblPolicy', 'tblPolicySegment.PolicyID', '=', 'tblPolicy.PolicyRef')
