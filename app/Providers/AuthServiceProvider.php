@@ -65,11 +65,11 @@ class AuthServiceProvider extends ServiceProvider
 
         // Company admins
         Gate::define('edit-company', function ($user, $company) {
-          return ($user->is_superadmin || $user->hasRole('hr admin') || $company->CompanyRef == $user->CompanyID);
+          return ($user->is_superadmin || $company->CompanyRef == $user->CompanyID);
         });
         // Company admins
         Gate::define('edit-profile', function ($user, $profile_user) {
-          return ($user->is_superadmin || $user->hasRole('admin') || $user->id == $profile_user->id);
+          return ($user->is_superadmin || $user->hasRole('admin') || $user->hasRole('hr admin') || $user->id == $profile_user->id);
         });
     }
 }
