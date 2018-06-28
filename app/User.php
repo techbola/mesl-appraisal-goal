@@ -5,17 +5,18 @@ namespace Cavidel;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
-    use EntrustUserTrait {EntrustUserTrait::restore insteadof SoftDeletes;}
-    // use SoftDeletes { restore as private restore_user; }
-    use SoftDeletes { SoftDeletes::restore insteadof EntrustUserTrait; }
+    use EntrustUserTrait;
+    // use SoftDeletes;
+    // use EntrustUserTrait {EntrustUserTrait::restore insteadof SoftDeletes;}
+    // use SoftDeletes { SoftDeletes::restore insteadof EntrustUserTrait; }
 
+    // protected $dates = ['deleted_at'];
 
-    protected $dates = ['deleted_at'];
 
 
     /**
