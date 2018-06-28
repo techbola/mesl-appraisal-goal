@@ -34,9 +34,9 @@
 				<tbody>
 					@foreach ($staffs as $staff)
 						<tr>
-						<td><a href="{{ route('staff.show', $staff->StaffRef) }}" title="">{{ $staff->user->FullName}}</a></td>
-						<td>{{ $staff->user->email }}</td>
-						<td>{{ $staff->MobilePhone }}</td>
+						<td><a href="{{ route('staff.show', $staff->StaffRef) }}" title="">{{ $staff->user->FullName ?? '&mdash;' }}</a></td>
+						<td>{{ $staff->user->email ?? '&mdash;' }}</td>
+						<td>{{ $staff->MobilePhone ?? '&mdash;' }}</td>
 						<td>
 							@if ($staff->user->is_disengaged)
 								<span class="label label-danger">Disengaged</span>
@@ -103,7 +103,7 @@
 							  <div class="col-md-6">
 									<div class="form-group">
 							      <label class="req">Supervisor</label>
-										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2"]) }}
 							    </div>
 							  </div>
 								<div class="col-md-12">
