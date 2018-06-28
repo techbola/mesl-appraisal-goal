@@ -332,13 +332,14 @@ class StaffController extends Controller
         $roles          = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
         $role           = User::find($staff->UserID)->roles;
         $banks          = Bank::all();
+        $locations = Location::all();
 
         $departments       = Department::where('CompanyID', $user->staff->CompanyID)->get();
         $staff_departments = explode(',', $staff->DepartmentID);
         $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations'));
     }
 
     public function editFinanceDetails($id)
