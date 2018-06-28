@@ -10,6 +10,7 @@ use Cavidel\Bulletin;
 use Cavidel\EventSchedule;
 use Cavidel\LeaveRequest;
 use Cavidel\Memo;
+use Cavidel\Staff;
 
 class HomeController extends Controller
 {
@@ -35,9 +36,10 @@ class HomeController extends Controller
       $leave_requests = LeaveRequest::where('ApproverID', $user->id)->where('CompletedFlag', '0')->get();
       $bulletins = Bulletin::where('CompanyID', $user->CompanyID)->whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
       $events = EventSchedule::where('CompanyID', $user->CompanyID)->whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today)->get();
+      $birthdays = Staff::where('CompanyID', $user->CompanyID)->where('DateofBirth', '!=', '')->where('DateofBirth', '!=', NULL)->get();
       $unapproved_memos = Memo::where('ApproverID', $user->id)->where('NotifyFlag', 1)->get();
       // dd($tasks);
-      return view('dashboard', compact('pending_meeting_actions', 'todos_today', 'tasks', 'bulletins', 'events', 'todos_week', 'messages', 'leave_requests', 'unapproved_memos'));
+      return view('dashboard', compact('pending_meeting_actions', 'todos_today', 'tasks', 'bulletins', 'events', 'todos_week', 'messages', 'leave_requests', 'unapproved_memos', 'birthdays'));
     }
 
     public function read_notification($id)

@@ -8,5 +8,6 @@ class Country extends Model
 {
     protected $table   = 'tblCountry';
     protected $guarded = ['CountryRef'];
+    public $primaryKey = 'CountryRef';
     public $timestamps = false;
 }

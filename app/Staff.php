@@ -5,15 +5,23 @@ namespace Cavidel;
 // use Codesleeve\Stapler\ORM\EloquentTrait;
 // use Codesleeve\Stapler\ORM\StaplerableInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Staff extends Model
 {
+  use SoftDeletes;
+
+  protected $dates = ['deleted_at'];
+
   // implements StaplerableInterface
-    // use EloquentTrait;
+  // use EloquentTrait;
+
     protected $table   = 'tblStaff';
     protected $guarded = ['StaffRef'];
     public $timestamps = false;
     public $primaryKey = 'StaffRef';
+
+    public $with = ['user'];
 
     public function user()
     {
@@ -22,6 +30,18 @@ class Staff extends Model
     public function company()
     {
         return $this->belongsTo('Cavidel\Company', 'CompanyID');
+    }
+    public function country()
+    {
+        return $this->belongsTo('Cavidel\Country', 'CountryID');
+    }
+    public function state()
+    {
+        return $this->belongsTo('Cavidel\State', 'StateID');
+    }
+    public function location()
+    {
+        return $this->belongsTo('Cavidel\Location', 'LocationID');
     }
     public function tasks()
     {
@@ -79,6 +99,11 @@ class Staff extends Model
     public function scorecards()
     {
       return $this->hasMany('Cavidel\ScoreCard', 'StaffID');
+    }
+
+    public function subordinates()
+    {
+      return $this->hasMany('Cavidel\Staff', 'SupervisorID');
     }
 
     // public function __construct(array $attributes = array())

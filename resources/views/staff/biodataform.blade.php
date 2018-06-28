@@ -23,30 +23,30 @@
 <br>
 
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('FirstName','First Name') }}
         {{ Form::text('FirstName', $staff->FirstName,  ['class' => 'form-control', 'placeholder' => 'First name']) }}
         {{-- <input type="text" value="{{ $staff->FullName }}" class="form-control" readonly> --}}
       </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('MiddleName','Middle Name') }}
         {{ Form::text('MiddleName', $staff->MiddleName,  ['class' => 'form-control', 'placeholder' => 'Middle name']) }}
       </div>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('LastName','Last Name') }}
         {{ Form::text('LastName', $staff->LastName,  ['class' => 'form-control', 'placeholder' => 'Last name']) }}
       </div>
     </div>
     @if (auth()->user()->hasRole('admin'))
-      <div class="col-sm-3">
+      <div class="col-sm-6">
         <div class="form-group">
-          <label class="req">Role</label>
-          {{ Form::select('role', [ '' =>  'Select Role'] + $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+          <label class="req">Roles</label>
+          {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
         </div>
       </div>
       <div class="col-md-6">
@@ -124,10 +124,16 @@
         </div>
     </div>
 
-    <div class="col-sm-4">
+    {{-- <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('TownCity','Town / City') }}
             {{ Form::text('TownCity', null,  ['class' => 'form-control', 'placeholder' => 'Enter Town']) }}
+        </div>
+    </div> --}}
+    <div class="col-sm-4">
+        <div class="form-group">
+            {{ Form::label('LocationID','Office Location') }}
+            {{ Form::select('LocationID', [ '' =>  'Select Location'] + $locations->pluck('Location', 'LocationRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Office Location", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
 
@@ -146,6 +152,8 @@
             {{ Form::select('CountryID', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
+
+
     {{-- <div class="clearfix"></div> --}}
   </div>
   <div class="row">

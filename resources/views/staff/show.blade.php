@@ -39,12 +39,25 @@
         <div class="card-title pull-left">
           {{ $staff->FullName }}'s BioData
         </div>
-        <div class="pull-right">
-          <a href="{{ route('staff.edit_biodata',[$staff->StaffRef]) }}" title="" class="btn btn-info btn-cons" id="show-modal">
-            <i class="fa fa-plus"></i>
-            Edit Details
-          </a>
-        </div>
+
+        @can ('edit-profile', $staff->user)
+          <div class="pull-right">
+            <a href="{{ route('staff.edit_biodata',[$staff->StaffRef]) }}" title="" class="btn btn-info btn-cons" id="show-modal">
+              <i class="fa fa-plus"></i>
+              Edit Details
+            </a>
+            @if (!$staff->is_disengaged && !$staff->user->hasRole('admin'))
+              <a class="btn btn-danger" onclick="confirm2('Disengage this staff?', '', 'disengage_form')">
+                <i class="fa fa-times"></i> Disengage
+              </a>
+              <form class="hidden" id="disengage_form" action="{{ route('disengage', $staff->UserID) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('PATCH') }}
+              </form>
+            @endif
+          </div>
+        @endcan
+
         <div class="clearfix"></div>
 
 

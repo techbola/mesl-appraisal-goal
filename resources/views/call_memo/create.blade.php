@@ -18,7 +18,7 @@
           Create a New Meeting Note with <span class="text-muted">{{ $contact->Customer }}</span>
         </div>
 
-        <form class="" action="{{ route('store_call_memo', $contact->CustomerRef) }}" method="post">
+        <form class="" action="{{ route('store_call_memo', $contact->CustomerRef) }}" method="post" enctype="multipart/form-data">
           {{ csrf_field() }}
           <div class="row">
             <div class="col-md-6">
@@ -82,13 +82,21 @@
 
             </div>
           </div>
+
+          <div id="files">
+            {{-- <input type="file" class="form-control filestyle" name="file[]" value="" data-buttonname="btn-info" data-buttonBefore="true"> --}}
+          </div>
+
+          <div class="btn btn-sm btn-info m-t-10" id="add_file">
+            <i class="fa fa-plus m-r-5"></i> Add File
+          </div>
+
+
           <hr>
           {{-- <button type="button" id="add_discussion" class="btn btn-inverse pull-right m-t-10 m-b-20"><i class="fa fa-plus"></i> Discussion Point</button> --}}
           <div class="clearfix"></div>
 
-          <div id="discussions" class="">
-
-          </div>
+          <div id="discussions" class=""></div>
 
 
           <div class="m-t-30">
@@ -98,6 +106,7 @@
 
 
         </form>
+
       </div>
 
     </div>
@@ -119,6 +128,23 @@
       $(this).val('');
     });
   </script>
+
+  {{-- Append Files --}}
+  <script>
+    var files = $('#files');
+    // var disc_id = 0;
+    $('#add_file').on('click', function(){
+      // disc_id++;
+      files.append(`
+        <div class="row m-t-5 clearfix">
+          <input type="file" class="form-control pull-left m-t-5" name="MeetingFiles[]" value="" style="width:90%">
+          <i class="fa fa-times-circle text-danger delete f22 pointer m-t-10 m-l-10"></i>
+        </div>
+        `);
+    });
+  </script>
+
+  {{-- Append Discussions --}}
   <script>
     var discussions = $('#discussions');
     var disc_id = 0;
@@ -147,7 +173,7 @@
     });
     // Delete Discussions
     $("body").on("click", ".delete", function (e) {
-      if (confirm('Remove this discussion?'))
+      if (confirm('Remove this item?'))
         // $(this).closest(".row").fadeOut(300).remove();
         $(this).closest(".row").fadeOut(700, function(){
           $(this).remove();
@@ -185,4 +211,6 @@
     //   `);
     // };
   </script>
+
+  <script src="{{ asset('assets/plugins/dropzone/dropzone.js') }}" charset="utf-8"></script>
 @endpush

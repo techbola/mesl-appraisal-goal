@@ -89,6 +89,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save-asset', 'AssetController@save_asset')->name('save_asset');
     Route::patch('update-asset/{id}', 'AssetController@update_asset')->name('update_asset');
     Route::delete('delete-asset/{id}', 'AssetController@delete_asset')->name('delete_asset');
+    Route::post('get_assets_print', 'AssetController@get_assets_print')->name('get_assets_print'); // AJAX
+
+    //Search
+    Route::get('search', 'SearchController@index')->name('search');
 
     // Amortisation
     Route::get('amortisation', 'AmortisationController@index')->name('amortisation-index');
@@ -139,11 +143,14 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('staff/{id}/bio_data_details', 'StaffController@updatebiodata');
     Route::get('account', 'StaffController@manage_account')->name('manage_account');
     Route::get('edit-profile', 'UserController@edit_profile')->name('edit_profile');
+    Route::patch('disengage/{id}', 'UserController@disengage')->name('disengage');
+    Route::patch('reengage/{id}', 'UserController@reengage')->name('reengage');
 
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
     Route::patch('approve-biodata/{id}', 'StaffController@approve_biodata')->name('approve_biodata');
     Route::patch('reject-biodata/{id}', 'StaffController@reject_biodata')->name('reject_biodata');
+    Route::get('subordinates', 'StaffController@subordinates')->name('subordinates');
 
     Route::resource('staff', 'StaffController');
 
@@ -214,6 +221,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
     Route::get('fetch_discussion/{id}', 'CallMemoController@fetch_discussion'); // AJAX
     Route::get('fetch_action/{id}', 'CallMemoController@fetch_action'); // AJAX
+    Route::get('download_meeting_report/{name}', function($name) {
+      return Storage::download('/meeting_files/'.$name);
+    })->name('download_meeting_report');
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
@@ -460,14 +470,16 @@ Route::get('/cda', function () {
 });
 
 Route::get('/testing', function () {
-    return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
-
-    <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-    <iframe src = "/assets/plugins/ViewerJS/#/docs/notes.pdf" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
-    </div>
-    </div>
-    ';
+  return dirname(dirname(__FILE__));
+  // return view('testing');
+  //   return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
+  //
+  //   <div class="row">
+  //   <div class="col-md-8 col-md-offset-2">
+  //   <iframe src = "/assets/plugins/ViewerJS/#/docs/notes.pdf" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
+  //   </div>
+  //   </div>
+  //   ';
 
     // $memo = Cavidel\CallMemo::find('17');
     // return view('pdf.call_memo', compact('memo'));

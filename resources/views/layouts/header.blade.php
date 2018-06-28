@@ -439,7 +439,7 @@
     <script src="{{ asset('assets/plugins/multiselect/js/jquery.selectlistactions.js') }}"></script>
     {{-- Filestyle --}}
     <script src="{{ asset('assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}"></script>
-    <style media="screen">
+    {{-- <style media="screen">
       .r-round{
         border-radius:0 20px 20px 0 !important;
       }
@@ -449,7 +449,7 @@
       $(".group-span-filestyle > label").css('border-radius', '20px 0 0 20px');
       $(".bootstrap-filestyle input").addClass('r-round');
     });
-    </script>
+    </script> --}}
 
     <script>
       // Function for Confirmation modals

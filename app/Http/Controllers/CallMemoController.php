@@ -8,6 +8,7 @@ use Cavidel\CallMemoDiscussion;
 use Cavidel\CallMemoAction;
 use Cavidel\CallMemoActionStatus;
 use Cavidel\CallMemoMeetingType;
+use Cavidel\CallMemoFile;
 use Cavidel\Customer;
 use Cavidel\Staff;
 use Cavidel\HelpersOld;
@@ -16,6 +17,7 @@ use Cavidel\Mail\SendCallMemo;
 
 use DB;
 use PDF;
+use Storage;
 
 class CallMemoController extends Controller
 {
@@ -63,6 +65,22 @@ class CallMemoController extends Controller
                     $disc->DiscussionPoint = $discuss;
                     $disc->CallMemoID      = $memo->CallMemoRef;
                     $disc->save();
+                }
+            }
+            if (!empty($request->MeetingFiles)) {
+                foreach ($request->MeetingFiles as $file) {
+                  $filename = $file->getClientOriginalName();
+                  // $saved    = $file->storeAs('meeting_files', $filename);
+                  $saved    = Storage::disk('public')->put('meeting_files/'.$filename, $file);
+
+                  if ($saved) {
+                    $new_file = new CallMemoFile;
+                    $new_file->Filename = $filename;
+                    $new_file->CallMemoID = $memo->CallMemoRef;
+                    $new_file->InputterID = $user->id;
+                    $new_file->save();
+                  }
+
                 }
             }
         });

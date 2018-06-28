@@ -26,4 +26,9 @@ class CallMemo extends Model
     return $this->belongsTo('Cavidel\CallMemoMeetingType', 'MeetingTypeID');
   }
 
+  public function files()
+  {
+    return $this->hasMany('Cavidel\CallMemoFile', 'CallMemoID');
+  }
+
 }
