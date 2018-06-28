@@ -20,7 +20,7 @@
 					<th>Staff Name</th>
 					<th>Email Address</th>
 					<th>Mobile Number</th>
-					<th>Location</th>
+					<th>Office Location</th>
 					{{-- <th>Account Status</th>
 					<th>Actions</th> --}}
 				</thead>
@@ -36,7 +36,7 @@
 						</td>
 						<td>{{ $staff->user->email }}</td>
 						<td>{{ $staff->MobilePhone }}</td>
-						<td>{{ $staff->TownCity }} {{ ($staff->state)? '/ '.$staff->state->State : '' }} {{ ($staff->country)? '/ '.$staff->country->Country : '' }}</td>
+						<td>{{ $staff->location->Location ?? '&mdash;' }}</td>
 						{{-- <td>
 							@if ($staff->user->is_activated)
 								<span class="label label-success">Active</span>
