@@ -124,10 +124,16 @@
         </div>
     </div>
 
-    <div class="col-sm-4">
+    {{-- <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('TownCity','Town / City') }}
             {{ Form::text('TownCity', null,  ['class' => 'form-control', 'placeholder' => 'Enter Town']) }}
+        </div>
+    </div> --}}
+    <div class="col-sm-4">
+        <div class="form-group">
+            {{ Form::label('LocationID','Office Location') }}
+            {{ Form::select('LocationID', [ '' =>  'Select Location'] + $locations->pluck('Location', 'LocationRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Office Location", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
 
@@ -146,6 +152,8 @@
             {{ Form::select('CountryID', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
+
+
     {{-- <div class="clearfix"></div> --}}
   </div>
   <div class="row">

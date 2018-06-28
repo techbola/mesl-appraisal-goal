@@ -15,7 +15,7 @@ class Staff extends Model
 
   // implements StaplerableInterface
   // use EloquentTrait;
-  
+
     protected $table   = 'tblStaff';
     protected $guarded = ['StaffRef'];
     public $timestamps = false;
@@ -38,6 +38,10 @@ class Staff extends Model
     public function state()
     {
         return $this->belongsTo('Cavidel\State', 'StateID');
+    }
+    public function location()
+    {
+        return $this->belongsTo('Cavidel\Location', 'LocationID');
     }
     public function tasks()
     {
