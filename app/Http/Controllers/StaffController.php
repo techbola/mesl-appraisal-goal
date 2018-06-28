@@ -40,7 +40,7 @@ class StaffController extends Controller
 
     public function index()
     {
-      $this->authorize('company-admin');
+      $this->authorize('hr-admin');
         // $staffs = \DB::table('tblStaff')
         //     ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
         //     ->get();
