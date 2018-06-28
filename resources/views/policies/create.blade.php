@@ -31,7 +31,7 @@ tfoot{
       <div style="padding: 30px">
         
       </div><div class="clearfix"></div>
-      @if(count($check) >= 1)
+      @if(count($check) == 1)
       <div style="padding: 30px">
          <ul class="nav nav-pills pull-right">
              {{-- <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create Policy Approver</a></li> --}}

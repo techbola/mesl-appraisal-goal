@@ -365,6 +365,16 @@ Route::middleware(['auth'])->group(function () {
     //ProductService
     Route::post('store_product_srvice', 'ProductServiceController@store');
 
+    //Training
+
+    Route::get('training/training_agency', 'TrainingController@training_agency_page')->name('TrainingAgencyPage');
+    Route::post('post_training_agency', 'TrainingController@post_training_agency');
+    Route::get('get_clicked_agency/{id}', 'TrainingController@get_clicked_agency');
+    Route::get('training/training_course', 'TrainingController@training_course_page')->name('TrainingCourse');
+    Route::post('post_training_course', 'TrainingController@post_training_course');
+    Route::get('get_clicked_course/{id}', 'TrainingController@get_clicked_course');
+    Route::get('training/schedule_training', 'TrainingController@schedule_training')->name('ScheduleTraining');
+
     // -- payroll
 
     Route::get('payroll/details', 'PayrollController@details')->name('payroll.details');
