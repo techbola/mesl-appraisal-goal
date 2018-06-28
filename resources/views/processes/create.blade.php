@@ -85,7 +85,7 @@ tfoot{
     <div class="page-content-wrapper ">
 <div class="content ">
           <!-- Modal -->
-          <div class="modal fade fill-in" id="modalFillIn2" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+          <div class="modal fade fill-in" id="modalFillIn2"  role="dialog" aria-hidden="true" style="display: none;">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
               <i class="pg-close" style="color: #fff"></i>
             </button>

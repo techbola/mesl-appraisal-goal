@@ -86,7 +86,9 @@ class StaffController extends Controller
               $staff_departments   = implode(',', $request->DepartmentID);
               $staff->DepartmentID = $staff_departments;
             }
-            $staff->SupervisorID = $request->SupervisorID;
+            if (!empty($request->SupervisorID)) {
+              $staff->SupervisorID = $request->SupervisorID;
+            }
             if (auth()->user()->is_superadmin) {
                 $staff->CompanyID = $request->CompanyID;
             } else {
