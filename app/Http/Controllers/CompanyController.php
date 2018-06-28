@@ -52,10 +52,15 @@ class CompanyController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit($id = null)
     {
       $user = auth()->user();
+      if (empty($id)) {
+        $id = $user->CompanyID;
+      }
       $company = Company::find($id);
+
+      $this->authorize('edit-company', $company);
 
       return view('companies.edit', compact('company'));
     }
@@ -69,6 +74,8 @@ class CompanyController extends Controller
 
       $user = auth()->user();
       $company = Company::find($id);
+
+      $this->authorize('edit-company', $company);
 
       $company->Company = $request->Company;
 

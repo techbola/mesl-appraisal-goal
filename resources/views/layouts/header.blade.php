@@ -282,9 +282,16 @@
               </button>
               <ul class="dropdown-menu profile-dropdown" role="menu">
                 @if ($user->staff)
-                  <li><a href="{{ route('staff.edit_biodata', $user->staff->StaffRef) }}"><i class="pg-settings_small"></i> Edit Staff Profile</a>
+                  <li><a href="{{ route('staff.edit_biodata', $user->staff->StaffRef) }}"><i class="fa fa-user"></i> Edit Staff Profile</a>
                   </li>
                 @endif
+                @if ($user->hasRole('admin'))
+                  <li><a href="{{ route('edit_company', $user->CompanyID) }}"><i class="fa fa-briefcase"></i> Edit Company</a>
+                  </li>
+                @endif
+                <li>
+                  <a href="{{ route('help') }}"><i class="fa fa-support"></i> Help</a>
+                </li>
                 {{-- <li><a href="#"><i class="pg-outdent"></i> Feedback</a>
                 </li>
                 <li><a href="#"><i class="pg-signals"></i> Help</a>
@@ -389,6 +396,12 @@
 </div><!-- end vue init -->
     <!-- BEGIN VENDOR JS -->
 
+
+
+    <div id="spinner" style="display: none; padding-top:40vh" class="text-center">
+      <img src="{{ asset('assets/img/spinner.gif') }}" alt="" width="40px">
+    </div>
+
     <script src="{{ asset('js/uikit.js') }}"></script>
 
 
@@ -426,7 +439,7 @@
     <script src="{{ asset('assets/plugins/multiselect/js/jquery.selectlistactions.js') }}"></script>
     {{-- Filestyle --}}
     <script src="{{ asset('assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}"></script>
-    <style media="screen">
+    {{-- <style media="screen">
       .r-round{
         border-radius:0 20px 20px 0 !important;
       }
@@ -436,7 +449,7 @@
       $(".group-span-filestyle > label").css('border-radius', '20px 0 0 20px');
       $(".bootstrap-filestyle input").addClass('r-round');
     });
-    </script>
+    </script> --}}
 
     <script>
       // Function for Confirmation modals
@@ -487,6 +500,7 @@
 
     <!-- END PAGE LEVEL JS -->
     @include('notifications')
+
 
     {{-- PUSHER NOTIFICATIONS --}}
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>

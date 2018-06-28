@@ -43,10 +43,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-    Route::get('/edit-company/{id}', 'CompanyController@edit')->name('edit_company');
+    Route::get('/edit-company/{id?}', 'CompanyController@edit')->name('edit_company');
     Route::patch('/update-company/{id}', 'CompanyController@update')->name('update_company');
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
+
+    Route::get('/help', 'HomeController@help')->name('help');
 
     Route::middleware(['can:superadmin'])->group(function () {
         Route::resource('menus', 'MenuController');
@@ -87,6 +89,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save-asset', 'AssetController@save_asset')->name('save_asset');
     Route::patch('update-asset/{id}', 'AssetController@update_asset')->name('update_asset');
     Route::delete('delete-asset/{id}', 'AssetController@delete_asset')->name('delete_asset');
+    Route::post('get_assets_print', 'AssetController@get_assets_print')->name('get_assets_print'); // AJAX
+
+    //Search
+    Route::get('search', 'SearchController@index')->name('search');
 
     // Amortisation
     Route::get('amortisation', 'AmortisationController@index')->name('amortisation-index');
@@ -137,11 +143,14 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('staff/{id}/bio_data_details', 'StaffController@updatebiodata');
     Route::get('account', 'StaffController@manage_account')->name('manage_account');
     Route::get('edit-profile', 'UserController@edit_profile')->name('edit_profile');
+    Route::patch('disengage/{id}', 'UserController@disengage')->name('disengage');
+    Route::patch('reengage/{id}', 'UserController@reengage')->name('reengage');
 
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
     Route::patch('approve-biodata/{id}', 'StaffController@approve_biodata')->name('approve_biodata');
     Route::patch('reject-biodata/{id}', 'StaffController@reject_biodata')->name('reject_biodata');
+    Route::get('subordinates', 'StaffController@subordinates')->name('subordinates');
 
     Route::resource('staff', 'StaffController');
 
@@ -212,6 +221,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
     Route::get('fetch_discussion/{id}', 'CallMemoController@fetch_discussion'); // AJAX
     Route::get('fetch_action/{id}', 'CallMemoController@fetch_action'); // AJAX
+    Route::get('download_meeting_report/{name}', function($name) {
+      return Storage::download('/meeting_files/'.$name);
+    })->name('download_meeting_report');
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
@@ -403,6 +415,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('payroll/reports/cummulative', 'PayrollController@get_cummulative')->name('payroll.reports.cumulative');
     Route::get('payroll/reports/individual', 'PayrollController@get_individual')->name('payroll.reports.individual');
     Route::get('payroll/reports/netpay-to-bank', 'PayrollController@get_netpay_to_bank')->name('payroll.reports.netpay-to-bank');
+    Route::get('payroll/reports/reconciliation', 'PayrollReconController@index')->name('payroll.reports.recon');
 
     // payroll deductions
     Route::get('payroll/deductions', 'PayrollController@view_deductions')->name('payroll.deduction');
@@ -412,10 +425,13 @@ Route::middleware(['auth'])->group(function () {
 
     // payslip
     Route::get('payslip', 'PayrollController@payslip_individual')->name('individual-payslip');
+    // All employees payslip
+    Route::get('payslips', 'PayrollController@payslip_general')->name('general-payslip');
+    Route::post('payslips', 'PayrollController@payslip_general_post')->name('general-payslip-post');
 
     // -- end payroll
 
-    // -- Workflow Module
+    // -- Workflow Module1
     Route::resource('workflow', 'WorkflowController');
     Route::get('approvallist', 'ApprovalController@checklist')->name('approvallist');
     Route::post('approvallist/approve', 'ApprovalController@approve');
@@ -460,11 +476,21 @@ Route::get('/cls', function () {
 
 Route::get('/cda', function () {
     exec('composer dump-autoload');
-    return redirect()->route('home');
+    return redirect('/');
 });
 
 Route::get('/testing', function () {
+  return dirname(dirname(__FILE__));
+  // return view('testing');
+  //   return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
+  //
+  //   <div class="row">
+  //   <div class="col-md-8 col-md-offset-2">
+  //   <iframe src = "/assets/plugins/ViewerJS/#/docs/notes.pdf" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
+  //   </div>
+  //   </div>
+  //   ';
 
-    $memo = Cavidel\CallMemo::find('17');
-    return view('pdf.call_memo', compact('memo'));
+    // $memo = Cavidel\CallMemo::find('17');
+    // return view('pdf.call_memo', compact('memo'));
 });

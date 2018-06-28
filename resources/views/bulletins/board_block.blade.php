@@ -1,7 +1,7 @@
 @foreach ($bulletins as $item)
   <div class="card-box">
     <div class="thumbnail-wrapper d48 circular">
-      <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar) }}">
+      <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar()) }}">
     </div>
 
     <div class="inline m-l-15">
