@@ -11,6 +11,7 @@ use Cavidel\EventSchedule;
 use Cavidel\LeaveRequest;
 use Cavidel\Memo;
 use Cavidel\Staff;
+use Carbon;
 
 class HomeController extends Controller
 {
@@ -24,11 +25,14 @@ class HomeController extends Controller
       // return date('Y-m-d', strtotime('+30 days'));
       $user = auth()->user();
       $today = date('Y-m-d');
+      $start_week = Carbon::parse($today)->startofWeek()->format('Y-m-d');
+      $end_week = Carbon::parse($today)->endofWeek()->format('Y-m-d');
       $next7days = date('Y-m-d', strtotime('+7 days'));
       // Include where status is not done
       $pending_meeting_actions = CallMemoAction::where('UserID', $user->id)->count();
       $todos_today = Todo::where('UserID', $user->id)->where('Done', 0)->whereDate('DueDate', '=', $today)->get();
-      $todos_week = Todo::where('UserID', $user->id)->where('Done', 0)->whereDate('DueDate', '>=', $today)->whereDate('DueDate', '<', $next7days)->get();
+      // $todos_week = Todo::where('UserID', $user->id)->where('Done', 0)->whereDate('DueDate', '>=', $today)->whereDate('DueDate', '<', $next7days)->get();
+      $todos_week = Todo::where('UserID', $user->id)->where('Done', 0)->whereDate('DueDate', '>=', $start_week)->whereDate('DueDate', '<=', $end_week)->orderBy('DueDate', 'asc')->get();
       $tasks = ProjectTask::where('StaffID', $user->staff->StaffRef)->whereHas('steps', function($q){
         $q->where('Done', 0);
       })->get();
