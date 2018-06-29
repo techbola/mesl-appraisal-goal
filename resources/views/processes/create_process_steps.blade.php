@@ -170,7 +170,7 @@ tfoot{
                   <td>${val.Responsibility}</td>
                   <td>${val.Task}</td>
                   <td>${val.Job_Aid}</td>
-                  <td class='hide'><input name='ProcessStepRef' value='${val.ProcessStepRef}'></td>
+                  <td class='hide'><input name='ProcessStepRef[]' value='${val.ProcessStepRef}'></td>
               </tr>
              `);
             });
@@ -225,7 +225,7 @@ tfoot{
     $('#update_step').click(function() {
         $.post('/update_process_step', $('#update_step_form').serialize(), function(data, status) {
 
-          $('#step_form').html(' ');
+          $('#step_list').html(' ');
           $.each(data, function(index, val){
              $('#step_list').append(`
               <tr>

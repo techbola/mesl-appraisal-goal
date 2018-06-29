@@ -60,7 +60,7 @@
     <link href="assets/plugins/codrops-dialogFx/dialog.ie.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <![endif]-->
   </head>
-  <body class="fixed-header menu-pin">
+  <body class="fixed-header horizontal-menu menu-pin">
     @if (auth()->check())
       <?php $user = auth()->user(); ?>
     @endif
@@ -187,6 +187,16 @@
                 {{ Auth::user()->staff->company->Company }}
               </span>
             @endif
+            {{-- <div class="pull-right hidden-sm hidden-xs col-sm-6">
+              <div class="header-inner text-right">
+                <a class="m-r-15 hint-text link text-black" href="#">English</a>
+                <a class="m-r-15 hint-text link text-black" href="#">Blog</a>
+                <a class="m-r-15 hint-text link text-black b-r b-grey p-r-20" href="#">Privacy Policy</a>
+                <p class="font-montserrat fs-13 text-master p-t-20 inline ">+65 345 345 5555 <i class="m-l-10 fa fa-phone"></i></p>
+              </div>
+            </div> --}}
+
+
           </div>
         </div>
 
@@ -314,6 +324,9 @@
       <div class="page-content-wrapper ">
         <!-- START PAGE CONTENT -->
         <div class="content ">
+
+          {{-- @include('layouts.partials.topmenu') --}}
+
           <!-- START JUMBOTRON -->
           <div class="jumbotron" data-pages="parallax">
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
@@ -330,7 +343,7 @@
 
                 <ul class="breadcrumb">
                   {{-- <li>
-                    <p class="theme-secondary text-uppercase">{{ config('app.name1', 'OfficeMate') }}</p>
+                    <p class="theme-secondary text-uppercase">{{ config('app.name', 'OfficeMate') }}</p>
                   </li>
                   <li><a href="#" class="active text-uppercase">{{ Route::currentRouteName() }}</a></li> --}}
                     @if(View::hasSection('page-title'))
@@ -340,7 +353,7 @@
                     @else
                       {{-- @yield('title') --}}
                       <li>
-                        <p class="theme-secondary text-uppercase">{{ config('app.name1', 'OfficeMate') }}</p>
+                        <p class="theme-secondary text-uppercase">{{ config('app.name', 'OfficeMate') }}</p>
                       </li>
                       <li><a href="#" class="active text-uppercase">{{ Route::currentRouteName() }}</a></li>
                     @endif
@@ -513,7 +526,7 @@
       // Enable pusher logging - don't include this in production
       // Pusher.logToConsole = true;
 
-      var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+      var pusher = new Pusher('{{ config('app.pusher_app_key') }}', {
         cluster: 'eu',
         encrypted: true
       });

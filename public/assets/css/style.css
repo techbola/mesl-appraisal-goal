@@ -1048,6 +1048,11 @@ td>.badge, .modal .badge {
 .panel-heading a:not(.btn) {
   opacity: unset !important;
 }
+@media (min-width: 992px) {
+  .horizontal-menu [data-pages="sidebar"]+.page-container {
+    padding-left: unset;
+  }
+}
 
 
 a[href$="xls"]::after, a[href$="xlsx"]::after {
