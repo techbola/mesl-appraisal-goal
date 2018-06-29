@@ -34,17 +34,21 @@ s
   	<div class="card-box">
       <div style="padding: 30px">
          <ul class="nav nav-pills pull-right">
-             <li role="presentation" class="active"><a href="{{ route('ProcessManagement') }}">Add New/View Processes</a></li>
-             <li><a class="btn btn-info btn-sm" style="color: #fff" href="{{ route('CreateNewPolicy') }}">Create New Process Steps</a></li>
+             <ul class="nav nav-pills pull-right">
+             {{-- <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create Policy Approver</a></li> --}}
+             <li><a style="background: #bbb" href="{{ route('ProcessManagement') }}">Return to Process Management Page</a></li>
+             <li role="presentation" class="active"><a href="{{ route('CreateNewProcess') }}">Create New/View Process</a></li>
+             <li role="presentation" class="active"><a href="{{ route('CreateProcessSteps') }}">Create New/View Process Steps</a></li>
+         </ul>
          </ul>
       </div><div class="clearfix"></div>
   			<div class="card-title pull-left" style="font-size: 20px !important">Company Process Management Module</div><div class="clearfix"></div>
            <div class="row"><hr>
                <div class="col-md-4">
-                 <div class="form-group">
+                    <div class="form-group">
                     <div class="controls">
-                        {{ Form::label('Select Policy' ) }}
-                            {{ Form::select('PolicyID', [ '' =>  'Select Policy'] + $processes->pluck('Policy', 'PolicyRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'policy_id', 'onchange' => 'get_segments()', 'data-init-plugin' => "select2", 'required']) }}
+                        {{ Form::label('Select Process' ) }}
+                            {{ Form::select('ProcessRef', [ '' =>  'Select a Process'] + $processes->pluck('process', 'processRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'process_id', 'onchange' => 'add_step()', 'data-init-plugin' => "select2", 'required']) }}
                     </div>
                   </div>
 
@@ -56,15 +60,24 @@ s
                   </div>        
               </div>
 
-              <div class="col-md-8 hide" id="show_policy">
-                <div style="padding: 20px; background: #eee">
-                  <span class="pull-right" id="date"></span><div class="clearfix"></div>
-                  <h1 id="policy" style="font-weight: bold; font-size: 30px"></h1>
-                  <h4 id="segment"></h4><hr>
-                  <p id="body" class="m-b-5" style="display: inline-block;"></p>
-                  <p id="creator" style="font-style:italic;font-weight: bold" class="pull-right">Created by : </p><div class="clearfix"></div>
-                </div>
-              </div>
+            <div class="col-md-12 hide" id="process_step">
+            <div style="padding: 20px; background: #eee">
+          
+              <table class="table table-hover">
+                <thead>
+                  <tr style="background: #fff">
+                    <th style="width:10%">Steps</th>
+                    <th style="width:10%">Responsiblity</th>
+                    <th style="width:55%">Task</th>
+                    <th style="width:25%">Job Aid</th>
+                  </tr>
+                </thead>
+                <tbody id="step_list">
+                </tbody>
+              </table>
+
+            </div>
+          </div>
 
            </div>
   	</div>
@@ -74,36 +87,30 @@ s
 @push('scripts')
 
   <script>
+    
+      function add_step()
+      {
+        $('#process_step').removeClass('hide');
+        var id = $('#process_id').val();
+        $('#process').val(' ');
+        $('#process').val(id);
+        $('#step_list').html(' ');
 
-        function get_segments()
-        {
-          var policy_id = $('#policy_id').val();
-          $.get('/policy_segments/'+policy_id, function(data, status) {
-            console.log(data);
-              $('#segments').removeClass('hide');
-              $('#segments_list').html(' ');
-               $.each(data, function(index, val) {
-                    $('#segments_list').append("<li><a href='#' id='get_seg' onclick='get_statement()' data-id='"+val.SegmentRef+"'>" + val.Segment+ "</a></li>");
-                });
-          });
-        }
-      
-        function get_statement()
-        {
-          // var policy = $(this.event.target).data('policy');
-          var policy = $('#policy_id').val();
-          var segment = $(this.event.target).data('id');
+        $.get('/get_process_steps/'+id, function(data, status) {
 
-          $.get('/statement_result/'+policy+'/'+segment, function(data, status) {
-                console.log(data); 
-                $('#show_policy').removeClass('hide');
-                $('#date').text(data.EntryDate); 
-                $('#policy').text(data.Policy);  
-                $('#segment').text(data.Segment);
-                $('#body').html(data.Statement);
-                $('#creator').text(data.first_name + ' ' + data.last_name);     
-          });
-        }
+           $.each(data, function(index, val){
+             $('#step_list').append(`
+              <tr>
+                  <td>Step ${val.Step_Number}</td>
+                  <td>${val.Responsibility}</td>
+                  <td>${val.Task}</td>
+                  <td>${val.Job_Aid}</td>
+              </tr>
+               <option value="${val.ProductRef}">${val.ProductService}</option>
+             `);
+            });
+        });
+      }
 
   </script>
 

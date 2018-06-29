@@ -221,8 +221,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('call-memo-actions', 'CallMemoController@call_memo_actions')->name('call-memo-actions');
     Route::get('fetch_discussion/{id}', 'CallMemoController@fetch_discussion'); // AJAX
     Route::get('fetch_action/{id}', 'CallMemoController@fetch_action'); // AJAX
-    Route::get('download_meeting_report/{name}', function($name) {
-      return Storage::download('/meeting_files/'.$name);
+    Route::get('download_meeting_report/{name}', function ($name) {
+        return Storage::download('/meeting_files/' . $name);
     })->name('download_meeting_report');
 
     // Score Card
@@ -369,10 +369,14 @@ Route::middleware(['auth'])->group(function () {
     // Process Management
 
     Route::get('processes/index', 'ProcessController@index')->name('ProcessManagement');
-    Route::get('process/create', 'ProcessController@create')->name('CreateNewProcess');
+    Route::get('processes/create', 'ProcessController@create')->name('CreateNewProcess');
     Route::post('Post_Process', 'ProcessController@store_process');
     Route::get('delete_process/{id}', 'ProcessController@delete_process');
     Route::get('update_process/{id}/{pro}', 'ProcessController@update_process');
+    Route::get('processes/create_process_steps', 'ProcessController@create_process_steps')->name('CreateProcessSteps');
+    Route::get('get_process_steps/{id}', 'ProcessController@get_process_steps');
+    Route::post('post_process_step', 'ProcessController@post_process_step');
+    Route::post('update_process_step', 'ProcessController@update_process_step');
 
     //ProductService
     Route::post('store_product_srvice', 'ProductServiceController@store');
@@ -480,16 +484,16 @@ Route::get('/cda', function () {
 });
 
 Route::get('/testing', function () {
-  return dirname(dirname(__FILE__));
-  // return view('testing');
-  //   return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
-  //
-  //   <div class="row">
-  //   <div class="col-md-8 col-md-offset-2">
-  //   <iframe src = "/assets/plugins/ViewerJS/#/docs/notes.pdf" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
-  //   </div>
-  //   </div>
-  //   ';
+    return dirname(dirname(__FILE__));
+    // return view('testing');
+    //   return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
+    //
+    //   <div class="row">
+    //   <div class="col-md-8 col-md-offset-2">
+    //   <iframe src = "/assets/plugins/ViewerJS/#/docs/notes.pdf" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
+    //   </div>
+    //   </div>
+    //   ';
 
     // $memo = Cavidel\CallMemo::find('17');
     // return view('pdf.call_memo', compact('memo'));
