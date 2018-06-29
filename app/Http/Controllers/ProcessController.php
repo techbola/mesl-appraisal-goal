@@ -66,7 +66,7 @@ class ProcessController extends Controller
     public function get_process_steps($id)
     {
         $id          = $id;
-        $steps_datas = ProcessSteps::where('ProcessID', $id)->get();
+        $steps_datas = ProcessSteps::where('ProcessID', $id)->orderBy('Step_Number', 'asc')->get();
         return response()->json($steps_datas)->setStatusCode(200);
     }
 
@@ -91,13 +91,19 @@ class ProcessController extends Controller
 
     public function update_process_step(Request $request)
     {
-        foreach ($request->ProcessStepRef as $Ref) {
+        foreach ($request->ProcessStepRef as $key => $Ref) {
             \DB::table('tblProcessSteps')
-                ->where('ProcessSteps', $Ref)
-                ->update(['Step_Number' => $request->Step_Number]);
+                ->where('ProcessStepRef', $Ref)
+                ->update(['Step_Number' => $request->Step_Number[$key]]);
         }
 
-        return 'done';
+        $process_id = \DB::table('tblProcessSteps')
+            ->select('ProcessID')
+            ->where('ProcessStepRef', $request->ProcessStepRef[0])
+            ->first();
+
+        $steps_datas = ProcessSteps::where('ProcessID', $process_id->ProcessID)->orderBy('Step_Number', 'asc')->get();
+        return response()->json($steps_datas)->setStatusCode(200);
 
     }
 
