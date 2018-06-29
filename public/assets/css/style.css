@@ -204,8 +204,10 @@ th {
     background-color: #bfbfbf !important;
 }
 .note-editable *, .note-editable {
-    font-size: 15px !important;
+    /* font-size: 15px !important; */
 }
+/* End Summernote */
+
 .inbox-message *, .inbox-message {
     font-size: 15px !important;
 }
@@ -876,6 +878,11 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 50%;
     padding: 2px;
     border: 1px solid #ccc;
+    object-fit: cover;
+}
+.avatar2 {
+    border-radius: 50%;
+    object-fit: cover;
 }
 .select2-container-multi.select2-container-active .select2-search-choice, .select2-search-choice, .select2-search-choice:focus, .select2-search-choice:hover, .select2-search-choice:active {
     background-color: #53b2f9 !important;
@@ -1034,6 +1041,12 @@ td>.badge, .modal .badge {
 .input-group-addon.search {
   background: linear-gradient(180deg, #2ea1f8, #1990ea) !important;
   color: #ffffff;
+}
+.form-group-default {
+  overflow: visible;
+}
+.panel-heading a:not(.btn) {
+  opacity: unset !important;
 }
 
 

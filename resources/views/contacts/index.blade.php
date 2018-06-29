@@ -59,7 +59,7 @@
 							<td>{{ $contact->Position }}</td>
 							<td>{{ $contact->Department }}</td>
 							<td>{{ $contact->Organization }}</td>
-							<td>{{ $contact->OfficePhone1 }}</td>
+							<td>{{ $contact->MobilePhone1 }}</td>
 							<td>{{ $contact->OfficeEmail }}</td>
 							<td>
 								{{-- <a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="text-warning f16"><i class="fa fa-pencil"></i></a> --}}
