@@ -23,6 +23,7 @@ Route::get('/login2', function () {
     return view('auth.login_old');
 });
 
+// Guests Only
 Route::group(['middleware' => 'guest'], function () {
     // Route::group(['prefix'=>'{company}'], function()
     // Route::group(['domain'=>'{company}.officemate.test'], function()
@@ -38,6 +39,7 @@ Route::group(['middleware' => 'guest'], function () {
 });
 Route::get('/activate/{id}/{code}', 'LoginController@activate')->name('activate');
 
+// Logged Users Only
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');

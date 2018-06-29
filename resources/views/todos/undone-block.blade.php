@@ -8,7 +8,7 @@
   <ul class="my-list">
     @forelse($todos as $todo)
     <li>
-      <div class="checkbox checkbox-info inline-block" style="width:80%">
+      <div class="checkbox checkbox-info inline-block" style="width:75%">
 
         <input type="checkbox" name="" value="" onclick="toggle_step({{ $todo->TodoRef }})" autocomplete="off" id="step_id_{{ $todo->TodoRef }}" {{ ($todo->Done)? 'checked' : '' }}>
 
@@ -21,56 +21,61 @@
         @endif
       </div>
 
+      @if ($user->id == $todo->Initiator)
+        <div class="step-actions inline-block text-right" style="width:23%">
+          <a href="#edit_step{{ $todo->TodoRef }}" data-toggle="collapse" aria-expanded="false" class="collapsed"><i class="fa fa-pencil text-warning"></i></a>
+          <a href="#" onclick="confirm2('Delete this To-Do?', '', 'delete_{{ $todo->TodoRef }}')"><i class="fa fa-trash-o text-danger m-l-5"></i></a>
+          <form id="delete_{{ $todo->TodoRef }}" class="hidden" action="{{ route('delete_todo', $todo->TodoRef) }}" method="post">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
+          </form>
+        </div>
 
-      <div class="step-actions inline-block text-right" style="width:18%">
-        <a href="#edit_step{{ $todo->TodoRef }}" data-toggle="collapse" aria-expanded="false" class="collapsed"><i class="fa fa-pencil text-warning"></i></a>
-        <a href="#" onclick="confirm2('Delete this To-Do?', '', 'delete_{{ $todo->TodoRef }}')"><i class="fa fa-trash-o text-danger m-l-5"></i></a>
-        <form id="delete_{{ $todo->TodoRef }}" class="hidden" action="{{ route('delete_todo', $todo->TodoRef) }}" method="post">
-          {{ csrf_field() }}
-          {{ method_field('DELETE') }}
-        </form>
-      </div>
-
-      <div class="m-l-15 p-r-0 panel-collapse collapse m-b-15" id="edit_step{{ $todo->TodoRef }}">
-        <form action="{{ route('update_todo', $todo->TodoRef) }}" method="post">
-          {{ csrf_field() }}
-          {{ method_field('PATCH') }}
-          <div class="row">
-            <div class="col-md-10">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    {{-- {{ Form::label('Todo', 'Todo Item' ) }} --}}
-                    {{ Form::text('Todo', $todo->Todo, ['class' => 'form-control input-sm', 'placeholder' => 'Enter todo', 'required']) }}
+        <div class="m-l-15 p-r-0 panel-collapse collapse m-b-15" id="edit_step{{ $todo->TodoRef }}">
+          <form action="{{ route('update_todo', $todo->TodoRef) }}" method="post">
+            {{ csrf_field() }}
+            {{ method_field('PATCH') }}
+            <div class="row">
+              <div class="col-md-10">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      {{-- {{ Form::label('Todo', 'Todo Item' ) }} --}}
+                      {{ Form::text('Todo', $todo->Todo, ['class' => 'form-control input-sm', 'placeholder' => 'Enter todo', 'required']) }}
+                    </div>
                   </div>
-                </div>
 
-                <div class="col-md-4">
-                  <div class="form-group">
-                    {{-- {{ Form::label('DueDate', 'Due Date' ) }} --}}
-                    <div class="input-group date dp">
-                      {{ Form::text('DueDate', $todo->DueDate, ['class' => 'form-control input-sm', 'placeholder' => 'Due Date', 'required']) }}
-                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      {{-- {{ Form::label('DueDate', 'Due Date' ) }} --}}
+                      <div class="input-group date dp">
+                        {{ Form::text('DueDate', $todo->DueDate, ['class' => 'form-control input-sm', 'placeholder' => 'Due Date', 'required']) }}
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      {{-- <span class="help">Leave empty to assign to yourself.</span> --}}
+                      {{ Form::select('UserID', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'UserID')->toArray(), $todo->UserID, ['class'=> "form-control input-sm select2", 'data-init-plugin' => "select2"]) }}
                     </div>
                   </div>
                 </div>
-                <div class="col-md-8">
-                  <div class="form-group">
-                    {{-- <span class="help">Leave empty to assign to yourself.</span> --}}
-                    {{ Form::select('UserID', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'UserID')->toArray(), $todo->UserID, ['class'=> "form-control input-sm select2", 'data-init-plugin' => "select2"]) }}
-                  </div>
-                </div>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-sm btn-success">Submit</button>
               </div>
             </div>
-            <div class="col-md-2">
-              <button type="submit" class="btn btn-sm btn-success">Submit</button>
-            </div>
-          </div>
 
+          </form>
+        </div>
+      @else
+        <div class="inline-block text-right small m-t-10 text-muted" style="width:23%; vertical-align: top;">
+          {{-- From <span class="label label-inverse m-t-10">{{ $todo->initiator->FullName }}</span> --}}
+          From: <span class="text-black m-l-5">{{ $todo->initiator->FullName }}</span>
+        </div>
+      @endif
 
-
-        </form>
-      </div>
     </li>
     @empty
       <div class="text-muted text-uppercase text-center m-t-10">
