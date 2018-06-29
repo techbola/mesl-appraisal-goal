@@ -3,6 +3,7 @@
 namespace Cavidel\Http\Controllers;
 
 use Cavidel\Process;
+use Cavidel\ProcessSteps;
 use Cavidel\User;
 use Illuminate\Http\Request;
 
@@ -20,8 +21,8 @@ class ProcessController extends Controller
     {
         $id = \Auth()->user()->id;
         // $check    = PolicyApprover::where('UserID', $id)->first();
-        $processes = \DB::table('tblProcess')
-            ->join('users', 'tblProcess.EnteredBy', '=', 'users.id')
+        $processes = \DB::table('tblProcesses')
+            ->join('users', 'tblProcesses.EnteredBy', '=', 'users.id')
             ->orderBy('processRef', 'desc')
             ->get();
 
@@ -43,7 +44,7 @@ class ProcessController extends Controller
     public function delete_process($id)
     {
         $id    = $id;
-        $trans = \DB::table('tblProcess')->where('processRef', $id)->delete();
+        $trans = \DB::table('tblProcesses')->where('processRef', $id)->delete();
         return 'done';
     }
 
@@ -51,45 +52,53 @@ class ProcessController extends Controller
     {
         $id      = $id;
         $process = $pro;
-        $trans   = \DB::table('tblProcess')->where('processRef', $id)->update(['process' => $process]);
+        $trans   = \DB::table('tblProcesses')->where('processRef', $id)->update(['process' => $process]);
         return 'done';
     }
 
-    //     public function policy_segments($policy_id)
-    //     {
-    //         $id       = $policy_id;
-    //         $segments = PolicySegment::where('PolicyID', $id)->get();
-    //         return response()->json($segments)->setStatusCode(200);
-    //     }
+    public function create_process_steps()
+    {
+        $id        = \Auth()->user()->id;
+        $processes = Process::all();
+        return view('processes.create_process_steps', compact('processes'));
+    }
 
-    //     public function policy_approver()
-    //     {
-    //         $id    = \Auth()->user()->id;
-    //         $check = PolicyApprover::where('UserID', $id)->first();
+    public function get_process_steps($id)
+    {
+        $id          = $id;
+        $steps_datas = ProcessSteps::where('ProcessID', $id)->get();
+        return response()->json($steps_datas)->setStatusCode(200);
+    }
 
-    //         $approves = \DB::table('tblPolicyApprover')
-    //             ->join('users', 'tblPolicyApprover.UserID', '=', 'users.id')
-    //             ->get();
+    public function post_process_step(Request $request)
+    {
+        $user_id    = \Auth::user()->id;
+        $process_id = $request->ProcessID;
+        $step_count = \DB::table('tblProcessSteps')
+            ->where('ProcessID', $process_id)
+            ->count();
+        $step_number = $step_count + 1;
 
-    //         $users = \DB::table('users')
-    //             ->select('id', \DB::raw('CONCAT("last_name", \'  \' ,"first_name") AS Fullname'))
-    //             ->get();
-    //         return view('policies.policy_approver', compact('users', 'approves', 'check'));
-    //     }
+        $process_step              = new ProcessSteps($request->all());
+        $process_step->Step_Number = $step_number;
+        $process_step->EnteredBy   = $user_id;
+        $process_step->save();
 
-    //     public function store_policy_approvers(Request $request)
-    //     {
-    //         $details = new PolicyApprover($request->all());
-    //         $details->save();
-    //         return 'Done';
-    //     }
+        $steps       = $request->ProcessID;
+        $steps_datas = ProcessSteps::where('ProcessID', $steps)->get();
+        return response()->json($steps_datas)->setStatusCode(200);
+    }
 
-    //     public function change_policy_approvers($id)
-    //     {
-    //         $id              = $id;
-    //         $update_approver = \DB::table('tblPolicyApprover')->where('PolicyApproverRef', $id)->update(['Status' => 0]);
-    //         return 'done';
-    //     }
-    // }
+    public function update_process_step(Request $request)
+    {
+        foreach ($request->ProcessStepRef as $Ref) {
+            \DB::table('tblProcessSteps')
+                ->where('ProcessSteps', $Ref)
+                ->update(['Step_Number' => $request->Step_Number]);
+        }
+
+        return 'done';
+
+    }
 
 }
