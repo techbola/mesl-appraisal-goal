@@ -35,7 +35,7 @@ tfoot{
          <ul class="nav nav-pills pull-right">
              {{-- <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create Policy Approver</a></li> --}}
              <li><a style="background: #bbb" href="{{ route('ProcessManagement') }}">Return to Process Management Page</a></li>
-             <li role="presentation" class="active"><a href="{{ route('CreateNewPolicySegment') }}">Create New/View Process Steps</a></li>
+             <li role="presentation" class="active"><a href="{{ route('CreateProcessSteps') }}">Create New/View Process Steps</a></li>
              <li><a href="#" style="color: #fff" data-target="#modalFillIn2" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-lg btn-info">Create New/View Processes</a></li>
          </ul>
       </div><div class="clearfix"></div>
