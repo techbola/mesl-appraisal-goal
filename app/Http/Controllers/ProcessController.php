@@ -85,7 +85,7 @@ class ProcessController extends Controller
         $process_step->save();
 
         $steps       = $request->ProcessID;
-        $steps_datas = ProcessSteps::where('ProcessID', $steps)->get();
+        $steps_datas = ProcessSteps::where('ProcessID', $steps)->orderBy('Step_Number', 'asc')->get();
         return response()->json($steps_datas)->setStatusCode(200);
     }
 
