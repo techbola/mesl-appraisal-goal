@@ -9,6 +9,8 @@
 tfoot{
       display: table-header-group;
      }
+
+}
   </style>
 @endpush
 
@@ -53,6 +55,7 @@ tfoot{
 
           <div class="col-md-12 hide" id="process_step">
             <div style="padding: 20px; background: #eee">
+              <h2 id="process_title"></h2>
               {{ Form::open(['id'=>'update_step_form','autocomplete' => 'off', 'role' => 'form']) }}
               <p>
                 <a href="#" style="color: #fff" data-target="#modalFillIn2" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-lg btn-success pull-right">Add Process Step</a>&nbsp; &nbsp;
@@ -60,7 +63,7 @@ tfoot{
                 <a href="#" id="update_step" style="margin-right: 5px" class="btn btn-lg btn-primary pull-right hide">Update Process Steps</a>
               </p>
               <div class="clearfix"></div>
-              <table class="table table-hover">
+              <table class="table table-hover table-bordered">
                 <thead>
                   <tr style="background: #fff">
                     <th class="mno hide">Edit Step</th>
@@ -92,11 +95,10 @@ tfoot{
               <div class="modal-content">
                 <div style="background: #fff; width: 1000px; padding: 30px">
                 <div class="modal-header">
-                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #000" id="title">Add New Process Step</span></h5>
+                  <h5 class="text-left semi-bold">Add New Process Step  <span class="semi-bold text-info" id="title"></span></h5>
                 </div>
                 <div class="modal-body">
                   <div class="row">
-
                               <div class="col-sm-6" id="item_div">
                                 {{ Form::open(['id'=>'step_form','autocomplete' => 'off', 'role' => 'form']) }}
                                    <div class="form-group">
@@ -116,20 +118,18 @@ tfoot{
                                   </div>
                               </div>
 
-                                <div class="col-sm-12" id="item_div">
+                                <div class="col-sm-12">
                                    <div class="form-group">
                                        <div class="controls">
-                                           {{ Form::label('Task' ) }}
-                                               {{ Form::textarea('Task', null, ['class' => 'summernote form-control','id'=>'task','rows' => 3, 'placeholder' => 'Be expressive']) }}
+                                           {{ Form::label('Task', 'Task') }}
+                                           <textarea name="Task" style="padding: 40px" class="summernote form-control" id="task"></textarea>
+                                              {{--  {{ Form::textarea('Task', null, ['class' => 'summernote form-control','id'=>'task','rows' => 3, 'placeholder' => 'Be expressive', 'style'=>'padding:40px']) }} --}}
                                        </div>
                                   </div>
                               </div>
-
                               <input type="hidden" name="ProcessID" id="process">
                               <div class="col-md-12">
                                 <input type="submit" class="btn btn-sm btn-info pull-right" id="add_step" data-dismiss="modal" value="Add New Step">
-                               {{--  <input type="submit" class="btn btn-sm btn-success pull-right hide" id="edit_process" data-dismiss="modal" value="Save Process">
-                                <input type="submit" class="btn btn-sm btn-danger pull-right hide" id="delete_process" data-dismiss="modal" value="Delete Process"> --}}
                               </div></p>
                             {{ Form::close() }}
                   </div>
@@ -138,7 +138,6 @@ tfoot{
                 </div>
               </div>
                 </div>
-                {{ csrf_field() }}
               <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
@@ -157,12 +156,15 @@ tfoot{
       {
         $('#process_step').removeClass('hide');
         var id = $('#process_id').val();
+        var title = $('#process_id :selected').text();
         $('#process').val(' ');
         $('#process').val(id);
-        $('#step_list').html(' ');
+        $('#title ').html(title);
+        $('#process_title').html(title);
+        
 
         $.get('/get_process_steps/'+id, function(data, status) {
-
+          $('#step_list').html(' ');
            $.each(data, function(index, val){
              $('#step_list').append(`
               <tr><td id='abc' class='abc hide'><input name='Step_Number[]' value='${val.Step_Number}'></td>
@@ -175,8 +177,12 @@ tfoot{
              `);
             });
 
+           $('#responsibility').val(' ');
+           $('#job_aid').val(' ');
+           $('#task').val(' ');
+
            var count = data.length;
-           if(count > 2)
+           if(count > 1)
            {
             $('#edit_step').removeClass('hide');
            }else
@@ -193,7 +199,7 @@ tfoot{
       $('#add_step').click(function() {
         $.post('/post_process_step', $('#step_form').serialize(), function(data, status) {
 
-          $('#step_form').html(' ');
+          $('#step_list').html(' ');
           $.each(data, function(index, val){
              $('#step_list').append(`
               <tr>
@@ -204,6 +210,23 @@ tfoot{
               </tr>
              `);
             });
+
+           $('#responsibility').val(' ');
+           $('#job_aid').val(' ');
+           $('#task').val(' ');
+
+           $('.fred').removeClass('hide');
+           $('.mno').addClass('hide');
+           $('#update_step').addClass('hide');
+           
+           var count = data.length;
+           if(count > 1)
+           {
+            $('#edit_step').removeClass('hide');
+           }else
+           {
+            $('#edit_step').addClass('hide');
+           }
 
         });
       });
@@ -225,7 +248,7 @@ tfoot{
     $('#update_step').click(function() {
         $.post('/update_process_step', $('#update_step_form').serialize(), function(data, status) {
 
-          $('#step_list').html(' ');
+           $('#step_list').html(' ');
           $.each(data, function(index, val){
              $('#step_list').append(`
               <tr>
@@ -236,6 +259,12 @@ tfoot{
               </tr>
              `);
             });
+
+            $('.fred').removeClass('hide');
+            $('.mno').addClass('hide');
+            $('#edit_step').removeClass('hide');
+            $('#update_step').addClass('hide');
+      
 
         });
       });

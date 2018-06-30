@@ -36,7 +36,7 @@ s
          <ul class="nav nav-pills pull-right">
              <ul class="nav nav-pills pull-right">
              {{-- <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create Policy Approver</a></li> --}}
-             <li><a style="background: #bbb" href="{{ route('ProcessManagement') }}">Return to Process Management Page</a></li>
+             {{-- <li><a style="background: #bbb" href="{{ route('ProcessManagement') }}">Return to Process Management Page</a></li> --}}
              <li role="presentation" class="active"><a href="{{ route('CreateNewProcess') }}">Create New/View Process</a></li>
              <li role="presentation" class="active"><a href="{{ route('CreateProcessSteps') }}">Create New/View Process Steps</a></li>
          </ul>
@@ -62,8 +62,8 @@ s
 
             <div class="col-md-12 hide" id="process_step">
             <div style="padding: 20px; background: #eee">
-          
-              <table class="table table-hover">
+              <h2 class="semi-bold" id="title"></h2>
+              <table class="table table-hover table-bordered">
                 <thead>
                   <tr style="background: #fff">
                     <th style="width:10%">Steps</th>
@@ -92,8 +92,10 @@ s
       {
         $('#process_step').removeClass('hide');
         var id = $('#process_id').val();
+        var title = $('#process_id :selected').text();
         $('#process').val(' ');
         $('#process').val(id);
+        $('#title').html(title);
         $('#step_list').html(' ');
 
         $.get('/get_process_steps/'+id, function(data, status) {
