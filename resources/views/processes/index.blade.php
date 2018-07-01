@@ -33,14 +33,15 @@ s
   	<!-- START PANEL -->
   	<div class="card-box">
       <div style="padding: 30px">
-         <ul class="nav nav-pills pull-right">
-             <ul class="nav nav-pills pull-right">
+        @if(count($check) >= 1)
+          <ul class="nav nav-pills pull-right">
              {{-- <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create Policy Approver</a></li> --}}
              {{-- <li><a style="background: #bbb" href="{{ route('ProcessManagement') }}">Return to Process Management Page</a></li> --}}
+             <li><a class="btn btn-info btn-lg" style="color: #fff" href="{{ route('ProcessApprover') }}">View / Add New Process Maker</a></li>
              <li role="presentation" class="active"><a href="{{ route('CreateNewProcess') }}">Create New/View Process</a></li>
              <li role="presentation" class="active"><a href="{{ route('CreateProcessSteps') }}">Create New/View Process Steps</a></li>
          </ul>
-         </ul>
+        @endif
       </div><div class="clearfix"></div>
   			<div class="card-title pull-left" style="font-size: 20px !important">Company Process Management Module</div><div class="clearfix"></div>
            <div class="row"><hr>
