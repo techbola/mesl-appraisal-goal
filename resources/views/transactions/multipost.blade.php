@@ -34,9 +34,9 @@
               <th width="22%">Account</th>
               <th width="13%">Post Date</th>
               <th width="12%">Value Date</th>
-              <!-- <th width="10%">Staff</th>
-              <th width="10%">Bank Slip No.</th> -->
-              <th width="33%">Narration</th>
+              <th width="10%">Staff</th>
+              <th width="10%">Bank Slip No.</th>
+              <th width="13%">Narration</th>
             </tr>
           </thead>
 
@@ -77,7 +77,7 @@
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </td>
-             <!--  {{-- STAFF --}}
+              {{-- STAFF --}}
               <td>
                 <select class="form-control select2" data-init-plugin="select2" name="staff[]">
                   <option value="">Select staff</option>
@@ -89,7 +89,7 @@
               {{-- BANK SLIP NO --}}
               <td>
                 <input type="text" name="slip_no[]" class="form-control" value="">
-              </td> -->
+              </td>
               {{-- NARRATION --}}
               <td>
                 <input type="text" name="narration[]" class="form-control" value="">
@@ -166,7 +166,7 @@
       // .append(clone);
 
       .append(
-        
+        `
         <tr>
           {{-- TYPE --}}
           <td>
@@ -203,19 +203,19 @@
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
           </td>
-          // {{-- STAFF --}}
-          // <td>
-          //   <select class="new_select form-control select2" data-init-plugin="select2" name="staff[]">
-          //     <option value="">Select staff</option>
-          //     @foreach ($all_staff as $staff)
-          //       <option value="{{ $staff->StaffRef }}">{{ $staff->StaffName ?? '-' }}</option>
-          //     @endforeach
-          //   </select>
-          // </td>
-          // {{-- BANK SLIP NO --}}
-          // <td>
-          //   <input type="text" name="slip_no[]" class="form-control" value="">
-          // </td>
+          {{-- STAFF --}}
+          <td>
+            <select class="new_select form-control select2" data-init-plugin="select2" name="staff[]">
+              <option value="">Select staff</option>
+              @foreach ($all_staff as $staff)
+                <option value="{{ $staff->StaffRef }}">{{ $staff->StaffName ?? '-' }}</option>
+              @endforeach
+            </select>
+          </td>
+          {{-- BANK SLIP NO --}}
+          <td>
+            <input type="text" name="slip_no[]" class="form-control" value="">
+          </td>
           {{-- NARRATION --}}
           <td>
             <input type="text" name="narration[]" class="form-control" value="">
