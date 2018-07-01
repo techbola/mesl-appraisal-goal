@@ -203,19 +203,19 @@
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
           </td>
-          {{-- STAFF --}}
-          <td>
-            <select class="new_select form-control select2" data-init-plugin="select2" name="staff[]">
-              <option value="">Select staff</option>
-              @foreach ($all_staff as $staff)
-                <option value="{{ $staff->StaffRef }}">{{ $staff->StaffName ?? '-' }}</option>
-              @endforeach
-            </select>
-          </td>
-          {{-- BANK SLIP NO --}}
-          <td>
-            <input type="text" name="slip_no[]" class="form-control" value="">
-          </td>
+          // {{-- STAFF --}}
+          // <td>
+          //   <select class="new_select form-control select2" data-init-plugin="select2" name="staff[]">
+          //     <option value="">Select staff</option>
+          //     @foreach ($all_staff as $staff)
+          //       <option value="{{ $staff->StaffRef }}">{{ $staff->StaffName ?? '-' }}</option>
+          //     @endforeach
+          //   </select>
+          // </td>
+          // {{-- BANK SLIP NO --}}
+          // <td>
+          //   <input type="text" name="slip_no[]" class="form-control" value="">
+          // </td>
           {{-- NARRATION --}}
           <td>
             <input type="text" name="narration[]" class="form-control" value="">
