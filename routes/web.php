@@ -379,6 +379,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_process_steps/{id}', 'ProcessController@get_process_steps');
     Route::post('post_process_step', 'ProcessController@post_process_step');
     Route::post('update_process_step', 'ProcessController@update_process_step');
+    Route::get('get_step_values/{id}', 'ProcessController@get_step_values');
+    Route::post('update_step_values', 'ProcessController@update_step_values');
+    Route::get('delete_process_step/{id}/{proc}', 'ProcessController@delete_process_step');
+    Route::get('processes/process_approver', 'ProcessController@process_approver')->name('ProcessApprover');
+    Route::post('store_process_approvers', 'ProcessController@store_process_approvers');
+    Route::get('change_process_approvers/{id}', 'ProcessController@change_process_approvers');
 
     //ProductService
     Route::post('store_product_srvice', 'ProductServiceController@store');
