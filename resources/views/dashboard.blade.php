@@ -162,6 +162,39 @@
           </div>
         </div>
         {{-- End Bulletins --}}
+
+        {{-- Policies --}}
+        <div class="col-md-12">
+          <div class="card-box">
+            <div class="card-title">
+              New Policies <span class="badge badge-danger badge-sm badge-tab">{{ count($policy_statements) }}</span>
+              <a href="{{ route('Policy') }}" class="label label-inverse pull-right btn-rounded text-capitalize">See all <i class="fa fa-arrow-right m-l-5"></i></a>
+            </div>
+
+            <div class="my-list">
+              @foreach ($policy_statements as $item)
+                <li>
+                  {{-- <div class="thumbnail-wrapper d24 circular">
+                    <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar()) }}">
+                    <i class="fa fa-legal"></i>
+                  </div> --}}
+
+                  <div class="table-cell p-l-10">
+                    <div class="" style="margin-top:0 !important">{{ $item->segment->Segment }}</div>
+                    <div class="no-margin text-muted small">
+                      <span>{{ $item->poster->FullName }}</span> &mdash; {{ (Carbon::parse($item->EntryDate)->isToday())? 'Today' : ''.Carbon::parse($item->EntryDate)->format('jS M, Y') }}
+                    </div>
+                    <div class="small bg-light">
+                      {!! str_limit(strip_tags($item->Statement), 30) !!}
+                    </div>
+                  </div>
+                </li>
+              @endforeach
+            </div>
+
+          </div>
+        </div>
+        {{-- End Bulletins --}}
       </div>
     </div>
 
