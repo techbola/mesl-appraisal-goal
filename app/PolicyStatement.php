@@ -10,4 +10,13 @@ class PolicyStatement extends Model
     protected $guarded = ['StatementRef'];
     public $primaryKey = 'StatementRef';
     public $timestamps = false;
+
+    public function segment()
+    {
+      return $this->belongsTo(PolicySegment::class, 'SegmentID');
+    }
+    public function poster()
+    {
+      return $this->belongsTo(User::class, 'EnteredBy');
+    }
 }

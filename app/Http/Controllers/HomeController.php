@@ -11,6 +11,7 @@ use Cavidel\EventSchedule;
 use Cavidel\LeaveRequest;
 use Cavidel\Memo;
 use Cavidel\Staff;
+use Cavidel\PolicyStatement;
 use Carbon;
 
 class HomeController extends Controller
@@ -22,12 +23,12 @@ class HomeController extends Controller
 
     public function index()
     {
-      // return date('Y-m-d', strtotime('+30 days'));
       $user = auth()->user();
       $today = date('Y-m-d');
       $start_week = Carbon::parse($today)->startofWeek()->format('Y-m-d');
       $end_week = Carbon::parse($today)->endofWeek()->format('Y-m-d');
       $next7days = date('Y-m-d', strtotime('+7 days'));
+      $past7days = date('Y-m-d', strtotime('-7 days'));
       // Include where status is not done
       $pending_meeting_actions = CallMemoAction::where('UserID', $user->id)->count();
       $todos_today = Todo::where('UserID', $user->id)->where('Done', 0)->whereDate('DueDate', '=', $today)->get();
@@ -42,8 +43,9 @@ class HomeController extends Controller
       $events = EventSchedule::where('CompanyID', $user->CompanyID)->whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today)->get();
       $birthdays = Staff::where('CompanyID', $user->CompanyID)->where('DateofBirth', '!=', '')->where('DateofBirth', '!=', NULL)->get();
       $unapproved_memos = Memo::where('ApproverID', $user->id)->where('NotifyFlag', 1)->get();
+      $policy_statements = PolicyStatement::whereDate('EntryDate', '>=', $past7days)->whereDate('EntryDate', '<=', $next7days)->get();
       // dd($tasks);
-      return view('dashboard', compact('pending_meeting_actions', 'todos_today', 'tasks', 'bulletins', 'events', 'todos_week', 'messages', 'leave_requests', 'unapproved_memos', 'birthdays'));
+      return view('dashboard', compact('pending_meeting_actions', 'todos_today', 'tasks', 'bulletins', 'events', 'todos_week', 'messages', 'leave_requests', 'unapproved_memos', 'birthdays', 'policy_statements'));
     }
 
     public function read_notification($id)

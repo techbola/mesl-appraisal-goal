@@ -14,19 +14,19 @@
 				<div class="col-md-6">
 				@if(isset($statements))
 					@foreach($trans as $tran)
-					<div class="col-md-4"><p style ="font-size :17px">Name :</p></div>
-					<div class="col-md-8"><p style ="font-size :17px; color : #0090d9">{{$tran->Customer}}</p></div>
-					@if($tran->HomeAddress)
+						<div class="col-md-4"><p style ="font-size :17px">Name :</p></div>
+						<div class="col-md-8"><p style ="font-size :17px; color : #0090d9">{{$tran->Customer}}</p></div>
+					@if(!empty($tran->HomeAddress))
 					<div class="col-md-4"><p style ="font-size :17px">Address :</p></div>
 					<div class="col-md-8">
 					<p style ="font-size :17px; color : #0090d9">{{$tran->HomeAddress}}</p>
 					</div>
 					@endif
-					@if($tran->Telephone)
+					@if(!empty($tran->Telephone))
 					<div class="col-md-4"><p style ="font-size :17px">Phone Number :</p></div>
-					<div class="col-md-8"><p style ="font-size :17px; color : #0090d9">{{$tran->Telephone}}</p></div><br>
+					<div class="col-md-8"><p style ="font-size :17px; color : #0090d9">{{ $tran->Telephone}}</p></div><br>
 					@endif
-					@if($tran->BVN)
+					@if(!empty($tran->BVN))
 					<div class="col-md-4"><p style ="font-size :17px">BVN Number :</p></div>
 					<div class="col-md-8"><p style ="font-size :17px; color : #0090d9">{{$tran->BVN}}</p></div>
 					@endif
