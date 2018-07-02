@@ -3,6 +3,7 @@
 namespace Cavidel\Http\Controllers;
 
 use Cavidel\Process;
+use Cavidel\ProcessApprover;
 use Cavidel\ProcessSteps;
 use Cavidel\User;
 use Illuminate\Http\Request;
@@ -13,20 +14,21 @@ class ProcessController extends Controller
     public function index()
     {
         $id        = \Auth()->user()->id;
+        $check     = ProcessApprover::where('UserID', $id)->where('Status', 1)->first();
         $processes = Process::all();
-        return view('processes.index', compact('processes'));
+        return view('processes.index', compact('processes', 'check'));
     }
 
     public function create()
     {
-        $id = \Auth()->user()->id;
-        // $check    = PolicyApprover::where('UserID', $id)->first();
+        $id        = \Auth()->user()->id;
+        $check     = ProcessApprover::where('UserID', $id)->where('Status', 1)->first();
         $processes = \DB::table('tblProcesses')
             ->join('users', 'tblProcesses.EnteredBy', '=', 'users.id')
             ->orderBy('processRef', 'desc')
             ->get();
 
-        return view('processes.create', compact('processes'));
+        return view('processes.create', compact('processes', 'check'));
     }
 
     public function store_process(Request $request)
@@ -59,8 +61,9 @@ class ProcessController extends Controller
     public function create_process_steps()
     {
         $id        = \Auth()->user()->id;
+        $check     = ProcessApprover::where('UserID', $id)->where('Status', 1)->first();
         $processes = Process::all();
-        return view('processes.create_process_steps', compact('processes'));
+        return view('processes.create_process_steps', compact('processes', 'check'));
     }
 
     public function get_process_steps($id)
@@ -105,6 +108,61 @@ class ProcessController extends Controller
         $steps_datas = ProcessSteps::where('ProcessID', $process_id->ProcessID)->orderBy('Step_Number', 'asc')->get();
         return response()->json($steps_datas)->setStatusCode(200);
 
+    }
+
+    public function get_step_values($id)
+    {
+        $process_step_id = $id;
+        $step_datas      = ProcessSteps::where('ProcessStepRef', $process_step_id)->first();
+        return response()->json($step_datas)->setStatusCode(200);
+    }
+
+    public function update_step_values(Request $request)
+    {
+        $id           = $request->ProcessStepRef;
+        $process_step = ProcessSteps::where('ProcessStepRef', $id)->first();
+        $process_step->update($request->except(['ProcessStepRef', 'ProcessID']));
+
+        $steps_datas = ProcessSteps::where('ProcessID', $request->ProcessID)->orderBy('Step_Number', 'asc')->get();
+        return response()->json($steps_datas)->setStatusCode(200);
+    }
+
+    public function delete_process_step($id, $proc)
+    {
+        $id          = $id;
+        $process_id  = $proc;
+        $delete_step = ProcessSteps::where('ProcessStepRef', $id)->delete();
+        $steps_datas = ProcessSteps::where('ProcessID', $process_id)->orderBy('Step_Number', 'asc')->get();
+        return response()->json($steps_datas)->setStatusCode(200);
+    }
+
+    public function process_approver()
+    {
+        $id    = \Auth()->user()->id;
+        $check = ProcessApprover::where('UserID', $id)->first();
+
+        $approves = \DB::table('tblProcessApprover')
+            ->join('users', 'tblProcessApprover.UserID', '=', 'users.id')
+            ->get();
+
+        $users = \DB::table('users')
+            ->select('id', \DB::raw('CONCAT("last_name", \'  \' ,"first_name") AS Fullname'))
+            ->get();
+        return view('processes.process_approvers', compact('users', 'approves', 'check'));
+    }
+
+    public function store_process_approvers(Request $request)
+    {
+        $details = new ProcessApprover($request->all());
+        $details->save();
+        return 'Done';
+    }
+
+    public function change_process_approvers($id)
+    {
+        $id              = $id;
+        $update_approver = \DB::table('tblProcessApprover')->where('ProcessApproverRef', $id)->update(['Status' => 0]);
+        return 'done';
     }
 
 }

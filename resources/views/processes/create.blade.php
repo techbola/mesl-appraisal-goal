@@ -32,12 +32,14 @@ tfoot{
         
       </div><div class="clearfix"></div>
       <div style="padding: 30px">
+        @if(count($check) >= 1)
          <ul class="nav nav-pills pull-right">
              {{-- <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create Policy Approver</a></li> --}}
              <li><a style="background: #bbb" href="{{ route('ProcessManagement') }}">Return to Process Management Page</a></li>
              <li role="presentation" class="active"><a href="{{ route('CreateProcessSteps') }}">Create New/View Process Steps</a></li>
              <li><a href="#" style="color: #fff" data-target="#modalFillIn2" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-lg btn-info">Create New/View Processes</a></li>
          </ul>
+         @endif
       </div><div class="clearfix"></div>
   			<div class="card-title pull-left" style="font-size: 20px">List Processes</div><div class="clearfix"></div>
            <div class="row"><hr>
