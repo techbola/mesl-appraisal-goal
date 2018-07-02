@@ -206,6 +206,10 @@ th {
 .note-editable *, .note-editable {
     /* font-size: 15px !important; */
 }
+/* Fix: Toolbar might sometimes overlap first line of text */
+.note-toolbar-wrapper {
+  height: unset !important;
+}
 /* End Summernote */
 
 .inbox-message *, .inbox-message {
