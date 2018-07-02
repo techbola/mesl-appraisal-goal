@@ -201,6 +201,8 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('update_todo/{id}', 'TodoController@update_todo')->name('update_todo');
     Route::get('toggle_todo/{id}', 'TodoController@toggle_todo')->name('toggle_todo'); // AJAX
     Route::delete('delete_todo/{id}', 'TodoController@delete_todo')->name('delete_todo');
+    Route::get('assigned-todos', 'TodoController@assigned_todos')->name('assigned_todos');
+    Route::get('get_assigned_todos/{id}', 'TodoController@get_assigned_todos')->name('get_assigned_todos'); // AJAX
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
     Route::post('store_note', 'StickyNoteController@store')->name('store_note');
