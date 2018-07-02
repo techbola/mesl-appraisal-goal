@@ -22,7 +22,7 @@ class MessageController extends Controller
   {
     $user = auth()->user();
     // $messages = Message::where('ToID', $user->id)->orderBy('MessageRef', 'desc')->get();
-    $messages = $user->inbox;
+    $messages = $user->inbox()->paginate(20);
 
     return view('messages.inbox', compact('user', 'messages'));
   }
@@ -30,7 +30,7 @@ class MessageController extends Controller
   public function sent_messages()
   {
     $user = auth()->user();
-    $messages = $user->sent_messages;
+    $messages = $user->sent_messages()->paginate(20);
     // dd($messages);
     return view('messages.sent', compact('user', 'messages'));
   }

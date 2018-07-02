@@ -121,6 +121,9 @@
                           <div class="m-t-10 text-muted f16">You have no messages in your inbox yet.</div>
                         </div>
                       @endforelse
+                      
+                      <div class="m-t-10 m-l-10">{{ $messages->links() }}</div>
+
                     </div>
                 </div>
             {{-- </div> --}}
