@@ -213,7 +213,7 @@ tfoot{
           $('#step_list').html(' ');
            $.each(data, function(index, val){
              $('#step_list').append(`
-              <tr><td id='abc' class='abc hide'><input name='Step_Number[]' value='${val.Step_Number}'></td>
+              <tr><td id='abc' class='abc hide'><input name='Step_Number[]' value='${val.Step_Number}' class='form-control'></td>
                   <td id='xyz' class='step'>Step ${val.Step_Number}</td>
                   <td>${val.Responsibility}</td>
                   <td>${val.Task}</td>
