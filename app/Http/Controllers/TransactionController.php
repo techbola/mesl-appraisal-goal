@@ -176,8 +176,8 @@ class TransactionController extends Controller
               $row->PostDate = $request->post_date[$key];
               $row->ValueDate = $request->value_date[$key];
               $row->Narration = $request->narration[$key];
-              $row->BankSlipNo = $request->slip_no[$key];
-              $row->StaffID = $request->staff[$key];
+              // $row->BankSlipNo = $request->slip_no[$key];
+              // $row->StaffID = $request->staff[$key];
               $row->InputterID = $user->id;
               $row->TransactionCode = 'Deposit'.uniqid();
               $row->CurrencyID = '1';

@@ -872,6 +872,10 @@ h1, h2, h3, h4, h5, h6 {
     margin-left: 5px;
     vertical-align: text-top;
 }
+.badge-fix {
+    margin-left: 5px;
+    vertical-align: text-bottom !important;
+}
 .text-primary, .text-info {
     color: #2ea1f8 !important;
 }
