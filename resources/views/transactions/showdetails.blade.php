@@ -1,5 +1,15 @@
 @extends('layouts.master')
 
+@push('styles')
+
+<style>
+	tfoot{
+      display: table-header-group;
+     }
+</style>
+
+@endpush
+
 @section('bottom-content')
 <div class="container-fluid container-fixed-lg">
 	<!-- START PANEL -->
