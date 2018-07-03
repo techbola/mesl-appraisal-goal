@@ -37,6 +37,7 @@
               {{-- <th width="10%">Staff</th>
               <th width="10%">Bank Slip No.</th> --}}
               <th width="13%">Narration</th>
+              <th width="3%">-</th>
             </tr>
           </thead>
 
@@ -94,6 +95,9 @@
               {{-- NARRATION --}}
               <td>
                 <input type="text" name="narration[]" class="form-control" value="">
+              </td>
+              <td>
+                {{-- <span class="fa fa-times-circle f16 text-danger pointer delete"></span> --}}
               </td>
             </tr>
           </tbody>
@@ -204,10 +208,14 @@
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
           </td>
-          
+
           {{-- NARRATION --}}
           <td>
             <input type="text" name="narration[]" class="form-control" value="">
+          </td>
+          {{-- Delete --}}
+          <td>
+            <span class="fa fa-times-circle f16 text-danger pointer delete"></span>
           </td>
         </tr>
         `
@@ -223,6 +231,7 @@
     // Delete
     $("body").on("click", ".delete", function (e) {
       $(this).closest("tr").remove();
+      calc();
     });
 
   });

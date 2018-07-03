@@ -316,6 +316,10 @@ tfoot{
             $('.mno').addClass('hide');
             $('#edit_step').removeClass('hide');
             $('#update_step').addClass('hide');
+
+            $('#responsibility').val(' ');
+           $('#job_aid').val(' ');
+           $('#item_div .note-editable').text(' ');
         });
       });
   </script>
