@@ -112,6 +112,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('messages/send', 'MessageController@send_message')->name('send_message');
     Route::post('messages/reply/{parent_id}', 'MessageController@reply_message')->name('reply_message');
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
+    Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
+        return response()->download(storage_path("app/public/".$dir."/" . $filename));
+    })->name('download_file');
 
     Route::get('bulletins', 'BulletinController@index')->name('bulletin_board');
     Route::get('bulletins/department', 'BulletinController@department_bulletins')->name('department_bulletins');
@@ -494,7 +497,6 @@ Route::get('/cda', function () {
 });
 
 Route::get('/testing', function () {
-    return dirname(dirname(__FILE__));
     // return view('testing');
     //   return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
     //

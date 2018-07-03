@@ -434,6 +434,10 @@ audio, canvas, progress, video {
     margin-bottom: 0;
     list-style: none;
 }
+.my-list.light li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+}
 .my-list li:first-child {
     padding-top: 0px;
 }
@@ -1052,6 +1056,12 @@ td>.badge, .modal .badge {
 }
 .form-group-default {
   overflow: visible;
+}
+.form-group-default.focused label {
+  opacity: 1;
+}
+.form-group-default.focused {
+  background: #ffffff;
 }
 .panel-heading a:not(.btn) {
   opacity: unset !important;

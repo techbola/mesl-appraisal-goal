@@ -77,6 +77,10 @@ class Project extends Model
   {
     return $this->hasMany('Cavidel\ProjectTask', 'ProjectID', 'ProjectRef');
   }
+  public function steps()
+  {
+    return $this->hasManyThrough(Step::class, ProjectTask::class, 'ProjectID', 'TaskID');
+  }
   public function issues()
   {
     return $this->hasMany('Cavidel\IssueItem', 'ProjectID', 'ProjectRef');
@@ -84,6 +88,16 @@ class Project extends Model
   public function chats()
   {
     return $this->hasMany('Cavidel\ProjectChat', 'ProjectID', 'ProjectRef')->orderBy('created_at', 'desc');
+  }
+  public function getOnTrackAttribute()
+  {
+    $today = date('Y-m-d');
+    $data = $this->steps()->whereDate('tblSteps.EndDate', '<', $today)->where('Done', '0')->get();
+    if (count($data) > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public function assignees_list()

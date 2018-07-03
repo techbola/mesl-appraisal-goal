@@ -40,6 +40,18 @@
           <div class="f15 m-t-10 m-b-20 inbox-message">
             {!! $reply->Body !!}
           </div>
+          {{-- Reply Attachments --}}
+          @if (count($reply->files) > 0)
+            {{-- <div class="small bold text-muted">Attachments</div> --}}
+            <ul class="my-list light">
+              @foreach ($reply->files as $file)
+                <li class="small text-lowercase">
+                  <i class="fa fa-file-o m-r-5 f15"></i> <a href="{{ route('download_file', ['message_files', $file->Filename]) }}" class="" data-toggle="tooltip" title="Download">{{ $file->Filename }}</a>
+                </li>
+              @endforeach
+            </ul>
+          @endif
+          {{-- End Reply Attachments --}}
           <hr>
         @endforeach
         {{-- END REPLIES --}}
@@ -67,18 +79,42 @@
         <div class="f15 m-t-20 m-b-20 inbox-message">
           {!! $message->Body !!}
         </div>
+        {{-- Parent's Attachments --}}
+        @if (count($message->files) > 0)
+          {{-- <div class="small bold text-muted">Attachments</div> --}}
+          <ul class="my-list">
+            @foreach ($message->files as $file)
+              <li class="small text-lowercase">
+                <i class="fa fa-file-o m-r-5 f15"></i> <a href="{{ route('download_file', ['message_files', $file->Filename]) }}" class="" data-toggle="tooltip" title="Download">{{ $file->Filename }}</a>
+              </li>
+            @endforeach
+          </ul>
+        @endif
+        {{-- End Parent Attachments --}}
         <hr>
 
 
         <div class="m-t-35">
-          <form action="{{ route('reply_message', $message->MessageRef) }}" method="post">
+          <form action="{{ route('reply_message', $message->MessageRef) }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group">
               <label>Reply</label>
               <textarea class="summernote" name="Body"></textarea>
 
+              {{-- Add Files --}}
+              <ul class="my-list" id="files">
+              </ul>
+
+              <div class="btn btn-sm btn-inverse m-t-10 m-b-10" id="add_file">
+                <i class="fa fa-plus m-r-5"></i> Add File
+              </div>
+              {{-- End Add Files --}}
+
               {{-- <input type="submit" class="btn btn-success m-t-10" value="Send"> --}}
-              <button type="submit" class="btn btn-success m-t-20"><i class="fa fa-paper-plane m-r-5"></i> Send Reply</button>
+              <div class="">
+                <button type="submit" class="btn btn-lg btn-success m-t-20"><i class="fa fa-paper-plane m-r-5"></i> Send Reply</button>
+              </div>
+
             </div>
           </form>
         </div>
@@ -94,5 +130,27 @@
 @endsection
 
 @push('scripts')
+  {{-- Append Files --}}
+  <script>
+    var files = $('#files');
+    // var disc_id = 0;
+    $('#add_file').on('click', function(){
+      // disc_id++;
+      files.append(`
+        <li class="row m-t-5 clearfix">
+          <input type="file" class="pull-left m-t-5" name="MessageFiles[]" value="" style="width:90%">
+          <i class="fa fa-times-circle text-danger delete f22 pointer"></i>
+        </li>
+        `);
+    });
 
+    // Delete Discussions
+    $("body").on("click", ".delete", function (e) {
+      if (confirm('Remove this item?'))
+        // $(this).closest(".row").fadeOut(300).remove();
+        $(this).closest(".row").fadeOut(700, function(){
+          $(this).remove();
+        });
+    });
+  </script>
 @endpush

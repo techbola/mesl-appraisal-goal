@@ -134,15 +134,17 @@ class TodoController extends Controller
     public function assigned_todos()
     {
       $user = auth()->user();
-      $todo_users = Todo::select('UserID')->where('Initiator', $user->id)->where('UserID', '!=', $user->id)->with('user')->GroupBy('UserID')->get();
+      $todo_users = Todo::select('UserID')->where('Initiator', $user->id)->where('UserID', '!=', $user->id)->where('Done', '0')->with('user')->GroupBy('UserID')->get();
       // dd($todo_users);
-      return view('todos.assigned', compact('todo_users'));
+      $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+
+      return view('todos.assigned', compact('todo_users', 'staffs'));
     }
 
     public function get_assigned_todos($id)
     {
       $user = auth()->user();
-      $todos = Todo::where('Initiator', $user->id)->where('UserID', $id)->with('user')->orderBy('DueDate', 'desc')->get();
+      $todos = Todo::where('Initiator', $user->id)->where('UserID', $id)->where('Done', '0')->with('user')->orderBy('DueDate', 'desc')->get();
       // dd($todo_users);
       return $todos;
     }

@@ -40,7 +40,7 @@
         <th>Tasks</th>
         <th>Progress</th>
         <th>Status</th>
-        <th>Actions</th>
+        {{-- <th>Actions</th> --}}
       </thead>
       <tbody>
         @foreach ($projects->load('supervisor') as $project)
@@ -60,10 +60,13 @@
               </div>
             </div>
           </td>
-          <td><span class="label label-{{ $project->status->color }}">{{ $project->status->name ?? '' }}</label></td>
-          <td class="actions">
-
+          <td>
+            <span class="label label-{{ $project->status->color }}">{{ $project->status->name ?? '' }}</span>
+            <span class="label label-inverse">{{ ($project->on_track)? 'On Track' : 'Not on track' }}</span>
           </td>
+          {{-- <td class="actions">
+
+          </td> --}}
         </tr>
         @endforeach
       </tbody>
