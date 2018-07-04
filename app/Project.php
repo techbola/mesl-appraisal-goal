@@ -94,9 +94,9 @@ class Project extends Model
     $today = date('Y-m-d');
     $data = $this->steps()->whereDate('tblSteps.EndDate', '<', $today)->where('Done', '0')->get();
     if (count($data) > 0) {
-      return true;
-    } else {
       return false;
+    } else {
+      return true;
     }
   }
 
