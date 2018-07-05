@@ -9,7 +9,8 @@
 @endsection
 
 @section('buttons')
-		<a href="{{ route('todos') }}" class="btn btn-info btn-rounded">To-Do List</a>
+		<a href="{{ route('todos') }}" class="btn btn-info btn-rounded">My To-Dos</a>
+		<a href="{{ route('assigned_todos') }}" class="btn btn-info btn-rounded">Assigned To-Dos</a>
 		<button class="btn btn-info btn-rounded" data-toggle="modal" data-target="#new_todo">+ New To-Do</button>
 @endsection
 

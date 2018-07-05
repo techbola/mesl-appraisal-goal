@@ -7,6 +7,7 @@ use Cavidel\Message;
 use Cavidel\User;
 use Cavidel\Staff;
 use Cavidel\MessageRecipient;
+use Cavidel\MessageFile;
 
 use Event;
 use Cavidel\Events\NewMessageEvent;
@@ -15,6 +16,7 @@ use Notification;
 use Cavidel\Notifications\NewMessage;
 
 use DB;
+use Storage;
 
 class MessageController extends Controller
 {
@@ -69,6 +71,28 @@ class MessageController extends Controller
         $rec->UserID = $to;
         $rec->save();
       }
+
+      if (!empty($request->MessageFiles)) {
+          foreach ($request->MessageFiles as $file) {
+            $filename = str_replace(' ', '_', $file->getClientOriginalName() );
+            // $saved    = $file->storeAs('meeting_files', $filename);
+            // $saved    = Storage::disk('public')->put('message_files/'.$filename, $file);
+            $saved    = $file->storeAs('message_files', $filename, 'public');
+
+            if ($saved) {
+              $new_file = new MessageFile;
+              $new_file->Filename = $filename;
+              $new_file->MessageID = $message->MessageRef;
+              $new_file->UserID = $user->id;
+              $new_file->save();
+            }
+
+          }
+      }
+
+
+
+
       // $msg = Message::where('MessageRef', $message->MessageRef)->with('recipients')->first();
       // Notifs
       $msg['from'] = $message->sender->FullName;
@@ -130,6 +154,25 @@ class MessageController extends Controller
         $rec->MessageID = $message->MessageRef;
         $rec->UserID = $to;
         $rec->save();
+      }
+
+
+      if (!empty($request->MessageFiles)) {
+          foreach ($request->MessageFiles as $file) {
+            $filename = str_replace(' ', '_', $file->getClientOriginalName() );
+            // $saved    = $file->storeAs('meeting_files', $filename);
+            // $saved    = Storage::disk('public')->put('message_files/'.$filename, $file);
+            $saved    = $file->storeAs('message_files', $filename, 'public');
+
+            if ($saved) {
+              $new_file = new MessageFile;
+              $new_file->Filename = $filename;
+              $new_file->MessageID = $message->MessageRef;
+              $new_file->UserID = $user->id;
+              $new_file->save();
+            }
+
+          }
       }
 
       // Notifs

@@ -25,4 +25,9 @@ class Message extends Model
       return $this->hasMany('Cavidel\Message', 'ParentID', 'MessageRef')->orderBy('created_at', 'desc');
   }
 
+  public function files()
+  {
+      return $this->hasMany(MessageFile::class, 'MessageID');
+  }
+
 }
