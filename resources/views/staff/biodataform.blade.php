@@ -120,7 +120,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('NoofChildren','No of Children') }}
-            {{ Form::number('NoofChildren', 0,  ['class' => 'form-control', 'placeholder' => 'Enter No of Children']) }}
+            {{ Form::number('NoofChildren', null,  ['class' => 'form-control', 'placeholder' => 'Enter No of Children']) }}
         </div>
     </div>
 
@@ -303,7 +303,9 @@
 
   <script>
     $(document).ready(function(){
-      $('select[name="DepartmentID[]"]').val(Array( {{$staff->DepartmentID}} )).trigger('change');
+
+      $('select[name="DepartmentID[]"]').val('{{$staff->DepartmentID}}'.split(",")).trigger('change');
+
     });
   </script>
 @endpush
