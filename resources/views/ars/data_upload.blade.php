@@ -59,7 +59,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
    
 
     <script type="text/javascript">
@@ -106,7 +106,7 @@
 
         // get bank name
         $.get('/load/bank/name', function(data) {
-            /*optional stuff to do after success */
+            console.log(data);
             $("#select_bank").html("");
             $("#select_bank").append(`
                 <option value="">--select bank--</option>
@@ -151,5 +151,5 @@
             // console.log(data);
         });
     </script>
-@endsection
+@endpush
 
