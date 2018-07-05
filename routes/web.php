@@ -387,6 +387,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('processes/process_approver', 'ProcessController@process_approver')->name('ProcessApprover');
     Route::post('store_process_approvers', 'ProcessController@store_process_approvers');
     Route::get('change_process_approvers/{id}', 'ProcessController@change_process_approvers');
+    Route::post('submit_process_attribute', 'ProcessController@submit_process_attribute');
+    Route::post('submit_process_risk', 'ProcessController@submit_process_risk');
+    Route::get('get_attribute_values/{id}', 'ProcessController@get_attribute_values');
 
     //ProductService
     Route::post('store_product_srvice', 'ProductServiceController@store');
@@ -508,3 +511,69 @@ Route::get('/testing', function () {
     // $memo = Cavidel\CallMemo::find('17');
     // return view('pdf.call_memo', compact('memo'));
 });
+
+//Reconciliation Routes
+
+Route::get('/entry/ars', 'internalPageController@index')->name('ars_recon');
+Route::get('/entry/ars_recon_upload', 'internalPageController@upload_data')->name('ars_recon_upload_data');
+Route::get('/bank', 'internalPageController@showBank');
+Route::get('/ledger', 'internalPageController@showLedger');
+
+// upload data
+Route::post('/bank', 'jsonResponseController@addBankItem');
+Route::post('/ledger', 'jsonResponseController@addLedgerItem');
+
+Route::get('/load/all', 'jsonResponseController@loadAllItems');
+Route::get('/load/bank', 'jsonResponseController@loadBankItem');
+Route::get('/load/ledger', 'jsonResponseController@loadLedgerItem');
+
+// flag items
+Route::post('/flag/item', 'jsonResponseController@flagItem');
+
+/*
+|--------------------------------
+| check and uncheck ledger item
+|--------------------------------
+|
+ */
+Route::post('/flag/ledger/checked', 'jsonResponseController@checkedLedgerItem');
+Route::post('/flag/ledger/unchecked', 'jsonResponseController@uncheckedLedgerItem');
+
+/*
+|--------------------------------
+| check and uncheck bank item
+|--------------------------------
+|
+ */
+Route::post('/flag/bank/checked', 'jsonResponseController@checkedBankItem');
+Route::post('/flag/bank/unchecked', 'jsonResponseController@uncheckedBankItem');
+
+/*
+|--------------------------------
+| Load recon total
+|--------------------------------
+|
+ */
+Route::get('/load/recon/total', 'jsonResponseController@loadStoredRecon');
+
+/*
+|--------------------------------
+| Load bank list menu
+|--------------------------------
+|
+ */
+Route::get('/load/bank/name', 'jsonResponseController@loadBankSelectMenu');
+Route::get('/load/location/name', 'jsonResponseController@loadBranchSelectMenu');
+Route::get('/load/ledger/name', 'jsonResponseController@loadLedgerSelectMenu');
+// Route::get('/load/drop/dropdown',       function (){
+//     return "seen !";
+// });
+// Route::get('/load/location/name',       'jsonResponseController@loadBranchSelectMenu');
+
+/*
+|--------------------------------
+| Save data to recon table
+|--------------------------------
+|
+ */
+Route::post('/save/data/recon/table', 'jsonResponseController@saveDataForSorting');

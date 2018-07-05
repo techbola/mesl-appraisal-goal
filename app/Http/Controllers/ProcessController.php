@@ -4,6 +4,8 @@ namespace Cavidel\Http\Controllers;
 
 use Cavidel\Process;
 use Cavidel\ProcessApprover;
+use Cavidel\ProcessAttribute;
+use Cavidel\ProcessRiskControl;
 use Cavidel\ProcessSteps;
 use Cavidel\User;
 use Illuminate\Http\Request;
@@ -70,7 +72,14 @@ class ProcessController extends Controller
     {
         $id          = $id;
         $steps_datas = ProcessSteps::where('ProcessID', $id)->orderBy('Step_Number', 'asc')->get();
-        return response()->json($steps_datas)->setStatusCode(200);
+        $attribute   = ProcessAttribute::where('process_id', $id)->first();
+        $risk        = ProcessRiskControl::where('process_id', $id)->get();
+        $multiple    = [
+            'step'      => $steps_datas,
+            'attribute' => $attribute,
+            'risk'      => $risk,
+        ];
+        return response()->json($multiple)->setStatusCode(200);
     }
 
     public function post_process_step(Request $request)
@@ -89,7 +98,13 @@ class ProcessController extends Controller
 
         $steps       = $request->ProcessID;
         $steps_datas = ProcessSteps::where('ProcessID', $steps)->orderBy('Step_Number', 'asc')->get();
-        return response()->json($steps_datas)->setStatusCode(200);
+        $attribute   = ProcessAttribute::where('process_id', $steps)->get();
+
+        $multiple = [
+            'step'      => $steps_datas,
+            'attribute' => $attribute,
+        ];
+        return response()->json($multiple)->setStatusCode(200);
     }
 
     public function update_process_step(Request $request)
@@ -106,7 +121,13 @@ class ProcessController extends Controller
             ->first();
 
         $steps_datas = ProcessSteps::where('ProcessID', $process_id->ProcessID)->orderBy('Step_Number', 'asc')->get();
-        return response()->json($steps_datas)->setStatusCode(200);
+        $attribute   = ProcessAttribute::where('process_id', $process_id->ProcessID)->get();
+
+        $multiple = [
+            'step'      => $steps_datas,
+            'attribute' => $attribute,
+        ];
+        return response()->json($multiple)->setStatusCode(200);
 
     }
 
@@ -124,7 +145,13 @@ class ProcessController extends Controller
         $process_step->update($request->except(['ProcessStepRef', 'ProcessID']));
 
         $steps_datas = ProcessSteps::where('ProcessID', $request->ProcessID)->orderBy('Step_Number', 'asc')->get();
-        return response()->json($steps_datas)->setStatusCode(200);
+        $attribute   = ProcessAttribute::where('process_id', $request->ProcessID)->get();
+
+        $multiple = [
+            'step'      => $steps_datas,
+            'attribute' => $attribute,
+        ];
+        return response()->json($multiple)->setStatusCode(200);
     }
 
     public function delete_process_step($id, $proc)
@@ -163,6 +190,31 @@ class ProcessController extends Controller
         $id              = $id;
         $update_approver = \DB::table('tblProcessApprover')->where('ProcessApproverRef', $id)->update(['Status' => 0]);
         return 'done';
+    }
+
+    public function submit_process_attribute(Request $request)
+    {
+        $process_attribute = new ProcessAttribute($request->all());
+        $process_attribute->save();
+        $get_attribute = ProcessAttribute::where('process_id', $request->process_id)->first();
+        return response()->json($get_attribute)->setStatusCode(200);
+    }
+
+    public function submit_process_risk(Request $request)
+    {
+        $process_risk = new ProcessRiskControl($request->all());
+        $process_risk->save();
+
+        $get_risk = ProcessRiskControl::where('process_id', $request->process_id)->get();
+        return response()->json($get_risk)->setStatusCode(200);
+    }
+
+    public function get_attribute_values($id)
+    {
+        $id            = $id;
+        $get_attribute = ProcessAttribute::where('process_attribute_ref', $id)->first();
+        return response()->json($get_attribute)->setStatusCode(200);
+
     }
 
 }

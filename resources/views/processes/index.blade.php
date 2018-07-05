@@ -51,18 +51,32 @@ s
                         {{ Form::label('Select Process' ) }}
                             {{ Form::select('ProcessRef', [ '' =>  'Select a Process'] + $processes->pluck('process', 'processRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'process_id', 'onchange' => 'add_step()', 'data-init-plugin' => "select2", 'required']) }}
                     </div>
-                  </div>
-
-                  <div class="hide" id="segments" style="margin-top: 20px; padding: 20px; background: #d4e8e9; ">
-                    <h3>Segments</h3><hr>
-                    <ol id="segments_list">
-                      
-                    </ol>
-                  </div>        
+                  </div>      
               </div>
 
             <div class="col-md-12 hide" id="process_step">
             <div style="padding: 20px; background: #eee">
+                 <div class="row">
+                  <div class="col-md-6 col-md-offset-6">
+                    <div style="background: #cde3f5; padding: 20px">
+                    <h3>Process Attribute</h3><hr>
+                   <table class="table">
+                      <thead>
+                        <tr>
+                          <th style="color: #000; font-weight: bold">Frequency</th>
+                          <th style="color: #000; font-weight: bold">Nunmber of Staff</th>
+                          <th style="color: #000; font-weight: bold">Turn Around Time</th>
+                        </tr>
+                      </thead>
+                      <tbody id="attributes">
+                        
+                      </tbody>
+                   </table>
+                 </div>
+                 </div>
+              </div>
+              <br>
+
               <h2 class="semi-bold" id="title"></h2>
               <table class="table table-hover table-bordered">
                 <thead>
@@ -75,7 +89,25 @@ s
                 </thead>
                 <tbody id="step_list">
                 </tbody>
-              </table>
+              </table><br>
+
+
+              <h2>Risk & Controls</h2>
+               <div style="background: #cde3f5; padding: 20px">
+                 <div class="row">
+                   <table class="table table-hover table-bordered">
+                      <thead>
+                        <tr>
+                          <th style="color: #000; font-weight: bold">Risk</th>
+                          <th style="color: #000; font-weight: bold">Controls</th>
+                        </tr>
+                      </thead>
+                      <tbody id="risk_list">
+                      </tbody>
+                   </table>
+                 </div>
+              </div>
+              <br>
 
             </div>
           </div>
@@ -101,7 +133,7 @@ s
 
         $.get('/get_process_steps/'+id, function(data, status) {
 
-           $.each(data, function(index, val){
+           $.each(data.step, function(index, val){
              $('#step_list').append(`
               <tr>
                   <td>Step ${val.Step_Number}</td>
@@ -112,6 +144,26 @@ s
                <option value="${val.ProductRef}">${val.ProductService}</option>
              `);
             });
+
+            $('#attributes').html(' ');
+             $('#attributes').append(`
+              <tr>
+                  <td>${data.attribute.frequency}</td>
+                  <td>${data.attribute.staff_no}</td>
+                  <td>${data.attribute.TAT}</td>
+              </tr>
+             `);
+
+              $('#risk_list').html(' ');
+              $.each(data.risk, function(index, val){
+             $('#risk_list').append(`
+              <tr>
+                  <td>${val.risk}</td>
+                  <td>${val.control}</td>
+              </tr>
+             `);
+            });
+
         });
       }
 
