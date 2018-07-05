@@ -70,8 +70,8 @@ class jsonResponseController extends Controller
     {
 
         $recon_total = DB::select("
-			EXEC procReconTotal
-		");
+            EXEC procReconTotal
+        ");
 
         // collect results
         $scan_total    = collect($recon_total);
@@ -454,7 +454,9 @@ class jsonResponseController extends Controller
      */
     public function loadBankSelectMenu()
     {
-        $bank_list     = DB::table("tblBank")->get();
+        $bank_list = DB::table("tblBank")->get();
+
+        // return $bank_list;
         $bank_list_box = [];
         foreach ($bank_list as $list) {
             # code...
@@ -499,8 +501,8 @@ class jsonResponseController extends Controller
     public function loadLedgerSelectMenu()
     {
         $load_ledger_list = DB::select('
-			EXEC procLedger
-		');
+            EXEC procLedger
+        ');
 
         // return collect($load_ledger_list);
 
