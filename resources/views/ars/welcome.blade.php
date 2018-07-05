@@ -93,7 +93,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.js"></script>
     <script type="text/javascript">
         
@@ -333,5 +333,5 @@
     </script>
 
  
-@endsection
+@endpush
 
