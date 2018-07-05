@@ -34,6 +34,7 @@ use Cavidel\Company;
 use File;
 use Image;
 use Auth;
+use Gate;
 
 class StaffController extends Controller
 {
@@ -441,7 +442,7 @@ class StaffController extends Controller
             $staff      = Staff::where('StaffRef', $id)->first();
             $user_staff = User::find($staff->UserID);
 
-            if (!$user->hasRole('admin') && !$user->is_superadmin) {
+            if (Gate::denies('hr-admin')) {
                 // Non Admins
                 $staff            = new StaffPending;
                 $staff->UserID    = $user->id;
@@ -479,12 +480,9 @@ class StaffController extends Controller
                     $file     = $request->file('avatar');
                     $filename = strtolower($user_staff->first_name . '_' . $user_staff->last_name . '_' . $user_staff->id . '.' . $request->avatar->extension());
 
-                    // Create the Avatars folder if doesn't exist. ('Intervention' doesnt create folders automatically)
-                    // The first condition is for the default Laravel folder structure. The second condition will be used if the public folder becomes root (in live servers)
+                    // Create the Avatars folder if doesn't exist.
                     if (!File::exists(public_path('images/avatars')) && File::exists(public_path('images'))) {
                         File::makeDirectory(public_path('images/avatars'));
-                    } elseif (!File::exists('images/avatars') && !File::exists(public_path('images'))) {
-                        File::makeDirectory('images/avatars');
                     }
 
                     Image::make($file)->orientate()->resize(300, null, function ($constraint) {$constraint->aspectRatio();})->save('images/avatars/' . $filename);
