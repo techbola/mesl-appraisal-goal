@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
       @if(View::hasSection('title'))
-        TIMS - @yield('title')
+        OfficeMate - @yield('title')
       @else
-          TIMS
+          OfficeMate
       @endif
     </title>
 
