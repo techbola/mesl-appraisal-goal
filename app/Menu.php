@@ -37,7 +37,7 @@ class Menu extends Model
     {
         $user   = Auth::user();
 
-        if ($user->is_superadmin || $user->hasRole(['admin', 'hr admin'])) {
+        if ($user->is_superadmin || $user->hasRole('admin')) {
             $user_submenus = Menu::where('parent_id', $menu_id)->with('children')->get();
         } else {
             $user_submenus = \Auth::user()->roles()->first()->menus->where('parent_id', $menu_id);
