@@ -113,7 +113,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('messages/reply/{parent_id}', 'MessageController@reply_message')->name('reply_message');
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
     Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
-        return response()->download(storage_path("app/public/".$dir."/" . $filename));
+        return response()->download(storage_path("app/public/" . $dir . "/" . $filename));
     })->name('download_file');
 
     Route::get('bulletins', 'BulletinController@index')->name('bulletin_board');
@@ -260,6 +260,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
+
+    // LEarning Management System
+
+    Route::get('LMS/course_dashboard', 'CourseController@course_dashboard');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');

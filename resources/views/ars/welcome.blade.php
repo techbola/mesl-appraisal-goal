@@ -314,7 +314,7 @@
         function refreshReconTotal(argument) {
             // get json for recon total
             $.get('/load/recon/total', function(data) {
-                // console.log(data);
+                console.log(data);
                 $(".match-results").html("");
                 // iterate
                 $.each(data, function(index, val) {

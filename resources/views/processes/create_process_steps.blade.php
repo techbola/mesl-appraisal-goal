@@ -466,8 +466,8 @@ tfoot{
 
            $('#responsibility').val(' ');
            $('#job_aid').val(' ');
-           $('#task').val(' ');
-
+          $('#item_div .note-editable').text(' ');
+          
            $('.fred').removeClass('hide');
            $('.mno').addClass('hide');
            
