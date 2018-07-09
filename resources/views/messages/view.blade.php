@@ -101,18 +101,16 @@
               <label>Reply</label>
               <textarea class="summernote" name="Body"></textarea>
 
-              {{-- Add Files --}}
+              {{-- Attached Files --}}
               <ul class="my-list" id="files">
               </ul>
+              {{-- End Attached Files --}}
 
-              <div class="btn btn-sm btn-inverse m-t-10 m-b-10" id="add_file">
-                <i class="fa fa-plus m-r-5"></i> Add File
-              </div>
-              {{-- End Add Files --}}
-
-              {{-- <input type="submit" class="btn btn-success m-t-10" value="Send"> --}}
-              <div class="">
-                <button type="submit" class="btn btn-lg btn-success m-t-20"><i class="fa fa-paper-plane m-r-5"></i> Send Reply</button>
+              <div class="clearfix m-t-30 m-b-20">
+                <div class="pull-left btn btn-inverse m-t-10" id="add_file">
+                  <i class="fa fa-plus m-r-5"></i> Attach File
+                </div>
+                <button type="submit" class="pull-right btn btn-lg btn-info"><i class="fa fa-paper-plane m-r-5"></i> Send</button>
               </div>
 
             </div>
@@ -146,7 +144,7 @@
 
     // Delete Discussions
     $("body").on("click", ".delete", function (e) {
-      if (confirm('Remove this item?'))
+      if (confirm('Remove this file?'))
         // $(this).closest(".row").fadeOut(300).remove();
         $(this).closest(".row").fadeOut(700, function(){
           $(this).remove();

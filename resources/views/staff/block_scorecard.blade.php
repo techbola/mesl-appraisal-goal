@@ -36,7 +36,7 @@
         </td>
         {{-- PERIOD FROM --}}
         <td>
-          {{ $score->PeiodFrom }}
+          {{ $score->PeriodFrom }}
         </td>
         {{-- PERIOD TO --}}
         <td>
