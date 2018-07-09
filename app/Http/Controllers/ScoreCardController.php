@@ -12,7 +12,7 @@ class ScoreCardController extends Controller
 {
   public function index()
   {
-    $staff = Staff::find(auth()->user()->id);
+    $staff = Staff::find(auth()->user()->staff->StaffRef);
     return view('scorecard.index', compact('staff'));
   }
 
