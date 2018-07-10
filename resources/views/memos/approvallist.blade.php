@@ -180,6 +180,7 @@
         <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
         </script>
         <script src="{{ asset('js/printThis.js') }}"></script>
+        <script src="{{ asset('js/jquery-printme.min.js') }}"></script>
 
         <script language="javascript">
 $(function(){
@@ -374,7 +375,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
       });
 
       function print_memo() {
-        return $("#show-memo").printThis();
+        return $("#show-memo").printMe();
       }
 </script>
         

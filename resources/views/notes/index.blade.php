@@ -60,7 +60,13 @@
                         @{{/exists}} --}}
 
                         {{-- @{{#exists time}} --}}
-                            <span class="uk-margin-top uk-text-italic uk-text-muted uk-display-block uk-text-small">{{ $note->created_at->format('jS M Y g:ia') }}</span>
+                        <div class="clearfix">
+
+                          <span class="uk-margin-top uk-text-italic uk-text-muted uk-display-block uk-text-small pull-left">{{ $note->created_at->format('jS M Y g:ia') }}</span>
+                          <span class="pull-right">
+                            <i class="fa fa-pencil pointer edit_btn" data-id="{{ $note->NoteRef }}" data-toggle="modal" data-target="#edit_note"></i>
+                          </span>
+                        </div>
                         {{-- @{{/exists}} --}}
                     </div>
                 </div>
@@ -186,6 +192,62 @@
         </div>
     </li>
 </script>
+
+
+
+<!-- Modal -->
+<div class="modal fade slide-up disable-scroll" id="edit_note" role="dialog" aria-hidden="false">
+  <div class="modal-dialog ">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-header clearfix text-left">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+          </button>
+          <h5>Edit Note</h5>
+          {{-- <p class="p-b-10">We need payment information inorder to process your order</p> --}}
+        </div>
+        <div class="modal-body">
+          <form action="">
+              <div class="uk-form-row">
+                  <label>Title</label>
+                  <input type="text" class="md-input" name="Title"/>
+              </div>
+              <div class="uk-form-row">
+                  <label>Note content</label>
+                  <textarea type="text" class="md-input" placeholder="" name="Body"></textarea>
+              </div>
+              <div class="uk-form-row uk-hidden" id="notes_checklist">
+                  <label>Checklist (sortable)</label>
+                  <ul class="uk-list uk-list-hover uk-sortable-single" data-uk-sortable></ul>
+                  <div class="uk-input-group">
+                      <input type="text" class="md-input" id="checklist_item" placeholder="add item" />
+                      <span class="uk-input-group-addon">
+                          <a href="#" id="checkbox_add"><i class="material-icons md-24">&#xE145;</i></a>
+                      </span>
+                  </div>
+              </div>
+              <div class="uk-form-row" id="notes_labels"></div>
+              <div class="uk-form-row uk-clearfix">
+                  <div class="uk-float-left">
+                      <div class="uk-button-dropdown" data-uk-dropdown="{mode:'click'}">
+                          <a href="#"><i class="material-icons md-24">&#xE3B7;</i></a>
+                          <div class="uk-dropdown uk-dropdown-blank" id="notes_cp"></div>
+                      </div>
+
+                      <a href="#" class="uk-margin-left" data-uk-toggle="{target:'#notes_checklist'}"><i class="material-icons md-24">&#xE065;</i></a>
+
+                  </div>
+                  <div class="uk-float-right">
+                      <a href="#" class="md-btn md-btn-primary" id="note_add">Edit Note</a>
+                  </div>
+              </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 
@@ -201,4 +263,17 @@
   <script src="{{ asset('assets/plugins/altair/handlebars.min.js') }}" charset="utf-8"></script>
   <script src="{{ asset('assets/plugins/altair/handlebars_helpers.min.js') }}" charset="utf-8"></script>
   <script src="{{ asset('assets/plugins/sticky_notes/sticky_notes.js') }}" charset="utf-8"></script>
+
+  <script>
+    // var edit_btn = $('.edit_btn');
+    $(document).on('click', '.edit_btn', function(){
+      // console.log($(this).data('id'));
+      $.get('/get_note/'+$(this).data('id'), function(data, status){
+        console.log('OK');
+        $('#edit_note input[name=Title]').val(data.Title);
+        $('#edit_note textarea[name=Body]').val(data.Body);
+      });
+
+    });
+  </script>
 @endpush

@@ -48,4 +48,10 @@ class StickyNoteController extends Controller
   //   $note = StickyNote::find($id);
   // }
 
+  public function get_note($id)
+  {
+    $note = StickyNote::find($id);
+    return $note;
+  }
+
 }

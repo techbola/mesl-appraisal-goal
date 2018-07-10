@@ -211,6 +211,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('store_note', 'StickyNoteController@store')->name('store_note');
     Route::post('store_checklist', 'StickyNoteController@store_checklist')->name('store_checklist');
     Route::delete('delete_note/{id}', 'StickyNoteController@delete')->name('delete_note');
+    Route::get('get_note/{id}', 'StickyNoteController@get_note')->name('get_note'); // AJAX
 
     Route::get('call-memo/create/{customer}', 'CallMemoController@create')->name('create_call_memo');
     Route::post('call-memo/store/{customer}', 'CallMemoController@store')->name('store_call_memo');
@@ -497,21 +498,6 @@ Route::get('/cls', function () {
 Route::get('/cda', function () {
     exec('composer dump-autoload');
     return redirect('/');
-});
-
-Route::get('/testing', function () {
-    // return view('testing');
-    //   return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
-    //
-    //   <div class="row">
-    //   <div class="col-md-8 col-md-offset-2">
-    //   <iframe src = "/assets/plugins/ViewerJS/#/docs/notes.pdf" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
-    //   </div>
-    //   </div>
-    //   ';
-
-    // $memo = Cavidel\CallMemo::find('17');
-    // return view('pdf.call_memo', compact('memo'));
 });
 
 //Reconciliation Routes

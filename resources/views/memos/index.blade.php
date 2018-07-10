@@ -226,6 +226,7 @@
 
 @push('scripts')
   <script src="{{ asset('js/printThis.js') }}"></script>
+  <script src="{{ asset('js/jquery-printme.min.js') }}"></script>
   <script>
     $(function(){
       $('.preview_memo').click(function(e) {
@@ -269,10 +270,12 @@
       });
     });
 
-
     function print_memo() {
-        return $("#show-memo").printThis();
+        return $("#show-memo").printMe({
+          "path": ["{{ asset('css/printmemo.css') }}"]
+        }); 
     }
+    
 
   </script>
 @endpush
