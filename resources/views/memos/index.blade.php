@@ -226,6 +226,7 @@
 
 @push('scripts')
   <script src="{{ asset('js/printThis.js') }}"></script>
+  <script src="{{ asset('js/jquery-printme.min.js') }}"></script>
   <script>
     $(function(){
       $('.preview_memo').click(function(e) {
@@ -269,10 +270,21 @@
       });
     });
 
-
-    function print_memo() {
-        return $("#show-memo").printThis();
+    function printPageArea(areaID) {
+        var printContent = document.getElementById(areaID);
+        var WinPrint = window.open('', '', 'width=900,height=650');
+        WinPrint.document.write(printContent.innerHTML);
+        WinPrint.document.close();
+        WinPrint.focus();
+        WinPrint.print();
+        WinPrint.close();
     }
+    function print_memo() {
+        return $("#show-memo").printMe({
+          "path": ["{{ asset('css/printmemo.css') }}"]
+        }); 
+    }
+    
 
   </script>
 @endpush
