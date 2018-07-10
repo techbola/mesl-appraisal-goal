@@ -375,7 +375,9 @@ var table = $('.tableWithSearch_a').DataTable(settings);
       });
 
       function print_memo() {
-        return $("#show-memo").printMe();
+        return $("#show-memo").printMe({
+          "path": ["{{ asset('css/printmemo.css') }}"]
+        });
       }
 </script>
         
