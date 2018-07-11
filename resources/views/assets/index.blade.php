@@ -60,15 +60,15 @@
 							{{-- <td>
 								<input type="checkbox" name="assets[]" value="{{ $asset->AssetRef }}">
 							</td> --}}
-							<td>{{ $asset->Description }}</td>
+							<td>{{ $asset->Description ?? '&mdash;' }}</td>
 							<td>{{ $asset->category->AssetCategory ?? '-' }}</td>
 							<td>{{ $asset->location->Location ?? '-' }}</td>
-							<td>{{ $asset->Quantity }}</td>
+							<td>{{ $asset->Quantity ?? '&mdash;' }}</td>
 							<td>{{ number_format($asset->UnitCost, 2)}}</td>
 							<td>{{ number_format($asset->TotalCost, 2) }}</td>
-							<td>{{ $asset->PurchaseDate->format('jS M, Y') }}</td>
-							<td>{{ $asset->SerialNo }}</td>
-							<td>{{ $asset->AssetNo }}</td>
+							<td>{{ ($asset->PurchaseDate)? $asset->PurchaseDate->format('jS M, Y') : '&mdash;' }}</td>
+							<td>{{ $asset->SerialNo ?? '-' }}</td>
+							<td>{{ $asset->AssetNo ?? '-' }}</td>
 							<td>{{ $asset->allotee->FullName ?? '&mdash;' }}</td>
 							<td class="actions">
 								<a href="#" data-toggle="modal" data-target="#edit_asset" class="" @click="edit_asset({{ $asset }})">
@@ -95,7 +95,7 @@
     @include('assets.modals')
 
 		{{-- Tags --}}
-		<div class="print-assets print-hidden" id="print-content">
+		{{-- <div class="print-assets print-hidden" id="print-content">
 			@foreach ($assets as $asset)
 				<div class="tag-list">
 					<li>
@@ -108,7 +108,7 @@
 					</li>
 				</div>
 			@endforeach
-		</div>
+		</div> --}}
 		{{-- End Tags --}}
 @endsection
 
