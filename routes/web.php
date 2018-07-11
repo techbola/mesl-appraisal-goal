@@ -184,6 +184,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('my_documents/approvallist', 'DocumentController@approval_list')->name('docs_approvallist');
 
     Route::post('document_store', 'DocumentController@store')->name('document_store');
+    Route::patch('update_document/{id}', 'DocumentController@update_document')->name('update_document');
     Route::get('download-document/{file}', function ($file) {
         return response()->download(storage_path("app/documents/" . $file));
     })->name('docs');
