@@ -504,10 +504,14 @@ Route::get('/cda', function () {
 });
 
 Route::get('/testing', function(){
-  $arr = ['1', '2'];
+
   // return Cavidel\Staff::whereRaw("DepartmentID @> ARRAY['1']::varchar[]")->get();
   // return Cavidel\Staff::whereRaw("1=ANY(DepartmentID)")->get();
-  return Cavidel\Staff::where(in_array('1', 'DepartmentID'))->get();
+  // return Cavidel\Staff::whereRaw("find_in_set('1',DepartmentID)")->get();
+  // return Cavidel\Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',1,',%')")->get();
+  return Cavidel\Department::find('4')->staff();
+  // return Cavidel\Staff::all()->filter('1', function(){
+  // })->get();
 });
 
 //Reconciliation Routes
