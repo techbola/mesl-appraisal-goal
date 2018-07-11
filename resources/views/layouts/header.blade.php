@@ -621,6 +621,7 @@
               todayHighlight: true,
               format: 'yyyy-mm-dd',
               autoclose: true,
+              startDate: '1920-01-01',
           };
           $('.dp').datepicker(options);
       });

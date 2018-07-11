@@ -86,6 +86,8 @@ class StaffController extends Controller
             if (!empty($request->DepartmentID)) {
               $staff_departments   = implode(',', $request->DepartmentID);
               $staff->DepartmentID = $staff_departments;
+            } else {
+              $staff->DepartmentID = '1';
             }
             if (!empty($request->SupervisorID)) {
               $staff->SupervisorID = $request->SupervisorID;

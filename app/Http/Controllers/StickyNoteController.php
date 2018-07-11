@@ -54,4 +54,29 @@ class StickyNoteController extends Controller
     return $note;
   }
 
+  public function update(Request $request, $id)
+  {
+
+    // return $request->Checklist;
+    $note = StickyNote::find($id);
+    $note->Title = trim($request->Title);
+    $note->Body = $request->Body;
+    // $note->Color = $request->Color;
+    // $note->UserID = auth()->user()->id;
+    $note->update();
+
+    return redirect()->back()->with('success', 'Note update successfully');
+  }
+
+  public function toggle_checklist($id)
+  {
+    $check = StickyNoteChecklist::find($id);
+    if ($check->Checked == '1') {
+      $check->Checked = '0';
+    } else {
+      $check->Checked = '1';
+    }
+    $check->update();
+  }
+
 }

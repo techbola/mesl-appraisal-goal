@@ -209,9 +209,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
     Route::post('store_note', 'StickyNoteController@store')->name('store_note');
+    Route::patch('update_note/{id}', 'StickyNoteController@update')->name('update_note');
     Route::post('store_checklist', 'StickyNoteController@store_checklist')->name('store_checklist');
     Route::delete('delete_note/{id}', 'StickyNoteController@delete')->name('delete_note');
     Route::get('get_note/{id}', 'StickyNoteController@get_note')->name('get_note'); // AJAX
+    Route::patch('toggle_checklist', 'StickyNoteController@toggle_checklist')->name('toggle_checklist'); // AJAX
 
     Route::get('call-memo/create/{customer}', 'CallMemoController@create')->name('create_call_memo');
     Route::post('call-memo/store/{customer}', 'CallMemoController@store')->name('store_call_memo');
@@ -498,6 +500,13 @@ Route::get('/cls', function () {
 Route::get('/cda', function () {
     exec('composer dump-autoload');
     return redirect('/');
+});
+
+Route::get('/testing', function(){
+  $arr = ['1', '2'];
+  // return Cavidel\Staff::whereRaw("DepartmentID @> ARRAY['1']::varchar[]")->get();
+  // return Cavidel\Staff::whereRaw("1=ANY(DepartmentID)")->get();
+  return Cavidel\Staff::where(in_array('1', 'DepartmentID'))->get();
 });
 
 //Reconciliation Routes
