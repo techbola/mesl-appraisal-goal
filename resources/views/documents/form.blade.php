@@ -66,6 +66,12 @@
               {{ Form::select('Staff[]', [ 'all' =>  'Everyone'] + $staff->pluck('FullName','StaffRef')->toArray(), null, ['class' => 'full-width', 'data-init-plugin' => 'select2', 'data-placeholder' => 'Assign Staff', 'multiple']) }}
             </div>
         </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+              {{ Form::label('Departments', 'Assign Departments') }}
+              {{ Form::select('Departments[]', [ 'all' =>  'Everyone'] + $departments->pluck('Department','DepartmentRef')->toArray(), null, ['class' => 'full-width', 'data-init-plugin' => 'select2', 'data-placeholder' => 'Assign Department', 'multiple']) }}
+            </div>
+        </div>
     </div>
 
     <button type="submit" class="btn btn-info btn-form">Submit</button>

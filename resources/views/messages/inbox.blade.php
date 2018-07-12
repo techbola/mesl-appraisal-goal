@@ -74,7 +74,10 @@
 
     {{-- <hr> --}}
 
+    @include('messages.searchbox')
+
     <div class="row">
+
         @include('messages.menu', ['active' => 'inbox'])
         <div class="col-sm-8 col-md-9 inbox-content">
             <!-- Nav tabs -->
@@ -121,7 +124,7 @@
                           <div class="m-t-10 text-muted f16">You have no messages in your inbox yet.</div>
                         </div>
                       @endforelse
-                      
+
                       <div class="m-t-10 m-l-10">{{ $messages->links() }}</div>
 
                     </div>

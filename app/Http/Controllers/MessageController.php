@@ -190,6 +190,7 @@ class MessageController extends Controller
 
       return redirect()->route('view_message', $parent->MessageRef)->with('success', 'Your reply was sent successfully.');
     } catch (Exception $e) {
+
       DB::rollback();
       return redirect()->route('view_message', $parent->MessageRef)->with('danger', 'Message sending failed.');
     }
@@ -213,6 +214,17 @@ class MessageController extends Controller
     }
 
     return view('messages.view', compact('message', 'user'));
+  }
+
+  public function search_messages()
+  {
+    if (!empty($_GET['q'])) {
+      $q = $_GET['q'];
+    } else {
+      $q = '';
+    }
+    $results = Message::where('Subject', 'LIKE', '%'.$q.'%')->orWhere('Body', 'LIKE', '%'.$q.'%')->paginate(20);
+    return view('messages.search', compact('results'));
   }
 
 }

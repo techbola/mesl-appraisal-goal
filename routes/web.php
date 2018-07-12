@@ -112,6 +112,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('messages/send', 'MessageController@send_message')->name('send_message');
     Route::post('messages/reply/{parent_id}', 'MessageController@reply_message')->name('reply_message');
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
+    Route::get('search_messages', 'MessageController@search_messages')->name('search_messages');
     Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
         return response()->download(storage_path("app/public/".$dir."/" . $filename));
     })->name('download_file');
@@ -504,10 +505,14 @@ Route::get('/cda', function () {
 });
 
 Route::get('/testing', function(){
-  $arr = ['1', '2'];
+
   // return Cavidel\Staff::whereRaw("DepartmentID @> ARRAY['1']::varchar[]")->get();
   // return Cavidel\Staff::whereRaw("1=ANY(DepartmentID)")->get();
-  return Cavidel\Staff::where(in_array('1', 'DepartmentID'))->get();
+  // return Cavidel\Staff::whereRaw("find_in_set('1',DepartmentID)")->get();
+  // return Cavidel\Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',1,',%')")->get();
+  // return Cavidel\Department::find('4')->staff();
+  // return Cavidel\Staff::all()->filter('1', function(){
+  // })->get();
 });
 
 //Reconciliation Routes

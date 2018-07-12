@@ -7,6 +7,7 @@ use Cavidel\Bulletin;
 use Cavidel\User;
 use Carbon\Carbon;
 use Cavidel\Department;
+use Cavidel\Staff;
 
 use Cavidel\Notifications\NewBulletin;
 use Notification;
@@ -70,8 +71,12 @@ class BulletinController extends Controller
 
     $bulletin->save();
 
+    $staff = User::whereHas('staff', function($q) use($request){
+      $q->whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',".$request->DepartmentID.",',%')");
+    })->get();
 
-    Notification::send($all, new NewBulletin($bulletin));
+
+    Notification::send($staff, new NewBulletin($bulletin));
 
     return redirect()->route('bulletin_board')->with('success', 'New bulletin was saved successfully.');
   }

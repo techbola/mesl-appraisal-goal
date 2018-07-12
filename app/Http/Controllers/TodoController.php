@@ -55,7 +55,7 @@ class TodoController extends Controller
 
       $this->validate($request, [
         'Todo' => 'required',
-        'DueDate' => 'required',
+        // 'DueDate' => 'required',
       ]);
 
       $todo = new Todo;

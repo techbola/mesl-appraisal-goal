@@ -8,6 +8,7 @@ use Cavidel\DocType;
 use Cavidel\Role;
 use Cavidel\Staff;
 use Cavidel\Workflow;
+use Cavidel\Department;
 use Auth;
 use DB;
 
@@ -33,6 +34,7 @@ class DocumentController extends Controller
             $doctypes = DocType::all();
             $roles    = Role::all();
             $staff = Staff::all();
+            $departments = Department::all();
         } else {
             $docs = Document::where('CompanyID', $user->staff->CompanyID)->whereHas('assignees', function ($query) use ($user) {
                 $query->where('StaffRef', $user->staff->StaffRef);
@@ -40,8 +42,9 @@ class DocumentController extends Controller
             $doctypes = DocType::where('CompanyID', $user->staff->CompanyID)->get();
             $roles    = Role::where('CompanyID', $user->staff->CompanyID)->get();
             $staff = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+            $departments = Department::where('CompanyID', $user->CompanyID)->get();
         }
-        return view('documents.my_docs', compact('docs', 'doctypes', 'roles', 'staff'));
+        return view('documents.my_docs', compact('docs', 'doctypes', 'roles', 'staff', 'departments'));
     }
 
     public function send($id)
@@ -114,8 +117,6 @@ class DocumentController extends Controller
                                 }
                             }
                         }
-
-
                     }
                     // End Roles
 
@@ -133,9 +134,21 @@ class DocumentController extends Controller
                             $assignees[] = $staff->StaffRef;
                           }
                       }
-
                     }
                     // End Staff
+
+                    // Start Departments
+                    if (!empty($request->Departments)) {
+
+                        foreach ($request->Departments as $dept_id) {
+                            $dept = Department::find($dept_id);
+                            foreach ($dept->staff() as $staff) {
+                                $assignees[] = $staff->StaffRef;
+                            }
+                        }
+                    }
+                    // End Departments
+
 
                     $clean_assignees = array_unique($assignees);
 
