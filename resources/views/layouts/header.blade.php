@@ -114,13 +114,13 @@
             <?php if($menu->name == 'Dashboard') continue; ?>
            <li>
             <a href="{{ $menu->route != '#' ? route($menu->route) : "#" }}" class="">
-              <span class="title" data-toggle="tooltip" data-placement="right" title="{{ $menu->name }}">{{$menu->name }}</span>
+              <span class="title" data-toggle="tooltip" data-placement="right" title="{{ $menu->name }}">{{ $menu->name }}</span>
               @if(count($menu->children) > 0 )
               <span class="arrow"></span>
               @endif
             </a>
             <span class="icon-thumbnail">{{ substr($menu->name, 0, 2) }}</span>
-            {{$menu->hasSubmenu($menu->id ) }}
+            {{ $menu->hasSubmenu($menu->id ) }}
           </li>
           @endforeach
         </ul>

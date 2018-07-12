@@ -218,12 +218,20 @@ class MessageController extends Controller
 
   public function search_messages()
   {
+    $user = auth()->user();
     if (!empty($_GET['q'])) {
       $q = $_GET['q'];
     } else {
       $q = '';
     }
-    $results = Message::where('Subject', 'LIKE', '%'.$q.'%')->orWhere('Body', 'LIKE', '%'.$q.'%')->paginate(20);
+    // $results = Message::where('Subject', 'LIKE', '%'.$q.'%')->orWhere('Body', 'LIKE', '%'.$q.'%')->paginate(20);
+    $results = Message::where(function($query1) use($user){
+      $query1->where('FromID', $user->id)->orWhereHas('recipients', function($query) use($user){
+        $query->where('users.id', $user->id);
+      });
+    })->where(function($query2) use($q){
+      $query2->where('Subject', 'LIKE', '%'.$q.'%')->orWhere('Body', 'LIKE', '%'.$q.'%');
+    })->paginate(20);
     return view('messages.search', compact('results'));
   }
 
