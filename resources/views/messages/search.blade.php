@@ -31,6 +31,8 @@
 
             <!-- Tab panes -->
                 <div class="tab-pane fade in active card-box" id="home">
+                    <div class="m-b-20 m-l-15 f15">
+                      <span class="m-r-5 bold text-muted">Search results for</span>"<span class="bold">{{ $_GET['q'] ?? '' }}</span>"</div>
                     <div class="list-group">
                       @forelse ($results as $msg)
                         <a href="{{ route('view_message', ['id'=>($msg->ParentID)? $msg->ParentID : $msg->MessageRef, 'reply'=>$msg->MessageRef] ) }}" class="list-group-item">

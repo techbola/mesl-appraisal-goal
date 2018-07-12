@@ -223,7 +223,7 @@ class MessageController extends Controller
     } else {
       $q = '';
     }
-    $results = Message::where('Subject', 'LIKE', '%'.$q.'%')->where('Body', 'LIKE', '%'.$q.'%')->paginate(20);
+    $results = Message::where('Subject', 'LIKE', '%'.$q.'%')->orWhere('Body', 'LIKE', '%'.$q.'%')->paginate(20);
     return view('messages.search', compact('results'));
   }
 
