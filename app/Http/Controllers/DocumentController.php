@@ -36,9 +36,12 @@ class DocumentController extends Controller
             $staff = Staff::all();
             $departments = Department::all();
         } else {
-            $docs = Document::where('CompanyID', $user->staff->CompanyID)->whereHas('assignees', function ($query) use ($user) {
+            $docs = Document::where('CompanyID', $user->staff->CompanyID)->where('ApprovedFlag', '1')->where('NotifyFlag', '1')->where(function($query1) use($user){
+              $query1->whereHas('assignees', function ($query) use ($user) {
                 $query->where('StaffRef', $user->staff->StaffRef);
-            })->orWhere('Initiator', $user->id)->orderBy('DocRef', 'desc')->get();
+              })->orWhere('Initiator', $user->id);
+            })->orderBy('DocRef', 'desc')->get();
+
             $doctypes = DocType::where('CompanyID', $user->staff->CompanyID)->get();
             $roles    = Role::where('CompanyID', $user->staff->CompanyID)->get();
             $staff = Staff::where('CompanyID', $user->staff->CompanyID)->get();
@@ -97,6 +100,10 @@ class DocumentController extends Controller
                         'Filename'    => $request->Filename->getClientOriginalName(),
                         // 'Path' => Storage::url('documents/'.$filename)
                     ));
+                    if (!empty($request->ApproverID)) {
+                      $document->ApproverID = $request->ApproverID;
+                      $document->NotifyFlag = '1';
+                    }
                     $document->save();
 
                     // Declare assignees array.

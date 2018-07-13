@@ -74,9 +74,7 @@
   {{-- Append Files --}}
   <script>
     var files = $('#files');
-    // var disc_id = 0;
     $('#add_file').on('click', function(){
-      // disc_id++;
       files.append(`
         <li class="row m-t-5 clearfix">
           <input type="file" class="form-control pull-left m-t-5" name="MessageFiles[]" value="" style="width:90%">
@@ -85,7 +83,7 @@
         `);
     });
 
-    // Delete Discussions
+
     $("body").on("click", ".delete", function (e) {
       if (confirm('Remove this file?'))
         // $(this).closest(".row").fadeOut(300).remove();
