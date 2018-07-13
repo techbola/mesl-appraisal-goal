@@ -14,7 +14,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer(
-            'layouts.header',
+            'layouts.header_',
             'Cavidel\Http\ViewComposers\SidebarComposer'
         );
         view()->composer(
