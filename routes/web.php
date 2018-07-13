@@ -112,6 +112,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('messages/send', 'MessageController@send_message')->name('send_message');
     Route::post('messages/reply/{parent_id}', 'MessageController@reply_message')->name('reply_message');
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
+    Route::get('search_messages', 'MessageController@search_messages')->name('search_messages');
     Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
         return response()->download(storage_path("app/public/" . $dir . "/" . $filename));
     })->name('download_file');
@@ -184,6 +185,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('my_documents/approvallist', 'DocumentController@approval_list')->name('docs_approvallist');
 
     Route::post('document_store', 'DocumentController@store')->name('document_store');
+    Route::patch('update_document/{id}', 'DocumentController@update_document')->name('update_document');
     Route::get('download-document/{file}', function ($file) {
         return response()->download(storage_path("app/documents/" . $file));
     })->name('docs');
@@ -209,8 +211,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
     Route::post('store_note', 'StickyNoteController@store')->name('store_note');
+    Route::patch('update_note/{id}', 'StickyNoteController@update')->name('update_note');
     Route::post('store_checklist', 'StickyNoteController@store_checklist')->name('store_checklist');
     Route::delete('delete_note/{id}', 'StickyNoteController@delete')->name('delete_note');
+    Route::get('get_note/{id}', 'StickyNoteController@get_note')->name('get_note'); // AJAX
+    Route::patch('toggle_checklist', 'StickyNoteController@toggle_checklist')->name('toggle_checklist'); // AJAX
 
     Route::get('call-memo/create/{customer}', 'CallMemoController@create')->name('create_call_memo');
     Route::post('call-memo/store/{customer}', 'CallMemoController@store')->name('store_call_memo');
@@ -513,19 +518,15 @@ Route::get('/cda', function () {
     return redirect('/');
 });
 
-Route::get('/testing', function () {
-    // return view('testing');
-    //   return '<a href="http://officemate.test/assets/plugins/ViewerJS/#../../../docs/documentation.docx">Doc</a>
-    //
-    //   <div class="row">
-    //   <div class="col-md-8 col-md-offset-2">
-    //   <iframe src = "/assets/plugins/ViewerJS/#/docs/notes.pdf" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
-    //   </div>
-    //   </div>
-    //   ';
+Route::get('/testing', function(){
 
-    // $memo = Cavidel\CallMemo::find('17');
-    // return view('pdf.call_memo', compact('memo'));
+  // return Cavidel\Staff::whereRaw("DepartmentID @> ARRAY['1']::varchar[]")->get();
+  // return Cavidel\Staff::whereRaw("1=ANY(DepartmentID)")->get();
+  // return Cavidel\Staff::whereRaw("find_in_set('1',DepartmentID)")->get();
+  // return Cavidel\Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',1,',%')")->get();
+  // return Cavidel\Department::find('4')->staff();
+  // return Cavidel\Staff::all()->filter('1', function(){
+  // })->get();
 });
 
 //Reconciliation Routes

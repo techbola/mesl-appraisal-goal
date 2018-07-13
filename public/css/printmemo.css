@@ -1,0 +1,28 @@
+*{
+	font-family: 'roboto', sans-serif;
+}
+h4{
+	font-size: 2rem;
+}
+.files, button, input[type=submit] {
+	display: none;
+}
+
+.text-right {
+	text-align: right !important;
+}
+.badge, .memo-status {
+    text-shadow: none;
+    font-family: wf_segoe-ui_light, wf_segoe-ui_normal, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    background-color: #e6e6e6 !important;
+    font-size: 11px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-bottom: 4px;
+    color: #626262;
+}
+.badge-success {
+    background-color: #10cfbd;
+    color: #ffffff;
+}

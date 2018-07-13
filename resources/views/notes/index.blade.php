@@ -29,13 +29,19 @@
         <div class="uk-grid-width-small-1-2 uk-grid-width-medium-1-4 uk-container-center uk-margin-large-top" data-uk-grid="{gutter: 20, controls: '#notes_grid_filter'}" id="notes_grid">
           @foreach ($user->sticky_notes as $note)
             <div class="content-editable" @{{#exists labels}}data-uk-filter="@{{#each labels }}@{{#ifCond @key '>' 0}},@{{/ifCond}}@{{ text_safe }}@{{/each}}"@{{/exists}}>
-                <div class="md-card {{ $note->Color }}">
-                    <div class="uk-position-absolute uk-position-top-right uk-margin-small-right uk-margin-small-top">
-                        <a href="#" class="note_action_remove" onclick="confirm2('Delete this note?', '', 'delete_{{ $note->NoteRef }}')"><i class="md-icon material-icons">&#xE5CD;</i></a>
+                <div class="md-card {{ $note->Color }}" style="border-radius:5px">
+                    <div class="uk-position-absolute uk-position-top-right uk-margin-small-right uk-margin-small-top" style="opacity:0.7">
+                        <a data-toggle="tooltip" title="Edit">
+                          <i class="fa fa-pencil pointer edit_btn f15 text-info m-r-5" data-id="{{ $note->NoteRef }}" data-toggle="modal" data-target="#edit_note"></i>
+                        </a>
+                        <a href="#" class="note_action_remove" onclick="confirm2('Delete this note?', '', 'delete_{{ $note->NoteRef }}')">
+                          <i class="fa fa-times text-danger f20"></i>
+                          {{-- <i class="md-icon material-icons">&#xE5CD;</i> --}}
+                        </a>
 
                     </div>
                     <div class="md-card-content">
-                        <h2 class="heading_b uk-margin-large-right">{{ $note->Title }}</h2>
+                        <h4 class="heading_b uk-margin-large-right">{{ $note->Title }}</h4>
 
                         <p>{!! $note->Body !!}</p>
 
@@ -43,7 +49,7 @@
                           <ul class="uk-list">
                             @foreach ($note->checklists as $check)
                               <li class="uk-margin-small-top">
-                                <input type="checkbox" id="checkbox_{{ $check->id }}" data-md-icheck {{ ($check->Checked)? 'checked':'' }}/>
+                                <input class="check_item" onchange="toggle_checklist({{ $check->id }})" type="checkbox" id="checkbox_{{ $check->id }}" data-md-icheck {{ ($check->Checked)? 'checked':'' }}/>
                                 <label for="checkbox_{{ $check->id }}" class="inline-label">{{ $check->Title }}</label>
                               </li>
                             @endforeach
@@ -60,7 +66,14 @@
                         @{{/exists}} --}}
 
                         {{-- @{{#exists time}} --}}
-                            <span class="uk-margin-top uk-text-italic uk-text-muted uk-display-block uk-text-small">{{ $note->created_at->format('jS M Y g:ia') }}</span>
+                        <div class="clearfix">
+
+                          <span class="uk-margin-top uk-text-italic uk-text-muted uk-display-block uk-text-small pull-left">{{ $note->created_at->format('jS M Y g:ia') }}</span>
+                          <span class="pull-right">
+                            {{-- <i class="fa fa-pencil pointer text-info edit_btn" data-id="{{ $note->NoteRef }}" data-toggle="modal" data-target="#edit_note"></i> --}}
+                            {{-- <i class="fa fa-trash-o pointer text-danger delete_btn m-l-5" data-id="{{ $note->NoteRef }}"></i> --}}
+                          </span>
+                        </div>
                         {{-- @{{/exists}} --}}
                     </div>
                 </div>
@@ -186,6 +199,64 @@
         </div>
     </li>
 </script>
+
+
+
+<!-- Modal -->
+<div class="modal fade slide-up disable-scroll" id="edit_note" role="dialog" aria-hidden="false">
+  <div class="modal-dialog ">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-header clearfix text-left">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+          </button>
+          <h5>Edit Note</h5>
+          {{-- <p class="p-b-10">We need payment information inorder to process your order</p> --}}
+        </div>
+        <div class="modal-body">
+          <form action="" method="post">
+            {{ csrf_field() }}
+            {{ method_field('PATCH') }}
+              <div class="uk-form-row">
+                  <label>Title</label>
+                  <input type="text" class="form-control" name="Title"/>
+              </div>
+              <div class="uk-form-row">
+                  <label>Note content</label>
+                  <textarea type="text" class="form-control" rows="5" placeholder="" name="Body"></textarea>
+              </div>
+              <div class="uk-form-row uk-hidden" id="notes_checklist">
+                  <label>Checklist</label>
+                  <ul class="uk-list uk-list-hover uk-sortable-single" data-uk-sortable></ul>
+                  <div class="uk-input-group">
+                      <input type="text" class="md-input" id="checklist_item" placeholder="add item" />
+                      <span class="uk-input-group-addon">
+                          <a href="#" id="checkbox_add"><i class="material-icons md-24">&#xE145;</i></a>
+                      </span>
+                  </div>
+              </div>
+              <div class="uk-form-row" id="notes_labels"></div>
+              <div class="uk-form-row uk-clearfix">
+                  {{-- <div class="uk-float-left">
+                      <div class="uk-button-dropdown" data-uk-dropdown="{mode:'click'}">
+                          <a href="#"><i class="material-icons md-24">&#xE3B7;</i></a>
+                          <div class="uk-dropdown uk-dropdown-blank" id="notes_cp"></div>
+                      </div>
+
+                      <a href="#" class="uk-margin-left" data-uk-toggle="{target:'#notes_checklist'}"><i class="material-icons md-24">&#xE065;</i></a>
+
+                  </div> --}}
+                  <div class="uk-float-right">
+                      <button type="submit" class="md-btn md-btn-primary">Edit Note</button>
+                  </div>
+              </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 
@@ -201,4 +272,32 @@
   <script src="{{ asset('assets/plugins/altair/handlebars.min.js') }}" charset="utf-8"></script>
   <script src="{{ asset('assets/plugins/altair/handlebars_helpers.min.js') }}" charset="utf-8"></script>
   <script src="{{ asset('assets/plugins/sticky_notes/sticky_notes.js') }}" charset="utf-8"></script>
+
+  <script>
+    // var edit_btn = $('.edit_btn');
+    $(document).on('click', '.edit_btn', function(){
+      // console.log($(this).data('id'));
+      $.get('/get_note/'+$(this).data('id'), function(data, status){
+        console.log('OK');
+        $('#edit_note input[name=Title]').val(data.Title);
+        $('#edit_note textarea[name=Body]').val(data.Body);
+        $('#edit_note form').attr('action', '/update_note/'+data.NoteRef);
+      });
+
+    });
+
+    function toggle_checklist(id){
+      console.log('1');
+      $.get('/toggle_checklist/'+id, function(data, status){
+
+      });
+    }
+    $('.check_item').on('click', function(){
+      console.log('2');
+      $.get('/toggle_checklist/'+id, function(data, status){
+
+      });
+    });
+
+  </script>
 @endpush

@@ -7,6 +7,7 @@ use Cavidel\Bulletin;
 use Cavidel\User;
 use Carbon\Carbon;
 use Cavidel\Department;
+use Cavidel\Staff;
 
 use Cavidel\Notifications\NewBulletin;
 use Notification;
@@ -21,9 +22,13 @@ class BulletinController extends Controller
 
     if ($user->is_superadmin) {
       $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->paginate(10);
+    } elseif ($user->hasRole('admin')) {
+      $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
+      $archives = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
+    } else {
+      $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
+      $archives = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
     }
-    $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
-    $archives = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
     $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
 
     return view('bulletins.index', compact('user', 'bulletins', 'archives', 'departments'));
@@ -66,8 +71,12 @@ class BulletinController extends Controller
 
     $bulletin->save();
 
+    $staff = User::whereHas('staff', function($q) use($request){
+      $q->whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',".$request->DepartmentID.",',%')");
+    })->get();
 
-    Notification::send($all, new NewBulletin($bulletin));
+
+    Notification::send($staff, new NewBulletin($bulletin));
 
     return redirect()->route('bulletin_board')->with('success', 'New bulletin was saved successfully.');
   }

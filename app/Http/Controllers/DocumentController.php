@@ -8,6 +8,7 @@ use Cavidel\DocType;
 use Cavidel\Role;
 use Cavidel\Staff;
 use Cavidel\Workflow;
+use Cavidel\Department;
 use Auth;
 use DB;
 
@@ -32,14 +33,18 @@ class DocumentController extends Controller
             $docs     = Document::orderBy('DocRef', 'desc')->get();
             $doctypes = DocType::all();
             $roles    = Role::all();
+            $staff = Staff::all();
+            $departments = Department::all();
         } else {
             $docs = Document::where('CompanyID', $user->staff->CompanyID)->whereHas('assignees', function ($query) use ($user) {
                 $query->where('StaffRef', $user->staff->StaffRef);
             })->orWhere('Initiator', $user->id)->orderBy('DocRef', 'desc')->get();
             $doctypes = DocType::where('CompanyID', $user->staff->CompanyID)->get();
             $roles    = Role::where('CompanyID', $user->staff->CompanyID)->get();
+            $staff = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+            $departments = Department::where('CompanyID', $user->CompanyID)->get();
         }
-        return view('documents.my_docs', compact('docs', 'doctypes', 'roles'));
+        return view('documents.my_docs', compact('docs', 'doctypes', 'roles', 'staff', 'departments'));
     }
 
     public function send($id)
@@ -94,8 +99,11 @@ class DocumentController extends Controller
                     ));
                     $document->save();
 
+                    // Declare assignees array.
+                    $assignees = [];
+
+                    // Start Roles
                     if (!empty($request->Roles)) {
-                        $assignees = [];
                         if (in_array('all', $request->Roles)) {
                             $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
                             foreach ($staffs as $staff) {
@@ -108,17 +116,100 @@ class DocumentController extends Controller
                                     $assignees[] = $r_user->staff->StaffRef;
                                 }
                             }
-
                         }
-
-                        $document->assignees()->attach($assignees, ['Initiator' => $user->id]);
-
-                    } else {
-
                     }
+                    // End Roles
+
+                    // Start Staff
+                    if (!empty($request->Staff)) {
+                      // $assignees = [];
+                      if (in_array('all', $request->Staff)) {
+                          $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+                          foreach ($staffs as $staff) {
+                              $assignees[] = $staff->StaffRef;
+                          }
+                      } else {
+                          foreach ($request->Staff as $staff_id) {
+                            $staff = Staff::find($staff_id);
+                            $assignees[] = $staff->StaffRef;
+                          }
+                      }
+                    }
+                    // End Staff
+
+                    // Start Departments
+                    if (!empty($request->Departments)) {
+
+                        foreach ($request->Departments as $dept_id) {
+                            $dept = Department::find($dept_id);
+                            foreach ($dept->staff() as $staff) {
+                                $assignees[] = $staff->StaffRef;
+                            }
+                        }
+                    }
+                    // End Departments
+
+
+                    $clean_assignees = array_unique($assignees);
+
+                    // Second argument is for extra columns in the many to many table
+                    $document->assignees()->attach($clean_assignees, ['Initiator' => $user->id]);
 
                 }
             }
+            DB::commit();
+            return redirect()->route('my_documents')->with('success', 'Document was added successfully');
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withInput()->with('error', 'Document failed to save');
+
+        }
+
+    }
+
+    public function update_document(Request $request, $id)
+    {
+        $user = auth()->user();
+
+        try {
+            DB::beginTransaction();
+
+            $document = Document::find($id);
+
+            $document->DocTypeID = $request->DocTypeID;
+            $document->DocName = $request->DocName;
+            $document->Description = $request->Description;
+            $document->update();
+
+                    // Declare assignees array.
+                    $assignees = [];
+
+                    // Start Staff
+                    if (!empty($request->Staff)) {
+                      // $assignees = [];
+                      $document->assignees()->detach();
+                      if (in_array('all', $request->Staff)) {
+                          $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+                          foreach ($staffs as $staff) {
+                              $assignees[] = $staff->StaffRef;
+                          }
+                      } else {
+                          foreach ($request->Staff as $staff_id) {
+                            $staff = Staff::find($staff_id);
+                            $assignees[] = $staff->StaffRef;
+                          }
+                      }
+
+                    }
+                    // End Staff
+
+                    $clean_assignees = array_unique($assignees);
+
+                    // Second argument is for extra columns in the many to many table
+                    $document->assignees()->attach($clean_assignees, ['Initiator' => $user->id]);
+
+
             DB::commit();
             return redirect()->route('my_documents')->with('success', 'Document was added successfully');
 

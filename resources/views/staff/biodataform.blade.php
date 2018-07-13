@@ -296,6 +296,9 @@
           todayHighlight: true,
           format: 'yyyy-mm-dd',
           autoclose: true,
+          startDate: '1920-01-01',
+          endDate: '{{ date('Y-m-d') }}',
+
       };
       $('.dp').datepicker(options);
   });

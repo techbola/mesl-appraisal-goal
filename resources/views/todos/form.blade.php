@@ -11,7 +11,7 @@
     <div class="form-group">
       {{ Form::label('DueDate', 'Due Date' ) }}
       <div class="input-group date dp">
-        {{ Form::text('DueDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Due Date', 'required']) }}
+        {{ Form::text('DueDate', null, ['class' => 'form-control', 'placeholder' => 'Due Date']) }}
         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
       </div>
     </div>

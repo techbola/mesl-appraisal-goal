@@ -73,7 +73,9 @@
       <!-- END SIDEBAR MENU TOP TRAY CONTENT-->
       <!-- BEGIN SIDEBAR MENU HEADER-->
       <div class="sidebar-header">
-        <a href="{{ route('home') }}"><img src="{{ asset('images/officemate.png') }}" alt="logo" class="brand" data-src="{{ asset('images/officemate.png') }}" data-src-retina="{{ asset('images/officemate.png') }}" width="120"></a>
+        {{-- <a href="{{ route('home') }}"> --}}
+          <img src="{{ asset('images/officemate.png') }}" alt="logo" class="brand" data-src="{{ asset('images/officemate.png') }}" data-src-retina="{{ asset('images/officemate.png') }}" width="120">
+        {{-- </a> --}}
         {{-- <h4 class="white semi-bold font-montserrat" style="
     color: #fff; display: inline-block;
 "> TIMS. </h4> --}}
@@ -112,13 +114,13 @@
             <?php if($menu->name == 'Dashboard') continue; ?>
            <li>
             <a href="{{ $menu->route != '#' ? route($menu->route) : "#" }}" class="">
-              <span class="title" data-toggle="tooltip" data-placement="right" title="{{ $menu->name }}">{{$menu->name }}</span>
+              <span class="title" data-toggle="tooltip" data-placement="right" title="{{ $menu->name }}">{{ $menu->name }}</span>
               @if(count($menu->children) > 0 )
               <span class="arrow"></span>
               @endif
             </a>
             <span class="icon-thumbnail">{{ substr($menu->name, 0, 2) }}</span>
-            {{$menu->hasSubmenu($menu->id ) }}
+            {{ $menu->hasSubmenu($menu->id ) }}
           </li>
           @endforeach
         </ul>
@@ -151,7 +153,7 @@
             <div class="header-inner">
               <a href="#" class="btn-link toggle-sidebar visible-sm-inline-block visible-xs-inline-block padding-5" data-toggle="sidebar">
                 {{-- <span class="icon-set menu-hambuger"></span> --}}
-                <span class="pg-menu_justify"></span>
+                <span class="pg-menu_justify f20 text-white"></span>
               </a>
             </div>
             <!-- END ACTION BAR -->
@@ -200,26 +202,24 @@
           </div>
         </div>
 
+        <style media="screen">
+          @media (max-width: 991px) {
+            .user-info {
+              margin-top: -50px;
+              display: block !important;
+            }
+          }
+        </style>
+
 
         <div class="pull-right">
           <!-- START User Info-->
-          <div class="visible-lg visible-md m-t-10">
-            {{-- <div class="pull-left p-r-10 p-t-10 fs-16 font-heading">
-              <span class="semi-bold">{{ Auth::user()->name }}</span> <span class="text-master"></span>
-            </div> --}}
-
-            {{-- Trade Date --}}
-            {{-- <div class="m-r-30 m-t-10 font-title f16" style="display:inline-block">
-              Trade Date: <span class="text-success m-l-5">{{ Cavidel\Config::find('1')->TradeDate }}</span>
-            </div> --}}
-
-            {{-- Notification Icon --}}
-            {{-- <div class="fa fa-bell m-r-15 m-t-15 f18"></div> --}}
+          <div class="visible-lg visible-md user-info m-t-10">
 
             <!-- START NOTIFICATION LIST -->
-            <ul class="notification-list no-style">
-              <li class="inline">
-                <div class="dropdown">
+            {{-- <ul class="notification-list no-style">
+              <li class="inline"> --}}
+                <div class="dropdown inline">
 
 
                   <a href="javascript:;" id="notification-center" class="" data-toggle="dropdown" style="position:relative">
@@ -259,8 +259,8 @@
                   </div>
                   <!-- END Notification Dropdown -->
                 </div>
-              </li>
-            </ul>
+              {{-- </li>
+            </ul> --}}
             <!-- END NOTIFICATIONS LIST -->
 
             {{-- Message Icon --}}
@@ -621,6 +621,7 @@
               todayHighlight: true,
               format: 'yyyy-mm-dd',
               autoclose: true,
+              startDate: '1920-01-01',
           };
           $('.dp').datepicker(options);
       });
@@ -688,6 +689,12 @@
             minimumValue: 0,
             decimalPlaces: 2,
             decimalPlacesRawValue: 0,
+        });
+      </script>
+
+      <script>
+        $(document).on('click', '.brand', function(){
+          // window.location = '/';
         });
       </script>
 
