@@ -305,15 +305,48 @@
         $('#batch_form').addClass('hide');
       });
 
-      
-      
-      $('#submit_course').click(function(event) {
-             $.post('/submit_new_course', $('#course').serialize(), function(data, status) {
-            if(status === 'success'){
-              $('#course_count').html(data);
+      $("#course").on("submit", function(e) {
+        e.preventDefault();
+  
+
+        var file_data = $('#cover_page').prop('files')[0];
+        var courses_name = $('#courses_name').val();
+        var course_duration = $('#course_duration').val();
+        var course_fee = $('#course_fee').val();
+        var category_ref = $('#category_ref').val();
+        var cover_page = $('#cover_page').val();
+        var description = $('#description').val();
+
+
+        var form_data = new FormData();
+        form_data.append('file', file_data);
+        form_data.append('supplier_name', supplier_name);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': $('meta[name=_token]').attr('content')
             }
         });
-      });
+
+        $.ajax({
+            url: "{{url('postDiamond')}}", // point to server-side PHP script
+            data: form_data,
+            type: 'POST',
+            contentType: false, // The content type used when sending data to the server.
+            cache: false, // To unable request pages to be cached
+            processData: false,
+            success: function(data) {
+
+            }
+        });
+});
+      
+      // $('#submit_course').click(function(event) {
+      //        $.post('/submit_new_course', $('#course').serialize(), function(data, status) {
+      //       if(status === 'success'){
+      //         $('#course_count').html(data);
+      //       }
+      //   });
+      // });
 
       $('#show_course_table').click(function(event) {
           $('#intro').addClass('hide');
