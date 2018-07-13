@@ -68,7 +68,8 @@ tfoot{
               {{ Form::open(['id'=>'update_step_form','autocomplete' => 'off', 'role' => 'form']) }}
               <p>
                 <a href="#" style="color: #fff" data-target="#modalFillIn2" data-toggle="modal" id="btnFillSizeToggler" class="btn btn-lg btn-success pull-right">Add Process Step</a>&nbsp; &nbsp;
-                <a href="#" style="color: #fff; right: 5px" data-target="#modalFillIn4" data-toggle="modal" id="add_attribute" class="btn btn-lg btn-info pull-right">Add Process Attribute</a>&nbsp; &nbsp;
+                <a href="#" style="color: #fff; right: 5px" data-target="#modalFillIn2" data-toggle="modal" id="btnFillSizeToggler" class="btn btn-lg btn-default pull-right">Add Process Step</a>&nbsp; &nbsp;
+                <a href="#" style="color: #fff; right: 5px" data-target="#modalFillIn4" data-toggle="modal" id="add_attribute" class="btn btn-lg btn-info pull-right" style="color: #fff; right: 5px">Add Process Attribute</a>&nbsp; &nbsp;
                 <a href="#" style="color: #fff; right: 10px" data-target="#modalFillIn5" data-toggle="modal" id="add_risk" class="btn btn-lg btn-complete pull-right">Risks & Controls</a>&nbsp; &nbsp;
                 <a href="#" id="edit_step" style="margin-right: 10px; right: 5px" class="btn btn-lg btn-warning pull-right hide">Edit Process Steps</a>
                 <a href="#" id="update_step" style="margin-right: 10px; right: 5px" class="btn btn-lg btn-primary pull-right hide">Update Process Steps</a>

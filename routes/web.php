@@ -261,9 +261,19 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
 
-    // LEarning Management System
+    // Learning Management System
 
     Route::get('LMS/course_dashboard', 'CourseController@course_dashboard');
+    Route::post('submit_new_category', 'CourseController@submit_new_category');
+    Route::post('submit_new_course', 'CourseController@submit_new_course');
+    Route::get('get_staff_details/{id}', 'CourseController@get_staff_details');
+    Route::post('submit_new_instructor', 'CourseController@submit_new_instructor');
+    Route::get('get_course_duration/{id}', 'CourseController@get_course_duration');
+    Route::post('submit_new_batch', 'CourseController@submit_new_batch');
+    Route::get('get_course_category_list', 'CourseController@get_course_category_list');
+    Route::get('get_course_list', 'CourseController@get_course_list');
+    Route::get('get_instructor_list', 'CourseController@get_instructor_list');
+    Route::get('get_batch_list', 'CourseController@get_batch_list');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
