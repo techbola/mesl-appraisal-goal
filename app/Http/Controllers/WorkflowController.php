@@ -45,7 +45,7 @@ class WorkflowController extends Controller
     {
         $workflow = new Workflow($request->all());
         $this->validate($request, [
-            'RequesterID' => 'reqiuired',
+            'RequesterID' => 'required',
             'ApproverID1' => 'required',
         ]);
 

@@ -4,7 +4,7 @@
 <div class="card-box">
 	<div class="card-title">Account to Account Posting</div>
 	<div>
-		{{ Form::open(['action' => 'CashEntryController@customer_transfer_store', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+		{{ Form::open(['action' => 'CashEntryController@customer_transfer_store', 'autocomplete' => 'off', 'role' => 'form']) }}
 		@include('cash_entries.form_customer_transfer', ['buttonText' => 'Post Entry'])
 		{{ Form::close() }}
 	</div>
