@@ -269,7 +269,7 @@
               <div class="form-group">
                 <label for="">Action Point</label>
                 {{-- <input type="text" name="ActionPoint" class="form-control" placeholder="Enter action point"> --}}
-                <textarea name="ActionPoint" rows="2" class="form-control" placeholder="Enter action point" v-model="action.ActionPoint"></textarea>
+                <textarea name="ActionPoint" rows="2" class="form-control" placeholder="Enter action point"></textarea>
               </div>
             </div>
             <div class="col-md-6">
@@ -502,6 +502,7 @@
             this.action = data;
             var form_action = "{{ url('/') }}"+"/call-memo/update_action/"+data.id;
             $('#edit_action').find('form').attr('action', form_action);
+            $('#edit_action textarea[name="ActionPoint"]').text(data.ActionPoint);
             $('#edit_action select[name="UserID"]').val(data.UserID).trigger('change');
             $('#edit_action select[name="StatusID"]').val(data.StatusID).trigger('change');
             $('#edit_action input[name="StartDate"]').val(data.StartDate).trigger('keyup');
