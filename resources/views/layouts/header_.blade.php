@@ -216,6 +216,8 @@
           <!-- START User Info-->
           <div class="visible-lg visible-md user-info m-t-10">
 
+            <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20"></a>
+
             <!-- START NOTIFICATION LIST -->
             {{-- <ul class="notification-list no-style">
               <li class="inline"> --}}
@@ -291,6 +293,7 @@
                 </div>
               </button>
               <ul class="dropdown-menu profile-dropdown" role="menu">
+                <li><a href="{{ route('home') }}"><i class="pg-home"></i> Dashboard</a></li>
                 @if ($user->staff)
                   <li><a href="{{ route('staff.edit_biodata', $user->staff->StaffRef) }}"><i class="fa fa-user"></i> Edit Staff Profile</a>
                   </li>
