@@ -13,7 +13,7 @@
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('GLIDDebit', 'Debit') }}
-                {{ Form::select('GLIDDebit', [ '' =>  'Select Customer Account'] + $customer_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2"]) }}
+                {{ Form::select('GLIDDebit', [ '' =>  'Select Customer Account'] + $customer_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('GLIDCredit', 'Credit') }}
-                {{ Form::select('GLIDCredit', [ '' =>  'Select Customer Account'] + $customer_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2"]) }}
+                {{ Form::select('GLIDCredit', [ '' =>  'Select Customer Account'] + $customer_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
             </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('Amount', 'Amount' ) }}
-                {{ Form::text('Amount', null, ['class' => 'form-control', 'placeholder' => 'Enter Amount']) }}
+                {{ Form::text('Amount', null, ['class' => 'form-control', 'placeholder' => 'Enter Amount', 'required']) }}
             </div>
         </div>
     </div>
@@ -42,7 +42,7 @@
             <div class="controls">
                 {{ Form::label('ValueDate', 'Value Date') }}
                 <div class="input-group date dp">
-                    {{ Form::text('ValueDate', null, ['class' => 'form-control', 'placeholder' => 'Value Date']) }}
+                    {{ Form::text('ValueDate', null, ['class' => 'form-control', 'placeholder' => 'Value Date', 'required']) }}
                     <span class="input-group-addon">
                         <i class="fa fa-calendar">
                         </i>
@@ -78,7 +78,7 @@
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('Narration', 'Narration' ) }}
-                {{ Form::textarea('Narration', null, ['class' => 'form-control', 'placeholder' => 'Enter Narration']) }}
+                {{ Form::textarea('Narration', null, ['class' => 'form-control', 'placeholder' => 'Enter Narration', 'required']) }}
             </div>
         </div>
     </div>

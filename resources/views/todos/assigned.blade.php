@@ -12,6 +12,7 @@
   {{-- <a class="btn btn-sm btn-info btn-rounded" href="{{ route('todos_calendar') }}"><i class="fa fa-calendar m-r-5"></i> Back to Calendar</a> --}}
   <a href="{{ route('todos') }}" class="btn btn-info btn-rounded">My To-Dos</a>
   <a class="btn btn-sm btn-info btn-rounded" href="{{ route('todos_calendar') }}"><i class="fa fa-calendar m-r-5"></i> My To-Dos Calendar</a>
+  <a href="{{ route('unassigned_todos') }}" class="btn btn-info btn-rounded">Unassigned To-Dos</a>
   <button class="btn btn-info btn-rounded" data-toggle="modal" data-target="#new_todo">+ New To-Do</button>
 @endsection
 

@@ -30,15 +30,18 @@ class DocumentController extends Controller
     {
         $user = Auth::user();
         if ($user->is_superadmin) {
-            $docs     = Document::orderBy('DocRef', 'desc')->get();
-            $doctypes = DocType::all();
-            $roles    = Role::all();
-            $staff = Staff::all();
+            $docs        = Document::orderBy('DocRef', 'desc')->get();
+            $doctypes    = DocType::all();
+            $roles       = Role::all();
+            $staff       = Staff::all();
             $departments = Department::all();
         } else {
-            $docs = Document::where('CompanyID', $user->staff->CompanyID)->whereHas('assignees', function ($query) use ($user) {
+            $docs = Document::where('CompanyID', $user->staff->CompanyID)->where('ApprovedFlag', '1')->where('NotifyFlag', '1')->where(function($query1) use($user){
+              $query1->whereHas('assignees', function ($query) use ($user) {
                 $query->where('StaffRef', $user->staff->StaffRef);
-            })->orWhere('Initiator', $user->id)->orderBy('DocRef', 'desc')->get();
+              })->orWhere('Initiator', $user->id);
+            })->orderBy('DocRef', 'desc')->get();
+
             $doctypes = DocType::where('CompanyID', $user->staff->CompanyID)->get();
             $roles    = Role::where('CompanyID', $user->staff->CompanyID)->get();
             $staff = Staff::where('CompanyID', $user->staff->CompanyID)->get();
@@ -66,7 +69,7 @@ class DocumentController extends Controller
         $document_workflow = Workflow::where('ModuleID', 1)->get(['ApproverID1', 'ApproverID2', 'ApproverID3', 'ApproverID4', 'ApproverID5', 'ApproverID6', 'ApproverID7', 'ApproverID8', 'ApproverID9', 'ApproverID10']);
 
         // unapproved docs
-        $unapproved_docs = Document::where('ApproverID', auth()->user()->id)->get();
+        $unapproved_docs = Document::where('ApproverID', auth()->user()->id)->where('NotifyFlag', 1)->get();
 
         // approved docs
         $approved_docs = Document::where('ApproverID', 0)
@@ -97,6 +100,10 @@ class DocumentController extends Controller
                         'Filename'    => $request->Filename->getClientOriginalName(),
                         // 'Path' => Storage::url('documents/'.$filename)
                     ));
+                    if (!empty($request->ApproverID)) {
+                      $document->ApproverID = $request->ApproverID;
+                      $document->NotifyFlag = '1';
+                    }
                     $document->save();
 
                     // Declare assignees array.
@@ -122,18 +129,18 @@ class DocumentController extends Controller
 
                     // Start Staff
                     if (!empty($request->Staff)) {
-                      // $assignees = [];
-                      if (in_array('all', $request->Staff)) {
-                          $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
-                          foreach ($staffs as $staff) {
-                              $assignees[] = $staff->StaffRef;
-                          }
-                      } else {
-                          foreach ($request->Staff as $staff_id) {
-                            $staff = Staff::find($staff_id);
-                            $assignees[] = $staff->StaffRef;
-                          }
-                      }
+                        // $assignees = [];
+                        if (in_array('all', $request->Staff)) {
+                            $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+                            foreach ($staffs as $staff) {
+                                $assignees[] = $staff->StaffRef;
+                            }
+                        } else {
+                            foreach ($request->Staff as $staff_id) {
+                                $staff       = Staff::find($staff_id);
+                                $assignees[] = $staff->StaffRef;
+                            }
+                        }
                     }
                     // End Staff
 
@@ -148,7 +155,6 @@ class DocumentController extends Controller
                         }
                     }
                     // End Departments
-
 
                     $clean_assignees = array_unique($assignees);
 
@@ -177,38 +183,37 @@ class DocumentController extends Controller
 
             $document = Document::find($id);
 
-            $document->DocTypeID = $request->DocTypeID;
-            $document->DocName = $request->DocName;
+            $document->DocTypeID   = $request->DocTypeID;
+            $document->DocName     = $request->DocName;
             $document->Description = $request->Description;
             $document->update();
 
-                    // Declare assignees array.
-                    $assignees = [];
+            // Declare assignees array.
+            $assignees = [];
 
-                    // Start Staff
-                    if (!empty($request->Staff)) {
-                      // $assignees = [];
-                      $document->assignees()->detach();
-                      if (in_array('all', $request->Staff)) {
-                          $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
-                          foreach ($staffs as $staff) {
-                              $assignees[] = $staff->StaffRef;
-                          }
-                      } else {
-                          foreach ($request->Staff as $staff_id) {
-                            $staff = Staff::find($staff_id);
-                            $assignees[] = $staff->StaffRef;
-                          }
-                      }
-
+            // Start Staff
+            if (!empty($request->Staff)) {
+                // $assignees = [];
+                $document->assignees()->detach();
+                if (in_array('all', $request->Staff)) {
+                    $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+                    foreach ($staffs as $staff) {
+                        $assignees[] = $staff->StaffRef;
                     }
-                    // End Staff
+                } else {
+                    foreach ($request->Staff as $staff_id) {
+                        $staff       = Staff::find($staff_id);
+                        $assignees[] = $staff->StaffRef;
+                    }
+                }
 
-                    $clean_assignees = array_unique($assignees);
+            }
+            // End Staff
 
-                    // Second argument is for extra columns in the many to many table
-                    $document->assignees()->attach($clean_assignees, ['Initiator' => $user->id]);
+            $clean_assignees = array_unique($assignees);
 
+            // Second argument is for extra columns in the many to many table
+            $document->assignees()->attach($clean_assignees, ['Initiator' => $user->id]);
 
             DB::commit();
             return redirect()->route('my_documents')->with('success', 'Document was added successfully');
