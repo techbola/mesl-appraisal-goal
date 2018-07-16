@@ -44,8 +44,9 @@ class TaskController extends Controller
         $step->Done = '0';
       }
       $step->update();
-      $task = ProjectTask::find($step->TaskID);
-      return $task->ProgressPercent;
+      $task = ProjectTask::where('TaskRef', $step->TaskID)->first()->append('ProgressPercent');
+      return Step::where('StepRef', $id)->with('task')->first();
+      // return $task;
     }
 
     public function edit_step(Request $request, $id)

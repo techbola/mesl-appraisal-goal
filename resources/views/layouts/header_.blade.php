@@ -29,6 +29,8 @@
     <link href="{{ asset('assets/plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/plugins/boostrapv3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
+    {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"> --}}
+
     <link href="{{ asset('assets/plugins/jquery-scrollbar/jquery.scrollbar.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <link href="{{ asset('assets/plugins/bootstrap-select2/select2.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <link href="{{ asset('assets/plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
@@ -217,6 +219,7 @@
           <div class="visible-lg visible-md user-info m-t-10">
 
             <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20"></a>
+            <a href="{{ route('todos') }}" class="fa fa-calculator m-r-15 m-t-15 f18"></a>
 
             <!-- START NOTIFICATION LIST -->
             {{-- <ul class="notification-list no-style">
@@ -224,10 +227,10 @@
                 <div class="dropdown inline">
 
 
-                  <a href="javascript:;" id="notification-center" class="" data-toggle="dropdown" style="position:relative">
+                  {{-- <a href="javascript:;" id="notification-center" class="" data-toggle="dropdown" style="position:relative">
                     <div class="fa fa-bell m-r-15 m-t-15 f18"></div>
                     <span id="notif" class="badge badge-danger badge-notif" {{ (count(auth()->user()->unreadNotifications) > 0)? '' : 'style=display:none' }}>{{ count(auth()->user()->unreadNotifications) }}</span>
-                  </a>
+                  </a> --}}
 
                   <!-- START Notification Dropdown -->
                   <div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="notification-center">
@@ -455,6 +458,7 @@
     <script src="{{ asset('assets/plugins/multiselect/js/jquery.selectlistactions.js') }}"></script>
     {{-- Filestyle --}}
     <script src="{{ asset('assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
     {{-- <style media="screen">
       .r-round{
         border-radius:0 20px 20px 0 !important;

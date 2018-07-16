@@ -60,7 +60,6 @@ class DocumentController extends Controller
         } else {
             return back()->withInput()->with('error', 'Failed to send document for approval');
         }
-
     }
 
     public function approval_list()
@@ -81,6 +80,11 @@ class DocumentController extends Controller
 
     public function store(Request $request)
     {
+      // $this->validate($request, [
+      //   'DocName' => 'required',
+      //   'ApproverID' => 'required',
+      // ]);
+
         $user = auth()->user();
 
         try {

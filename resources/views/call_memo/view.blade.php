@@ -222,7 +222,7 @@
               <div class="form-group">
                 {{ Form::label('StartDate', 'Start Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
+                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -231,7 +231,7 @@
               <div class="form-group">
                 {{ Form::label('EndDate', 'End Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required']) }}
+                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -298,7 +298,7 @@
               <div class="form-group">
                 {{ Form::label('StartDate', 'Start Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required', 'v-model' => 'action.StartDate']) }}
+                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'v-model' => 'action.StartDate']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -307,7 +307,7 @@
               <div class="form-group">
                 {{ Form::label('EndDate', 'End Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required', 'v-model' => 'action.EndDate']) }}
+                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'v-model' => 'action.EndDate']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
