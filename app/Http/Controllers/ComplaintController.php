@@ -22,9 +22,10 @@ class ComplaintController extends Controller
         $comments   = ComplaintComment::all();
         // dd($complaint_discussions);
         $departments = Department::get(['Department', 'DepartmentRef']);
+        // dd($departments);
         // ------------------------------- //
         $staff                  = auth()->user()->staff;
-        $my_departments         = Department::whereIn('DepartmentRef', $staff->departments)->get();
+        $my_departments         = Department::whereIn('DepartmentRef', $staff->departments ?? [])->get();
         $complaint_sent_to_dept = Complaint::whereIn('current_queue', $my_departments)->get();
         $complaint_discussions  = Complaint::whereIn('current_queue', $my_departments)->get();
 
