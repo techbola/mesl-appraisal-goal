@@ -11,6 +11,7 @@ use Cavidel\Client;
 use Cavidel\Department;
 use Cavidel\ComplaintComment;
 use Cavidel\ComplaintAttachment;
+use Cavidel\Staff;
 
 class ComplaintController extends Controller
 {
@@ -24,10 +25,16 @@ class ComplaintController extends Controller
         $departments = Department::get(['Department', 'DepartmentRef']);
         // dd($departments);
         // ------------------------------- //
-        $staff                  = auth()->user()->staff;
-        $my_departments         = Department::whereIn('DepartmentRef', $staff->departments ?? [])->get();
-        $complaint_sent_to_dept = Complaint::whereIn('current_queue', $my_departments)->get();
-        $complaint_discussions  = Complaint::whereIn('current_queue', $my_departments)->get();
+
+        $staff = auth()->user()->staff;
+        $dd    = Staff::where('StaffRef', $staff->StaffRef)->get(['DepartmentID'])->first();
+        $dd    = explode(',', $dd->DepartmentID);
+        // dd($dd);
+        // dd(explode(',', ));
+        $my_departments         = Department::whereIn('DepartmentRef', $dd)->get();
+        $complaint_sent_to_dept = Complaint::whereIn('current_queue', $dd)->get();
+
+        $complaint_discussions  = Complaint::whereIn('current_queue', $dd)->get();
 
         return view('facility_management.complaints.index', compact('locations', 'clients', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept'));
     }
