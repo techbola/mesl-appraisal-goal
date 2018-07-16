@@ -126,7 +126,7 @@ class TodoController extends Controller
       }
       $todo->update();
 
-      return 'OK';
+      return $todo;
     }
 
 

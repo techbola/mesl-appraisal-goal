@@ -61,11 +61,11 @@
                   {{ Carbon::parse($step->StartDate)->format('jS M, Y') }} &mdash; {{ Carbon::parse($step->EndDate)->format('jS M, Y') }}
                 </div>
               @endif
-              @if ($step->CompletedDate)
-                <div class="small text-success">
-                  <i class="fa fa-check m-r-5"></i> {{ Carbon::parse($step->EndDate)->format('jS M, Y') }}
-                </div>
-              @endif
+              <div class="small text-success p-l-25 CompletedDate">
+                @if ($step->CompletedDate && $step->Done)
+                  Completed: <span class="date">{{ Carbon::parse($step->CompletedDate)->format('jS M, Y') }}</span>
+                @endif
+              </div>
               <div class="clearfix"></div>
 
             </div>
@@ -259,12 +259,21 @@
   function toggle_step(id) {
     var base = '{{ url('/') }}';
     $.get(base+'/toggle_step/'+id, function(data, status){
-      console.log(data);
+      console.log(data.task.progress_percent);
       // reload_steps();
 
-      $('#step_id_'+id).closest('div').find('label').toggleClass('strike');
-      $('.progress-bar').css({"width": data});
-      $('.progress-bar').text(data);
+      if (data.Done == '1') {
+        $('#step_id_'+id).closest('li').find('.CompletedDate').html(`
+          Completed: ${moment(data.CompletedDate).format('Do MMM, YYYY')}
+        `);
+        $('#step_id_'+id).closest('div').find('label').addClass('strike');
+      } else {
+        $('#step_id_'+id).closest('li').find('.CompletedDate').empty();
+        $('#step_id_'+id).closest('div').find('label').removeClass('strike');
+      }
+
+      $('.progress-bar').css({"width": data.task.ProgressPercent});
+      $('.progress-bar').text(data.task.ProgressPercent);
     });
 
   }

@@ -89,19 +89,16 @@
   <script>
   function reload_steps() {
     location.reload();
-    // $("#steps_div").load(location.href+" #steps_div>*","");
-    // $("#steps_div").hide().fadeIn('fast');
   }
 
   function toggle_step(id) {
     var base = '{{ url('/') }}';
     $.get(base+'/toggle_todo/'+id, function(data, status){
-      console.log(data);
-      // reload_steps();
-
-      $('#step_id_'+id).closest('div').find('label').toggleClass('strike');
-      // $('.progress-bar').css({"width": data});
-      // $('.progress-bar').text(data);
+      if (data.Done == '1') {
+        $('#step_id_'+id).closest('div').find('label').addClass('strike');
+      } else {
+        $('#step_id_'+id).closest('div').find('label').removeClass('strike');
+      }
     });
 
   }

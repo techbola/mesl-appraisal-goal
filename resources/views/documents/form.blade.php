@@ -75,7 +75,7 @@
         <div class="col-sm-12">
             <div class="form-group">
               {{ Form::label('ApproverID', 'Approver') }}
-              {{ Form::select('ApproverID', [ '' =>  'Select Approver'] + $staff->pluck('FullName','UserID')->toArray(), null, ['class' => 'full-width', 'data-init-plugin' => 'select2', 'data-placeholder' => 'Choose Approver']) }}
+              {{ Form::select('ApproverID', [ '' =>  'Select Approver'] + $staff->pluck('FullName','UserID')->toArray(), null, ['class' => 'full-width', 'data-init-plugin' => 'select2', 'data-placeholder' => 'Choose Approver', 'required']) }}
             </div>
         </div>
     </div>
