@@ -272,12 +272,10 @@
         $('#step_id_'+id).closest('div').find('label').removeClass('strike');
       }
 
-      $('.progress-bar').css({"width": data.task.ProgressPercent});
-      $('.progress-bar').text(data.task.ProgressPercent);
+      $('.progress-bar').css({"width": data.task.progress_percent});
+      $('.progress-bar').text(data.task.progress_percent);
     });
 
   }
-
-
   </script>
 @endpush
