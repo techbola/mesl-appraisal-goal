@@ -24,16 +24,16 @@ class ComplaintController extends Controller
         // dd($complaint_discussions);
         $departments = Department::get(['Department', 'DepartmentRef']);
         // ------------------------------- //
-        $staff = auth()->user()->staff;
-        $dd    = Staff::where('StaffRef', $staff->StaffRef)->get(['DepartmentID'])->first();
-        $dd    = explode(',', $dd->DepartmentID);
-        // dd($dd);
+        $staff  = auth()->user()->staff;
+        $_depts = Staff::where('StaffRef', $staff->StaffRef)->get(['DepartmentID'])->first();
+        $depts  = explode(',', $_depts->DepartmentID);
+        // dd($depts);
         // dd(explode(',', ));
-        $my_departments         = Department::whereIn('DepartmentRef', $dd)->get();
-        $complaint_sent_to_dept = Complaint::whereIn('current_queue', $dd)->get();
-        $complaint_discussions  = Complaint::whereIn('current_queue', $dd)->get();
+        $my_departments         = Department::whereIn('DepartmentRef', $depts)->get();
+        $complaint_sent_to_dept = Complaint::whereIn('current_queue', $depts)->get();
+        $complaint_discussions  = Complaint::whereIn('current_queue', $depts)->get();
 
-        return view('facility_management.complaints.index', compact('locations', 'clients', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept'));
+        return view('facility_management.complaints.index', compact('locations', 'clients', '_depts', 'depts', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept'));
     }
 
     public function create()
