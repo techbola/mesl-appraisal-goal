@@ -106,10 +106,13 @@ class ComplaintController extends Controller
             $complaint = Complaint::find($request->complaint_id)->first();
             // dd($complaint);
             // create comment
+            $staff                    = auth()->user()->staff;
+            $_depts                   = Staff::where('StaffRef', $staff->StaffRef)->get(['DepartmentID'])->first();
+            $depts                    = explode(',', $_depts->DepartmentID);
             $comment                  = new ComplaintComment($request->except('complaint_attachment'));
             $comment->complaint_id    = $request->complaint_id;
             $comment->has_cost        = $request->has_cost ?? 0;
-            $comment->queue_sender_id = auth()->user()->staff->departments->first()->DepartmentRef ?? 1; //dept_id
+            $comment->queue_sender_id = $depts->DepartmentRef ?? 1; //dept_id
 
             if ($comment->save()) {
                 // attachment_upload
@@ -144,7 +147,7 @@ class ComplaintController extends Controller
         $complaint_discussions = $complaint->comments->transform(function ($item, $key) {
             $item->department = Department::find($item->queue_sender_id);
             return $item;
-        });
+        })->sortByDesc('created_at');
         return view('facility_management.complaints.comments', compact('complaint_discussions', 'complaint', 'comments'));
     }
 
