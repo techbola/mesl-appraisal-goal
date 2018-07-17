@@ -57,6 +57,7 @@ class CallMemoController extends Controller
             $memo->CompanyID      = $user->staff->CompanyID;
             $memo->CustomerID     = $id;
             $memo->AttendeeEmails = $request->AttendeeEmails;
+            $memo->InputterID = $user->id;
             $memo->save();
 
             if (!empty($request->discussions)) {
