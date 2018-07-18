@@ -119,13 +119,9 @@ class User extends Authenticatable
     {
         return $this->avatar ?? 'default2.png';
     }
-
     public function avatar_url()
     {
-        // if ($this->is_superadmin) {
-        //   # code...
-        // }
-        // return '/images/avatars/'.$
+        return url('/').'/images/avatars/'.($this->avatar ?? 'default.png');
     }
 
     public function getCompanyIDAttribute()

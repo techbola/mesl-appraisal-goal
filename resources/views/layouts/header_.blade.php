@@ -220,6 +220,7 @@
 
             <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20" data-toggle="tooltip" title="Dashboard"></a>
             <a href="{{ route('todos_calendar') }}" class="fa fa-calculator m-r-15 m-t-15 f18" data-toggle="tooltip" title="To-Dos"></a>
+            <a href="{{ route('chat') }}" class="pg-comment m-r-15 m-t-15 f18" data-toggle="tooltip" title="Chat"></a>
 
             <!-- START NOTIFICATION LIST -->
             {{-- <ul class="notification-list no-style">
@@ -510,6 +511,13 @@
       }
     </script>
 
+    {{-- PUSHER --}}
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
+    {{-- PUSH.JS BROWSER NOTIF --}}
+    <script src="{{ asset('assets/plugins/push.js/push.min.js') }}" charset="utf-8"></script>
+    <script src="{{ asset('assets/plugins/push.js/serviceWorker.min.js') }}" charset="utf-8"></script>
+
     @stack('scripts')
     <!-- END CORE TEMPLATE JS -->
     <!-- BEGIN PAGE LEVEL JS -->
@@ -523,11 +531,6 @@
 
 
     {{-- PUSHER NOTIFICATIONS --}}
-    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
-
-    {{-- PUSH.JS BROWSER NOTIF --}}
-    <script src="{{ asset('assets/plugins/push.js/push.min.js') }}" charset="utf-8"></script>
-    <script src="{{ asset('assets/plugins/push.js/serviceWorker.min.js') }}" charset="utf-8"></script>
 
     <script>
       // Enable pusher logging - don't include this in production
