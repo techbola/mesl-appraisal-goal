@@ -218,8 +218,8 @@
           <!-- START User Info-->
           <div class="visible-lg visible-md user-info m-t-10">
 
-            <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20"></a>
-            <a href="{{ route('todos') }}" class="fa fa-calculator m-r-15 m-t-15 f18"></a>
+            <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20" data-toggle="tooltip" title="Dashboard"></a>
+            <a href="{{ route('todos_calendar') }}" class="fa fa-calculator m-r-15 m-t-15 f18" data-toggle="tooltip" title="To-Dos"></a>
 
             <!-- START NOTIFICATION LIST -->
             {{-- <ul class="notification-list no-style">
