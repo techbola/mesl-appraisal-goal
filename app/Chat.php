@@ -8,8 +8,15 @@ class Chat extends Model
 {
   protected $table = 'tblChats';
 
-  public function user()
+  public $with = ['from', 'to'];
+
+  public function from()
   {
-    return $this->belongsTo('App\User', 'user_id');
+    return $this->belongsTo('Cavidel\User', 'FromID');
   }
+  public function to()
+  {
+    return $this->belongsTo('Cavidel\User', 'ToID');
+  }
+
 }

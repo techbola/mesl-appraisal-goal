@@ -4,9 +4,11 @@ namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Cavidel\Chat;
-use Cavidel\Events\NewChatMsg;
-use Cavidel\Events\NewChatUser;
+use Cavidel\User;
+use Cavidel\Staff;
+// use Cavidel\Events\NewChatUser;
 use Event;
+use Cavidel\Events\NewChatMsg;
 use Auth;
 use DB;
 use Carbon\Carbon;
@@ -21,95 +23,80 @@ class ChatController extends Controller
     return view('chats.index', compact('chats'));
   }
 
-  public function save_chat(Request $request)
+
+  public function chat()
   {
     $user = Auth::user();
-    // if ($request->session()->has('chat_session')) {
-    if (!empty($request->session)) {
-      $request->session()->forget('chat_session');
-      session(['chat_session'=>$request->session]);
-      $session = $request->session;
-    } else {
-      $active_chat = Chat::where('email', $user->email)->where('status', 'active')->orderBy('id', 'desc')->first();
-      if($active_chat){
-        $session = $active_chat->session;
-        session(['chat_session'=>$session]);
-      }
-    }
+    // $partner = User::find($id);
 
-    $prev_chat = Chat::where('session', $session)->orderBy('id', 'desc')->first();
+    // $last_active = Chat::where('email', $user->email)->where('status', 'active')->orderBy('id', 'desc')->first();
+    // if ($last_active) {
+    //   session(['chat_session'=>$last_active->session]);
+    //   $session = $last_active->session;
+    // } else {
+    //   $session = substr(md5(time()), 0, 8);
+    //   session(['chat_session' => $session]);
+    // }
+    $employees = Staff::where('CompanyID', $user->CompanyID)->where('UserID', '!=', $user->id)->get();
+    $chats = Chat::where('FromID', $user->id)->where('ToID', $user->id)->orderBy('id', 'desc')->get();
 
-    if (empty($prev_chat) || $prev_chat->status == 'active') {
+    return view('chats.chat', compact('employees', 'user', 'chats'));
+  }
+
+
+  public function save_chat(Request $request)
+  {
+    $this->validate($request, [
+      'ToID' => 'required',
+    ]);
+    $user = Auth::user();
+
       $chat = new Chat;
-      $chat->email = $request->email;
-      $chat->body = $request->message;
-      $chat->room = 'general';
-      $chat->user_id = $user->id;
-      if (!empty($session)) {
-        $chat->session = $session;
-      } else {
-        $chat->session = $session = session('chat_session');
-        // $request->session()->forget('chat_session');
-        // session(['chat_session'=>$chat->session]);
-      }
-      if ($user->hasRole('customer')) {
-        $chat->is_customer = '1';
-      } else {
-        $chat->is_customer = '0';
-      }
-
-      $chat->status = 'active';
+      $chat->Body = $request->message;
+      $chat->FromID = $user->id;
+      $chat->ToID = $request->ToID;
+      $chat->IsRead = '0';
       $chat->save();
 
-      $data = array(
-        'id'=>$chat->id,
-        'email'=>$chat->email,
-        'body'=>$chat->body,
-        'session'=>$chat->session,
-        'room'=>$chat->room,
-        'user_id'=>$chat->user_id,
-        'username'=>$user->name,
-        'status'=>$chat->status,
-        'date'=>$chat->created_at->diffForHumans()
-      );
+      // $data = array(
+      //   'id'=>$chat->id,
+      //   'email'=>$chat->email,
+      //   'body'=>$chat->body,
+      //   'session'=>$chat->session,
+      //   'room'=>$chat->room,
+      //   'user_id'=>$chat->user_id,
+      //   'FromID'=>$chat->user_id,
+      //   'ToID'=>$chat->user_id,
+      //   'username'=>$user->name,
+      //   'status'=>$chat->status,
+      //   'date'=>$chat->created_at->diffForHumans()
+      // );
+    $chat = Chat::where('id', $chat->id)->first();
 
-    } else {
-      // return redirect()->back()->with('error', 'This chat session has been closed.');
-      $data = array(
-        'id'=>'1',
-        'email'=>'system',
-        'body'=>'This session has been closed',
-        'session'=>$session,
-        'room'=>'system',
-        'user_id'=>'1',
-        'username'=>'SYSTEM',
-        'status'=>'closed',
-        'date'=>Carbon::parse(date('Y-m-d'))->diffForHumans()
-      );
-    }
+    Event::fire(new NewChatMsg($chat));
 
-    Event::fire(new NewChatMsg($data));
-
-    // 2nd condition not necessary, just in case user gets the same session as their previous (closed) chat. The save_chat() function can't be used in closed chats so all is well.
-    if (empty($prev_chat) || $prev_chat->status == 'closed') {
-
-      Notification::send($approvers, new PendingTrade($FCYTrade));
-      Event::fire(new NewChatUser($data));
-    }
+    // Notification::send($approvers, new PendingTrade($FCYTrade));
+    // Event::fire(new NewChatUser($data));
 
   }
 
-  public function load_chats()
+  public function load_chats($id)
   {
     $user = Auth::user();
-    $session = session('chat_session');
-    if ($user->hasRole(['Admin', 'staff', 'accountant', 'dealer', 'office manager', 'asst office manager', 'cashier'])) {
-      // session(['chat_session'=>$session]);
-      $chats = Chat::where('session', $session)->with('user')->get();
-    } else {
-      $last_active = Chat::where('email', $user->email)->where('status', 'active')->orderBy('id', 'desc')->first();
-      $chats = Chat::where('session', $last_active->session)->with('user')->get();
-    }
+    $partner = User::find($id);
+    // if ($user->hasRole(['Admin', 'staff', 'accountant', 'dealer', 'office manager', 'asst office manager', 'cashier'])) {
+    //   // session(['chat_session'=>$session]);
+    //   $chats = Chat::where('session', $session)->with('user')->get();
+    // } else {
+    //   $last_active = Chat::where('email', $user->email)->where('status', 'active')->orderBy('id', 'desc')->first();
+    //   $chats = Chat::where('session', $last_active->session)->with('user')->get();
+    // }
+
+    $chats = Chat::where(function($query1) use($user, $partner){
+      $query1->where('FromID', $user->id)->where('ToID', $partner->id);
+    })->orWhere(function($query2) use($user, $partner){
+      $query2->where('FromID', $partner->id)->where('ToID', $user->id);
+    })->orderBy('id')->with(['from', 'to'])->get();
 
     foreach ($chats as $chat) {
       $chat->date = $chat->created_at->diffForHumans();
@@ -117,25 +104,6 @@ class ChatController extends Controller
     return $chats;
   }
 
-  public function chat($session = null)
-  {
-    $user = Auth::user();
-    if (!empty($session)) {
-      session(['chat_session'=>$session]);
-      $session = $session;
-    } else {
-      $last_active = Chat::where('email', $user->email)->where('status', 'active')->orderBy('id', 'desc')->first();
-      if ($last_active) {
-        session(['chat_session'=>$last_active->session]);
-        $session = $last_active->session;
-      } else {
-        $session = substr(md5(time()), 0, 8);
-        session(['chat_session' => $session]);
-      }
-    }
-    $chat = Chat::where('session', $session)->orderBy('id', 'desc')->first();
-    return view('chats.customer_chat', compact('session', 'user', 'chat'));
-  }
 
   public function end_chat($session)
   {
