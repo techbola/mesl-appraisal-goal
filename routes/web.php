@@ -280,7 +280,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Learning Management System
 
-    Route::get('LMS/course_dashboard', 'CourseController@course_dashboard');
+    Route::get('LMS/course_dashboard', 'CourseController@course_dashboard')->name('CourseDashboard');
     Route::post('submit_new_category', 'CourseController@submit_new_category');
     Route::post('submit_new_course', 'CourseController@submit_new_course');
     Route::get('get_staff_details/{id}', 'CourseController@get_staff_details');
@@ -293,7 +293,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_batch_list', 'CourseController@get_batch_list');
     Route::get('get_course_material_list/{id}', 'CourseController@get_course_material_list');
     Route::post('submit_course_material', 'CourseController@submit_course_material');
-    Route::get('LMS/staff_course_dashboard', 'CourseController@staff_course_dashboard');
+    Route::get('LMS/staff_course_dashboard', 'CourseController@staff_course_dashboard')->name('StaffCourseDashboard');
     Route::get('activate_course/{id}', 'CourseController@activate_course');
     Route::get('LMS/show_course/{id}', 'CourseController@show_course')->name('ShowCourse');
     Route::get('course_material_with_id/{id}', 'CourseController@course_material_with_id');
