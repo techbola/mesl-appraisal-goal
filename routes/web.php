@@ -117,6 +117,13 @@ Route::middleware(['auth'])->group(function () {
         return response()->download(storage_path("app/public/" . $dir . "/" . $filename));
     })->name('download_file');
 
+    // Route::get('/chat/list', 'ChatController@chat_list')->name('chat_list');
+    // Route::get('/chat/{session?}', 'ChatController@chat')->name('chat');
+    Route::get('/chat', 'ChatController@chat')->name('chat');
+    Route::post('/save_chat', 'ChatController@save_chat')->name('save_chat');
+    Route::get('/load_chats/{user}', 'ChatController@load_chats')->name('load_chats');
+    // Route::post('/end_chat/{session}', 'ChatController@end_chat')->name('end_chat');
+
     Route::get('bulletins', 'BulletinController@index')->name('bulletin_board');
     Route::get('bulletins/department', 'BulletinController@department_bulletins')->name('department_bulletins');
     Route::post('save_bulletin', 'BulletinController@save_bulletin')->name('save_bulletin');
@@ -208,6 +215,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('delete_todo/{id}', 'TodoController@delete_todo')->name('delete_todo');
     Route::get('assigned-todos', 'TodoController@assigned_todos')->name('assigned_todos');
     Route::get('get_assigned_todos/{id}', 'TodoController@get_assigned_todos')->name('get_assigned_todos'); // AJAX
+    Route::get('unassigned_todos', 'TodoController@unassigned')->name('unassigned_todos');
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
     Route::post('store_note', 'StickyNoteController@store')->name('store_note');

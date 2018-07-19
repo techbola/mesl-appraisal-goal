@@ -13,6 +13,7 @@
   <a class="btn btn-sm btn-info btn-rounded" href="{{ route('todos_calendar') }}"><i class="fa fa-calendar m-r-5"></i> Back to Calendar</a>
   <a href="{{ route('assigned_todos') }}" class="btn btn-info btn-rounded">Assigned To-Dos</a>
   <a href="{{ route('todos') }}" class="btn btn-info btn-rounded">My To-Dos</a>
+  <a href="{{ route('unassigned_todos') }}" class="btn btn-info btn-rounded">Unassigned To-Dos</a>
   {{-- <a href="" class="btn btn-sm btn-danger m-l-10" onclick="return confirm('Are you sure you want to delete this task?')"><i class="fa fa-trash m-r-5"></i>Delete</a> --}}
 @endsection
 
@@ -88,23 +89,18 @@
   <script>
   function reload_steps() {
     location.reload();
-    // $("#steps_div").load(location.href+" #steps_div>*","");
-    // $("#steps_div").hide().fadeIn('fast');
   }
 
   function toggle_step(id) {
     var base = '{{ url('/') }}';
     $.get(base+'/toggle_todo/'+id, function(data, status){
-      console.log(data);
-      // reload_steps();
-
-      $('#step_id_'+id).closest('div').find('label').toggleClass('strike');
-      // $('.progress-bar').css({"width": data});
-      // $('.progress-bar').text(data);
+      if (data.Done == '1') {
+        $('#step_id_'+id).closest('div').find('label').addClass('strike');
+      } else {
+        $('#step_id_'+id).closest('div').find('label').removeClass('strike');
+      }
     });
 
   }
-
-
   </script>
 @endpush

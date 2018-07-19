@@ -222,7 +222,7 @@
               <div class="form-group">
                 {{ Form::label('StartDate', 'Start Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
+                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -231,7 +231,7 @@
               <div class="form-group">
                 {{ Form::label('EndDate', 'End Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required']) }}
+                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -244,7 +244,6 @@
               <button type="submit" class="btn btn-info">Submit</button>
             </div>
           </form>
-
 
         </div>
       </div>
@@ -269,7 +268,7 @@
               <div class="form-group">
                 <label for="">Action Point</label>
                 {{-- <input type="text" name="ActionPoint" class="form-control" placeholder="Enter action point"> --}}
-                <textarea name="ActionPoint" rows="2" class="form-control" placeholder="Enter action point" v-model="action.ActionPoint"></textarea>
+                <textarea name="ActionPoint" rows="2" class="form-control" placeholder="Enter action point"></textarea>
               </div>
             </div>
             <div class="col-md-6">
@@ -298,7 +297,7 @@
               <div class="form-group">
                 {{ Form::label('StartDate', 'Start Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required', 'v-model' => 'action.StartDate']) }}
+                  {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'v-model' => 'action.StartDate']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -307,7 +306,7 @@
               <div class="form-group">
                 {{ Form::label('EndDate', 'End Date' ) }}
                 <div class="input-group date dp">
-                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required', 'v-model' => 'action.EndDate']) }}
+                  {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'v-model' => 'action.EndDate']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </div>
@@ -502,6 +501,7 @@
             this.action = data;
             var form_action = "{{ url('/') }}"+"/call-memo/update_action/"+data.id;
             $('#edit_action').find('form').attr('action', form_action);
+            $('#edit_action textarea[name="ActionPoint"]').text(data.ActionPoint);
             $('#edit_action select[name="UserID"]').val(data.UserID).trigger('change');
             $('#edit_action select[name="StatusID"]').val(data.StatusID).trigger('change');
             $('#edit_action input[name="StartDate"]').val(data.StartDate).trigger('keyup');

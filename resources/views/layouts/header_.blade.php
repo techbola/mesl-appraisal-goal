@@ -29,6 +29,8 @@
     <link href="{{ asset('assets/plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/plugins/boostrapv3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
+    {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"> --}}
+
     <link href="{{ asset('assets/plugins/jquery-scrollbar/jquery.scrollbar.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <link href="{{ asset('assets/plugins/bootstrap-select2/select2.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <link href="{{ asset('assets/plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
@@ -161,7 +163,7 @@
           <div class="pull-center hidden-md hidden-lg">
             <div class="header-inner">
               <div class="brand inline">
-                <img src="{{ asset('images/officemate.png') }}" alt="logo" data-src="{{ asset('images/officemate.png') }}" data-src-retina="{{ asset('images/officemate.png') }}" width="100">
+                {{-- <img src="{{ asset('images/officemate.png') }}" alt="logo" data-src="{{ asset('images/officemate.png') }}" data-src-retina="{{ asset('images/officemate.png') }}" width="100"> --}}
               </div>
             </div>
           </div>
@@ -180,7 +182,7 @@
         <div class=" pull-left sm-table hidden-xs hidden-sm">
           <div class="header-inner">
             <div class="brand inline">
-              <img src="{{ asset('images/officemate.png') }}" alt="logo" data-src="{{ asset('images/officemate.png') }}" data-src-retina="{{ asset('images/officemate.png') }}" width="100">
+              {{-- <img src="{{ asset('images/officemate.png') }}" alt="logo" data-src="{{ asset('images/officemate.png') }}" data-src-retina="{{ asset('images/officemate.png') }}" width="100"> --}}
             </div>
             <!-- START NOTIFICATION LIST -->
             <!-- END NOTIFICATIONS LIST -->
@@ -216,16 +218,20 @@
           <!-- START User Info-->
           <div class="visible-lg visible-md user-info m-t-10">
 
+            <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20" data-toggle="tooltip" title="Dashboard"></a>
+            <a href="{{ route('todos_calendar') }}" class="fa fa-calculator m-r-15 m-t-15 f18" data-toggle="tooltip" title="To-Dos"></a>
+            <a href="{{ route('chat') }}" class="pg-comment m-r-15 m-t-15 f18" data-toggle="tooltip" title="Chat"></a>
+
             <!-- START NOTIFICATION LIST -->
             {{-- <ul class="notification-list no-style">
               <li class="inline"> --}}
                 <div class="dropdown inline">
 
 
-                  <a href="javascript:;" id="notification-center" class="" data-toggle="dropdown" style="position:relative">
+                  {{-- <a href="javascript:;" id="notification-center" class="" data-toggle="dropdown" style="position:relative">
                     <div class="fa fa-bell m-r-15 m-t-15 f18"></div>
                     <span id="notif" class="badge badge-danger badge-notif" {{ (count(auth()->user()->unreadNotifications) > 0)? '' : 'style=display:none' }}>{{ count(auth()->user()->unreadNotifications) }}</span>
-                  </a>
+                  </a> --}}
 
                   <!-- START Notification Dropdown -->
                   <div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="notification-center">
@@ -291,6 +297,7 @@
                 </div>
               </button>
               <ul class="dropdown-menu profile-dropdown" role="menu">
+                <li><a href="{{ route('home') }}"><i class="pg-home"></i> Dashboard</a></li>
                 @if ($user->staff)
                   <li><a href="{{ route('staff.edit_biodata', $user->staff->StaffRef) }}"><i class="fa fa-user"></i> Edit Staff Profile</a>
                   </li>
@@ -452,6 +459,7 @@
     <script src="{{ asset('assets/plugins/multiselect/js/jquery.selectlistactions.js') }}"></script>
     {{-- Filestyle --}}
     <script src="{{ asset('assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
     {{-- <style media="screen">
       .r-round{
         border-radius:0 20px 20px 0 !important;
@@ -503,6 +511,13 @@
       }
     </script>
 
+    {{-- PUSHER --}}
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
+    {{-- PUSH.JS BROWSER NOTIF --}}
+    <script src="{{ asset('assets/plugins/push.js/push.min.js') }}" charset="utf-8"></script>
+    <script src="{{ asset('assets/plugins/push.js/serviceWorker.min.js') }}" charset="utf-8"></script>
+
     @stack('scripts')
     <!-- END CORE TEMPLATE JS -->
     <!-- BEGIN PAGE LEVEL JS -->
@@ -516,11 +531,6 @@
 
 
     {{-- PUSHER NOTIFICATIONS --}}
-    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
-
-    {{-- PUSH.JS BROWSER NOTIF --}}
-    <script src="{{ asset('assets/plugins/push.js/push.min.js') }}" charset="utf-8"></script>
-    <script src="{{ asset('assets/plugins/push.js/serviceWorker.min.js') }}" charset="utf-8"></script>
 
     <script>
       // Enable pusher logging - don't include this in production

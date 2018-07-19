@@ -107,6 +107,13 @@ class TodoController extends Controller
       $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
       return view('todos.index_', compact('user', 'todos','dones', 'date', 'staffs'));
     }
+    public function unassigned()
+    {
+      $user = auth()->user();
+      $todos = Todo::where('UserID', $user->id)->where('DueDate', NULL)->where('Done', '0')->orderBy('Todo', 'desc')->get();
+      $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+      return view('todos.unassigned', compact('todos', 'user', 'staffs'));
+    }
 
 
     public function toggle_todo(Request $request, $id)
@@ -119,7 +126,7 @@ class TodoController extends Controller
       }
       $todo->update();
 
-      return 'OK';
+      return $todo;
     }
 
 

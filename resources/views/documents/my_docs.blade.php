@@ -33,6 +33,7 @@
   					<th width="15%">Type</th>
   					<th width="20%">Upload Date</th>
   					<th width="15%">Uploaded By</th>
+  					<th width="15%">Approved By</th>
   					<th width="15%">Download</th>
   					<th width="15%">Actions</th>
 
@@ -44,6 +45,7 @@
   							<td>{{ $doc->doctype->DocType ?? '' }}</td>
   							<td>{{ date('jS M, Y - g:ia', strtotime($doc->UploadDate)) }}</td>
   							<td>{{ $doc->initiator->FullName ?? '-' }}</td>
+  							<td>{{ ($doc->approver)? $doc->approver->FullName : '-' }}</td>
   							{{-- <td><a href="#" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
   							{{-- <td><a href="{{ $doctype->Path}}" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
   							<td><a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i></a></td>

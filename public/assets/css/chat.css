@@ -26,8 +26,10 @@
 .chat-wrapper {
     border-radius: 5px;
     border: 1px double #999;
-    height: 400px;
-    overflow-y: scroll;
+    /* height: 400px; */
+    /* overflow-y: scroll; */
+    height: 75vh;
+    position: relative;
     padding-top: 5px;
     padding-bottom: 10px;
 }
@@ -36,7 +38,7 @@
     border-radius: 4px;
     border: 1px solid #fff;
 }
-.chat-box-right {
+.chat-box-left {
     position: relative;
     background-color: rgba(255,255,255, 1.50);
     color: #000;
@@ -48,7 +50,7 @@
     border-radius: 10px;
     font-size: 12px;
 }
-.chat-box-right::after {
+.chat-box-left::after {
     content: '';
     position: absolute;
     left: -20px;
@@ -56,7 +58,7 @@
     border: 10px solid transparent;
     border-right-color: rgba(255,255,255, 1.50);
 }
-.chat-box-left {
+.chat-box-right {
     position: relative;
     background-color: rgba(255,255,255, 1.50);
     color: #000;
@@ -68,7 +70,7 @@
     border-radius: 10px;
     font-size: 12px;
 }
-.chat-box-left::after {
+.chat-box-right::after {
     content: '';
     position: absolute;
     right: -20px;

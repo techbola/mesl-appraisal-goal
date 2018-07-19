@@ -68,7 +68,6 @@
                 </table>
             </div>
         </div>
-
         <div id="approved" class="tab-pane fade">
 
           
@@ -99,7 +98,8 @@
 
                       @else
                       <a href="{{ route('facility-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm disabled ">Edit </a>
-                      @if($comp->current_queue == auth()->user()->staff->departments->first()->DepartmentRef)
+
+                      @if(in_array($comp->current_queue, $depts))
                          <a href="#" data-toggle="modal" data-target="#send_to" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send To <i style="margin-left: 7px" class="m-l-10 fa fa-chevron-right"></i></a>
                       @endif
                       <a href="#" data-toggle="modal" data-target="#comment" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-info m-r-5 m-t-5" data-toggle="tooltip" title="">Comment</a>

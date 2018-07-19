@@ -33,6 +33,11 @@ class Document extends Model
         return $this->belongsTo('Cavidel\User', 'Initiator', 'id');
     }
 
+    public function approver()
+    {
+        return $this->belongsTo('Cavidel\User', 'ApproverID', 'id');
+    }
+
     // sent documnts
     public function sent()
     {

@@ -47,12 +47,12 @@ class Menu extends Model
         if (count($user_submenus) > 0) {
             echo "<ul class=\"sub-menu\">";
             foreach ($user_submenus as $key => $child) {
-                if (count($child->children) > 0) {
-                    echo '<li><a href="javascript:;">' .
-                    '<span class="top-level title">' . $child->name . '</span>' .
-                    '<span class="arrow"></span></a>' .
-                    '<span class="icon-thumbnail">' . $this->abbreviation($child->name) . '</span>';
-                } else {
+                // if (count($child->children) > 0) {
+                //     echo '<li><a href="javascript:;">' .
+                //     '<span class="top-level title">' . $child->name . '</span>' .
+                //     '<span class="arrow"></span></a>' .
+                //     '<span class="icon-thumbnail">' . $this->abbreviation($child->name) . '</span>';
+                // } else {
                     if ($child->route == null || $child->route == '#') {
                         echo '<li><a href="javascript:;">' . $child->name . '</a>';
                         echo '<span class="icon-thumbnail">' . $this->abbreviation($child->name) . '</span>';
@@ -62,7 +62,8 @@ class Menu extends Model
                         echo '<span class="icon-thumbnail">' . $this->abbreviation($child->name) . '</span>';
                     }
 
-                }
+                // }
+
                 // $this->hasSubmenu($child->id);
                 echo "</li>";
             }
