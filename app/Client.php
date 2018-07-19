@@ -9,7 +9,8 @@ class Client extends Model
   protected $table   = 'tblClients';
   protected $guarded = ['ClientRef'];
   public $primaryKey = 'ClientRef';
-  
+  public $timestamps = false;
+
   public function projects()
   {
     return $this->hasMany('Cavidel\Project', 'ClientID');

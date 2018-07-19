@@ -10,22 +10,46 @@ use Cavidel\ProductService;
 use Cavidel\Staff;
 use Illuminate\Http\Request;
 
+use Cavidel\Title;
+use Cavidel\Nationality;
+use Cavidel\Gender;
+use Cavidel\MaritalStatus;
+use Cavidel\PaymentPlan;
+use Cavidel\HouseType;
+
 class BillingController extends Controller
 {
     public function search_client()
     {
-        $product_categories = ProductCategory::all();
-        $locations          = Location::all();
-        return view('billings.search_client', compact('product_categories', 'locations'));
+        $user = auth()->user();
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+        $locations          = Location::orderBy('Location')->get();
+        $titles = Title::orderBy('Title')->get();
+        $nationalities = Nationality::orderBy('Nationality')->get();
+        $genders = Gender::all();
+        $maritalstatuses = MaritalStatus::orderBy('MaritalStatus')->get();
+        $staff = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes = HouseType::orderBy('HouseType')->get();
+        return view('billings.search_client', compact('product_categories', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
     public function client_search(Request $request)
     {
-        $product_categories = ProductCategory::all();
-        $locations          = Location::all();
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+        $locations          = Location::orderBy('Location')->get();
         $client_name        = $request->client_name;
         $results            = Client::where('Name', 'like', '%' . $client_name . '%')->get();
-        return view('billings.search_result', compact('results', 'product_categories', 'locations'));
+
+        $user = auth()->user();
+        $titles = Title::orderBy('Title')->get();
+        $nationalities = Nationality::orderBy('Nationality')->get();
+        $genders = Gender::all();
+        $maritalstatuses = MaritalStatus::orderBy('MaritalStatus')->get();
+        $staff = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes = HouseType::orderBy('HouseType')->get();
+        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
     public function new_bill(Request $request)
