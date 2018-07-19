@@ -49,7 +49,7 @@
           <div id="user-info"></div>
           <div class="chat-wrapper theme-black">
             <div class="chat-overlay"></div>
-            <div class="chat-messages" style="height: 85%;overflow-y: scroll;">
+            <div class="chat-messages" style="height: 85%;overflow-y:scroll">
               <div class="f22 bold" style="text-align:center; margin-top: 30%; opacity:0.7;">Click on a user to start chatting</div>
             </div>
             <div class="" style="position:  absolute;left: 5px;right: 5px;bottom: 0;">
@@ -122,6 +122,20 @@
       });
 
     });
+
+    // Show User Info
+    $('#user-info').html(`
+      <div class="m-b-10">
+        <span class="col-xs-height col-middle">
+          <span class="thumbnail-wrapper d39 circular">
+            <img width="34" height="34" alt="" src="${ $(event.target).closest('li').find('img').attr('src') }" class="col-top avatar2">
+          </span>
+        </span>
+        <p class="p-l-10 col-xs-height col-middle col-xs-12">
+          <span class="text-master bold">${ $(event.target).closest('li').find('.text-master').text() }</span>
+        </p>
+      </div>
+    `);
   }
 
 </script>
