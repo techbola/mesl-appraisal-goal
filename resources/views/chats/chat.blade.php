@@ -28,7 +28,7 @@
               <a onclick="load_chats('{{ $staff->UserID }}')" class="" href="#">
                 <span class="col-xs-height col-middle">
                   <span class="thumbnail-wrapper d32 circular bg-success">
-                    <img width="34" height="34" alt="" src="{{ $staff->user->avatar_url() }}" class="col-top">
+                    <img width="34" height="34" alt="" src="{{ $staff->user->avatar_url() }}" class="col-top avatar2">
                   </span>
                 </span>
                 <p class="p-l-10 col-xs-height col-middle col-xs-12">

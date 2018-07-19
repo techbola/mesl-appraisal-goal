@@ -56,12 +56,26 @@ tfoot{
           <div class="col-md-4">
              <div class="form-group">
                     <div class="controls">
+                        {{ Form::label('Select Process Department' ) }}
+                            {{ Form::select('ProcessRef', [ '' =>  'Select a Process Department'] + $depts->pluck('ProcessDept', 'DeptRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Process Department",'id'=>'departments', 'onchange'=>'get_departments()', 'data-init-plugin' => "select2", 'required']) }}
+                    </div>
+             </div>
+          </div>
+
+          <div class="col-md-4">
+             <div class="form-group">
+                    <div class="controls">
                         {{ Form::label('Select Process' ) }}
-                            {{ Form::select('ProcessRef', [ '' =>  'Select a Process'] + $processes->pluck('process', 'processRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'process_id', 'onchange' => 'add_step()', 'data-init-plugin' => "select2", 'required']) }}
+                            <select name="ProcessRef" class="full-width" data-init-plugin="select2" id="process_id" onchange="add_step()" required>
+                              <option value=''>Choose Process</option>
+                            </select>
+                           
                     </div>
                   </div>
           </div>
+        </div>
 
+          <div class="row"><hr>
           <div class="col-md-12 hide" id="process_step">
             <div style="padding: 20px; background: #eee">
               <h2 id="process_title"></h2>
@@ -443,7 +457,8 @@ tfoot{
           $.each(data.step, function(index, val){
              $('#step_list').append(`
               <tr>
-                  <td>Step ${val.Step_Number}</td>
+              <td id='abc' class='abc hide'><input name='Step_Number[]' value='${val.Step_Number}' class='form-control'></td>
+                  <td id='xyz' class='step'>Step ${val.Step_Number}</td>
                   <td>${val.Responsibility}</td>
                   <td>${val.Task}</td>
                   <td>${val.Job_Aid}</td>
@@ -575,6 +590,8 @@ tfoot{
               $.each(data.step, function(index, val){
              $('#step_list').append(`
               <tr>
+              <td id='abc' class='abc hide'><input name='Step_Number[]' value='${val.Step_Number}' class='form-control'></td>
+                  <td id='xyz' class='step'>Step ${val.Step_Number}</td>
                   <td>Step ${val.Step_Number}</td>
                   <td>${val.Responsibility}</td>
                   <td>${val.Task}</td>
@@ -616,7 +633,8 @@ tfoot{
               $.each(data, function(index, val){
              $('#step_list').append(`
               <tr>
-                  <td>Step ${val.Step_Number}</td>
+                 <td id='abc' class='abc hide'><input name='Step_Number[]' value='${val.Step_Number}' class='form-control'></td>
+                  <td id='xyz' class='step'>Step ${val.Step_Number}</td>
                   <td>${val.Responsibility}</td>
                   <td>${val.Task}</td>
                   <td>${val.Job_Aid}</td>
@@ -698,6 +716,22 @@ tfoot{
         /*optional stuff to do after success */
       });
   });
+
+  </script>
+
+  <script>
+    
+    function get_departments()
+    {
+     var id = $('#departments').val();
+     $.get('/get_process_steps_dept/' +id, function(data, status) {
+       $.each(data, function(index, val){
+             $('#process_id').append(`
+                  <option value='${val.processRef}'>${val.process}</option>
+             `);
+            });
+     });
+   }
 
   </script>
 

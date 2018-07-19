@@ -455,19 +455,68 @@ class CashEntryController extends Controller
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef"));
 
-        $cashentries = \DB::table('tblCashEntry')
+        $cashentries = CashEntry::select('*')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-            // ->where('PostingTypeID', '=', 11)
             ->where('tblCashEntry.CurrencyID', 1)
-            ->where('tblCashEntry.Posted', 0)
+            ->where('tblCashEntry.PostFlag', 0)
+            ->where('tblCashEntry.ApproveFlag', 0)
             ->get();
+
+        // dd($cashentries);
         return view('cash_entries.create_customer_transfer', compact('cashentries', 'customers', 'configs', 'customer_details'));
+    }
+
+    public function submit_bill_for_posting(Request $request)
+    {
+        // dd($request->all());
+        foreach ($request->CashEntryRef as $ref) {
+            $cash_entry           = CashEntry::find($ref);
+            $cash_entry->PostFlag = 1;
+            $cash_entry->save();
+        }
+
+        return 'done';
+    }
+
+    public function reject_posting_approvals(Request $request)
+    {
+        // dd($request->all());
+        foreach ($request->CashEntryRef as $ref) {
+            $cash_entry              = CashEntry::find($ref);
+            $cash_entry->PostFlag    = 0;
+            $cash_entry->ApproveFlag = 0;
+            $cash_entry->save();
+        }
+
+        return 'done';
+    }
+
+    public function show_apporve_posting()
+    {
+        $cashentries = CashEntry::select('*')
+            ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
+            ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
+            ->where('tblCashEntry.CurrencyID', 1)
+            ->where('tblCashEntry.PostFlag', 1)
+            ->where('tblCashEntry.ApproveFlag', 0)
+            ->get();
+        return view('cash_entries.approve_posted_bill', compact('cashentries'));
+    }
+
+    public function submit_bill_for_approval(Request $request)
+    {
+        foreach ($request->CashEntryRef as $ref) {
+            $cash_entry              = CashEntry::find($ref);
+            $cash_entry->ApproveFlag = 1;
+            $cash_entry->save();
+        }
+        return 'done';
     }
 
     public function customer_transfer_edit($id)
     {
-        $cash_entry = CashEntry::find($id);
+        $cash_entry       = CashEntry::find($id);
         $configs          = Config::first();
         $customers        = Customer::all();
         $customer_details = \DB::table('tblGL')
@@ -481,7 +530,7 @@ class CashEntryController extends Controller
         $cashentries = \DB::table('tblCashEntry')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-            // ->where('PostingTypeID', '=', 11)
+        // ->where('PostingTypeID', '=', 11)
             ->where('tblCashEntry.CurrencyID', 1)
             ->get();
         return view('cash_entries.edit_customer_transfer', compact('cashentries', 'cash_entry', 'customers', 'configs', 'customer_details'));
@@ -509,9 +558,9 @@ class CashEntryController extends Controller
         }
     }
 
-     public function customer_transfer_update(Request $request, $id)
+    public function customer_transfer_update(Request $request, $id)
     {
-        $cash_entry        = \DB::table('tblCashEntry')->where('CashEntryRef', $id);
+        $cash_entry         = \DB::table('tblCashEntry')->where('CashEntryRef', $id);
         $CustomerGl         = \DB::table('tblGL')->where('GLRef', $request->GLIDDebit)->first();
         $DebitLimit         = $CustomerGl->DebitLimitTotal;
         $absoluteDebitLimit = abs($DebitLimit);
@@ -587,8 +636,8 @@ class CashEntryController extends Controller
 
     public function Payments()
     {
-        $configs          = Config::first();
-        $customers        = Customer::all();
+        $configs            = Config::first();
+        $customers          = Customer::all();
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblCustomer.Customer + ' - ' + tblAccountType.AccountType + '-' + tblGL.Description  + ' - ' + tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
@@ -598,7 +647,7 @@ class CashEntryController extends Controller
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?", [5, 6]));
 
-         $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+        $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
@@ -611,7 +660,7 @@ class CashEntryController extends Controller
         $cashentries = \DB::table('tblCashEntry')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-            // ->where('PostingTypeID', '=', 1)
+        // ->where('PostingTypeID', '=', 1)
             ->where('tblCashEntry.CurrencyID', 1)
             ->where('tblCashEntry.Posted', 0)
             ->get();
@@ -620,8 +669,8 @@ class CashEntryController extends Controller
 
     public function Receipts()
     {
-        $configs          = Config::first();
-        $customers        = Customer::all();
+        $configs            = Config::first();
+        $customers          = Customer::all();
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
@@ -632,7 +681,7 @@ class CashEntryController extends Controller
                          Where tblGL.AccountTypeID = ?
                          Order By tblGL.AccountTypeID,tblGL.Description", [2]));
 
-         $credit_acct_details = collect(\DB::select("SELECT GLRef,  CASE WHEN CustomerID = 1 THEN tblGL.Description ELSE 'Empty' END + ' - ' + tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+        $credit_acct_details = collect(\DB::select("SELECT GLRef,  CASE WHEN CustomerID = 1 THEN tblGL.Description ELSE 'Empty' END + ' - ' + tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
@@ -645,7 +694,7 @@ class CashEntryController extends Controller
         $cashentries = \DB::table('tblCashEntry')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-            // ->where('PostingTypeID', '=', 1)
+        // ->where('PostingTypeID', '=', 1)
             ->where('tblCashEntry.CurrencyID', 1)
             ->where('tblCashEntry.Posted', 0)
             ->get();
@@ -654,8 +703,8 @@ class CashEntryController extends Controller
 
     public function purchase_on_credits()
     {
-        $configs          = Config::first();
-        $customers        = Customer::all();
+        $configs            = Config::first();
+        $customers          = Customer::all();
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
@@ -664,9 +713,9 @@ class CashEntryController extends Controller
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID= ? OR tblGL.AccountTypeID= ? OR tblGL.AccountTypeID= ? OR tblGL.AccountTypeID= ?
-                         Order By tblGL.Description", [15, 7, 16, 8,13]));
+                         Order By tblGL.Description", [15, 7, 16, 8, 13]));
 
-         $credit_acct_details = collect(\DB::select("SELECT GLRef,  CASE WHEN CustomerID = 1 THEN tblGL.Description ELSE '/' END + ' - ' + tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+        $credit_acct_details = collect(\DB::select("SELECT GLRef,  CASE WHEN CustomerID = 1 THEN tblGL.Description ELSE '/' END + ' - ' + tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
@@ -674,12 +723,12 @@ class CashEntryController extends Controller
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID =?
-                         Order By tblGL.Description", [5, 6,2]));
+                         Order By tblGL.Description", [5, 6, 2]));
 
         $cashentries = \DB::table('tblCashEntry')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-            // ->where('PostingTypeID', '=', 1)
+        // ->where('PostingTypeID', '=', 1)
             ->where('tblCashEntry.CurrencyID', 1)
             ->where('tblCashEntry.Posted', 0)
             ->get();
@@ -687,7 +736,7 @@ class CashEntryController extends Controller
     }
 
     public function storePayments(Request $request)
-      {
+    {
         $cashentries = new CashEntry($request->all());
         $this->validate($request, [
             'Amount' => 'required',
@@ -697,10 +746,10 @@ class CashEntryController extends Controller
         } else {
             return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
         }
-     }
+    }
 
-      public function storeReceipts(Request $request)
-      {
+    public function storeReceipts(Request $request)
+    {
         $cashentries = new CashEntry($request->all());
         $this->validate($request, [
             'Amount' => 'required',
@@ -710,10 +759,10 @@ class CashEntryController extends Controller
         } else {
             return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
         }
-     }
+    }
 
-      public function storepurchase_on_credits(Request $request)
-      {
+    public function storepurchase_on_credits(Request $request)
+    {
         $cashentries = new CashEntry($request->all());
         $this->validate($request, [
             'Amount' => 'required',
@@ -723,37 +772,36 @@ class CashEntryController extends Controller
         } else {
             return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
         }
-     }
+    }
 
-     public function bill_posting(Request $request)
-     {
-        $user_id = \Auth::user()->staffId;
-        $details = Staff::where('StaffRef', $user_id)->first();
-        $location = $details->LocationID;
+    public function bill_posting(Request $request)
+    {
+        $user_id     = \Auth::user()->staffId;
+        $details     = Staff::where('StaffRef', $user_id)->first();
+        $location    = $details->LocationID;
         $postedbills = \DB::select("EXEC procViewBillGroup $location");
         return view('cash_entries.bill_posting', compact('postedbills'));
-     }
+    }
 
-     public function post_bill(Request $request)
-     {
+    public function post_bill(Request $request)
+    {
         $billcodes = $request->BillPost;
-        $userid = \Auth::user()->staffId;
-        $details = Staff::where('StaffRef', $userid)->first();
-        $location = $details->LocationID;
+        $userid    = \Auth::user()->staffId;
+        $details   = Staff::where('StaffRef', $userid)->first();
+        $location  = $details->LocationID;
 
-        foreach($billcodes as $billcode)
-        {
+        foreach ($billcodes as $billcode) {
             $trans = \DB::statement("EXEC procPostBilling '$billcode', $userid ");
         }
         $postedbills = \DB::select("EXEC procViewBillGroup $location");
         return view('cash_entries.bill_posting', compact('postedbills'));
-     }
+    }
 
-     public function bill_payment_list()
-     {
-         $user_id = \Auth::user()->staffId;
-        $details = Staff::where('StaffRef', $user_id)->first();
-        $location = $details->LocationID;
+    public function bill_payment_list()
+    {
+        $user_id      = \Auth::user()->staffId;
+        $details      = Staff::where('StaffRef', $user_id)->first();
+        $location     = $details->LocationID;
         $paymentlists = \DB::select("EXEC procBillPaymentList $location");
 
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
@@ -765,12 +813,12 @@ class CashEntryController extends Controller
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?
                          Order By tblGL.AccountTypeID,tblGL.Description", [2, 3]));
-        $configs          = Config::first();
+        $configs = Config::first();
         return view('cash_entries.bill_payment_list', compact('paymentlists', 'debit_acct_details', 'configs'));
-     }
+    }
 
-     public function store_bill_payment_list(Request $request)
-     {
+    public function store_bill_payment_list(Request $request)
+    {
         $cashentries = new CashEntry($request->all());
         $this->validate($request, [
             'Amount' => 'required',
@@ -780,25 +828,25 @@ class CashEntryController extends Controller
         } else {
             return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
         }
-     }
+    }
 
-     public function approve_posting()
-     {
+    public function approve_posting()
+    {
         $cashentries = \DB::table('tblCashEntry')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-            // ->where('PostingTypeID', '=', 1)
+        // ->where('PostingTypeID', '=', 1)
             ->where('tblCashEntry.CurrencyID', 1)
             ->where('tblCashEntry.Posted', 0)
             ->get();
 
-            return view('cash_entries.approve_posting', compact('cashentries'));
-     }
+        return view('cash_entries.approve_posting', compact('cashentries'));
+    }
 
-public function Imprest()
+    public function Imprest()
     {
-        $configs          = Config::first();
-        $customers        = Customer::all();
+        $configs            = Config::first();
+        $customers          = Customer::all();
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
@@ -808,7 +856,7 @@ public function Imprest()
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?", [5, 14]));
 
-         $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
+        $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
@@ -816,20 +864,20 @@ public function Imprest()
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where (tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?) and (tblGL.Description like '%Petty Cash%' OR tblGL.Description like '%Card%')
-                         Order By tblGL.AccountTypeID,tblGL.Description", [2,3]));
+                         Order By tblGL.AccountTypeID,tblGL.Description", [2, 3]));
 
         $cashentries = \DB::table('tblCashEntry')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-            // ->where('PostingTypeID', '=', 1)
+        // ->where('PostingTypeID', '=', 1)
             ->where('tblCashEntry.CurrencyID', 1)
-            // ->where('tblCashEntry.Posted', 0)
+        // ->where('tblCashEntry.Posted', 0)
             ->get();
         return view('cash_entries.Imprest', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
     }
 
-     public function storeImprest(Request $request)
-      {
+    public function storeImprest(Request $request)
+    {
         $cashentries = new CashEntry($request->all());
         $this->validate($request, [
             'Amount' => 'required',
@@ -839,5 +887,5 @@ public function Imprest()
         } else {
             return redirect()->back()->withInput()->with('error', 'Posting failed to save');
         }
-     }
+    }
 }

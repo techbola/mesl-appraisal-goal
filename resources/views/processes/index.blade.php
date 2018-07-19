@@ -38,22 +38,37 @@ s
              {{-- <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create Policy Approver</a></li> --}}
              {{-- <li><a style="background: #bbb" href="{{ route('ProcessManagement') }}">Return to Process Management Page</a></li> --}}
              <li><a class="btn btn-info btn-lg" style="color: #fff" href="{{ route('ProcessApprover') }}">View / Add New Process Maker</a></li>
-             <li role="presentation" class="active"><a href="{{ route('CreateNewProcess') }}">Create New/View Process</a></li>
-             <li role="presentation" class="active"><a href="{{ route('CreateProcessSteps') }}">Create New/View Process Steps</a></li>
+              <li role="presentation" class="active"><a href="{{ route('ProcessDepartments') }}"> New/View Process Department</a></li>
+             <li role="presentation" class="active"><a href="{{ route('CreateNewProcess') }}"> New/View Process</a></li>
+             <li role="presentation" class="active"><a href="{{ route('CreateProcessSteps') }}"> New/View Process Steps</a></li>
          </ul>
         @endif
-      </div><div class="clearfix"></div>
+      </div><br><br><div class="clearfix"></div>
   			<div class="card-title pull-left" style="font-size: 20px !important">Company Process Management Module</div><div class="clearfix"></div>
            <div class="row"><hr>
-               <div class="col-md-4">
+              <div class="col-md-5">
                     <div class="form-group">
                     <div class="controls">
-                        {{ Form::label('Select Process' ) }}
-                            {{ Form::select('ProcessRef', [ '' =>  'Select a Process'] + $processes->pluck('process', 'processRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'process_id', 'onchange' => 'add_step()', 'data-init-plugin' => "select2", 'required']) }}
+                        {{ Form::label('Select Process Department' ) }}
+                            {{ Form::select('ProcessRef', [ '' =>  'Select a Process Department'] + $depts->pluck('ProcessDept', 'DeptRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Process Department",'id'=>'departments', 'onchange'=>'get_departments()', 'data-init-plugin' => "select2", 'required']) }}
                     </div>
-                  </div>      
+             </div>      
               </div>
 
+                 <div class="col-md-4">
+             <div class="form-group">
+                    <div class="controls">
+                        {{ Form::label('Select Process' ) }}
+                            <select name="ProcessRef" class="full-width" data-init-plugin="select2" id="process_id" onchange="add_step()" required>
+                              <option value=''>Choose Process</option>
+                            </select>
+                           
+                    </div>
+                  </div>
+          </div>
+            </div>
+
+            <div class="row"><br><hr>
             <div class="col-md-12 hide" id="process_step">
             <div style="padding: 20px; background: #eee">
                  <div class="row">
@@ -166,6 +181,23 @@ s
 
         });
       }
+
+  </script>
+
+  <script>
+    
+    function get_departments()
+    {
+     var id = $('#departments').val();
+     $.get('/get_process_steps_dept_index/' +id, function(data, status) {
+        $('#process_id').html(' ');
+       $.each(data, function(index, val){
+             $('#process_id').append(`
+                  <option value='${val.processRef}'>${val.process}</option>
+             `);
+            });
+     });
+   }
 
   </script>
 

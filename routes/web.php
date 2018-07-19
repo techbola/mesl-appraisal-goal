@@ -273,10 +273,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
+    Route::post('submit_bill_for_posting', 'CashEntryController@submit_bill_for_posting');
+    Route::get('cash_entries/show_apporve_posting', 'CashEntryController@show_apporve_posting')->name('ApprovePostings');
+    Route::post('submit_bill_for_approval', 'CashEntryController@submit_bill_for_approval');
+    Route::post('reject_posting_approvals', 'CashEntryController@reject_posting_approvals');
 
     // Learning Management System
 
-    Route::get('LMS/course_dashboard', 'CourseController@course_dashboard');
+    Route::get('LMS/course_dashboard', 'CourseController@course_dashboard')->name('CourseDashboard');
     Route::post('submit_new_category', 'CourseController@submit_new_category');
     Route::post('submit_new_course', 'CourseController@submit_new_course');
     Route::get('get_staff_details/{id}', 'CourseController@get_staff_details');
@@ -287,6 +291,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_course_list', 'CourseController@get_course_list');
     Route::get('get_instructor_list', 'CourseController@get_instructor_list');
     Route::get('get_batch_list', 'CourseController@get_batch_list');
+    Route::get('get_course_material_list/{id}', 'CourseController@get_course_material_list');
+    Route::post('submit_course_material', 'CourseController@submit_course_material');
+    Route::get('LMS/staff_course_dashboard', 'CourseController@staff_course_dashboard')->name('StaffCourseDashboard');
+    Route::get('activate_course/{id}', 'CourseController@activate_course');
+    Route::get('LMS/show_course/{id}', 'CourseController@show_course')->name('ShowCourse');
+    Route::get('course_material_with_id/{id}', 'CourseController@course_material_with_id');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
@@ -420,6 +430,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('submit_process_attribute', 'ProcessController@submit_process_attribute');
     Route::post('submit_process_risk', 'ProcessController@submit_process_risk');
     Route::get('get_attribute_values/{id}', 'ProcessController@get_attribute_values');
+    Route::get('processes/process_dept', 'ProcessController@process_dept_index')->name('ProcessDepartments');
+    Route::post('Post_Process_department', 'ProcessController@store_process_department');
+    Route::get('delete_process_dept/{id}', 'ProcessController@delete_process_dept');
+    Route::get('update_process_dept/{id}/{pro}', 'ProcessController@update_process_dept');
+    Route::get('get_process_steps_dept/{id}', 'ProcessController@get_process_steps_dept');
+    Route::get('get_process_steps_dept_index/{id}', 'ProcessController@get_process_steps_dept_index');
 
     //ProductService
     Route::post('store_product_srvice', 'ProductServiceController@store');
@@ -526,15 +542,15 @@ Route::get('/cda', function () {
     return redirect('/');
 });
 
-Route::get('/testing', function(){
+Route::get('/testing', function () {
 
-  // return Cavidel\Staff::whereRaw("DepartmentID @> ARRAY['1']::varchar[]")->get();
-  // return Cavidel\Staff::whereRaw("1=ANY(DepartmentID)")->get();
-  // return Cavidel\Staff::whereRaw("find_in_set('1',DepartmentID)")->get();
-  // return Cavidel\Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',1,',%')")->get();
-  // return Cavidel\Department::find('4')->staff();
-  // return Cavidel\Staff::all()->filter('1', function(){
-  // })->get();
+    // return Cavidel\Staff::whereRaw("DepartmentID @> ARRAY['1']::varchar[]")->get();
+    // return Cavidel\Staff::whereRaw("1=ANY(DepartmentID)")->get();
+    // return Cavidel\Staff::whereRaw("find_in_set('1',DepartmentID)")->get();
+    // return Cavidel\Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',1,',%')")->get();
+    // return Cavidel\Department::find('4')->staff();
+    // return Cavidel\Staff::all()->filter('1', function(){
+    // })->get();
 });
 
 //Reconciliation Routes
