@@ -104,7 +104,7 @@ class LeaveRequestController extends Controller
 
                     // Mail::to($email)->send(new Leave($name));
                 }
-                return $trans;
+                return response()->json(['success' => true, ['data' => ['link' => route('LeaveDashBoard')]]]);
             }
         } else {
             return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');

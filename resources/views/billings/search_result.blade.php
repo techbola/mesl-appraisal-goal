@@ -98,7 +98,7 @@
                 <div class="modal-body">
                   <div class="row">
                     <div class="col-md-9" style="color: #000">
-                     A new bill will be created for <span style="font-weight: 800" id="pat_name"></span> on Click of the button 
+                     A new bill will be created for <span style="font-weight: 800" id="pat_name"></span> on Click of the button
                     </div>
                     <div class="col-md-3 no-padding sm-m-t-10 sm-text-center">
                       {{ Form::open(['action' => 'BillingController@new_bill', 'autocomplete' => 'off', 'role' => 'form']) }}
@@ -136,78 +136,76 @@
                   <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #000">Add New Client</span></h5>
                 </div>
                 <div class="modal-body">
-                  <div class="row">
+                  {{ Form::open(['action' => 'ClientController@store', 'autocomplete' => 'off', 'role' => 'form']) }}
+                    {{-- <div class="row">
 
-                      {{ Form::open(['action' => 'ClientController@store', 'autocomplete' => 'off', 'role' => 'form']) }}
-                            <div class="row">
+                      <div class="col-sm-4">
+                           <div class="form-group">
+                               <div class="controls">
+                                   {{ Form::label('FileNo' ) }}
+                                       {{ Form::text('FileNo', null, ['class' => 'form-control', 'placeholder' => 'Enter File No', 'required']) }}
+                               </div>
+                          </div>
+                      </div>
 
-                              <div class="col-sm-4">
-                                   <div class="form-group">
-                                       <div class="controls">
-                                           {{ Form::label('FileNo' ) }}
-                                               {{ Form::text('FileNo', null, ['class' => 'form-control', 'placeholder' => 'Enter File No', 'required']) }}
-                                       </div>
-                                  </div>
-                              </div>
+                      <div class="col-sm-4">
+                           <div class="form-group">
+                               <div class="controls">
+                                   {{ Form::label('Name' ) }}
+                                       {{ Form::text('Name', null, ['class' => 'form-control', 'placeholder' => 'Client Name', 'required']) }}
+                               </div>
+                          </div>
+                      </div>
 
-                              <div class="col-sm-4">
-                                   <div class="form-group">
-                                       <div class="controls">
-                                           {{ Form::label('Name' ) }}
-                                               {{ Form::text('Name', null, ['class' => 'form-control', 'placeholder' => 'Client Name', 'required']) }}
-                                       </div>
-                                  </div>
-                              </div>
+                      <div class="col-sm-4">
+                           <div class="form-group">
+                               <div class="controls">
+                                   {{ Form::label('HouseType' ) }}
+                                       {{ Form::text('HouseType', null, ['class' => 'form-control', 'placeholder' => 'House Type', 'required']) }}
+                               </div>
+                          </div>
+                      </div>
 
-                              <div class="col-sm-4">
-                                   <div class="form-group">
-                                       <div class="controls">
-                                           {{ Form::label('HouseType' ) }}
-                                               {{ Form::text('HouseType', null, ['class' => 'form-control', 'placeholder' => 'House Type', 'required']) }}
-                                       </div>
-                                  </div>
-                              </div>
+                      <div class="col-sm-4">
+                           <div class="form-group">
+                               <div class="controls">
+                                   {{ Form::label('BlockAllocation' ) }}
+                                       {{ Form::text('BlockAllocation', null, ['class' => 'form-control', 'placeholder' => 'Input Block Allocation', 'required']) }}
+                               </div>
+                          </div>
+                      </div>
 
-                              <div class="col-sm-4">
-                                   <div class="form-group">
-                                       <div class="controls">
-                                           {{ Form::label('BlockAllocation' ) }}
-                                               {{ Form::text('BlockAllocation', null, ['class' => 'form-control', 'placeholder' => 'Input Block Allocation', 'required']) }}
-                                       </div>
-                                  </div>
-                              </div>
+                      <div class="col-sm-4">
+                           <div class="form-group">
+                               <div class="controls">
+                                   {{ Form::label('UnitAllocation' ) }}
+                                       {{ Form::text('UnitAllocation', null, ['class' => 'form-control', 'placeholder' => 'Input Unit Allocation', 'required']) }}
+                               </div>
+                          </div>
+                      </div>
 
-                              <div class="col-sm-4">
-                                   <div class="form-group">
-                                       <div class="controls">
-                                           {{ Form::label('UnitAllocation' ) }}
-                                               {{ Form::text('UnitAllocation', null, ['class' => 'form-control', 'placeholder' => 'Input Unit Allocation', 'required']) }}
-                                       </div>
-                                  </div>
-                              </div>
+                      <div class="col-sm-4">
+                           <div class="form-group">
+                               <div class="controls">
+                                   {{ Form::label('Phone' ) }}
+                                       {{ Form::text('Phone', null, ['class' => 'form-control', 'placeholder' => 'Phone Number', 'required']) }}
+                               </div>
+                          </div>
+                      </div>
 
-                              <div class="col-sm-4">
-                                   <div class="form-group">
-                                       <div class="controls">
-                                           {{ Form::label('Phone' ) }}
-                                               {{ Form::text('Phone', null, ['class' => 'form-control', 'placeholder' => 'Phone Number', 'required']) }}
-                                       </div>
-                                  </div>
-                              </div>
+                      <div class="col-sm-4">
+                           <div class="form-group">
+                               <div class="controls">
+                                   {{ Form::label('Email' ) }}
+                                       {{ Form::text('Email', null, ['class' => 'form-control', 'placeholder' => 'Input Email Address']) }}
+                               </div>
+                          </div>
+                      </div>
 
-                              <div class="col-sm-4">
-                                   <div class="form-group">
-                                       <div class="controls">
-                                           {{ Form::label('Email' ) }}
-                                               {{ Form::text('Email', null, ['class' => 'form-control', 'placeholder' => 'Input Email Address']) }}
-                                       </div>
-                                  </div>
-                              </div>
-
-                            </div>
-                            <input type="submit" class="btn btn-sm btn-info pull-right" value="Create New Client">
-                      {{ Form::close() }}
-                  </div>
+                    </div>
+                    <input type="submit" class="btn btn-sm btn-info pull-right" value="Create New Client"> --}}
+                    @include('billings.client_form')
+                  {{ Form::close() }}
                 </div>
                 <div class="modal-footer">
                 </div>
@@ -335,5 +333,3 @@
   </script>
 
 @endpush
-
-
