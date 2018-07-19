@@ -13,21 +13,21 @@ tfoot{
 @endpush
 
 @section('title')
-  Create Process
+  Create Process Department
 @endsection
 
 @section('page-title')
-  Create Process
+  Create Process Department
 @endsection
 
 @section('buttons')
   
 @endsection 
 
-@section('content') 
+@section('content')
 
-  	<!-- START PANEL -->
-  	<div class="card-box">
+    <!-- START PANEL -->
+    <div class="card-box">
       <div style="padding: 30px">
         
       </div><div class="clearfix"></div>
@@ -36,42 +36,44 @@ tfoot{
          <ul class="nav nav-pills pull-right">
              {{-- <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create Policy Approver</a></li> --}}
              <li><a style="background: #bbb" href="{{ route('ProcessManagement') }}">Return to Process Management Page</a></li>
-             <li role="presentation" class="active"><a href="{{ route('ProcessDepartments') }}"> New/View Process Department</a></li>
-             <li role="presentation" class="active"><a href="{{ route('CreateProcessSteps') }}">Create New/View Process Steps</a></li>
-             <li><a href="#" style="color: #fff" data-target="#modalFillIn2" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-lg btn-info">Create New/View Processes</a></li>
+             <li role="presentation" class="active"><a  href="{{ route('CreateNewProcess') }}">New/View Process</a></li>
+             <li role="presentation" class="active"><a href="{{ route('CreateProcessSteps') }}">New/View Process Steps</a></li>
+             <li><a href="#" style="color: #fff" data-target="#modalFillIn2" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-lg btn-info">New/View Process Departments</a></li>
          </ul>
          @endif
-      </div><div class="clearfix"></div>
-  			<div class="card-title pull-left" style="font-size: 20px">List Processes</div><div class="clearfix"></div>
+      </div><br><div class="clearfix"></div>
+        <div class="card-title pull-left" style="font-size: 20px">List Process Department(s)</div><div class="clearfix"></div>
            <div class="row"><hr>
             <div id="process_table"  style="background: #eee; padding: 10px">
               <div class="table-responsive">
               <table class="table tableWithExportOptions" id="transactions">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>Entry Date</th>
-                    <th>Process</th>
+                    <th>Departments</th>
                     <th>Entered By</th>
                     <th>Edit</th>
                     <th>Delete</th>
                   </tr>
                 </thead>
                 <tfoot class="thead">
+                    <th></th>
                     <th>Entry Date</th>
-                    <th>Process</th>
+                    <th>Departments</th>
                     <th>Entered By</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th class="hide">Edit</th>
+                    <th class="hide">Delete</th>
                 </tfoot>
                 <tbody>
-                  @foreach($processes as $process)
+                  @foreach($depts as $dept)
                   <tr>
-                    <td>{{ \Carbon::parse($process->EntryDate)->toDayDateTimeString() }}</td>
-                    <td>{{ $process->ProcessDept }}</td>
-                    <td>{{ $process->process }}</td>
-                    <td>{{ $process->first_name }}  {{ $process->last_name }}</td>
-                    <td><a href="#" id="edit_modal" data-id="{{ $process->processRef }}" data-pro="{{ $process->process}}" data-target="#modalFillIn2" data-toggle="modal"  class="btn btn-success btn-sm"  title="">Edit Process</a></td>
-                    <td><a href="#" id="delete_modal" data-id="{{ $process->processRef }}" data-target="#modalFillIn2" data-toggle="modal" class="btn btn-danger btn-sm" title="">Delete</a></td>
+                    <td>{{ $loop->index + 1 }}</td>
+                    <td>{{ \Carbon::parse($dept->EntryDate)->toDayDateTimeString() }}</td>
+                    <td>{{ $dept->ProcessDept }}</td>
+                    <td>{{ $dept->first_name }}  {{ $dept->last_name }}</td>
+                    <td><a href="#" id="edit_modal" data-id="{{ $dept->DeptRef }}" data-pro="{{ $dept->ProcessDept}}" data-target="#modalFillIn2" data-toggle="modal"  class="btn btn-success btn-sm"  title="">Edit</a></td>
+                    <td><a href="#" id="delete_modal" data-id="{{ $dept->DeptRef }}" data-target="#modalFillIn2" data-toggle="modal" class="btn btn-danger btn-sm" title="">Delete</a></td>
                   </tr>
                   @endforeach
                 </tbody>
@@ -79,8 +81,8 @@ tfoot{
             </div>
           </div>
            </div>
-  	</div>
-  	<!-- END PANEL -->
+    </div>
+    <!-- END PANEL -->
 
 
     <div class="page-content-wrapper ">
@@ -94,33 +96,23 @@ tfoot{
               <div class="modal-content">
                 <div style="background: #fff; width: 600px; padding: 30px">
                 <div class="modal-header">
-                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #000" id="title">New Process</span></h5>
+                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #000" id="title">New Process Department</span></h5>
                 </div>
                 <div class="modal-body">
                   <div class="row">
 
-                               <div class="col-sm-6">
+                              <div class="col-sm-12" id="item_div">
                                    <div class="form-group">
                                        <div class="controls">
-                                           {{ Form::label('Process Department' ) }}
-                                               {{ Form::select('process_dept_id', [ '' =>  'Select Process Department'] + $depts->pluck('ProcessDept', 'DeptRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'process_dept', 'data-init-plugin' => "select2", 'required']) }}
+                                           {{ Form::label('New Process Department' ) }}
+                                               {{ Form::text('ProcessDept', null, ['class' => 'form-control', 'id'=>'item', 'placeholder' => 'Add New Process Department', 'required']) }}
                                        </div>
                                   </div>
                               </div>
-
-                              <div class="col-sm-6" id="item_div">
-                                   <div class="form-group">
-                                       <div class="controls">
-                                           {{ Form::label('New Process' ) }}
-                                               {{ Form::text('process', null, ['class' => 'form-control', 'id'=>'item', 'placeholder' => 'Add New Process', 'required']) }}
-                                       </div>
-                                  </div>
-                              </div>
-
                               <div class="col-md-12">
-                                <input type="submit" class="btn btn-sm btn-info pull-right" id="add_process" data-dismiss="modal" value="Add New Process">
-                                <input type="submit" class="btn btn-sm btn-success pull-right hide" id="edit_process" data-dismiss="modal" value="Save Process">
-                                <input type="submit" class="btn btn-sm btn-danger pull-right hide" id="delete_process" data-dismiss="modal" value="Delete Process">
+                                <input type="submit" class="btn btn-sm btn-info pull-right" id="add_process" data-dismiss="modal" value="Add New Process Department">
+                                <input type="submit" class="btn btn-sm btn-success pull-right hide" id="edit_process" data-dismiss="modal" value="Save Process Department">
+                                <input type="submit" class="btn btn-sm btn-danger pull-right hide" id="delete_process" data-dismiss="modal" value="Delete Process Process Department">
                               </div><p id="xyz" class="hide"></p>
                             
                   </div>
@@ -146,7 +138,7 @@ tfoot{
 $(document).ready(function() {
   
     $(document).on('click', '#btnFillSizeToggler2', function(event) {
-    $('#title').text('Add New Process');
+    $('#title').text('Add New Process Department');
      $('#edit_process').addClass('hide');
     $('#add_process').removeClass('hide');
     $('#delete_process').addClass('hide');
@@ -156,7 +148,7 @@ $(document).ready(function() {
 
 
     $(document).on('click', '#edit_modal', function(event) {
-          $('#title').text('Edit Process');
+          $('#title').text('Edit Process Department');
           $('#edit_process').removeClass('hide');
           $('#add_process').addClass('hide');
           $('#delete_process').addClass('hide');
@@ -168,11 +160,10 @@ $(document).ready(function() {
     });
 
        $(document).on('click', '#delete_modal', function(event) {
-        $('#title').text('Are you sure you want to delete Process ?');
+        $('#title').text('Are you sure you want to delete Process Department ?');
          $('#delete_process').removeClass('hide');
          $('#add_process').addClass('hide');
          $('#edit_process').addClass('hide');
-         $('#process_dept').addClass('hide');
          var id = $(this).data('id');
          $('#xyz').text(id);
          $('#item_div').addClass('hide');
@@ -182,8 +173,7 @@ $(document).ready(function() {
 
      $(document).on('click', '#add_process', function(event) {
     var pro = $('#item').val();
-    var dept = $('#process_dept').val();
-    $.post('/Post_Process', {'process_dept_id': dept, 'process': pro, '_token':$('input[name=_token]').val()}, function(data, textStatus, xhr) {
+    $.post('/Post_Process_department', {'processDept': pro, '_token':$('input[name=_token]').val()}, function(data, textStatus, xhr) {
      console.log(data);
      $('#process_table').load(location.href + ' #process_table');
      
@@ -192,7 +182,7 @@ $(document).ready(function() {
 
      $(document).on('click', '#delete_process', function(event) {
     var id = $('#xyz').text();
-    $.get('/delete_process/'+id,  function(data, status) {
+    $.get('/delete_process_dept/'+id,  function(data, status) {
       console.log(status);
      $('#process_table').load(location.href + ' #process_table');
     });
@@ -201,7 +191,7 @@ $(document).ready(function() {
   $(document).on('click', '#edit_process', function(event) {
     var id = $('#xyz').text();
     var pro = $('#item').val();
-    $.get('/update_process/'+id+'/'+pro,  function(data, status) {
+    $.get('/update_process_dept/'+id+'/'+pro,  function(data, status) {
       console.log(status);
      $('#process_table').load(location.href + ' #process_table');
     });

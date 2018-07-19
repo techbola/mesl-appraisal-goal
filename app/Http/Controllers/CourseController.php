@@ -7,6 +7,7 @@ use Cavidel\Courses;
 use Cavidel\Staff;
 use Cavidel\CourseInstructor;
 use Cavidel\CourseBatch;
+use Cavidel\CourseMaterial;
 use Image;
 use Illuminate\Http\Request;
 
@@ -146,4 +147,110 @@ class CourseController extends Controller
             ->get();
         return response()->json($batch)->setStatusCode(200);
     }
+
+    public function submit_course_material(Request $request)
+    {
+        $user_id = \Auth::user()->id;
+
+        if ($request->hasFile('video_link')) {
+            $filenamewithextension = $request->file('video_link')->getClientOriginalName();
+            $filename              = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+            $extension             = $request->file('video_link')->getClientOriginalExtension();
+            $filenametostore       = $filename . '_' . time() . '.' . $extension;
+            $request->file('video_link')->storeAs('public/course_video', $filenametostore);
+
+            $add_course_material             = new CourseMaterial($request->except(['video_link', 'document_link', 'youtube_link']));
+            $add_course_material->video_link = $filenametostore;
+            $add_course_material->entered_by = $user_id;
+            $add_course_material->save();
+            $count_material = CourseMaterial::where('course_id', $request->course_id)->get();
+            return response()->json($count_material)->setStatusCode(200);
+
+        } elseif ($request->hasFile('document_link')) {
+            $filenamewithextension = $request->file('document_link')->getClientOriginalName();
+            $filename              = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+            $extension             = $request->file('document_link')->getClientOriginalExtension();
+            $filenametostore       = $filename . '_' . time() . '.' . $extension;
+            $request->file('document_link')->storeAs('public/Course_Docs', $filenametostore);
+
+            $add_course_material                = new CourseMaterial($request->except(['video_link', 'document_link', 'youtube_link']));
+            $add_course_material->document_link = $filenametostore;
+            // dd($filenametostore);
+            $add_course_material->entered_by = $user_id;
+            $add_course_material->save();
+            $count_material = CourseMaterial::where('course_id', $request->course_id)->get();
+            return response()->json($count_material)->setStatusCode(200);
+        } else {
+            $add_course_material             = new CourseMaterial($request->except(['video_link', 'document_link']));
+            $add_course_material->entered_by = $user_id;
+            $add_course_material->save();
+            $count_material = CourseMaterial::where('course_id', $request->course_id)->get();
+            return response()->json($count_material)->setStatusCode(200);
+        }
+    }
+
+    public function get_course_material_list($id)
+    {
+        $id                      = $id;
+        $course_material_details = CourseMaterial::where('course_id', $id)->get();
+        return response()->json($course_material_details)->setStatusCode(200);
+    }
+
+    public function staff_course_dashboard()
+    {
+        $user_id        = \Auth::user()->id;
+        $course_details = \DB::table('tblCourseBatch')
+            ->select('cover_page', 'courses_name', 'description', 'course_code', 'batch_code', 'duration', 'start_date', 'end_date', 'priority', 'batch_ref')
+            ->join('tblCourses', 'tblCourseBatch.course_id', '=', 'tblCourses.course_ref')
+            ->where('staff_id', $user_id)
+            ->where('status', 0)
+            ->get();
+
+        $active_courses = \DB::table('tblCourseBatch')
+            ->select('cover_page', 'courses_name', 'description', 'course_code', 'batch_code', 'duration', 'start_date', 'end_date', 'priority', 'batch_ref')
+            ->join('tblCourses', 'tblCourseBatch.course_id', '=', 'tblCourses.course_ref')
+            ->where('staff_id', $user_id)
+            ->where('status', 1)
+            ->get();
+
+        $completed_courses = \DB::table('tblCourseBatch')
+            ->select('cover_page', 'courses_name', 'description', 'course_code', 'batch_code', 'duration', 'start_date', 'end_date', 'priority', 'batch_ref')
+            ->join('tblCourses', 'tblCourseBatch.course_id', '=', 'tblCourses.course_ref')
+            ->where('staff_id', $user_id)
+            ->where('status', 2)
+            ->get();
+
+        return view('LMS.staff_course_dashboard', compact('course_details', 'active_courses', 'completed_courses'));
+    }
+
+    public function show_course($id)
+    {
+        $id             = $id;
+        $course_details = \DB::table('tblCourseBatch')
+            ->select('cover_page', 'courses_name', 'description', 'course_code', 'batch_code', 'duration', 'start_date', 'end_date', 'priority', 'batch_ref', 'tblCourseBatch.course_id')
+            ->join('tblCourses', 'tblCourseBatch.course_id', '=', 'tblCourses.course_ref')
+            ->where('batch_ref', $id)
+            ->first();
+
+        $course_id        = $course_details->course_id;
+        $course_materials = CourseMaterial::where('course_id', $course_id)->get();
+        return view('LMS.show_course', compact('course_details', 'course_materials'));
+    }
+
+    public function activate_course($id)
+    {
+        $id       = $id;
+        $activate = \DB::table('tblCourseBatch')
+            ->where('batch_ref', $id)
+            ->update(['status' => 1]);
+        return response()->json(['success' => true, ['data' => ['link' => route('ShowCourse', ['id' => $id])]]]);
+    }
+
+    public function course_material_with_id($id)
+    {
+        $id               = $id;
+        $course_materials = CourseMaterial::where('course_material_ref', $id)->first();
+        return response()->json($course_materials)->setStatusCode(200);
+    }
+
 }

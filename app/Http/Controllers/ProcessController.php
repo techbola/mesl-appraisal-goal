@@ -7,6 +7,7 @@ use Cavidel\ProcessApprover;
 use Cavidel\ProcessAttribute;
 use Cavidel\ProcessRiskControl;
 use Cavidel\ProcessSteps;
+use Cavidel\ProcessDept;
 use Cavidel\User;
 use Illuminate\Http\Request;
 
@@ -17,8 +18,10 @@ class ProcessController extends Controller
     {
         $id        = \Auth()->user()->id;
         $check     = ProcessApprover::where('UserID', $id)->where('Status', 1)->first();
+        $depts     = ProcessDept::all();
         $processes = Process::all();
-        return view('processes.index', compact('processes', 'check'));
+
+        return view('processes.index', compact('processes', 'check', 'depts'));
     }
 
     public function create()
@@ -27,10 +30,11 @@ class ProcessController extends Controller
         $check     = ProcessApprover::where('UserID', $id)->where('Status', 1)->first();
         $processes = \DB::table('tblProcesses')
             ->join('users', 'tblProcesses.EnteredBy', '=', 'users.id')
+            ->join('tblProcessDept', 'tblProcesses.process_dept_id', '=', 'tblProcessDept.DeptRef')
             ->orderBy('processRef', 'desc')
             ->get();
-
-        return view('processes.create', compact('processes', 'check'));
+        $depts = ProcessDept::all();
+        return view('processes.create', compact('processes', 'check', 'depts'));
     }
 
     public function store_process(Request $request)
@@ -64,8 +68,9 @@ class ProcessController extends Controller
     {
         $id        = \Auth()->user()->id;
         $check     = ProcessApprover::where('UserID', $id)->where('Status', 1)->first();
+        $depts     = ProcessDept::all();
         $processes = Process::all();
-        return view('processes.create_process_steps', compact('processes', 'check'));
+        return view('processes.create_process_steps', compact('processes', 'check', 'depts'));
     }
 
     public function get_process_steps($id)
@@ -80,6 +85,13 @@ class ProcessController extends Controller
             'risk'      => $risk,
         ];
         return response()->json($multiple)->setStatusCode(200);
+    }
+
+    public function get_process_steps_dept($id)
+    {
+        $id        = $id;
+        $processes = Process::where('process_dept_id', $id)->get();
+        return response()->json($processes)->setStatusCode(200);
     }
 
     public function post_process_step(Request $request)
@@ -215,6 +227,44 @@ class ProcessController extends Controller
         $get_attribute = ProcessAttribute::where('process_attribute_ref', $id)->first();
         return response()->json($get_attribute)->setStatusCode(200);
 
+    }
+
+    public function process_dept_index()
+    {
+        $id    = \Auth()->user()->id;
+        $check = ProcessApprover::where('UserID', $id)->where('Status', 1)->first();
+        $depts = \DB::table('tblProcessDept')
+            ->join('users', 'tblProcessDept.EnteredBy', '=', 'users.id')
+            ->orderBy('DeptRef', 'desc')
+            ->get();
+        return view('processes.process_dept', compact('check', 'depts'));
+    }
+
+    public function store_process_department(Request $request)
+    {
+        $date               = \Carbon::now();
+        $user_id            = \Auth::user()->id;
+        $process            = new ProcessDept($request->all());
+        $process->EntryDate = $date;
+        $process->EnteredBy = $user_id;
+        $process->save();
+        return 'done';
+
+    }
+
+    public function delete_process_dept($id)
+    {
+        $id    = $id;
+        $trans = \DB::table('tblProcessDept')->where('DeptRef', $id)->delete();
+        return 'done';
+    }
+
+    public function update_process_dept($id, $pro)
+    {
+        $id      = $id;
+        $process = $pro;
+        $trans   = \DB::table('tblProcessDept')->where('DeptRef', $id)->update(['ProcessDept' => $process]);
+        return 'done';
     }
 
 }
