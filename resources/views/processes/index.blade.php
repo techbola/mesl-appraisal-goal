@@ -55,14 +55,17 @@ s
              </div>      
               </div>
 
-               <div class="col-md-5">
-                    <div class="form-group">
+                 <div class="col-md-4">
+             <div class="form-group">
                     <div class="controls">
                         {{ Form::label('Select Process' ) }}
-                            {{ Form::select('ProcessRef', [ '' =>  'Select a Process'] + $processes->pluck('process', 'processRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'process_id', 'onchange' => 'add_step()', 'data-init-plugin' => "select2", 'required']) }}
+                            <select name="ProcessRef" class="full-width" data-init-plugin="select2" id="process_id" onchange="add_step()" required>
+                              <option value=''>Choose Process</option>
+                            </select>
+                           
                     </div>
-                  </div>      
-              </div>
+                  </div>
+          </div>
             </div>
 
             <div class="row"><br><hr>
@@ -178,6 +181,23 @@ s
 
         });
       }
+
+  </script>
+
+  <script>
+    
+    function get_departments()
+    {
+     var id = $('#departments').val();
+     $.get('/get_process_steps_dept_index/' +id, function(data, status) {
+        $('#process_id').html(' ');
+       $.each(data, function(index, val){
+             $('#process_id').append(`
+                  <option value='${val.processRef}'>${val.process}</option>
+             `);
+            });
+     });
+   }
 
   </script>
 

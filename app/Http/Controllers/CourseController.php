@@ -39,7 +39,7 @@ class CourseController extends Controller
     {
         $rand    = rand(10, 999);
         $number  = 'COURSE - ' . $rand;
-        $user_id = \Auth::user()->id;
+        $user_id = auth()->user()->id;
 
         if ($request->hasFile('cover_page')) {
             $filenamewithextension = $request->file('cover_page')->getClientOriginalName();

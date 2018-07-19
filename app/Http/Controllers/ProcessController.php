@@ -94,6 +94,13 @@ class ProcessController extends Controller
         return response()->json($processes)->setStatusCode(200);
     }
 
+    public function get_process_steps_dept_index($id)
+    {
+        $id        = $id;
+        $processes = Process::where('process_dept_id', $id)->get();
+        return response()->json($processes)->setStatusCode(200);
+    }
+
     public function post_process_step(Request $request)
     {
         $user_id    = \Auth::user()->id;

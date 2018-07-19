@@ -435,6 +435,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('delete_process_dept/{id}', 'ProcessController@delete_process_dept');
     Route::get('update_process_dept/{id}/{pro}', 'ProcessController@update_process_dept');
     Route::get('get_process_steps_dept/{id}', 'ProcessController@get_process_steps_dept');
+    Route::get('get_process_steps_dept_index/{id}', 'ProcessController@get_process_steps_dept_index');
 
     //ProductService
     Route::post('store_product_srvice', 'ProductServiceController@store');
