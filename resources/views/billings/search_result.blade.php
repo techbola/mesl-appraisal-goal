@@ -70,9 +70,9 @@
                 <td>{{ $result->Address }}</td>
                 <td>
                   <a href="#" data-id="{{ $result->ClientRef }}" data-pat="{{ $result->Name }}"  data-target="#modalFillIn" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-xs btn-success"><i class="fa fa-cc-mastercard"></i>  Create Bill</a>
-                  <a href="{{ route('View_Client_Bill_List',[$result->ClientRef]) }}" title="" class="btn btn-xs btn-warning"><i class="fa fa-clipboard"></i>  view Bill(s)</a>
-                  <a href="{{ route('Client_Document_List',[$result->ClientRef]) }}" title="" class="btn btn-xs btn-info"><i class="fa fa-file-text-o"></i>  Documents</a>
-                  <a href="{{ route('facility-management.complaints.show',[$result->ClientRef]) }}" title="" class="btn btn-xs btn-primary"><i class="fa fa-file-text-o"></i> Fix My House</a>
+                  <a href="{{ route('View_Client_Bill_List',[$result->CustomerRef]) }}" title="" class="btn btn-xs btn-warning"><i class="fa fa-clipboard"></i>  view Bill(s)</a>
+                  <a href="{{ route('Client_Document_List',[$result->CustomerRef]) }}" title="" class="btn btn-xs btn-info"><i class="fa fa-file-text-o"></i>  Documents</a>
+                  <a href="{{ route('facility-management.complaints.show',[$result->CustomerRef]) }}" title="" class="btn btn-xs btn-primary"><i class="fa fa-file-text-o"></i> Fix My House</a>
                 </td>
               </tr>
               @endforeach
