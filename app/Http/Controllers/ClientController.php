@@ -5,7 +5,7 @@ namespace Cavidel\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
-use Cavidel\Client;
+use Cavidel\Customer;
 
 class ClientController extends Controller
 {
@@ -18,11 +18,11 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Name' => 'required',
+            'Customer' => 'required',
         ]);
 
         $user   = auth()->user()->id;
-        $client = new Client($request->all());
+        $client = new Customer($request->all());
         if ($client->save()) {
             return redirect()->route('SearchClient')->with('success', 'Client was created successfully');
         } else {
