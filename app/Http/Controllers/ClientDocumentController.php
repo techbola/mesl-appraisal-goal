@@ -12,7 +12,7 @@ class ClientDocumentController extends Controller
     public function client_list($id)
     {
         $client_id        = $id;
-        $client_details   = Client::where('ClientRef', $client_id)->first();
+        $client_details   = Customer::where('CustomerRef', $client_id)->first();
         $client_documents = \DB::table('tblClientDocuments')
             ->join('tblDocType', 'tblClientDocuments.DocType_id', '=', 'tblDocType.DocTypeRef')
             ->where('ClientID', $client_id)
@@ -23,7 +23,7 @@ class ClientDocumentController extends Controller
     public function add_client_document($id)
     {
         $client_id      = $id;
-        $client_details = Client::where('ClientRef', $client_id)->first();
+        $client_details = Customer::where('CustomerRef', $client_id)->first();
         $doc_type       = DocType::all();
         return view('client_document.add_client_document', compact('client_details', 'doc_type'));
     }
