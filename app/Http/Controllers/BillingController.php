@@ -70,7 +70,7 @@ class BillingController extends Controller
     {
         $client_id          = $id;
         $code               = $billcode;
-        $client_details     = \DB::table('tblClients')->where('ClientRef', $client_id)->first();
+        $client_details     = \DB::table('tblCustomer')->where('CustomerRef', $client_id)->first();
         $product_categories = ProductCategory::all();
         $bill_items         = Billing::where('GroupID', $code)->get();
         $id                 = Auth()->user()->id;
@@ -127,7 +127,7 @@ class BillingController extends Controller
         $client_id = $client_id;
         $code      = $code;
 
-        $client_details = Client::where('ClientRef', $client_id)->first();
+        $client_details = Customer::where('CustomerRef', $client_id)->first();
         $bill_header    = Billing::select('BillingDate')->first();
         $total_bill     = Billing::where('GroupID', $code)->sum('Price');
         $bills          = Billing::where('GroupID', $code)->get();
@@ -138,7 +138,7 @@ class BillingController extends Controller
     public function view_bill($id)
     {
         $bill_id        = $id;
-        $client_details = Client::where('ClientRef', $bill_id)->first();
+        $client_details = Customer::where('CustomerRef', $bill_id)->first();
         $bill_details   = Billing::select('GroupID', 'BillingDate')
             ->where('ClientID', $bill_id)
             ->groupBy('GroupID', 'BillingDate')
