@@ -2,7 +2,7 @@
 
 namespace Cavidel\Http\Controllers;
 
-use Cavidel\Client;
+use Cavidel\Customer;
 use Cavidel\Billing;
 use Cavidel\Location;
 use Cavidel\ProductCategory;
@@ -39,7 +39,7 @@ class BillingController extends Controller
         $product_categories = ProductCategory::orderBy('ProductCategory')->get();
         $locations          = Location::orderBy('Location')->get();
         $client_name        = $request->client_name;
-        $results            = Client::where('Name', 'like', '%' . $client_name . '%')->get();
+        $results            = Customer::where('Customer', 'like', '%' . $client_name . '%')->get();
 
         $user = auth()->user();
         $titles = Title::orderBy('Title')->get();
@@ -49,7 +49,7 @@ class BillingController extends Controller
         $staff = Staff::where('CompanyID', $user->CompanyID)->get();
         $paymentplans = PaymentPlan::orderBy('PaymentPlan')->get();
         $housetypes = HouseType::orderBy('HouseType')->get();
-        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
+        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles','nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
     public function new_bill(Request $request)

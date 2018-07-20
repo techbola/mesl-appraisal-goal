@@ -2,7 +2,7 @@
 
 namespace Cavidel\Http\Controllers;
 
-use Cavidel\Client;
+use Cavidel\Customer;
 use Cavidel\ClientDocument;
 use Cavidel\DocType;
 use Illuminate\Http\Request;

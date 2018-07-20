@@ -13,7 +13,7 @@
        <div class="form-group">
            <div class="controls">
                {{ Form::label('Name' ) }}
-               {{ Form::text('Name', null, ['class' => 'form-control', 'placeholder' => 'Client Name', 'required']) }}
+               {{ Form::text('Customer', null, ['class' => 'form-control', 'placeholder' => 'Client Name', 'required']) }}
            </div>
       </div>
   </div>
