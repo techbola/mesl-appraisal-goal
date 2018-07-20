@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="panel-body">
-            {{ Form::open(['action' => 'TransactionController@printStatement', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+            {{ Form::open(['action' => 'TransactionController@printStatement', 'autocomplete' => 'off','role' => 'form']) }}
             <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">

@@ -2,7 +2,7 @@
 
 namespace Cavidel\Http\Controllers;
 
-use Cavidel\Client;
+use Cavidel\Customer;
 use Cavidel\Billing;
 use Cavidel\Location;
 use Cavidel\ProductCategory;
@@ -10,22 +10,46 @@ use Cavidel\ProductService;
 use Cavidel\Staff;
 use Illuminate\Http\Request;
 
+use Cavidel\Title;
+use Cavidel\Nationality;
+use Cavidel\Gender;
+use Cavidel\MaritalStatus;
+use Cavidel\PaymentPlan;
+use Cavidel\HouseType;
+
 class BillingController extends Controller
 {
     public function search_client()
     {
-        $product_categories = ProductCategory::all();
-        $locations          = Location::all();
-        return view('billings.search_client', compact('product_categories', 'locations'));
+        $user = auth()->user();
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+        $locations          = Location::orderBy('Location')->get();
+        $titles = Title::orderBy('Title')->get();
+        $nationalities = Nationality::orderBy('Nationality')->get();
+        $genders = Gender::all();
+        $maritalstatuses = MaritalStatus::orderBy('MaritalStatus')->get();
+        $staff = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes = HouseType::orderBy('HouseType')->get();
+        return view('billings.search_client', compact('product_categories', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
     public function client_search(Request $request)
     {
-        $product_categories = ProductCategory::all();
-        $locations          = Location::all();
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+        $locations          = Location::orderBy('Location')->get();
         $client_name        = $request->client_name;
-        $results            = Client::where('Name', 'like', '%' . $client_name . '%')->get();
-        return view('billings.search_result', compact('results', 'product_categories', 'locations'));
+        $results            = Customer::where('Customer', 'like', '%' . $client_name . '%')->get();
+
+        $user = auth()->user();
+        $titles = Title::orderBy('Title')->get();
+        $nationalities = Nationality::orderBy('Nationality')->get();
+        $genders = Gender::all();
+        $maritalstatuses = MaritalStatus::orderBy('MaritalStatus')->get();
+        $staff = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes = HouseType::orderBy('HouseType')->get();
+        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles','nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
     public function new_bill(Request $request)
@@ -46,7 +70,7 @@ class BillingController extends Controller
     {
         $client_id          = $id;
         $code               = $billcode;
-        $client_details     = \DB::table('tblClients')->where('ClientRef', $client_id)->first();
+        $client_details     = \DB::table('tblCustomer')->where('CustomerRef', $client_id)->first();
         $product_categories = ProductCategory::all();
         $bill_items         = Billing::where('GroupID', $code)->get();
         $id                 = Auth()->user()->id;
@@ -103,7 +127,7 @@ class BillingController extends Controller
         $client_id = $client_id;
         $code      = $code;
 
-        $client_details = Client::where('ClientRef', $client_id)->first();
+        $client_details = Customer::where('CustomerRef', $client_id)->first();
         $bill_header    = Billing::select('BillingDate')->first();
         $total_bill     = Billing::where('GroupID', $code)->sum('Price');
         $bills          = Billing::where('GroupID', $code)->get();
@@ -114,7 +138,7 @@ class BillingController extends Controller
     public function view_bill($id)
     {
         $bill_id        = $id;
-        $client_details = Client::where('ClientRef', $bill_id)->first();
+        $client_details = Customer::where('CustomerRef', $bill_id)->first();
         $bill_details   = Billing::select('GroupID', 'BillingDate')
             ->where('ClientID', $bill_id)
             ->groupBy('GroupID', 'BillingDate')

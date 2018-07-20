@@ -25,7 +25,7 @@
           @foreach ($employees as $staff)
             <li class="chat-user-list clearfix">
               {{-- <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#"> --}}
-              <a onclick="load_chats('{{ $staff->UserID }}')" class="" href="#">
+              <a id="user_{{ $staff->UserID }}" onclick="load_chats('{{ $staff->UserID }}')" class="" href="#">
                 <span class="col-xs-height col-middle">
                   <span class="thumbnail-wrapper d32 circular bg-success">
                     <img width="34" height="34" alt="" src="{{ $staff->user->avatar_url() }}" class="col-top avatar2">
@@ -46,9 +46,12 @@
 
         <div id="chat-container">
 
+          <div id="user-info"></div>
           <div class="chat-wrapper theme-black">
             <div class="chat-overlay"></div>
-            <div class="chat-messages" style="height: 85%;overflow-y: scroll;"></div>
+            <div class="chat-messages" style="height: 85%;overflow-y:scroll">
+              <div class="f22 bold" style="text-align:center; margin-top: 30%; opacity:0.7;">Click on a user to start chatting</div>
+            </div>
             <div class="" style="position:  absolute;left: 5px;right: 5px;bottom: 0;">
               <form class="chat-form" method="post">
                 {{ csrf_field() }}
@@ -119,6 +122,20 @@
       });
 
     });
+
+    // Show User Info
+    $('#user-info').html(`
+      <div class="m-b-10">
+        <span class="col-xs-height col-middle">
+          <span class="thumbnail-wrapper d39 circular">
+            <img width="34" height="34" alt="" src="${ $(event.target).closest('li').find('img').attr('src') }" class="col-top avatar2">
+          </span>
+        </span>
+        <p class="p-l-10 col-xs-height col-middle col-xs-12">
+          <span class="text-master bold">${ $(event.target).closest('li').find('.text-master').text() }</span>
+        </p>
+      </div>
+    `);
   }
 
 </script>

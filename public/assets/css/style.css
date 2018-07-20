@@ -55,9 +55,10 @@ th {
     font-family: Karla !important;
     font-size: 12px !important;
 }
-.form-group label:not(.error) {
+.form-group label:not(.error), label.form-label {
     font-family: Karla;
     font-size: 14px;
+    font-weight: 600;
 }
 .bootstrap-filestyle .glyphicon, .bootstrap-filestyle .buttonText {
     color: #fff;
