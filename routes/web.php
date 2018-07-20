@@ -184,6 +184,12 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');
     // Route::resource('customers', 'CustomerController');
 
+    // Merging
+    Route::get('merging/data_merging', 'MergingController@get_data_merging')->name('DataMerging');
+    Route::post('store_merged_data', 'MergingController@store');
+    Route::get('mergin/file_uploading', 'MergingController@fileupload')->name('FileUploading');
+    Route::post('store_files', 'MergingController@store_files');
+
     Route::get('documents', 'DocumentController@index')->name('documents');
     Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
 

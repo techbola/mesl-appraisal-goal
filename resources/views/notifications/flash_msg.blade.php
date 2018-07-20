@@ -9,5 +9,5 @@
 			<span>{{session('success')}}</span>
 		</div>
 	</div>
-</div>
+</div> 
 @endif
