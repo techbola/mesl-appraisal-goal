@@ -1,6 +1,6 @@
-@extends('layouts.master')
 @push('styles')
-	<style>
+<link href="{{ asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css') }}" media="screen" rel="stylesheet" type="text/css">
+    <style>
         textarea {
         max-height: 50px;
         resize: none;
@@ -14,11 +14,66 @@
     display: none;
   }
     </style>
-@endpush
+    @endpush
+@extends('layouts.master')
+
+@section('content')
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="panel-title">
+			Search Using Date Range
+		</div>
+	</div>
+	<div class="panel-body">
+		{{ Form::open(['action' => 'TransactionController@TransactionListRange', 'autocomplete' => 'off','role' => 'form']) }}
+		<div class="row">
+        <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="controls">
+                    {{ Form::label('StartDate', 'Start Date') }}
+                    <div class="input-group date dp">
+                     {{ Form::text('StartDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar">
+                            </i>
+                        </span>
+
+                </div>
+            </div>
+                </div>
+        </div>
+        <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="controls">
+                    {{ Form::label('EndDate', 'End Date') }}
+                    <div class="input-group date dp">
+                     {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required']) }}
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar">
+                            </i>
+                        </span>
+
+                </div>
+            </div>
+                </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="pull-right">
+
+            {{ Form::submit( 'Search', [ 'class' => 'btn btn-complete ' ]) }}
+                {{-- {{ Form::reset('reset fields',[ 'class' => 'btn btn-transparent ' ]) }} --}}
+            </div>
+        </div>
+		{{ Form::close() }}
+	</div>
+</div>
+@endsection
+
 @section('bottom-content')
-<div class="container-fluid container-fixed-lg bg-white">
+<div class="container-fluid container-fixed-lg">
 	<!-- START PANEL -->
-	<div class="panel panel-transparent">
+	<div class="panel panel-default" id="print-content">
 		<div class="panel-heading">
 				<div class="panel-title">
 					Transaction List
@@ -33,13 +88,13 @@
 				<table class="table tableWithExportOptions" id="transactions">
 					<thead>
                         <th>Ref</th>
-						<th>Account Number</th>
+                        <th>Account Number</th>
                         <th>Customer Details</th>
                         <th>Post Date</th>
-						<th>Value Date</th>
-						<th>Debit</th>
-						<th>Credit</th>
-						<th>Balance</th>       
+                        <th>Value Date</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Balance</th>
                         <th>Naration</th>
                         <th>Input</th>
                         <th>Input Date</th>
@@ -63,7 +118,7 @@
                         @foreach($trans as $tran)
                         <tr>
                             <td>{{$tran->TransactionRef}}</td>
-                            <td>{{$tran->AccountNumber}}</td>
+                            <th>{{$tran->AccountNumber}}</th>
                             <td>{{$tran->Details}}</td>
                             <td>{{$tran->PostDate}}</td>
                             <td>{{$tran->ValueDate}}</td>
@@ -83,7 +138,8 @@
 		<!-- END PANEL -->
 	</div>
 	@endsection
-	@push('scripts')
+
+	 @push('scripts')
         <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
         </script>
         <script>
@@ -221,5 +277,3 @@ initTableWithExportOptions();
   $('.exportOptions').append('<span class="btn btn-info btn-cons m-l-10" onclick="window.print()"><i class="fa fa-print m-r-5"></i> Print</span>');
 </script>
         @endpush
-
-
