@@ -7,7 +7,7 @@ use DB;
 use Storage;
 use Cavidel\Location;
 use Cavidel\Complaint;
-use Cavidel\Client;
+use Cavidel\Customer;
 use Cavidel\Department;
 use Cavidel\ComplaintComment;
 use Cavidel\ComplaintAttachment;
@@ -17,7 +17,7 @@ class ComplaintController extends Controller
 {
     public function index()
     {
-        $clients    = Client::all();
+        $clients    = Customer::all();
         $locations  = Location::all();
         $complaints = Complaint::all();
         $comments   = ComplaintComment::all();
@@ -40,7 +40,7 @@ class ComplaintController extends Controller
 
     public function create()
     {
-        $clients   = Client::all();
+        $clients   = Customer::all();
         $locations = Location::all();
         return view('facility_management.complaints.create', compact('locations', 'clients'));
     }
@@ -93,7 +93,7 @@ class ComplaintController extends Controller
     public function edit($id)
     {
         $complaint = Complaint::find($id);
-        $clients   = Client::all();
+        $clients   = Customer::all();
         $locations = Location::all();
         return view('facility_management.complaints.edit', compact('complaint', 'clients', 'locations'));
 
@@ -161,8 +161,8 @@ class ComplaintController extends Controller
 
     public function show($id)
     {
-        $client    = Client::find($id);
-        $clients   = Client::all();
+        $client    = Customer::find($id);
+        $clients   = Customer::all();
         $locations = Location::all();
         return view('facility_management.complaints.create2', compact('locations', 'clients', 'client'));
     }
