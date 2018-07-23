@@ -727,15 +727,71 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID =?
                          Order By tblGL.Description", [20, 60, 61]));
 
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount, 
+                         tblCashEntry.Narration
+FROM            tblCashEntry INNER JOIN
+                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) order by tblCashEntry.CashEntryRef desc
+"));
+        
+        return view('cash_entries.purchase_on_credits', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
+    }
+
+    public function purchase_on_credits_edit($id)
+    {
+        $cash_entry       = CashEntry::find($id);
+        $configs          = Config::first();
+        $customers        = Customer::all();
+        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
+                         Order By tblGL.Description", [11, 12, 27, 39]));
+
+        $credit_acct_details = collect(\DB::select("SELECT GLRef,  concat(tblGL.Description  , ' - ', tblCurrency.Currency , CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00')))
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID =?
+                         Order By tblGL.Description", [20, 60, 61]));
+
         $cashentries = \DB::table('tblCashEntry')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-        // ->where('PostingTypeID', '=', 1)
+        // ->where('PostingTypeID', '=', 11)
             ->where('tblCashEntry.CurrencyID', 1)
-            ->where('tblCashEntry.Posted', 1)
             ->get();
-        
-        return view('cash_entries.purchase_on_credits', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
+        return view('cash_entries.edit_purchase_on_credits', compact('cashentries', 'cash_entry', 'customers', 'configs', 'credit_acct_details', 'debit_acct_details'));
+    }
+
+    public function purchase_on_credits_update(Request $request, $id)
+    {
+        $cash_entry         = \DB::table('tblCashEntry')->where('CashEntryRef', $id);
+        $CustomerGl         = \DB::table('tblGL')->where('GLRef', $request->GLIDDebit)->first();
+        $DebitLimit         = $CustomerGl->DebitLimitTotal;
+        $absoluteDebitLimit = abs($DebitLimit);
+        $this->validate($request,
+            [
+                //'Amount'    => "required|numeric|max:$absoluteDebitLimit",
+                'ValueDate' => 'required',
+                'GLIDDebit' => 'required',
+            ],
+            [
+                'Amount.max' => "Insufficient Funds. You may not transfer more than " . number_format($absoluteDebitLimit, 2),
+            ]);
+        if ($cash_entry->update($request->except(['_token', '_method']))) {
+            return redirect()->route('PurchaseOnCredits')->with('success', 'Cash Entry was successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
+        }
     }
 
     public function storePayments(Request $request)
