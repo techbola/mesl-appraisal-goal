@@ -39,8 +39,7 @@
 					<th>Post Date</th>
 					<th>Value Date</th>
 					<th>Amount</th>
-					<th>Company Slip Number</th>
-					<th>Bank Slip Number</th>
+					<th>Narration</th>
 					<th></th>
 				</thead>
 				<tbody>
@@ -50,8 +49,8 @@
 						<td>{{ $cashentry->PostDate }}</td>
 						<td>{{ $cashentry->ValueDate }}</td>
 						<td>{{ number_format($cashentry->Amount,2) }}</td>
-						<td>{{ $cashentry->CompanySlipNo}}</td>
-						<td>{{ $cashentry->BankSlipNo}}</td>
+						<td>{{ $cashentry->Narration}}</td>
+					
 						<td class="actions">
 							<a href="{{ route('cash_entries.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">View / Post</a>
 						</td>
