@@ -276,7 +276,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('cash_entries/customer_transfer', 'CashEntryController@customer_transfer_store');
     Route::get('cash_entries/Imprest', 'CashEntryController@Imprest')->name('Imprest');
     Route::post('cash_entries/storeImprest', 'CashEntryController@storeImprest');
-    Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
+    Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');    
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
     Route::post('submit_bill_for_posting', 'CashEntryController@submit_bill_for_posting');
@@ -310,6 +310,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('cash_entries_receipts', 'CashEntryController@storeReceipts');
     Route::post('cash_entries_payments', 'CashEntryController@storePayments');
     Route::get('cash_entries/purchase_on_credits', 'CashEntryController@purchase_on_credits')->name('PurchaseOnCredits');
+    Route::patch('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_update');
+    Route::get('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_edit')->name('purchase_on_credits.edit');
     Route::get('cash_entries/bill_posting', 'CashEntryController@bill_posting')->name('BillPosting');
     Route::post('bill_posting', 'CashEntryController@post_bill');
     Route::post('purchase_on_credits', 'CashEntryController@storepurchase_on_credits');

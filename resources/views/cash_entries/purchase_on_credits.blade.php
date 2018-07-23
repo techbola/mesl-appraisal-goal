@@ -17,47 +17,52 @@
 
 
 @section('bottom-content')
-<div class="container-fluid container-fixed-lg bg-white">
+<div class="container-fluid container-fixed-lg">
 	<!-- START PANEL -->
-	<div class="panel panel-transparent">
-		<div class="panel-heading">
-			<div class="panel-title">
-			<div class="panel-title">
-			Cash Entry
+	<div class="card-box">
+		<div class="card-title">Purchase Journal Entries</div>
+		<div class="pull-right">
+			<div class="col-xs-12">
+				<input type="text" class="search-table form-control pull-right" placeholder="Search">
 			</div>
-			<div class="pull-right">
-				<div class="col-xs-12">
-					<input type="text" class="search-table form-control pull-right" placeholder="Search">
-				</div>
-			</div>
-			<div class="clearfix"></div>
 		</div>
+		<div class="clearfix"></div>
 		<div class="panel-body">
-			<table class="table tableWithSearch">
+			<div class="notice text-center hide" id="approve_notification">
+				<p>Posted Successfully</p>
+			</div><br>
+			{{ Form::open(['id'=>'post_bill','autocomplete' => 'off', 'role' => 'form']) }}
+			<button type="submit" id="submit_bill" class="btn btn-info btn-lg">Send for Approval</button>
+			{{-- <a href="#" id="submit_bill" class="btn btn-info btn-lg"  title="">Send for Approval</a> --}}
+			<table class="table tableWithSearch" id="cash_entry_table">
 				<thead>
-					<th>Acount Name</th>
+					<th>Action</th>
+					<th>DR Account</th>
+					<th>CR Account</th>
 					<th>Post Date</th>
 					<th>Value Date</th>
 					<th>Amount</th>
 					<th>Narration</th>
-					<th></th>
+					{{-- <th></th> --}}
 				</thead>
 				<tbody>
 					@foreach ($cashentries as $cashentry)
 						<tr>
-						<td>{{ $cashentry->Customer }}</td>
+						<td><input type="checkbox" name="CashEntryRef[]" value="{{ $cashentry->CashEntryRef }}"></td>
+						<td>{{ $cashentry->gl_debit }}</td>
+						<td>{{ $cashentry->gl_credit}}</td>
 						<td>{{ $cashentry->PostDate }}</td>
 						<td>{{ $cashentry->ValueDate }}</td>
 						<td>{{ number_format($cashentry->Amount,2) }}</td>
-						<td>{{ $cashentry->Narration}}</td>
-					
+						<td>{{ $cashentry->Narration}}</td> 
 						<td class="actions">
-							<a href="{{ route('cash_entries.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">View / Post</a>
+							<a href="{{ route('purchase_on_credits.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">Edit</a>
 						</td>
 					</tr>
 					@endforeach
 				</tbody>
 			</table>
+			{{ Form::close() }}
 		</div>
 	</div>
 	<!-- END PANEL -->
