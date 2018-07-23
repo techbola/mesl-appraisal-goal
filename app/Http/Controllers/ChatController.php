@@ -77,7 +77,6 @@ class ChatController extends Controller
 
     // Notification::send($approvers, new PendingTrade($FCYTrade));
     // Event::fire(new NewChatUser($data));
-
   }
 
   public function load_chats($id)
@@ -99,6 +98,9 @@ class ChatController extends Controller
     })->orderBy('id')->with(['from', 'to'])->get();
 
     foreach ($chats as $chat) {
+      $chat->IsRead = '1';
+      $chat->update();
+      
       $chat->date = $chat->created_at->diffForHumans();
     }
     return $chats;

@@ -75,6 +75,17 @@ class User extends Authenticatable
     {
         return $this->hasMany('Cavidel\MessageRecipient', 'UserID')->where('IsRead', false);
     }
+    // Start Chats
+    public function unread_chats()
+    {
+      return $this->hasMany('Cavidel\Chat', 'ToID')->where('IsRead', false);
+    }
+    public function unread_chats_from($id)
+    {
+      // return $this->hasMany('Cavidel\Chat', 'ToID')->where('IsRead', false)->where('FromID', $id)->get();
+      return $this->unread_chats()->where('FromID', $id)->get();
+    }
+    // End Chats
 
     public function abbreviation($string)
     {
