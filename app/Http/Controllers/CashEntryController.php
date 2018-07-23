@@ -712,10 +712,10 @@ class CashEntryController extends Controller
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID= ? OR tblGL.AccountTypeID= ? OR tblGL.AccountTypeID= ? OR tblGL.AccountTypeID= ?
-                         Order By tblGL.Description", [15, 7, 16, 8, 13]));
+                         Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
+                         Order By tblGL.Description", [11, 12, 27, 39]));
 
-        $credit_acct_details = collect(\DB::select("SELECT GLRef,  CASE WHEN CustomerID = 1 THEN tblGL.Description ELSE '/' END + ' - ' + tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+        $credit_acct_details = collect(\DB::select("SELECT GLRef,  concat(tblGL.Description  , ' - ', tblCurrency.Currency , CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00')))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
@@ -723,7 +723,7 @@ class CashEntryController extends Controller
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID =?
-                         Order By tblGL.Description", [5, 6, 2]));
+                         Order By tblGL.Description", [20, 60, 61]));
 
         $cashentries = \DB::table('tblCashEntry')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
