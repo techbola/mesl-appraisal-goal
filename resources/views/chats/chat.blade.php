@@ -14,8 +14,6 @@
     $session = session('chat_session');
   @endphp --}}
 
-
-
   <div class="card-box">
 
     <div class="row">
@@ -23,7 +21,7 @@
         <ul class="my-list">
           <!-- BEGIN Chat User List Item  !-->
           @foreach ($employees as $staff)
-            <li class="chat-user-list clearfix">
+            <li id="" class="chat-user-list clearfix">
               {{-- <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#"> --}}
               <a id="user_{{ $staff->UserID }}" onclick="load_chats('{{ $staff->UserID }}')" class="" href="#">
                 <span class="col-xs-height col-middle">
@@ -33,6 +31,9 @@
                 </span>
                 <p class="p-l-10 col-xs-height col-middle col-xs-12">
                   <span class="text-master">{{ $staff->FullName }}</span>
+                  <span class="m-l-10 badge badge-danger new_chats_user" {{ (count($user->unread_chats_from($staff->UserID)) > 0)? '' : 'style=display:none' }}>
+                      {{ count($user->unread_chats_from($staff->UserID)) }}
+                  </span>
                   {{-- <span class="block text-master hint-text fs-12">Hello there</span> --}}
                 </p>
               </a>
@@ -136,6 +137,10 @@
         </p>
       </div>
     `);
+    // End Show User Info
+
+    // Remove New Chat Count
+    $(event.target).closest('li').find('.new_chats_user').hide().text('0');
   }
 
 </script>
@@ -186,10 +191,10 @@
     channel.bind('Cavidel\\Events\\NewChatMsg', function(data) {
       var ToID = $('#ToID').val();
       var user_id = '{{ Auth::user()->id }}';
-      console.log(data);
+      // console.log(data);
         if(data.FromID == ToID){
-          var audio = new Audio('/assets/sound/chat.mp3');
-          audio.play();
+          // var audio = new Audio('/assets/sound/chat.mp3');
+          // audio.play();
 
             $('.chat-messages').append(`
               <div class="chat-box-left m-t-10">
@@ -208,6 +213,9 @@
                   <br />
               </div>
             `);
+        } else {
+          var chats = Number($('#user_'+data.FromID).find('.new_chats_user').text());
+          $('#user_'+data.FromID).find('.new_chats_user').show().text(chats + 1);
         }
         $('.chat-messages').stop().animate({
             scrollTop: $(".chat-messages")[0].scrollHeight
