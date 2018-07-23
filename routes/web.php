@@ -122,6 +122,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/chat', 'ChatController@chat')->name('chat');
     Route::post('/save_chat', 'ChatController@save_chat')->name('save_chat');
     Route::get('/load_chats/{user}', 'ChatController@load_chats')->name('load_chats');
+    Route::post('/search_users', 'ChatController@search_users')->name('search_users');
     // Route::post('/end_chat/{session}', 'ChatController@end_chat')->name('end_chat');
 
     Route::get('bulletins', 'BulletinController@index')->name('bulletin_board');
