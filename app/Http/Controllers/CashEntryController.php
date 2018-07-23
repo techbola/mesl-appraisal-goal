@@ -455,13 +455,14 @@ class CashEntryController extends Controller
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef"));
 
-        $cashentries = CashEntry::select('*')
-            ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
-            ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-            ->where('tblCashEntry.CurrencyID', 1)
-            ->where('tblCashEntry.PostFlag', 0)
-            ->where('tblCashEntry.ApproveFlag', 0)
-            ->get();
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount, 
+                         tblCashEntry.Narration
+FROM            tblCashEntry INNER JOIN
+                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) order by tblCashEntry.CashEntryRef desc
+
+            "));
 
         // dd($cashentries);
         return view('cash_entries.create_customer_transfer', compact('cashentries', 'customers', 'configs', 'customer_details'));
@@ -485,22 +486,23 @@ class CashEntryController extends Controller
         foreach ($request->CashEntryRef as $ref) {
             $cash_entry              = CashEntry::find($ref);
             $cash_entry->PostFlag    = 0;
-            $cash_entry->ApproveFlag = 0;
+            $cash_entry->ApprovedFlag = 0;
             $cash_entry->save();
         }
 
         return 'done';
     }
 
-    public function show_apporve_posting()
+    public function show_approve_posting()
     {
-        $cashentries = CashEntry::select('*')
-            ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
-            ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-            ->where('tblCashEntry.CurrencyID', 1)
-            ->where('tblCashEntry.PostFlag', 1)
-            ->where('tblCashEntry.ApproveFlag', 0)
-            ->get();
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount, 
+                         tblCashEntry.Narration
+FROM            tblCashEntry INNER JOIN
+                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblCashEntry.ApprovedFlag = 0)
+
+            "));
         return view('cash_entries.approve_posted_bill', compact('cashentries'));
     }
 
@@ -508,7 +510,7 @@ class CashEntryController extends Controller
     {
         foreach ($request->CashEntryRef as $ref) {
             $cash_entry              = CashEntry::find($ref);
-            $cash_entry->ApproveFlag = 1;
+            $cash_entry->ApprovedFlag = 1;
             $cash_entry->save();
         }
         return 'done';
@@ -730,8 +732,9 @@ class CashEntryController extends Controller
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
         // ->where('PostingTypeID', '=', 1)
             ->where('tblCashEntry.CurrencyID', 1)
-            ->where('tblCashEntry.Posted', 0)
+            ->where('tblCashEntry.Posted', 1)
             ->get();
+        
         return view('cash_entries.purchase_on_credits', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
     }
 

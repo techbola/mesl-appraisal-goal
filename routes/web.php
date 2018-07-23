@@ -280,7 +280,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
     Route::post('submit_bill_for_posting', 'CashEntryController@submit_bill_for_posting');
-    Route::get('cash_entries/show_apporve_posting', 'CashEntryController@show_apporve_posting')->name('ApprovePostings');
+    Route::get('cash_entries/show_approve_posting', 'CashEntryController@show_approve_posting')->name('ApprovePostings');
     Route::post('submit_bill_for_approval', 'CashEntryController@submit_bill_for_approval');
     Route::post('reject_posting_approvals', 'CashEntryController@reject_posting_approvals');
 

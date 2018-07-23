@@ -88,8 +88,8 @@
 				<table id="transactions">
 					<thead>
                         <th>Ref</th>
-                        <th>Account Number</th>
-                        <th>Customer Details</th>
+                        <th>GL ID</th>
+                        <th>Account Name</th>
                         <th>Post Date</th>
                         <th>Value Date</th>
                         <th>Debit</th>
