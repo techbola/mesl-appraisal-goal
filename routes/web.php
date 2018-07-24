@@ -339,8 +339,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/trial-balance', 'ReportController@trial_balance')->name('trial_balance2');
     Route::get('reports/trial-balance2', 'ReportController@trial_balance2')->name('trial_balance');
     Route::get('reports/trial-balance3', 'ReportController@trial_balance3')->name('trial_balance3');
-    Route::get('reports/profit-loss', 'ReportController@profit_loss')->name('profit_loss2');
-    Route::get('reports/profit-loss2', 'ReportController@profit_loss2')->name('profit_loss');
+    Route::get('reports/profit-loss', 'ReportController@profit_loss')->name('profit_loss');
+    Route::get('reports/profit-loss2', 'ReportController@profit_loss2')->name('profit_loss2');
     Route::get('reports/profit-loss3', 'ReportController@profit_loss3')->name('profit_loss3');
     Route::get('reports/loans-report', 'ReportController@loans_report')->name('loans_report');
 
