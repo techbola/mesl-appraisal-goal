@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-  Profit & Loss Report
+  Balance Sheet Report
 @endsection
 
 @section('page-title')
-  Profit & Loss Report
+  Balance Sheet Report
 @endsection
 
 @section('content')
@@ -47,21 +47,21 @@
   </form>
 
   <div class="card-box" id="print-content">
-      <h3 class="card-title">Profit & Loss Report</h3>
+      <h3 class="card-title">Balance Sheet Report</h3>
 
       <table class="table tableWithExportOptions table-bordered font-title">
         <thead>
           <th>Category</th>
           {{-- <th>Name</th> --}}
-          <th>RetainedPL (&#8358;)</th>
+          <th>Amount (&#8358;)</th>
         </thead>
 
         <tbody>
-          @foreach ($pls as $pl)
+          @foreach ($bs as $row)
             <tr>
-              <td class="text-uppercase text-complete {{ (strpos($pl->AccountCategory, ':') != '')? 'bold':'' }}">{{ $pl->AccountCategory }}</td>
-              {{-- <td>{{ $pl->AccountType }}</td> --}}
-              <td class="{{ ($pl->RetainedPL < 0)? 'text-danger' : 'text-success' }} {{ (strpos($pl->AccountCategory, ':') != '')? 'bold':'' }}">{{ number_format(abs($pl->RetainedPL)) }}</td>
+              <td class="text-uppercase text-complete {{ (strpos($row->AccountCategory, ':') != '')? 'bold':'' }}">{{ $row->AccountCategory }}</td>
+              {{-- <td>{{ $row->AccountType }}</td> --}}
+              <td class="{{ ($row->Amount < 0)? 'text-danger' : 'text-success' }} {{ (strpos($row->AccountCategory, ':') != '')? 'bold':'' }}">{{ number_format(abs($row->Amount)) }}</td>
             </tr>
           @endforeach
         </tbody>
