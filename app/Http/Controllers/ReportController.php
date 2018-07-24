@@ -23,8 +23,17 @@ class ReportController extends Controller
 
     public function balance_sheet()
     {
-      $categories = AccountCategory::whereIn('AccountCategoryRef', ['1', '2', '6'])->orderBy('AccountCategory')->get();
-      return view('reports.balance_sheet', compact('categories'));
+      // $categories = AccountCategory::whereIn('AccountCategoryRef', ['1', '2', '6'])->orderBy('AccountCategory')->get();
+      if (empty($_GET['date'])) {
+        $today = date('Y-m-d');
+        $bs = collect(DB::select("exec procBalanceSheet '$today'"));
+      } else {
+        $date = $_GET['date'];
+        $bs = collect(DB::select("exec procBalanceSheet '$date'"));
+      }
+      // dd($bs);
+
+      return view('reports.balance_sheet3', compact('bs', 'date'));
     }
 
     public function balance_sheet2()

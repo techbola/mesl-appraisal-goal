@@ -253,6 +253,8 @@ Route::middleware(['auth'])->group(function () {
         return Storage::download('/meeting_files/' . $name);
     })->name('download_meeting_report');
 
+    Route::get('call_log', 'ContactController@call_log')->name('call_log');
+
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
     Route::patch('update_scorecard/{id}', 'ScoreCardController@update')->name('update_scorecard');
