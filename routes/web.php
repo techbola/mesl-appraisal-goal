@@ -222,6 +222,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('delete_todo/{id}', 'TodoController@delete_todo')->name('delete_todo');
     Route::get('assigned-todos', 'TodoController@assigned_todos')->name('assigned_todos');
     Route::get('get_assigned_todos/{id}', 'TodoController@get_assigned_todos')->name('get_assigned_todos'); // AJAX
+    Route::get('get_assigned_todos_done/{id}', 'TodoController@get_assigned_todos_done')->name('get_assigned_todos_done'); // AJAX
     Route::get('unassigned_todos', 'TodoController@unassigned')->name('unassigned_todos');
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
@@ -277,7 +278,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('cash_entries/customer_transfer', 'CashEntryController@customer_transfer_store');
     Route::get('cash_entries/Imprest', 'CashEntryController@Imprest')->name('Imprest');
     Route::post('cash_entries/storeImprest', 'CashEntryController@storeImprest');
-    Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');    
+    Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
     Route::post('submit_bill_for_posting', 'CashEntryController@submit_bill_for_posting');
@@ -338,8 +339,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/trial-balance', 'ReportController@trial_balance')->name('trial_balance2');
     Route::get('reports/trial-balance2', 'ReportController@trial_balance2')->name('trial_balance');
     Route::get('reports/trial-balance3', 'ReportController@trial_balance3')->name('trial_balance3');
-    Route::get('reports/profit-loss', 'ReportController@profit_loss')->name('profit_loss2');
-    Route::get('reports/profit-loss2', 'ReportController@profit_loss2')->name('profit_loss');
+    Route::get('reports/profit-loss', 'ReportController@profit_loss')->name('profit_loss');
+    Route::get('reports/profit-loss2', 'ReportController@profit_loss2')->name('profit_loss2');
     Route::get('reports/profit-loss3', 'ReportController@profit_loss3')->name('profit_loss3');
     Route::get('reports/loans-report', 'ReportController@loans_report')->name('loans_report');
 
@@ -366,10 +367,10 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('update_issue/{id}', 'IssueController@update_issue')->name('update_issue');
     Route::get('issue/{id}', 'IssueController@view_issue')->name('view_issue');
 
-    Route::get('contacts', 'CustomerController@index')->name('business_contacts');
-    Route::post('save_contact', 'CustomerController@save_contact')->name('save_contact');
-    Route::get('edit_contact/{id}', 'CustomerController@edit_contact')->name('edit_contact');
-    Route::patch('update_contact/{id}', 'CustomerController@update_contact')->name('update_contact');
+    Route::get('contacts', 'ContactController@index')->name('business_contacts');
+    Route::post('save_contact', 'ContactController@save_contact')->name('save_contact');
+    Route::get('edit_contact/{id}', 'ContactController@edit_contact')->name('edit_contact');
+    Route::patch('update_contact/{id}', 'ContactController@update_contact')->name('update_contact');
 
     // Billing
     Route::get('billings/search_client', 'BillingController@search_client')->name('SearchClient');

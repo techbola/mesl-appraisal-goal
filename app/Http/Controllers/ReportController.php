@@ -161,10 +161,20 @@ class ReportController extends Controller
 
     public function profit_loss()
     {
-      $categories = AccountCategory::whereIn('AccountCategoryRef', ['4', '3'])->orderBy('AccountCategory', 'desc')->get();
+      // $categories = AccountCategory::whereIn('AccountCategoryRef', ['4', '3'])->orderBy('AccountCategory', 'desc')->get();
       // $income_groups = AccountGroup::where('AccountCategoryID', '4')->get();
       // $expense_groups = AccountGroup::where('AccountCategoryID', '3')->get();
-        return view('reports.profit_loss', compact('categories', 'from', 'to'));
+
+      if (!empty($_GET['from']) && !empty($_GET['to'])) {
+        $from = $_GET['from'];
+        $to = $_GET['to'];
+        $pls = collect(DB::select("exec procPL '$from', '$to'"));
+      } else {
+        $today = date('Y-m-d');
+        $pls = collect(DB::select("exec procPL '2005-01-01', '$today'"));
+      }
+
+        return view('reports.profit_loss3', compact('pls', 'from', 'to'));
     }
 
     public function profit_loss2()

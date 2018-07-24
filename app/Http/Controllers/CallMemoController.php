@@ -9,7 +9,7 @@ use Cavidel\CallMemoAction;
 use Cavidel\CallMemoActionStatus;
 use Cavidel\CallMemoMeetingType;
 use Cavidel\CallMemoFile;
-use Cavidel\Customer;
+use Cavidel\Contact;
 use Cavidel\Staff;
 use Cavidel\HelpersOld;
 use Mail;
@@ -24,7 +24,7 @@ class CallMemoController extends Controller
     public function view($id)
     {
         $user          = auth()->user();
-        $contact       = Customer::find($id);
+        $contact       = Contact::find($id);
         $staffs        = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $statuses      = CallMemoActionStatus::all();
         $meeting_types = CallMemoMeetingType::all();
@@ -36,14 +36,14 @@ class CallMemoController extends Controller
     public function create($id)
     {
 
-        $contact       = Customer::find($id);
+        $contact       = Contact::find($id);
         $meeting_types = CallMemoMeetingType::all();
         return view('call_memo.create', compact('contact', 'meeting_types'));
     }
 
     public function store(Request $request, $id)
     {
-        $contact = Customer::find($id);
+        $contact = Contact::find($id);
         $user    = auth()->user();
 
         DB::transaction(function () use ($request, $user, $contact, $id) {
