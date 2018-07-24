@@ -59,19 +59,19 @@
         <tbody>
           @foreach ($pls as $pl)
             <tr>
-              <td class="text-uppercase text-complete">{!! (strpos($pl->AccountCategory, ':') != '')? '<b>'.$pl->AccountCategory.'</b>' : $pl->AccountCategory !!}</td>
+              <td class="text-uppercase text-complete {{ (strpos($pl->AccountCategory, ':') != '')? 'bold':'' }}">{{ $pl->AccountCategory }}</td>
               {{-- <td>{{ $pl->AccountType }}</td> --}}
-              <td class="{{ ($pl->RetainedPL < 0)? 'text-danger' : 'text-success' }}">{{ number_format(abs($pl->RetainedPL)) }}</td>
+              <td class="{{ ($pl->RetainedPL < 0)? 'text-danger' : 'text-success' }} {{ (strpos($pl->AccountCategory, ':') != '')? 'bold':'' }}">{{ number_format(abs($pl->RetainedPL)) }}</td>
             </tr>
           @endforeach
         </tbody>
-        <tfoot>
+        {{-- <tfoot>
           <tr>
             <td colspan="" class="text-uppercase text-complete f18" style="border-top:4px double #777">Total<span class="pull-right text-white f18">=</span></td>
             <td class="hidden"></td>
             <td class="text-uppercase text-complete f18">&#8358; {{ number_format($pls->sum('RetainedPL')) }}</td>
           </tr>
-        </tfoot>
+        </tfoot> --}}
       </table>
   </div>
 @endsection
