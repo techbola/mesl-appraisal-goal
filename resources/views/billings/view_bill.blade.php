@@ -20,7 +20,7 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Bills List for <span style="color: #2a9df5">{{ $client_details->Name }}</span></div><div class="clearfix"></div>
+  			<div class="card-title pull-left">Bills List for <span style="color: #2a9df5">{{ $client_details->Customer }}</span></div><div class="clearfix"></div>
         <div class="row">
           <table class="table tabel-hover table-striped">
             <thead>
@@ -38,8 +38,8 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $bill_detail->GroupID }}</td>
                 <td>{{ $bill_detail->BillingDate }}</td>
-                <td><a href="{{ route('NotificationBilling',[$client_details->ClientRef, $bill_detail->GroupID]) }}" class="btn btn-sm btn-info">Add Item</a></td>
-                <td><a href="{{ route('Bill',[$client_details->ClientRef, $bill_detail->GroupID]) }}" class="btn btn-sm btn-success">View Bill</a></td>
+                <td><a href="{{ route('NotificationBilling',[$client_details->CustomerRef, $bill_detail->GroupID]) }}" class="btn btn-sm btn-info">Add Item</a></td>
+                <td><a href="{{ route('Bill',[$client_details->CustomerRef, $bill_detail->GroupID]) }}" class="btn btn-sm btn-success">View Bill</a></td>
                 
               </tr>
               @endforeach
