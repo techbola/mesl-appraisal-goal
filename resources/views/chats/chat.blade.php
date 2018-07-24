@@ -14,16 +14,20 @@
     $session = session('chat_session');
   @endphp --}}
 
-
-
   <div class="card-box">
 
     <div class="row">
-      <div class="col-md-6" style="height:75vh; overflow-y:scroll">
-        <ul class="my-list">
+      <div class="col-md-5" style="height:75vh; overflow-y:scroll">
+        <input id="search_users" type="text" class="form-control m-b-10" value="" placeholder="Search">
+
+        <ul id="search_list" class="my-list">
+
+        </ul>
+
+        <ul id="user_list" class="my-list">
           <!-- BEGIN Chat User List Item  !-->
           @foreach ($employees as $staff)
-            <li class="chat-user-list clearfix">
+            <li id="" class="chat-user-list clearfix">
               {{-- <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#"> --}}
               <a id="user_{{ $staff->UserID }}" onclick="load_chats('{{ $staff->UserID }}')" class="" href="#">
                 <span class="col-xs-height col-middle">
@@ -33,6 +37,9 @@
                 </span>
                 <p class="p-l-10 col-xs-height col-middle col-xs-12">
                   <span class="text-master">{{ $staff->FullName }}</span>
+                  <span class="m-l-10 badge badge-danger new_chats_user" {{ (count($user->unread_chats_from($staff->UserID)) > 0)? '' : 'style=display:none' }}>
+                      {{ count($user->unread_chats_from($staff->UserID)) }}
+                  </span>
                   {{-- <span class="block text-master hint-text fs-12">Hello there</span> --}}
                 </p>
               </a>
@@ -42,7 +49,7 @@
         </ul>
 
       </div>
-      <div class="col-md-6">
+      <div class="col-md-7">
 
         <div id="chat-container">
 
@@ -90,6 +97,7 @@
 {{-- Load Chats --}}
 <script>
   function load_chats(id) {
+    $('#search_list').empty();
     $('#ToID').val(id);
     $.get('/load_chats/'+id, function(data, status){
       // console.log(data);
@@ -136,6 +144,10 @@
         </p>
       </div>
     `);
+    // End Show User Info
+
+    // Remove New Chat Count
+    $(event.target).closest('li').find('.new_chats_user').hide().text('0');
   }
 
 </script>
@@ -186,10 +198,10 @@
     channel.bind('Cavidel\\Events\\NewChatMsg', function(data) {
       var ToID = $('#ToID').val();
       var user_id = '{{ Auth::user()->id }}';
-      console.log(data);
+      // console.log(data);
         if(data.FromID == ToID){
-          var audio = new Audio('/assets/sound/chat.mp3');
-          audio.play();
+          // var audio = new Audio('/assets/sound/chat.mp3');
+          // audio.play();
 
             $('.chat-messages').append(`
               <div class="chat-box-left m-t-10">
@@ -208,11 +220,48 @@
                   <br />
               </div>
             `);
+        } else {
+          var chats = Number($('#user_'+data.FromID).find('.new_chats_user').text());
+          $('#user_'+data.FromID).find('.new_chats_user').show().text(chats + 1);
         }
         $('.chat-messages').stop().animate({
             scrollTop: $(".chat-messages")[0].scrollHeight
         }, 800);
 
+    });
+  </script>
+
+  <script>
+    $('#search_users').on('keyup', function(){
+      var search = $('#search_users').val();
+      if (search.length >= 3) {
+        $.post('/search_users', {search: search}, function(data, status){
+          $('#search_list').empty();
+          data.forEach(function(staff){
+            $('#search_list').append(`
+              <li id="" class="chat-user-list clearfix">
+                <a id="user_${staff.UserID}" onclick="load_chats('${staff.UserID}')" class="" href="#">
+                  <span class="col-xs-height col-middle">
+                    <span class="thumbnail-wrapper d32 circular bg-success">
+                      <img width="34" height="34" alt="" src="/images/avatars/${staff.user.avatar}" class="col-top avatar2">
+                    </span>
+                  </span>
+                  <p class="p-l-10 col-xs-height col-middle col-xs-12">
+                    <span class="text-master">${staff.user.first_name} ${staff.user.last_name}</span>
+                  </p>
+                </a>
+              </li>
+            `);
+          });
+          $('#search_list').append(`<hr>`);
+        });
+      }
+    });
+  </script>
+
+  <script>
+    $(document).ready(function(){
+      $('#new_chats').hide().text('0');
     });
   </script>
 @endpush

@@ -220,7 +220,9 @@
 
             <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20" data-toggle="tooltip" title="Dashboard"></a>
             <a href="{{ route('todos_calendar') }}" class="fa fa-calculator m-r-15 m-t-15 f18" data-toggle="tooltip" title="To-Dos"></a>
-            <a href="{{ route('chat') }}" class="pg-comment m-r-15 m-t-15 f18" data-toggle="tooltip" title="Chat"></a>
+            <a href="{{ route('chat') }}" class="pg-comment m-r-15 m-t-15 f18" data-toggle="tooltip" title="Chat" style="position:relative">
+              <span id="new_chats" class="badge badge-danger badge-notif" {{ (count(auth()->user()->unread_chats) > 0)? '' : 'style=display:none' }}>{{ count(auth()->user()->unread_chats) }}</span>
+            </a>
 
             <!-- START NOTIFICATION LIST -->
             {{-- <ul class="notification-list no-style">
@@ -569,7 +571,6 @@
       });
 
       channel.bind('Cavidel\\Events\\NewMessageEvent', function(data) {
-        // console.log(data);
         console.log($.inArray('{{ auth()->user()->id }}', data['recipients']));
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Message From "+data['from'], {
@@ -586,7 +587,6 @@
       });
 
       channel.bind('Cavidel\\Events\\ProjectChatEvent', function(data) {
-
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Chat In Project: \""+data['project']+"\"", {
               body: data['body'],
@@ -598,10 +598,27 @@
             <li>
               <a href="${ data['link'] }">${ data['text'] }</a>
             </li>
-            `);
+          `);
 
           var notif = Number($('#notif').text());
           $('#notif').show().text(notif + 1);
+          audio.play();
+        }
+
+      });
+
+      var chat_channel = pusher.subscribe('new-chat');
+      chat_channel.bind('Cavidel\\Events\\NewChatMsg', function(data) {
+        console.log(data);
+        if (data.ToID == '{{ auth()->user()->id }}') {
+          Push.create("New Chat From "+data.from.first_name+" "+data.from.last_name, {
+              body: data.Body,
+              icon: '{{ asset('images/site/envelope.png') }}',
+              requireInteraction: true,
+          });
+
+          var chats = Number($('#new_chats').text());
+          $('#new_chats').show().text(chats + 1);
           audio.play();
         }
 

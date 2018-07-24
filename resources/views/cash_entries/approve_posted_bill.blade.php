@@ -48,24 +48,24 @@
 			<table class="table tableWithSearch" id="cash_entry_table">
 				<thead>
 					<th>Action</th>
-					<th>Debited Account</th>
-					<th>Credited Account</th>
+					<th>DR Account</th>
+					<th>CR Account</th>
 					<th>Post Date</th>
 					<th>Value Date</th>
 					<th>Amount</th>
-					{{-- <th>Bank Slip Number</th> --}}
+					<th>Narration</th>
 					{{-- <th></th> --}}
 				</thead>
 				<tbody>
 					@foreach ($cashentries as $cashentry)
 						<tr>
 						<td><input type="checkbox" name="CashEntryRef[]" value="{{ $cashentry->CashEntryRef }}"></td>
-						<td>{{ $cashentry->gl_debit->real_customer->Customer }}</td>
-						<td>{{ $cashentry->gl_credit->real_customer->Customer}}</td>
+						<td>{{ $cashentry->gl_debit }}</td>
+						<td>{{ $cashentry->gl_credit}}</td>
 						<td>{{ $cashentry->PostDate }}</td>
 						<td>{{ $cashentry->ValueDate }}</td>
-						<td>{{ $cashentry->Amount }}</td>
-						{{-- <td>{{ $cashentry->BankSlipNo}}</td> --}}
+						<td>{{ number_format($cashentry->Amount,2) }}</td>
+						<td>{{ $cashentry->Narration}}</td>
 						{{-- <td class="actions">
 							<a href="{{ route('customer_transfer.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">View / Post</a>
 						</td> --}}

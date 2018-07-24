@@ -63,18 +63,18 @@
 </div>
 
 
-
+ 
 <div class="row">
-    <div class="col-sm-4">
+ <!--   <div class="col-sm-4">
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('Bank Slip No', 'BankSlipNo' ) }}
                 {{ Form::text('BankSlipNo', null, ['class' => 'form-control', 'placeholder' => 'Enter Bank Slip No']) }}
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="col-sm-8">
+    <div class="col-sm-6">
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('Narration', 'Narration' ) }}
@@ -85,7 +85,7 @@
 </div>
 
 <div class="row">
-    {{ Form::hidden('PostingTypeID', 1, ['class' => 'form-control', 'placeholder' => 'Account Type']) }}
+    {{ Form::hidden('PostingTypeID', 13, ['class' => 'form-control', 'placeholder' => 'Account Type']) }}
 
 </div>
 
