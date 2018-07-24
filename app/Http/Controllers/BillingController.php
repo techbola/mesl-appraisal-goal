@@ -88,10 +88,11 @@ class BillingController extends Controller
         // ->where('StaffRef', $user_id)
         // ->first();
 
-        $products = \DB::table('tblProductService')
-            ->select('ProductService', 'ProductServiceRef', 'Price')
-            ->where('CategoryID', $cat_id)
-            ->get();
+        $products = \DB::select ("EXEC procProductServices $cat_id");
+        // \DB::table('tblProductService')
+        //     ->select('ProductService', 'ProductServiceRef', 'Price')
+        //     ->where('CategoryID', $cat_id)
+        //     ->get();
 
         return response()->json($products)->setStatusCode(200);
     }
