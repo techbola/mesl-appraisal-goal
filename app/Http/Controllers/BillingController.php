@@ -21,16 +21,16 @@ class BillingController extends Controller
 {
     public function search_client()
     {
-        $user = auth()->user();
+        $user               = auth()->user();
         $product_categories = ProductCategory::orderBy('ProductCategory')->get();
         $locations          = Location::orderBy('Location')->get();
-        $titles = Title::orderBy('Title')->get();
-        $nationalities = Nationality::orderBy('Nationality')->get();
-        $genders = Gender::all();
-        $maritalstatuses = MaritalStatus::orderBy('MaritalStatus')->get();
-        $staff = Staff::where('CompanyID', $user->CompanyID)->get();
-        $paymentplans = PaymentPlan::orderBy('PaymentPlan')->get();
-        $housetypes = HouseType::orderBy('HouseType')->get();
+        $titles             = Title::orderBy('Title')->get();
+        $nationalities      = Nationality::orderBy('Nationality')->get();
+        $genders            = Gender::all();
+        $maritalstatuses    = MaritalStatus::orderBy('MaritalStatus')->get();
+        $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans       = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes         = HouseType::orderBy('HouseType')->get();
         return view('billings.search_client', compact('product_categories', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
@@ -41,20 +41,20 @@ class BillingController extends Controller
         $client_name        = $request->client_name;
         $results            = Customer::where('Customer', 'like', '%' . $client_name . '%')->get();
 
-        $user = auth()->user();
-        $titles = Title::orderBy('Title')->get();
-        $nationalities = Nationality::orderBy('Nationality')->get();
-        $genders = Gender::all();
+        $user            = auth()->user();
+        $titles          = Title::orderBy('Title')->get();
+        $nationalities   = Nationality::orderBy('Nationality')->get();
+        $genders         = Gender::all();
         $maritalstatuses = MaritalStatus::orderBy('MaritalStatus')->get();
-        $staff = Staff::where('CompanyID', $user->CompanyID)->get();
-        $paymentplans = PaymentPlan::orderBy('PaymentPlan')->get();
-        $housetypes = HouseType::orderBy('HouseType')->get();
-        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles','nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
+        $staff           = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans    = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes      = HouseType::orderBy('HouseType')->get();
+        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles', 'nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
     public function new_bill(Request $request)
     {
-        $id    = $request->client_id;
+        $id    = $request->CustomerRef;
         $trans = \DB::statement("EXEC procInsertBillCode $id");
         if ($trans) {
 
