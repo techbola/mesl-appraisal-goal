@@ -9,7 +9,7 @@ use Cavidel\ProductCategory;
 use Cavidel\ProductService;
 use Cavidel\Staff;
 use Illuminate\Http\Request;
-
+use Cavidel\ProductDeleted;
 use Cavidel\Title;
 use Cavidel\Nationality;
 use Cavidel\Gender;
@@ -40,7 +40,6 @@ class BillingController extends Controller
         $locations          = Location::orderBy('Location')->get();
         $client_name        = $request->client_name;
         $results            = Customer::where('Customer', 'like', '%' . $client_name . '%')->get();
-        // dd($results[0]->CustomerRef);
 
         $user            = auth()->user();
         $titles          = Title::orderBy('Title')->get();
@@ -55,11 +54,11 @@ class BillingController extends Controller
 
     public function new_bill(Request $request)
     {
-        $id    = $request->CustomerRef;
+        $id    = $request->client_id;
         $trans = \DB::statement("EXEC procInsertBillCode $id");
         if ($trans) {
 
-            $billCode = \DB::select('SELECT BillCode FROM  tblBillCode WHERE (BillCodeRef =              (SELECT MAX(BillCodeRef) AS Expr1             FROM  tblBillCode AS tblBillCode_1             WHERE (CustomerRef = ?)             GROUP BY ClientID))', [$id]);
+            $billCode = \DB::select('SELECT BillCode FROM  tblBillCode WHERE (BillCodeRef =              (SELECT MAX(BillCodeRef) AS Expr1             FROM  tblBillCode AS tblBillCode_1             WHERE (ClientID = ?)             GROUP BY ClientID))', [$id]);
 
             return redirect()->route('NotificationBilling', [$id, $billCode[0]->BillCode])->with('success', 'New Bill Code was Created Successfully');
         } else {
@@ -76,24 +75,15 @@ class BillingController extends Controller
         $bill_items         = Billing::where('GroupID', $code)->get();
         $id                 = Auth()->user()->id;
         $staff_id           = Staff::select('StaffRef')->where('UserID', $id)->first();
+        $today              = \Carbon\Carbon::now();
+        $date               = $today->toDateString();
 
-        return view('billings.notification_Billing', compact('client_details', 'product_categories', 'bill_items', 'staff_id', 'code'));
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code'));
     }
 
     public function get_product($cat_id)
     {
-        // $user_id = Auth()->user()->staffId;
-        // $user_location = \DB::table('tblStaff')
-        // ->select('LocationID')
-        // ->where('StaffRef', $user_id)
-        // ->first();
-
-        $products = \DB::select ("EXEC procProductServices $cat_id");
-        // \DB::table('tblProductService')
-        //     ->select('ProductService', 'ProductServiceRef', 'Price')
-        //     ->where('CategoryID', $cat_id)
-        //     ->get();
-
+        $products = \DB::select("EXEC procProductServices $cat_id");
         return response()->json($products)->setStatusCode(200);
     }
 
@@ -126,15 +116,18 @@ class BillingController extends Controller
 
     public function bill($client_id, $code)
     {
-        $client_id = $client_id;
-        $code      = $code;
-
-        $client_details = Customer::where('CustomerRef', $client_id)->first();
-        $bill_header    = Billing::select('BillingDate')->first();
-        $total_bill     = Billing::where('GroupID', $code)->sum('Price');
-        $bills          = Billing::where('GroupID', $code)->get();
-        $tax            = ($total_bill / 100) * 5;
-        return view('billings.bill', compact('client_details', 'code', 'bill_header', 'total_bill', 'bills', 'tax'));
+        $client_id       = $client_id;
+        $code            = $code;
+        $user_id         = \Auth::user()->id;
+        $coy             = Staff::where('UserID', $user_id)->first();
+        $company_id      = $coy->CompanyID;
+        $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
+        $client_details  = Customer::where('CustomerRef', $client_id)->first();
+        $bill_header     = Billing::select('BillingDate')->first();
+        $total_bill      = Billing::where('GroupID', $code)->sum('Price');
+        $bills           = Billing::where('GroupID', $code)->get();
+        $tax             = ($total_bill / 100) * 5;
+        return view('billings.bill', compact('client_details', 'code', 'bill_header', 'total_bill', 'company_details', 'bills', 'tax'));
     }
 
     public function view_bill($id)
@@ -147,6 +140,39 @@ class BillingController extends Controller
             ->orderBy('BillingDate', 'DESC')
             ->get();
         return view('billings.view_bill', compact('client_details', 'bill_details'));
+    }
+
+    public function productdeletion(Request $request)
+    {
+        $deleteproduct = new ProductDeleted($request->all());
+        $this->validate($request, [
+            'Comment' => 'required',
+        ]);
+
+        if ($deleteproduct->save()) {
+            $id          = $request->BillingID;
+            $productname = $request->ProductService;
+            $deletedid   = $request->DeletedBy;
+            $staffname   = Staff::where('UserID', $deletedid)->first();
+            // $firstname     = $staffname->FirstName;
+            // $lastname      = $staffname->LastName;
+            // $middlename    = $staffname->MiddleName;
+            $billcode       = $request->BillCode;
+            $comment        = $request->Comment;
+            $customer_names = \DB::table('tblCustomer')
+                ->select('Customer')
+                ->where('CustomerRef', $request->PatientRef)
+                ->first();
+
+            $deletion = \DB::statement("EXEC procDeleteBilling $id, '$billcode'");
+            // $deletion    = \DB::table('tblBilling')->where('BillingID', '=', $id)->delete();
+
+            // Mail::to(['adefayiga@gmail.com'])->send(new ProductDeletion($billcode, $productname, $firstname, $lastname, $middlename, $patient_name, $comment));
+
+            return redirect()->back()->with('success', 'Product deleted Successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Product deletion was not successful');
+        }
     }
 
 }

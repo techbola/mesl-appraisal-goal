@@ -277,13 +277,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('cash_entries/customer_transfer', 'CashEntryController@customer_transfer_store');
     Route::get('cash_entries/Imprest', 'CashEntryController@Imprest')->name('Imprest');
     Route::post('cash_entries/storeImprest', 'CashEntryController@storeImprest');
-    Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');    
+    Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
     Route::post('submit_bill_for_posting', 'CashEntryController@submit_bill_for_posting');
     Route::get('cash_entries/show_approve_posting', 'CashEntryController@show_approve_posting')->name('ApprovePostings');
     Route::post('submit_bill_for_approval', 'CashEntryController@submit_bill_for_approval');
     Route::post('reject_posting_approvals', 'CashEntryController@reject_posting_approvals');
+    Route::post('delete_posting', 'CashEntryController@delete_posting');
 
     // Learning Management System
 
@@ -381,6 +382,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('add_new_product_to_bill_list', 'BillingController@save_bill_item');
     Route::get('billings/bill/{client_id}/{code}', 'BillingController@bill')->name('Bill');
     Route::get('billings/view_bill/{id}', 'BillingController@view_bill')->name('View_Client_Bill_List');
+    Route::post('delete_New_Bill_payment', 'BillingController@productdeletion');
 
     //ClientDocument
     Route::get('client_document/client_document_list/{id}', 'ClientDocumentController@client_list')->name('Client_Document_List');
