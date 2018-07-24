@@ -100,10 +100,23 @@ class ChatController extends Controller
     foreach ($chats as $chat) {
       $chat->IsRead = '1';
       $chat->update();
-      
+
       $chat->date = $chat->created_at->diffForHumans();
     }
     return $chats;
+  }
+
+  public function search_users(Request $request)
+  {
+    $search = $request->search;
+    $user = auth()->user();
+    $employees = Staff::where('CompanyID', $user->CompanyID)->where('UserID', '!=', $user->id)->whereHas('user', function($q) use($search){
+      $q->where('first_name', 'LIKE', '%'.$search.'%')->orWhere('last_name', 'LIKE', '%'.$search.'%');
+    })->get();
+    return $employees;
+    foreach ($employees as $staff) {
+      $staff->avatar_url = $staff->avatar_url();
+    }
   }
 
 

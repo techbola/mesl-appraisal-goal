@@ -40,6 +40,7 @@ class BillingController extends Controller
         $locations          = Location::orderBy('Location')->get();
         $client_name        = $request->client_name;
         $results            = Customer::where('Customer', 'like', '%' . $client_name . '%')->get();
+        // dd($results[0]->CustomerRef);
 
         $user = auth()->user();
         $titles = Title::orderBy('Title')->get();
