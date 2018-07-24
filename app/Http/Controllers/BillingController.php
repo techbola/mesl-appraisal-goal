@@ -40,6 +40,7 @@ class BillingController extends Controller
         $locations          = Location::orderBy('Location')->get();
         $client_name        = $request->client_name;
         $results            = Customer::where('Customer', 'like', '%' . $client_name . '%')->get();
+        // dd($results[0]->CustomerRef);
 
         $user = auth()->user();
         $titles = Title::orderBy('Title')->get();
@@ -87,10 +88,11 @@ class BillingController extends Controller
         // ->where('StaffRef', $user_id)
         // ->first();
 
-        $products = \DB::table('tblProductService')
-            ->select('ProductService', 'ProductServiceRef', 'Price')
-            ->where('CategoryID', $cat_id)
-            ->get();
+        $products = \DB::select ("EXEC procProductServices $cat_id");
+        // \DB::table('tblProductService')
+        //     ->select('ProductService', 'ProductServiceRef', 'Price')
+        //     ->where('CategoryID', $cat_id)
+        //     ->get();
 
         return response()->json($products)->setStatusCode(200);
     }
