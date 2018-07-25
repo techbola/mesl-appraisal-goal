@@ -37,15 +37,15 @@
 
                   <div class="row" style="padding-top: 10px">
                     <div class="col-md-6">
-                      <img src="{{ asset('images/Cavidel_Logo.png') }}" alt="Logo" width="250px">
+                      <img src="{{ asset("images/$company_details->Logo") }}" alt="Logo" width="250px">
                     </div>
                     <div class="col-md-3" style="padding: 10px">
-                      <h5 style="font-size: 14px; font-weight: 500">+2349067354599<br>
-                      support@cavidel.com<br>
-                      <span style="color: #2ea1f8">www.cavidel.com</span></h5>
+                      <h5 style="font-size: 14px; font-weight: 500">{{ $company_details->Phone }}<br>
+                      {{ $company_details->Email }}<br>
+                      <span style="color: #2ea1f8">{{ $company_details->Website }}</span></h5>
                     </div>
                     <div class="col-md-3" style="padding: 15px; font-size: 12px">
-                      <h5 style="font-size: 14px; font-weight: 500">Block D1, Studio Appartment 2, 1004 Estate, Victoria Island. Lagos State.</h5>
+                      <h5 style="font-size: 14px; font-weight: 500">{{ $company_details->Address }}</h5>
                     </div>
                   </div>
               </div>
