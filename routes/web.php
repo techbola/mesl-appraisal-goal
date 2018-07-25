@@ -117,6 +117,14 @@ Route::middleware(['auth'])->group(function () {
         return response()->download(storage_path("app/public/" . $dir . "/" . $filename));
     })->name('download_file');
 
+    // Route::get('/chat/list', 'ChatController@chat_list')->name('chat_list');
+    // Route::get('/chat/{session?}', 'ChatController@chat')->name('chat');
+    Route::get('/chat', 'ChatController@chat')->name('chat');
+    Route::post('/save_chat', 'ChatController@save_chat')->name('save_chat');
+    Route::get('/load_chats/{user}', 'ChatController@load_chats')->name('load_chats');
+    Route::post('/search_users', 'ChatController@search_users')->name('search_users');
+    // Route::post('/end_chat/{session}', 'ChatController@end_chat')->name('end_chat');
+
     Route::get('bulletins', 'BulletinController@index')->name('bulletin_board');
     Route::get('bulletins/department', 'BulletinController@department_bulletins')->name('department_bulletins');
     Route::post('save_bulletin', 'BulletinController@save_bulletin')->name('save_bulletin');
@@ -177,6 +185,12 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');
     // Route::resource('customers', 'CustomerController');
 
+    // Merging
+    Route::get('merging/data_merging', 'MergingController@get_data_merging')->name('DataMerging');
+    Route::post('store_merged_data', 'MergingController@store');
+    Route::get('mergin/file_uploading', 'MergingController@fileupload')->name('FileUploading');
+    Route::post('store_files', 'MergingController@store_files');
+
     Route::get('documents', 'DocumentController@index')->name('documents');
     Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
 
@@ -208,6 +222,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('delete_todo/{id}', 'TodoController@delete_todo')->name('delete_todo');
     Route::get('assigned-todos', 'TodoController@assigned_todos')->name('assigned_todos');
     Route::get('get_assigned_todos/{id}', 'TodoController@get_assigned_todos')->name('get_assigned_todos'); // AJAX
+    Route::get('get_assigned_todos_done/{id}', 'TodoController@get_assigned_todos_done')->name('get_assigned_todos_done'); // AJAX
     Route::get('unassigned_todos', 'TodoController@unassigned')->name('unassigned_todos');
 
     Route::get('notes', 'StickyNoteController@index')->name('notes');
@@ -238,6 +253,11 @@ Route::middleware(['auth'])->group(function () {
         return Storage::download('/meeting_files/' . $name);
     })->name('download_meeting_report');
 
+    Route::get('conversations_contacts', 'ConversationController@contacts')->name('conversations_contacts');
+    Route::post('store_call_contact', 'ConversationController@store_call_contact')->name('store_call_contact');
+    Route::get('view_conversations/{id}', 'ConversationController@view_conversations')->name('view_conversations');
+    Route::post('store_conversation/{id}', 'ConversationController@store_conversation')->name('store_conversation');
+
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
     Route::patch('update_scorecard/{id}', 'ScoreCardController@update')->name('update_scorecard');
@@ -266,10 +286,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_edit')->name('customer_transfer.edit');
     Route::patch('cash_entries/customer_transfer/{id}', 'CashEntryController@customer_transfer_update');
     Route::patch('cash_entries/edit_b/{id}', 'CashEntryController@update2');
+    Route::post('submit_bill_for_posting', 'CashEntryController@submit_bill_for_posting');
+    Route::get('cash_entries/show_approve_posting', 'CashEntryController@show_approve_posting')->name('ApprovePostings');
+    Route::post('submit_bill_for_approval', 'CashEntryController@submit_bill_for_approval');
+    Route::post('reject_posting_approvals', 'CashEntryController@reject_posting_approvals');
+    Route::post('delete_posting', 'CashEntryController@delete_posting');
 
     // Learning Management System
 
-    Route::get('LMS/course_dashboard', 'CourseController@course_dashboard');
+    Route::get('LMS/course_dashboard', 'CourseController@course_dashboard')->name('CourseDashboard');
     Route::post('submit_new_category', 'CourseController@submit_new_category');
     Route::post('submit_new_course', 'CourseController@submit_new_course');
     Route::get('get_staff_details/{id}', 'CourseController@get_staff_details');
@@ -280,6 +305,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_course_list', 'CourseController@get_course_list');
     Route::get('get_instructor_list', 'CourseController@get_instructor_list');
     Route::get('get_batch_list', 'CourseController@get_batch_list');
+    Route::get('get_course_material_list/{id}', 'CourseController@get_course_material_list');
+    Route::post('submit_course_material', 'CourseController@submit_course_material');
+    Route::get('LMS/staff_course_dashboard', 'CourseController@staff_course_dashboard')->name('StaffCourseDashboard');
+    Route::get('activate_course/{id}', 'CourseController@activate_course');
+    Route::get('LMS/show_course/{id}', 'CourseController@show_course')->name('ShowCourse');
+    Route::get('course_material_with_id/{id}', 'CourseController@course_material_with_id');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
@@ -287,6 +318,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('cash_entries_receipts', 'CashEntryController@storeReceipts');
     Route::post('cash_entries_payments', 'CashEntryController@storePayments');
     Route::get('cash_entries/purchase_on_credits', 'CashEntryController@purchase_on_credits')->name('PurchaseOnCredits');
+    Route::patch('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_update');
+    Route::get('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_edit')->name('purchase_on_credits.edit');
     Route::get('cash_entries/bill_posting', 'CashEntryController@bill_posting')->name('BillPosting');
     Route::post('bill_posting', 'CashEntryController@post_bill');
     Route::post('purchase_on_credits', 'CashEntryController@storepurchase_on_credits');
@@ -307,13 +340,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('transactions', 'TransactionController');
 
     // REPORTS
-    Route::get('reports/balance-sheet', 'ReportController@balance_sheet')->name('balance_sheet2');
-    Route::get('reports/balance-sheet2', 'ReportController@balance_sheet2')->name('balance_sheet');
+    Route::get('reports/balance-sheet', 'ReportController@balance_sheet')->name('balance_sheet');
+    Route::get('reports/balance-sheet2', 'ReportController@balance_sheet2')->name('balance_sheet2');
     Route::get('reports/trial-balance', 'ReportController@trial_balance')->name('trial_balance2');
     Route::get('reports/trial-balance2', 'ReportController@trial_balance2')->name('trial_balance');
     Route::get('reports/trial-balance3', 'ReportController@trial_balance3')->name('trial_balance3');
-    Route::get('reports/profit-loss', 'ReportController@profit_loss')->name('profit_loss2');
-    Route::get('reports/profit-loss2', 'ReportController@profit_loss2')->name('profit_loss');
+    Route::get('reports/profit-loss', 'ReportController@profit_loss')->name('profit_loss');
+    Route::get('reports/profit-loss2', 'ReportController@profit_loss2')->name('profit_loss2');
     Route::get('reports/profit-loss3', 'ReportController@profit_loss3')->name('profit_loss3');
     Route::get('reports/loans-report', 'ReportController@loans_report')->name('loans_report');
 
@@ -340,10 +373,10 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('update_issue/{id}', 'IssueController@update_issue')->name('update_issue');
     Route::get('issue/{id}', 'IssueController@view_issue')->name('view_issue');
 
-    Route::get('contacts', 'CustomerController@index')->name('business_contacts');
-    Route::post('save_contact', 'CustomerController@save_contact')->name('save_contact');
-    Route::get('edit_contact/{id}', 'CustomerController@edit_contact')->name('edit_contact');
-    Route::patch('update_contact/{id}', 'CustomerController@update_contact')->name('update_contact');
+    Route::get('contacts', 'ContactController@index')->name('business_contacts');
+    Route::post('save_contact', 'ContactController@save_contact')->name('save_contact');
+    Route::get('edit_contact/{id}', 'ContactController@edit_contact')->name('edit_contact');
+    Route::patch('update_contact/{id}', 'ContactController@update_contact')->name('update_contact');
 
     // Billing
     Route::get('billings/search_client', 'BillingController@search_client')->name('SearchClient');
@@ -355,6 +388,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('add_new_product_to_bill_list', 'BillingController@save_bill_item');
     Route::get('billings/bill/{client_id}/{code}', 'BillingController@bill')->name('Bill');
     Route::get('billings/view_bill/{id}', 'BillingController@view_bill')->name('View_Client_Bill_List');
+    Route::post('delete_New_Bill_payment', 'BillingController@productdeletion');
+    Route::post('bill_posting', 'BillingController@bill_payment');
 
     //ClientDocument
     Route::get('client_document/client_document_list/{id}', 'ClientDocumentController@client_list')->name('Client_Document_List');
@@ -413,6 +448,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('submit_process_attribute', 'ProcessController@submit_process_attribute');
     Route::post('submit_process_risk', 'ProcessController@submit_process_risk');
     Route::get('get_attribute_values/{id}', 'ProcessController@get_attribute_values');
+    Route::get('processes/process_dept', 'ProcessController@process_dept_index')->name('ProcessDepartments');
+    Route::post('Post_Process_department', 'ProcessController@store_process_department');
+    Route::get('delete_process_dept/{id}', 'ProcessController@delete_process_dept');
+    Route::get('update_process_dept/{id}/{pro}', 'ProcessController@update_process_dept');
+    Route::get('get_process_steps_dept/{id}', 'ProcessController@get_process_steps_dept');
+    Route::get('get_process_steps_dept_index/{id}', 'ProcessController@get_process_steps_dept_index');
 
     //ProductService
     Route::post('store_product_srvice', 'ProductServiceController@store');
@@ -519,15 +560,15 @@ Route::get('/cda', function () {
     return redirect('/');
 });
 
-Route::get('/testing', function(){
+Route::get('/testing', function () {
 
-  // return Cavidel\Staff::whereRaw("DepartmentID @> ARRAY['1']::varchar[]")->get();
-  // return Cavidel\Staff::whereRaw("1=ANY(DepartmentID)")->get();
-  // return Cavidel\Staff::whereRaw("find_in_set('1',DepartmentID)")->get();
-  // return Cavidel\Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',1,',%')")->get();
-  // return Cavidel\Department::find('4')->staff();
-  // return Cavidel\Staff::all()->filter('1', function(){
-  // })->get();
+    // return Cavidel\Staff::whereRaw("DepartmentID @> ARRAY['1']::varchar[]")->get();
+    // return Cavidel\Staff::whereRaw("1=ANY(DepartmentID)")->get();
+    // return Cavidel\Staff::whereRaw("find_in_set('1',DepartmentID)")->get();
+    // return Cavidel\Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',1,',%')")->get();
+    // return Cavidel\Department::find('4')->staff();
+    // return Cavidel\Staff::all()->filter('1', function(){
+    // })->get();
 });
 
 //Reconciliation Routes

@@ -9,7 +9,7 @@
 @endsection
 
 @section('buttons')
-		<button class="btn btn-info btn-rounded" data-toggle="modal" data-target="#new_event">New Event</button>
+		<button id="new_event_btn" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#new_event">New Event</button>
 @endsection
 
 @push('styles')
@@ -33,7 +33,7 @@
             <h5>Add New Event</h5>
           </div>
           <div class="modal-body">
-            <form action="{{ route('save_event') }}" method="post">
+            <form id="new_form" action="{{ route('save_event') }}" method="post">
               {{ csrf_field() }}
               @include('events.form', ['StartTime' => null, 'EndTime' => null])
             </form>
@@ -88,7 +88,19 @@
              title: myevent.title.toString(),
              placement: 'bottom'
            });
-         }
+         },
+
+				 selectable: true,
+
+				 dayClick: function(date, jsEvent, view) {
+
+					 // alert('Clicked on: ' + date.format());
+					 $('#new_event_btn').click();
+					 $('#new_form').find('input[name=StartDate]').val(date.format()).datepicker({format: 'yyyy-mm-dd'});
+					 $('#new_form').find('input[name=EndDate]').val(date.format()).datepicker({format: 'yyyy-mm-dd'});
+					 // $(this).css('background-color', 'red');
+
+				 }
 
       });
 

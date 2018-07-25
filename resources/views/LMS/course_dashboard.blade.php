@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @push('styles')
+
 	<style>
 		.modal.fade.fill-in.in {
     background-color: rgba(107, 101, 101, 0.73);
@@ -111,13 +112,13 @@
 
              <div id="course_table" class="hide">
               <div class="right">
-                <a href="#" data-target="#modalFillIn3" data-toggle="modal" class="btn btn-xs btn-info pull-right">Add Course Material</a>
+                <a href="#" id="activate_material_modal" data-target="#modalFillIn3" data-toggle="modal" class="btn btn-xs btn-info pull-right">Add Course Material</a>
               </div>
                 <table class="table-hover table">
                   <thead>
                       <th>Course Name</th>
                       <th>Course Code</th>
-                      <th colspan="3">Action</th>
+                      <th colspan="2">Action</th>
                   </thead>
                   <tbody id="course_body">
                   </tbody>
@@ -222,14 +223,83 @@
             </button>
             <div class="modal-dialog ">
               <div class="modal-content">
-                <div style="background: #fff; width: 800px; padding: 15px">
+                <div style="background: #fff; width: 650px; padding: 15px">
                 <div class="modal-header">
                   <h5 class="text-left semi-bold">Add Material(s)</h5>
                 </div><hr>
                 <div class="modal-body">
                   <div class="row">
+                    {{ Form::open(['id'=>'submit_course_material_form','autocomplete' => 'off', 'role' => 'form', 'files'=>'true']) }}
+                    <div class="col-md-6">
+                         <div class="form-group">
+                           {{ Form::label('course_id', 'Select Course' ) }}
+                              <select name="course_id" class="full-width" id="material_course" onchange="mat()" data-init-plugin="select2">
+                             <option value=" ">Select Course</option>
+                             @foreach($course_names as $course_name)
+                               <option value="{{ $course_name->course_ref }}">{{ $course_name->courses_name }}</option>
+                             @endforeach
+                           </select>
+       
+                         </div>
+                       </div>
 
+                       <div class="col-md-6">
+                          <div class="form-group">
+                            {{ Form::label('material_type', 'Course Material Type' ) }}
+                            <select name="material_type" class="full-width" id="material_type" onchange="material()" data-init-plugin="select2">
+                              <option value=" ">Select Course</option>
+                              <option value="1">Document</option>
+                              <option value="2">Video</option>
+                              <option value="3">Youtube</option>
+                            </select>
+                          </div>
+                        </div>
 
+                        <div class="col-md-12 hide" id="material_title">
+                         <div class="form-group">
+                           {{ Form::label('material_name', 'Title of Material' ) }}
+                           {{ Form::text('material_name', null, ['class' => 'form-control', 'placeholder' => 'Type Material Title', 'required']) }}
+                         </div>
+                       </div>
+
+                        <div class="col-md-12 hide" id="video">
+                         <div class="form-group">
+                           {{ Form::label('video_link', 'Upload Course Video' ) }}
+                           {{ Form::file('video_link', null, ['class' => 'form-control','id'=>'video_link', 'placeholder' => 'Upload Cover Page', 'required']) }}
+                         </div>
+                       </div>
+
+                       <div class="col-md-12 hide" id="document">
+                         <div class="form-group">
+                           {{ Form::label('document_link', 'Upload Course Document' ) }}
+                           {{ Form::file('document_link', null, ['class' => 'form-control','id'=>'document_link', 'placeholder' => 'Upload Cover Page', 'required']) }}
+                         </div>
+                       </div>
+
+                       <div class="col-md-12 hide" id="youtube">
+                         <div class="form-group">
+                           {{ Form::label('youtube_link', 'Paste Youtube Link' ) }}
+                           {{ Form::text('youtube_link', null, ['class' => 'form-control','id'=>'youtube_link', 'placeholder' => 'Paste Youtube Link', 'required']) }}
+                         </div>
+                       </div>
+
+                       <button type="submit" id="submit_material" class="btn btn-info btn-form pull-right hide" data-dismiss="modal">Add New Course</button>
+
+                       {{ Form::close() }}
+
+                       <div id="material_table" class="hide">
+                           <hr><br>
+                           <table class="table table-hover">
+                            <thead>
+                                 <th>S/N</th>
+                                 <th>Material Name</th>
+                                 <th>Type</th>
+                                 <th colspan="2">Action</th>
+                            </thead>
+                            <tbody id="course_material_list">
+                            </tbody>
+                           </table>
+                       </div>
 
                   </div>
                 </div>
@@ -304,49 +374,24 @@
         $('#instructor_form').addClass('hide');
         $('#batch_form').addClass('hide');
       });
-
-      $("#course").on("submit", function(e) {
-        e.preventDefault();
-  
-
-        var file_data = $('#cover_page').prop('files')[0];
-        var courses_name = $('#courses_name').val();
-        var course_duration = $('#course_duration').val();
-        var course_fee = $('#course_fee').val();
-        var category_ref = $('#category_ref').val();
-        var cover_page = $('#cover_page').val();
-        var description = $('#description').val();
-
-
-        var form_data = new FormData();
-        form_data.append('file', file_data);
-        form_data.append('supplier_name', supplier_name);
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': $('meta[name=_token]').attr('content')
-            }
-        });
-
-        $.ajax({
-            url: "{{url('postDiamond')}}", // point to server-side PHP script
-            data: form_data,
-            type: 'POST',
-            contentType: false, // The content type used when sending data to the server.
-            cache: false, // To unable request pages to be cached
-            processData: false,
-            success: function(data) {
-
-            }
-        });
-});
       
-      // $('#submit_course').click(function(event) {
-      //        $.post('/submit_new_course', $('#course').serialize(), function(data, status) {
-      //       if(status === 'success'){
-      //         $('#course_count').html(data);
-      //       }
-      //   });
-      // });
+      $('#submit_course').click(function(event) {
+
+        var form = $('#course')[0]; 
+        var formData = new FormData(form);
+        $.ajax({
+                   url: '/submit_new_course',
+                   data: formData,
+                   type: 'POST',
+                   contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                   processData: false, // NEEDED, DON'T OMIT THIS
+                   success: function (data, status) {
+                    if(status === 'success')
+                    console.log(data);
+                  $('#course_count').html(data);
+                   }
+        });
+      });
 
       $('#show_course_table').click(function(event) {
           $('#intro').addClass('hide');
@@ -362,7 +407,6 @@
                 <tr>
                   <td>${val.courses_name}</td>
                   <td>${val.course_code}</td>
-                  <td><span style="color:green">View</span></td>
                   <td><span style="color:blue">Edit</span></td>
                   <td><span style="color:red">Delete</span></td>
                 </tr>
@@ -504,6 +548,84 @@
             }
           });
       });
+
+  </script>
+
+  <script>
+
+    $('#activate_material_modal').click(function(event) {
+     $('#material_table').addClass('hide');
+    });
+
+    function mat()
+    {
+      var id = $('#material_course').val();
+      $('#material_table').removeClass('hide');
+      $.get('/get_course_material_list/' +id, function(data, status) {
+          if(status === 'success'){
+            $('#course_material_list').html(' ');
+            var count = 1;
+              $.each(data, function(index, val) {
+               $('#course_material_list').append(`
+                <tr>
+                  <td>${count++}</td>
+                  <td>${val.material_name}</td>
+                  <td>${val.material_type}</td>
+                  <td><span style="color:blue">Edit</span></td>
+                  <td><span style="color:red">Delete</span></td>
+                </tr>
+                `);
+              });
+            }
+      });
+    }
+
+    
+    function material()
+    {
+      var id = $('#material_type').val();
+      if(id == 1)
+      {
+        $('#document').removeClass('hide');
+        $('#submit_material').removeClass('hide');
+        $('#video').addClass('hide');
+        $('#youtube').addClass('hide');
+        $('#material_title').removeClass('hide')
+      } else if(id == 2)
+      {
+        $('#document').addClass('hide');
+        $('#submit_material').removeClass('hide');
+        $('#video').removeClass('hide');
+        $('#youtube').addClass('hide');
+        $('#material_title').removeClass('hide')
+      }
+
+      else if(id == 3)
+      {
+        $('#document').addClass('hide');
+        $('#submit_material').removeClass('hide');
+        $('#video').addClass('hide');
+        $('#youtube').removeClass('hide');
+        $('#material_title').removeClass('hide')
+      }
+    }
+
+    $('#submit_material').click(function(event) {
+        var form = $('#submit_course_material_form')[0]; 
+        var formData = new FormData(form);
+        $.ajax({
+                   url: '/submit_course_material',
+                   data: formData,
+                   type: 'POST',
+                   contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                   processData: false, // NEEDED, DON'T OMIT THIS
+                   success: function (data, status) {
+                    if(status === 'success')
+                    console.log(data);
+                    $("#submit_course_material_form")[0].reset();
+                   }
+        });
+    });
 
   </script>
 

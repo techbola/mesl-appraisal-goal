@@ -34,14 +34,37 @@
       </div>
     </div>
     <div class="col-md-8">
-      <div class="card-box">
-        <div id="todos-title" class="card-title"></div>
-        {{-- <p></p> --}}
-        <ul id="todos" class="my-list">
-          @emptylist(No user selected)
-        </ul>
+      {{-- START TABS --}}
+      <ul class="nav nav-tabs outside">
+        <li class="active"><a data-toggle="tab" href="#undone">To-Dos</a></li>
+        <li><a data-toggle="tab" href="#done">Done</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="undone" class="tab-pane fade in active">
 
+          <div class="card-box">
+            <div id="todos-title" class="card-title"></div>
+            {{-- <p></p> --}}
+            <ul id="todos" class="my-list">
+              @emptylist(No user selected)
+            </ul>
+          </div>
+
+        </div>
+        <div id="done" class="tab-pane fade">
+
+          <div class="card-box">
+            <div id="todos-title" class="card-title"></div>
+            {{-- <p></p> --}}
+            <ul id="todos-done" class="my-list">
+              @emptylist(No user selected)
+            </ul>
+          </div>
+
+        </div>
       </div>
+      {{-- END TABS --}}
+
     </div>
   </div>
 
@@ -131,7 +154,6 @@
         //   console.log(todo);
         // });
         data.forEach(function(todo){
-          // console.log(todo);
           $('#todos').append(`
             <li style="position:relative">
               <div class="f15">${todo.Todo}</div>
@@ -145,6 +167,24 @@
         });
         $('#spinner').hide();
       });
+
+      $.get('/get_assigned_todos_done/'+id, function(data, status){
+        $('#todos-done').empty();
+        // $.each(data, function(index, todo){
+        //   console.log(todo);
+        // });
+        data.forEach(function(todo){
+          $('#todos-done').append(`
+            <li style="position:relative">
+              <div class="f15"><s>${todo.Todo}</s></div>
+
+            </li>
+          `);
+          // $('#todos-title').html(todo.user.first_name+' '+todo.user.last_name+'\'s To-Dos<br><p class="text-muted" style="text-transform:initial">A list of to-dos you have assigned to this person.</p>');
+        });
+        $('#spinner').hide();
+      });
+
     }
 
     function edit_data(data) {

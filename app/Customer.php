@@ -6,23 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $table   = 'tblContacts';
-    protected $guarded = ['CustomerRef'];
-    public $primaryKey = 'CustomerRef';
+  protected $table   = 'tblCustomer';
+  protected $guarded = ['CustomerRef'];
+  public $primaryKey = 'CustomerRef';
+  public $timestamps = false;
 
+  public function projects()
+  {
+    return $this->hasMany('Cavidel\Project', 'ClientID');
+  }
 
-    public function projects()
-    {
-      return $this->hasMany('Cavidel\Project', 'CustomerID');
-    }
-
-    public function country()
-    {
-      return $this->belongsTo('Cavidel\Country', 'CountryID', 'CountryRef');
-    }
-
-    public function call_memos()
-    {
-      return $this->hasMany('Cavidel\CallMemo', 'CustomerID')->orderBy('MeetingDate', 'desc');
-    }
 }

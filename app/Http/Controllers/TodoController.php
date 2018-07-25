@@ -121,6 +121,7 @@ class TodoController extends Controller
       $todo = Todo::find($id);
       if ($todo->Done == '0') {
         $todo->Done = '1';
+        $todo->CompletedDate = Carbon::now();
       } else {
         $todo->Done = '0';
       }
@@ -152,6 +153,14 @@ class TodoController extends Controller
     {
       $user = auth()->user();
       $todos = Todo::where('Initiator', $user->id)->where('UserID', $id)->where('Done', '0')->with('user')->orderBy('DueDate', 'desc')->get();
+      // dd($todo_users);
+      return $todos;
+    }
+
+    public function get_assigned_todos_done($id)
+    {
+      $user = auth()->user();
+      $todos = Todo::where('Initiator', $user->id)->where('UserID', $id)->where('Done', '1')->with('user')->orderBy('DueDate', 'desc')->get();
       // dd($todo_users);
       return $todos;
     }

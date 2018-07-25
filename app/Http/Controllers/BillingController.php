@@ -2,30 +2,55 @@
 
 namespace Cavidel\Http\Controllers;
 
-use Cavidel\Client;
+use Cavidel\Customer;
 use Cavidel\Billing;
 use Cavidel\Location;
 use Cavidel\ProductCategory;
 use Cavidel\ProductService;
 use Cavidel\Staff;
 use Illuminate\Http\Request;
+use Cavidel\ProductDeleted;
+use Cavidel\Title;
+use Cavidel\Nationality;
+use Cavidel\Gender;
+use Cavidel\MaritalStatus;
+use Cavidel\PaymentPlan;
+use Cavidel\HouseType;
+use Cavidel\Config;
 
 class BillingController extends Controller
 {
     public function search_client()
     {
-        $product_categories = ProductCategory::all();
-        $locations          = Location::all();
-        return view('billings.search_client', compact('product_categories', 'locations'));
+        $user               = auth()->user();
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+        $locations          = Location::orderBy('Location')->get();
+        $titles             = Title::orderBy('Title')->get();
+        $nationalities      = Nationality::orderBy('Nationality')->get();
+        $genders            = Gender::all();
+        $maritalstatuses    = MaritalStatus::orderBy('MaritalStatus')->get();
+        $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans       = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes         = HouseType::orderBy('HouseType')->get();
+        return view('billings.search_client', compact('product_categories', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
     public function client_search(Request $request)
     {
-        $product_categories = ProductCategory::all();
-        $locations          = Location::all();
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+        $locations          = Location::orderBy('Location')->get();
         $client_name        = $request->client_name;
-        $results            = Client::where('Name', 'like', '%' . $client_name . '%')->get();
-        return view('billings.search_result', compact('results', 'product_categories', 'locations'));
+        $results            = Customer::where('Customer', 'like', '%' . $client_name . '%')->get();
+
+        $user            = auth()->user();
+        $titles          = Title::orderBy('Title')->get();
+        $nationalities   = Nationality::orderBy('Nationality')->get();
+        $genders         = Gender::all();
+        $maritalstatuses = MaritalStatus::orderBy('MaritalStatus')->get();
+        $staff           = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans    = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes      = HouseType::orderBy('HouseType')->get();
+        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles', 'nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
     public function new_bill(Request $request)
@@ -46,28 +71,43 @@ class BillingController extends Controller
     {
         $client_id          = $id;
         $code               = $billcode;
-        $client_details     = \DB::table('tblClients')->where('ClientRef', $client_id)->first();
+        $client_details     = \DB::table('tblCustomer')->where('CustomerRef', $client_id)->first();
         $product_categories = ProductCategory::all();
         $bill_items         = Billing::where('GroupID', $code)->get();
         $id                 = Auth()->user()->id;
         $staff_id           = Staff::select('StaffRef')->where('UserID', $id)->first();
+        $today              = \Carbon\Carbon::now();
+        $date               = $today->toDateString();
+        $processedbills     = \DB::table('tblBilling')
+            ->where('ClientID', $client_id)
+            ->where('GroupID', $billcode)
+            ->get();
+        $bill_details_collection = collect($processedbills);
+        $bill_amount             = $bill_details_collection->sum('Price');
+        $amount_os               = $bill_details_collection->sum('AmountOutstanding');
 
-        return view('billings.notification_Billing', compact('client_details', 'product_categories', 'bill_items', 'staff_id', 'code'));
+        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?
+                         Order By tblGL.AccountTypeID,tblGL.Description", [2, 3]));
+        $configs = Config::first();
+        $gl      = \DB::table('tblCustomer')
+            ->select('GLRef')
+            ->join('tblGL', 'tblCustomer.CustomerRef', '=', 'tblGl.CustomerID')
+            ->where('tblCustomer.CustomerRef', $client_id)
+            ->first();
+
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'configs', 'gl'));
     }
 
     public function get_product($cat_id)
     {
-        // $user_id = Auth()->user()->staffId;
-        // $user_location = \DB::table('tblStaff')
-        // ->select('LocationID')
-        // ->where('StaffRef', $user_id)
-        // ->first();
-
-        $products = \DB::table('tblProductService')
-            ->select('ProductService', 'ProductServiceRef', 'Price')
-            ->where('CategoryID', $cat_id)
-            ->get();
-
+        $products = \DB::select("EXEC procProductServices $cat_id");
         return response()->json($products)->setStatusCode(200);
     }
 
@@ -100,27 +140,68 @@ class BillingController extends Controller
 
     public function bill($client_id, $code)
     {
-        $client_id = $client_id;
-        $code      = $code;
-
-        $client_details = Client::where('ClientRef', $client_id)->first();
-        $bill_header    = Billing::select('BillingDate')->first();
-        $total_bill     = Billing::where('GroupID', $code)->sum('Price');
-        $bills          = Billing::where('GroupID', $code)->get();
-        $tax            = ($total_bill / 100) * 5;
-        return view('billings.bill', compact('client_details', 'code', 'bill_header', 'total_bill', 'bills', 'tax'));
+        $client_id       = $client_id;
+        $code            = $code;
+        $user_id         = \Auth::user()->id;
+        $coy             = Staff::where('UserID', $user_id)->first();
+        $company_id      = $coy->CompanyID;
+        $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
+        $client_details  = Customer::where('CustomerRef', $client_id)->first();
+        $bill_header     = Billing::select('BillingDate')->first();
+        $total_bill      = Billing::where('GroupID', $code)->sum('Price');
+        $bills           = Billing::where('GroupID', $code)->get();
+        $tax             = ($total_bill / 100) * 5;
+        return view('billings.bill', compact('client_details', 'code', 'bill_header', 'total_bill', 'company_details', 'bills', 'tax'));
     }
 
     public function view_bill($id)
     {
         $bill_id        = $id;
-        $client_details = Client::where('ClientRef', $bill_id)->first();
+        $client_details = Customer::where('CustomerRef', $bill_id)->first();
         $bill_details   = Billing::select('GroupID', 'BillingDate')
             ->where('ClientID', $bill_id)
             ->groupBy('GroupID', 'BillingDate')
             ->orderBy('BillingDate', 'DESC')
             ->get();
         return view('billings.view_bill', compact('client_details', 'bill_details'));
+    }
+
+    public function productdeletion(Request $request)
+    {
+        $deleteproduct = new ProductDeleted($request->all());
+        $this->validate($request, [
+            'Comment' => 'required',
+        ]);
+
+        if ($deleteproduct->save()) {
+            $id          = $request->BillingID;
+            $productname = $request->ProductService;
+            $deletedid   = $request->DeletedBy;
+            $staffname   = Staff::where('UserID', $deletedid)->first();
+            // $firstname     = $staffname->FirstName;
+            // $lastname      = $staffname->LastName;
+            // $middlename    = $staffname->MiddleName;
+            $billcode       = $request->BillCode;
+            $comment        = $request->Comment;
+            $customer_names = \DB::table('tblCustomer')
+                ->select('Customer')
+                ->where('CustomerRef', $request->PatientRef)
+                ->first();
+
+            $deletion = \DB::statement("EXEC procDeleteBilling $id, '$billcode'");
+            // $deletion    = \DB::table('tblBilling')->where('BillingID', '=', $id)->delete();
+
+            // Mail::to(['adefayiga@gmail.com'])->send(new ProductDeletion($billcode, $productname, $firstname, $lastname, $middlename, $patient_name, $comment));
+
+            return redirect()->back()->with('success', 'Product deleted Successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Product deletion was not successful');
+        }
+    }
+
+    public function bill_payment(Request $request)
+    {
+
     }
 
 }

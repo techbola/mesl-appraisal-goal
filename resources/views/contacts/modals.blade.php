@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         @include('errors.list')
-        {!! Form::open(['action' => 'CustomerController@save_contact', 'role' => 'form']) !!}
+        {!! Form::open(['action' => 'ContactController@save_contact', 'role' => 'form']) !!}
         @include('contacts.form')
         <div class="text-right m-t-10">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

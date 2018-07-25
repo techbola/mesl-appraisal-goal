@@ -24,7 +24,7 @@ tfoot{
   
 @endsection 
 
-@section('content')
+@section('content') 
 
   	<!-- START PANEL -->
   	<div class="card-box">
@@ -36,6 +36,7 @@ tfoot{
          <ul class="nav nav-pills pull-right">
              {{-- <li role="presentation" class="active"><a href="{{ route('PolicyApprover') }}">Create Policy Approver</a></li> --}}
              <li><a style="background: #bbb" href="{{ route('ProcessManagement') }}">Return to Process Management Page</a></li>
+             <li role="presentation" class="active"><a href="{{ route('ProcessDepartments') }}"> New/View Process Department</a></li>
              <li role="presentation" class="active"><a href="{{ route('CreateProcessSteps') }}">Create New/View Process Steps</a></li>
              <li><a href="#" style="color: #fff" data-target="#modalFillIn2" data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-lg btn-info">Create New/View Processes</a></li>
          </ul>
@@ -48,7 +49,6 @@ tfoot{
               <table class="table tableWithExportOptions" id="transactions">
                 <thead>
                   <tr>
-                    <th></th>
                     <th>Entry Date</th>
                     <th>Process</th>
                     <th>Entered By</th>
@@ -57,7 +57,6 @@ tfoot{
                   </tr>
                 </thead>
                 <tfoot class="thead">
-                    <th></th>
                     <th>Entry Date</th>
                     <th>Process</th>
                     <th>Entered By</th>
@@ -67,11 +66,11 @@ tfoot{
                 <tbody>
                   @foreach($processes as $process)
                   <tr>
-                    <td>{{ $loop->index + 1 }}</td>
                     <td>{{ \Carbon::parse($process->EntryDate)->toDayDateTimeString() }}</td>
+                    <td>{{ $process->ProcessDept }}</td>
                     <td>{{ $process->process }}</td>
                     <td>{{ $process->first_name }}  {{ $process->last_name }}</td>
-                    <td><a href="#" id="edit_modal" data-id="{{ $process->processRef }}" data-pro="{{ $process->process}}" data-target="#modalFillIn2" data-toggle="modal"  class="btn btn-success btn-sm"  title="">Edit Policy</a></td>
+                    <td><a href="#" id="edit_modal" data-id="{{ $process->processRef }}" data-pro="{{ $process->process}}" data-target="#modalFillIn2" data-toggle="modal"  class="btn btn-success btn-sm"  title="">Edit Process</a></td>
                     <td><a href="#" id="delete_modal" data-id="{{ $process->processRef }}" data-target="#modalFillIn2" data-toggle="modal" class="btn btn-danger btn-sm" title="">Delete</a></td>
                   </tr>
                   @endforeach
@@ -100,7 +99,16 @@ tfoot{
                 <div class="modal-body">
                   <div class="row">
 
-                              <div class="col-sm-12" id="item_div">
+                               <div class="col-sm-6">
+                                   <div class="form-group">
+                                       <div class="controls">
+                                           {{ Form::label('Process Department' ) }}
+                                               {{ Form::select('process_dept_id', [ '' =>  'Select Process Department'] + $depts->pluck('ProcessDept', 'DeptRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'process_dept', 'data-init-plugin' => "select2", 'required']) }}
+                                       </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-sm-6" id="item_div">
                                    <div class="form-group">
                                        <div class="controls">
                                            {{ Form::label('New Process' ) }}
@@ -108,6 +116,7 @@ tfoot{
                                        </div>
                                   </div>
                               </div>
+
                               <div class="col-md-12">
                                 <input type="submit" class="btn btn-sm btn-info pull-right" id="add_process" data-dismiss="modal" value="Add New Process">
                                 <input type="submit" class="btn btn-sm btn-success pull-right hide" id="edit_process" data-dismiss="modal" value="Save Process">
@@ -159,10 +168,11 @@ $(document).ready(function() {
     });
 
        $(document).on('click', '#delete_modal', function(event) {
-        $('#title').text('Are you sure you want to delete Policy ?');
+        $('#title').text('Are you sure you want to delete Process ?');
          $('#delete_process').removeClass('hide');
          $('#add_process').addClass('hide');
          $('#edit_process').addClass('hide');
+         $('#process_dept').addClass('hide');
          var id = $(this).data('id');
          $('#xyz').text(id);
          $('#item_div').addClass('hide');
@@ -172,7 +182,8 @@ $(document).ready(function() {
 
      $(document).on('click', '#add_process', function(event) {
     var pro = $('#item').val();
-    $.post('/Post_Process', {'process': pro, '_token':$('input[name=_token]').val()}, function(data, textStatus, xhr) {
+    var dept = $('#process_dept').val();
+    $.post('/Post_Process', {'process_dept_id': dept, 'process': pro, '_token':$('input[name=_token]').val()}, function(data, textStatus, xhr) {
      console.log(data);
      $('#process_table').load(location.href + ' #process_table');
      
