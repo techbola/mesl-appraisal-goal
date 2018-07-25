@@ -74,6 +74,12 @@
                 {!! Form::textarea('Conversation', null, ['class'=>'form-control', 'placeholder'=>'Conversation', 'rows'=>'5']) !!}
               </div>
             </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                {!! Form::label('AssignedStaff', 'Contact') !!}
+                {!! Form::select('AssignedStaff', [''=>'Select Staff']+$staffs->pluck('FullName', 'UserID')->toArray(), null, ['class'=>'full-width', 'data-init-plugin'=>'select2']) !!}
+              </div>
+            </div>
 
             <div class="col-md-5">
               {{ Form::label('Date', 'Date', ['class'=>'form-label']) }}
