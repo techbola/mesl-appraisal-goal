@@ -9,13 +9,13 @@
 @endsection --}}
 
 @section('buttons')
-  <a href="{{ route('business_contacts') }}" class="btn btn-info btn-sm m-r-5">Back to Contacts</a>
+  <a href="{{ route('business_contacts') }}" class="btn btn-info btn-sm m-r-5">Back to Contacts List</a>
 		<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#new_contact">New Conversation</button>
 @endsection
 
 @section('content')
   <div class="card-box">
-    <div class="card-title">Contacts</div>
+    <div class="card-title">Call Contacts</div>
     <table class="table table-bordered">
       <thead>
         <th>Title</th>
@@ -34,7 +34,7 @@
             <td>{{ $contact->Estate ?? '&mdash;' }}</td>
             <td>{{ $contact->housetype->HouseType ?? '&mdash;' }}</td>
             <td>
-              <a href="{{ route('view_conversations', $contact->CustomerRef) }}" class="btn btn-sm btn-info">View</a>
+              <a href="{{ route('view_conversations', $contact->CustomerRef) }}" class="btn btn-sm btn-info">View Conversations</a>
             </td>
           </tr>
         @endforeach

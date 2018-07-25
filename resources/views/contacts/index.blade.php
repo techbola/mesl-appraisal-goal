@@ -10,7 +10,7 @@
 
 @section('buttons')
 		<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#new_contact">New Contact</button>
-		<a href="{{ route('conversations_contacts') }}" class="btn btn-info btn-sm m-l-5">Call Conversations</a>
+		<a href="{{ route('conversations_contacts') }}" class="btn btn-info btn-sm m-l-5">Call Contacts</a>
 @endsection
 
 @section('content')
