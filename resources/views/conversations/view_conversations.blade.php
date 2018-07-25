@@ -9,7 +9,7 @@
 @endsection --}}
 
 @section('buttons')
-	<button class="btn btn-info btn-rounded" data-toggle="modal" data-target="#new_conv">New Conversation</button>
+	<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#new_conv">New Conversation</button>
 @endsection
 
 @section('content')
@@ -39,8 +39,67 @@
         <th>Date</th>
         <th>Site Visit?</th>
         <th>Visit Completed?</th>
-
       </thead>
+      <tbody>
+        @foreach ($contact->conversations as $conv)
+          <tr>
+            <td>{{ $conv->Conversation }}</td>
+            <td>{{ ($conv->Date)? Carbon::parse($conv->Date)->format('jS M, Y') : '&mdash;' }}</td>
+            <td>{{ ($conv->SiteVisit)? 'Yes':'No' }}</td>
+            <td>{{ ($conv->VisitCompleted)? 'Yes':'No' }}</td>
+          </tr>
+        @endforeach
+      </tbody>
     </table>
+  </div>
+
+  <div class="modal fade" id="new_conv">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h5 class="card-title">Add New Conversation</h5>
+        </div>
+        <div class="modal-body">
+          @include('errors.list')
+          {!! Form::open(['route' => ['store_conversation', $contact->CustomerRef], 'role' => 'form']) !!}
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                {!! Form::label('Conversation') !!}
+                {!! Form::textarea('Conversation', null, ['class'=>'form-control', 'placeholder'=>'Conversation', 'rows'=>'5']) !!}
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              {{ Form::label('Date', 'Date', ['class'=>'form-label']) }}
+              <div class="input-group date dp">
+                {{ Form::text('Date', null, ['class' => 'form-control', 'placeholder' => 'Date']) }}
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label for=""></label>
+              <div class="checkbox check-success">
+                <input type="checkbox" name="SiteVisit" id="SiteVisit">
+                <label for="SiteVisit">Site Visit</label>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for=""></label>
+              <div class="checkbox check-success">
+                <input type="checkbox" name="VisitCompleted" id="VisitCompleted">
+                <label for="VisitCompleted">Visit Completed</label>
+              </div>
+            </div>
+          </div>
+          <div class="text-right m-t-10">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-info">Submit</button>
+          </div>
+          {!! Form::close() !!}
+        </div>
+      </div>
+    </div>
   </div>
 @endsection
