@@ -16,6 +16,7 @@ use Cavidel\Gender;
 use Cavidel\MaritalStatus;
 use Cavidel\PaymentPlan;
 use Cavidel\HouseType;
+use Cavidel\Config;
 
 class BillingController extends Controller
 {
@@ -77,8 +78,31 @@ class BillingController extends Controller
         $staff_id           = Staff::select('StaffRef')->where('UserID', $id)->first();
         $today              = \Carbon\Carbon::now();
         $date               = $today->toDateString();
+        $processedbills     = \DB::table('tblBilling')
+            ->where('ClientID', $client_id)
+            ->where('GroupID', $billcode)
+            ->get();
+        $bill_details_collection = collect($processedbills);
+        $bill_amount             = $bill_details_collection->sum('Price');
+        $amount_os               = $bill_details_collection->sum('AmountOutstanding');
 
-        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code'));
+        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?
+                         Order By tblGL.AccountTypeID,tblGL.Description", [2, 3]));
+        $configs = Config::first();
+        $gl      = \DB::table('tblCustomer')
+            ->select('GLRef')
+            ->join('tblGL', 'tblCustomer.CustomerRef', '=', 'tblGl.CustomerID')
+            ->where('tblCustomer.CustomerRef', $client_id)
+            ->first();
+
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'configs', 'gl'));
     }
 
     public function get_product($cat_id)
@@ -173,6 +197,11 @@ class BillingController extends Controller
         } else {
             return redirect()->back()->withInput()->with('error', 'Product deletion was not successful');
         }
+    }
+
+    public function bill_payment(Request $request)
+    {
+
     }
 
 }

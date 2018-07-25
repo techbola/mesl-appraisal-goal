@@ -63,10 +63,10 @@
                                      </tr>
                                      @endforeach
                                  </tbody>
-                             </table>
-                            {{--  @if(count($productLists) > 0)
+                      </table>
+                             @if(count($bill_items) > 0)
                              <a href="#" data-target="#modalFillIn2" class="btn btn-lg btn-primary pull-right" data-toggle="modal" id="btnFillSizeToggler2" title="">Pay Now</a><div class="clearfix"></div>
-                              @endif --}}
+                              @endif
             </div>
           </div>
 
@@ -190,6 +190,122 @@
         </div>
       </div>
   	<!-- END PANEL -->
+
+    //Pay now 
+<div class="page-content-wrapper "> 
+     <div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="modalFillIn2" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div class="modal-header" style="background: #eee; color: #000">
+                  <h5 class="text-left p-b-5"><span class="semi-bold">Bill Payment
+                </div><hr>
+                <div class="modal-body" style="background: #eee; color: #000">
+                  <div class="row">
+                    <div style="padding: 20px; margin-bottom: 20px">
+                      <div class="col-md-12">
+                        <span>Customer Name</span>
+                        <p  class="text-primary" style="color: #fff; font-weight: 600; font-size: 25px; color: #000" id="customername">{{ $client_details->Customer }}</p>
+                      </div><br><br>
+                      <div class="col-md-6">
+                        <span>Bill Amount</span>
+                        <p  class="text-primary" style="color: #fff; font-weight: 600; font-size: 16px; color: #000" id="bill-amt">&#8358;{{ number_format($bill_amount,2) }}</p>
+                      </div>
+                      <div class="col-md-6">
+                        <span>Amount Outstanding</span> 
+                     
+
+                        <p  class="text-primary" style="color: #fff; font-weight: 600; font-size: 16px; color: #000" id="bill-os">&#8358;
+                            @if(!empty($outstanding[0]->AmountOS))
+                            {{ number_format($outstanding[0]->AmountOS, 2) }}
+                            @else
+                            0.00
+                            @endif
+                        </p>
+                      </div>
+                    </div><hr><br>
+                    
+                    <div class="col-md-12"><hr>
+                      {{ Form::open(['action' => 'BillingController@bill_payment', 'autocomplete' => 'off', 'role' => 'form']) }}
+                       <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="controls">
+                                    {{ Form::label('GLIDDebit', 'Cash or Bank') }}
+                                    <select name="GLIDDebit" id="dropDown" class="full-width" data-init-plugin="select2" required>
+                                      <option value="">Select Cash or Bank</option>
+                                      @foreach($debit_acct_details as $debit_acct_detail)
+                                        <option value="{{ $debit_acct_detail->GLRef }}">{{ $debit_acct_detail->CUST_ACCT }}</option>
+                                      @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                           <div class="form-group">
+                               <div class="controls">
+                                   <label for="">Amount Paid</label>
+                                   <input type="text" id="formattedNumberField" max="{{ $amount_os }}"  name="Amount"  class="form-control" required>
+                               </div>
+                           </div>
+                       </div><div class="clearfix"></div>
+
+                       <div class="col-sm-6">
+                         <div class="form-group">
+                             <div class="controls">
+                                 {{ Form::label('ValueDate', 'Value Date') }}
+                                 <div class="input-group date dp">
+                                     {{ Form::text('ValueDate', null, ['class' => 'form-control', 'placeholder' => 'Value Date', 'required']) }}
+                                     <span class="input-group-addon">
+                                         <i class="fa fa-calendar"></i>
+                                     </span>
+                                 </div>
+                              </div>
+                         </div>
+                     </div>
+
+                       <div class="col-sm-6">
+                           <div class="form-group">
+                               <div class="controls">
+                                   <label for="">Post Date</label>
+                                   <input type="text" name="PostDate" id="getvaluedate" value="{{ $configs->TradeDate }}" class="form-control" readonly="">
+                               </div>
+                           </div>
+                       </div>
+                       
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="controls">
+                                        {{ Form::label('Narration', 'Narration' ) }}
+                                        {{ Form::textarea('Narration', $code.': '.$client_details->Customer ,  ['class' => 'form-control', 'placeholder' => 'Enter Narration', 'rows'=>'2']) }}
+                                    </div>
+                                </div>
+                            </div>
+                        
+
+                      <input type="hidden" name="StaffID" value="{{ auth()->user()->id }}">
+                      <input type="hidden" name="PostingTypeID" value="1">
+                      <input type="hidden" name="CurrencyID" value="1">
+                      <input type="hidden" name="GLIDCredit" value="{{ $gl->GLRef }}" id="getGLIDDebit">
+                      <input type="hidden" name="Reference1" value="{{ $code }}" id="billid">
+                      <input type="submit" id="post" class="btn btn-primary btn-lg btn-sm fs-15 pull-right" value="Post">
+                      {{ Form::close() }}
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+      </div>
 @endsection
 
 @push('scripts')
