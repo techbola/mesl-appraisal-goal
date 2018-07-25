@@ -46,9 +46,13 @@ class ConversationController extends Controller
       $conv->Date = $request->Date;
       if ($request->SiteVisit) {
         $conv->SiteVisit = '1';
+      } else{
+        $conv->SiteVisit = '0';
       }
       if ($request->VisitCompleted) {
         $conv->VisitCompleted = '1';
+      } else{
+        $conv->VisitCompleted = '0';
       }
       $conv->save();
     });
@@ -58,8 +62,32 @@ class ConversationController extends Controller
   public function view_conversations($id)
   {
     $contact = Contact::find($id);
-
     return view('conversations.view_conversations', compact('contact'));
+  }
+
+  public function store_conversation(Request $request, $id)
+  {
+    $user = auth()->user();
+    DB::transaction(function() use($request, $user, $id){
+
+      $conv = new Conversation;
+      $conv->Conversation = $request->Conversation;
+      $conv->ContactID = $id;
+
+      $conv->Date = $request->Date;
+      if ($request->SiteVisit) {
+        $conv->SiteVisit = '1';
+      } else{
+        $conv->SiteVisit = '0';
+      }
+      if ($request->VisitCompleted) {
+        $conv->VisitCompleted = '1';
+      } else{
+        $conv->VisitCompleted = '0';
+      }
+      $conv->save();
+    });
+    return redirect()->back()->with('success', 'Conversation added successfully.');
   }
 
 }

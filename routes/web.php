@@ -256,6 +256,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('conversations_contacts', 'ConversationController@contacts')->name('conversations_contacts');
     Route::post('store_call_contact', 'ConversationController@store_call_contact')->name('store_call_contact');
     Route::get('view_conversations/{id}', 'ConversationController@view_conversations')->name('view_conversations');
+    Route::post('store_conversation/{id}', 'ConversationController@store_conversation')->name('store_conversation');
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
