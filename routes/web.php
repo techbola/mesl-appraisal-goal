@@ -336,8 +336,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('transactions', 'TransactionController');
 
     // REPORTS
-    Route::get('reports/balance-sheet', 'ReportController@balance_sheet')->name('balance_sheet2');
-    Route::get('reports/balance-sheet2', 'ReportController@balance_sheet2')->name('balance_sheet');
+    Route::get('reports/balance-sheet', 'ReportController@balance_sheet')->name('balance_sheet');
+    Route::get('reports/balance-sheet2', 'ReportController@balance_sheet2')->name('balance_sheet2');
     Route::get('reports/trial-balance', 'ReportController@trial_balance')->name('trial_balance2');
     Route::get('reports/trial-balance2', 'ReportController@trial_balance2')->name('trial_balance');
     Route::get('reports/trial-balance3', 'ReportController@trial_balance3')->name('trial_balance3');
