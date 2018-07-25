@@ -609,7 +609,7 @@
 
       var chat_channel = pusher.subscribe('new-chat');
       chat_channel.bind('Cavidel\\Events\\NewChatMsg', function(data) {
-        console.log(data);
+        // console.log(data);
         if (data.ToID == '{{ auth()->user()->id }}') {
           Push.create("New Chat From "+data.from.first_name+" "+data.from.last_name, {
               body: data.Body,

@@ -253,7 +253,9 @@ Route::middleware(['auth'])->group(function () {
         return Storage::download('/meeting_files/' . $name);
     })->name('download_meeting_report');
 
-    Route::get('call_log', 'ContactController@call_log')->name('call_log');
+    Route::get('conversations_contacts', 'ConversationController@contacts')->name('conversations_contacts');
+    Route::post('store_call_contact', 'ConversationController@store_call_contact')->name('store_call_contact');
+    Route::get('view_conversations/{id}', 'ConversationController@view_conversations')->name('view_conversations');
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
