@@ -289,6 +289,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/show_approve_posting', 'CashEntryController@show_approve_posting')->name('ApprovePostings');
     Route::post('submit_bill_for_approval', 'CashEntryController@submit_bill_for_approval');
     Route::post('reject_posting_approvals', 'CashEntryController@reject_posting_approvals');
+    Route::post('delete_posting', 'CashEntryController@delete_posting');
 
     // Learning Management System
 
@@ -338,8 +339,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('transactions', 'TransactionController');
 
     // REPORTS
-    Route::get('reports/balance-sheet', 'ReportController@balance_sheet')->name('balance_sheet2');
-    Route::get('reports/balance-sheet2', 'ReportController@balance_sheet2')->name('balance_sheet');
+    Route::get('reports/balance-sheet', 'ReportController@balance_sheet')->name('balance_sheet');
+    Route::get('reports/balance-sheet2', 'ReportController@balance_sheet2')->name('balance_sheet2');
     Route::get('reports/trial-balance', 'ReportController@trial_balance')->name('trial_balance2');
     Route::get('reports/trial-balance2', 'ReportController@trial_balance2')->name('trial_balance');
     Route::get('reports/trial-balance3', 'ReportController@trial_balance3')->name('trial_balance3');
@@ -386,6 +387,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('add_new_product_to_bill_list', 'BillingController@save_bill_item');
     Route::get('billings/bill/{client_id}/{code}', 'BillingController@bill')->name('Bill');
     Route::get('billings/view_bill/{id}', 'BillingController@view_bill')->name('View_Client_Bill_List');
+    Route::post('delete_New_Bill_payment', 'BillingController@productdeletion');
+    Route::post('bill_posting', 'BillingController@bill_payment');
 
     //ClientDocument
     Route::get('client_document/client_document_list/{id}', 'ClientDocumentController@client_list')->name('Client_Document_List');

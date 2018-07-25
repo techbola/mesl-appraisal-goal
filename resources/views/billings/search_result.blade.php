@@ -65,7 +65,7 @@
               @foreach($results as $result)
               <tr>
                 <td>{{ $loop->index + 1 }}</td>
-                <td>{{ $result->Name }}</td>
+                <td>{{ $result->Customer }}</td>
                 <td>{{ $result->Email }}</td>
                 <td>{{ $result->Phone }}</td>
                 <td>{{ $result->Address }}</td>
