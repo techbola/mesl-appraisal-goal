@@ -39,6 +39,7 @@
         <th>Date</th>
         <th>Site Visit?</th>
         <th>Visit Completed?</th>
+        <th>Actions</th>
       </thead>
       <tbody>
         @foreach ($contact->conversations as $conv)
@@ -47,6 +48,9 @@
             <td>{{ ($conv->Date)? Carbon::parse($conv->Date)->format('jS M, Y') : '&mdash;' }}</td>
             <td>{{ ($conv->SiteVisit)? 'Yes':'No' }}</td>
             <td>{{ ($conv->VisitCompleted)? 'Yes':'No' }}</td>
+            <td class="actions">
+              <a href="#" class="btn btn-xs btn-inverse">Edit</a>
+            </td>
           </tr>
         @endforeach
       </tbody>
