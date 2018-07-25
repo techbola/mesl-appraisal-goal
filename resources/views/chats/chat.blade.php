@@ -109,17 +109,17 @@
             $('.chat-messages').append(`
                 <div class="chat-box-left m-t-10">
                     <span class="text-danger bold small">`+chat.from.first_name+' '+chat.from.last_name+`</span><br />
-                    <span class="f14 m-t-5">`+chat.Body+`</span>
-                    <span class="small pull-right text-muted">`+chat.date+`</span>
+                    <span class="f13 m-t-5">`+chat.Body+`</span>
+                    <span class="small pull-right text-muted chat-time">`+chat.date+`</span>
                     <br />
                 </div>
             `);
         }else{
+          // <span class="text-muted bold small">Me: </span><br />
             $('.chat-messages').append(`
                 <div class="chat-box-right m-t-10">
-                    <span class="text-muted bold small">Me: </span><br />
-                    <span class="f14 m-t-5">`+chat.Body+`</span>
-                    <span class="small pull-right text-muted">`+chat.date+`</span>
+                    <span class="f13 m-t-5">`+chat.Body+`</span>
+                    <span class="small pull-right text-muted chat-time">`+chat.date+`</span>
                     <br />
                 </div>
             `);
@@ -206,17 +206,17 @@
             $('.chat-messages').append(`
               <div class="chat-box-left m-t-10">
                   <span class="text-danger bold small">`+data.from.first_name+' '+data.from.last_name+`</span><br />
-                  <span class="f14 m-t-5">`+data.Body+`</span>
-                  <span class="small pull-right text-muted">`+moment(data.created_at).fromNow()+`</span>
+                  <span class="f13 m-t-5">`+data.Body+`</span>
+                  <span class="small pull-right text-muted chat-time">`+moment(data.created_at).fromNow()+`</span>
                   <br />
               </div>
             `);
         } else if(data.FromID == user_id) {
+          // <span class="text-muted bold small">Me: </span><br />
             $('.chat-messages').append(`
               <div class="chat-box-right m-t-10">
-                  <span class="text-muted bold small">Me: </span><br />
-                  <span class="f14 m-t-5">`+data.Body+`</span>
-                  <span class="small pull-right text-muted">`+moment(data.created_at).fromNow()+`</span>
+                  <span class="f13 m-t-5">`+data.Body+`</span>
+                  <span class="small pull-right text-muted chat-time">`+moment(data.created_at).fromNow()+`</span>
                   <br />
               </div>
             `);
