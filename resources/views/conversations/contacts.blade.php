@@ -92,7 +92,7 @@
       // $('#contact-box').empty();
       $('#contact-box').html(`
         <div class="pull-right pointer">
-          <a onclick="new_contact()">+ Add New Contact</a>
+          <a onclick="new_contact()" class="bold text-success">+ Add New Contact</a>
         </div>
         <div class="col-md-12">
           <div class="form-group">
@@ -107,7 +107,7 @@
     function new_contact() {
       $('#contact-box').html(`
         <div class="text-right pointer">
-          <a onclick="select_contact()">+ Select Contact From List</a>
+          <a onclick="select_contact()" class="bold text-success">+ Select Contact From List</a>
         </div>
         <div class="col-md-6">
           <div class="">

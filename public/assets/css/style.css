@@ -637,6 +637,9 @@ audio, canvas, progress, video {
 .text-success {
     color: #39b54a !important;
 }
+.text-warning {
+    color: #fd9a18 !important;
+}
 /* Adminox */
 
 .widget-inline {
