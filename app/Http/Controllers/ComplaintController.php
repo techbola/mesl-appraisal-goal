@@ -42,7 +42,7 @@ class ComplaintController extends Controller
     public function create()
     {
         $clients   = Customer::all();
-        $locations = Location::all();
+        $locations = BuildingProject::all();
         return view('facility_management.complaints.create', compact('locations', 'clients'));
     }
 
