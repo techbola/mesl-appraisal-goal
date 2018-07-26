@@ -8,6 +8,7 @@ use Cavidel\Title;
 use Cavidel\HouseType;
 use Cavidel\Conversation;
 use Cavidel\Staff;
+use Cavidel\BuildingProject;
 use DB;
 
 class ConversationController extends Controller
@@ -65,7 +66,10 @@ class ConversationController extends Controller
     $user = auth()->user();
     $contact = Contact::find($id);
     $staff = Staff::where('CompanyID', $user->CompanyID)->get();
-    return view('conversations.view_conversations', compact('contact', 'staff'));
+    $titles = Title::orderBy('Title')->get();
+    $housetypes = HouseType::orderBy('HouseType')->get();
+    $estates = BuildingProject::orderBy('ProjectName')->get();
+    return view('conversations.view_conversations', compact('contact', 'staff', 'titles', 'housetypes', 'estates'));
   }
 
   public function store_conversation(Request $request, $id)
@@ -92,6 +96,13 @@ class ConversationController extends Controller
       $conv->save();
     });
     return redirect()->back()->with('success', 'Conversation added successfully.');
+  }
+
+  public function update_call_contact(Request $request, $id) {
+    $contact = Contact::find($id);
+    $contact->fill($request->except(['_token', '_method']));
+    $contact->update();
+    return redirect()->back()->with('success', $contact->Name.' was updated successfully.');
   }
 
 }
