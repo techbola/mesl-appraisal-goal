@@ -77,7 +77,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 {!! Form::label('AssignedStaff', 'Contact') !!}
-                {!! Form::select('AssignedStaff', [''=>'Select Staff']+$staffs->pluck('FullName', 'UserID')->toArray(), null, ['class'=>'full-width', 'data-init-plugin'=>'select2']) !!}
+                {!! Form::select('AssignedStaff', [''=>'Select Staff'] + $staff->pluck('FullName', 'UserID')->toArray(), null, ['class'=>'full-width', 'data-init-plugin'=>'select2']) !!}
               </div>
             </div>
 
