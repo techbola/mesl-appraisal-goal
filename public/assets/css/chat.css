@@ -12,7 +12,7 @@
 }
 .theme-black .chat-box-right, .theme-black .chat-box-left {
   box-shadow: 2px 3px 15px 2px #777;
-  border: 1px solid #bbb;
+  /* border: 1px solid #bbb; */
 }
 .theme-black .chat-overlay {
   /* position: absolute;
