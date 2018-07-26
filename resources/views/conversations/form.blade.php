@@ -103,7 +103,7 @@
 
 <div id="contact-box" class="m-b-10">
   <div class="pull-right pointer">
-    <a onclick="new_contact()">+ Add New Contact</a>
+    <a onclick="new_contact()" class="bold text-success">+ Add New Contact</a>
   </div>
   <div class="col-md-12">
     <div class="form-group">

@@ -24,10 +24,10 @@
 
 		<form id="print_form" class="" action="" method="post">
 			{{ csrf_field() }}
-			{{-- <button type="submit">Print</button> --}}
+			<button type="submit">Print</button>
 			<table id="assets" class="table table-striped table-bordered tableWithSearch">
 				<thead>
-					{{-- <th></th> --}}
+					<th></th>
 					<th width="20%">Description</th>
 					<th>Category</th>
 					<th>Location</th>
@@ -41,7 +41,7 @@
 					<th width="7%">Actions</th>
 				</thead>
 				<tfoot class="thead">
-					{{-- <th></th> --}}
+					<th></th>
 					<th width="20%">Description</th>
 					<th>Category</th>
 					<th>Location</th>
@@ -57,9 +57,9 @@
 				<tbody>
 					@foreach ($assets as $asset)
 						<tr>
-							{{-- <td>
+							<td>
 								<input type="checkbox" name="assets[]" value="{{ $asset->AssetRef }}">
-							</td> --}}
+							</td>
 							<td>{{ $asset->Description ?? '&mdash;' }}</td>
 							<td>{{ $asset->category->AssetCategory ?? '-' }}</td>
 							<td>{{ $asset->location->Location ?? '-' }}</td>
@@ -95,8 +95,8 @@
     @include('assets.modals')
 
 		{{-- Tags --}}
-		{{-- <div class="print-assets print-hidden" id="print-content">
-			@foreach ($assets as $asset)
+		<div class="print-assets print-hidden" id="print-content">
+			{{-- @foreach ($assets as $asset)
 				<div class="tag-list">
 					<li>
 						<div class="table-cell p-r-10">{{ QRCode::text('Asset name: '.strtoupper($asset->Description).' // Purchase Date: '.$asset->PurchaseDate->format('jS M, Y'))->svg() }}</div>
@@ -107,8 +107,8 @@
 						</div>
 					</li>
 				</div>
-			@endforeach
-		</div> --}}
+			@endforeach --}}
+		</div>
 		{{-- End Tags --}}
 @endsection
 

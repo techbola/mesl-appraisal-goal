@@ -44,7 +44,8 @@
     color: #000;
     padding: 0.8em;
     text-align: left;
-    width: 40%;
+    width: max-content;
+    max-width: 55%;
     height: auto;
     margin-left: 15px;
     border-radius: 10px;
@@ -60,13 +61,15 @@
 }
 .chat-box-right {
     position: relative;
-    background-color: rgba(255,255,255, 1.50);
+    /* background-color: rgba(255,255,255, 1.50); */
+    background-color: #dcffd0;
     color: #000;
     padding: 0.8em;
     text-align: left;
-    width: 40%;
+    width: max-content;
+    max-width: 55%;
     height: auto;
-    margin-left: 55%;
+    margin-left: 40%;
     border-radius: 10px;
     font-size: 12px;
 }
@@ -76,7 +79,8 @@
     right: -20px;
     top: 15px;
     border: 10px solid transparent;
-    border-left-color: rgba(255,255,255, 1.50);
+    /* border-left-color: rgba(255,255,255, 1.50); */
+    border-left-color: #dcffd0;
 }
 .load-associations  {
     background-color: rgba(000,000,000,0.50);
@@ -85,4 +89,7 @@
 .create-form {
     background-color: rgba(000,000,000,0.50);
     padding: 1em;
+}
+.chat-time {
+  margin-left: 10px;
 }

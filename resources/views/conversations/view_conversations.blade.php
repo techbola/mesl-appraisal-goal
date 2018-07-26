@@ -39,6 +39,7 @@
         <th>Date</th>
         <th>Site Visit?</th>
         <th>Visit Completed?</th>
+        <th>Actions</th>
       </thead>
       <tbody>
         @foreach ($contact->conversations as $conv)
@@ -47,6 +48,9 @@
             <td>{{ ($conv->Date)? Carbon::parse($conv->Date)->format('jS M, Y') : '&mdash;' }}</td>
             <td>{{ ($conv->SiteVisit)? 'Yes':'No' }}</td>
             <td>{{ ($conv->VisitCompleted)? 'Yes':'No' }}</td>
+            <td class="actions">
+              <a href="#" class="btn btn-xs btn-inverse">Edit</a>
+            </td>
           </tr>
         @endforeach
       </tbody>
@@ -68,6 +72,12 @@
               <div class="form-group">
                 {!! Form::label('Conversation') !!}
                 {!! Form::textarea('Conversation', null, ['class'=>'form-control', 'placeholder'=>'Conversation', 'rows'=>'5']) !!}
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                {!! Form::label('AssignedStaff', 'Contact') !!}
+                {!! Form::select('AssignedStaff', [''=>'Select Staff']+$staffs->pluck('FullName', 'UserID')->toArray(), null, ['class'=>'full-width', 'data-init-plugin'=>'select2']) !!}
               </div>
             </div>
 
