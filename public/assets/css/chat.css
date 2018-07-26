@@ -73,17 +73,17 @@
     margin-right: 20px;
     height: auto;
     margin-left: 40%;
-    border-radius: 10px 0px 10px 10px;
+    border-radius: 15px 0px 15px 15px;
     font-size: 12px;
 }
 .chat-box-right::after {
     content: '';
     position: absolute;
-    right: -20px;
+    right: -9px;
     top: 0px;
     border: 10px solid transparent;
     /* border-left-color: rgba(255,255,255, 1.50); */
-    border-left-color: #dcffd0;
+    border-top-color: #dcffd0;
 }
 .load-associations  {
     background-color: rgba(000,000,000,0.50);
