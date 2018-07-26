@@ -8,6 +8,7 @@ use Storage;
 use Cavidel\Location;
 use Cavidel\Complaint;
 use Cavidel\Customer;
+use Cavidel\BuildingProject;
 use Cavidel\Department;
 use Cavidel\ComplaintComment;
 use Cavidel\ComplaintAttachment;
@@ -18,12 +19,14 @@ class ComplaintController extends Controller
     public function index()
     {
         $clients    = Customer::all();
-        $locations  = Location::all();
+        $locations  = BuildingProject::all();
         $complaints = Complaint::all();
         $comments   = ComplaintComment::all();
         // dd($complaint_discussions);
         $departments = Department::get(['Department', 'DepartmentRef']);
+        // dd($departments);
         // ------------------------------- //
+
         $staff  = auth()->user()->staff;
         $_depts = Staff::where('StaffRef', $staff->StaffRef)->get(['DepartmentID'])->first();
         $depts  = explode(',', $_depts->DepartmentID);
@@ -39,7 +42,7 @@ class ComplaintController extends Controller
     public function create()
     {
         $clients   = Customer::all();
-        $locations = Location::all();
+        $locations = BuildingProject::all();
         return view('facility_management.complaints.create', compact('locations', 'clients'));
     }
 

@@ -7,7 +7,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('client_id', 'Client') }}
-                    {{ Form::select('client_id',  [ '' => 'Select Client'] + $clients->pluck('Name','ClientRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Client', 'required']) }}
+                    {{ Form::select('client_id',  [ '' => 'Select Client'] + $clients->pluck('Customer','CustomerRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Client', 'required']) }}
                 </div>
             </div>
         </div>
@@ -15,7 +15,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('location_id', 'Location') }}
-                    {{ Form::select('location_id',[ '' => 'Select Location'] + $locations->pluck('Location','LocationRef')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location', 'required']) }}
+                    {{ Form::select('location_id',[ '' => 'Select Location'] + $locations->pluck('ProjectName','BuildingProjectRef')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location', 'required']) }}
                 </div>
             </div>
         </div>
