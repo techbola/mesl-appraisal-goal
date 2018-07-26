@@ -7,6 +7,8 @@ use Cavidel\Contact;
 use Cavidel\Title;
 use Cavidel\HouseType;
 use Cavidel\Conversation;
+use Cavidel\Staff;
+use Cavidel\BuildingProject;
 use DB;
 
 class ConversationController extends Controller
@@ -14,10 +16,10 @@ class ConversationController extends Controller
   public function contacts()
   {
     $user = auth()->user();
-    $contacts = Contact::where('CompanyID', $user->CompanyID)->whereHas('conversations')->get();
-    $contacts_all = Contact::where('CompanyID', $user->CompanyID)->get();
-    $titles = Title::all();
-    $housetypes = HouseType::all();
+    $contacts = Contact::where('CompanyID', $user->CompanyID)->whereHas('conversations')->orderBy('Customer')->get();
+    $contacts_all = Contact::where('CompanyID', $user->CompanyID)->orderBy('Customer')->get();
+    $titles = Title::orderBy('Title')->get();
+    $housetypes = HouseType::orderBy('HouseType')->get();
     return view('conversations.contacts', compact('contacts', 'contacts_all', 'titles', 'housetypes'));
   }
 
@@ -61,8 +63,13 @@ class ConversationController extends Controller
 
   public function view_conversations($id)
   {
+    $user = auth()->user();
     $contact = Contact::find($id);
-    return view('conversations.view_conversations', compact('contact'));
+    $staff = Staff::where('CompanyID', $user->CompanyID)->get();
+    $titles = Title::orderBy('Title')->get();
+    $housetypes = HouseType::orderBy('HouseType')->get();
+    $estates = BuildingProject::orderBy('ProjectName')->get();
+    return view('conversations.view_conversations', compact('contact', 'staff', 'titles', 'housetypes', 'estates'));
   }
 
   public function store_conversation(Request $request, $id)
@@ -73,6 +80,7 @@ class ConversationController extends Controller
       $conv = new Conversation;
       $conv->Conversation = $request->Conversation;
       $conv->ContactID = $id;
+      $conv->AssignedStaff = $request->AssignedStaff;
 
       $conv->Date = $request->Date;
       if ($request->SiteVisit) {
@@ -88,6 +96,13 @@ class ConversationController extends Controller
       $conv->save();
     });
     return redirect()->back()->with('success', 'Conversation added successfully.');
+  }
+
+  public function update_call_contact(Request $request, $id) {
+    $contact = Contact::find($id);
+    $contact->fill($request->except(['_token', '_method']));
+    $contact->update();
+    return redirect()->back()->with('success', $contact->Name.' was updated successfully.');
   }
 
 }
