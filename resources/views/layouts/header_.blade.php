@@ -667,6 +667,10 @@
 
       <link href="{{ asset('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet" type="text/css">
       <script src="{{ asset('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js') }}"></script>
+      <!-- timeout -->
+      <script src="{{ asset('js/jquery.idle.min.js') }}"></script>
+      <script src="{{ asset('js/officemate-idler.js') }}"></script>
+      <!-- end timeout script-->
 
 
 
