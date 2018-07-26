@@ -257,7 +257,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('store_call_contact', 'ConversationController@store_call_contact')->name('store_call_contact');
     Route::get('view_conversations/{id}', 'ConversationController@view_conversations')->name('view_conversations');
     Route::post('store_conversation/{id}', 'ConversationController@store_conversation')->name('store_conversation');
+    Route::patch('update_conversation/{id}', 'ConversationController@update_conversation')->name('update_conversation');
     Route::post('update_call_contact/{id}', 'ConversationController@update_call_contact')->name('update_call_contact');
+    Route::get('get_conversation/{id}', 'ConversationController@get_conversation')->name('get_conversation'); // AJAX
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');

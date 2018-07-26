@@ -30,6 +30,11 @@ class Contact extends Model
       return $this->belongsTo('Cavidel\HouseType', 'HouseTypeID', 'HouseTypeRef');
     }
 
+    public function estate()
+    {
+      return $this->belongsTo('Cavidel\BuildingProject', 'EstateID', 'BuildingProjectRef');
+    }
+
     public function call_memos()
     {
       return $this->hasMany('Cavidel\CallMemo', 'CustomerID')->orderBy('MeetingDate', 'desc');
@@ -37,6 +42,6 @@ class Contact extends Model
 
     public function conversations()
     {
-      return $this->hasMany('Cavidel\Conversation', 'ContactID')->orderBy('Date', 'desc');
+      return $this->hasMany('Cavidel\Conversation', 'ContactID')->orderBy('VisitDate', 'desc');
     }
 }
