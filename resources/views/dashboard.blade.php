@@ -147,9 +147,9 @@
                   </div>
 
                   <div class="table-cell p-l-10">
-                    <div class="" style="margin-top:0 !important">{{ $item->Title }}</div>
+                    <div class="" style="margin-top:0 !important">{{ $item->Title ?? '&mdash;' }}</div>
                     <div class="no-margin text-muted small">
-                      <span>{{ $item->poster->FullName }}</span> &mdash; {{ ($item->CreatedDate->isToday())? 'Today' : ''.$item->CreatedDate->format('jS M, Y') }} at {{ $item->CreatedDate->format('g:ia') }}
+                      <span>{{ ($item->poster)? $item->poster->FullName : ''}}</span> &mdash; @if(!empty($item->CreatedDate)){{ ($item->CreatedDate->isToday())? 'Today' : ''.$item->CreatedDate->format('jS M, Y') }} at {{ $item->CreatedDate->format('g:ia') }}@endif
                     </div>
                     <div class="small bg-light">
                       {!! str_limit(strip_tags($item->Body), 30) !!}
