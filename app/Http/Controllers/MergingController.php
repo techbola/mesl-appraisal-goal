@@ -5,6 +5,7 @@ namespace Cavidel\Http\Controllers;
 use Illuminate\Http\Request;
 use Cavidel\Address1;
 use Cavidel\Address2;
+use Cavidel\MergedRecord;
 use Cavidel\FileUpload;
 
 class MergingController extends Controller
@@ -13,7 +14,7 @@ class MergingController extends Controller
     {
         $address1s = Address1::where('Status', 0)->get();
         $address2s = Address2::where('Status', 0)->get();
-        $merged    = Address2::where('Status', 1)->get();
+        $merged    = MergedRecord::all();
         return view('merging.data_merging', compact('address1s', 'address2s', 'merged'));
     }
 
@@ -26,16 +27,20 @@ class MergingController extends Controller
             $address1_data = Address1::where('Ref', $address1)->first();
             $address2_data = Address2::where('Ref', $address2)->first();
 
-            $address2_data->BlockNumber = $address1_data->BlockNumber;
-            $address2_data->FlatNumber  = $address1_data->FlatNumber;
-            $address2_data->Housename   = $address1_data->HouseName;
-            $address2_data->UpdateRef   = $address1;
-            $address2_data->Status      = 1;
+            $new_record = new MergedRecord;
 
-            $update_data = $address2_data->save();
+            $new_record->Allotee   = $address1_data->Allotee;
+            $new_record->EstateNo  = $address1_data->EstateNo;
+            $new_record->BlockNo   = $address1_data->BlockNo;
+            $new_record->Unit      = $address1_data->Unit;
+            $new_record->FileNo    = $address2_data->FileNo;
+            $new_record->HouseType = $address2_data->HouseType;
+
+            $update_data = $new_record->save();
             if ($update_data) {
-                $initial_data = \DB::table('address1')->where('Ref', $address1)->update(['Status' => 1]);
-                return redirect()->back()->with('success', 'Data merged successfuly');
+                $initial_data1 = \DB::table('address1')->where('Ref', $address1)->update(['Status' => 1]);
+                $initial_data2 = \DB::table('address2')->where('Ref', $address2)->update(['Status' => 1]);
+                return 'done';
             }
         } else {
             return redirect()->back()->with('error', 'Data cannot be matched because data where not choosen properly');

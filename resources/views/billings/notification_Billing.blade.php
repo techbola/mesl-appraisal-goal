@@ -191,7 +191,6 @@
       </div>
   	<!-- END PANEL -->
 
-    //Pay now 
 <div class="page-content-wrapper "> 
      <div class="content ">
           <!-- Modal -->
