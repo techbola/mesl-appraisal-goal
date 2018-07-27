@@ -637,6 +637,9 @@ audio, canvas, progress, video {
 .text-success {
     color: #39b54a !important;
 }
+.text-warning {
+    color: #fd9a18 !important;
+}
 /* Adminox */
 
 .widget-inline {
@@ -906,16 +909,17 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff !important;
 }
 .print-hidden {
-  visibility: hidden;
+  /* visibility: hidden; */
+  display: none;
 }
 @media print {
     body * {
-        visibility: hidden;
-        /* display:none; */
+        /* visibility: hidden; */
+        display:none;
     }
     #print-content, #print-content * {
-        visibility: visible !important;
-        /* display: block !important; */
+        /* visibility: visible !important; */
+        display: block !important;
     }
     #print-content {
         position: absolute;
@@ -1071,6 +1075,9 @@ td>.badge, .modal .badge {
   .horizontal-menu [data-pages="sidebar"]+.page-container {
     padding-left: unset;
   }
+}
+.checkbox label {
+  padding-left: 5px !important;
 }
 
 

@@ -12,7 +12,7 @@
 }
 .theme-black .chat-box-right, .theme-black .chat-box-left {
   box-shadow: 2px 3px 15px 2px #777;
-  /* border: 1px solid #bbb; */
+  border: 1px solid #bbb;
 }
 .theme-black .chat-overlay {
   /* position: absolute;
@@ -39,7 +39,6 @@
     border: 1px solid #fff;
 }
 .chat-box-left {
-    float: left;
     position: relative;
     background-color: rgba(255,255,255, 1.50);
     color: #000;
@@ -61,29 +60,27 @@
     border-right-color: rgba(255,255,255, 1.50);
 }
 .chat-box-right {
-    float: right;
     position: relative;
     /* background-color: rgba(255,255,255, 1.50); */
     background-color: #dcffd0;
     color: #000;
     padding: 0.8em;
     text-align: left;
-    /* width: max-content; */
-    /* max-width: 55%; */
-    margin-right: 20px;
+    width: max-content;
+    max-width: 55%;
     height: auto;
     margin-left: 40%;
-    border-radius: 15px 0px 15px 15px;
+    border-radius: 10px;
     font-size: 12px;
 }
 .chat-box-right::after {
     content: '';
     position: absolute;
-    right: -9px;
-    top: 0px;
+    right: -20px;
+    top: 15px;
     border: 10px solid transparent;
     /* border-left-color: rgba(255,255,255, 1.50); */
-    border-top-color: #dcffd0;
+    border-left-color: #dcffd0;
 }
 .load-associations  {
     background-color: rgba(000,000,000,0.50);

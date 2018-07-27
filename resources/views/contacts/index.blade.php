@@ -9,7 +9,8 @@
 @endsection --}}
 
 @section('buttons')
-		<button class="btn btn-info btn-rounded" data-toggle="modal" data-target="#new_contact">New Contact</button>
+		<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#new_contact">New Contact</button>
+		{{-- <a href="{{ route('conversations_contacts') }}" class="btn btn-info btn-sm m-l-5">Call Contacts</a> --}}
 @endsection
 
 @section('content')
@@ -48,8 +49,8 @@
         <th>Department</th>
         <th>Organization</th>
         <th width="12%">Phone</th>
-				<th width="15%">Email</th>
-        <th width="20%">Actions</th>
+				<th width="12%">Email</th>
+        <th width="23%">Actions</th>
       </tfoot>
       <tbody>
 				@foreach ($contacts as $contact)
@@ -61,7 +62,7 @@
 							<td>{{ $contact->Organization }}</td>
 							<td>{{ $contact->MobilePhone1 }}</td>
 							<td>{{ $contact->OfficeEmail }}</td>
-							<td>
+							<td class="actions">
 								{{-- <a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="text-warning f16"><i class="fa fa-pencil"></i></a> --}}
 								@if ($user->hasRole('admin'))
 									<a href="{{ route('edit_contact', $contact->CustomerRef) }}" class="btn btn-xs btn-inverse">Edit</a>
@@ -69,6 +70,7 @@
 								<a href="javascript:void()" data-toggle="modal" data-target="#view_contact" @click="get_contact({{ $contact }})" class="btn btn-xs btn-info">View</a>
 								<a href="{{ route('view_call_memo', $contact->CustomerRef) }}" class="btn btn-xs btn-inverse">Meeting Notes</a>
 								{{-- <a href="javascript:void()" class="btn btn-xs btn-info">View</a> --}}
+								<a href="{{ route('view_conversations', $contact->CustomerRef) }}" class="btn btn-xs btn-info">View Conversations</a>
 							</td>
 						</tr>
 					@endcan

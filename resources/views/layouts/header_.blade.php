@@ -609,7 +609,7 @@
 
       var chat_channel = pusher.subscribe('new-chat');
       chat_channel.bind('Cavidel\\Events\\NewChatMsg', function(data) {
-        console.log(data);
+        // console.log(data);
         if (data.ToID == '{{ auth()->user()->id }}') {
           Push.create("New Chat From "+data.from.first_name+" "+data.from.last_name, {
               body: data.Body,
@@ -667,6 +667,10 @@
 
       <link href="{{ asset('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css') }}" rel="stylesheet" type="text/css">
       <script src="{{ asset('assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js') }}"></script>
+      <!-- timeout -->
+      <script src="{{ asset('js/jquery.idle.min.js') }}"></script>
+      <script src="{{ asset('js/officemate-idler.js') }}"></script>
+      <!-- end timeout script-->
 
 
 

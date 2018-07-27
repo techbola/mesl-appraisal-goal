@@ -253,7 +253,19 @@ Route::middleware(['auth'])->group(function () {
         return Storage::download('/meeting_files/' . $name);
     })->name('download_meeting_report');
 
-    Route::get('call_log', 'ContactController@call_log')->name('call_log');
+    Route::get('conversations_contacts', 'ConversationController@contacts')->name('conversations_contacts');
+    Route::post('store_call_contact', 'ConversationController@store_call_contact')->name('store_call_contact');
+    Route::get('view_conversations/{id}', 'ConversationController@view_conversations')->name('view_conversations');
+    Route::post('store_conversation/{id}', 'ConversationController@store_conversation')->name('store_conversation');
+    Route::patch('update_conversation/{id}', 'ConversationController@update_conversation')->name('update_conversation');
+    Route::post('update_call_contact/{id}', 'ConversationController@update_call_contact')->name('update_call_contact');
+    Route::get('get_conversation/{id}', 'ConversationController@get_conversation')->name('get_conversation'); // AJAX
+
+    // Estate Allocation
+    Route::get('/estate_allocation', 'EstateController@estate_allocation')->name('estate_allocation');
+    Route::get('/get_blocks/{estate}', 'EstateController@get_blocks')->name('get_blocks');
+    Route::get('/get_units/{estate}/{block}', 'EstateController@get_units')->name('get_units');
+    Route::patch('/update_allocation', 'EstateController@update_allocation')->name('update_allocation');
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
