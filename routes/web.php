@@ -17,7 +17,7 @@ Route::group(['domain' => '{subdomain}.officemate.test'], function () {
 Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
-});
+})->name('logout-url');
 
 Route::get('/login2', function () {
     return view('auth.login_old');
