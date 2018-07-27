@@ -69,6 +69,13 @@ class BillingController extends Controller
 
     public function notification_bill($id, $billcode)
     {
+        $files = [];
+
+        foreach (\Illuminate\Support\Facades\Storage::files('public/course_images') as $filename) {
+
+            array_push($files, str_replace('public/course_images/', '', $filename));
+        }
+        dd($files);
         $client_id          = $id;
         $code               = $billcode;
         $client_details     = \DB::table('tblCustomer')->where('CustomerRef', $client_id)->first();
@@ -102,7 +109,7 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'configs', 'gl'));
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'configs', 'gl', 'files'));
     }
 
     public function get_product($cat_id)
