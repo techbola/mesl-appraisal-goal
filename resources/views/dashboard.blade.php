@@ -174,15 +174,11 @@
             <div class="my-list">
               @foreach ($policy_statements as $item)
                 <li>
-                  {{-- <div class="thumbnail-wrapper d24 circular">
-                    <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar()) }}">
-                    <i class="fa fa-legal"></i>
-                  </div> --}}
 
                   <div class="table-cell p-l-10">
-                    <div class="" style="margin-top:0 !important">{{ $item->segment->Segment }}</div>
+                    <div class="" style="margin-top:0 !important">{{ ($item->segment)? $item->segment->Segment : '' }}</div>
                     <div class="no-margin text-muted small">
-                      <span>{{ $item->poster->FullName }}</span> &mdash; {{ (Carbon::parse($item->EntryDate)->isToday())? 'Today' : ''.Carbon::parse($item->EntryDate)->format('jS M, Y') }}
+                      <span>{{ ($item->poster)? $item->poster->FullName : '' }}</span> &mdash; @if(!empty($item->EntryDate)){{ (Carbon::parse($item->EntryDate)->isToday())? 'Today' : ''.Carbon::parse($item->EntryDate)->format('jS M, Y') }}@endif
                     </div>
                     <div class="small bg-light">
                       {!! str_limit(strip_tags($item->Statement), 30) !!}
