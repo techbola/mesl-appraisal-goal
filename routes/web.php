@@ -261,6 +261,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('update_call_contact/{id}', 'ConversationController@update_call_contact')->name('update_call_contact');
     Route::get('get_conversation/{id}', 'ConversationController@get_conversation')->name('get_conversation'); // AJAX
 
+    // Estate Allocation
+    Route::get('/estate_allocation', 'EstateController@estate_allocation')->name('estate_allocation');
+    Route::get('/get_blocks/{estate}', 'EstateController@get_blocks')->name('get_blocks');
+    Route::get('/get_units/{estate}/{block}', 'EstateController@get_units')->name('get_units');
+    Route::patch('/update_allocation', 'EstateController@update_allocation')->name('update_allocation');
+
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
     Route::patch('update_scorecard/{id}', 'ScoreCardController@update')->name('update_scorecard');
