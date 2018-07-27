@@ -82,7 +82,7 @@ class ConversationController extends Controller
       $conv->ContactID = $id;
       $conv->AssignedStaff = $request->AssignedStaff;
 
-      $conv->Date = $request->Date;
+      $conv->VisitDate = $request->VisitDate;
       if ($request->SiteVisit) {
         $conv->SiteVisit = '1';
       } else{
@@ -93,9 +93,35 @@ class ConversationController extends Controller
       } else{
         $conv->VisitCompleted = '0';
       }
+      $conv->InputterID = $user->id;
       $conv->save();
     });
     return redirect()->back()->with('success', 'Conversation added successfully.');
+  }
+
+  public function update_conversation(Request $request, $id)
+  {
+    $user = auth()->user();
+    DB::transaction(function() use($request, $user, $id){
+
+      $conv = Conversation::find($id);
+      $conv->Conversation = $request->Conversation;
+      $conv->AssignedStaff = $request->AssignedStaff;
+      $conv->VisitDate = $request->VisitDate;
+      if ($request->SiteVisit) {
+        $conv->SiteVisit = '1';
+      } else{
+        $conv->SiteVisit = '0';
+      }
+      if ($request->VisitCompleted) {
+        $conv->VisitCompleted = '1';
+      } else{
+        $conv->VisitCompleted = '0';
+      }
+      $conv->LastModifierID = $user->id;
+      $conv->update();
+    });
+    return redirect()->back()->with('success', 'Conversation update successfully.');
   }
 
   public function update_call_contact(Request $request, $id) {
@@ -103,6 +129,12 @@ class ConversationController extends Controller
     $contact->fill($request->except(['_token', '_method']));
     $contact->update();
     return redirect()->back()->with('success', $contact->Name.' was updated successfully.');
+  }
+
+  public function get_conversation($id)
+  {
+    $conv = Conversation::find($id);
+    return $conv;
   }
 
 }

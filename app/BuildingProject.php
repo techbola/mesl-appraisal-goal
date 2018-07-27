@@ -10,4 +10,15 @@ class BuildingProject extends Model
   protected $guarded = ['BuildingProjectRef'];
   public $primaryKey = 'BuildingProjectRef';
   public $timestamps = false;
+
+  public function blocks()
+  {
+    return $this->hasMany(EstateAllocation::class, 'EstateID');
+  }
+
+  public function units($block)
+  {
+    return $this->hasMany(EstateAllocation::class, 'EstateID')->where('Block', $block)->get();
+  }
+
 }
