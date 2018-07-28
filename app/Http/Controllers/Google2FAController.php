@@ -1,7 +1,8 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Crypt;
 use Google2FA;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -36,12 +37,12 @@ class Google2FAController extends Controller
         $user = $request->user();
 
         //encrypt and then save secret
-        $user->google2fa_secret = \Crypt::encrypt($secret);
+        $user->google2fa_secret = Crypt::encrypt($secret);
         $user->save();
 
         //generate image for QR barcode
-        $imageDataUri = \Google2FA::getQRCodeInline(
-            'Officemate',
+        $imageDataUri = Google2FA::getQRCodeInline(
+            $request->getHttpHost(),
             $user->email,
             $secret,
             200
