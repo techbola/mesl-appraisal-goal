@@ -316,7 +316,7 @@
                 </li>
                 <li><a href="#"><i class="pg-signals"></i> Help</a>
                 </li> --}}
-                <li><a href="{{ url('/settings') }}"><i class="fa fa-user"></i>Two Factor Authentication</a>
+                <li><a href="{{ url('/settings') }}"><i class="fa fa-user"></i>2 Factor Authentication</a>
                   </li>
                 <li class="bg-master-lighter">
                   <a href="/logout" class="clearfix">
