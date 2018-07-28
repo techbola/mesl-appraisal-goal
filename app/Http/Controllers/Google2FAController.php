@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Cavidel\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Cavidel\Http\Controllers\Controller;
 use Crypt;
 use Google2FA;
 use Illuminate\Foundation\Validation\ValidatesRequests;
