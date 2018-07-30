@@ -2,18 +2,18 @@
 
 namespace Cavidel\Http\Requests;
 
+use Cavidel\User;
 use Cache;
 use Crypt;
 use Google2FA;
-use App\User;
-use App\Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Factory as ValidatonFactory;
 
-class ValidateSecretRequest extends Request
+class ValidateSecretRequest extends FormRequest
 {
     /**
      *
-     * @var \App\User
+     * @var \Cavidel\User
      */
     private $user;
 
