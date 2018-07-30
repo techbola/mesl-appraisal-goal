@@ -14,10 +14,7 @@ Route::group(['domain' => '{subdomain}.officemate.test'], function () {
     });
 });
 
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-})->name('logout-url');
+Route::get('/logout', 'LoginController@logout')->name('logout-url');
 
 Route::get('/login2', function () {
     return view('auth.login_old');
@@ -55,6 +52,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/edit-company/{id?}', 'CompanyController@edit')->name('edit_company');
     Route::patch('/update-company/{id}', 'CompanyController@update')->name('update_company');
+    Route::get('/activity_log', 'CompanyController@activity_log')->name('activity_log');
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
