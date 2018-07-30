@@ -13,10 +13,10 @@ use Hash;
 use Notification;
 use Cavidel\Notifications\EmailActivation;
 use Auth;
-
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 class LoginController extends Controller
 {
-
+    use AuthenticatesUsers;
     public function login()
     {
         return view('auth.login');
@@ -137,43 +137,6 @@ class LoginController extends Controller
         } else {
             return redirect()->back()->with('error', 'Current password is wrong.');
         }
-    }
-
-    protected function authenticated(Request $request, $user)
-    {
-        if ($user->google2fa_secret) {
-            Auth::logout();
-
-            $request->session()->put('2fa:user:id', $user->id);
-
-            return redirect('2fa/validate');
-        }
-
-        return redirect()->intended($this->redirectTo);
-    }
-
-    public function getValidateToken()
-    {
-        if (session('2fa:user:id')) {
-            return view('2fa/index');
-        }
-
-        return redirect('login');
-    }
-
-    public function postValidateToken(ValidateSecretRequest $request)
-    {
-        //get user id and create cache key
-        $userId = $request->session()->pull('2fa:user:id');
-        $key    = $userId . ':' . $request->totp;
-
-        //use cache to store token to blacklist
-        Cache::add($key, true, 4);
-
-        //login and redirect user
-        Auth::loginUsingId($userId);
-
-        return redirect()->intended($this->redirectTo);
     }
 
 }
