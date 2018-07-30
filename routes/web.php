@@ -47,7 +47,7 @@ Route::get('/activate/{id}/{code}', 'LoginController@activate')->name('activate'
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/settings', 'HomeController@settings')->name('home');
+    Route::get('/settings', 'HomeController@settings');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
     Route::get('/edit-company/{id?}', 'CompanyController@edit')->name('edit_company');
