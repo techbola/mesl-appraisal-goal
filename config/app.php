@@ -192,6 +192,7 @@ return [
         LaravelQRCode\Providers\QRCodeServiceProvider::class,
 
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
 
     ],
 
@@ -252,6 +253,7 @@ return [
 
         'PDF'          => Barryvdh\DomPDF\Facade::class,
         'QRCode'       => LaravelQRCode\Facades\QRCode::class,
+        'Activity'     => Spatie\Activitylog\Models\Activity::class,
 
     ],
 

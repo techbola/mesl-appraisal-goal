@@ -6,6 +6,7 @@ use Cavidel\Company;
 use Illuminate\Http\Request;
 use Image;
 use File;
+use Activity;
 
 class CompanyController extends Controller
 {
@@ -104,5 +105,11 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function activity_log()
+    {
+      $logs = Activity::orderBy('created_at', 'desc')->get();
+      return view('activity_log', compact('logs'));
     }
 }
