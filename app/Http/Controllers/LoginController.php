@@ -11,6 +11,7 @@ use Cavidel\Staff;
 use DB;
 use Hash;
 use Notification;
+use Cavidel\Http\Requests\ValidateSecretRequest;
 use Cavidel\Notifications\EmailActivation;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -31,7 +32,17 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->where('is_activated', '0')->first();
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_activated' => '1', 'is_disengaged' => '0'])) {
-            return redirect()->intended('/');
+            $user_logged = User::where('email', $request->email)->first();
+            if ($user_logged->google2fa_secret) {
+                Auth::logout();
+
+                $request->session()->put('2fa:user:id', $user_logged->id);
+
+                return redirect('2fa/validate');
+            } else {
+                return redirect()->intended('/');
+            }
+
         } elseif ($user) {
             return redirect()->back()->withErrors('Your account has not been activated.');
         } else {
@@ -168,7 +179,7 @@ class LoginController extends Controller
         $key    = $userId . ':' . $request->totp;
 
         //use cache to store token to blacklist
-        Cache::add($key, true, 4);
+        \Cache::add($key, true, 4);
 
         //login and redirect user
         Auth::loginUsingId($userId);

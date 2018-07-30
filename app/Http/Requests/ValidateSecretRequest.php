@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Cavidel\Http\Requests;
 
-use App\User;
+use Cavidel\User;
 use Cache;
 use Crypt;
 use Google2FA;
@@ -13,7 +13,7 @@ class ValidateSecretRequest extends FormRequest
 {
     /**
      *
-     * @var \App\User
+     * @var \Cavidel\User
      */
     private $user;
 

@@ -7,6 +7,7 @@ use Crypt;
 use Google2FA;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Cavidel\Http\Requests\ValidateSecretRequest;
 use \ParagonIE\ConstantTime\Base32;
 
 class Google2FAController extends Controller
