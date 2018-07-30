@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -15,6 +16,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta content="" name="description" />
     <meta content="" name="author" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
     <link href="{{ asset('assets/plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/plugins/boostrapv3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
@@ -43,7 +47,7 @@
           <!--  -->
 {{-- <h4 class="white semi-bold font-montserrat m-b-20" style=" display: inline-block;
 "> TIMS | PORTAL </h4> --}}
-<img src="{{ asset('assets/img/tims_black.svg') }}" alt="logo" data-src="{{ asset('assets/img/tims_black.svg') }}" data-src-retina="{{ asset('assets/img/tims_black.svg') }}" width="78" height="40" class="m-b-15">
+<img src="{{ asset('images/officemate.png') }}" alt="logo" data-src="{{ asset('images/officemate.png') }}" data-src-retina="{{ asset('images/officemate.png') }}" width="78" height="40" class="m-b-15">
            
         @yield('content')
       <!--  -->
