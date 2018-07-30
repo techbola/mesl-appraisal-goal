@@ -17,11 +17,18 @@ Route::group(['domain' => '{subdomain}.officemate.test'], function () {
 Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
-});
+})->name('logout-url');
 
 Route::get('/login2', function () {
     return view('auth.login_old');
 });
+
+// GA
+Route::get('/2fa/enable', 'Google2FAController@enableTwoFactor');
+Route::get('/2fa/disable', 'Google2FAController@disableTwoFactor');
+Route::get('/2fa/validate', 'Auth\LoginController@getValidateToken');
+Route::post('/2fa/validate', ['middleware' => 'throttle:5', 'uses' => 'Auth\LoginController@postValidateToken']);
+// END GA
 
 // Guests Only
 Route::group(['middleware' => 'guest'], function () {
@@ -43,6 +50,7 @@ Route::get('/activate/{id}/{code}', 'LoginController@activate')->name('activate'
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/settings', 'HomeController@settings')->name('home');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
     Route::get('/edit-company/{id?}', 'CompanyController@edit')->name('edit_company');

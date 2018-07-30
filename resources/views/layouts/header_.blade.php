@@ -13,6 +13,7 @@
 
      <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="logout-url" content="{{ route('logout-url') }}">
 
     <link rel="apple-touch-icon" href="{{ asset('pages/ico/60.png') }}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('pages/ico/76.png') }}">
@@ -315,6 +316,8 @@
                 </li>
                 <li><a href="#"><i class="pg-signals"></i> Help</a>
                 </li> --}}
+                <li><a href="{{ url('/settings') }}"><i class="fa fa-user"></i>2 Factor Authentication</a>
+                  </li>
                 <li class="bg-master-lighter">
                   <a href="/logout" class="clearfix">
                     <span class="pull-left">Logout</span>
