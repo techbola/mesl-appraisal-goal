@@ -16,4 +16,9 @@ class Customer extends Model
     return $this->hasMany('Cavidel\Project', 'ClientID');
   }
 
+  public function estate_allocation()
+  {
+    return $this->hasOne('Cavidel\EstateAllocation', 'CustomerID');
+  }
+
 }
