@@ -29,8 +29,8 @@
   text-align: right;
 } */
 
-td.actions a, td.actions button, td.actions i {
-    margin: 5px 5px 0px 0px;
+td.actions > a, td.actions > button, td.actions > i {
+    margin: 4px 4px 0px 0px;
 }
 .form-control, .select2-container {
     border: 1px solid #ddd !important;
