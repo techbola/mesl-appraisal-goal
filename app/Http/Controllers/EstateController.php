@@ -55,7 +55,7 @@ class EstateController extends Controller
   {
     $user = auth()->user();
     $estates = BuildingProject::where('CompanyID', $user->CompanyID)->get();
-    $customers = Customer::where('CompanyID', $user->CompanyID)->get();
+    $customers = Customer::all();
 
     return view('estates.allocation', compact('estates', 'customers'));
   }

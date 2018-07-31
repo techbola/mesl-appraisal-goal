@@ -72,12 +72,12 @@
                 <td>{{ $result->Email }}</td>
                 <td>{{ $result->Phone }}</td>
                 <td>{{ $result->Address }}</td>
-                <td>{{ $result->estate_allocation->estate->ProjectName }}</td>
-                <td>{{ $result->estate_allocation->Block }}</td>
-                <td>{{ $result->estate_allocation->Unit }}</td>
-                <td>
-                  <a href="#" data-id="{{ $result->CustomerRef }}" data-pat="{{ $result->Name }}"  data-target="#modalFillIn"  data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-xs btn-success"><i class="fa fa-cc-mastercard"></i>  Create Bill</a> |
-                  <a href="{{ route('View_Client_Bill_List',[$result->CustomerRef]) }}" data-toggle="tooltip" data-placement="top" title="View Bill(s)" class="btn btn-xs btn-warning"><i class="fa fa-clipboard"></i></a> |
+                <td>{{ $result->estate_allocation->estate->ProjectName ?? '' }}</td>
+                <td>{{ $result->estate_allocation->Block ?? '' }}</td>
+                <td>{{ $result->estate_allocation->Unit ?? '' }}</td>
+                <td class="actions">
+                  <a href="#" data-id="{{ $result->CustomerRef }}" data-pat="{{ $result->Name }}"  data-target="#modalFillIn"  data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-xs btn-success"><i class="fa fa-cc-mastercard"></i>  Create Bill</a>
+                  <a href="{{ route('View_Client_Bill_List',[$result->CustomerRef]) }}" data-toggle="tooltip" data-placement="top" title="View Bill(s)" class="btn btn-xs btn-warning"><i class="fa fa-clipboard"></i></a>
                   <a href="{{ route('Client_Document_List',[$result->CustomerRef]) }}" data-toggle="tooltip" data-placement="top" title="Documents" title="" class="btn btn-xs btn-info"><i class="fa fa-file-text-o"></i>  Documents</a>
                   {{-- <a href="{{ route('facility-management.complaints.show',[$result->CustomerRef]) }}" title="" class="btn btn-xs btn-primary"><i class="fa fa-file-text-o"></i> Fix My House</a> --}}
                 </td>

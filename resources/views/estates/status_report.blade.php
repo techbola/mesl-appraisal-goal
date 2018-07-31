@@ -15,6 +15,7 @@
 
 @section('content')
   <div class="card-box">
+    <div class="card-title">Estate Status Report</div>
     <table class="table table-bordered">
       <thead>
         <th>Estate Name</th>
