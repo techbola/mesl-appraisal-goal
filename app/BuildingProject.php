@@ -21,4 +21,10 @@ class BuildingProject extends Model
     return $this->hasMany(EstateAllocation::class, 'EstateID')->where('Block', $block)->get();
   }
 
+
+  public function estate_units()
+  {
+    return $this->hasMany(EstateAllocation::class, 'EstateID');
+  }
+
 }
