@@ -58,9 +58,9 @@
                 <th>Email</th>
                 <th>Phone Number</th>
                 <th>Address</th>
-                <th>Estate</th>
+                {{-- <th>Estate</th>
                 <th>Block</th>
-                <th>Unit</th>
+                <th>Unit</th> --}}
                 <th width="30%">Actions</th>
               </tr>
             </thead>
@@ -72,9 +72,9 @@
                 <td>{{ $result->Email }}</td>
                 <td>{{ $result->Phone }}</td>
                 <td>{{ $result->Address }}</td>
-                <td>{{ $result->estate_allocation->estate->ProjectName }}</td>
+                {{-- <td>{{ $result->estate_allocation->estate->ProjectName }}</td>
                 <td>{{ $result->estate_allocation->Block }}</td>
-                <td>{{ $result->estate_allocation->Unit }}</td>
+                <td>{{ $result->estate_allocation->Unit }}</td> --}}
                 <td>
                   <a href="#" data-id="{{ $result->CustomerRef }}" data-pat="{{ $result->Name }}"  data-target="#modalFillIn"  data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-xs btn-success"><i class="fa fa-cc-mastercard"></i>  Create Bill</a> |
                   <a href="{{ route('View_Client_Bill_List',[$result->CustomerRef]) }}" data-toggle="tooltip" data-placement="top" title="View Bill(s)" class="btn btn-xs btn-warning"><i class="fa fa-clipboard"></i></a> |
