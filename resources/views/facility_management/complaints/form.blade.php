@@ -7,7 +7,9 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('client_id', 'Client') }}
-                    {{ Form::select('client_id',  [ '' => 'Select Client'] + $clients->pluck('Customer','CustomerRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Client', 'required']) }}
+                    <select class="remote-select full-width" name="client_id" id="client_id">
+                        <option value="0">-- Select Client--</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -52,6 +54,25 @@
     <script>
         $(function(){
 			$('.dp').datepicker();
+
+            $('.remote-select').select2({
+              ajax: { 
+               url: "/customer-list",
+               dataType: 'json',
+               delay: 250,
+               data: function (params) {
+                return {
+                  searchTerm: params.term // search term
+                };
+               },
+               processResults: function (response) {
+                 return {
+                    results: response
+                 };
+               },
+               cache: true
+              }
+            });
 		})        
     </script>
     @endpush
