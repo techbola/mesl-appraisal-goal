@@ -5,7 +5,7 @@ Auth::routes();
 Route::get('/customer-list', function (Request $request) {
 
     if ($_GET['searchTerm'] != '') {
-        $string    = $_GET['searchTerm'] . '%';
+        $string    = '%' . $_GET['searchTerm'] . '%';
         $customers = Cavidel\Customer::where('Customer', 'like', $string)
             ->get(['CustomerRef', 'Customer']);
     } else {
