@@ -59,7 +59,7 @@
               ajax: { 
                url: "/customer-list",
                dataType: 'json',
-               delay: 250,
+               delay: 100,
                data: function (params) {
                 return {
                   searchTerm: params.term // search term
