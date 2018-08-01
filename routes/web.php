@@ -270,13 +270,20 @@ Route::middleware(['auth'])->group(function () {
     // Estate Info
     Route::get('/estate_info', 'EstateController@estate_info')->name('estate_info');
     Route::get('/get_blocks/{estate}', 'EstateController@get_blocks')->name('get_blocks');
+    Route::get('/get_blocks_unassigned/{estate}', 'EstateController@get_blocks_unassigned')->name('get_blocks_unassigned');
     Route::get('/get_units/{estate}/{block}', 'EstateController@get_units')->name('get_units');
+    Route::get('/get_units_unassigned/{estate}/{block}', 'EstateController@get_units_unassigned')->name('get_units_unassigned');
     Route::patch('/update_estate_info', 'EstateController@update_estate_info')->name('update_estate_info');
     Route::get('/estate_status_report', 'EstateController@estate_status_report')->name('estate_status_report');
 
     // Estate Allocation
     Route::get('/estate_allocation', 'EstateController@estate_allocation')->name('estate_allocation');
     Route::patch('/update_estate_allocation', 'EstateController@update_estate_allocation')->name('update_estate_allocation');
+
+    // With AllotteeName
+    Route::get('/allocation_update', 'EstateController@allocation_update')->name('allocation_update');
+
+    Route::get('/get_customer', 'CustomerController@get_customer')->name('get_customer');
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
