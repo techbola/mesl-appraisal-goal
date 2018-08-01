@@ -58,6 +58,9 @@
                 <th>Email</th>
                 <th>Phone Number</th>
                 <th>Address</th>
+                <th>Estate</th>
+                <th>Block</th>
+                <th>Unit</th>
                 <th width="30%">Actions</th>
               </tr>
             </thead>
@@ -69,10 +72,14 @@
                 <td>{{ $result->Email }}</td>
                 <td>{{ $result->Phone }}</td>
                 <td>{{ $result->Address }}</td>
-                <td>
-                  <a href="#" data-id="{{ $result->CustomerRef }}" data-pat="{{ $result->Name }}"  data-target="#modalFillIn"  data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-xs btn-success"><i class="fa fa-cc-mastercard"></i>  Create Bill</a> | 
-                  <a href="{{ route('View_Client_Bill_List',[$result->CustomerRef]) }}" data-toggle="tooltip" data-placement="top" title="View Bill(s)" class="btn btn-xs btn-warning"><i class="fa fa-clipboard"></i></a> | 
+                <td>{{ $result->estate_allocation->estate->ProjectName ?? '' }}</td>
+                <td>{{ $result->estate_allocation->Block ?? '' }}</td>
+                <td>{{ $result->estate_allocation->Unit ?? '' }}</td>
+                <td class="actions">
+                  <a href="#" data-id="{{ $result->CustomerRef }}" data-pat="{{ $result->Name }}"  data-target="#modalFillIn"  data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-xs btn-success"><i class="fa fa-cc-mastercard"></i>  Create Bill</a>
+                  <a href="{{ route('View_Client_Bill_List',[$result->CustomerRef]) }}" data-toggle="tooltip" data-placement="top" title="View Bill(s)" class="btn btn-xs btn-warning"><i class="fa fa-clipboard"></i></a>
                   <a href="{{ route('Client_Document_List',[$result->CustomerRef]) }}" data-toggle="tooltip" data-placement="top" title="Documents" title="" class="btn btn-xs btn-info"><i class="fa fa-file-text-o"></i>  Documents</a>
+                  <a href="#" data-toggle="modal" data-target="#details" class="btn btn-inverse btn-xs" onclick="customer_details({{ $result->CustomerRef }})">Details</a>
                   {{-- <a href="{{ route('facility-management.complaints.show',[$result->CustomerRef]) }}" title="" class="btn btn-xs btn-primary"><i class="fa fa-file-text-o"></i> Fix My House</a> --}}
                 </td>
               </tr>
@@ -84,7 +91,7 @@
   	<!-- END PANEL -->
 
     <div class="page-content-wrapper ">
-<div class="content ">
+      <div class="content ">
           <!-- Modal -->
           <div class="modal fade fill-in" id="modalFillIn" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -320,6 +327,26 @@
         </div>
       </div>
 
+
+      <!-- Modal -->
+      <div class="modal fade slide-up disable-scroll" id="details" role="dialog" aria-hidden="false">
+        <div class="modal-dialog ">
+          <div class="modal-content-wrapper">
+            <div class="modal-content">
+              <div class="modal-header clearfix text-left">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+                </button>
+                <h5>Customer Details</h5>
+                {{-- <p class="p-b-10">We need payment information inorder to process your order</p> --}}
+              </div>
+              <div class="modal-body">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
 @endsection
 
 @push('scripts')
@@ -331,6 +358,27 @@
             var pat = $(this).data('pat');
             $("#modalFillIn #pat_name").html(pat);
           });
+  </script>
+
+  <script>
+    function customer_details(id) {
+      $.get('/get_customer/'+id, function(customer, status){
+        $('#details .modal-body').html(`
+
+          <ul class="my-list">
+            <li><b>Name:</b> ${customer.Customer}</li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        `);
+      });
+    }
   </script>
 
 @endpush

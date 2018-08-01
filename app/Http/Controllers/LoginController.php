@@ -15,6 +15,8 @@ use Cavidel\Http\Requests\ValidateSecretRequest;
 use Cavidel\Notifications\EmailActivation;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Spatie\Activitylog\Models\Activity;
+
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
@@ -32,7 +34,11 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->where('is_activated', '0')->first();
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_activated' => '1', 'is_disengaged' => '0'])) {
-            $user_logged = User::where('email', $request->email)->first();
+
+          $user_logged = User::where('email', $request->email)->first();
+          // Activity
+          activity()->performedOn($user_logged)->causedBy($user_logged)->log('Logged In');
+
             if ($user_logged->google2fa_secret) {
                 Auth::logout();
 
@@ -185,6 +191,15 @@ class LoginController extends Controller
         Auth::loginUsingId($userId);
 
         return redirect()->intended($this->redirectTo);
+    }
+
+    public function logout()
+    {
+      // Activity
+      activity()->performedOn(auth()->user())->causedBy(auth()->user())->log('Logged Out');
+
+      Auth::logout();
+      return redirect('/login');
     }
 
 }

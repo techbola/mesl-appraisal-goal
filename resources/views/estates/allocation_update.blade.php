@@ -50,6 +50,7 @@
         <thead>
           <th>Unit</th>
           <th>Client</th>
+          <th>Allottee Name</th>
           <th>Comment</th>
         </thead>
         <tbody>
@@ -70,7 +71,7 @@
       var estate = $(this).val();
       // console.log(estate);
       $('#spinner').show();
-      $.get('/get_blocks_unassigned/'+ estate, function(data, status){
+      $.get('/get_blocks/'+ estate, function(data, status){
         console.log(data);
         $('#blocks').html('<option value="">Select Block</option>');
         data.forEach(function(block){
@@ -88,7 +89,7 @@
       var block = $(this).val();
       // console.log(block);
       $('#spinner').show();
-      $.get('/get_units_unassigned/'+ estate +'/'+block, function(data, status){
+      $.get('/get_units/'+ estate +'/'+block, function(data, status){
         $('#unit_list tbody').empty();
         data.forEach(function(unit){
           console.log(unit);
@@ -103,6 +104,7 @@
 									@endforeach
 								</select>
               </td>
+							<td>${ unit.AllotteeName ? unit.AllotteeName : ''  }</td>
               <td>
                 <textarea class="form-control" rows="2" name="Comments[${unit.AllocationRef}]">${ unit.Comment ? unit.Comment : '' }</textarea>
               </td>

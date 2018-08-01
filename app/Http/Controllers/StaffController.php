@@ -18,6 +18,7 @@ use Cavidel\Role;
 use Cavidel\Sex;
 use Cavidel\Staff;
 use Cavidel\State;
+use Cavidel\LGA;
 use Cavidel\TaxableBase;
 use Cavidel\Title;
 use Cavidel\Unit;
@@ -338,13 +339,14 @@ class StaffController extends Controller
         $role           = User::find($staff->UserID)->roles;
         $banks          = Bank::all();
         $locations = Location::all();
+        $lgas = LGA::all();
 
         $departments       = Department::where('CompanyID', $user->staff->CompanyID)->get();
         $staff_departments = explode(',', $staff->DepartmentID);
         $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas'));
     }
 
     public function editFinanceDetails($id)

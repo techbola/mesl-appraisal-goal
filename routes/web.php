@@ -14,28 +14,7 @@ Route::group(['domain' => '{subdomain}.officemate.test'], function () {
     });
 });
 
-Route::get('/employee-list', function (Request $request) {
-
-    if ($_GET['searchTerm'] != '') {
-        $string    = $_GET['searchTerm'] . '%';
-        $employees = Cavidel\Staff::where('CompanyID', auth()->user()->CompanyID)
-            ->where('TownCity', 'like', $string)
-            ->get(['StaffRef', 'TownCity']);
-    } else {
-        $employees = Cavidel\Staff::where('CompanyID', auth()->user()->CompanyID)->get(['StaffRef', 'TownCity']);
-    }
-
-    $employees = $employees->transform(function ($item, $key) {
-        $item->id   = $item->StaffRef;
-        $item->text = $item->TownCity;
-        return $item;
-    });
-    return response()->json($employees);
-});
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-})->name('logout-url');
+Route::get('/logout', 'LoginController@logout')->name('logout-url');
 
 Route::get('/login2', function () {
     return view('auth.login_old');
@@ -68,11 +47,12 @@ Route::get('/activate/{id}/{code}', 'LoginController@activate')->name('activate'
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/settings', 'HomeController@settings')->name('home');
+    Route::get('/settings', 'HomeController@settings');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
     Route::get('/edit-company/{id?}', 'CompanyController@edit')->name('edit_company');
     Route::patch('/update-company/{id}', 'CompanyController@update')->name('update_company');
+    Route::get('/activity_log', 'CompanyController@activity_log')->name('activity_log');
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
@@ -287,11 +267,23 @@ Route::middleware(['auth'])->group(function () {
     Route::post('update_call_contact/{id}', 'ConversationController@update_call_contact')->name('update_call_contact');
     Route::get('get_conversation/{id}', 'ConversationController@get_conversation')->name('get_conversation'); // AJAX
 
+    // Estate Info
+    Route::get('/estate_info', 'EstateController@estate_info')->name('estate_info');
+    Route::get('/get_blocks/{estate}', 'EstateController@get_blocks')->name('get_blocks');
+    Route::get('/get_blocks_unassigned/{estate}', 'EstateController@get_blocks_unassigned')->name('get_blocks_unassigned');
+    Route::get('/get_units/{estate}/{block}', 'EstateController@get_units')->name('get_units');
+    Route::get('/get_units_unassigned/{estate}/{block}', 'EstateController@get_units_unassigned')->name('get_units_unassigned');
+    Route::patch('/update_estate_info', 'EstateController@update_estate_info')->name('update_estate_info');
+    Route::get('/estate_status_report', 'EstateController@estate_status_report')->name('estate_status_report');
+
     // Estate Allocation
     Route::get('/estate_allocation', 'EstateController@estate_allocation')->name('estate_allocation');
-    Route::get('/get_blocks/{estate}', 'EstateController@get_blocks')->name('get_blocks');
-    Route::get('/get_units/{estate}/{block}', 'EstateController@get_units')->name('get_units');
-    Route::patch('/update_allocation', 'EstateController@update_allocation')->name('update_allocation');
+    Route::patch('/update_estate_allocation', 'EstateController@update_estate_allocation')->name('update_estate_allocation');
+
+    // With AllotteeName
+    Route::get('/allocation_update', 'EstateController@allocation_update')->name('allocation_update');
+
+    Route::get('/get_customer', 'CustomerController@get_customer')->name('get_customer');
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
