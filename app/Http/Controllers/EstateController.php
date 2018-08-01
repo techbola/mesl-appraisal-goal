@@ -7,6 +7,7 @@ use Cavidel\BuildingProject;
 use Cavidel\EstateInfo;
 use Cavidel\EstateAllocation;
 use Cavidel\Customer;
+use DB;
 
 class EstateController extends Controller
 {
@@ -110,7 +111,19 @@ class EstateController extends Controller
   {
     $user = auth()->user();
     $estates = BuildingProject::where('CompanyID', $user->CompanyID)->orderBy('ProjectName')->get();
-    $customers = Customer::all();
+    // $customers = Customer::all();
+    // $customers = Customer::distinct()->get(['Customer', 'CustomerRef']);
+    // $customers = DB::table('tblCustomer')->distinct()->select('Customer', 'CustomerRef')->get();
+    // $customers = Customer::groupBy(['Customer', 'CustomerRef'])->get(['Customer', 'CustomerRef']);
+    $customers = DB::select(DB::raw('SELECT *
+  FROM (
+                SELECT  CustomerRef,
+                        Customer,
+                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
+                    FROM tblCustomer
+              ) a
+WHERE rn = 1'));
+// dd($customers);
 
     return view('estates.allocation_update', compact('estates', 'customers'));
   }
