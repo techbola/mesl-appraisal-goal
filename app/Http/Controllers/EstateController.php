@@ -44,6 +44,7 @@ class EstateController extends Controller
     $units = $estate->units($block);
     foreach ($units as $unit) {
       $unit->statuses = EstateInfo::all();
+      $unit->Customer = $unit->customer->Customer ?? '';
     }
 
     return $units;
@@ -101,7 +102,7 @@ class EstateController extends Controller
   public function estate_status_report()
   {
     $user = auth()->user();
-    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->orderBy('ProjectName')->paginate('15');
+    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->orderBy('ProjectName')->get();
     $statuses = EstateInfo::all();
     return view('estates.status_report', compact('estates', 'statuses'));
   }
@@ -116,13 +117,9 @@ class EstateController extends Controller
     // $customers = DB::table('tblCustomer')->distinct()->select('Customer', 'CustomerRef')->get();
     // $customers = Customer::groupBy(['Customer', 'CustomerRef'])->get(['Customer', 'CustomerRef']);
     $customers = DB::select(DB::raw('SELECT *
-  FROM (
-                SELECT  CustomerRef,
-                        Customer,
-                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
-                    FROM tblCustomer
-              ) a
-WHERE rn = 1'));
+                  FROM (
+                        SELECT  CustomerRef,Customer, ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn FROM tblCustomer
+                      ) a WHERE rn = 1'));
 // dd($customers);
 
     return view('estates.allocation_update', compact('estates', 'customers'));

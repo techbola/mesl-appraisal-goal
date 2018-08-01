@@ -107,14 +107,15 @@
               </td>
             </tr>
           `);
-					$('select[name="Customers['+unit.AllocationRef+']"]').val(unit.CustomerID).trigger('change');
+					// $('select[name="Customers['+unit.AllocationRef+']"]').val(unit.CustomerID).trigger('change');
+					$('select[name="Customers['+unit.AllocationRef+']"]').empty().append('<option value="'+unit.CustomerID+'">'+unit.Customer+'</option>').trigger('change');
         });
 				$('.customers').select2();
         $('#spinner').hide();
         $('.remote-select').select2({
           allowClear: true,
           placeholder: "Select Customer",
-          ajax: { 
+          ajax: {
            url: "/customer-list",
            dataType: 'json',
            delay: 100,
