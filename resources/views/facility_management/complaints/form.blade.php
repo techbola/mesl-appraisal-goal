@@ -56,6 +56,8 @@
 			$('.dp').datepicker();
 
             $('.remote-select').select2({
+                allowClear: true,
+                placeholder: "Select Customer",
               ajax: { 
                url: "/customer-list",
                dataType: 'json',
