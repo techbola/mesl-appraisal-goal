@@ -4,7 +4,7 @@
 Auth::routes();
 Route::get('/customer-list', function (Request $request) {
 
-    if ($_GET['searchTerm'] != '') {
+    if (isset($_GET['searchTerm'])) {
         $string    = '%' . $_GET['searchTerm'] . '%';
         $customers = collect(DB::select(DB::raw("SELECT *
                 FROM (
@@ -15,7 +15,14 @@ Route::get('/customer-list', function (Request $request) {
                             ) a
                 WHERE rn = 1 AND Customer like '$string'")));
     } else {
-        $customers = Cavidel\Customer::select(['CustomerRef', 'Customer']);
+        $customers = collect(DB::select(DB::raw("SELECT *
+                FROM (
+                SELECT  CustomerRef,
+                        Customer,
+                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
+                FROM tblCustomer
+                            ) a
+                WHERE rn = 1")));
     }
 
     $customers = $customers->transform(function ($item, $key) {
