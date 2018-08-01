@@ -3,6 +3,7 @@
     @endpush
     @include('errors.list')
     <div class="row">
+
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
@@ -100,6 +101,17 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('ApproverID4', 'Approver 4') }}
+                    <select  name="" id="selUser">
+                        <option value="0">-- Select Client --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- action buttons -->
@@ -112,9 +124,30 @@
     @push('scripts')
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
     </script>
+    {{-- <select class="js-data-example-ajax"></select> --}}
     <script>
         $(function(){
 			$('.dp').datepicker();
+
+            $("#selUser").select2({
+              ajax: { 
+               url: "/employee-list",
+               type: "get",
+               dataType: 'json',
+               delay: 250,
+               data: function (params) {
+                return {
+                  searchTerm: params.term // search term
+                };
+               },
+               processResults: function (response) {
+                 return {
+                    results: response
+                 };
+               },
+               cache: true
+              }
+             });
 		})        
     </script>
     @endpush

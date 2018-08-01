@@ -14,6 +14,24 @@ Route::group(['domain' => '{subdomain}.officemate.test'], function () {
     });
 });
 
+Route::get('/employee-list', function (Request $request) {
+
+    if ($_GET['searchTerm'] != '') {
+        $string    = $_GET['searchTerm'] . '%';
+        $employees = Cavidel\Staff::where('CompanyID', auth()->user()->CompanyID)
+            ->where('TownCity', 'like', $string)
+            ->get(['StaffRef', 'TownCity']);
+    } else {
+        $employees = Cavidel\Staff::where('CompanyID', auth()->user()->CompanyID)->get(['StaffRef', 'TownCity']);
+    }
+
+    $employees = $employees->transform(function ($item, $key) {
+        $item->id   = $item->StaffRef;
+        $item->text = $item->TownCity;
+        return $item;
+    });
+    return response()->json($employees);
+});
 Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
@@ -122,7 +140,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
     Route::get('search_messages', 'MessageController@search_messages')->name('search_messages');
     Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
-        return response()->download(storage_path("app/public/" . $dir . "/" . $filename));
+        return response()->download(storage_path("app / public  / " . $dir . " / " . $filename));
     })->name('download_file');
 
     // Route::get('/chat/list', 'ChatController@chat_list')->name('chat_list');
@@ -209,7 +227,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('document_store', 'DocumentController@store')->name('document_store');
     Route::patch('update_document/{id}', 'DocumentController@update_document')->name('update_document');
     Route::get('download-document/{file}', function ($file) {
-        return response()->download(storage_path("app/documents/" . $file));
+        return response()->download(storage_path("app / documents / " . $file));
     })->name('docs');
 
     Route::resource('doctypes', 'DocTypeController');
@@ -579,10 +597,10 @@ Route::get('/cda', function () {
 
 Route::get('/testing', function () {
 
-    // return Cavidel\Staff::whereRaw("DepartmentID @> ARRAY['1']::varchar[]")->get();
-    // return Cavidel\Staff::whereRaw("1=ANY(DepartmentID)")->get();
-    // return Cavidel\Staff::whereRaw("find_in_set('1',DepartmentID)")->get();
-    // return Cavidel\Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',1,',%')")->get();
+    // return Cavidel\Staff::whereRaw("DepartmentID@ > array['1']::varchar[]")->get();
+    // return Cavidel\Staff::whereRaw("1 = ANY(DepartmentID)")->get();
+    // return Cavidel\Staff::whereRaw("find_in_set('1', DepartmentID)")->get();
+    // return Cavidel\Staff::whereRaw("CONCAT(',', DepartmentID, ',')LIKECONCAT('%,', 1, ',%')")->get();
     // return Cavidel\Department::find('4')->staff();
     // return Cavidel\Staff::all()->filter('1', function(){
     // })->get();
@@ -642,7 +660,7 @@ Route::get('/load/bank/name', 'jsonResponseController@loadBankSelectMenu');
 Route::get('/load/location/name', 'jsonResponseController@loadBranchSelectMenu');
 Route::get('/load/ledger/name', 'jsonResponseController@loadLedgerSelectMenu');
 // Route::get('/load/drop/dropdown',       function (){
-//     return "seen !";
+//     return "seen!";
 // });
 // Route::get('/load/location/name',       'jsonResponseController@loadBranchSelectMenu');
 
