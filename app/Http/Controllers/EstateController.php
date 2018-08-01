@@ -27,12 +27,33 @@ class EstateController extends Controller
     return $blocks;
   }
 
+  public function get_blocks_unassigned($estate_id)
+  {
+    $estate = BuildingProject::find($estate_id);
+    // $blocks = $estate->blocks;
+    $blocks = EstateAllocation::select(['EstateID', 'Block'])->where('EstateID', $estate_id)->where('AllotteeName', '')->groupBy(['Block', 'EstateID'])->get();
+    return $blocks;
+  }
+
   public function get_units($estate, $block)
   {
     $estate = BuildingProject::find($estate);
     $statuses = EstateInfo::all();
 
     $units = $estate->units($block);
+    foreach ($units as $unit) {
+      $unit->statuses = EstateInfo::all();
+    }
+
+    return $units;
+  }
+
+  public function get_units_unassigned($estate, $block)
+  {
+    $estate = BuildingProject::find($estate);
+    $statuses = EstateInfo::all();
+
+    $units = $estate->units_unassigned($block);
     foreach ($units as $unit) {
       $unit->statuses = EstateInfo::all();
     }
@@ -82,6 +103,16 @@ class EstateController extends Controller
     $estates = BuildingProject::where('CompanyID', $user->CompanyID)->paginate('15');
     $statuses = EstateInfo::all();
     return view('estates.status_report', compact('estates', 'statuses'));
+  }
+
+  // With AllotteeName
+  public function allocation_update()
+  {
+    $user = auth()->user();
+    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->get();
+    $customers = Customer::all();
+
+    return view('estates.allocation_update', compact('estates', 'customers'));
   }
 
 }

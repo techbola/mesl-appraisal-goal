@@ -7,6 +7,11 @@ use Cavidel\Customer;
 
 class CustomerController extends Controller
 {
-  
+
+  public function get_customer($id)
+  {
+    $customer = Customer::find($id);
+    return $customer;
+  }
 
 }
