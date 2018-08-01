@@ -2,7 +2,23 @@
 // Please leave the arrangement of this file as is
 
 Auth::routes();
+Route::get('/customer-list', function (Request $request) {
 
+    if ($_GET['searchTerm'] != '') {
+        $string    = $_GET['searchTerm'] . '%';
+        $customers = Cavidel\Customer::where('Customer', 'like', $string)
+            ->get(['CustomerRef', 'Customer']);
+    } else {
+        $customers = Cavidel\Customer::select(['CustomerRef', 'Customer']);
+    }
+
+    $customers = $customers->transform(function ($item, $key) {
+        $item->id   = $item->CustomerRef;
+        $item->text = $item->Customer;
+        return $item;
+    });
+    return response()->json($customers);
+});
 Route::group(['domain' => 'officemate.test'], function () {
     Route::any('/123', function () {
         return 'My own domain';

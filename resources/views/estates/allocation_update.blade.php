@@ -97,12 +97,9 @@
             <tr>
               <td>${unit.Unit}</td>
               <td>
-								<select class="customers full-width" data-init-plugin="select2" name="Customers[${unit.AllocationRef}]">
-									<option value="">Select client</option>
-									@foreach ($customers as $customer)
-										<option value="{{ $customer->CustomerRef }}">{{ $customer->Customer }}</option>
-									@endforeach
-								</select>
+								<select class="remote-select" name="Customers[${unit.AllocationRef}]">
+                  <option value="0">-- Select Customer --</option>
+                </select>
               </td>
 							<td>${ unit.AllotteeName ? unit.AllotteeName : ''  }</td>
               <td>
@@ -114,6 +111,24 @@
         });
 				$('.customers').select2();
         $('#spinner').hide();
+        $('.remote-select').select2({
+          ajax: { 
+           url: "/customer-list",
+           dataType: 'json',
+           delay: 250,
+           data: function (params) {
+            return {
+              searchTerm: params.term // search term
+            };
+           },
+           processResults: function (response) {
+             return {
+                results: response
+             };
+           },
+           cache: true
+          }
+        });
       });
     });
   </script>
