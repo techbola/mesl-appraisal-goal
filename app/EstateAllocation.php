@@ -20,4 +20,9 @@ class EstateAllocation extends Model
     return $this->belongsTo(BuildingProject::class, 'EstateID');
   }
 
+  public function customer()
+  {
+    return $this->belongsTo(Customer::class, 'CustomerID');
+  }
+
 }
