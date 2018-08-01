@@ -13,7 +13,7 @@ class EstateController extends Controller
   public function estate_info()
   {
     $user = auth()->user();
-    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->get();
+    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->orderBy('ProjectName')->get();
 // dd($estates->units('T1'));
 
     return view('estates.info', compact('estates'));
@@ -75,7 +75,7 @@ class EstateController extends Controller
   public function estate_allocation()
   {
     $user = auth()->user();
-    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->get();
+    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->orderBy('ProjectName')->get();
     $customers = Customer::all();
 
     return view('estates.allocation', compact('estates', 'customers'));
@@ -100,7 +100,7 @@ class EstateController extends Controller
   public function estate_status_report()
   {
     $user = auth()->user();
-    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->paginate('15');
+    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->orderBy('ProjectName')->paginate('15');
     $statuses = EstateInfo::all();
     return view('estates.status_report', compact('estates', 'statuses'));
   }
@@ -109,7 +109,7 @@ class EstateController extends Controller
   public function allocation_update()
   {
     $user = auth()->user();
-    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->get();
+    $estates = BuildingProject::where('CompanyID', $user->CompanyID)->orderBy('ProjectName')->get();
     $customers = Customer::all();
 
     return view('estates.allocation_update', compact('estates', 'customers'));
