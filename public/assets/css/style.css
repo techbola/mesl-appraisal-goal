@@ -914,12 +914,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media print {
     body * {
-        /* visibility: hidden; */
-        display:none;
+        visibility: hidden;
+        /* display:none; */
     }
     #print-content, #print-content * {
-        /* visibility: visible !important; */
-        display: block !important;
+        visibility: visible !important;
+        /* display: block !important; */
     }
     #print-content {
         position: absolute;
