@@ -112,10 +112,12 @@
 				$('.customers').select2();
         $('#spinner').hide();
         $('.remote-select').select2({
+          allowClear: true,
+          placeholder: "Select Customer",
           ajax: { 
            url: "/customer-list",
            dataType: 'json',
-           delay: 250,
+           delay: 100,
            data: function (params) {
             return {
               searchTerm: params.term // search term
