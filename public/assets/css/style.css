@@ -1103,7 +1103,7 @@ a[href$="doc"], a[href$="docx"] {
 }
 
 .remote-select {
-    width: 100% !important;
+    /*width: 100% !important;*/
     min-width: 200px !important;
     max-width: 200px !important;
 }
