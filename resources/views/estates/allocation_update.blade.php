@@ -97,7 +97,7 @@
             <tr>
               <td>${unit.Unit}</td>
               <td>
-								<select class="remote-select full-width" name="Customers[${unit.AllocationRef}]">
+								<select class="remote-select col-sm-12" name="Customers[${unit.AllocationRef}]">
                   <option value="0">-- Select Customer --</option>
                 </select>
               </td>
