@@ -254,4 +254,10 @@ class CourseController extends Controller
         return response()->json($course_materials)->setStatusCode(200);
     }
 
+    public function get_c_category()
+    {
+        $course_category = CourseCategory::all();
+        return response()->json($course_category)->setStatusCode(200);
+    }
+
 }

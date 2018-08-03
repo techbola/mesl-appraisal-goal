@@ -25,9 +25,9 @@
       {{ Form::label('category_ref', 'Course Category' ) }}
       <select name="category_ref" class="full-width" id="category_ref" data-init-plugin="select2">
       	<option value=" ">Select Course</option>
-      	@foreach($categories as $category)
+      	{{-- @foreach($categories as $category)
       		<option value="{{ $category->course_category_ref }}">{{ $category->course_category_name }}</option>
-      	@endforeach
+      	@endforeach --}}
       </select>
        
     </div>
