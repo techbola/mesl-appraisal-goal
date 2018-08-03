@@ -20,7 +20,7 @@ $(document).idle({
     	// log out user forcefully
     	document.location.href = custom_config.logout_url;
     }).catch(function(){
-      alert('enter pasword')
+      // alert('enter pasword')
     });
   },
   onActive: function(){
