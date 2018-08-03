@@ -93,7 +93,11 @@
       <!-- START SIDEBAR MENU -->
       <div class="sidebar-menu">
         <!-- BEGIN SIDEBAR MENU ITEMS-->
-        <ul class="menu-items" style="margin-top: 30px">
+
+        <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Search for menus.." title="Type in a menu name" style="width: 80%; margin: auto; margin-top: 10px;">
+
+        <ul class="menu-items" style="margin-top: 30px" id="menu-items">
+
 
           {{-- DASHBOARD ONLY --}}
           {{-- @foreach($parent_menus as $menu)
@@ -730,6 +734,26 @@
         $(document).on('click', '.brand', function(){
           // window.location = '/';
         });
+      </script>
+
+      {{-- Filter Menus --}}
+      <script>
+      function myFunction() {
+          var input, filter, ul, li, a, i;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("menu-items");
+          // li = ul.getElementsByTagName("li");
+          li = $("ul#menu-items > li");
+          for (i = 0; i < li.length; i++) {
+              a = li[i].getElementsByTagName("a")[0];
+              if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                  li[i].style.display = "";
+              } else {
+                  li[i].style.display = "none";
+              }
+          }
+      }
       </script>
 
 
