@@ -16,7 +16,12 @@
 @section('content')
   <div class="card-box">
     <div class="card-title">Estate Status Report</div>
-    <table class="table table-bordered">
+		<div class="pull-right">
+			<div class="col-xs-12">
+				<input type="text" class="search-table form-control pull-right" placeholder="Search">
+			</div>
+		</div>
+    <table class="table table-bordered tableWithSearch">
       <thead>
         <th>Estate Name</th>
         @foreach ($statuses as $status)
@@ -28,13 +33,13 @@
           <tr>
             <td>{{ $estate->ProjectName }}</td>
             @foreach ($statuses as $status)
-              <td>{{ count($estate->estate_units()->where('EstateInfoID', $status->EstateInfoRef)->get()) }} Units</td>
+              <td>{{ count($estate->estate_units()->where('EstateInfoID', $status->EstateInfoRef)->get()) }}</td>
             @endforeach
           </tr>
         @endforeach
       </tbody>
     </table>
 
-    {{ $estates->links() }}
+    {{-- {{ $estates->links() }} --}}
   </div>
 @endsection
