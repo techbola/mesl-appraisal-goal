@@ -26,6 +26,6 @@ $(document).idle({
   onActive: function(){
     
   },
-  //idle: 1800000 //Idle after 30 mins
-  idle: 5000 //Idle after 30 mins
+  idle: 1800000 //Idle after 30 mins
+  //idle: 5000 //Idle after 30 mins
 });
