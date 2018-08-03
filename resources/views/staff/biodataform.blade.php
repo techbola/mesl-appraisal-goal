@@ -77,14 +77,17 @@
     </div>
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('DateofBirth','Date of Birth') }}
-            <div class="input-group date dp">
-                {{ Form::text('DateofBirth', null, ['class' => 'form-control', 'placeholder' => 'Date of Birth']) }}
-                <span class="input-group-addon">
-                    <i class="fa fa-calendar">
-                    </i>
-                </span>
-            </div>
+            {{ Form::label('IDNumber','ID Number') }}
+            {{ Form::email('IDNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter ID Number']) }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="">
+          {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label']) }}
+          <div class="input-group date dp">
+            {{ Form::text('DateofBirth', null, ['class' => 'form-control', 'placeholder' => 'Date of Birth']) }}
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
         </div>
     </div>
     <div class="col-sm-4">
@@ -112,9 +115,18 @@
         </div>
     </div>
     <div class="col-sm-4">
-        <div class="form-group">
-            {{ Form::label('MaritalStatusID','Marital Status') }}
+        <div class="">
+            {{ Form::label('MaritalStatusID','Marital Status', ['class' => 'form-label']) }}
             {{ Form::select('MaritalStatusID', [ 0 =>  'Marital Status'] + $status->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Marital Status", 'data-init-plugin' => "select2"]) }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="">
+          {{ Form::label('DateOfMarriage','Date Of Marriage', ['class' => 'form-label']) }}
+          <div class="input-group date dp">
+            {{ Form::text('DateOfMarriage', null, ['class' => 'form-control', 'placeholder' => 'Date of Marriage']) }}
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
         </div>
     </div>
     <div class="col-sm-4">
@@ -137,13 +149,19 @@
         </div>
     </div>
 
-  </div>
+  {{-- </div>
 
-  <div class="row">
+  <div class="row"> --}}
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('StateID','State') }}
             {{ Form::select('StateID', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your State", 'data-init-plugin' => "select2"]) }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+          {{ Form::label('LGAID','Local Government') }}
+          {{ Form::select('LGAID', [ '' =>  'Select State'] + $lgas->pluck('LGA', 'LGARef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Local Government", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -233,6 +251,12 @@
     </div>
     <div class="col-sm-4">
         <div class="form-group">
+            {{ Form::label('BeneficiaryRelationship','Beneficiary Relationship') }}
+            {{ Form::text('BeneficiaryRelationship', null,  ['class' => 'form-control', 'placeholder' => 'Enter Beneficiary Relationship']) }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
             {{ Form::label('Beneficiary_Phone','Beneficiary Phone Number') }}
             {{ Form::text('Beneficiary_Phone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Beneficiary Phone Number']) }}
         </div>
@@ -249,7 +273,87 @@
         {{ Form::textarea('Benficiary_Address', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Benficiary Address']) }}
       </div>
     </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('UniversityAttended1','University Attended (1st Degree)') }}
+        {{ Form::text('UniversityAttended1', null,  ['class' => 'form-control', 'placeholder' => 'Enter University Attended']) }}
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('UniversityAttended2','University Attended (2nd Degree)') }}
+        {{ Form::text('UniversityAttended2', null,  ['class' => 'form-control', 'placeholder' => 'Enter University Attended']) }}
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('UniversityAttended3','University Attended (3rd Degree)') }}
+        {{ Form::text('UniversityAttended3', null,  ['class' => 'form-control', 'placeholder' => 'Enter University Attended']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('ProfessionalQualification1','Professional Qualification (1st Degree)') }}
+        {{ Form::text('ProfessionalQualification1', null,  ['class' => 'form-control', 'placeholder' => 'Enter Professional Qualification']) }}
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('ProfessionalQualification2','Professional Qualification (2nd Degree)') }}
+        {{ Form::text('ProfessionalQualification2', null,  ['class' => 'form-control', 'placeholder' => 'Enter Professional Qualification']) }}
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('ProfessionalQualification3','Professional Qualification (3rd Degree)') }}
+        {{ Form::text('ProfessionalQualification3', null,  ['class' => 'form-control', 'placeholder' => 'Enter Professional Qualification']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('NYSCYear','NYSC Year') }}
+        {{ Form::text('NYSCYear', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Year']) }}
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('NYSCLocation','NYSC Location') }}
+        {{ Form::text('NYSCLocation', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Location']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-group">
+          {{ Form::label('MSWord','MSWord Proficiency') }}
+          {{ Form::select('MSWord', [ '' =>  'Select State'] + ['1'=>'Basic', '2'=>'Intermediate', '3'=>'Advance'],null, ['class'=> "full-width",'data-placeholder' => "MSWord Proficiency", 'data-init-plugin' => "select2"]) }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+          {{ Form::label('MSExcel','MSExcel Proficiency') }}
+          {{ Form::select('MSExcel', [ '' =>  'Select State'] + ['1'=>'Basic', '2'=>'Intermediate', '3'=>'Advance'],null, ['class'=> "full-width",'data-placeholder' => "MSExcel Proficiency", 'data-init-plugin' => "select2"]) }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+          {{ Form::label('MSAccess','MSAccess Proficiency') }}
+          {{ Form::select('MSAccess', [ '' =>  'Select State'] + ['1'=>'Basic', '2'=>'Intermediate', '3'=>'Advance'],null, ['class'=> "full-width",'data-placeholder' => "MSAccess Proficiency", 'data-init-plugin' => "select2"]) }}
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+          {{ Form::label('PowerPoint','PowerPoint Proficiency') }}
+          {{ Form::select('PowerPoint', [ '' =>  'Select State'] + ['1'=>'Basic', '2'=>'Intermediate', '3'=>'Advance'],null, ['class'=> "full-width",'data-placeholder' => "PowerPoint Proficiency", 'data-init-plugin' => "select2"]) }}
+        </div>
+    </div>
+
     @if($user->hasRole('admin'))
+
+    </div>
+    <div class="row">
 
     <div class="card-section p-l-5">Bank Details</div>
     <div class="col-sm-6">

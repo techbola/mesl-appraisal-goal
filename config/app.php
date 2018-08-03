@@ -124,7 +124,7 @@ return [
 
     'log_level'       => env('APP_LOG_LEVEL', 'debug'),
 
-    'pusher_app_key' => env('PUSHER_APP_KEY'),
+    'pusher_app_key'  => env('PUSHER_APP_KEY'),
 
     /*
     |--------------------------------------------------------------------------
@@ -191,6 +191,9 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         LaravelQRCode\Providers\QRCodeServiceProvider::class,
 
+        PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
+
     ],
 
     /*
@@ -222,6 +225,7 @@ return [
         'Event'        => Illuminate\Support\Facades\Event::class,
         'File'         => Illuminate\Support\Facades\File::class,
         'Gate'         => Illuminate\Support\Facades\Gate::class,
+        'Google2FA'    => PragmaRX\Google2FA\Vendor\Laravel\Facade::class,
         'Hash'         => Illuminate\Support\Facades\Hash::class,
         'Lang'         => Illuminate\Support\Facades\Lang::class,
         'Log'          => Illuminate\Support\Facades\Log::class,
@@ -243,12 +247,13 @@ return [
         'Form'         => Collective\Html\FormFacade::class,
         'Html'         => Collective\Html\HtmlFacade::class,
         // 'Image'        => Intervention\Image\Facades\Image::class,
-        'Image' => Intervention\Image\Facades\Image::class,
-        'Carbon' => Carbon\Carbon::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Image'        => Intervention\Image\Facades\Image::class,
+        'Carbon'       => Carbon\Carbon::class,
+        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
 
-        'PDF' => Barryvdh\DomPDF\Facade::class,
-        'QRCode' => LaravelQRCode\Facades\QRCode::class,
+        'PDF'          => Barryvdh\DomPDF\Facade::class,
+        'QRCode'       => LaravelQRCode\Facades\QRCode::class,
+        'Activity'     => Spatie\Activitylog\Models\Activity::class,
 
     ],
 

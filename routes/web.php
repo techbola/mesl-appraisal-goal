@@ -2,7 +2,36 @@
 // Please leave the arrangement of this file as is
 
 Auth::routes();
+Route::get('/customer-list', function (Request $request) {
 
+    if (isset($_GET['searchTerm'])) {
+        $string    = '%' . $_GET['searchTerm'] . '%';
+        $customers = collect(DB::select(DB::raw("SELECT *
+                FROM (
+                SELECT  CustomerRef,
+                        Customer,
+                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
+                FROM tblCustomer
+                            ) a
+                WHERE rn = 1 AND Customer like '$string'")));
+    } else {
+        $customers = collect(DB::select(DB::raw("SELECT *
+                FROM (
+                SELECT  CustomerRef,
+                        Customer,
+                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
+                FROM tblCustomer
+                            ) a
+                WHERE rn = 1")));
+    }
+
+    $customers = $customers->transform(function ($item, $key) {
+        $item->id   = $item->CustomerRef;
+        $item->text = $item->Customer;
+        return $item;
+    });
+    return response()->json($customers);
+});
 Route::group(['domain' => 'officemate.test'], function () {
     Route::any('/123', function () {
         return 'My own domain';
@@ -14,14 +43,18 @@ Route::group(['domain' => '{subdomain}.officemate.test'], function () {
     });
 });
 
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-});
+Route::get('/logout', 'LoginController@logout')->name('logout-url');
 
 Route::get('/login2', function () {
     return view('auth.login_old');
 });
+
+// GA
+Route::get('/2fa/enable', 'Google2FAController@enableTwoFactor');
+Route::get('/2fa/disable', 'Google2FAController@disableTwoFactor');
+Route::get('/2fa/validate', 'Auth\LoginController@getValidateToken');
+Route::post('/2fa/validate', ['middleware' => 'throttle:5', 'uses' => 'Auth\LoginController@postValidateToken']);
+// END GA
 
 // Guests Only
 Route::group(['middleware' => 'guest'], function () {
@@ -43,10 +76,12 @@ Route::get('/activate/{id}/{code}', 'LoginController@activate')->name('activate'
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/settings', 'HomeController@settings');
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
     Route::get('/edit-company/{id?}', 'CompanyController@edit')->name('edit_company');
     Route::patch('/update-company/{id}', 'CompanyController@update')->name('update_company');
+    Route::get('/activity_log', 'CompanyController@activity_log')->name('activity_log');
 
     Route::get('/read_notification/{id}', 'HomeController@read_notification')->name('read_notification');
 
@@ -114,7 +149,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
     Route::get('search_messages', 'MessageController@search_messages')->name('search_messages');
     Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
-        return response()->download(storage_path("app/public/" . $dir . "/" . $filename));
+        return response()->download(storage_path("app / public  / " . $dir . " / " . $filename));
     })->name('download_file');
 
     // Route::get('/chat/list', 'ChatController@chat_list')->name('chat_list');
@@ -201,7 +236,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('document_store', 'DocumentController@store')->name('document_store');
     Route::patch('update_document/{id}', 'DocumentController@update_document')->name('update_document');
     Route::get('download-document/{file}', function ($file) {
-        return response()->download(storage_path("app/documents/" . $file));
+        return response()->download(storage_path("app / documents / " . $file));
     })->name('docs');
 
     Route::resource('doctypes', 'DocTypeController');
@@ -261,11 +296,23 @@ Route::middleware(['auth'])->group(function () {
     Route::post('update_call_contact/{id}', 'ConversationController@update_call_contact')->name('update_call_contact');
     Route::get('get_conversation/{id}', 'ConversationController@get_conversation')->name('get_conversation'); // AJAX
 
+    // Estate Info
+    Route::get('/estate_info', 'EstateController@estate_info')->name('estate_info');
+    Route::get('/get_blocks/{estate}', 'EstateController@get_blocks')->where('estate', '(.*)')->name('get_blocks');
+    Route::get('/get_blocks_unassigned/{estate}', 'EstateController@get_blocks_unassigned')->name('get_blocks_unassigned');
+    Route::get('/get_units/{estate}/{block}', 'EstateController@get_units')->where('block', '(.*)')->name('get_units');
+    Route::get('/get_units_unassigned/{estate}/{block}', 'EstateController@get_units_unassigned')->name('get_units_unassigned');
+    Route::patch('/update_estate_info', 'EstateController@update_estate_info')->name('update_estate_info');
+    Route::get('/estate_status_report', 'EstateController@estate_status_report')->name('estate_status_report');
+
     // Estate Allocation
     Route::get('/estate_allocation', 'EstateController@estate_allocation')->name('estate_allocation');
-    Route::get('/get_blocks/{estate}', 'EstateController@get_blocks')->name('get_blocks');
-    Route::get('/get_units/{estate}/{block}', 'EstateController@get_units')->name('get_units');
-    Route::patch('/update_allocation', 'EstateController@update_allocation')->name('update_allocation');
+    Route::patch('/update_estate_allocation', 'EstateController@update_estate_allocation')->name('update_estate_allocation');
+
+    // With AllotteeName
+    Route::get('/allocation_update', 'EstateController@allocation_update')->name('allocation_update');
+
+    Route::get('/get_customer', 'CustomerController@get_customer')->name('get_customer');
 
     // Score Card
     Route::get('scorecard', 'ScoreCardController@index')->name('scorecard');
@@ -571,10 +618,10 @@ Route::get('/cda', function () {
 
 Route::get('/testing', function () {
 
-    // return Cavidel\Staff::whereRaw("DepartmentID @> ARRAY['1']::varchar[]")->get();
-    // return Cavidel\Staff::whereRaw("1=ANY(DepartmentID)")->get();
-    // return Cavidel\Staff::whereRaw("find_in_set('1',DepartmentID)")->get();
-    // return Cavidel\Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',1,',%')")->get();
+    // return Cavidel\Staff::whereRaw("DepartmentID@ > array['1']::varchar[]")->get();
+    // return Cavidel\Staff::whereRaw("1 = ANY(DepartmentID)")->get();
+    // return Cavidel\Staff::whereRaw("find_in_set('1', DepartmentID)")->get();
+    // return Cavidel\Staff::whereRaw("CONCAT(',', DepartmentID, ',')LIKECONCAT('%,', 1, ',%')")->get();
     // return Cavidel\Department::find('4')->staff();
     // return Cavidel\Staff::all()->filter('1', function(){
     // })->get();
@@ -634,7 +681,7 @@ Route::get('/load/bank/name', 'jsonResponseController@loadBankSelectMenu');
 Route::get('/load/location/name', 'jsonResponseController@loadBranchSelectMenu');
 Route::get('/load/ledger/name', 'jsonResponseController@loadLedgerSelectMenu');
 // Route::get('/load/drop/dropdown',       function (){
-//     return "seen !";
+//     return "seen!";
 // });
 // Route::get('/load/location/name',       'jsonResponseController@loadBranchSelectMenu');
 

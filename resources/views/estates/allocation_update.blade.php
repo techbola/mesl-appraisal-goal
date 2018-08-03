@@ -50,6 +50,7 @@
         <thead>
           <th>Unit</th>
           <th>Client</th>
+          <th>Allottee Name</th>
           <th>Comment</th>
         </thead>
         <tbody>
@@ -70,7 +71,7 @@
       var estate = $(this).val();
       // console.log(estate);
       $('#spinner').show();
-      $.get('/get_blocks_unassigned/'+ estate, function(data, status){
+      $.get('/get_blocks/'+ estate, function(data, status){
         console.log(data);
         $('#blocks').html('<option value="">Select Block</option>');
         data.forEach(function(block){
@@ -88,7 +89,7 @@
       var block = $(this).val();
       // console.log(block);
       $('#spinner').show();
-      $.get('/get_units_unassigned/'+ estate +'/'+block, function(data, status){
+      $.get('/get_units/'+ estate +'/'+block, function(data, status){
         $('#unit_list tbody').empty();
         data.forEach(function(unit){
           console.log(unit);
@@ -96,22 +97,41 @@
             <tr>
               <td>${unit.Unit}</td>
               <td>
-								<select class="customers full-width" data-init-plugin="select2" name="Customers[${unit.AllocationRef}]">
-									<option value="">Select client</option>
-									@foreach ($customers as $customer)
-										<option value="{{ $customer->CustomerRef }}">{{ $customer->Customer }}</option>
-									@endforeach
-								</select>
+								<select class="remote-select full-width" name="Customers[${unit.AllocationRef}]">
+                  <option value="0">-- Select Customer --</option>
+                </select>
               </td>
+							<td>${ unit.AllotteeName ? unit.AllotteeName : ''  }</td>
               <td>
                 <textarea class="form-control" rows="2" name="Comments[${unit.AllocationRef}]">${ unit.Comment ? unit.Comment : '' }</textarea>
               </td>
             </tr>
           `);
-					$('select[name="Customers['+unit.AllocationRef+']"]').val(unit.CustomerID).trigger('change');
+					// $('select[name="Customers['+unit.AllocationRef+']"]').val(unit.CustomerID).trigger('change');
+					$('select[name="Customers['+unit.AllocationRef+']"]').empty().append('<option value="'+unit.CustomerID+'">'+unit.Customer+'</option>').trigger('change');
         });
 				$('.customers').select2();
         $('#spinner').hide();
+        $('.remote-select').select2({
+          allowClear: true,
+          placeholder: "Select Customer",
+          ajax: {
+           url: "/customer-list",
+           dataType: 'json',
+           // delay: 100,
+           data: function (params) {
+            return {
+              searchTerm: params.term // search term
+            };
+           },
+           processResults: function (response) {
+             return {
+                results: response
+             };
+           },
+           cache: true
+          }
+        });
       });
     });
   </script>

@@ -17,8 +17,6 @@ class User extends Authenticatable
 
     // protected $dates = ['deleted_at'];
 
-
-
     /**
      * The attributes that are mass assignable.
      *
@@ -39,9 +37,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'google2fa_secret',
     ];
-
 
     public function staff()
     {
@@ -78,12 +75,12 @@ class User extends Authenticatable
     // Start Chats
     public function unread_chats()
     {
-      return $this->hasMany('Cavidel\Chat', 'ToID')->where('IsRead', false);
+        return $this->hasMany('Cavidel\Chat', 'ToID')->where('IsRead', false);
     }
     public function unread_chats_from($id)
     {
-      // return $this->hasMany('Cavidel\Chat', 'ToID')->where('IsRead', false)->where('FromID', $id)->get();
-      return $this->unread_chats()->where('FromID', $id)->get();
+        // return $this->hasMany('Cavidel\Chat', 'ToID')->where('IsRead', false)->where('FromID', $id)->get();
+        return $this->unread_chats()->where('FromID', $id)->get();
     }
     // End Chats
 
@@ -132,7 +129,7 @@ class User extends Authenticatable
     }
     public function avatar_url()
     {
-        return url('/').'/images/avatars/'.($this->avatar ?? 'default.png');
+        return url('/') . '/images/avatars/' . ($this->avatar ?? 'default.png');
     }
 
     public function getCompanyIDAttribute()
@@ -142,15 +139,14 @@ class User extends Authenticatable
 
     public function todos()
     {
-      return $this->hasMany('Cavidel\Todo', 'UserID')->orderBy('DueDate', 'desc');
+        return $this->hasMany('Cavidel\Todo', 'UserID')->orderBy('DueDate', 'desc');
     }
 
     public function sticky_notes()
     {
-      return $this->hasMany('Cavidel\StickyNote', 'UserID')->orderBy('created_at', 'desc');
+        return $this->hasMany('Cavidel\StickyNote', 'UserID')->orderBy('created_at', 'desc');
     }
 
     // relationship for staff payroll details
-
 
 }

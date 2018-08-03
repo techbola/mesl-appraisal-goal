@@ -1,21 +1,21 @@
 @extends('layouts.master')
 
 @section('title')
-	Estate Allocation
+	Estate Info
 @endsection
 
 @section('page-title')
-	Estate Allocation
+	Estate Info
 @endsection
 
 @section('buttons')
-	{{-- <a href="{{ route('estate_info') }}" class="btn btn-sm btn-info">Estate Information</a> --}}
+	{{-- <a href="{{ route('estate_allocation') }}" class="btn btn-sm btn-info">Estate Allocation</a> --}}
 	<a href="{{ route('estate_status_report') }}" class="btn btn-sm btn-info m-l-5">Estate Status Report</a>
 @endsection
 
 @section('content')
   <div class="card-box">
-    <div class="card-title">Estate Allocation</div>
+    <div class="card-title">Estate Units Info</div>
     <div id="update_msg" style="padding:10px"></div>
 
     <div class="row">
@@ -49,8 +49,8 @@
       <table id="unit_list" class="table table-striped table-bordered">
         <thead>
           <th>Unit</th>
-          <th>Client</th>
-          <th>Comment</th>
+          <th>Allotee Name</th>
+          <th>Info</th>
         </thead>
         <tbody>
 
@@ -70,7 +70,7 @@
       var estate = $(this).val();
       // console.log(estate);
       $('#spinner').show();
-      $.get('/get_blocks_unassigned/'+ estate, function(data, status){
+      $.get('/get_blocks/'+ estate, function(data, status){
         console.log(data);
         $('#blocks').html('<option value="">Select Block</option>');
         data.forEach(function(block){
@@ -88,29 +88,29 @@
       var block = $(this).val();
       // console.log(block);
       $('#spinner').show();
-      $.get('/get_units_unassigned/'+ estate +'/'+block, function(data, status){
+      $.get('/get_units/'+ estate +'/'+block, function(data, status){
         $('#unit_list tbody').empty();
         data.forEach(function(unit){
           console.log(unit);
           $('#unit_list tbody').append(`
             <tr>
               <td>${unit.Unit}</td>
+              <td>${unit.AllotteeName}</td>
               <td>
-								<select class="customers full-width" data-init-plugin="select2" name="Customers[${unit.AllocationRef}]">
-									<option value="">Select client</option>
-									@foreach ($customers as $customer)
-										<option value="{{ $customer->CustomerRef }}">{{ $customer->Customer }}</option>
-									@endforeach
-								</select>
-              </td>
-              <td>
-                <textarea class="form-control" rows="2" name="Comments[${unit.AllocationRef}]">${ unit.Comment ? unit.Comment : '' }</textarea>
+                <select class="units full-width" data-init-plugin="select2" name="Units[${unit.AllocationRef}]">
+                  <option value="">Select status</option>
+                  ${ Object.keys(unit.statuses).map(function (status) {
+                      if(unit.EstateInfoID==unit.statuses[status].EstateInfoRef) var is_selected = 'selected';
+                      else var is_selected = '';
+                      return "<option "+is_selected+" value='" + unit.statuses[status].EstateInfoRef + "'>" + unit.statuses[status].EstateInfo + "</option>"
+                  }) }
+                </select>
               </td>
             </tr>
           `);
-					$('select[name="Customers['+unit.AllocationRef+']"]').val(unit.CustomerID).trigger('change');
         });
-				$('.customers').select2();
+
+				$('.units').select2();
         $('#spinner').hide();
       });
     });
@@ -120,7 +120,7 @@
     $('#update_form').on('submit', function(e) {
       e.preventDefault();
       $('#spinner').show();
-      $.post('/update_estate_allocation', $('#update_form').serialize(), function(data, status){
+      $.post('/update_estate_info', $('#update_form').serialize(), function(data, status){
         $('#update_msg').html('<div class="alert alert-success m-b-10"><span class="fa fa-check m-r-5"></span>'+data+'</div>');
         $('#spinner').hide();
       });

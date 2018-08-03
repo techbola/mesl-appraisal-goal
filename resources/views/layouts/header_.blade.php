@@ -13,6 +13,7 @@
 
      <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="logout-url" content="{{ route('logout-url') }}">
 
     <link rel="apple-touch-icon" href="{{ asset('pages/ico/60.png') }}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('pages/ico/76.png') }}">
@@ -32,7 +33,7 @@
     {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"> --}}
 
     <link href="{{ asset('assets/plugins/jquery-scrollbar/jquery.scrollbar.css') }}" rel="stylesheet" type="text/css" media="screen" />
-    <link href="{{ asset('assets/plugins/bootstrap-select2/select2.css') }}" rel="stylesheet" type="text/css" media="screen" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="{{ asset('assets/plugins/switchery/css/switchery.min.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-tag/bootstrap-tagsinput.css') }}">
  {{-- <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> --}}
@@ -315,6 +316,8 @@
                 </li>
                 <li><a href="#"><i class="pg-signals"></i> Help</a>
                 </li> --}}
+                <li><a href="{{ url('/settings') }}"><i class="fa fa-user"></i>2 Factor Authentication</a>
+                  </li>
                 <li class="bg-master-lighter">
                   <a href="/logout" class="clearfix">
                     <span class="pull-left">Logout</span>
@@ -440,7 +443,7 @@
     <script src="{{ asset('assets/plugins/jquery-ios-list/jquery.ioslist.min.js') }}" ></script>
     <script src="{{ asset('assets/plugins/jquery-actual/jquery.actual.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
-    <script  src="{{ asset('assets/plugins/bootstrap-select2/select2.min.js') }}"></script>
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
     {{-- <script src="{{ asset('assets/plugins/switchery/js/switchery.min.js') }}" ></script> --}}
     <script src="{{ asset('assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js') }}" type="text/javascript"></script>
