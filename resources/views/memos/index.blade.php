@@ -11,6 +11,9 @@
   <a href="{{ route('memos.create') }}" class="btn btn-info btn-rounded pull-right" >New Memo</a>
   <a href="{{ route('memos_approvallist') }}" class="btn btn-info btn-rounded m-r-5 pull-right" >Approvals <span class="badge m-l-5">{{ $unapproved_memos->count() }}</span></a>
 @endsection
+@push('styles')
+<link rel="stylesheet" href="https://cdn.datatables.net/scroller/1.5.1/css/scroller.dataTables.min.css">
+@endpush
 
 @section('content')
 
@@ -170,6 +173,21 @@
                 @endforeach
               </tbody>
             </table>
+
+            <br>
+
+            <table id="example" class="display table " style="width:100%">
+                <thead>
+                      <tr>
+                        <th >Subject</th>
+                        <th >Purpose</th>
+                        <th>Body</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                </thead>
+            </table>
+
           </div>
 
         </div>
@@ -225,6 +243,7 @@
 @endsection
 
 @push('scripts')
+  <script src="https://cdn.datatables.net/scroller/1.5.1/js/dataTables.scroller.min.js"></script>
   <script src="{{ asset('js/printThis.js') }}"></script>
   <script src="{{ asset('js/jquery-printme.min.js') }}"></script>
   <script>
@@ -275,6 +294,20 @@
           "path": ["{{ asset('css/printmemo.css') }}"]
         }); 
     }
+
+    // datatbles
+    var data = [];
+        for ( var i=0 ; i<50000 ; i++ ) {
+            data.push( [ ] );
+        }
+         
+        $('#example').DataTable( {
+            data:           {!! array_flatten($memo_inbox->toArray()) !!},
+            deferRender:    true,
+            scrollY:        200,
+            scrollCollapse: true,
+            scroller:       true
+        } );
     
 
   </script>

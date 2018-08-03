@@ -36,7 +36,10 @@ class MemoController extends Controller
                 return array_intersect($value->recipients, [auth()->user()->id]);
             });
 
-        return view('memos.index', compact('memos', 'my_memos', 'my_unsent_memos', 'memo_inbox', 'unapproved_memos'));
+        // dd($memo_inbox->toArray());
+        return response()->json($memo_inbox->toArray(), 200);
+
+        return view('memos.index', compact('memos', 'my_memos', 'my_unsent_memos', 'ma', 'memo_inbox', 'unapproved_memos'));
     }
 
     public function create()
