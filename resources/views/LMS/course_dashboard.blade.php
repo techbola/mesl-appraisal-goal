@@ -373,6 +373,11 @@
         $('#category_form').addClass('hide');
         $('#instructor_form').addClass('hide');
         $('#batch_form').addClass('hide');
+        $.get('/get_c_category', function(data) {
+          $('#category_ref').append(`
+            <option value="${data.course_category_ref}">${data.course_category_name}</option>}
+            `);
+        });
       });
       
       $('#submit_course').click(function(event) {

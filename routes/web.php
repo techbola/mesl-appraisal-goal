@@ -367,6 +367,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('activate_course/{id}', 'CourseController@activate_course');
     Route::get('LMS/show_course/{id}', 'CourseController@show_course')->name('ShowCourse');
     Route::get('course_material_with_id/{id}', 'CourseController@course_material_with_id');
+    Route::get('get_c_category', 'CourseController@get_c_category');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
