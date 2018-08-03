@@ -302,7 +302,7 @@
         }
          
         // $('#example').DataTable( {
-        //     data:           {!! array_flatten($memo_inbox->toArray()) !!},
+        //     data:           ,
         //     deferRender:    true,
         //     scrollY:        200,
         //     scrollCollapse: true,
