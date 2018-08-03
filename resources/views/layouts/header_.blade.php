@@ -94,7 +94,7 @@
       <div class="sidebar-menu">
         <!-- BEGIN SIDEBAR MENU ITEMS-->
 
-        <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Search for menus.." title="Type in a menu name" style="width: 80%; margin: auto; margin-top: 10px;">
+        <input type="text" id="search_input" class="form-control" onkeyup="menu_search()" placeholder="Search for menus.." title="Type in a menu name" style="width: 80%; margin: auto; margin-top: 10px;">
 
         <ul class="menu-items" style="margin-top: 30px" id="menu-items">
 
@@ -738,9 +738,9 @@
 
       {{-- Filter Menus --}}
       <script>
-      function myFunction() {
+      function menu_search() {
           var input, filter, ul, li, a, i;
-          input = document.getElementById("myInput");
+          input = document.getElementById("search_input");
           filter = input.value.toUpperCase();
           ul = document.getElementById("menu-items");
           // li = ul.getElementsByTagName("li");
