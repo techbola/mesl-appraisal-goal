@@ -374,9 +374,11 @@
         $('#instructor_form').addClass('hide');
         $('#batch_form').addClass('hide');
         $.get('/get_c_category', function(data) {
-          $('#category_ref').append(`
-            <option value="${data.course_category_ref}">${data.course_category_name}</option>}
+          $.each(data, function(index, val) {
+            $('#category_ref').append(`
+            <option value="${val.course_category_ref}">${val.course_category_name}</option>}
             `);
+          });
         });
       });
       
