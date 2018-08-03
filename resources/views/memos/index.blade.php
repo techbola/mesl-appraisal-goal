@@ -301,13 +301,13 @@
             data.push( [ ] );
         }
          
-        $('#example').DataTable( {
-            data:           {!! array_flatten($memo_inbox->toArray()) !!},
-            deferRender:    true,
-            scrollY:        200,
-            scrollCollapse: true,
-            scroller:       true
-        } );
+        // $('#example').DataTable( {
+        //     data:           {!! array_flatten($memo_inbox->toArray()) !!},
+        //     deferRender:    true,
+        //     scrollY:        200,
+        //     scrollCollapse: true,
+        //     scroller:       true
+        // } );
     
 
   </script>
