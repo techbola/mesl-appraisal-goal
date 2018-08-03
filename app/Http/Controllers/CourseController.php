@@ -29,7 +29,8 @@ class CourseController extends Controller
 
     public function submit_new_category(Request $request)
     {
-        $add_new_course = new CourseCategory($request->all());
+        $add_new_course             = new CourseCategory($request->all());
+        $add_new_course->entered_by = auth()->user()->id;
         $add_new_course->save();
         $count_course = CourseCategory::all()->count();
         return response()->json($count_course)->setStatusCode(200);
