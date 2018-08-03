@@ -20,12 +20,12 @@ $(document).idle({
     	// log out user forcefully
     	document.location.href = custom_config.logout_url;
     }).catch(function(){
-      // alert('enter pasword')
+      alert('enter pasword')
     });
   },
   onActive: function(){
     
   },
-  idle: 1800000 //Idle after 30 mins
-  //idle: 5000 //Idle after 30 mins
+  //idle: 1800000 //Idle after 30 mins
+  idle: 5000 //Idle after 30 mins
 });
