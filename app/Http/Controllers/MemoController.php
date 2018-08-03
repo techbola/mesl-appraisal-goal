@@ -37,7 +37,7 @@ class MemoController extends Controller
             });
 
         // dd($memo_inbox->toArray());
-        return response()->json($memo_inbox->toArray(), 200);
+        // return response()->json($memo_inbox->toArray(), 200);
 
         return view('memos.index', compact('memos', 'my_memos', 'my_unsent_memos', 'ma', 'memo_inbox', 'unapproved_memos'));
     }
