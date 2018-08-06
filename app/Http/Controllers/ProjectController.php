@@ -8,6 +8,7 @@ use Cavidel\Staff;
 use Cavidel\User;
 use Cavidel\ProjectTask;
 use Cavidel\ProjectChat;
+use Cavidel\ProjectFile;
 use Cavidel\Client;
 use Cavidel\Customer;
 use DB;
@@ -274,6 +275,27 @@ class ProjectController extends Controller
       Notification::send($users, new ProjectChatNotification($msg));
 
       return redirect()->back()->with('success', 'Your message was posted.');
+    }
+
+    public function upload_project_file(Request $request, $id)
+    {
+      $project = Project::find($id);
+      $file = $request->Filename;
+      $user = auth()->user();
+      
+      if ($request->hasFile('Filename') && $request->file('Filename')->isValid()) {
+        $filename = str_replace(' ', '_', $file->getClientOriginalName() );
+        $saved    = $file->storeAs('project_files', $filename, 'public');
+
+        if ($saved) {
+          $new_file = new ProjectFile;
+          $new_file->Filename = $filename;
+          $new_file->ProjectID = $project->ProjectRef;
+          $new_file->UserID = $user->id;
+          $new_file->save();
+        }
+      }
+      return redirect()->back()->with('success', 'The file was uploaded successfully');
     }
 
 }
