@@ -108,6 +108,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('store_project', 'ProjectController@store')->name('store_project');
     Route::patch('update_project/{id}', 'ProjectController@update')->name('update_project');
     Route::get('project/{id}', 'ProjectController@view_project')->name('view_project');
+    Route::post('project/upload_file/{id}', 'ProjectController@upload_project_file')->name('upload_project_file');
+    Route::delete('project/delete_file/{id}', 'ProjectController@delete_project_file')->name('delete_project_file');
 
     Route::post('save_task', 'ProjectController@save_task')->name('save_task');
     Route::patch('update_task/{id}', 'ProjectController@update_task')->name('update_task');
@@ -406,6 +408,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/profit-loss2', 'ReportController@profit_loss2')->name('profit_loss2');
     Route::get('reports/profit-loss3', 'ReportController@profit_loss3')->name('profit_loss3');
     Route::get('reports/loans-report', 'ReportController@loans_report')->name('loans_report');
+
+    Route::get('reports/cash-flow', 'ReportController@cash_flow')->name('cash_flow');
 
     Route::get('report/balance-sheet-vce', 'ReportController@balance_sheet_vce')->name('balance_sheet_vce');
     Route::get('report/profit-loss-vce', 'ReportController@profit_loss_vce')->name('profit_loss_vce');

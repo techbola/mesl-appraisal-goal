@@ -89,6 +89,10 @@ class Project extends Model
   {
     return $this->hasMany('Cavidel\ProjectChat', 'ProjectID', 'ProjectRef')->orderBy('created_at', 'desc');
   }
+  public function files()
+  {
+    return $this->hasMany('Cavidel\ProjectFile', 'ProjectID', 'ProjectRef')->orderBy('created_at', 'desc');
+  }
   public function getOnTrackAttribute()
   {
     $today = date('Y-m-d');

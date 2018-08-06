@@ -368,4 +368,18 @@ class ReportController extends Controller
 
     }
 
+    public function cash_flow(Request $request)
+    {
+      if (empty($_GET['from']) && empty($_GET['to'])) {
+        $from = date('Y-m-d', strtotime("3 months ago"));
+        $to = date('Y-m-d');
+      } else {
+        $from = $_GET['from'];
+        $to = $_GET['to'];
+      }
+      $cash_flows = collect(DB::select("exec procCashFlow '$from', '$to'"));
+      // dd($cash_flows);
+      return view('reports.cash_flow', compact('cash_flows', 'from', 'to'));
+    }
+
 }
