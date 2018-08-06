@@ -44,6 +44,7 @@ Route::group(['domain' => '{subdomain}.officemate.test'], function () {
 });
 
 Route::get('/logout', 'LoginController@logout')->name('logout-url');
+Route::get('/timeout', 'LoginController@timeout')->name('timeout-url');
 
 Route::get('/login2', function () {
     return view('auth.login_old');
