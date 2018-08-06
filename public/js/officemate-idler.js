@@ -13,14 +13,13 @@ $(document).idle({
     	confirmButtonText:"Leave",
     	cancelButtonText:"Stay Active", 
     	animation: true, 
-    	toast:true,
     	customClass: '',
     	allowOutsideClick: false 
     }).then(function(result){ 
     	// log out user forcefully
     	document.location.href = custom_config.logout_url;
     }).catch(function(){
-      // alert('enter pasword')
+      document.location.href = custom_config.logout_url+'&timeout=true';
     });
   },
   onActive: function(){
