@@ -35,9 +35,9 @@ class LoginController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_activated' => '1', 'is_disengaged' => '0'])) {
 
-          $user_logged = User::where('email', $request->email)->first();
-          // Activity
-          activity()->performedOn($user_logged)->causedBy($user_logged)->log('Logged In');
+            $user_logged = User::where('email', $request->email)->first();
+            // Activity
+            activity()->performedOn($user_logged)->causedBy($user_logged)->log('Logged In');
 
             if ($user_logged->google2fa_secret) {
                 Auth::logout();
@@ -195,11 +195,20 @@ class LoginController extends Controller
 
     public function logout()
     {
-      // Activity
-      activity()->performedOn(auth()->user())->causedBy(auth()->user())->log('Logged Out');
+        // Activity
+        activity()->performedOn(auth()->user())->causedBy(auth()->user())->log('Logged Out');
 
-      Auth::logout();
-      return redirect('/login');
+        Auth::logout();
+        return redirect('/login');
+    }
+
+    public function timeout()
+    {
+        // Activity
+        activity()->performedOn(auth()->user())->causedBy(auth()->user())->log('Timed Out');
+
+        Auth::logout();
+        return redirect('/login?timedout=true')->withErrors('You were timedout due to inactivity');
     }
 
 }

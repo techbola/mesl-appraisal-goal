@@ -14,6 +14,7 @@
      <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="logout-url" content="{{ route('logout-url') }}">
+    <meta name="timeout-url" content="{{ route('timeout-url') }}">
 
     <link rel="apple-touch-icon" href="{{ asset('pages/ico/60.png') }}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('pages/ico/76.png') }}">
