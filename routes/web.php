@@ -149,7 +149,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
     Route::get('search_messages', 'MessageController@search_messages')->name('search_messages');
     Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
-        return response()->download(storage_path("app / public  / " . $dir . " / " . $filename));
+        return response()->download(storage_path("app/public/".$dir."/".$filename));
     })->name('download_file');
 
     // Route::get('/chat/list', 'ChatController@chat_list')->name('chat_list');
