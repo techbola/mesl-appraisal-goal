@@ -876,6 +876,9 @@ h1, h2, h3, h4, h5, h6 {
 .badge-info {
     background-color: #2ea1f8 !important;
 }
+.badge-inverse {
+    background-color: #555555 !important;
+}
 .badge-tab {
     margin-left: 5px;
     vertical-align: text-top;
@@ -1111,4 +1114,12 @@ a[href$="doc"], a[href$="docx"] {
     /*width: 100% !important;*/
     min-width: 200px !important;
     max-width: 200px !important;
+}
+
+/* For New Select2 */
+.select2-container .select2-selection--single {
+  height: 35px;
+}
+.select2-container--default .select2-selection--single {
+  border: none;
 }

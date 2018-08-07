@@ -124,19 +124,23 @@
   <ul class="nav nav-tabs outside">
     <li class="active"><a data-toggle="tab" href="#details">Project Details</a></li>
     <li><a data-toggle="tab" href="#gantt">Gantt Chart</a></li>
+    <li>
+      <a data-toggle="tab" href="#files">Files <span class="badge badge-inverse badge-tab">{{ count($project->files) }}</span></a>
+    </li>
   </ul>
   <div class="tab-content">
     <div id="details" class="tab-pane fade in active">
       @include('projects.details')
     </div>
     <div id="gantt" class="tab-pane fade">
-
       {{-- Start Gantt --}}
       <div class="card-box">
         <div id="gantt_chart"></div>
       </div>
       {{-- End Gantt --}}
-
+    </div>
+    <div id="files" class="tab-pane fade">
+      @include('projects.files')
     </div>
   </div>
   {{-- END TABS --}}
@@ -465,8 +469,17 @@
     // });
   </script>
   {{-- End Gantt --}}
+
+  {{-- <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/css/summernote.css') }}" />
+  <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}" charset="utf-8"></script> --}}
   <script>
     $('.summernote').summernote();
+  </script>
+
+  <script>
+    $('#file_upload_form').on('submit', function(){
+      $('#spinner').show();
+    });
   </script>
 @endpush
 
