@@ -10,7 +10,7 @@
 
 @section('buttons')
   <a href="{{ route('estate_info') }}" class="btn btn-sm btn-info">Estate Information</a>
-  <a href="{{ route('estate_allocation') }}" class="btn btn-sm btn-info m-l-5">Estate Allocation</a>
+  {{-- <a href="{{ route('estate_allocation') }}" class="btn btn-sm btn-info m-l-5">Estate Allocation</a> --}}
 @endsection
 
 @section('content')
