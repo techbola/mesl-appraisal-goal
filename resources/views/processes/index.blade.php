@@ -190,7 +190,7 @@ s
     {
      var id = $('#departments').val();
      $.get('/get_process_steps_dept_index/' +id, function(data, status) {
-        $('#process_id').html(' ');
+        $('#process_id').html('<option value="">Choose Process</option>');
        $.each(data, function(index, val){
              $('#process_id').append(`
                   <option value='${val.processRef}'>${val.process}</option>
