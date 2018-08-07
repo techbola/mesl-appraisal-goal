@@ -14,6 +14,7 @@
      <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="logout-url" content="{{ route('logout-url') }}">
+    <meta name="timeout-url" content="{{ route('timeout-url') }}">
 
     <link rel="apple-touch-icon" href="{{ asset('pages/ico/60.png') }}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('pages/ico/76.png') }}">
@@ -93,7 +94,11 @@
       <!-- START SIDEBAR MENU -->
       <div class="sidebar-menu">
         <!-- BEGIN SIDEBAR MENU ITEMS-->
-        <ul class="menu-items" style="margin-top: 30px">
+
+        <input type="text" id="search_input" class="form-control" onkeyup="menu_search()" placeholder="Search for menus.." title="Type in a menu name" style="width: 80%; margin: auto; margin-top: 10px;">
+
+        <ul class="menu-items" style="margin-top: 30px" id="menu-items">
+
 
           {{-- DASHBOARD ONLY --}}
           {{-- @foreach($parent_menus as $menu)
@@ -282,7 +287,7 @@
 
 
               <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="thumbnail-wrapper d39 circular inline m-t-5 text-white">
+                <span class="thumbnail-wrapper d39 circular m-t-5 text-white hidden-xs">
                   <img class="avatar2" src="{{ asset('images/avatars/'.$user->avatar_light()) }}" alt="" data-src="{{ asset('images/avatars/'.$user->avatar_light()) }}" data-src-retina="{{ asset('images/avatars/'.$user->avatar_light()) }}" width="32" height="32">
                   {{-- defaulr abbr avatar from fullname --}}
                   {{-- <span style="display: inline-block;" class="abbr-avatar">{{ Auth::user()->abbreviation(Auth::user()->FullName) }}</span> --}}
@@ -730,6 +735,26 @@
         $(document).on('click', '.brand', function(){
           // window.location = '/';
         });
+      </script>
+
+      {{-- Filter Menus --}}
+      <script>
+      function menu_search() {
+          var input, filter, ul, li, a, i;
+          input = document.getElementById("search_input");
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("menu-items");
+          // li = ul.getElementsByTagName("li");
+          li = $("ul#menu-items > li");
+          for (i = 0; i < li.length; i++) {
+              a = li[i].getElementsByTagName("a")[0];
+              if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                  li[i].style.display = "";
+              } else {
+                  li[i].style.display = "none";
+              }
+          }
+      }
       </script>
 
 
