@@ -21,7 +21,11 @@
             <a href="{{ route('download_file', ['project_files', $file->Filename]) }}" class="btn btn-xs btn-inverse"><i class="fa fa-download"></i> Download</a>
 
             @can ('project-supervisor', $project)
-              <a href="{{ route('delete_project_file', $file->FileRef) }}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+              <a class="btn btn-xs btn-danger" onclick="confirm2('Delete this file?', '', 'delete_file_{{ $file->FileRef }}')"><i class="fa fa-trash"></i> Delete</a>
+              <form class="hidden" id="delete_file_{{ $file->FileRef }}" action="{{ route('delete_project_file', $file->FileRef) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('DELETE') }}
+              </form>
             @endcan
           </td>
         </tr>
