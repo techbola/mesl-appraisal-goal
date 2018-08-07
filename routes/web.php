@@ -150,7 +150,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
     Route::get('search_messages', 'MessageController@search_messages')->name('search_messages');
     Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
-        return response()->download(storage_path("app/public/".$dir."/".$filename));
+        return response()->download(storage_path("app/public/" . $dir . "/" . $filename));
     })->name('download_file');
 
     // Route::get('/chat/list', 'ChatController@chat_list')->name('chat_list');
@@ -561,6 +561,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('payroll/deductions/manual', 'PayrollController@get_manual_deductions')->name('payroll.deduction.manual');
     Route::post('payroll/deductions/manual', 'PayrollController@post_manual_deductions')->name('payroll.deductions.store');
     Route::post('/payroll/process-payroll', 'PayrollController@process_payroll');
+
+    Route::get('payroll/deductions/{id}', 'PayrollController@get_user_deductions')->name('payroll.deduction.manual');
 
     // payslip
     Route::get('payslip', 'PayrollController@payslip_individual')->name('individual-payslip');

@@ -53,7 +53,7 @@
 							<a href="/payroll/groups/edit/{{ $pg->GroupRef }}" class="btn btn-inverse">Edit</a>
 						</td>
 						<td>{{ $pg->GroupDescription }}</td>
-						<td>{{ $pg->seniority_level->GradeLevel }}</td>
+						<td>{{ $pg->seniority_level->GradeLevel ?? '-' }}</td>
 						<td>{{ nairazify(number_format($pg->STIRate, 2)) }}</td>
 						<td>{{ nairazify(number_format($pg->BaseAmount, 2)) }}</td>
 						<td>{{ $pg->scenario->Scenario }}</td>
