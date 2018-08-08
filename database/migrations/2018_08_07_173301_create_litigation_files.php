@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLitigationSummariesTable extends Migration
+class CreateLitigationFiles extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateLitigationSummariesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblLitigationSummary', function (Blueprint $table) {
-            $table->increments('LitigationSummaryRef');
+        Schema::create('tblLitigationFile', function (Blueprint $table) {
+            $table->increments('FileRef');
+            $table->string('FileName');
             $table->integer('LitigationID');
-            $table->text('LitigationSummary');
+            $table->integer('UserID');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateLitigationSummariesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tblLitigationSummary');
+        Schema::dropIfExists('tblLitigationFile');
     }
 }

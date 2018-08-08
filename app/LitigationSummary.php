@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class LitigationSummary extends Model
 {
-    protected $table    = 'tblLitigationSummary';
-    protected $fillable = ['LitigationSummary'];
+    protected $table    = 'tblLitigationStatus';
+    protected $fillable = ['LitigationStatus'];
 
     public function litigation()
     {

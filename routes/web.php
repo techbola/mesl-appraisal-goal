@@ -601,7 +601,6 @@ Route::middleware(['auth'])->group(function () {
     // End Memorandum
 
     // Estate Management
-
     Route::name('facility-management.')->prefix('facility-management')->group(function () {
         Route::get('complaints/view-comment/{id}', 'ComplaintController@view_comments')->name('view-comments');
         Route::post('complaints/comment', 'ComplaintController@comment')->name('post-comment');
@@ -609,6 +608,19 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('complaints', 'ComplaintController');
         Route::resource('complaints', 'ComplaintController');
     });
+
+    // Litigation
+    Route::name('litigation.')->prefix('litigation')->group(function () {
+        Route::get('/', 'LitigationController@index')->name('index');
+        Route::post('/create', 'LitigationController@store')->name('store');
+        Route::get('/{id}', 'LitigationController@show')->name('show');
+        Route::patch('/{id}', 'LitigationController@update')->name('update');
+        Route::post('/upload_file/{id}', 'LitigationController@upload_litigation_file')->name('upload_litigation_file');
+        Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
+            return response()->download(storage_path("app/public/" . $dir . "/" . $filename));
+        })->name('download_file');
+    });
+
 });
 
 Route::get('/cls', function () {
