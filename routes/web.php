@@ -125,6 +125,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('review_step_budget', 'TaskController@review_step_budget')->name('review_step_budget');
     Route::patch('approve_step_budget/{id}', 'TaskController@approve_step_budget')->name('approve_step_budget');
     Route::patch('reject_step_budget/{id}', 'TaskController@reject_step_budget')->name('reject_step_budget');
+    Route::get('pay_step_budget', 'TaskController@pay_step_budget')->name('pay_step_budget');
+    Route::post('store_step_payment/{id}', 'TaskController@store_step_payment')->name('store_step_payment');
+    Route::get('complete_step_payment', 'TaskController@complete_step_payment')->name('complete_step_payment');
 
     Route::post('save_taskupdate/{id}', 'TaskController@save_taskupdate')->name('save_taskupdate');
 
