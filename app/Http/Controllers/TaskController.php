@@ -158,9 +158,18 @@ class TaskController extends Controller
       $payment->StepID = $id;
       $payment->Amount = $request->Amount;
       $payment->InputterID = $user->id;
+      $payment->CompanyID = $user->CompanyID;
       $payment->save();
 
       return redirect()->back()->with('success', 'Payment submitted successfully.');
+    }
+
+    public function complete_step_payments()
+    {
+      $user = auth()->user();
+      $payments = StepBudgetPayment::where('CompanyID', $user->CompanyID)->get();
+
+      return view('steps.complete_payments', compact('payments'));
     }
 
 }

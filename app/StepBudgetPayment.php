@@ -9,4 +9,10 @@ class StepBudgetPayment extends Model
   protected $table   = 'tblStepBudgetPayments';
   protected $guarded = ['PaymentRef'];
   public $primaryKey = 'PaymentRef';
+
+  public function step()
+  {
+    return $this->belongsTo('Cavidel\Step', 'StepID');
+  }
+
 }
