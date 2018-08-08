@@ -17,6 +17,24 @@
     .progress {
       border-radius: 3px !important;
     }
+
+    .modal {
+      padding-left: 0 !important
+    }
+
+    #new_court .modal-content {
+      box-shadow: 0 0 50px #000;
+    }
+
+    .form-add-more{
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      border-radius: 50%;
+      text-align: center;
+      padding: 0 !important;
+      cursor: pointer;
+    }
   </style>
 
   {{-- <div class="clearfix m-b-20">
@@ -84,6 +102,30 @@
         </div>
       </div>
       <!-- /.modal-content -->
+
+
+      <!-- Modal -->
+  <div class="modal fade stick-up" id="new_court" role="dialog" aria-hidden="false" style="padding-left: 0 !important">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header clearfix text-left">
+            <button type="button" class="close" onclick="$('#new_court').hide()"  aria-hidden="true"><i class="pg-close fs-14"></i>
+            </button>
+            <h5>New Court &amp; Location</h5>
+            {{-- <p class="p-b-10">We need payment information inorder to process your order</p> --}}
+          </div>
+          <div class="modal-body">
+
+            <form action="{{ route('courts.store') }}" id="courts-form" method="post">
+              {{ csrf_field() }}
+              @include('courts.form')
+              <button type="submit" class="btn btn-info btn-form">Submit</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
     </div>
   </div>
   <!-- /.modal-dialog -->
@@ -102,6 +144,34 @@
             autoclose: true,
         };
         $('.dp').datepicker(options);
+
+        $('.form-add-more').click(function(e){
+          e.preventDefault();
+          $('#new_court').show();
+          $('#new_court').modal('show');
+          var form = $("#courts-form");
+          form.submit(function(e) {
+            e.preventDefault();
+            $.post('/courts', {
+              Court: $('#Court').val(),
+              Location: $('#Location').val()
+            }, function(data, textStatus, xhr) {
+              if(data.success === true){
+                $('#CourtID').append('<option selected value="'+ data.data.CourtRef +'">' +  data.data.Court  + '</option>');
+                 $('#new_court').hide();
+                 $('#Court').val('');
+                 $('#Location').val('');
+                 $('#new_court').modal('handleUpdate');
+              }
+            });
+          });
+        });
+
+        $('#new_schedule').on('hidden.bs.modal', function (e) {
+          $('#new_court').modal('hide');
+        });
+
+        
     });
   </script>
 @endpush

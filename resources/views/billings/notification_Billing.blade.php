@@ -71,8 +71,8 @@
           </div>
 
           <div class="col-md-5">
-            <div style="background: #2196f3; padding: 15px;">
-                             <h5 style="margin-left: 10px">Product Form</h5><hr>
+            <div style="background: #6e7071; padding: 15px; color: #fff">
+                             <h5 style="margin-left: 10px; color:#fff">Product Form</h5><hr>
                              {{ Form::open(['action' => 'BillingController@save_bill_item', 'autocomplete' => 'off', 'role' => 'form']) }}
                              <div class="row">
                                 <div class="col-sm-12">
@@ -90,7 +90,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('Product') }}
-                                            <select name="Product" id="product" data-init-plugin="select2" class="form-control select2"     required onchange="getPrice()">
+                                            <select name="Product" id="product" data-init-plugin="select2" class="form-control select2"     required >
                                                 <option value="0">Select Product</option>
                                             </select>
                                     </div>
@@ -98,13 +98,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                             {{ Form::label('UnitPrice', 'Unit Price') }}
-                                            <input type="text" name="UnitPrice" class="form-control" id="unit_price" readonly>
+                                            <input type="text" value="0"  name="UnitPrice" class="form-control" id="unit_price">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                             {{ Form::label('Quantity', 'Quantity') }}
-                                            <input type="text" name="Quantity" class="form-control" id="quantity"  value="0" onkeyup="getTotalPrice()">
+                                            <input type="text" name="Quantity" class="form-control" id="quantity"  value="0" onblur="calculate_total_price()">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -367,6 +367,25 @@
 
 
         }
+    </script>
+
+    <script>
+      function calculate_total_price()
+      {
+        var unit = $('#unit_price').val();
+        var qty = $('#quantity').val();
+        var discount = $('#discount').val();
+        var total = unit * qty;
+        $('#total').val(total - discount);
+        var submit_button = $('#total').val();
+        if(submit_button >= 1)
+             {
+                 $('#add_to_list').removeClass('hide');
+             }else
+             {
+                $('#add_to_list').addClass('hide');
+             }
+      }
     </script>
 
     <script>
