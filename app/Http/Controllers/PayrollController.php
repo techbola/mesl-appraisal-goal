@@ -144,6 +144,12 @@ class PayrollController extends Controller
         return view('payroll.deductions.manual', compact('employees', 'deduction_types'));
     }
 
+    public function get_user_deductions($id)
+    {
+        $employee = Staff::find($id);
+        dd($employee);
+    }
+
     public function post_manual_deductions(Request $request)
     {
         $deduction = new Deduction($request->all());

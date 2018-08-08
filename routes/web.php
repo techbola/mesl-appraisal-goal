@@ -156,7 +156,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('message/{id}/{reply?}', 'MessageController@view_message')->name('view_message');
     Route::get('search_messages', 'MessageController@search_messages')->name('search_messages');
     Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
-        return response()->download(storage_path("app/public/".$dir."/".$filename));
+        return response()->download(storage_path("app/public/" . $dir . "/" . $filename));
     })->name('download_file');
 
     // Route::get('/chat/list', 'ChatController@chat_list')->name('chat_list');
@@ -570,6 +570,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('payroll/deductions/manual', 'PayrollController@post_manual_deductions')->name('payroll.deductions.store');
     Route::post('/payroll/process-payroll', 'PayrollController@process_payroll');
 
+    Route::get('payroll/deductions/{id}', 'PayrollController@get_user_deductions')->name('payroll.deduction.manual');
+
     // payslip
     Route::get('payslip', 'PayrollController@payslip_individual')->name('individual-payslip');
     // All employees payslip
@@ -603,7 +605,6 @@ Route::middleware(['auth'])->group(function () {
     // End Memorandum
 
     // Estate Management
-
     Route::name('facility-management.')->prefix('facility-management')->group(function () {
         Route::get('complaints/view-comment/{id}', 'ComplaintController@view_comments')->name('view-comments');
         Route::post('complaints/comment', 'ComplaintController@comment')->name('post-comment');
@@ -611,6 +612,19 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('complaints', 'ComplaintController');
         Route::resource('complaints', 'ComplaintController');
     });
+
+    // Litigation
+    Route::name('litigation.')->prefix('litigation')->group(function () {
+        Route::get('/', 'LitigationController@index')->name('index');
+        Route::post('/create', 'LitigationController@store')->name('store');
+        Route::get('/{id}', 'LitigationController@show')->name('show');
+        Route::patch('/{id}', 'LitigationController@update')->name('update');
+        Route::post('/upload_file/{id}', 'LitigationController@upload_litigation_file')->name('upload_litigation_file');
+        Route::get('download-file/{dir}/{filename}', function ($dir, $filename) {
+            return response()->download(storage_path("app/public/" . $dir . "/" . $filename));
+        })->name('download_file');
+    });
+
 });
 
 Route::get('/cls', function () {
