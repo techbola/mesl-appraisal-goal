@@ -14,6 +14,7 @@ use Cavidel\Customer;
 use DB;
 use Auth;
 use Carbon;
+use File;
 
 use Event;
 use Cavidel\Events\NewTaskEvent;
@@ -282,7 +283,7 @@ class ProjectController extends Controller
       $project = Project::find($id);
       $file = $request->Filename;
       $user = auth()->user();
-      
+
       if ($request->hasFile('Filename') && $request->file('Filename')->isValid()) {
         $filename = str_replace(' ', '_', $file->getClientOriginalName() );
         $saved    = $file->storeAs('project_files', $filename, 'public');
@@ -296,6 +297,19 @@ class ProjectController extends Controller
         }
       }
       return redirect()->back()->with('success', 'The file was uploaded successfully');
+    }
+
+    public function delete_project_file(Request $request, $id)
+    {
+      DB::transaction(function() use($id){
+        $file = ProjectFile::find($id);
+        if (!empty($file->Filename)) {
+          File::delete(storage_path('app/public/project_files/'.$file->Filename));
+        }
+        $file->delete();
+      });
+
+      return redirect()->back()->with('success', 'The file was deleted successfully');
     }
 
 }
