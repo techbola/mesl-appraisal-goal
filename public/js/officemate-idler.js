@@ -7,7 +7,7 @@ $(document).idle({
     document.location.href = custom_config.timedout_url
   },
   onActive: function(){
-    return false
+    return true
   },
   idle: 1800000 //Idle after 30 mins
    //idle: 5000 //Idle after 30 mins
