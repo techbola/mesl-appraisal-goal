@@ -623,6 +623,10 @@ Route::middleware(['auth'])->group(function () {
         })->name('download_file');
     });
 
+    //  Court and Location
+    Route::get('courts', 'CourtController@index')->name('courts.index');
+    Route::get('courts/create', 'CourtController@create')->name('courts.create');
+    Route::post('courts', 'CourtController@store')->name('courts.store');
 });
 
 Route::get('/cls', function () {
