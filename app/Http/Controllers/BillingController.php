@@ -69,13 +69,12 @@ class BillingController extends Controller
 
     public function notification_bill($id, $billcode)
     {
-        $files = [];
+        // $files = [];
 
-        foreach (\Illuminate\Support\Facades\Storage::files('public/course_images') as $filename) {
+        // foreach (\Illuminate\Support\Facades\Storage::files('public/course_images') as $filename) {
 
-            array_push($files, str_replace('public/course_images/', '', $filename));
-        }
-        dd($files);
+        //     array_push($files, str_replace('public/course_images/', '', $filename));
+        // }
         $client_id          = $id;
         $code               = $billcode;
         $client_details     = \DB::table('tblCustomer')->where('CustomerRef', $client_id)->first();

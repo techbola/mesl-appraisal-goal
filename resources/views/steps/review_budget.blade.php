@@ -32,8 +32,17 @@
             <td>{{ $update->step->StartDate ?? '' }}</td>
             <td>{{ $update->step->EndDate ?? '' }}</td>
             <td class="actions">
-              <a class="btn btn-sm btn-success">Approve</a>
-              <a class="btn btn-sm btn-danger">Reject</a>
+              <a class="btn btn-sm btn-success" onclick="confirm2('Approve this budget?', '', 'approve_budget')">Approve</a>
+              <a class="btn btn-sm btn-danger" onclick="confirm2('Reject this budget?', 'The initiator would be able to submit another request.', 'reject_budget')">Reject</a>
+
+              <form class="hidden" id="approve_budget" action="{{ route('approve_step_budget', $update->id) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('PATCH') }}
+              </form>
+              <form class="hidden" id="reject_budget" action="{{ route('reject_step_budget', $update->id) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('PATCH') }}
+              </form>
             </td>
           </tr>
         @endforeach
