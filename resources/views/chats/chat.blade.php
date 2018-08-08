@@ -203,7 +203,7 @@
       var ToID = $('#ToID').val();
       var user_id = '{{ Auth::user()->id }}';
       // console.log(data);
-        if(data.FromID == ToID){
+        if(data.FromID == ToID && data.ToID == user_id){
           // var audio = new Audio('/assets/sound/chat.mp3');
           // audio.play();
 
@@ -228,7 +228,7 @@
                 </div>
               </div>
             `);
-        } else {
+        } else if(data.FromID == ToID) {
           var chats = Number($('#user_'+data.FromID).find('.new_chats_user').text());
           $('#user_'+data.FromID).find('.new_chats_user').show().text(chats + 1);
         }

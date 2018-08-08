@@ -18,8 +18,8 @@
                 <div class="pull-left">
                     <img style="width: 150px" alt="" class="invoice-logo" data-src-retina="{{ asset('images/officemate.png') }}" data-src="{{ asset('images/officemate.png') }}" src="{{ asset('images/officemate.png') }}">
                     <address class="m-t-10">
-                      Apple Enterprise Sales
-                      <br>(877) 412-7753.
+                      {{-- Apple Enterprise Sales --}}
+                      {{-- <br>(877) 412-7753. --}}
                       <br>
                     </address>
                 </div>

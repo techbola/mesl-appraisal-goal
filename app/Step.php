@@ -14,4 +14,9 @@ class Step extends Model
   {
     return $this->belongsTo('Cavidel\ProjectTask', 'TaskID');
   }
+
+  public function getLastUpdateAttribute()
+  {
+    return StepUpdate::where('StepID', $this->StepRef)->orderBy('created_at', 'desc')->first();
+  }
 }

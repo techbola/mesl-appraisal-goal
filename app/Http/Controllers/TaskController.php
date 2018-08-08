@@ -8,6 +8,9 @@ use Cavidel\Step;
 use Cavidel\Staff;
 use Cavidel\TaskUpdate;
 use Carbon;
+use DB;
+
+use Cavidel\StepUpdate;
 
 class TaskController extends Controller
 {
@@ -21,15 +24,28 @@ class TaskController extends Controller
 
     public function add_step(Request $request, $id)
     {
-      $this->validate($request, [
-        'Step' => 'required',
-      ]);
-      $step = new Step;
-      $step->Step = $request->Step;
-      $step->StartDate = $request->StartDate;
-      $step->EndDate = $request->EndDate;
-      $step->TaskID = $id;
-      $step->save();
+      DB::transaction(function() use($request, $id){
+        $user = auth()->user();
+        $this->validate($request, [
+          'Step' => 'required',
+        ]);
+        $step = new Step;
+        $step->Step = $request->Step;
+        $step->StartDate = $request->StartDate;
+        $step->EndDate = $request->EndDate;
+        $step->InputterID = $user->id;
+        $step->TaskID = $id;
+        // $step->BudgetCost = $request->BudgetCost;
+        $step->save();
+
+        if (!empty($request->BudgetCost)) {
+          $pending = new StepUpdate;
+          $pending->StepID = $step->StepRef;
+          $pending->BudgetCost = $request->BudgetCost;
+          $pending->CompanyID = $user->CompanyID;
+          $pending->save();
+        }
+      });
 
       return redirect()->back()->with('success', 'Step was added successfully.');
     }
@@ -51,14 +67,27 @@ class TaskController extends Controller
 
     public function edit_step(Request $request, $id)
     {
-      $step = Step::find($id);
-      $this->validate($request, [
-        'Step' => 'required',
-      ]);
-      $step->Step = $request->Step;
-      $step->StartDate = $request->StartDate;
-      $step->EndDate = $request->EndDate;
-      $step->save();
+      DB::transaction(function() use($request, $id){
+        $user = auth()->user();
+        $step = Step::find($id);
+        $this->validate($request, [
+          'Step' => 'required',
+        ]);
+        $step->Step = $request->Step;
+        $step->StartDate = $request->StartDate;
+        $step->EndDate = $request->EndDate;
+        // $step->BudgetCost = $request->BudgetCost;
+        $step->update();
+
+        if (!empty($request->BudgetCost)){
+          $pending = new StepUpdate;
+          $pending->StepID = $step->StepRef;
+          $pending->BudgetCost = $request->BudgetCost;
+          $pending->CompanyID = $user->CompanyID;
+          $pending->save();
+        }
+
+      });
       return redirect()->back()->with('success', 'Step was updated successfully.');
     }
 
@@ -85,6 +114,31 @@ class TaskController extends Controller
       $msg->save();
 
       return redirect()->back()->with('success', 'Your update was posted.');
+    }
+
+
+    public function review_step_budget()
+    {
+      $user = auth()->user();
+      $updates = StepUpdate::where('CompanyID', $user->CompanyID)->get();
+
+      return view('steps.review_budget', compact('updates'));
+    }
+
+    public function approve_step_budget(Request $request, $id)
+    {
+      $update = StepUpdate::find($id);
+      $update->Status = '1';
+      $update->update();
+      return redirect()->back()->with('success', 'Budget was approved successfully');
+    }
+
+    public function reject_step_budget(Request $request, $id)
+    {
+      $update = StepUpdate::find($id);
+      $update->Status = '0';
+      $update->update();
+      return redirect()->back()->with('success', 'Budget was rejected successfully');
     }
 
 }

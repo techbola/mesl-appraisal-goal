@@ -114,6 +114,17 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      @if (!empty($step->last_update) && $step->last_update->Status == NULL)
+                        <label class="f13">Budget Cost</label>
+                        <input type="text" class="form-control input-sm" value="" placeholder="Pending Review / {{ nairazify(number_format($step->last_update->BudgetCost)) }}" disabled>
+                      @else
+                        <label class="f13">Budget Cost</label>
+                        {{ Form::text('BudgetCost', $step->BudgetCost, ['class' => 'form-control smartinput', 'placeholder' => 'BudgetCost']) }}
+                      @endif
+                    </div>
+                  </div>
                   <div class="col-md-12 p-l-10">
                     <input type="submit" class="btn btn-sm btn-info" value="Save">
                     <a class="btn btn-sm btn-inverse m-l-10" href="#edit_step{{ $step->StepRef }}" data-toggle="collapse">Cancel</a>
@@ -151,6 +162,12 @@
                   {{ Form::text('EndDate', null, ['class' => 'form-control', 'placeholder' => 'End Date', 'required']) }}
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                {{-- {{ Form::label('EndDate', 'End Date' ) }} --}}
+                {{ Form::text('BudgetCost', null, ['class' => 'form-control smartinput', 'placeholder' => 'BudgetCost']) }}
               </div>
             </div>
             <div class="col-md-12 p-l-0">
