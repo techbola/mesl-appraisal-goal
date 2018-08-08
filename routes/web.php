@@ -123,6 +123,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('delete_step/{id}', 'TaskController@delete_step')->name('delete_step');
 
     Route::get('review_step_budget', 'TaskController@review_step_budget')->name('review_step_budget');
+    Route::patch('approve_step_budget/{id}', 'TaskController@approve_step_budget')->name('approve_step_budget');
+    Route::patch('reject_step_budget/{id}', 'TaskController@reject_step_budget')->name('reject_step_budget');
 
     Route::post('save_taskupdate/{id}', 'TaskController@save_taskupdate')->name('save_taskupdate');
 

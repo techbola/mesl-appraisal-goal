@@ -120,6 +120,7 @@
                         <label class="f13">Budget Cost</label>
                         <input type="text" class="form-control input-sm" value="" placeholder="Pending Review / {{ nairazify(number_format($step->last_update->BudgetCost)) }}" disabled>
                       @else
+                        <label class="f13">Budget Cost</label>
                         {{ Form::text('BudgetCost', $step->BudgetCost, ['class' => 'form-control smartinput', 'placeholder' => 'BudgetCost']) }}
                       @endif
                     </div>
