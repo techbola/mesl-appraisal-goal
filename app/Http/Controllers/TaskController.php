@@ -125,9 +125,20 @@ class TaskController extends Controller
       return view('steps.review_budget', compact('updates'));
     }
 
-    // public function approve_step_budget()
-    // {
-    //
-    // }
+    public function approve_step_budget(Request $request, $id)
+    {
+      $update = StepUpdate::find($id);
+      $update->Status = '1';
+      $update->update();
+      return redirect()->back()->with('success', 'Budget was approved successfully');
+    }
+
+    public function reject_step_budget(Request $request, $id)
+    {
+      $update = StepUpdate::find($id);
+      $update->Status = '0';
+      $update->update();
+      return redirect()->back()->with('success', 'Budget was rejected successfully');
+    }
 
 }
