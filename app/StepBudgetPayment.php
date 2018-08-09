@@ -4,15 +4,15 @@ namespace Cavidel;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StepUpdate extends Model
+class StepBudgetPayment extends Model
 {
-  protected $table   = 'tblStepUpdates';
-  protected $guarded = ['id'];
+  protected $table   = 'tblStepBudgetPayments';
+  protected $guarded = ['PaymentRef'];
+  public $primaryKey = 'PaymentRef';
 
   public function step()
   {
     return $this->belongsTo('Cavidel\Step', 'StepID');
   }
-
 
 }

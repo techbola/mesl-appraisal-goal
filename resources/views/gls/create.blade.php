@@ -11,7 +11,7 @@
 </div>
 @endsection
 
-@section('bottom-content')
+{{-- @section('bottom-content')
 <div class="container-fluid container-fixed-lg">
 	<!-- START PANEL -->
 	<div class="card-box">
@@ -57,4 +57,4 @@
 	</div>
 	<!-- END PANEL -->
 </div>
-@endsection
+@endsection --}}

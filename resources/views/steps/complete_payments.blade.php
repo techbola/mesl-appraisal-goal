@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-  Review Budget
+  Complete Budget Payment
 @endsection
 
 @section('page-title')
-  <span class="">Review Budget For Project Steps</span>
+  <span class="">Complete Budget Payment For Project Steps</span>
 @endsection
 
 @section('content')
@@ -14,24 +14,32 @@
     <table class="table table-bordered tableWithSearch">
       <thead>
         <th>Step Description</th>
-        <th>Budget Cost</th>
-        <th>Task / Project</th>
-        <th>Start Date</th>
-        <th>End Date</th>
+        <th>Amount To Pay</th>
+        {{-- <th>Start Date</th>
+        <th>End Date</th> --}}
         <th>Actions</th>
       </thead>
       <tbody>
-        @foreach ($updates as $update)
+        @foreach ($payments as $payment)
           <tr>
-            <td>{{ $update->step->Step ?? '' }}</td>
-            <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
-            <td class="small">
+            <td>{{ $payment->step->Step ?? '' }}</td>
+            {{-- <td class="small">
               <b>Task:</b> {{ $update->step->task->Task }}<br>
               <b>Project:</b> {{ $update->step->task->project->Project }}
             </td>
-            <td>{{ $update->step->StartDate ?? '' }}</td>
-            <td>{{ $update->step->EndDate ?? '' }}</td>
-            <td class="actions">
+            <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
+            <td>{{ nairazify(number_format($update->step->payment_made)) }}</td> --}}
+            <td>{{ nairazify(number_format($payment->Amount)) }}</td>
+            <td>
+              <form class="" action="" method="post">
+                {{ csrf_field() }}
+                {{ method_field('PATCH') }}
+                <button type="submit" name="button" class="btn btn-sm btn-success" onclick="$('#spinner').show()">Mark Paid</button>
+              </form>
+            </td>
+            {{-- <td>{{ $update->step->StartDate ?? '' }}</td>
+            <td>{{ $update->step->EndDate ?? '' }}</td> --}}
+            {{-- <td class="actions">
               @if ($update->Status == NULL)
                 <a class="btn btn-sm btn-success" onclick="confirm2('Approve this budget?', '', 'approve_budget')">Approve</a>
                 <a class="btn btn-sm btn-danger" onclick="confirm2('Reject this budget?', 'The initiator would be able to submit another request.', 'reject_budget')">Reject</a>
@@ -49,7 +57,7 @@
               @elseif($update->Status == '0')
                 <span class="text-danger">Rejected</span>
               @endif
-            </td>
+            </td> --}}
           </tr>
         @endforeach
       </tbody>

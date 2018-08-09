@@ -101,6 +101,8 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
       <!-- /.modal-content -->
 
 
@@ -127,6 +129,7 @@
       </div>
       <!-- /.modal-content -->
     </div>
+
   </div>
   <!-- /.modal-dialog -->
 
@@ -169,9 +172,7 @@
 
         $('#new_schedule').on('hidden.bs.modal', function (e) {
           $('#new_court').modal('hide');
-        });
-
-        
+        });   
     });
   </script>
 @endpush

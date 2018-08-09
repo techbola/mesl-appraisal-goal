@@ -119,7 +119,10 @@
                       @if (!empty($step->last_update) && $step->last_update->Status == NULL)
                         <label class="f13">Budget Cost</label>
                         <input type="text" class="form-control input-sm" value="" placeholder="Pending Review / {{ nairazify(number_format($step->last_update->BudgetCost)) }}" disabled>
-                      @else
+                      @elseif (!empty($step->last_update) && $step->last_update->Status == '1')
+                        <label class="f13">Budget Cost</label>
+                        <input type="text" class="form-control input-sm" value="" placeholder="Approved / {{ nairazify(number_format($step->last_update->BudgetCost)) }}" disabled>
+                      @elseif (!empty($step->last_update) && $step->last_update->Status == '0')
                         <label class="f13">Budget Cost</label>
                         {{ Form::text('BudgetCost', $step->BudgetCost, ['class' => 'form-control smartinput', 'placeholder' => 'BudgetCost']) }}
                       @endif

@@ -19,4 +19,20 @@ class Step extends Model
   {
     return StepUpdate::where('StepID', $this->StepRef)->orderBy('created_at', 'desc')->first();
   }
+
+  public function payments()
+  {
+    return $this->hasMany('Cavidel\StepBudgetPayment', 'StepID');
+  }
+
+  public function getPaymentMadeAttribute()
+  {
+    return $this->payments()->sum('Amount');
+  }
+
+  public function getPaymentOutstandingAttribute()
+  {
+    return $this->last_update->BudgetCost - $this->payments()->sum('Amount');
+  }
+
 }
