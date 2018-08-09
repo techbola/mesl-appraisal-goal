@@ -9,6 +9,11 @@
 tfoot{
       display: table-header-group;
      }
+
+     @media print {
+  .exportOptions {
+    display: none;
+  }
   </style>
 @endpush
 
@@ -107,13 +112,13 @@ tfoot{
 		<div class="card-title pull-left">
 			GLs Listing
 		</div>
-		<div class="pull-right">
+		{{-- <div class="pull-right">
 			<div class="col-xs-12">
 				<input type="text" class="search-table form-control pull-right" placeholder="Search">
 			</div>
-		</div><div class="clearfix"></div>
+		</div><div class="clearfix"></div> --}}
 
-			<table class="table tableWithSearch table-striped table-bordered">
+			<table id="transactions" class="table tableWithSearch table-striped table-bordered">
 				<thead>
 					<th>Customer Ref</th>
 					<th>Customer</th>
@@ -125,6 +130,17 @@ tfoot{
 					<th>Description</th>
 					<th></th>
 				</thead>
+				<tfoot class="thead">
+					<th>Customer Ref</th>
+					<th>Customer</th>
+					<th>Account Type</th>
+					<th>Currency</th>
+					<th>Branch</th>
+					<th>AccountNo</th>
+					<th>BookBalance</th>
+					<th>Description</th>
+					<th></th>
+				</tfoot>
 				<tbody id="gl_table_body">
 				</tbody>
 			</table>
@@ -177,4 +193,74 @@ tfoot{
 			
 		}
 	</script>
+	<script src="{{ asset('js/jquery.tabledit.js') }}"></script>
+<script>
+  $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+  // $('#transactions').editableTableWidget();
+  // $(document).ready(function(){
+     var settings = {
+    "sDom": "<'exportOptions'T><'table-responsive't><'row'<p i>>",
+    "sPaginationType": "bootstrap",
+    "destroy": true,
+    "scrollCollapse": true,
+    "oLanguage": {
+        "sLengthMenu": "_MENU_ ",
+        "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+    },
+     // "columnDefs": [
+     //        {
+     //            "targets": [ 3 ],
+     //            "visible": false
+     //        }
+     //    ],
+    "iDisplayLength": 20,
+    "oTableTools": {
+        "sSwfPath": "../assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
+        "aButtons": [{
+            "sExtends": "csv",
+            "sButtonText": "<i class='pg-grid'></i>",
+        }, {
+            "sExtends": "xls",
+            "sButtonText": "<i class='fa fa-file-excel-o'></i>",
+        }, {
+            "sExtends": "pdf",
+            "sButtonText": "<i class='fa fa-file-pdf-o'></i>",
+        }, {
+            "sExtends": "copy",
+            "sButtonText": "<i class='fa fa-copy'></i>",
+        }]
+    },
+    fnDrawCallback: function(oSettings) {
+        $('.export-options-container').append($('.exportOptions'));
+    }
+};
+
+
+var table = $('#transactions').DataTable(settings);
+ $('#transactions tfoot th').each(function(key, val) {
+            var title = $(this).text();
+            if (key === $('#transactions tfoot th')) {
+                return false
+            }
+            $(this).html('<input type="text" class="form-control" placeholder="' + $.trim(title) + '" />');
+        });
+ table.columns().every(function() {
+            var that = this;
+            $('input', this.footer()).on('keyup change', function() {
+                if (that.search() !== this.value) {
+                    that.search(this.value).draw();
+                }
+            });
+        });
+  // });
+</script>
+
+
+<script>
+  $('.exportOptions').append('<span class="btn btn-info btn-cons m-l-10" onclick="window.print()"><i class="fa fa-print m-r-5"></i> Print</span>');
+</script>
 @endpush
