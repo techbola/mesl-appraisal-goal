@@ -130,14 +130,11 @@ class BillingController extends Controller
 
     public function save_bill_item(Request $request)
     {
+        // dd($request->all());
         $productCode = \DB::table('tblProductService')->select('ProductCode')->where('ProductServiceRef', $request->InvItemID)->first();
 
-        $pro      = $request->Produt_ServiceType;
-        $filtered = explode(" / ", $pro);
-        $pro      = $filtered[0];
+        $save_bill = new Billing($request->except(['CategoryID', 'Product', 'TotalPrice']));
 
-        $save_bill                     = new Billing($request->except(['CategoryID', 'Product', 'TotalPrice']));
-        $save_bill->Produt_ServiceType = $pro;
         if ($save_bill->save()) {
             return redirect()->back()->with('success', 'Product was added successfully');
         } else {

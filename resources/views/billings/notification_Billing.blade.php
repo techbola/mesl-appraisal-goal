@@ -39,7 +39,7 @@
                                  <thead>
                                      <tr>
                                          <th>Date</th>
-                                         <th>Category</th>
+                                         {{-- <th>Category</th> --}}
                                          <th>Product</th>
                                          {{-- <th>Quantity</th> --}}
                                          <th>Price</th>
@@ -50,7 +50,7 @@
                                     @foreach($bill_items as $bill_item)
                                      <tr>
                                         <td>{{ $bill_item->BillingDate }}</td>
-                                        <td>{{ $bill_item->ServiceDesc }}</td>
+                                        {{-- <td>{{ $bill_item->ServiceDesc }}</td> --}}
                                         <td>{{ $bill_item->Produt_ServiceType }}</td>
                                         {{-- <td>{{ $bill_item->Quantity }}</td> --}}
                                         <td>&#8358;{{ number_format($bill_item->Price,2) }}</td>
@@ -102,8 +102,8 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('Product') }}
-                                            <select name="Product" id="product" data-init-plugin="select2" class="form-control select2"     required >
-                                                <option value="0">Select Product</option>
+                                            <select name="Produt_ServiceType" id="product" data-init-plugin="select2" class="form-control select2"     required >
+                                                <option value=" ">Select Product</option>
                                             </select>
                                     </div>
                                 </div>
@@ -142,8 +142,8 @@
                                 <input type="hidden" name="GroupID" value="{{ $code }}">
                                 <input type="hidden" name="ServiceDesc" id="service_desc">
                                 <input type="hidden" name="UserID" value="{{ $staff_id->StaffRef }}">
-                                <input type="hidden" name="Produt_ServiceType" id="product_service">
-                                <input type="hidden" name="ClientID" value="{{ $client_details->CustomerRef }}">
+                                {{-- <input type="hidden" name="Produt_ServiceType" id="product_service"> --}}
+                                {{-- <input type="hidden" name="ClientID" value="{{ $client_details->CustomerRef }}"> --}}
                                 <div class="pull-right">
                                     <input type="submit" class="btn btn-rounded btn-primary hide" id="add_to_list" value="Add to list">
                                 </div>
@@ -372,10 +372,12 @@
              var service = $('#category option:selected').text();
             $('#service_desc').val(service);
             var cat_id = $('#category').val();
-            $('#product').html(' ');
+            $('#product').html('<option value="">Select From Option</option>');
             $.get('/get_newProduct/'+cat_id, function(data, status) {
                 $.each(data, function(index, val) {
-                    $('#product').append("<option value='"+val.ProductServiceRef+"'>" + val.ProductService+' / &#8358;'+accounting.formatNumber(val.Price)+"</option>");
+                    $('#product').append("<option value='"+val.ProductService+"'>" + val.ProductService+' / &#8358;'+accounting.formatNumber(val.Price)+"</option>");
+                    $('#product').select2().val(val.ProductService);
+                    console.log('aye');
                 });
 
             });
