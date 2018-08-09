@@ -75,6 +75,18 @@
                              <h5 style="margin-left: 10px; color:#fff">Product Form</h5><hr>
                              {{ Form::open(['action' => 'BillingController@save_bill_item', 'autocomplete' => 'off', 'role' => 'form']) }}
                              <div class="row">
+                              <div class="col-sm-12">
+                                    <div class="form-group">
+                                            {{ Form::label('BuildingProjectRef', 'Building Projects') }}
+                                            <select name="BuildingProject_id"  class="form-control select2"    data-init-plugin="select2" required>
+                                                <option value="">Building Project</option>
+                                                @foreach($buildings as $building)
+                                                    <option value="{{ $building->BuildingProjectRef }}">{{ $building->ProjectName }}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
+                                </div>
+                                
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('Surname', 'Category') }}
@@ -101,18 +113,21 @@
                                             <input type="text" value="0"  name="UnitPrice" class="form-control" id="unit_price">
                                     </div>
                                 </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                            {{ Form::label('Discount', 'Product Discount') }}
+                                            <input type="number" name="Discount" id="discount" class="form-control" value="0.00" onkeyup="get_new_total_price()">
+                                    </div>
+                                </div> 
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                             {{ Form::label('Quantity', 'Quantity') }}
                                             <input type="text" name="Quantity" class="form-control" id="quantity"  value="0" onblur="calculate_total_price()">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                            {{ Form::label('Discount', 'Product Discount') }}
-                                            <input type="number" name="Discount" id="discount" class="form-control" value="0.00" onkeyup="get_new_total_price()">
-                                    </div>
-                                </div>
+                                
                                 
                                 <div class="col-sm-6">
                                     <div class="form-group">
