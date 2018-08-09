@@ -6,6 +6,9 @@
 	tfoot{
       display: table-header-group;
      }
+     input[placeholder=Currency] {
+	    width: 100% !important;
+	}
 </style>
 
 @endpush
@@ -31,7 +34,7 @@
 						<th>Refrence No</th>
 						<th>Account Name</th>
 						<th>Account Type</th>
-						<th>Currency</th>
+						<th style="width: 5%">Currency</th>
 						<th>Cleared Balance</th>
 						<th>Book Balance</th>
 						<th>Action</th>
@@ -40,7 +43,7 @@
 						<th>Refrence No</th>
 						<th>Customer</th>
 						<th>Account Type</th>
-						<th>Currency</th>
+						<th style="width: 5%">Currency</th>
 						<th>Cleared Balance</th>
 						<th>Book Balance</th>
 						<th>Action</th>
@@ -51,9 +54,20 @@
 							<td>{{$statement->GLID}}</td>
 							<td>{{$statement->Customer}}</td>
 							<td>{{$statement->AccountType}}</td>
-							<td>{{$statement->Currency}}</td>
-							<td>{{number_format($statement->ClearedBalance,2)}}</td>
-							<td>{{number_format($statement->BookBalance,2)}}</td>
+							<td style="width: 5%">{{$statement->Currency}}</td>
+							
+								@if($statement->ClearedBalance > 0)
+								<td style="color: green">{{number_format($statement->ClearedBalance,2)}}</td>
+								@else
+								<td style="color: red">{{number_format($statement->ClearedBalance,2)}}</td>
+								@endif
+
+								@if($statement->BookBalance > 0)
+								<td style="color: green">{{number_format($statement->ClearedBalance,2)}}</td>
+								@else
+								<td style="color: red">{{number_format($statement->ClearedBalance,2)}}</td>
+								@endif
+							
 							<td class="actions">
 								<a href="{{route('transactions.show',[$statement->GLID]) }}" class="btn btn-info">View Statement</a>
 							</td>

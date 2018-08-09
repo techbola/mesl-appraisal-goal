@@ -96,13 +96,10 @@
                         $('#gl_table_body').append(`
                     <tr>
                         <td>${val.GLRef }</td>
-                        <td>${val.Customer }</td>
-                        <td>${val.AccountType }</td>
+                         <td>${val.Desc}</td>
                         <td>${val.Currency}</td>
-                        <td>${val.Branch }</td>
-                        <td>${val.AccountNo }</td>
                         <td>${val.BookBalance }</td>
-                        <td>${val.Desc}</td>
+                       
                         <td class="actions">
                             <a href="#" class="btn btn-lg btn-primary" id="edit2" onclick="get_general_ledger_details(${val.GLRef })" data-target="#edit2" data-toggle="modal"  title="">Edit GL</a>
                         </td>
