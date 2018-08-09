@@ -100,6 +100,7 @@ tfoot{
         </div>
 @endsection
 
+
 @section('bottom-content')
 <div id="gl_data_table" class="hide">
 	<div class="card-box">

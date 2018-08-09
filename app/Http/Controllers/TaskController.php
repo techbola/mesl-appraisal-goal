@@ -11,6 +11,7 @@ use Carbon;
 use DB;
 
 use Cavidel\StepUpdate;
+use Cavidel\StepBudgetPayment;
 
 class TaskController extends Controller
 {
@@ -139,6 +140,36 @@ class TaskController extends Controller
       $update->Status = '0';
       $update->update();
       return redirect()->back()->with('success', 'Budget was rejected successfully');
+    }
+
+
+    public function pay_step_budget()
+    {
+      $user = auth()->user();
+      $updates = StepUpdate::where('CompanyID', $user->CompanyID)->where('Status', '1')->get();
+
+      return view('steps.pay_budget', compact('updates'));
+    }
+
+    public function store_step_payment(Request $request, $id)
+    {
+      $user = auth()->user();
+      $payment = new StepBudgetPayment;
+      $payment->StepID = $id;
+      $payment->Amount = $request->Amount;
+      $payment->InputterID = $user->id;
+      $payment->CompanyID = $user->CompanyID;
+      $payment->save();
+
+      return redirect()->back()->with('success', 'Payment submitted successfully.');
+    }
+
+    public function complete_step_payments()
+    {
+      $user = auth()->user();
+      $payments = StepBudgetPayment::where('CompanyID', $user->CompanyID)->get();
+
+      return view('steps.complete_payments', compact('payments'));
     }
 
 }
