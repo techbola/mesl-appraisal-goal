@@ -81,6 +81,13 @@
 									{{ csrf_field() }}
 									{{ method_field('DELETE') }}
 								</form>
+
+								<!-- Asset maintenance -->
+								<a href="#" class="" title="Asset Maintenance" onclick="">
+									<i class="fa fa-wrench text-danger"></i>
+								</a>
+								<!-- end asset maintenance actions-->
+
 								{{-- <a href="#" data-toggle="modal" data-target="#view_asset" class="text-primary f16 m-l-10" @click="get_contact({{ $asset }})"><i class="fa fa-eye"></i></a> --}}
 							</td>
 						</tr>

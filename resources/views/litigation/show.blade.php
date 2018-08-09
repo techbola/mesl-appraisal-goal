@@ -153,22 +153,4 @@
   </script>
 @endpush
 
-@push('vue')
 
-  <script>
-
-    new Vue({
-      el: '#app',
-      data: {
-        tasks: {},
-        name: '',
-      },
-      methods: {
-        user_tasks(tasks, name) {
-          this.tasks = tasks;
-          this.name = name;
-        },
-      },
-    });
-  </script>
-@endpush

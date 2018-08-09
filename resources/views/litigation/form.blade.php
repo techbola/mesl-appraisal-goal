@@ -58,16 +58,6 @@
     </div>
   </div>
 
-  {{-- <div class="col-md-6">
-    <div class="form-group">
-      {{ Form::label('StatusDate', 'Status Date' ) }}
-      <div class="input-group date dp">
-        {{ Form::text('StatusDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
-        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-      </div>
-    </div>
-  </div> --}}
-
 
   <div class="col-md-6">
     <div class="form-group">
