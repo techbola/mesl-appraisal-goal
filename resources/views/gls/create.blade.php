@@ -120,25 +120,19 @@ tfoot{
 
 			<table id="transactions" class="table tableWithSearch table-striped table-bordered">
 				<thead>
-					<th>Customer Ref</th>
-					<th>Customer</th>
-					<th>Account Type</th>
-					<th>Currency</th>
-					<th>Branch</th>
-					<th>AccountNo</th>
-					<th>BookBalance</th>
+					<th>GL Ref</th>
 					<th>Description</th>
+          <th>Currency</th>
+					<th>BookBalance</th>
+					
 					<th></th>
 				</thead>
 				<tfoot class="thead">
-					<th>Customer Ref</th>
-					<th>Customer</th>
-					<th>Account Type</th>
-					<th>Currency</th>
-					<th>Branch</th>
-					<th>AccountNo</th>
-					<th>BookBalance</th>
+					<th>GL Ref</th>
 					<th>Description</th>
+					<th>Currency</th>
+					<th>BookBalance</th>
+					
 					<th></th>
 				</tfoot>
 				<tbody id="gl_table_body">
@@ -175,13 +169,10 @@ tfoot{
 						$('#gl_table_body').append(`
 					<tr>
 						<td>${val.GLRef }</td>
-						<td>${val.Customer }</td>
-						<td>${val.AccountType }</td>
-						<td>${val.Currency}</td>
-						<td>${val.Branch }</td>
-						<td>${val.AccountNo }</td>
-						<td>${val.BookBalance }</td>
 						<td>${val.Desc}</td>
+						<td>${val.Currency}</td>
+						<td>${val.BookBalance}</td>
+						
 						<td class="actions">
 							<a href="#" class="btn btn-lg btn-primary" id="edit2" onclick="get_general_ledger_details(${val.GLRef })" data-target="#edit2" data-toggle="modal"  title="">Edit GL</a>
 						</td>
