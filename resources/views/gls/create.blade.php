@@ -144,6 +144,7 @@ tfoot{
 @endsection
 
 @push('scripts')
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 	<script>
 
 		$('#btnFillSizeToggler2').click(function(event) {
@@ -162,16 +163,22 @@ tfoot{
 			$('#gl_data_table').removeClass('hide');
 			var account_id = $('#BuildingProject_id').val();
 			$.post('/get_gl_details_using_account_type_id/' +account_id, $('#gl_form').serialize(), function(data, status) {
-				if(status == 'success')
-				{
+				if(status == 'success'){
 					$('#gl_table_body').html(' ');
 					$.each(data, function(index, val) {
+
+						let tdStyle = `style="color: green;"`;
+						if(val.BookBalance < 0){
+							tdStyle = `style="color:#F00;"`;
+						}
+
 						$('#gl_table_body').append(`
 					<tr>
 						<td>${val.GLRef }</td>
 						<td>${val.Desc}</td>
-						<td>${val.Currency}</td>
-						<td>${val.BookBalance}</td>
+						<td> ${val.Currency}</td>
+						<td ${tdStyle}>${numeral(val.BookBalance).format('0,0')}</td>
+						else
 						
 						<td class="actions">
 							<a href="#" class="btn btn-lg btn-primary" id="edit2" onclick="get_general_ledger_details(${val.GLRef })" data-target="#edit2" data-toggle="modal"  title="">Edit GL</a>
