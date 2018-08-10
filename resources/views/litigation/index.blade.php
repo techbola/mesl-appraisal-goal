@@ -63,7 +63,7 @@
           <tr>
           <td><b><a href="{{ route('litigation.show', ['id' => $litigation->LitigationRef]) }}">{{ $litigation->CaseNumber }}</a></b></td>
           <td>{{ $litigation->Parties }}</td>
-          <td>{{ $litigation->court->Court }}</td>
+          <td>{{ $litigation->court->Court. ' - '. $litigation->court->Location }}</td>
           <td>
             {!! $litigation->readable_status() !!}
           </td>
