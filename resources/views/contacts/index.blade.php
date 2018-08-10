@@ -18,6 +18,24 @@
 		table tbody td {
 			font-size: 14px !important;
 		}
+
+		.modal {
+      padding-left: 0 !important
+    }
+
+    #new_rel .modal-content, #new_contact .modal-content {
+      box-shadow: 0 0 50px #000;
+    }
+
+    .form-add-more{
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      border-radius: 50%;
+      text-align: center;
+      padding: 0 !important;
+      cursor: pointer;
+    }
 		/* table thead th {
 			font-size: 14px !important;
 			font-weight: bold;
@@ -185,5 +203,6 @@ var table = $('#contacts').DataTable();
             });
         });
 				$('#contacts tfoot tr').appendTo('#contacts thead');
+
 	</script>
 @endpush
