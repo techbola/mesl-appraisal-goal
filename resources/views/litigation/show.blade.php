@@ -59,7 +59,6 @@
           </div>
 
           
-
         </div>
 
       </div>
@@ -84,7 +83,19 @@
       <div class="card-box">
         @foreach($statuses->sortByDesc('created_at') as $status)
           <div class="pull-right">
-            {{ date('j M. Y @ H:i', strtotime($status->created_at)) }}
+            <span class="text-info"><b>{{ date('j M. Y @ H:i', strtotime($status->created_at)) }}</b></span> <br><br>
+            <div class="action-buttons">
+            
+              <a class="btn btn-sm btn-outline text-info lt-status-editor" data-stref="{{ $status->LitigationStatusRef }}">
+                <i class="fa fa-edit"></i>
+              </a>
+
+              <a class="btn btn-sm btn-outline text-danger lt-status-deleter" data-stref="{{ $status->LitigationStatusRef }}">
+                <i class="fa fa-trash"></i>
+              </a>
+
+
+            </div>
           </div>
           <div class="div clearfix"></div>
           {!! $status->LitigationStatus ?? '-' !!} 
@@ -150,6 +161,25 @@
   <script>
     $('#file_upload_form').on('submit', function(){
       $('#spinner').show();
+    });
+
+    $('.lt-status-deleter').click(function(e) {
+      e.preventDfault();
+      $.post('/litigation/delete-status', {id: $(this).data('stref')}, function(data, textStatus, xhr) {
+        if(data.success == true){
+          $(this).remove();
+        }
+      });
+    });
+
+    $('.lt-status-editor').click(function(e) {
+      e.preventDfault();
+      
+      $.post('/litigation/edit-status', {id: $(this).data('stref')}, function(data, textStatus, xhr) {
+        if(data.success == true){
+          $(this).find('').html(data.data.LitigationStatus);
+        }
+      });
     });
   </script>
 @endpush
