@@ -63,17 +63,6 @@
 </div>
 
 
-
-<div class="row">
-    <div class="col-sm-4">
-        <div class="form-group">
-            <div class="controls">
-                {{ Form::label('Bank Slip No', 'BankSlipNo' ) }}
-                {{ Form::text('BankSlipNo', null, ['class' => 'form-control', 'placeholder' => 'Enter Bank Slip No']) }}
-            </div>
-        </div>
-    </div>
-
     <div class="col-sm-8">
         <div class="form-group">
             <div class="controls">
