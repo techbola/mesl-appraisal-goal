@@ -33,7 +33,7 @@ class NewMessageEvent implements ShouldBroadcast
      */
      public function broadcastOn()
      {
-         return new Channel('officemate');
+         return new PrivateChannel('officemate');
      }
 
      public function broadcastWith() {
