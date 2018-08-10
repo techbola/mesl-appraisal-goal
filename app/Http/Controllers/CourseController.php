@@ -260,4 +260,67 @@ class CourseController extends Controller
         return response()->json($course_category)->setStatusCode(200);
     }
 
+    public function get_category_edit_data($id)
+    {
+        $ref                 = $id;
+        $get_course_category = CourseCategory::where('course_category_ref', $ref)->first();
+        return response()->json($get_course_category)->setStatusCode(200);
+    }
+
+    public function submit_course_category_edit_form(Request $request)
+    {
+        $ref                        = $request->course_category_ref;
+        $data                       = CourseCategory::where('course_category_ref', $ref)->first();
+        $data->course_category_name = $request->course_category_name;
+        $data->save();
+        $categories = CourseCategory::all();
+        return response()->json($categories)->setStatusCode(200);
+    }
+
+    public function get_course_details($id)
+    {
+        $ref                = $id;
+        $get_course_content = Courses::where('course_ref', $ref)->first();
+        return response()->json($get_course_content)->setStatusCode(200);
+    }
+
+    public function submit_edit_course_form(Request $request)
+    {
+        if ($request->hasFile('cover_page')) {
+            $filenamewithextension = $request->file('cover_page')->getClientOriginalName();
+            $filename              = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+            $extension             = $request->file('cover_page')->getClientOriginalExtension();
+            $filenametostore       = $filename . '_' . time() . '.' . $extension;
+            $request->file('cover_page')->storeAs('public/course_images', $filenametostore);
+            $request->file('cover_page')->storeAs('public/course_images/thumbnail', $filenametostore);
+            $thumbnailpath = public_path('storage/course_images/thumbnail/' . $filenametostore);
+            $img           = Image::make($thumbnailpath)->resize(400, 400, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save($thumbnailpath);
+
+            $add_new_course                  = Courses::where('course_ref', $request->course_ref)->first();
+            $add_new_course->courses_name    = $request->courses_name;
+            $add_new_course->course_duration = $request->course_duration;
+            $add_new_course->course_fee      = $request->course_fee;
+            $add_new_course->category_ref    = $request->category_ref;
+            $add_new_course->description     = $request->description;
+            $add_new_course->cover_page      = $filenametostore;
+            $add_new_course->save();
+            $courses = Courses::all();
+            return response()->json($courses)->setStatusCode(200);
+        } else {
+
+            $add_new_course                  = Courses::where('course_ref', $request->course_ref)->first();
+            $add_new_course->courses_name    = $request->courses_name;
+            $add_new_course->course_duration = $request->course_duration;
+            $add_new_course->course_fee      = $request->course_fee;
+            $add_new_course->category_ref    = $request->category_ref;
+            $add_new_course->description     = $request->description;
+            $add_new_course->save();
+            $courses = Courses::all();
+            return response()->json($courses)->setStatusCode(200);
+        }
+    }
+
 }

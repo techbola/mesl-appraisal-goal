@@ -39,7 +39,7 @@
                                  <thead>
                                      <tr>
                                          <th>Date</th>
-                                         <th>Category</th>
+                                         {{-- <th>Category</th> --}}
                                          <th>Product</th>
                                          {{-- <th>Quantity</th> --}}
                                          <th>Price</th>
@@ -50,7 +50,7 @@
                                     @foreach($bill_items as $bill_item)
                                      <tr>
                                         <td>{{ $bill_item->BillingDate }}</td>
-                                        <td>{{ $bill_item->ServiceDesc }}</td>
+                                        {{-- <td>{{ $bill_item->ServiceDesc }}</td> --}}
                                         <td>{{ $bill_item->Produt_ServiceType }}</td>
                                         {{-- <td>{{ $bill_item->Quantity }}</td> --}}
                                         <td>&#8358;{{ number_format($bill_item->Price,2) }}</td>
@@ -75,6 +75,18 @@
                              <h5 style="margin-left: 10px; color:#fff">Product Form</h5><hr>
                              {{ Form::open(['action' => 'BillingController@save_bill_item', 'autocomplete' => 'off', 'role' => 'form']) }}
                              <div class="row">
+                              <div class="col-sm-12">
+                                    <div class="form-group">
+                                            {{ Form::label('BuildingProjectRef', 'Building Projects') }}
+                                            <select name="BuildingProject_id"  class="form-control select2"    data-init-plugin="select2" required>
+                                                <option value="">Building Project</option>
+                                                @foreach($buildings as $building)
+                                                    <option value="{{ $building->BuildingProjectRef }}">{{ $building->ProjectName }}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
+                                </div>
+                                
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('Surname', 'Category') }}
@@ -90,8 +102,8 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('Product') }}
-                                            <select name="Product" id="product" data-init-plugin="select2" class="form-control select2"     required >
-                                                <option value="0">Select Product</option>
+                                            <select name="Produt_ServiceType" id="product" data-init-plugin="select2" class="form-control select2"     required >
+                                                <option value=" ">Select Product</option>
                                             </select>
                                     </div>
                                 </div>
@@ -101,18 +113,21 @@
                                             <input type="text" value="0"  name="UnitPrice" class="form-control" id="unit_price">
                                     </div>
                                 </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                            {{ Form::label('Discount', 'Product Discount') }}
+                                            <input type="number" name="Discount" id="discount" class="form-control" value="0.00" onkeyup="get_new_total_price()">
+                                    </div>
+                                </div> 
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                             {{ Form::label('Quantity', 'Quantity') }}
                                             <input type="text" name="Quantity" class="form-control" id="quantity"  value="0" onblur="calculate_total_price()">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                            {{ Form::label('Discount', 'Product Discount') }}
-                                            <input type="number" name="Discount" id="discount" class="form-control" value="0.00" onkeyup="get_new_total_price()">
-                                    </div>
-                                </div>
+                                
                                 
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -127,7 +142,7 @@
                                 <input type="hidden" name="GroupID" value="{{ $code }}">
                                 <input type="hidden" name="ServiceDesc" id="service_desc">
                                 <input type="hidden" name="UserID" value="{{ $staff_id->StaffRef }}">
-                                <input type="hidden" name="Produt_ServiceType" id="product_service">
+                                {{-- <input type="hidden" name="Produt_ServiceType" id="product_service"> --}}
                                 <input type="hidden" name="ClientID" value="{{ $client_details->CustomerRef }}">
                                 <div class="pull-right">
                                     <input type="submit" class="btn btn-rounded btn-primary hide" id="add_to_list" value="Add to list">
@@ -200,10 +215,11 @@
             </button>
             <div class="modal-dialog ">
               <div class="modal-content">
-                <div class="modal-header" style="background: #eee; color: #000">
+                
+                <div class="modal-body" style="background: #eee; color: #000">
+                  <div class="modal-header" style="background: #eee; color: #000">
                   <h5 class="text-left p-b-5"><span class="semi-bold">Bill Payment
                 </div><hr>
-                <div class="modal-body" style="background: #eee; color: #000">
                   <div class="row">
                     <div style="padding: 20px; margin-bottom: 20px">
                       <div class="col-md-12">
@@ -357,10 +373,12 @@
              var service = $('#category option:selected').text();
             $('#service_desc').val(service);
             var cat_id = $('#category').val();
-            $('#product').html(' ');
+            $('#product').html('<option value="">Select From Option</option>');
             $.get('/get_newProduct/'+cat_id, function(data, status) {
                 $.each(data, function(index, val) {
-                    $('#product').append("<option value='"+val.ProductServiceRef+"'>" + val.ProductService+' / &#8358;'+accounting.formatNumber(val.Price)+"</option>");
+                    $('#product').append("<option value='"+val.ProductService+"'>" + val.ProductService+' / &#8358;'+accounting.formatNumber(val.Price)+"</option>");
+                    $('#product').select2().val(val.ProductService);
+                    console.log('aye');
                 });
 
             });
