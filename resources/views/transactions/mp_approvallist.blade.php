@@ -85,18 +85,27 @@
           <div class="card-box">
             <table class="table tableWithSearch">
                   <thead>
-                    <th width="15%">TransactionCode</th>
-                    <th width="10%">Purpose</th>
-                    <th width="10%">Initiator</th>
-                    <th width="20%">Body</th>
-                    <th width="10%">Approvers</th>
-
+                    <th width="5%">
+                        <div class="checkbox check-info">
+                          <input type="checkbox" id="select-all2">
+                          <label for="select-all2" class="text-white">Bulk Select</label>
+                        </div>
+                    </th>
+                    <th>Alpha Code</th>
+                    <th>Post Date</th>
+                    <th>Value Date</th>
+                    <th>Amount</th>
                   </thead>
                   <tbody>
                     @foreach ($approved_transaction as $transaction)
                       <tr>
+                        <td>
+                          <div class="checkbox check-info">
+                              <input type="checkbox" id="select-all2-child-{{ $transaction->AlphaCode }}" class="select-all2-child" value="{{ $transaction->AlphaCode }}">
+                              <label for="select-all2-child-{{ $transaction->AlphaCode }}" class="text-white"></label>
+                            </div>
+                        </td>
                         <td>{{ $transaction->AlphaCode }}</td>
-                        <td></td>
                         <td></td>
                         <td>
                             
@@ -145,12 +154,31 @@ $(function(){
         }
 
     });
+
+
+    // 
+
+    $("#select-all2").click(function () {
+          $('.select-all2-child').prop('checked', this.checked);
+    });
+
+    // if all checkbox are selected, check the selectall checkbox
+    // and viceversa
+    $(".select-all2-child").click(function(){
+
+        if($(".select-all2-child").length == $(".select-all2-child:checked").length) {
+            $("#select-all2").prop("checked", "checked");
+        } else {
+            $("#select-all2").removeAttr("checked");
+        }
+
+    });
 });
 </script>
         <script>
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
            var settings = {
@@ -203,10 +231,10 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      var Comment = prompt("Enter Approval Comment");
      
      $.ajax({
-         url: '/multipost/approve',
+         url: '/transactions/multipost/approve',
          type: 'POST',
          data: {
-            TransactionRef: checked_transactions,
+            TransactionRef: checked_transactions_array,
             Comment: Comment
         },
         beforeSend: function(){
@@ -217,7 +245,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      .done(function(res, status, xhr) {
          // Navigate to the list after succesful posting to the server
          if(xhr.status == 200) {
-            window.location.href  = "{{ url('transactions/multipost_approvallist') }}";
+           
          } else {
             alert('approval failed');
             return false

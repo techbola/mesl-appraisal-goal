@@ -200,11 +200,11 @@ class TransactionController extends Controller
 
     public function multipost_listing()
     {
-        $unapproved_transaction = TransactionMP::where('PostFlag', 0)
+        $unapproved_transaction = TransactionMP::where('ApprovedFlag', 0)
             ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
             ->having('Amount', '>', 0)
             ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')->get();
-        $approved_transaction = TransactionMP::where('PostFlag', 1)
+        $approved_transaction = TransactionMP::where('ApprovedFlag', 1)
             ->groupBy(['AlphaCode', 'PostDate'])
             ->select('AlphaCode', 'PostDate')->get();
 
@@ -213,11 +213,10 @@ class TransactionController extends Controller
 
     public function multipost_approve(Request $request)
     {
-        $refs = $request->all();
-        return response()->json($refs);
+        $refs = $request->TransactionRef;
         foreach ($refs as $key => $ref) {
-            $transaction = TransactionMP::where('AlphaCode');
-            $transaction->update(['ApprovedFlag' => 1]);
+            $transaction = TransactionMP::where('AlphaCode', $ref);
+            $transaction->update(['ApprovedFlag' => 1, 'PostFlag' => 1]);
         }
     }
 
