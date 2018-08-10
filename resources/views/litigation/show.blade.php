@@ -174,6 +174,7 @@
 
     $('.lt-status-editor').click(function(e) {
       e.preventDfault();
+      
       $.post('/litigation/edit-status', {id: $(this).data('stref')}, function(data, textStatus, xhr) {
         if(data.success == true){
           $(this).find('').html(data.data.LitigationStatus);
