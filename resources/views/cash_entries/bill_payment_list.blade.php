@@ -64,10 +64,10 @@
             </button>
             <div class="modal-dialog ">
               <div class="modal-content">
-                <div class="modal-header" style="background: #eee; color: #000">
+                <div class="modal-body" style="background: #eee; color: #000">
+                  <div class="modal-header" style="background: #eee; color: #000">
                   <h5 class="text-left p-b-5"><span class="semi-bold">Bill Payment
                 </div><hr>
-                <div class="modal-body" style="background: #eee; color: #000">
                   <div class="row">
                   	<div style="padding: 20px; margin-bottom: 20px">
                   		<div class="col-md-12">
@@ -103,7 +103,7 @@
                                    <input type="text" id="formattedNumberField" max=""  name="Amount"  class="form-control" required>
                                </div>
                            </div>
-                       </div>
+                       </div><div class="clearfix"></div>
 
                        <div class="col-sm-6">
                          <div class="form-group">
@@ -139,7 +139,7 @@
                         
                         <input type="hidden" name="Posted" value="1">
                       <input type="hidden" name="StaffID" value="{{ auth()->user()->id }}">
-                      <input type="hidden" name="PostingTypeID" value="1">
+                      <input type="hidden" name="PostingTypeID" value="16">
                       <input type="hidden" name="CurrencyID" value="1">
                       <input type="hidden" name="GLIDCredit" value="" id="getGLIDDebit">
                       <input type="hidden" name="Reference1" value="" id="billid">

@@ -838,8 +838,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
     {
         $user_id     = \Auth::user()->staffId;
         $details     = Staff::where('StaffRef', $user_id)->first();
-        $location    = $details->LocationID;
-        $postedbills = \DB::select("EXEC procViewBillGroup $location");
+        $postedbills = \DB::select("EXEC procViewBillGroup");
         return view('cash_entries.bill_posting', compact('postedbills'));
     }
 
@@ -861,8 +860,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
     {
         $user_id      = \Auth::user()->staffId;
         $details      = Staff::where('StaffRef', $user_id)->first();
-        $location     = $details->LocationID;
-        $paymentlists = \DB::select("EXEC procBillPaymentList $location");
+        $paymentlists = \DB::select("EXEC procBillPaymentList");
 
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
@@ -879,10 +877,9 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
 
     public function store_bill_payment_list(Request $request)
     {
-        $cashentries = new CashEntry($request->all());
-        $this->validate($request, [
-            'Amount' => 'required',
-        ]);
+        $cashentries           = new CashEntry($request->all());
+        $cashentries->PostFlag = 1;
+        $cashentries->posted   = 0;
         if ($cashentries->save()) {
             return redirect()->route('BillPaymentList')->with('success', 'Bill Posted was successfully');
         } else {
@@ -914,7 +911,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where (tblGL.AccountTypeID between ? and ?) OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? Order By tblGL.Description", [31, 35,37,39,40,49]));
+                         Where (tblGL.AccountTypeID between ? and ?) OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? Order By tblGL.Description", [31, 35, 37, 39, 40, 49]));
 
         $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
                          AS CUST_ACCT
@@ -923,7 +920,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? 
+                         Where tblGL.AccountTypeID = ?
                          Order By tblGL.Description", [59]));
 
         $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
