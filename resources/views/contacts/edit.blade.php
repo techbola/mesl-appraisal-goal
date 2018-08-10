@@ -71,7 +71,9 @@
           e.preventDefault();
           $('#new_rel').show();
           $('#new_rel').modal('show');
-          var form = $("#bus_rel_form");
+        });
+
+        var form = $("#bus_rel_form");
           form.submit(function(e) {
             e.preventDefault();
             $.post('/business-rel-types', {
@@ -80,14 +82,14 @@
             }, function(data, textStatus, xhr) {
               if(data.success === true){
                 $('#RelationshipTypeID').append('<option selected value="'+ data.data.BusinessRelationshipTypeRef +'">' +  data.data.RelationshipType  + '</option>');
+                $('#new_rel').modal('hide');
                  $('#new_rel').hide();
-                 $('#Court').val('');
-                 $('#Location').val('');
+                 $('#RelationshipType').val('');
+                 $('#Description').val('');
                  $('#new_rel').modal('handleUpdate');
               }
             });
           });
-        });
 
   });
 </script>

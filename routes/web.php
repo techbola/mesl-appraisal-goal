@@ -370,6 +370,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('reject_imprest_posting_approvals', 'CashEntryController@reject_imprest_posting_approvals');
     Route::get('cash_entries/show_approve_receipt', 'CashEntryController@show_approve_receipt')->name('ApproveReceipt');
     Route::get('cash_entries/show_approve_imprest', 'CashEntryController@show_approve_imprest')->name('ApproveImprest');
+    Route::get('cash_entries/receipt_edit/{id}', 'CashEntryController@receipt_edit')->name('ReceiptEdit');
+    Route::patch('cash_entries/edit_r/{id}', 'CashEntryController@update_receipt');
+    Route::post('delete_receipt', 'CashEntryController@delete_receipt');
+    Route::post('delete_imprest', 'CashEntryController@delete_imprest');
+    Route::get('cash_entries/imprest_edit/{id}', 'CashEntryController@imprest_edit')->name('ImprestEdit');
+    Route::patch('cash_entries/edit_i/{id}', 'CashEntryController@update_imprest');
 
     // Learning Management System
 
@@ -395,6 +401,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('submit_course_category_edit_form', 'CourseController@submit_course_category_edit_form');
     Route::get('get_course_details/{id}', 'CourseController@get_course_details');
     Route::post('submit_edit_course_form', 'CourseController@submit_edit_course_form');
+    Route::post('Post_cash_entry_imprest', 'CashEntryController@postImprest');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
