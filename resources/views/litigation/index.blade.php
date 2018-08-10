@@ -204,7 +204,7 @@
               Location: $('#Location').val()
             }, function(data, textStatus, xhr) {
               if(data.success === true){
-                $('#CourtID').append('<option selected value="'+ data.data.ContactRef +'">' +  data.data.Contact  + '</option>');
+                $('#CourtID').append('<option selected value="'+ data.data.ContactRef +'">' +  data.data.Contact + ' - ' + data.data.Location  + '</option>');
                  $('#new_contact').hide();
                  $('#Court').val('');
                  $('#Location').val('');

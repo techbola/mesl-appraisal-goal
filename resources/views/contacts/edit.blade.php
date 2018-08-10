@@ -80,9 +80,10 @@
             }, function(data, textStatus, xhr) {
               if(data.success === true){
                 $('#RelationshipTypeID').append('<option selected value="'+ data.data.BusinessRelationshipTypeRef +'">' +  data.data.RelationshipType  + '</option>');
+                $('#new_rel').modal('hide');
                  $('#new_rel').hide();
-                 $('#Court').val('');
-                 $('#Location').val('');
+                 $('#RelationshipType').val('');
+                 $('#Description').val('');
                  $('#new_rel').modal('handleUpdate');
               }
             });
