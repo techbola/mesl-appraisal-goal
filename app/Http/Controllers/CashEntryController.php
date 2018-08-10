@@ -861,8 +861,8 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
     {
         $user_id      = \Auth::user()->staffId;
         $details      = Staff::where('StaffRef', $user_id)->first();
-        $location     = $details->LocationID;
-        $paymentlists = \DB::select("EXEC procBillPaymentList $location");
+       
+        $paymentlists = \DB::select("EXEC procBillPaymentList");
 
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
@@ -871,8 +871,8 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?
-                         Order By tblGL.AccountTypeID,tblGL.Description", [2, 3]));
+                         Where tblGL.AccountTypeID = ? 
+                         Order By tblGL.Description", [54]));
         $configs = Config::first();
         return view('cash_entries.bill_payment_list', compact('paymentlists', 'debit_acct_details', 'configs'));
     }
