@@ -53,7 +53,7 @@
           <div class="col-lg-3 col-sm-6">
             <div class="widget-inline-box text-center">
               <div class="text-muted m-b-10">Adjournment Date</div>
-              <div class="f20"><b>{{ !is_null($litigation->AdjournedDate) ? date('j M. Y', strtotime($litigation->AdjournedDate)) : '-' ?? '-' }}</b></div>
+              <div class="f20"><b>{{ !is_null($litigation->AdjournmentDate) ? date('j M. Y', strtotime($litigation->AdjournmentDate)) : '-' ?? '-' }}</b></div>
             </div>
           </div>
 
