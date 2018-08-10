@@ -5,6 +5,7 @@ namespace Cavidel\Http\Controllers;
 use Cavidel\Customer;
 use Cavidel\Billing;
 use Cavidel\Location;
+use Cavidel\CashEntry;
 use Cavidel\ProductCategory;
 use Cavidel\BuildingProject;
 use Cavidel\ProductService;
@@ -88,6 +89,7 @@ class BillingController extends Controller
             ->where('ClientID', $client_id)
             ->where('GroupID', $billcode)
             ->get();
+        $outstanding             = \DB::select("EXEC procFinalBillAmount '$code'");
         $bill_details_collection = collect($processedbills);
         $buildings               = BuildingProject::all();
         $bill_amount             = $bill_details_collection->sum('Price');
@@ -101,7 +103,7 @@ class BillingController extends Controller
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ?
-                         Order By tblGL.AccountTypeID,tblGL.Description", [54]));
+                         Order By tblGL.Description", [54]));
         $configs = Config::first();
         $gl      = \DB::table('tblCustomer')
             ->select('GLRef')
@@ -109,7 +111,7 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'buildings', 'configs', 'gl', 'files'));
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'outstanding', 'buildings', 'configs', 'gl', 'files'));
     }
 
     public function get_product($cat_id)
@@ -205,7 +207,24 @@ class BillingController extends Controller
 
     public function bill_payment(Request $request)
     {
-
+        $billcode   = $request->Reference1;
+        $userid     = \Auth::user()->id;
+        $getdetails = \DB::table('tblBilling')
+            ->select('ClientID')
+            ->where('GroupID', $billcode)
+            ->first();
+        $customer_ref = $getdetails->ClientID;
+        $trans        = \DB::statement("EXEC procPostBilling '$billcode', $userid ");
+        if ($trans) {
+            $cashentries                = new CashEntry($request->all());
+            $cashentries->PostingTypeID = 16;
+            $cashentries->PostFlag      = 1;
+            if ($cashentries->save()) {
+                return redirect()->route('NotificationBilling', [$customer_ref, $billcode])->with('success', 'Bill Posting was successfully');
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
+            }
+        }
     }
 
 }

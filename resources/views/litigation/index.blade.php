@@ -140,7 +140,7 @@
           </div>
           <div class="modal-body">
             @include('errors.list')
-            {!! Form::open(['action' => 'ContactController@save_contact', 'role' => 'form']) !!}
+            <form id="contacts-form" >
             @include('contacts.form')
             <div class="text-right m-t-10">
               <button type="button" class="btn btn-default" onclick="$('#new_contact').hide()">Close</button>
@@ -185,7 +185,7 @@
               Location: $('#Location').val()
             }, function(data, textStatus, xhr) {
               if(data.success === true){
-                $('#CourtID').append('<option selected value="'+ data.data.CourtRef +'">' +  data.data.Court  + '</option>');
+                $('#CourtID').append('<option selected value="'+ data.data.ContactRef +'">' +  data.data.Contact + ' - ' + data.data.Location  + '</option>');
                  $('#new_court').hide();
                  $('#Court').val('');
                  $('#Location').val('');
@@ -204,13 +204,13 @@
          var form2 = $("#contacts-form");
           form2.submit(function(e) {
             e.preventDefault();
-            $.post('/courts', {
-              Court: $('#Court').val(),
-              Location: $('#Location').val()
-            }, function(data, textStatus, xhr) {
+            $.post('/contact-post-ajax', 
+              form2.serialize()
+            , function(data, textStatus, xhr) {
               if(data.success === true){
-                $('#CourtID').append('<option selected value="'+ data.data.ContactRef +'">' +  data.data.Contact + ' - ' + data.data.Location  + '</option>');
+                $('#ContactID').append('<option selected value="'+ data.data.CustomerRef +'">' +  data.data.Customer   + '</option>');
                  $('#new_contact').hide();
+                 $('#new_contact').modal('hide');
                  $('#Court').val('');
                  $('#Location').val('');
                  $('#new_contact').modal('handleUpdate');
