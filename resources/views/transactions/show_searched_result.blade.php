@@ -4,10 +4,10 @@
 
 <style>
 	tfoot{
-      display: table-header-group;
-     }
-     input[placeholder=Currency] {
-	    width: 100% !important;
+	  display: table-header-group;
+	 }
+	 input[placeholder=Currency] {
+		width: 100% !important;
 	}
 </style>
 @endpush
@@ -24,21 +24,21 @@
 				 {{ Form::open(['action' => 'TransactionController@show_searched_result', 'autocomplete' => 'off', 'role' => 'form']) }}
 				 
 				  <div class="col-sm-12">
-                   <div class="form-group">
-                           {{ Form::label('Account Type', 'Select Account Type') }}
-                           <select name="AccountType"  class="form-control select2"    data-init-plugin="select2" required>
-                               <option value="">Account Type</option>
-                               @foreach($accounts as $account)
-                                   <option value="{{ $account->AccountTypeRef }}">{{ $account->AccountType }}</option>
-                               @endforeach
-                           </select>
-                   
-               </div>
-           </div>
-           <div class="pull-right">
-           	  <input type="submit" class="btn btn-info btn-sm pull-right" value="Search for statement">
-           </div>
-               {{ Form::close() }}
+				   <div class="form-group">
+						   {{ Form::label('Account Type', 'Select Account Type') }}
+						   <select name="AccountType"  class="form-control select2"    data-init-plugin="select2" required>
+							   <option value="">Account Type</option>
+							   @foreach($accounts as $account)
+								   <option value="{{ $account->AccountTypeRef }}">{{ $account->AccountType }}</option>
+							   @endforeach
+						   </select>
+				   
+			   </div>
+		   </div>
+		   <div class="pull-right">
+			  <input type="submit" class="btn btn-info btn-sm pull-right" value="Search for statement">
+		   </div>
+			   {{ Form::close() }}
 			</div>
 		</div>
 </div>
@@ -94,9 +94,9 @@
 								@endif
 
 								@if($statement->BookBalance > 0)
-								<td style="color: green">{{number_format($statement->ClearedBalance,2)}}</td>
+								<td style="color: green">{{number_format($statement->BookBalance,2)}}</td>
 								@else
-								<td style="color: red">{{number_format($statement->ClearedBalance,2)}}</td>
+								<td style="color: red">{{number_format($statement->BookBalance,2)}}</td>
 								@endif
 							
 							<td class="actions">
@@ -117,66 +117,66 @@
 <script src="{{ asset('js/jquery.tabledit.js') }}"></script>
 <script>
 	$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+	headers: {
+		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	}
 });
 	// $('#transactions').editableTableWidget();
   // $(document).ready(function(){
-  	 var settings = {
-    "sDom": "<'exportOptions pull-right'T><'table-responsive't><'row'<p i>>",
-    "sPaginationType": "bootstrap",
-    "destroy": true,
-    "scrollCollapse": true,
-    "oLanguage": {
-        "sLengthMenu": "_MENU_ ",
-        "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
-    },
-     // "columnDefs": [
-     //        {
-     //            "targets": [ 3 ],
-     //            "visible": false
-     //        }
-     //    ],
-    "iDisplayLength": 20,
-    "oTableTools": {
-        "sSwfPath": "../assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
-        "aButtons": [{
-            "sExtends": "csv",
-            "sButtonText": "<i class='pg-grid'></i>",
-        }, {
-            "sExtends": "xls",
-            "sButtonText": "<i class='fa fa-file-excel-o'></i>",
-        }, {
-            "sExtends": "pdf",
-            "sButtonText": "<i class='fa fa-file-pdf-o'></i>",
-        }, {
-            "sExtends": "copy",
-            "sButtonText": "<i class='fa fa-copy'></i>",
-        }]
-    },
-    fnDrawCallback: function(oSettings) {
-        $('.export-options-container').append($('.exportOptions'));
-    }
+	 var settings = {
+	"sDom": "<'exportOptions pull-right'T><'table-responsive't><'row'<p i>>",
+	"sPaginationType": "bootstrap",
+	"destroy": true,
+	"scrollCollapse": true,
+	"oLanguage": {
+		"sLengthMenu": "_MENU_ ",
+		"sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+	},
+	 // "columnDefs": [
+	 //        {
+	 //            "targets": [ 3 ],
+	 //            "visible": false
+	 //        }
+	 //    ],
+	"iDisplayLength": 20,
+	"oTableTools": {
+		"sSwfPath": "../assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
+		"aButtons": [{
+			"sExtends": "csv",
+			"sButtonText": "<i class='pg-grid'></i>",
+		}, {
+			"sExtends": "xls",
+			"sButtonText": "<i class='fa fa-file-excel-o'></i>",
+		}, {
+			"sExtends": "pdf",
+			"sButtonText": "<i class='fa fa-file-pdf-o'></i>",
+		}, {
+			"sExtends": "copy",
+			"sButtonText": "<i class='fa fa-copy'></i>",
+		}]
+	},
+	fnDrawCallback: function(oSettings) {
+		$('.export-options-container').append($('.exportOptions'));
+	}
 };
 
 
 var table = $('#transactions').DataTable(settings);
  $('#transactions tfoot th').each(function(key, val) {
-            var title = $(this).text();
-            if (key === $('#transactions tfoot th')) {
-                return false
-            }
-            $(this).html('<input type="text" class="form-control" placeholder="' + $.trim(title) + '" />');
-        });
+			var title = $(this).text();
+			if (key === $('#transactions tfoot th')) {
+				return false
+			}
+			$(this).html('<input type="text" class="form-control" placeholder="' + $.trim(title) + '" />');
+		});
  table.columns().every(function() {
-            var that = this;
-            $('input', this.footer()).on('keyup change', function() {
-                if (that.search() !== this.value) {
-                    that.search(this.value).draw();
-                }
-            });
-        });
+			var that = this;
+			$('input', this.footer()).on('keyup change', function() {
+				if (that.search() !== this.value) {
+					that.search(this.value).draw();
+				}
+			});
+		});
   // });
 </script>
 
