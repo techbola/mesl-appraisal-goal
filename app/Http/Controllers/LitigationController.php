@@ -33,7 +33,11 @@ class LitigationController extends Controller
         $relationship_types = BusinessRelationshipType::select(['BusinessRelationshipTypeRef', 'RelationshipType'])->get();
         //  return business contacts created by current user;
         $contacts = Contact::where('InputterID', auth()->user()->id)->select(['CustomerRef', 'Customer', 'Department'])->get();
-        $courts   = Court::select(['CourtRef', 'Court', 'Location'])->get();
+        $courts   = Court::select(['CourtRef', 'Court', 'Location'])->get()->transform(function ($item, $key) {
+            $item->Court = $item->Court . ' - ' . $item->Location;
+            return $item;
+        });
+
         return view('litigation.index', compact('courts', 'contacts', 'litigations', 'relationship_types', 'countries', 'users'));
     }
 
@@ -58,7 +62,7 @@ class LitigationController extends Controller
                 $litigation->save();
                 $litigation->comments()->create(['LitigationStatus' => $status]);
                 DB::commit();
-                return redirect()->route('litigation')->with('success', 'Litigation Schedule created successfully');
+                return redirect()->route('litigation.index')->with('success', 'Litigation Schedule created successfully');
             } catch (Exception $e) {
                 DB::rollback();
                 return back()->withInput()->withErrors($e->getMessages());
@@ -70,8 +74,11 @@ class LitigationController extends Controller
     {
         $litigation = Litigation::find($id);
         $contacts   = Contact::where('InputterID', auth()->user()->id)->select(['CustomerRef', 'Customer', 'Department'])->get();
-        $courts     = Court::select(['CourtRef', 'Court', 'Location'])->get();
-        $statuses   = $litigation->comments;
+        $courts     = Court::select(['CourtRef', 'Court', 'Location'])->get()->transform(function ($item, $key) {
+            $item->Court = $item->Court . ' - ' . $item->Location;
+            return $item;
+        });
+        $statuses = $litigation->comments;
         return view('litigation.show', compact('litigation', 'statuses', 'contacts', 'courts'));
     }
 
