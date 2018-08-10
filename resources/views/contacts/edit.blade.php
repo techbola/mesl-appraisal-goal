@@ -36,6 +36,28 @@
 	  </div>
 	</div>
 
+	<div class="modal fade" id="new_rel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h5 class="card-title">New Relationship Type</h5>
+      </div>
+      <div class="modal-body">
+        @include('errors.list')
+       <form action="{{ route('business-rel-types.store') }}" id="bus_rel_form" method="post">
+              {{ csrf_field() }}
+        @include('business_rel_type.form')
+        <div class="text-right m-t-10">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-info">Submit</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 @endsection
 
