@@ -15,6 +15,7 @@
       <thead>
         <th>Step Description</th>
         <th>Amount To Pay</th>
+        <th>Payment Date</th>
         {{-- <th>Start Date</th>
         <th>End Date</th> --}}
         <th>Actions</th>
@@ -30,12 +31,18 @@
             <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
             <td>{{ nairazify(number_format($update->step->payment_made)) }}</td> --}}
             <td>{{ nairazify(number_format($payment->Amount)) }}</td>
+            <td>{{ $payment->created_at }}</td>
             <td>
-              <form class="" action="" method="post">
-                {{ csrf_field() }}
-                {{ method_field('PATCH') }}
-                <button type="submit" name="button" class="btn btn-sm btn-success" onclick="$('#spinner').show()">Mark Paid</button>
-              </form>
+              @if ($payment->IsPaid)
+                <span class="btn bg-muted disabled"><i class="fa fa-check text-success"></i> Paid</span>
+              @else
+                <button type="submit" name="button" class="btn btn-sm btn-success" onclick="confirm2('Mark {{ $payment->Amount }} paid?', '', 'mark_{{ $payment->PaymentRef }}');">Mark Paid</button>
+                <form id="mark_{{ $payment->PaymentRef }}" class="hidden" action="{{ route('mark_step_payment', $payment->PaymentRef) }}" method="post">
+                  {{ csrf_field() }}
+                  {{ method_field('PATCH') }}
+                </form>
+              @endif
+
             </td>
             {{-- <td>{{ $update->step->StartDate ?? '' }}</td>
             <td>{{ $update->step->EndDate ?? '' }}</td> --}}

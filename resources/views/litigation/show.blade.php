@@ -9,6 +9,7 @@
 @endsection
 
 @section('buttons')
+  <a class="btn btn-sm btn-info " style="margin-right: 3px" href="/litigation">New Schedule</a> &nbsp;
   <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#edit_litigation"><i class="icon-pencil m-r-5"></i>Edit Schedule</a>
   {{-- <a href="" class="btn btn-sm btn-danger m-l-10" onclick="return confirm('Are you sure you want to delete this project?')">Delete</a> --}}
 @endsection
@@ -46,7 +47,7 @@
           <div class="col-lg-3 col-sm-6">
             <div class="widget-inline-box text-center">
               <div class="text-muted m-b-10">Created On</div>
-              <div class="f20"><b>{{ date('j M. Y', strtotime($litigation->created_at)) }}</b></div>
+              <div class="f20"><b>{{ date('j M. Y', strtotime($litigation->StatusDate)) }}</b></div>
             </div>
           </div>
 

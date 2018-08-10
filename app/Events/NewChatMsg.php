@@ -32,7 +32,7 @@ class NewChatMsg implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('new-chat');
+        return new PrivateChannel('new-chat');
     }
 
     public function broadcastWith()
@@ -48,7 +48,7 @@ class NewChatMsg implements ShouldBroadcast
       //   'user_id' => $this->data['user_id'],
       //   'username' => $this->data['username'],
       // ];
-      
+
       return $this->data->toArray();
     }
 }

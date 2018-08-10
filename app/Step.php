@@ -10,6 +10,8 @@ class Step extends Model
   protected $guarded = ['StepRef'];
   public $primaryKey = 'StepRef';
 
+  // public $appends = ['last_update'];
+
   public function task()
   {
     return $this->belongsTo('Cavidel\ProjectTask', 'TaskID');
@@ -17,7 +19,12 @@ class Step extends Model
 
   public function getLastUpdateAttribute()
   {
-    return StepUpdate::where('StepID', $this->StepRef)->orderBy('created_at', 'desc')->first();
+    return StepBudget::where('StepID', $this->StepRef)->orderBy('created_at', 'desc')->first();
+  }
+
+  public function last_budget()
+  {
+    return $this->hasOne(StepBudget::class, 'StepID')->latest();
   }
 
   public function payments()
