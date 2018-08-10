@@ -14,10 +14,7 @@
 
 
 @section('bottom-content')
-<div class="container-fluid container-fixed-lg bg-white">
-	<!-- START PANEL -->
-	<div class="panel panel-transparent">
-		<div class="panel-heading">
+<div class="card-box">
 			<div class="panel-title">
 			Unapproved Receipt(s) 
 			</div>
@@ -62,8 +59,6 @@
 			{{ Form::close() }}
 		</div>
 	</div>
-	<!-- END PANEL -->
-</div>
 @endsection 
 
 {{-- @push('scripts')
