@@ -34,7 +34,7 @@
     <!-- END PANEL -->
     <!-- Tabs For Transaction -->
     {{-- START TABS --}}
-     <h3 class="card-title">Sent/Approved Transaction</h3>
+     <h3 class="card-title">MultiPost Transaction List</h3>
       <ul class="nav nav-tabs outside">
         <li class="active"><a data-toggle="tab" href="#unapproved">UnApproved Transactions &nbsp; <span class="badge badge-warning">{{ $unapproved_transaction->count() }}</span></a></li>
         <li><a data-toggle="tab" href="#approved">Approved Transaction &nbsp; <span class="badge badge-success">{{ $approved_transaction->count() }}</span></a></li>
