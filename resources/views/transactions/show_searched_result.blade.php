@@ -94,9 +94,9 @@
 								@endif
 
 								@if($statement->BookBalance > 0)
-								<td style="color: green">{{number_format($statement->ClearedBalance,2)}}</td>
+								<td style="color: green">{{number_format($statement->BookBalance,2)}}</td>
 								@else
-								<td style="color: red">{{number_format($statement->ClearedBalance,2)}}</td>
+								<td style="color: red">{{number_format($statement->BookBalance,2)}}</td>
 								@endif
 							
 							<td class="actions">
