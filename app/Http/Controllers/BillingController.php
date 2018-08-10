@@ -5,6 +5,7 @@ namespace Cavidel\Http\Controllers;
 use Cavidel\Customer;
 use Cavidel\Billing;
 use Cavidel\Location;
+use Cavidel\CashEntry;
 use Cavidel\ProductCategory;
 use Cavidel\BuildingProject;
 use Cavidel\ProductService;
