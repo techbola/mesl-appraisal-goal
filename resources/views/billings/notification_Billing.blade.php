@@ -365,7 +365,7 @@
 
           });
 
-  </script>
+  </script> 
 
 <script>
   function getProduct()
