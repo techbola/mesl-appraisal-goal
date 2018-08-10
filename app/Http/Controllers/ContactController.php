@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Cavidel\Contact;
 use Cavidel\Country;
 use Cavidel\User;
+use Validator;
 use Cavidel\BusinessRelationshipType;
 
 class ContactController extends Controller
@@ -50,6 +51,35 @@ class ContactController extends Controller
         $contact->save();
 
         return redirect()->back()->with('success', $contact->Customer . ' was saved successfully.');
+    }
+
+    public function contact_post_ajax(Request $request)
+    {
+        // return response()->json($request->all(), 200);
+        $validator = Validator::make($request->all(), [
+            'Customer' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->messages()->all()], 500);
+        }
+
+        $contact            = Contact::create($request->except(['_token', 'Assignees']));
+        $contact->CompanyID = auth()->user()->staff->CompanyID;
+        if (!empty($request->AccountFlag)) {
+            $contact->AccountFlag = '1';
+        } else {
+            $contact->AccountFlag = '0';
+        }
+        // $contact->Assignees = $request->Assignees;
+        if (!empty($request->Assignees)) {
+            $assignees          = implode(',', $request->Assignees);
+            $contact->Assignees = $assignees;
+        }
+        $contact->InputterID = auth()->user()->id;
+        $contact->save();
+
+        return response()->json(['success' => true, 'data' => $contact, 'message' => 'Contact was added'], 200);
     }
 
     public function edit_contact($id)

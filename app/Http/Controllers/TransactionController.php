@@ -175,11 +175,11 @@ class TransactionController extends Controller
         if ($sum_debit != $sum_credit) {
             return redirect()->back()->withInput()->with('error', 'Debit amount is not equal to credit amount. Please check the input amounts and try again.');
         } else {
-
+            $code = uniqid('MP-') . '-' . time();
             foreach ($request->type as $key => $type) {
                 // dd($request->amount[$key]);
                 $row                    = new TransactionMP;
-                $row->Code              = uniqid('MP-') . '-' . time();
+                $row->AlphaCode         = $code;
                 $row->TransactionTypeID = $type;
                 $row->Amount            = $request->amount[$key];
                 $row->GLID              = $request->account[$key];
@@ -193,10 +193,14 @@ class TransactionController extends Controller
                 $row->CurrencyID      = '1';
                 $row->PostingTypeID   = '1';
                 $row->save();
-
             }
             return redirect()->back()->with('success', 'Transactions posted successfully.');
         }
+    }
+
+    public function multipost_listing()
+    {
+        // return view()
     }
 
 }

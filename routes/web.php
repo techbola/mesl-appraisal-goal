@@ -471,6 +471,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('contacts', 'ContactController@index')->name('business_contacts');
     Route::post('save_contact', 'ContactController@save_contact')->name('save_contact');
+    Route::post('/contact-post-ajax', 'ContactController@contact_post_ajax')->name('contact_post_ajax');
     Route::get('edit_contact/{id}', 'ContactController@edit_contact')->name('edit_contact');
     Route::patch('update_contact/{id}', 'ContactController@update_contact')->name('update_contact');
 
