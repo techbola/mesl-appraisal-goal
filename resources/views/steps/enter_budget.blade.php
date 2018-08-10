@@ -10,31 +10,53 @@
 
 @section('content')
 
-  {{-- START TABS --}}
-  <ul class="nav nav-tabs outside">
-    <li class="active"><a data-toggle="tab" href="#complete">Completed Milestones</a></li>
-    <li><a data-toggle="tab" href="#incomplete">Incomplete Milestones</a></li>
-  </ul>
-  <div class="tab-content">
-    <div id="complete" class="tab-pane fade in active">
-      <div class="card-box">
+  <form action="" method="GET" onsubmit="$('#spinner').show()">
+    <div class="row m-b-20">
+      <div class="col-md-3 col-md-offset-2">
+        <div class="form-group">
+          <label for="">Project</label>
+          <select class="full-width select2" data-init-plugin="select2" name="project">
+            <option value="">Select Project</option>
+            @foreach ($projects as $project)
+              <option value="{{ $project->ProjectRef }}" {{ ($project_id == $project->ProjectRef)? 'selected':'' }}>{{ $project->Project }}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Milestone Status</label>
+          <select class="full-width select2" data-init-plugin="select2" name="status">
+            <option value="1" {{ ($status=='1')? 'selected':'' }}>Completed</option>
+            <option value="0" {{ ($status=='0')? 'selected':'' }}>Not Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <label></label>
+        <button type="submit" class="btn btn-info m-t-25 btn-cons">Fetch</button>
+        {{-- <a href="{{ url()->current() }}" class="btn btn-inverse m-t-25 btn-cons" onclick="$('#spinner').show()">Reset</a> --}}
+      </div>
+    </div>
+  </form>
+
+  <div class="card-box">
         <div class="card-title">Budget Entry</div>
         <table class="table table-bordered tableWithSearch">
           <thead>
-            <th width="20%">Project / Task</th>
+            <th width="20%">Task</th>
             <th width="20%">Milestone</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Budget Cost</th>
-            <th>Variation</th>
+            <th width="15%">Budget Cost</th>
+            <th width="15%">Variation</th>
             <th width="8%">Status</th>
           </thead>
           <tbody>
             @foreach ($steps as $step)
               <tr>
-                <td class="small">
-                  <b>Project:</b> {{ $step->task->project->Project }}<br>
-                  <b>Task:</b> {{ $step->task->Task }}
+                <td>
+                  {{ $step->task->Task }}
                 </td>
                 <td>{{ $step->Step ?? '' }}</td>
                 <td data-sort="{{ $step->StartDate }}">{{ nice_date($step->StartDate) ?? '' }}</td>
@@ -43,7 +65,7 @@
                   @if (empty($step->last_budget) || $step->last_budget->Status == '0')
                     <form action="{{ route('submit_budget', $step->StepRef) }}" method="post">
                       {{ csrf_field() }}
-                      <input type="text" class="form-control input-sm smartinput" name="BudgetCost" placeholder="Budget amount">
+                      <input type="text" class="form-control input-sm smartinput" name="BudgetCost" placeholder="Budget amount" value="{{ $step->last_budget->BudgetCost ?? '' }}" autocomplete="off">
                       <button type="submit" name="button" class="btn btn-sm btn-success" onclick="$('#spinner').show()">Send</button>
                     </form>
                   @elseif(!empty($step->last_budget))
@@ -54,10 +76,12 @@
 
                   @if(!empty($step->last_budget) && $step->last_budget->Status == '1')
                     {{ ngn($step->last_budget->Variation) }}
+                  @elseif(empty($step->last_budget))
+                    {{ ngn('0') }}
                   @else
                     <form class="" action="{{ route('submit_variation', $step->StepRef) }}" method="post">
                       {{ csrf_field() }}
-                      <input type="text" class="form-control input-sm smartinput" name="Variation" placeholder="Variation amount" value="{{ $step->last_budget->Variation ?? '' }}">
+                      <input type="text" class="form-control input-sm smartinput" name="Variation" placeholder="Variation amount" value="{{ $step->last_budget->Variation ?? '' }}" autocomplete="off">
                       <button type="submit" name="button" class="btn btn-sm btn-success" onclick="$('#spinner').show()">Send</button>
                     </form>
                   @endif
@@ -65,11 +89,11 @@
                 <td class="actions small">
                   @if (empty($step->last_budget))
                     &mdash;
-                  @elseif(!empty($step->last_budget) && $step->last_budget->Status = NULL)
+                  @elseif(!empty($step->last_budget) && $step->last_budget->Status == NULL)
                     Pending
-                  @elseif(!empty($step->last_budget) && $step->last_budget->Status = '1')
+                  @elseif(!empty($step->last_budget) && $step->last_budget->Status == '1')
                     Approved
-                  @elseif(!empty($step->last_budget) && $step->last_budget->Status = '0')
+                  @elseif(!empty($step->last_budget) && $step->last_budget->Status == '0')
                     Rejected
                   @endif
                   {{-- <a href="#" class="btn btn-sm btn-success submit_budget" data-id="{{ $step->StepRef }}">Save</a> --}}
@@ -79,14 +103,6 @@
           </tbody>
         </table>
       </div>
-    </div>
-    <div id="incomplete" class="tab-pane fade">
-
-      @include('steps.incomplete_milestones')
-
-    </div>
-  </div>
-  {{-- END TABS --}}
 
 @endsection
 

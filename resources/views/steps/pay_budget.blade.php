@@ -13,7 +13,8 @@
     <div class="card-title">Budget Payments</div>
     <table class="table table-bordered tableWithSearch">
       <thead>
-        <th>Project / Task</th>
+        <th width="15%">Project</th>
+        <th width="15%">Task</th>
         <th>Milestone</th>
         <th>Project Manager</th>
         <th>Budget Cost</th>
@@ -27,10 +28,10 @@
       <tbody>
         @foreach ($updates as $update)
           <tr>
-            <td class="small">
-              <b>Project:</b> {{ $update->step->task->project->Project }}<br>
-              <b>Task:</b> {{ $update->step->task->Task }}
+            <td>
+              {{ $update->step->task->project->Project }}
             </td>
+            <td>{{ $update->step->task->Task }}</td>
             <td>{{ $update->step->Step ?? '' }}</td>
             <td>{{ $update->step->task->project->supervisor->FullName ?? '' }}</td>
             <td>{{ ngn($update->BudgetCost + $update->Variation) }}</td>
