@@ -122,12 +122,15 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('edit_step/{id}', 'TaskController@edit_step')->name('edit_step');
     Route::delete('delete_step/{id}', 'TaskController@delete_step')->name('delete_step');
 
+    Route::get('enter_step_budget', 'TaskController@enter_step_budget')->name('enter_step_budget');
+    Route::post('submit_budget/{id}', 'TaskController@submit_budget')->name('submit_budget');
     Route::get('review_step_budget', 'TaskController@review_step_budget')->name('review_step_budget');
     Route::patch('approve_step_budget/{id}', 'TaskController@approve_step_budget')->name('approve_step_budget');
     Route::patch('reject_step_budget/{id}', 'TaskController@reject_step_budget')->name('reject_step_budget');
     Route::get('pay_step_budget', 'TaskController@pay_step_budget')->name('pay_step_budget');
     Route::post('store_step_payment/{id}', 'TaskController@store_step_payment')->name('store_step_payment');
     Route::get('complete_step_payments', 'TaskController@complete_step_payments')->name('complete_step_payments');
+    Route::patch('mark_step_payment/{id}', 'TaskController@mark_step_payment')->name('mark_step_payment');
 
     Route::post('save_taskupdate/{id}', 'TaskController@save_taskupdate')->name('save_taskupdate');
 
