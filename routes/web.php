@@ -360,6 +360,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('submit_bill_for_approval', 'CashEntryController@submit_bill_for_approval');
     Route::post('reject_posting_approvals', 'CashEntryController@reject_posting_approvals');
     Route::post('delete_posting', 'CashEntryController@delete_posting');
+    Route::post('submit_Receipt_for_approval', 'CashEntryController@submit_Receipt_for_approval');
+    Route::post('reject_receipt_posting_approvals', 'CashEntryController@reject_receipt_posting_approvals');
+    Route::post('submit_imprest_for_posting', 'CashEntryController@submit_imprest_for_posting');
+    Route::post('submit_imprest_for_approval', 'CashEntryController@submit_imprest_for_approval');
+    Route::post('reject_imprest_posting_approvals', 'CashEntryController@reject_imprest_posting_approvals');
+    Route::get('cash_entries/show_approve_receipt', 'CashEntryController@show_approve_receipt')->name('ApproveReceipt');
+    Route::get('cash_entries/show_approve_imprest', 'CashEntryController@show_approve_imprest')->name('ApproveImprest');
 
     // Learning Management System
 
@@ -401,6 +408,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('pay_List', 'CashEntryController@store_bill_payment_list');
     Route::post('process_payment', 'CashEntryController@customer_transfer_store');
     Route::get('cash_entries/approve_posting', 'CashEntryController@approve_posting')->name('ApprovePosting');
+    Route::post('Post_cash_entry_reciept', 'CashEntryController@postReceipts');
+    Route::get('cash_entries/approve_receipt', 'CashEntryController@show_receipt_posting')->name('Receipt_Approval_Posting');
 
     Route::resource('cash_entries', 'CashEntryController');
 
