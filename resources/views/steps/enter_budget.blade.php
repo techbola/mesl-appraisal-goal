@@ -65,7 +65,7 @@
                   @if (empty($step->last_budget) || $step->last_budget->Status == '0')
                     <form action="{{ route('submit_budget', $step->StepRef) }}" method="post">
                       {{ csrf_field() }}
-                      <input type="text" class="form-control input-sm smartinput" name="BudgetCost" placeholder="Budget amount" autocomplete="off">
+                      <input type="text" class="form-control input-sm smartinput" name="BudgetCost" placeholder="Budget amount" value="{{ $step->last_budget->BudgetCost ?? '' }}" autocomplete="off">
                       <button type="submit" name="button" class="btn btn-sm btn-success" onclick="$('#spinner').show()">Send</button>
                     </form>
                   @elseif(!empty($step->last_budget))

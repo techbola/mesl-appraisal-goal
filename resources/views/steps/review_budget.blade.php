@@ -65,7 +65,9 @@
       <input type="checkbox" id="select-all">
       <label for="select-all">Bulk Select</label>
     </div>
-    <button style="margin-left: 10px" class="approve-btn btn btn-sm btn-success">Approve</button>
+    @if ($status != '0')
+      <button style="margin-left: 10px" class="approve-btn btn btn-sm btn-success">Approve</button>
+    @endif
     <button style="margin-left: 10px" class="reject-btn btn btn-sm btn-danger">Reject</button>
 
     <table class="table table-bordered tableWithSearch">
@@ -104,13 +106,15 @@
             <td>{{ ngn($update->BudgetCost + $update->Variation) ?? '&mdash;' }}</td>
             <td class="actions">
               @if ($update->Status == NULL)
-                <a class="btn btn-sm btn-success" onclick="confirm2('Approve this budget?', '', 'approve_budget_{{ $update->id }}')">Approve</a>
+                @if ($status != '0')
+                  <a class="btn btn-sm btn-success" onclick="confirm2('Approve this budget?', '', 'approve_budget_{{ $update->id }}')">Approve</a>
+                  <form class="hidden" id="approve_budget_{{ $update->id }}" action="{{ route('approve_step_budget', $update->id) }}" method="post">
+                    {{ csrf_field() }}
+                    {{ method_field('PATCH') }}
+                  </form>
+                @endif
                 <a class="btn btn-sm btn-danger" onclick="confirm2('Reject this budget?', 'The initiator would be able to submit another request.', 'reject_budget_{{ $update->id }}')">Reject</a>
 
-                <form class="hidden" id="approve_budget_{{ $update->id }}" action="{{ route('approve_step_budget', $update->id) }}" method="post">
-                  {{ csrf_field() }}
-                  {{ method_field('PATCH') }}
-                </form>
                 <form class="hidden" id="reject_budget_{{ $update->id }}" action="{{ route('reject_step_budget', $update->id) }}" method="post">
                   {{ csrf_field() }}
                   {{ method_field('PATCH') }}
