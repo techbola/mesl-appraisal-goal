@@ -54,15 +54,15 @@ class ContactController extends Controller
 
     public function edit_contact($id)
     {
-        $user      = auth()->user();
-        $person    = Contact::find($id);
-        $countries = Country::orderBy('Country', 'asc')->get();
-
-        $users = User::whereHas('staff', function ($q) use ($user) {
+        $user               = auth()->user();
+        $person             = Contact::find($id);
+        $countries          = Country::orderBy('Country', 'asc')->get();
+        $relationship_types = BusinessRelationshipType::select(['BusinessRelationshipTypeRef', 'RelationshipType'])->get();
+        $users              = User::whereHas('staff', function ($q) use ($user) {
             $q->where('CompanyID', $user->CompanyID);
         })->get();
 
-        return view('contacts.edit', compact('user', 'person', 'countries', 'users'));
+        return view('contacts.edit', compact('user', 'person', 'countries', 'users', 'relationship_types'));
     }
 
     public function update_contact(Request $request, $id)
