@@ -34,7 +34,7 @@ class LitigationController extends Controller
         //  return business contacts created by current user;
         $contacts = Contact::where('InputterID', auth()->user()->id)->select(['CustomerRef', 'Customer', 'Department'])->get();
         $courts   = Court::select(['CourtRef', 'Court', 'Location'])->get();
-        return view('litigation.index', compact('courts', 'contacts', 'litigations', 'relationship_types', 'countries', 'users'));
+        return view('litigation.index_', compact('courts', 'contacts', 'litigations', 'relationship_types', 'countries', 'users'));
     }
 
     // stores litigation schedule
