@@ -20,14 +20,15 @@
 
     <table class="table table-bordered tableWithSearch">
       <thead>
-        <th width="5%"></th>
+        <th width="4%"></th>
         <th>Project / Task</th>
-        <th>Milestone</th>
+        <th width="25%">Milestone</th>
         <th>Project Manager</th>
         <th>Budget Cost</th>
-        <th>Start Date</th>
-        <th>End Date</th>
+        {{-- <th>Start Date</th>
+        <th>End Date</th> --}}
         <th>Variation</th>
+        <th>Total</th>
         <th>Actions</th>
       </thead>
       <tbody>
@@ -48,9 +49,10 @@
             <td>{{ $update->step->Step ?? '' }}</td>
             <td>{{ $update->step->task->project->supervisor->FullName ?? '' }}</td>
             <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
-            <td>{{ $update->step->StartDate ?? '' }}</td>
-            <td>{{ $update->step->EndDate ?? '' }}</td>
+            {{-- <td>{{ $update->step->StartDate ?? '' }}</td>
+            <td>{{ $update->step->EndDate ?? '' }}</td> --}}
             <td>{{ ngn($update->Variation) ?? '&mdash;' }}</td>
+            <td>{{ ngn($update->BudgetCost + $update->Variation) ?? '&mdash;' }}</td>
             <td class="actions">
               @if ($update->Status == NULL)
                 <a class="btn btn-sm btn-success" onclick="confirm2('Approve this budget?', '', 'approve_budget')">Approve</a>
@@ -116,6 +118,7 @@
            type: 'POST',
            data: {
               _token:  '{{ csrf_token() }}',
+              _method:  'PATCH',
               ApprovedBy: {{ auth()->user()->id }},
               budget_ids: checked_docs_array,
               ApprovedDate: ApprovedDate,
@@ -151,12 +154,14 @@
       var RejectedDate = "{{ \Carbon\Carbon::now() }}";
       var RejectedBy = {{ auth()->user()->id }};
       alert('Are You sure you want to reject this budget?');
+      $('#spinner').show();
 
       $.ajax({
           url: 'bulk_reject_budget',
           type: 'POST',
           data: {
              _token:  '{{ csrf_token() }}',
+             _method:  'PATCH',
              budget_ids: checked_docs_array,
              RejectedBy: {{ auth()->user()->id }},
              RejectedDate: RejectedDate,

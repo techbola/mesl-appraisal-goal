@@ -149,11 +149,13 @@ class TaskController extends Controller
     public function submit_variation(Request $request, $id)
     {
       $step = Step::find($id);
-      if (!empty($request->Variation)){
+      if (!empty($step->last_budget) && !empty($request->Variation)){
         $budget = $step->last_budget;
         $budget->Variation = $request->Variation;
         $budget->update();
-        return redirect()->back()->with('success', 'Budget sent successfully');
+        return redirect()->back()->with('success', 'Variation submitted successfully');
+      } else {
+        return redirect()->back()->with('error', 'No budget found. Submit a budget cost first.');
       }
     }
 
