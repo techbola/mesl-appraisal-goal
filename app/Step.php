@@ -39,7 +39,7 @@ class Step extends Model
 
   public function getPaymentOutstandingAttribute()
   {
-    return $this->last_update->BudgetCost - $this->payments()->sum('Amount');
+    return $this->last_update->BudgetCost + $this->last_update->Variation - $this->payments()->sum('Amount');
   }
 
 }

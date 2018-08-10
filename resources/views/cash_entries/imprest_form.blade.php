@@ -65,16 +65,7 @@
 
 
 <div class="row">
-    <div class="col-sm-4">
-        <div class="form-group">
-            <div class="controls">
-                {{ Form::label('Bank Ref No', 'Bank Ref. No' ) }}
-                {{ Form::text('BankSlipNo', null, ['class' => 'form-control', 'placeholder' => 'Enter Bank Reference No']) }}
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-8">
+    <div class="col-sm-12">
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('Narration', 'Narration' ) }}
@@ -85,7 +76,7 @@
 </div>
 
 <div class="row">
-    {{ Form::hidden('PostingTypeID', 1, ['class' => 'form-control', 'placeholder' => 'Account Type']) }}
+    {{ Form::hidden('PostingTypeID', 15, ['class' => 'form-control', 'placeholder' => 'Account Type']) }}
 
 </div>
 

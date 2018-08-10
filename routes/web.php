@@ -124,9 +124,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('enter_step_budget', 'TaskController@enter_step_budget')->name('enter_step_budget');
     Route::post('submit_budget/{id}', 'TaskController@submit_budget')->name('submit_budget');
+    Route::post('submit_variation/{id}', 'TaskController@submit_variation')->name('submit_variation');
     Route::get('review_step_budget', 'TaskController@review_step_budget')->name('review_step_budget');
     Route::patch('approve_step_budget/{id}', 'TaskController@approve_step_budget')->name('approve_step_budget');
     Route::patch('reject_step_budget/{id}', 'TaskController@reject_step_budget')->name('reject_step_budget');
+    Route::patch('bulk_approve_budget', 'TaskController@bulk_approve_budget')->name('bulk_approve_budget');
+    Route::patch('bulk_reject_budget', 'TaskController@bulk_reject_budget')->name('bulk_reject_budget');
     Route::get('pay_step_budget', 'TaskController@pay_step_budget')->name('pay_step_budget');
     Route::post('store_step_payment/{id}', 'TaskController@store_step_payment')->name('store_step_payment');
     Route::get('complete_step_payments', 'TaskController@complete_step_payments')->name('complete_step_payments');
@@ -370,6 +373,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('reject_imprest_posting_approvals', 'CashEntryController@reject_imprest_posting_approvals');
     Route::get('cash_entries/show_approve_receipt', 'CashEntryController@show_approve_receipt')->name('ApproveReceipt');
     Route::get('cash_entries/show_approve_imprest', 'CashEntryController@show_approve_imprest')->name('ApproveImprest');
+    Route::get('cash_entries/receipt_edit/{id}', 'CashEntryController@receipt_edit')->name('ReceiptEdit');
+    Route::patch('cash_entries/edit_r/{id}', 'CashEntryController@update_receipt');
+    Route::post('delete_receipt', 'CashEntryController@delete_receipt');
+    Route::post('delete_imprest', 'CashEntryController@delete_imprest');
+    Route::get('cash_entries/imprest_edit/{id}', 'CashEntryController@imprest_edit')->name('ImprestEdit');
+    Route::patch('cash_entries/edit_i/{id}', 'CashEntryController@update_imprest');
 
     // Learning Management System
 
@@ -395,6 +404,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('submit_course_category_edit_form', 'CourseController@submit_course_category_edit_form');
     Route::get('get_course_details/{id}', 'CourseController@get_course_details');
     Route::post('submit_edit_course_form', 'CourseController@submit_edit_course_form');
+    Route::post('Post_cash_entry_imprest', 'CashEntryController@postImprest');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
@@ -464,6 +474,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('contacts', 'ContactController@index')->name('business_contacts');
     Route::post('save_contact', 'ContactController@save_contact')->name('save_contact');
+    Route::post('/contact-post-ajax', 'ContactController@contact_post_ajax')->name('contact_post_ajax');
     Route::get('edit_contact/{id}', 'ContactController@edit_contact')->name('edit_contact');
     Route::patch('update_contact/{id}', 'ContactController@update_contact')->name('update_contact');
 
