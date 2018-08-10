@@ -13,9 +13,17 @@
   </div>
   <div class="col-md-6">
     <div class="form-group">
+      {!! Form::label('RelationshipTypeID', 'Relationship Type') !!} <span style="padding: 0 !important" class="form-add-more add-more-courts badge badge-success"><i class="fa fa-plus"></i></span>
+      {!! Form::select('RelationshipTypeID', ['' => 'Select RelationshipType'] + $relationship_types->pluck('RelationshipType', 'BusinessRelationshipTypeRef')->toArray(), null, ['class'=>'full-width', 'data-init-plugin'=>'select2']) !!}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    <div class="form-group">
       {!! Form::label('Department') !!}
       {!! Form::text('Department', null, ['class'=>'form-control', 'placeholder'=>'Department']) !!}
     </div>
+  </div>
   </div>
   <div class="col-md-6">
     <div class="form-group">
