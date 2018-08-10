@@ -75,7 +75,7 @@
 </div>
 
 <div class="row">
-    {{ Form::hidden('PostingTypeID', 1, ['class' => 'form-control', 'placeholder' => 'Account Type']) }}
+    {{ Form::hidden('PostingTypeID', 14, ['class' => 'form-control', 'placeholder' => 'Account Type']) }}
 
 </div>
 
