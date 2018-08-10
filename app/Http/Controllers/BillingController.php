@@ -206,7 +206,7 @@ class BillingController extends Controller
     public function bill_payment(Request $request)
     {
         $billcode   = $request->Reference1;
-        $userid     = \Auth::user()->staffId;
+        $userid     = \Auth::user()->id;
         $getdetails = \DB::table('tblBilling')
             ->select('ClientID')
             ->where('GroupID', $billcode)
