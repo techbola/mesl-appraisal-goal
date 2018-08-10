@@ -217,6 +217,7 @@ class BillingController extends Controller
         if ($trans) {
             $cashentries                = new CashEntry($request->all());
             $cashentries->PostingTypeID = 16;
+            $cashentries->PostFlag      = 1;
             if ($cashentries->save()) {
                 return redirect()->route('NotificationBilling', [$customer_ref, $billcode])->with('success', 'Bill Posting was successfully');
             } else {
