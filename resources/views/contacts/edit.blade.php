@@ -71,7 +71,9 @@
           e.preventDefault();
           $('#new_rel').show();
           $('#new_rel').modal('show');
-          var form = $("#bus_rel_form");
+        });
+
+        var form = $("#bus_rel_form");
           form.submit(function(e) {
             e.preventDefault();
             $.post('/business-rel-types', {
@@ -88,7 +90,6 @@
               }
             });
           });
-        });
 
   });
 </script>
