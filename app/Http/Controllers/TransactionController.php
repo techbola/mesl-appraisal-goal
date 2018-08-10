@@ -124,7 +124,7 @@ class TransactionController extends Controller
         $gls               = GL::all();
         $posting_types     = PostingType::all();
         $transaction       = Transaction::where('TransactionRef', $id)->first();
-        $transaction_types = DB::table('TblTransaction')
+        $transaction_types = DB::table('tblTransaction')
             ->join('tblPostingType', 'tblTransaction.PostingTypeID', '=', 'tblPostingType.PostingTypeRef')
             ->join('tblGL', 'tblTransaction.GLID', '=', 'tblGL.GLRef')
             ->get();
