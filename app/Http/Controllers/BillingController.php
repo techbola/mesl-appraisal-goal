@@ -6,6 +6,7 @@ use Cavidel\Customer;
 use Cavidel\Billing;
 use Cavidel\Location;
 use Cavidel\ProductCategory;
+use Cavidel\BuildingProject;
 use Cavidel\ProductService;
 use Cavidel\Staff;
 use Illuminate\Http\Request;
@@ -41,15 +42,14 @@ class BillingController extends Controller
         $locations          = Location::orderBy('Location')->get();
         $client_name        = $request->client_name;
         $results            = Customer::where('Customer', 'like', '%' . $client_name . '%')->get();
-
-        $user            = auth()->user();
-        $titles          = Title::orderBy('Title')->get();
-        $nationalities   = Nationality::orderBy('Nationality')->get();
-        $genders         = Gender::all();
-        $maritalstatuses = MaritalStatus::orderBy('MaritalStatus')->get();
-        $staff           = Staff::where('CompanyID', $user->CompanyID)->get();
-        $paymentplans    = PaymentPlan::orderBy('PaymentPlan')->get();
-        $housetypes      = HouseType::orderBy('HouseType')->get();
+        $user               = auth()->user();
+        $titles             = Title::orderBy('Title')->get();
+        $nationalities      = Nationality::orderBy('Nationality')->get();
+        $genders            = Gender::all();
+        $maritalstatuses    = MaritalStatus::orderBy('MaritalStatus')->get();
+        $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans       = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes         = HouseType::orderBy('HouseType')->get();
         return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles', 'nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
@@ -89,6 +89,7 @@ class BillingController extends Controller
             ->where('GroupID', $billcode)
             ->get();
         $bill_details_collection = collect($processedbills);
+        $buildings               = BuildingProject::all();
         $bill_amount             = $bill_details_collection->sum('Price');
         $amount_os               = $bill_details_collection->sum('AmountOutstanding');
 
@@ -108,7 +109,7 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'configs', 'gl', 'files'));
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'buildings', 'configs', 'gl', 'files'));
     }
 
     public function get_product($cat_id)
@@ -129,14 +130,11 @@ class BillingController extends Controller
 
     public function save_bill_item(Request $request)
     {
+        // dd($request->all());
         $productCode = \DB::table('tblProductService')->select('ProductCode')->where('ProductServiceRef', $request->InvItemID)->first();
 
-        $pro      = $request->Produt_ServiceType;
-        $filtered = explode(" / ", $pro);
-        $pro      = $filtered[0];
+        $save_bill = new Billing($request->except(['CategoryID', 'Product', 'TotalPrice']));
 
-        $save_bill                     = new Billing($request->except(['CategoryID', 'Product', 'TotalPrice']));
-        $save_bill->Produt_ServiceType = $pro;
         if ($save_bill->save()) {
             return redirect()->back()->with('success', 'Product was added successfully');
         } else {

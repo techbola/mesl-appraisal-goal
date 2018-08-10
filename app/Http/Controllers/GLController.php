@@ -39,20 +39,15 @@ class GLController extends Controller
      */
     public function create()
     {
-        $customers     = DB::table('tblCustomer')->get();
-        $branches      = Branch::all();
-        $currencies    = Currency::all();
-        $staff         = Staff::all();
+        $accounts   = AccountType::all();
+        $customers  = DB::table('tblCustomer')->get();
+        $branches   = Branch::all();
+        $currencies = Currency::all();
+        $staff      = Staff::all();
         // $status        = LoanStatus::all();
         // $frequencies   = Frequency::all();
         $account_types = AccountType::all()->where('AccountTypeRef', '<>', 1);
-        $gls           = \DB::table('tblGL')
-            ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-            ->leftJoin('tblAccountType', 'tblGL.AccountTypeID', '=', 'tblAccountType.AccountTypeRef')
-            ->leftJoin('tblCurrency', 'tblGL.CurrencyID', '=', 'tblCurrency.CurrencyRef')
-            ->leftJoin('tblBranch', 'tblGL.BranchID', '=', 'tblBranch.BranchRef')
-            ->select('*', 'tblGL.Description as Desc')
-            ->get();
+
         $customer_details = \DB::table('tblGL')
             ->select('GLRef', \DB::raw('CONCAT("Customer", \' - \' ,"AccountType", \' - \',"AccountNo") AS CUST_ACCT'))
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
@@ -61,7 +56,44 @@ class GLController extends Controller
             ->leftJoin('tblBranch', 'tblGL.BranchID', '=', 'tblBranch.BranchRef')
             ->get();
         // return dd($currencies);
-        return view('gls.create', compact('gls', 'branches', 'account_types', 'staff', 'status', 'frequencies', 'currencies', 'customers', 'customer_details'));
+        return view('gls.create', compact('branches', 'account_types', 'staff', 'status', 'frequencies', 'currencies', 'customers', 'customer_details', 'accounts'));
+    }
+
+    public function get_gl_details_using_account_type_id($id)
+    {
+        $ref = $id;
+        $gls = \DB::table('tblGL')
+            ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
+            ->leftJoin('tblAccountType', 'tblGL.AccountTypeID', '=', 'tblAccountType.AccountTypeRef')
+            ->leftJoin('tblCurrency', 'tblGL.CurrencyID', '=', 'tblCurrency.CurrencyRef')
+            ->leftJoin('tblBranch', 'tblGL.BranchID', '=', 'tblBranch.BranchRef')
+            ->select('*', 'tblGL.Description as Desc')
+            ->where('tblAccountType.AccountTypeRef', $ref)
+            ->get();
+        return response()->json($gls)->setStatusCode(200);
+    }
+
+    public function general_ledger_details($id)
+    {
+        $ref = $id;
+        $gls = GL::where('GLRef', $ref)->first();
+        return response()->json($gls)->setStatusCode(200);
+    }
+
+    public function gl_edit_post(Request $request)
+    {
+        $ref  = $request->GLRef;
+        $data = \DB::table('tblGL')->where('GLRef', $ref);
+        $data->update($request->except(['_token', '_method', 'GLRef']));
+        $gls = \DB::table('tblGL')
+            ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
+            ->leftJoin('tblAccountType', 'tblGL.AccountTypeID', '=', 'tblAccountType.AccountTypeRef')
+            ->leftJoin('tblCurrency', 'tblGL.CurrencyID', '=', 'tblCurrency.CurrencyRef')
+            ->leftJoin('tblBranch', 'tblGL.BranchID', '=', 'tblBranch.BranchRef')
+            ->select('*', 'tblGL.Description as Desc')
+            ->where('tblAccountType.AccountTypeRef', $request->AccountTypeID)
+            ->get();
+        return response()->json($gls)->setStatusCode(200);
     }
 
     public function create2()
@@ -88,16 +120,15 @@ class GLController extends Controller
 
         $customer_details = \DB::table('tblGL')
 
-        ->select('GLRef', 'CustomerID','CustomerRef', \DB::raw('CONCAT("Customer", \' - \' ,"AccountType", \' - \',"AccountNo") AS CUST_ACCT'))
-        ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-        ->leftJoin('tblAccountType', 'tblGL.AccountTypeID', '=', 'tblAccountType.AccountTypeRef')
-        ->leftJoin('tblCurrency', 'tblGL.CurrencyID', '=', 'tblCurrency.CurrencyRef')
-        ->leftJoin('tblBranch', 'tblGL.BranchID', '=', 'tblBranch.BranchRef')
-        ->where ('AccountTypeRef',1)
-        ->get();
+            ->select('GLRef', 'CustomerID', 'CustomerRef', \DB::raw('CONCAT("Customer", \' - \' ,"AccountType", \' - \',"AccountNo") AS CUST_ACCT'))
+            ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
+            ->leftJoin('tblAccountType', 'tblGL.AccountTypeID', '=', 'tblAccountType.AccountTypeRef')
+            ->leftJoin('tblCurrency', 'tblGL.CurrencyID', '=', 'tblCurrency.CurrencyRef')
+            ->leftJoin('tblBranch', 'tblGL.BranchID', '=', 'tblBranch.BranchRef')
+            ->where('AccountTypeRef', 1)
+            ->get();
 
         $loan_types = LoanType::all();
-
 
         // return dd($currencies);
         return view('gls.create2', compact('gls', 'loanrepaymenttype', 'branches', 'account_types', 'staff', 'status', 'frequencies', 'currencies', 'customers', 'customer_details', 'loan_types'));
@@ -113,10 +144,10 @@ class GLController extends Controller
     {
         $gl = new GL($request->all());
         $this->validate($request, [
-            'CustomerID' => 'required',
-            'AccountTypeID'=>'required',
-            'CurrencyID'=>'required',
-            'BranchID'=>'required',
+            'CustomerID'    => 'required',
+            'AccountTypeID' => 'required',
+            'CurrencyID'    => 'required',
+            'BranchID'      => 'required',
         ]);
         if ($gl->save()) {
             return redirect()->route('gls.create')->with('success', 'GL was added successfully');
@@ -129,10 +160,10 @@ class GLController extends Controller
     {
         $gl = new GL($request->all());
         $this->validate($request, [
-            'CustomerID' => 'required',
-            'LoanManagementFee' => 'required',
-            'LoanProcessingFee' => 'required',
-            'LoanApplicationFee' => 'required'
+            'CustomerID'         => 'required',
+            'LoanManagementFee'  => 'required',
+            'LoanProcessingFee'  => 'required',
+            'LoanApplicationFee' => 'required',
         ]);
         if ($gl->save()) {
 
@@ -191,7 +222,7 @@ class GLController extends Controller
         $status        = LoanStatus::all();
         $frequencies   = Frequency::all();
         $account_types = AccountType::all();
-        $loan_types = LoanType::all();
+        $loan_types    = LoanType::all();
 
         $gls = \DB::table('tblGL')
             ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')

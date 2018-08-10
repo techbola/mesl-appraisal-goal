@@ -159,6 +159,45 @@
 	</div>
 </div>
 
+<div class="page-content-wrapper ">
+     <div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="editmodal"  role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div style="background: #fff; width: 800px; padding: 15px">
+                <div class="modal-header">
+                  <h5 class="text-left semi-bold" id="edit_title"></h5>
+                </div><hr>
+                <div class="modal-body">
+                  <div id="course_category_modal_div" class="hide">
+                    @include('LMS.forms.edit_category')
+                  </div>
+
+                  <div id="course_modal_div" class="hide">
+                    @include('LMS.forms.edit_course')
+                  </div>
+
+                   <div id="instructor_modal_div" class="hide">
+                    @include('LMS.forms.edit_instructor')
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+                </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+      </div>
+
 
 <div class="page-content-wrapper ">
      <div class="content ">
@@ -354,7 +393,7 @@
                   <td>${id++}</td>
                   <td>${val.course_category_name}</td>
                   <td>${val.last_name} ${val.first_name}</td>
-                  <td><span style="color:blue">Edit</span></td>
+                  <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodal" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
                   <td><span style="color:red">Delete</span></td>
                 </tr>
                 `);
@@ -414,7 +453,7 @@
                 <tr>
                   <td>${val.courses_name}</td>
                   <td>${val.course_code}</td>
-                  <td><span style="color:blue">Edit</span></td>
+                  <td><a href="#" onclick="edit_course_test(${val.course_ref})" data-target="#editmodal" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
                   <td><span style="color:red">Delete</span></td>
                 </tr>
                 `);
@@ -473,6 +512,7 @@
          if(status === 'success'){
               $('#instructor_count').html(data);
               $("#instructor")[0].reset();
+              $('select').select2().destroy(); 
             }
       });
     });
@@ -633,7 +673,33 @@
                    }
         });
     });
+  </script>
+  <script>
+    function edit_course_test(id)
+    {
+       var ref = id;
+       $('#edit_title').html('Edit Course');
+       $('#course_category_modal_div').addClass('hide');
+       $('#course_modal_div').removeClass('hide');
 
+       $.get('/get_c_category', function(data) {
+          $.each(data, function(index, val) {
+            $('#edit_category_ref').append(`
+            <option value="${val.course_category_ref}">${val.course_category_name}</option>}
+            `);
+          });
+        });
+       
+       $.get('/get_course_details/'+ref, function(data, status) {
+         $('#edit_courses_name').val(data.courses_name);
+         $('#edit_course_duration').val(data.course_duration);
+         $('#edit_course_fee').val(data.course_fee);
+         $('#editmodal select[name="category_ref"]').val(data.category_ref).trigger('change');
+         $('#edit_cover_page').val(data.cover_page);
+         $('#edit_course_ref').val(data.course_ref);
+         $('#edit_description').val(data.description);
+       });
+    }
   </script>
 
 @endpush

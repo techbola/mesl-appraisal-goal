@@ -165,6 +165,7 @@
   <script>
     $(function(){
         var options = {
+            todayHighlight: true,
             format: 'yyyy-mm-dd',
             autoclose: true,
         };

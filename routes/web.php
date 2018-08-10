@@ -346,6 +346,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('gls/{id}/edit2', 'GLController@edit2')->name('gls.edit2');
     Route::post('gls/create2', 'GLController@storeLoan');
     Route::patch('gls/{id}/edit2', 'GLController@update2');
+    Route::post('get_gl_details_using_account_type_id/{id}', 'GLController@get_gl_details_using_account_type_id');
+    Route::get('general_ledger_details/{id}', 'GLController@general_ledger_details');
+    Route::post('gl_edit_post', 'GLController@gl_edit_post');
     Route::resource('gls', 'GLController');
 
     Route::get('cash_entries/customer_transfer', 'CashEntryController@customer_transfer')->name('customer_transfer');
@@ -381,6 +384,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('LMS/show_course/{id}', 'CourseController@show_course')->name('ShowCourse');
     Route::get('course_material_with_id/{id}', 'CourseController@course_material_with_id');
     Route::get('get_c_category', 'CourseController@get_c_category');
+    Route::get('get_category_edit_data/{id}', 'CourseController@get_category_edit_data');
+    Route::post('submit_course_category_edit_form', 'CourseController@submit_course_category_edit_form');
+    Route::get('get_course_details/{id}', 'CourseController@get_course_details');
+    Route::post('submit_edit_course_form', 'CourseController@submit_edit_course_form');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
@@ -402,6 +409,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Transactions
     Route::get('transactions/showdetails', 'TransactionController@showDetails')->name('showDetails');
+    Route::post('transactions/show_searched_result', 'TransactionController@show_searched_result')->name('Show_Searched_Result');
     Route::get('transactions/transactionlist', 'TransactionController@TransactionList')->name('Transaction_List');
     Route::post('transactions/transactionlistrange', 'TransactionController@TransactionListRange')->name('Transaction_List_Range');
     Route::get('transactions/multipost', 'TransactionController@multipost')->name('transactions.multipost');
@@ -635,6 +643,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('courts', 'CourtController@index')->name('courts.index');
     Route::get('courts/create', 'CourtController@create')->name('courts.create');
     Route::post('courts', 'CourtController@store')->name('courts.store');
+
+    //  Business Relationship Types
+    Route::get('business-rel-types', 'BusinessRelationshipTypeController@index')->name('business-rel-types.index');
+    Route::get('business-rel-types/create', 'BusinessRelationshipTypeController@create')->name('business-rel-types.create');
+    Route::post('business-rel-types', 'BusinessRelationshipTypeController@store')->name('business-rel-types.store');
 });
 
 Route::get('/cls', function () {

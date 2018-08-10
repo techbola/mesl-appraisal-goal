@@ -15,14 +15,14 @@
 
   <div class="col-md-6">
     <div class="form-group">
-      {{ Form::label('CourtID', 'Court and Location') }} <span style="padding: 0 !important" class="form-add-more badge badge-success"><i class="fa fa-plus"></i></span>
+      {{ Form::label('CourtID', 'Court and Location') }} <span style="padding: 0 !important" class="form-add-more add-more-courts badge badge-success"><i class="fa fa-plus"></i></span>
       {{ Form::select('CourtID', [''=>'Select Court'] + $courts->pluck('Court', 'CourtRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Court", 'data-init-plugin' => "select2", 'required']) }}
     </div>
   </div>
 
   <div class="col-md-6">
     <div class="form-group">
-      {{ Form::label('ContactID', 'Solicitor') }}
+      {{ Form::label('ContactID', 'Solicitor') }} <span style="padding: 0 !important" class="form-add-more add-more-contacts badge badge-success"><i class="fa fa-plus"></i></span>
       {{ Form::select('ContactID', [''=>'Select Contact'] + $contacts->pluck('Customer', 'CustomerRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Contact", 'data-init-plugin' => "select2",]) }}
     </div>
   </div>
@@ -45,7 +45,7 @@
     <div class="form-group">
       {{ Form::label('StatusDate', 'Status Date' ) }}
       <div class="input-group date dp">
-        {{ Form::text('StatusDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
+        {{ Form::text('StatusDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
       </div>
     </div>
@@ -58,22 +58,12 @@
     </div>
   </div>
 
-  {{-- <div class="col-md-6">
-    <div class="form-group">
-      {{ Form::label('StatusDate', 'Status Date' ) }}
-      <div class="input-group date dp">
-        {{ Form::text('StatusDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
-        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-      </div>
-    </div>
-  </div> --}}
-
 
   <div class="col-md-6">
     <div class="form-group">
       {{ Form::label('AdjournmentDate', 'Adjournment Date' ) }}
       <div class="input-group date dp">
-        {{ Form::text('AdjournmentDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Start Date', 'required']) }}
+        {{ Form::text('AdjournmentDate', null, ['class' => 'form-control', 'placeholder' => 'Start Date']) }}
         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
       </div>
     </div>

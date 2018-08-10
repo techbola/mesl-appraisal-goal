@@ -3,9 +3,12 @@
 namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Cavidel\User;
 use Cavidel\Court;
 use Cavidel\Contact;
+use Cavidel\Country;
 use Cavidel\Litigation;
+use Cavidel\BusinessRelationshipType;
 use DB, Validator;
 use Cavidel\LitigationFile;
 
@@ -14,11 +17,28 @@ class LitigationController extends Controller
     // Add new schedule
     public function index()
     {
-        $litigations = Litigation::all();
+        $user  = auth()->user();
+        $users = User::whereHas('staff', function ($q) use ($user) {
+            $q->where('CompanyID', $user->CompanyID);
+        })->get();
+
+        if ($user->is_superadmin) {
+            $contacts = Contact::orderBy('Customer')->get();
+        } else {
+            $contacts = Contact::where('CompanyID', $user->staff->CompanyID)->orderBy('Customer')->get();
+        }
+
+        $litigations        = Litigation::all();
+        $countries          = Country::orderBy('Country', 'asc')->get();
+        $relationship_types = BusinessRelationshipType::select(['BusinessRelationshipTypeRef', 'RelationshipType'])->get();
         //  return business contacts created by current user;
         $contacts = Contact::where('InputterID', auth()->user()->id)->select(['CustomerRef', 'Customer', 'Department'])->get();
-        $courts   = Court::select(['CourtRef', 'Court', 'Location'])->get();
-        return view('litigation.index', compact('courts', 'contacts', 'litigations'));
+        $courts   = Court::select(['CourtRef', 'Court', 'Location'])->get()->transform(function ($item, $key) {
+            $item->Court = $item->Court . ' - ' . $item->Location;
+            return $item;
+        });
+
+        return view('litigation.index', compact('courts', 'contacts', 'litigations', 'relationship_types', 'countries', 'users'));
     }
 
     // stores litigation schedule
@@ -42,7 +62,7 @@ class LitigationController extends Controller
                 $litigation->save();
                 $litigation->comments()->create(['LitigationStatus' => $status]);
                 DB::commit();
-                return redirect()->route('litigation')->with('success', 'Litigation Schedule created successfully');
+                return redirect()->route('litigation.index')->with('success', 'Litigation Schedule created successfully');
             } catch (Exception $e) {
                 DB::rollback();
                 return back()->withInput()->withErrors($e->getMessages());
@@ -54,8 +74,11 @@ class LitigationController extends Controller
     {
         $litigation = Litigation::find($id);
         $contacts   = Contact::where('InputterID', auth()->user()->id)->select(['CustomerRef', 'Customer', 'Department'])->get();
-        $courts     = Court::select(['CourtRef', 'Court', 'Location'])->get();
-        $statuses   = $litigation->comments;
+        $courts     = Court::select(['CourtRef', 'Court', 'Location'])->get()->transform(function ($item, $key) {
+            $item->Court = $item->Court . ' - ' . $item->Location;
+            return $item;
+        });
+        $statuses = $litigation->comments;
         return view('litigation.show', compact('litigation', 'statuses', 'contacts', 'courts'));
     }
 
