@@ -101,7 +101,7 @@ class BillingController extends Controller
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ?
-                         Order By tblGL.AccountTypeID,tblGL.Description", [54]));
+                         Order By tblGL.AccountTypeID,tblGL.Description", [2]));
         $configs = Config::first();
         $gl      = \DB::table('tblCustomer')
             ->select('GLRef')
@@ -205,7 +205,25 @@ class BillingController extends Controller
 
     public function bill_payment(Request $request)
     {
-
+        $billcode   = $request->Reference1;
+        $userid     = \Auth::user()->staffId;
+        $getdetails = \DB::table('tblBilling')
+            ->select('ClientID')
+            ->where('GroupID', $billcode)
+            ->first();
+        $customer_ref = $getdetails->ClientID;
+        $trans        = \DB::statement("EXEC procPostBilling '$billcode', $userid ");
+        if ($trans) {
+            $cashentries = new CashEntry($request->all());
+            $this->validate($request, [
+                'Amount' => 'required',
+            ]);
+            if ($cashentries->save()) {
+                return redirect()->route('NotificationBilling', [$customer_ref, $billcode])->with('success', 'Bill Posting was successfully');
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
+            }
+        }
     }
 
 }
