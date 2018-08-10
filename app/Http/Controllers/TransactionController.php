@@ -5,6 +5,7 @@ use Cavidel\Customer;
 use Cavidel\GL;
 use Cavidel\PostingType;
 use Cavidel\Transaction;
+use Cavidel\TransactionMP;
 use Cavidel\TransactionType;
 use Illuminate\Http\Request;
 use Cavidel\AccountType;
@@ -177,7 +178,8 @@ class TransactionController extends Controller
 
             foreach ($request->type as $key => $type) {
                 // dd($request->amount[$key]);
-                $row                    = new Transaction;
+                $row                    = new TransactionMP;
+                $row->Code              = uniqid('MP-') . '-' . time();
                 $row->TransactionTypeID = $type;
                 $row->Amount            = $request->amount[$key];
                 $row->GLID              = $request->account[$key];
