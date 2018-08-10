@@ -228,7 +228,7 @@
                 </div>
               </div>
             `);
-        } else if(data.FromID == ToID) {
+        } else if(data.ToID == user_id) {
           var chats = Number($('#user_'+data.FromID).find('.new_chats_user').text());
           $('#user_'+data.FromID).find('.new_chats_user').show().text(chats + 1);
         }

@@ -10,7 +10,7 @@ use Cavidel\TaskUpdate;
 use Carbon;
 use DB;
 
-use Cavidel\StepUpdate;
+use Cavidel\StepBudget;
 use Cavidel\StepBudgetPayment;
 
 class TaskController extends Controller
@@ -40,7 +40,7 @@ class TaskController extends Controller
         $step->save();
 
         if (!empty($request->BudgetCost)) {
-          $pending = new StepUpdate;
+          $pending = new StepBudget;
           $pending->StepID = $step->StepRef;
           $pending->BudgetCost = $request->BudgetCost;
           $pending->CompanyID = $user->CompanyID;
@@ -81,7 +81,7 @@ class TaskController extends Controller
         $step->update();
 
         if (!empty($request->BudgetCost)){
-          $pending = new StepUpdate;
+          $pending = new StepBudget;
           $pending->StepID = $step->StepRef;
           $pending->BudgetCost = $request->BudgetCost;
           $pending->CompanyID = $user->CompanyID;
@@ -118,17 +118,30 @@ class TaskController extends Controller
     }
 
 
+    public function enter_step_budget()
+    {
+      $user = auth()->user();
+      $steps = Step::where('Done', '1')->where(function($query) use($user){
+        $query->whereHas('last_budget', function($query2) use($user){
+        $query2->where('Status', '0')->orWhere('Status', NULL);
+      })->orWhereDoesntHave('last_budget');
+    })->get();
+      $budgets = StepBudget::where('CompanyID', $user->CompanyID)->get();
+
+      return view('steps.enter_budget', compact('budgets', 'steps'));
+    }
+
     public function review_step_budget()
     {
       $user = auth()->user();
-      $updates = StepUpdate::where('CompanyID', $user->CompanyID)->get();
+      $updates = StepBudget::where('CompanyID', $user->CompanyID)->get();
 
       return view('steps.review_budget', compact('updates'));
     }
 
     public function approve_step_budget(Request $request, $id)
     {
-      $update = StepUpdate::find($id);
+      $update = StepBudget::find($id);
       $update->Status = '1';
       $update->update();
       return redirect()->back()->with('success', 'Budget was approved successfully');
@@ -136,7 +149,7 @@ class TaskController extends Controller
 
     public function reject_step_budget(Request $request, $id)
     {
-      $update = StepUpdate::find($id);
+      $update = StepBudget::find($id);
       $update->Status = '0';
       $update->update();
       return redirect()->back()->with('success', 'Budget was rejected successfully');
@@ -146,7 +159,7 @@ class TaskController extends Controller
     public function pay_step_budget()
     {
       $user = auth()->user();
-      $updates = StepUpdate::where('CompanyID', $user->CompanyID)->where('Status', '1')->get();
+      $updates = StepBudget::where('CompanyID', $user->CompanyID)->where('Status', '1')->get();
 
       return view('steps.pay_budget', compact('updates'));
     }
@@ -170,6 +183,16 @@ class TaskController extends Controller
       $payments = StepBudgetPayment::where('CompanyID', $user->CompanyID)->get();
 
       return view('steps.complete_payments', compact('payments'));
+    }
+
+    public function mark_step_payment(Request $request, $id)
+    {
+      $user = auth()->user();
+      $payment = StepBudgetPayment::find($id);
+      $payment->IsPaid = '1';
+      $payment->update();
+
+      return redirect()->back()->with('success', 'Payment marked as paid.');
     }
 
 }

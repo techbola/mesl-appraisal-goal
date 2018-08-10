@@ -13,9 +13,9 @@
     <div class="card-title">Review Budget</div>
     <table class="table table-bordered tableWithSearch">
       <thead>
+        <th>Project / Task</th>
         <th>Step Description</th>
         <th>Budget Cost</th>
-        <th>Task / Project</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th>Actions</th>
@@ -23,12 +23,12 @@
       <tbody>
         @foreach ($updates as $update)
           <tr>
-            <td>{{ $update->step->Step ?? '' }}</td>
-            <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
             <td class="small">
               <b>Task:</b> {{ $update->step->task->Task }}<br>
               <b>Project:</b> {{ $update->step->task->project->Project }}
             </td>
+            <td>{{ $update->step->Step ?? '' }}</td>
+            <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
             <td>{{ $update->step->StartDate ?? '' }}</td>
             <td>{{ $update->step->EndDate ?? '' }}</td>
             <td class="actions">
