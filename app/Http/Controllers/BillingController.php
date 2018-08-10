@@ -215,10 +215,8 @@ class BillingController extends Controller
         $customer_ref = $getdetails->ClientID;
         $trans        = \DB::statement("EXEC procPostBilling '$billcode', $userid ");
         if ($trans) {
-            $cashentries = new CashEntry($request->all());
-            $this->validate($request, [
-                'Amount' => 'required',
-            ]);
+            $cashentries                = new CashEntry($request->all());
+            $cashentries->PostingTypeID = 16;
             if ($cashentries->save()) {
                 return redirect()->route('NotificationBilling', [$customer_ref, $billcode])->with('success', 'Bill Posting was successfully');
             } else {
