@@ -405,7 +405,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('cash_entries', 'CashEntryController');
 
     // Transactions
-    Route::get('transactions/showdetails', 'TransactionController@showDetails');
+    Route::get('transactions/showdetails', 'TransactionController@showDetails')->name('showDetails');
     Route::post('transactions/show_searched_result', 'TransactionController@show_searched_result')->name('Show_Searched_Result');
     Route::get('transactions/transactionlist', 'TransactionController@TransactionList')->name('Transaction_List');
     Route::post('transactions/transactionlistrange', 'TransactionController@TransactionListRange')->name('Transaction_List_Range');
