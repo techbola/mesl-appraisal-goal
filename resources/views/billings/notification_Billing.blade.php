@@ -143,7 +143,7 @@
                                 <input type="hidden" name="ServiceDesc" id="service_desc">
                                 <input type="hidden" name="UserID" value="{{ $staff_id->StaffRef }}">
                                 {{-- <input type="hidden" name="Produt_ServiceType" id="product_service"> --}}
-                                {{-- <input type="hidden" name="ClientID" value="{{ $client_details->CustomerRef }}"> --}}
+                                <input type="hidden" name="ClientID" value="{{ $client_details->CustomerRef }}">
                                 <div class="pull-right">
                                     <input type="submit" class="btn btn-rounded btn-primary hide" id="add_to_list" value="Add to list">
                                 </div>
@@ -215,10 +215,11 @@
             </button>
             <div class="modal-dialog ">
               <div class="modal-content">
-                <div class="modal-header" style="background: #eee; color: #000">
+                
+                <div class="modal-body" style="background: #eee; color: #000">
+                  <div class="modal-header" style="background: #eee; color: #000">
                   <h5 class="text-left p-b-5"><span class="semi-bold">Bill Payment
                 </div><hr>
-                <div class="modal-body" style="background: #eee; color: #000">
                   <div class="row">
                     <div style="padding: 20px; margin-bottom: 20px">
                       <div class="col-md-12">
