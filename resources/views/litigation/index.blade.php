@@ -174,8 +174,11 @@
           e.preventDefault();
           $('#new_court').show();
           $('#new_court').modal('show');
-          var form = $("#courts-form");
-          form.submit(function(e) {
+          
+        });
+
+        var form1 = $("#courts-form");
+          form1.submit(function(e) {
             e.preventDefault();
             $.post('/courts', {
               Court: $('#Court').val(),
@@ -190,21 +193,23 @@
               }
             });
           });
-        });
 
         $('.add-more-contacts').click(function(e){
           e.preventDefault();
           $('#new_contact').show();
           $('#new_contact').modal('show');
-          var form = $("#contacts-form");
-          form.submit(function(e) {
+         
+        });
+
+         var form2 = $("#contacts-form");
+          form2.submit(function(e) {
             e.preventDefault();
             $.post('/courts', {
               Court: $('#Court').val(),
               Location: $('#Location').val()
             }, function(data, textStatus, xhr) {
               if(data.success === true){
-                $('#CourtID').append('<option selected value="'+ data.data.ContactRef +'">' +  data.data.Contact  + '</option>');
+                $('#CourtID').append('<option selected value="'+ data.data.ContactRef +'">' +  data.data.Contact + ' - ' + data.data.Location  + '</option>');
                  $('#new_contact').hide();
                  $('#Court').val('');
                  $('#Location').val('');
@@ -212,7 +217,6 @@
               }
             });
           });
-        });
 
         $('#new_schedule').on('hidden.bs.modal', function (e) {
           $('#new_court').modal('hide');
