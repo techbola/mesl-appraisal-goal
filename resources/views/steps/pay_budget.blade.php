@@ -5,16 +5,17 @@
 @endsection
 
 @section('page-title')
-  <span class="">Approve Budget Payment For Project Steps</span>
+  <span class="">Budget Payments</span>
 @endsection
 
 @section('content')
   <div class="card-box">
-    <div class="card-title">Review Budget</div>
+    <div class="card-title">Budget Payments</div>
     <table class="table table-bordered tableWithSearch">
       <thead>
-        <th>Step Description</th>
-        <th>Task / Project</th>
+        <th>Project / Task</th>
+        <th>Milestone</th>
+        <th>Project Manager</th>
         <th>Budget Cost</th>
         <th>Amount Paid</th>
         <th>Amount Outstanding</th>
@@ -26,18 +27,19 @@
       <tbody>
         @foreach ($updates as $update)
           <tr>
-            <td>{{ $update->step->Step ?? '' }}</td>
             <td class="small">
-              <b>Task:</b> {{ $update->step->task->Task }}<br>
-              <b>Project:</b> {{ $update->step->task->project->Project }}
+              <b>Project:</b> {{ $update->step->task->project->Project }}<br>
+              <b>Task:</b> {{ $update->step->task->Task }}
             </td>
-            <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
-            <td>{{ nairazify(number_format($update->step->payment_made)) }}</td>
-            <td>{{ nairazify(number_format($update->step->payment_outstanding)) }}</td>
+            <td>{{ $update->step->Step ?? '' }}</td>
+            <td>{{ $update->step->task->project->supervisor->FullName ?? '' }}</td>
+            <td>{{ ngn($update->BudgetCost + $update->Variation) }}</td>
+            <td>{{ ngn($update->step->payment_made) }}</td>
+            <td>{{ ngn($update->step->payment_outstanding) }}</td>
             <td>
               <form class="" action="{{ route('store_step_payment', $update->StepID) }}" method="post">
                 {{ csrf_field() }}
-                <input type="text" class="form-control input-sm smartinput" name="Amount" placeholder="Amount to pay">
+                <input type="text" class="form-control input-sm smartinput" name="Amount" placeholder="Amount to pay" autocomplete="off">
                 <button type="submit" name="button" class="btn btn-sm btn-success" onclick="$('#spinner').show()">Pay</button>
               </form>
             </td>

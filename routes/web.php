@@ -124,9 +124,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('enter_step_budget', 'TaskController@enter_step_budget')->name('enter_step_budget');
     Route::post('submit_budget/{id}', 'TaskController@submit_budget')->name('submit_budget');
+    Route::post('submit_variation/{id}', 'TaskController@submit_variation')->name('submit_variation');
     Route::get('review_step_budget', 'TaskController@review_step_budget')->name('review_step_budget');
     Route::patch('approve_step_budget/{id}', 'TaskController@approve_step_budget')->name('approve_step_budget');
     Route::patch('reject_step_budget/{id}', 'TaskController@reject_step_budget')->name('reject_step_budget');
+    Route::patch('bulk_approve_budget', 'TaskController@bulk_approve_budget')->name('bulk_approve_budget');
+    Route::patch('bulk_reject_budget', 'TaskController@bulk_reject_budget')->name('bulk_reject_budget');
     Route::get('pay_step_budget', 'TaskController@pay_step_budget')->name('pay_step_budget');
     Route::post('store_step_payment/{id}', 'TaskController@store_step_payment')->name('store_step_payment');
     Route::get('complete_step_payments', 'TaskController@complete_step_payments')->name('complete_step_payments');
