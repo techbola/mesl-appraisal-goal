@@ -89,6 +89,7 @@ class BillingController extends Controller
             ->where('ClientID', $client_id)
             ->where('GroupID', $billcode)
             ->get();
+        $outstanding             = \DB::select("EXEC procFinalBillAmount '$code'");
         $bill_details_collection = collect($processedbills);
         $buildings               = BuildingProject::all();
         $bill_amount             = $bill_details_collection->sum('Price');
@@ -110,7 +111,7 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'buildings', 'configs', 'gl', 'files'));
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'outstanding', 'buildings', 'configs', 'gl', 'files'));
     }
 
     public function get_product($cat_id)
