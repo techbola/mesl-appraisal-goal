@@ -9,19 +9,69 @@
 @endsection
 
 @section('content')
+
+  {{-- START TABS --}}
+  {{-- <ul class="nav nav-tabs outside">
+    <li class="active"><a data-toggle="tab" href="#complete">Completed Milestones</a></li>
+    <li><a data-toggle="tab" href="#incomplete">Incomplete Milestones</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="complete" class="tab-pane fade in active">
+    </div>
+    <div id="incomplete" class="tab-pane fade">
+
+      @include('steps.incomplete_milestones')
+
+    </div>
+  </div> --}}
+  {{-- END TABS --}}
+
+
+
+  <form action="" method="GET" onsubmit="$('#spinner').show()">
+    <div class="row m-b-20">
+      <div class="col-md-3 col-md-offset-2">
+        <div class="form-group">
+          <label for="">Project</label>
+          <select class="full-width select2" data-init-plugin="select2" name="project">
+            <option value="">Select Project</option>
+            @foreach ($projects as $project)
+              <option value="{{ $project->ProjectRef }}" {{ ($project_id == $project->ProjectRef)? 'selected':'' }}>{{ $project->Project }}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Milestone Status</label>
+          <select class="full-width select2" data-init-plugin="select2" name="status">
+            <option value="1" {{ ($status=='1')? 'selected':'' }}>Completed</option>
+            <option value="0" {{ ($status=='0')? 'selected':'' }}>Not Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <label></label>
+        <button type="submit" class="btn btn-info m-t-25 btn-cons">Fetch</button>
+        {{-- <a href="{{ url()->current() }}" class="btn btn-inverse m-t-25 btn-cons" onclick="$('#spinner').show()">Reset</a> --}}
+      </div>
+    </div>
+  </form>
+
+
   <div class="card-box">
     <div class="card-title">Budget Review</div>
-    <div class="checkbox check-info">
-        <input type="checkbox" id="select-all">
-        <label for="select-all">Bulk Select</label>
-      </div>
-      <button style="margin-left: 10px" class="approve-btn btn btn-sm btn-success">Approve</button>
-      <button style="margin-left: 10px" class="reject-btn btn btn-sm btn-danger">Reject</button>
+    <div class="checkbox check-info pull-left">
+      <input type="checkbox" id="select-all">
+      <label for="select-all">Bulk Select</label>
+    </div>
+    <button style="margin-left: 10px" class="approve-btn btn btn-sm btn-success">Approve</button>
+    <button style="margin-left: 10px" class="reject-btn btn btn-sm btn-danger">Reject</button>
 
     <table class="table table-bordered tableWithSearch">
       <thead>
         <th width="4%"></th>
-        <th>Project / Task</th>
+        <th>Task</th>
         <th width="25%">Milestone</th>
         <th>Project Manager</th>
         <th>Budget Cost</th>
@@ -42,9 +92,8 @@
                 </div>
               @endif
             </td>
-            <td class="small">
-              <b>Project:</b> {{ $update->step->task->project->Project }}<br>
-              <b>Task:</b> {{ $update->step->task->Task }}
+            <td>
+              {{ $update->step->task->Task }}
             </td>
             <td>{{ $update->step->Step ?? '' }}</td>
             <td>{{ $update->step->task->project->supervisor->FullName ?? '' }}</td>
@@ -55,14 +104,14 @@
             <td>{{ ngn($update->BudgetCost + $update->Variation) ?? '&mdash;' }}</td>
             <td class="actions">
               @if ($update->Status == NULL)
-                <a class="btn btn-sm btn-success" onclick="confirm2('Approve this budget?', '', 'approve_budget')">Approve</a>
-                <a class="btn btn-sm btn-danger" onclick="confirm2('Reject this budget?', 'The initiator would be able to submit another request.', 'reject_budget')">Reject</a>
+                <a class="btn btn-sm btn-success" onclick="confirm2('Approve this budget?', '', 'approve_budget_{{ $update->id }}')">Approve</a>
+                <a class="btn btn-sm btn-danger" onclick="confirm2('Reject this budget?', 'The initiator would be able to submit another request.', 'reject_budget_{{ $update->id }}')">Reject</a>
 
-                <form class="hidden" id="approve_budget" action="{{ route('approve_step_budget', $update->id) }}" method="post">
+                <form class="hidden" id="approve_budget_{{ $update->id }}" action="{{ route('approve_step_budget', $update->id) }}" method="post">
                   {{ csrf_field() }}
                   {{ method_field('PATCH') }}
                 </form>
-                <form class="hidden" id="reject_budget" action="{{ route('reject_step_budget', $update->id) }}" method="post">
+                <form class="hidden" id="reject_budget_{{ $update->id }}" action="{{ route('reject_step_budget', $update->id) }}" method="post">
                   {{ csrf_field() }}
                   {{ method_field('PATCH') }}
                 </form>
@@ -77,6 +126,7 @@
       </tbody>
     </table>
   </div>
+
 @endsection
 
 @push('scripts')

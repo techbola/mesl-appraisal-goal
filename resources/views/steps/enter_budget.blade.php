@@ -10,20 +10,41 @@
 
 @section('content')
 
-  {{-- START TABS --}}
-  <ul class="nav nav-tabs outside">
-    <li class="active"><a data-toggle="tab" href="#complete">Completed Milestones</a></li>
-    <li><a data-toggle="tab" href="#incomplete">Incomplete Milestones</a></li>
-  </ul>
-  <div class="tab-content">
-    <div id="complete" class="tab-pane fade in active">
+  <form action="" method="GET" onsubmit="$('#spinner').show()">
+    <div class="row m-b-20">
+      <div class="col-md-3 col-md-offset-2">
+        <div class="form-group">
+          <label for="">Project</label>
+          <select class="full-width select2" data-init-plugin="select2" name="project">
+            <option value="">Select Project</option>
+            @foreach ($projects as $project)
+              <option value="{{ $project->ProjectRef }}" {{ ($project_id == $project->ProjectRef)? 'selected':'' }}>{{ $project->Project }}</option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Milestone Status</label>
+          <select class="full-width select2" data-init-plugin="select2" name="status">
+            <option value="1" {{ ($status=='1')? 'selected':'' }}>Completed</option>
+            <option value="0" {{ ($status=='0')? 'selected':'' }}>Not Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <label></label>
+        <button type="submit" class="btn btn-info m-t-25 btn-cons">Fetch</button>
+        {{-- <a href="{{ url()->current() }}" class="btn btn-inverse m-t-25 btn-cons" onclick="$('#spinner').show()">Reset</a> --}}
+      </div>
+    </div>
+  </form>
 
-
-      <div class="card-box">
+  <div class="card-box">
         <div class="card-title">Budget Entry</div>
         <table class="table table-bordered tableWithSearch">
           <thead>
-            <th width="20%">Project / Task</th>
+            <th width="20%">Task</th>
             <th width="20%">Milestone</th>
             <th>Start Date</th>
             <th>End Date</th>
@@ -34,9 +55,8 @@
           <tbody>
             @foreach ($steps as $step)
               <tr>
-                <td class="small">
-                  <b>Project:</b> {{ $step->task->project->Project }}<br>
-                  <b>Task:</b> {{ $step->task->Task }}
+                <td>
+                  {{ $step->task->Task }}
                 </td>
                 <td>{{ $step->Step ?? '' }}</td>
                 <td data-sort="{{ $step->StartDate }}">{{ nice_date($step->StartDate) ?? '' }}</td>
@@ -83,16 +103,6 @@
           </tbody>
         </table>
       </div>
-
-
-    </div>
-    <div id="incomplete" class="tab-pane fade">
-
-      @include('steps.incomplete_milestones')
-
-    </div>
-  </div>
-  {{-- END TABS --}}
 
 @endsection
 
