@@ -4,6 +4,7 @@ namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Cavidel\ProjectTask;
+use Cavidel\Project;
 use Cavidel\Step;
 use Cavidel\Staff;
 use Cavidel\TaskUpdate;
@@ -118,18 +119,37 @@ class TaskController extends Controller
     }
 
 
-    public function enter_step_budget()
+    public function enter_step_budget($project = null, $status = null)
     {
       $user = auth()->user();
-      $steps = Step::where('Done', '1')->where(function($query) use($user){
-        $query->whereHas('last_budget', function($query2) use($user){
-        $query2->where('Status', '0')->orWhere('Status', NULL);
-        })->orWhereDoesntHave('last_budget');
-      })->get();
-      $budgets = StepBudget::where('CompanyID', $user->CompanyID)->get();
-      $incomplete_steps = Step::where('Done', '0')->get();
 
-      return view('steps.enter_budget', compact('budgets', 'steps', 'incomplete_steps'));
+      $budgets = StepBudget::where('CompanyID', $user->CompanyID)->get();
+      $incomplete_steps = Step::where('Done', '0')->with('task.project.supervisor')->get();
+      $projects = Project::where('CompanyID', $user->CompanyID)->get();
+
+      $project_id = $_GET['project'] ?? '';
+      $status = $_GET['status'] ?? '1';
+
+      if (empty($project_id)) {
+        $project = Project::first();
+        $project_id = $project->ProjectRef;
+        $steps = $project->steps()->where('Done', $status)->get();
+        // $steps = Step::where('Done', $status)->where(function($query) use($user, $status){
+        //   $query->whereHas('last_budget', function($query2) use($user, $status){
+        //   $query2->where('Status', '0')->orWhere('Status', NULL)->orWhere('Status', '1');
+        //   })->orWhereDoesntHave('last_budget');
+        // })->orderBy('CompletedDate', 'desc')->get();
+      } else {
+        $project = Project::find($project_id);
+        $steps = $project->steps()->where('Done', $status)->get();
+        // $steps = $project->steps()->where('Done', $status)->where(function($query) use($user, $status){
+        //   $query->whereHas('last_budget', function($query2) use($user, $status){
+        //   $query2->where('Status', '0')->orWhere('Status', NULL)->orWhere('Status', '1');
+        //   })->orWhereDoesntHave('last_budget');
+        // })->orderBy('CompletedDate', 'desc')->get();
+      }
+
+      return view('steps.enter_budget', compact('select_projects', 'budgets', 'steps', 'incomplete_steps', 'projects', 'project_id', 'status'));
     }
 
     public function submit_budget(Request $request, $id)
@@ -149,20 +169,39 @@ class TaskController extends Controller
     public function submit_variation(Request $request, $id)
     {
       $step = Step::find($id);
-      if (!empty($request->Variation)){
+      if (!empty($step->last_budget) && !empty($request->Variation)){
         $budget = $step->last_budget;
         $budget->Variation = $request->Variation;
         $budget->update();
-        return redirect()->back()->with('success', 'Budget sent successfully');
+        return redirect()->back()->with('success', 'Variation submitted successfully');
+      } else {
+        return redirect()->back()->with('error', 'No budget found. Submit a budget cost first.');
       }
     }
 
-    public function review_step_budget()
+    public function review_step_budget($project = null, $status = null)
     {
       $user = auth()->user();
-      $updates = StepBudget::where('CompanyID', $user->CompanyID)->orderBy('created_at', 'desc')->get();
+      $projects = Project::where('CompanyID', $user->CompanyID)->get();
+      $project_id = $_GET['project'] ?? '';
+      $status = $_GET['status'] ?? '1';
 
-      return view('steps.review_budget', compact('updates'));
+      if (empty($project_id)) {
+        // $project = Project::find($project_id);
+        $updates = StepBudget::where('CompanyID', $user->CompanyID)->whereHas('step', function($query) use($status){
+          $query->where('Done', $status);
+        })->orderBy('created_at', 'desc')->get();
+      } else {
+        $project = Project::find($project_id);
+        $updates = StepBudget::where('CompanyID', $user->CompanyID)->whereHas('step', function($query1) use($project_id, $status){
+          $query1->where('Done', $status)->whereHas('task', function($query2) use($project_id, $status){
+            $query2->where('ProjectID', $project_id);
+          });
+        })->orderBy('created_at', 'desc')->get();
+      }
+
+
+      return view('steps.review_budget', compact('updates', 'project_id', 'status', 'projects'));
     }
 
     public function approve_step_budget(Request $request, $id)

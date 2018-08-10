@@ -122,7 +122,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('edit_step/{id}', 'TaskController@edit_step')->name('edit_step');
     Route::delete('delete_step/{id}', 'TaskController@delete_step')->name('delete_step');
 
-    Route::get('enter_step_budget', 'TaskController@enter_step_budget')->name('enter_step_budget');
+    Route::get('enter_step_budget/{project?}/{status?}', 'TaskController@enter_step_budget')->name('enter_step_budget');
     Route::post('submit_budget/{id}', 'TaskController@submit_budget')->name('submit_budget');
     Route::post('submit_variation/{id}', 'TaskController@submit_variation')->name('submit_variation');
     Route::get('review_step_budget', 'TaskController@review_step_budget')->name('review_step_budget');
