@@ -691,15 +691,16 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? and tblGL.CustomerID > ?
-                         Order By tblGL.Description", [19,1]));
+                         Order By tblGL.Description", [19, 1]));
 
-        $cashentries = \DB::table('tblCashEntry')
-            ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
-            ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-        // ->where('PostingTypeID', '=', 1)
-            ->where('tblCashEntry.CurrencyID', 1)
-            ->where('tblCashEntry.Posted', 0)
-            ->get();
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+                         tblCashEntry.Narration
+FROM            tblCashEntry INNER JOIN
+                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 14) order by tblCashEntry.CashEntryRef desc
+
+            "));
         return view('cash_entries.receipts', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
     }
 
@@ -925,13 +926,15 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          Where (tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?) and (tblGL.Description like '%Petty Cash%' OR tblGL.Description like '%Card%')
                          Order By tblGL.AccountTypeID,tblGL.Description", [2, 3]));
 
-        $cashentries = \DB::table('tblCashEntry')
-            ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
-            ->leftJoin('tblCustomer', 'tblGL.CustomerID', '=', 'tblCustomer.CustomerRef')
-        // ->where('PostingTypeID', '=', 1)
-            ->where('tblCashEntry.CurrencyID', 1)
-        // ->where('tblCashEntry.Posted', 0)
-            ->get();
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+                         tblCashEntry.Narration
+FROM            tblCashEntry INNER JOIN
+                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 15) order by tblCashEntry.CashEntryRef desc
+
+            "));
+
         return view('cash_entries.Imprest', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
     }
 
@@ -954,4 +957,200 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         $deletion = \DB::table('tblCashEntry')->where('CashEntryRef', $ref)->delete();
         return redirect()->back()->with('successs', 'Posting Deleted Successfully');
     }
+
+    public function postReceipts(Request $request)
+    {
+        foreach ($request->cash_entry_ref as $ref) {
+            $cash_entry           = CashEntry::find($ref);
+            $cash_entry->PostFlag = 1;
+            $cash_entry->save();
+        }
+        return redirect()->back()->with('successs', 'Reciept(s) Sent for approval');
+    }
+
+    public function show_receipt_posting()
+    {
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+                         tblCashEntry.Narration
+FROM            tblCashEntry INNER JOIN
+                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblCashEntry.ApprovedFlag = 0)
+
+            "));
+        return view('cash_entries.approve_receipt', compact('cashentries'));
+    }
+
+    public function reject_receipt_posting_approvals(Request $request)
+    {
+        // dd($request->all());
+        foreach ($request->CashEntryRef as $ref) {
+            $cash_entry               = CashEntry::find($ref);
+            $cash_entry->PostFlag     = 0;
+            $cash_entry->ApprovedFlag = 0;
+            $cash_entry->save();
+        }
+
+        return 'done';
+    }
+
+    public function submit_Receipt_for_approval(Request $request)
+    {
+        foreach ($request->CashEntryRef as $ref) {
+            $cash_entry               = CashEntry::find($ref);
+            $cash_entry->ApprovedFlag = 1;
+            $cash_entry->save();
+        }
+        return 'done';
+    }
+
+    public function submit_imprest_for_posting(Request $request)
+    {
+        // dd($request->all());
+        foreach ($request->CashEntryRef as $ref) {
+            $cash_entry           = CashEntry::find($ref);
+            $cash_entry->PostFlag = 1;
+            $cash_entry->save();
+        }
+
+        return 'done';
+    }
+
+    public function reject_imprest_posting_approvals(Request $request)
+    {
+        // dd($request->all());
+        foreach ($request->CashEntryRef as $ref) {
+            $cash_entry               = CashEntry::find($ref);
+            $cash_entry->PostFlag     = 0;
+            $cash_entry->ApprovedFlag = 0;
+            $cash_entry->save();
+        }
+
+        return 'done';
+    }
+
+    public function submit_imprest_for_approval(Request $request)
+    {
+        foreach ($request->CashEntryRef as $ref) {
+            $cash_entry               = CashEntry::find($ref);
+            $cash_entry->ApprovedFlag = 1;
+            $cash_entry->save();
+        }
+        return 'done';
+    }
+
+    public function show_approve_receipt()
+    {
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+                         tblCashEntry.Narration
+FROM            tblCashEntry INNER JOIN
+                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 14)
+
+            "));
+        return view('cash_entries.approve_receipt', compact('cashentries'));
+    }
+
+    public function show_approve_imprest()
+    {
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+                         tblCashEntry.Narration
+FROM            tblCashEntry INNER JOIN
+                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 15)
+
+            "));
+        return view('cash_entries.approve_imprest', compact('cashentries'));
+    }
+
+    public function receipt_edit($id)
+    {
+        $entry              = CashEntry::where('CashEntryRef', $id)->first();
+        $configs            = Config::first();
+        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ?
+                         Order By tblGL.Description", [54]));
+
+        $credit_acct_details = collect(\DB::select("SELECT GLRef,  tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ? and tblGL.CustomerID > ?
+                         Order By tblGL.Description", [19, 1]));
+        $cashentries = CashEntry::all();
+        return view('cash_entries.receipt_edit', compact('cashentries', 'entry', 'debit_acct_details', 'credit_acct_details', 'configs', 'customer_details'));
+    }
+
+    public function update_receipt(Request $request, $id)
+    {
+        $cashentries = \DB::table('tblCashEntry')->where('CashEntryRef', $id);
+        if ($cashentries->update($request->except(['_token', '_method']))) {
+            return redirect()->route('Receipts')->with('success', 'Receipt was updated successfully');
+        } else {
+            return back()->withInput()->with('error', 'Receipt failed to update');
+        }
+    }
+
+    public function delete_receipt(Request $request)
+    {
+        $ref      = $request->CashEntryRef;
+        $deletion = \DB::table('tblCashEntry')->where('CashEntryRef', $ref)->delete();
+        return redirect()->back()->with('successs', 'Posting Deleted Successfully');
+    }
+
+    public function delete_imprest(Request $request)
+    {
+        $ref      = $request->CashEntryRef;
+        $deletion = \DB::table('tblCashEntry')->where('CashEntryRef', $ref)->delete();
+        return redirect()->back()->with('successs', 'Posting Deleted Successfully');
+    }
+
+    public function imprest_edit($id)
+    {
+        $entry              = CashEntry::where('CashEntryRef', $id)->first();
+        $configs            = Config::first();
+        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ?
+                         Order By tblGL.Description", [54]));
+
+        $credit_acct_details = collect(\DB::select("SELECT GLRef,  tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ? and tblGL.CustomerID > ?
+                         Order By tblGL.Description", [19, 1]));
+        $cashentries = CashEntry::all();
+        return view('cash_entries.imprest_edit', compact('cashentries', 'entry', 'debit_acct_details', 'credit_acct_details', 'configs', 'customer_details'));
+    }
+
+    public function update_imprest(Request $request, $id)
+    {
+        $cashentries = \DB::table('tblCashEntry')->where('CashEntryRef', $id);
+        if ($cashentries->update($request->except(['_token', '_method']))) {
+            return redirect()->route('Imprest')->with('success', 'Imprest was updated successfully');
+        } else {
+            return back()->withInput()->with('error', 'Imprest failed to update');
+        }
+    }
+
 }

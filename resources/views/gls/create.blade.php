@@ -118,7 +118,7 @@ tfoot{
 			</div>
 		</div><div class="clearfix"></div> --}}
 
-			<table id="transactions" class="table tableWithSearch table-striped table-bordered">
+			<table id="transactions" class="table tableWithExportOptions">
 				<thead>
 					<th>GL Ref</th>
 					<th>Description</th>
@@ -145,6 +145,7 @@ tfoot{
 
 @push('scripts')
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="{{ asset('js/jquery.tabledit.js') }}"></script>
 	<script>
 
 		$('#btnFillSizeToggler2').click(function(event) {
@@ -191,7 +192,7 @@ tfoot{
 			
 		}
 	</script>
-	<script src="{{ asset('js/jquery.tabledit.js') }}"></script>
+	
 <script>
   $.ajaxSetup({
     headers: {
