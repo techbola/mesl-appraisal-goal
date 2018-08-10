@@ -405,7 +405,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('cash_entries', 'CashEntryController');
 
     // Transactions
-    Route::get('transactions/showdetails', 'TransactionController@showDetails');
+    Route::get('transactions/showdetails', 'TransactionController@showDetails')->name('showDetails');
     Route::post('transactions/show_searched_result', 'TransactionController@show_searched_result')->name('Show_Searched_Result');
     Route::get('transactions/transactionlist', 'TransactionController@TransactionList')->name('Transaction_List');
     Route::post('transactions/transactionlistrange', 'TransactionController@TransactionListRange')->name('Transaction_List_Range');
@@ -640,6 +640,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('courts', 'CourtController@index')->name('courts.index');
     Route::get('courts/create', 'CourtController@create')->name('courts.create');
     Route::post('courts', 'CourtController@store')->name('courts.store');
+
+    //  Business Relationship Types
+    Route::get('business-rel-types', 'BusinessRelationshipTypeController@index')->name('business-rel-types.index');
+    Route::get('business-rel-types/create', 'BusinessRelationshipTypeController@create')->name('business-rel-types.create');
+    Route::post('business-rel-types', 'BusinessRelationshipTypeController@store')->name('business-rel-types.store');
 });
 
 Route::get('/cls', function () {

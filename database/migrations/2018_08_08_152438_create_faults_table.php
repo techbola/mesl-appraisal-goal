@@ -13,8 +13,16 @@ class CreateFaultsTable extends Migration
      */
     public function up()
     {
-        Schema::create('faults', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('tblAssetFault', function (Blueprint $table) {
+            $table->increments('AssetFaultRef');
+            $table->integer('AssetID');
+            $table->string('AssetFault');
+            $table->date('ReportDate')->nullable();
+            $table->date('AcknowledgedDate')->nullable();
+            $table->date('EstimatedReturnedDate')->nullable();
+            $table->text('ConditionOnReturn');
+            $table->integer('status');
+            $table->decimal('EstimatedCost', 18, 2);
             $table->timestamps();
         });
     }
@@ -26,6 +34,6 @@ class CreateFaultsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('faults');
+        Schema::dropIfExists('tblAssetFault');
     }
 }

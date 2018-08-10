@@ -13,8 +13,13 @@ class CreateAssetMaintenancesTable extends Migration
      */
     public function up()
     {
-        Schema::create('asset_maintenances', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('tblAssetMaintenance', function (Blueprint $table) {
+            $table->increments('AssetMaintenanceRef');
+            $table->integer('AssetID');
+            $table->integer('MaintenanceInterval');
+            $table->date('LastMaintenanceDate');
+            $table->date('NextMaintenanceDate');
+            $table->integer('ContactID'); // from contacts
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ class CreateAssetMaintenancesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asset_maintenances');
+        Schema::dropIfExists('tblAssetMaintenance');
     }
 }

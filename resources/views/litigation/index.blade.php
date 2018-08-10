@@ -22,7 +22,7 @@
       padding-left: 0 !important
     }
 
-    #new_court .modal-content {
+    #new_court .modal-content, #new_contact .modal-content {
       box-shadow: 0 0 50px #000;
     }
 
@@ -130,6 +130,29 @@
       <!-- /.modal-content -->
     </div>
 
+    <!---->
+    <div class="modal fade stick-up" id="new_contact">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" onclick="$('#new_contact').hide()" aria-hidden="true">&times;</button>
+            <h5 class="card-title">New Business Contact</h5>
+          </div>
+          <div class="modal-body">
+            @include('errors.list')
+            {!! Form::open(['action' => 'ContactController@save_contact', 'role' => 'form']) !!}
+            @include('contacts.form')
+            <div class="text-right m-t-10">
+              <button type="button" class="btn btn-default" onclick="$('#new_contact').hide()">Close</button>
+              <button type="submit" class="btn btn-info">Submit</button>
+            </div>
+            {!! Form::close() !!}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/-->
+
   </div>
   <!-- /.modal-dialog -->
 
@@ -148,7 +171,7 @@
         };
         $('.dp').datepicker(options);
 
-        $('.form-add-more').click(function(e){
+        $('.add-more-courts').click(function(e){
           e.preventDefault();
           $('#new_court').show();
           $('#new_court').modal('show');
@@ -170,8 +193,32 @@
           });
         });
 
+        $('.add-more-contacts').click(function(e){
+          e.preventDefault();
+          $('#new_contact').show();
+          $('#new_contact').modal('show');
+          var form = $("#contacts-form");
+          form.submit(function(e) {
+            e.preventDefault();
+            $.post('/courts', {
+              Court: $('#Court').val(),
+              Location: $('#Location').val()
+            }, function(data, textStatus, xhr) {
+              if(data.success === true){
+                $('#CourtID').append('<option selected value="'+ data.data.ContactRef +'">' +  data.data.Contact  + '</option>');
+                 $('#new_contact').hide();
+                 $('#Court').val('');
+                 $('#Location').val('');
+                 $('#new_contact').modal('handleUpdate');
+              }
+            });
+          });
+        });
+
         $('#new_schedule').on('hidden.bs.modal', function (e) {
           $('#new_court').modal('hide');
+           $('#new_contact').modal('hide');
+           // $('#new_contact').modal('hide');
         });   
     });
   </script>
