@@ -245,7 +245,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      .done(function(res, status, xhr) {
          // Navigate to the list after succesful posting to the server
          if(xhr.status == 200) {
-           document.location.href = 'transactions/multipost_approvallist';
+           document.location.href = '/transactions/multipost_approvallist';
          } else {
             alert('approval failed');
             return false
