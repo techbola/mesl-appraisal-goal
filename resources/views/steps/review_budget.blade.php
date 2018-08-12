@@ -10,6 +10,12 @@
 
 @section('content')
 
+  <style media="screen">
+    tbody > tr > td {
+      font-size: 12px !important;
+    }
+  </style>
+
   {{-- START TABS --}}
   {{-- <ul class="nav nav-tabs outside">
     <li class="active"><a data-toggle="tab" href="#complete">Completed Milestones</a></li>
@@ -74,7 +80,7 @@
       <thead>
         <th width="4%"></th>
         <th>Task</th>
-        <th width="25%">Milestone</th>
+        <th width="15%">Milestone</th>
         <th>Project Manager</th>
         <th>Budget Cost</th>
         {{-- <th>Start Date</th>
@@ -82,6 +88,7 @@
         <th>Variation</th>
         <th>Total</th>
         <th>Actions</th>
+        <th>Payment Status</th>
       </thead>
       <tbody>
         @foreach ($updates as $update)
@@ -90,7 +97,7 @@
               @if ($update->Status == NULL)
                 <div class="checkbox check-info">
                   <input type="checkbox" id="select-all-child-{{ $update->id }}" class="select-all-child" value="{{ $update->id }}">
-                  <label for="select-all-child-{{ $update->id }}"></label>
+                  <label for="select-all-child-{{ $update->id }}" class="m-0 p-0"></label>
                 </div>
               @endif
             </td>
@@ -103,17 +110,17 @@
             {{-- <td>{{ $update->step->StartDate ?? '' }}</td>
             <td>{{ $update->step->EndDate ?? '' }}</td> --}}
             <td>{{ ngn($update->Variation) ?? '&mdash;' }}</td>
-            <td>{{ ngn($update->BudgetCost + $update->Variation) ?? '&mdash;' }}</td>
+            <td class="bold">{{ ngn($update->BudgetCost + $update->Variation) ?? '&mdash;' }}</td>
             <td class="actions">
               @if ($update->Status == NULL)
                 @if ($status != '0')
-                  <a class="btn btn-sm btn-success" onclick="confirm2('Approve this budget?', '', 'approve_budget_{{ $update->id }}')">Approve</a>
+                  <a class="btn btn-xs btn-success" onclick="confirm2('Approve this budget?', '', 'approve_budget_{{ $update->id }}')">Approve</a>
                   <form class="hidden" id="approve_budget_{{ $update->id }}" action="{{ route('approve_step_budget', $update->id) }}" method="post">
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}
                   </form>
                 @endif
-                <a class="btn btn-sm btn-danger" onclick="confirm2('Reject this budget?', 'The initiator would be able to submit another request.', 'reject_budget_{{ $update->id }}')">Reject</a>
+                <a class="btn btn-xs btn-danger" onclick="confirm2('Reject this budget?', 'The initiator would be able to submit another request.', 'reject_budget_{{ $update->id }}')">Reject</a>
 
                 <form class="hidden" id="reject_budget_{{ $update->id }}" action="{{ route('reject_step_budget', $update->id) }}" method="post">
                   {{ csrf_field() }}
@@ -123,6 +130,14 @@
                 <span class="text-success">Approved</span>
               @elseif($update->Status == '0')
                 <span class="text-danger">Rejected</span>
+              @endif
+            </td>
+            <td>
+              @if ($update->PaymentRejectedFlag == '1')
+                <span class="text-danger">Declined</span><br>
+                "<span>{{ $update->Comment }}</span>"
+              @else
+                <span class="">In Progress</span>
               @endif
             </td>
           </tr>
