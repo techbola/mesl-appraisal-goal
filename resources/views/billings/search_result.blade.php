@@ -79,7 +79,8 @@
                   <a href="#" data-id="{{ $result->CustomerRef }}" data-pat="{{ $result->Name }}"  data-target="#modalFillIn"  data-toggle="modal" id="btnFillSizeToggler2" class="btn btn-xs btn-success"><i class="fa fa-cc-mastercard"></i>  Create Bill</a>
                   <a href="{{ route('View_Client_Bill_List',[$result->CustomerRef]) }}" data-toggle="tooltip" data-placement="top" title="View Bill(s)" class="btn btn-xs btn-warning"><i class="fa fa-clipboard">View bill</i></a>
                   <a href="{{ route('Client_Document_List',[$result->CustomerRef]) }}" data-toggle="tooltip" data-placement="top" title="Documents" title="" class="btn btn-xs btn-info"><i class="fa fa-file-text-o"></i>  Documents</a>
-                  <a href="#" data-toggle="modal" data-target="#details" class="btn btn-inverse btn-xs" onclick="customer_details({{ $result->CustomerRef }})">Details</a>
+                  {{-- <a href="#" data-toggle="modal" data-target="#details" class="btn btn-inverse btn-xs" onclick="customer_details({{ $result->CustomerRef }})">Details</a> --}}
+                  <a href="#" data-toggle="modal" data-target="#edit_client_form" class="btn btn-primary btn-xs" onclick="customer_edit_details({{ $result->CustomerRef }})">Edit Details</a>
                   {{-- <a href="{{ route('facility-management.complaints.show',[$result->CustomerRef]) }}" title="" class="btn btn-xs btn-primary"><i class="fa fa-file-text-o"></i> Fix My House</a> --}}
                 </td>
               </tr>
@@ -107,7 +108,7 @@
                   <div class="row">
                     <div class="col-md-9" style="color: #000">
                      A new bill will be created for <span style="font-weight: 800" id="pat_name"></span> on Click of the button
-                    </div>
+                    </div><hr>
                     <div class="col-md-3 no-padding sm-m-t-10 sm-text-center">
                       {{ Form::open(['action' => 'BillingController@new_bill', 'autocomplete' => 'off', 'role' => 'form']) }}
                             <input type="hidden" name="client_id" id="getValue">
@@ -212,6 +213,37 @@
 
                     </div>
                     <input type="submit" class="btn btn-sm btn-info pull-right" value="Create New Client"> --}}
+                    @include('billings.client_form')
+                  {{ Form::close() }}
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+                </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+      </div>
+
+
+      <div class="page-content-wrapper ">
+<div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="edit_client_form" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div style="background: #fff; width: 900px; padding: 30px">
+                <div class="modal-header">
+                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #000">Edit Client Details</span></h5>
+                </div>
+                <div class="modal-body">
+                  {{ Form::open(['action' => 'ClientController@store', 'autocomplete' => 'off', 'role' => 'form']) }}
                     @include('billings.client_form')
                   {{ Form::close() }}
                 </div>
@@ -378,6 +410,13 @@
           </ul>
         `);
       });
+    }
+  </script>
+
+  <script>
+    function customer_edit_details(id)
+    {
+      alert('Jesus');
     }
   </script>
 
