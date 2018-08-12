@@ -678,6 +678,7 @@
       <!-- timeout -->
       <script src="{{ asset('js/jquery.idle.min.js') }}"></script>
       <script src="{{ asset('js/officemate-idler.js') }}"></script>
+      {{-- <script src="{{ asset('js/compiled.js') }}"></script> --}}
       <!-- end timeout script-->
 
 

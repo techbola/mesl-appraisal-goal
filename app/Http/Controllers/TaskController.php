@@ -208,6 +208,7 @@ class TaskController extends Controller
     {
       $update = StepBudget::find($id);
       $update->Status = '1';
+      $update->PaymentRejectedFlag = '0';
       $update->ApprovedBy = auth()->user()->id;
       $update->ApprovedDate = Carbon::now();
       $update->update();
@@ -220,6 +221,7 @@ class TaskController extends Controller
         foreach ($request->budget_ids as $id) {
           $update = StepBudget::find($id);
           $update->Status = '1';
+          $budget->PaymentRejectedFlag = '0';
           $update->ApprovedBy = auth()->user()->id;
           $update->ApprovedDate = Carbon::now();
           $update->update();
@@ -254,22 +256,39 @@ class TaskController extends Controller
     public function pay_step_budget()
     {
       $user = auth()->user();
-      $updates = StepBudget::where('CompanyID', $user->CompanyID)->where('Status', '1')->get();
+      $updates = StepBudget::where('CompanyID', $user->CompanyID)->where('Status', '1')->where('PaymentRejectedFlag', '0')->get();
 
       return view('steps.pay_budget', compact('updates'));
+    }
+
+    public function reject_step_payment(Request $request)
+    {
+      $user = auth()->user();
+      $budget = StepBudget::find($request->budget_id);
+      $budget->PaymentRejectedFlag = '1';
+      $budget->Status = NULL;
+      $budget->Comment = $request->comment;
+      $budget->update();
+      return 'OK';
     }
 
     public function store_step_payment(Request $request, $id)
     {
       $user = auth()->user();
-      $payment = new StepBudgetPayment;
-      $payment->StepID = $id;
-      $payment->Amount = $request->Amount;
-      $payment->InputterID = $user->id;
-      $payment->CompanyID = $user->CompanyID;
-      $payment->save();
+      $step = Step::find($id);
+      if ($request->Amount <= $step->payment_outstanding) {
+        $payment = new StepBudgetPayment;
+        $payment->StepID = $id;
+        $payment->Amount = $request->Amount;
+        $payment->InputterID = $user->id;
+        $payment->CompanyID = $user->CompanyID;
+        $payment->save();
+        return redirect()->back()->with('success', 'Payment submitted successfully.');
+      } else {
+        return redirect()->back()->with('error', 'Amount cannot be bigger than the outstanding amount.');
+      }
 
-      return redirect()->back()->with('success', 'Payment submitted successfully.');
+
     }
 
     public function complete_step_payments()
