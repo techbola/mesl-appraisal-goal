@@ -37,7 +37,7 @@
                             <td>{{ $postedbill->GLRef }}</td>
                             <td>{{ $postedbill->BillingDate }}</td>
                             <td>{{ $postedbill->GroupID }}</td>
-                            <td>{{ $postedbill->Fullname }}</td>
+                            <td>{{ $postedbill->FullName }}</td>
                             <td>{{ $postedbill->StaffName }}</td>
                             <td>&#8358;{{ number_format($postedbill->Price,2) }}</td>
                             
