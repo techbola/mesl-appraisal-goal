@@ -131,6 +131,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('bulk_approve_budget', 'TaskController@bulk_approve_budget')->name('bulk_approve_budget');
     Route::patch('bulk_reject_budget', 'TaskController@bulk_reject_budget')->name('bulk_reject_budget');
     Route::get('pay_step_budget', 'TaskController@pay_step_budget')->name('pay_step_budget');
+    Route::post('reject_step_payment', 'TaskController@reject_step_payment')->name('reject_step_payment');
     Route::post('store_step_payment/{id}', 'TaskController@store_step_payment')->name('store_step_payment');
     Route::get('complete_step_payments', 'TaskController@complete_step_payments')->name('complete_step_payments');
     Route::patch('mark_step_payment/{id}', 'TaskController@mark_step_payment')->name('mark_step_payment');
