@@ -74,7 +74,7 @@
         </div>
     </div> -->
 
-    <div class="col-sm-6">
+    <div class="col-sm-12">
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('Narration', 'Narration' ) }}
