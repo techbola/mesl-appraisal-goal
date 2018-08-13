@@ -17,8 +17,10 @@ use Cavidel\Nationality;
 use Cavidel\Gender;
 use Cavidel\MaritalStatus;
 use Cavidel\PaymentPlan;
+use Cavidel\PymtPlan;
 use Cavidel\HouseType;
 use Cavidel\Config;
+use Cavidel\PlanOption;
 
 class BillingController extends Controller
 {
@@ -80,20 +82,24 @@ class BillingController extends Controller
         $code               = $billcode;
         $client_details     = \DB::table('tblCustomer')->where('CustomerRef', $client_id)->first();
         $product_categories = ProductCategory::all();
-        $bill_items         = Billing::where('GroupID', $code)->get();
-        $id                 = Auth()->user()->id;
-        $staff_id           = Staff::select('StaffRef')->where('UserID', $id)->first();
-        $today              = \Carbon\Carbon::now();
-        $date               = $today->toDateString();
-        $processedbills     = \DB::table('tblBilling')
+        $bill_items         = Billing::where('GroupID', $code)
+            ->leftJoin('tblPymtPlan', 'tblBilling.PymtID', '=', 'tblPymtPlan.PlanRef')
+            ->leftJoin('tblPlanOption', 'tblBilling.OptionID', '=', 'tblPlanOption.OptionRef')
+            ->get();
+        $id             = Auth()->user()->id;
+        $staff_id       = Staff::select('StaffRef')->where('UserID', $id)->first();
+        $today          = \Carbon\Carbon::now();
+        $date           = $today->toDateString();
+        $processedbills = \DB::table('tblBilling')
             ->where('ClientID', $client_id)
             ->where('GroupID', $billcode)
             ->get();
         $outstanding             = \DB::select("EXEC procFinalBillAmount '$code'");
         $bill_details_collection = collect($processedbills);
-        $payment_plans           = \DB::table('tblPymtPlan')->get();
+        $payment_plans           = PymtPlan::all();
         $bill_amount             = $bill_details_collection->sum('Price');
         $amount_os               = $bill_details_collection->sum('AmountOutstanding');
+        $options                 = PlanOption::all();
 
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
@@ -111,7 +117,7 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'outstanding', 'payment_plans', 'configs', 'gl', 'files'));
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files'));
     }
 
     public function get_product($cat_id)
@@ -155,9 +161,11 @@ class BillingController extends Controller
         $client_details  = Customer::where('CustomerRef', $client_id)->first();
         $bill_header     = Billing::select('BillingDate')->first();
         $total_bill      = Billing::where('GroupID', $code)->sum('Price');
+        $total_discount  = Billing::where('GroupID', $code)->sum('Discount');
         $bills           = Billing::where('GroupID', $code)->get();
-        $tax             = ($total_bill / 100) * 5;
-        return view('billings.bill', compact('client_details', 'code', 'bill_header', 'total_bill', 'company_details', 'bills', 'tax'));
+        $tot             = $total_bill - $total_discount;
+        // $tax             = ($total_bill / 100) * 5;
+        return view('billings.bill', compact('client_details', 'code', 'tot', 'bill_header', 'total_discount', 'total_bill', 'company_details', 'bills', 'tax'));
     }
 
     public function view_bill($id)
