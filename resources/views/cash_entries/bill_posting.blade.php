@@ -26,7 +26,7 @@
                     <th>GL Ref</th>
                     <th>Billing Date</th>
                     <th>Bill code</th>
-                    <th>Patient Name</th>
+                    <th>Client Name</th>
                     <th>Staff Name</th>
                     <th>Bill Amount</th>
                 </thead>
