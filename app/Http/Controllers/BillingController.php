@@ -239,6 +239,6 @@ class BillingController extends Controller
         $id      = $request->CustomerRef;
         $details = Customer::where('CustomerRef', $id)->first();
         $details->update($request->except(['_token', '_method']));
-        return response($content = 'Updated Successfully', $status = 200);
+        return response()->json($details)->setStatusCode(200);
     }
 }

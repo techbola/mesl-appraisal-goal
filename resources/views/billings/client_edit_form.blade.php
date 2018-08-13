@@ -203,6 +203,7 @@
           if (status == 'success') 
           {
             $('#edit_client_form').modal('toggle');
+            window.location = '{{ route('SearchClient') }}';
           }
         });
       });
