@@ -71,4 +71,18 @@
 @endsection
 
 
+@push('scripts')
+	<script>
+		$('#submit_bill').click(function(event) {
+			$.post('/submit_post_bill_purchase',$('#post_bill').serialize() , function(data, status) {
+				$('#cash_entry_table').load(location.href + ' #cash_entry_table');
+				$('#approve_notification').removeClass('hide');
+				$('#approve_notification').fadeOut( 3000, "linear");
+			});
+			return false;
+		});
+	</script>
+@endpush
+
+
 

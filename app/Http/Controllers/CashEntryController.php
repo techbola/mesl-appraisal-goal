@@ -1189,7 +1189,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =?
                          Order By tblGL.Description", [54, 59]));
 
-        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,  tblCashEntry.InputterID,
                          tblCashEntry.Narration
 FROM            tblCashEntry INNER JOIN
                          tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
@@ -1254,53 +1254,6 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         } else {
             return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
         }
-    }
-
-    public function post_bill_purchase_journal(Request $request)
-    {
-        foreach ($request->CashEntryRef as $ref) {
-            $cash_entry           = CashEntry::find($ref);
-            $cash_entry->PostFlag = 1;
-            $cash_entry->save();
-        }
-
-        return 'done';
-    }
-
-    public function reject_purchase_journal_posting_approvals(Request $request)
-    {
-        // dd($request->all());
-        foreach ($request->CashEntryRef as $ref) {
-            $cash_entry               = CashEntry::find($ref);
-            $cash_entry->PostFlag     = 0;
-            $cash_entry->ApprovedFlag = 0;
-            $cash_entry->save();
-        }
-
-        return 'done';
-    }
-
-    public function submit_purchase_journal_for_approval(Request $request)
-    {
-        foreach ($request->CashEntryRef as $ref) {
-            $cash_entry               = CashEntry::find($ref);
-            $cash_entry->ApprovedFlag = 1;
-            $cash_entry->save();
-        }
-        return 'done';
-    }
-
-    public function show_approve_purchase_journal()
-    {
-        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
-                         tblCashEntry.Narration
-FROM            tblCashEntry INNER JOIN
-                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
-                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
-WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 13)
-
-            "));
-        return view('cash_entries.approve_purchase_journal', compact('cashentries'));
     }
 
 }
