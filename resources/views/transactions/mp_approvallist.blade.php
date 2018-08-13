@@ -85,12 +85,12 @@
           <div class="card-box">
             <table class="table tableWithSearch">
                   <thead>
-                    <th width="5%">
+                    <!-- <th width="5%">
                         <div class="checkbox check-info">
                           <input type="checkbox" id="select-all2">
                           <label for="select-all2" class="text-white">Bulk Select</label>
                         </div>
-                    </th>
+                    </th> -->
                     <th>Alpha Code</th>
                     <th>Post Date</th>
                     <th>Value Date</th>
@@ -99,12 +99,12 @@
                   <tbody>
                     @foreach ($approved_transaction as $transaction)
                       <tr>
-                        <td>
+                        <!-- <td>
                           <div class="checkbox check-info">
                               <input type="checkbox" id="select-all2-child-{{ $transaction->AlphaCode }}" class="select-all2-child" value="{{ $transaction->AlphaCode }}">
                               <label for="select-all2-child-{{ $transaction->AlphaCode }}" class="text-white"></label>
                             </div>
-                        </td>
+                        </td> -->
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
