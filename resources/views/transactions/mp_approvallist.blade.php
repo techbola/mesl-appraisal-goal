@@ -105,10 +105,11 @@
                               <label for="select-all2-child-{{ $transaction->AlphaCode }}" class="text-white"></label>
                             </div>
                         </td>
-                        <td>{{ $transaction->AlphaCode }}</td>
-                        <td></td>
+                        <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
+                        <td>{{ $transaction->PostDate }}</td>
+                        <td>{{ $transaction->ValueDate }}</td>
                         <td>
-                            
+                            {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
                         <td>
                             {{-- {{ $transaction->approvers() }} --}}
