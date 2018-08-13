@@ -1186,7 +1186,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID = ?
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?
                          Order By tblGL.Description", [20, 60, 61]));
 
         $credit_acct_details = collect(\DB::select("SELECT GLRef,  concat(tblGL.Description  , ' - ', tblCurrency.Currency , CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00')))
@@ -1196,7 +1196,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =?
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?
                          Order By tblGL.Description", [54, 59]));
 
         $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,  tblCashEntry.InputterID,
@@ -1204,7 +1204,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
 FROM            tblCashEntry INNER JOIN
                          tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
                          tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
-WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND ( InputterID = $auth_user   = auth()->user()->id;) order by tblCashEntry.CashEntryRef desc
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND ( tblCashEntry.InputterID = $auth_user) order by tblCashEntry.CashEntryRef desc
 "));
 
         return view('cash_entries.purchase_payments', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
