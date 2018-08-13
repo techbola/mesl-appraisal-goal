@@ -220,6 +220,15 @@ class TransactionController extends Controller
         }
     }
 
+    public function multipost_reject(Request $request)
+    {
+        $refs = $request->TransactionRef;
+        foreach ($refs as $key => $ref) {
+            $transaction = TransactionMP::where('AlphaCode', $ref);
+            $transaction->update(['ApprovedFlag' => 0, 'PostFlag' => 0]);
+        }
+    }
+
     public function multipost_post(Request $request)
     {
         $refs = $request->TransactionRef;

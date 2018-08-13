@@ -227,40 +227,46 @@ var table = $('.tableWithSearch_a').DataTable(settings);
           checked_transactions_array.push(($(val).prop('value')));
      });
      console.log(checked_transactions_array)
-   var ApproverID = {{ auth()->user()->id }};
-     alert('Are You sure you want to approve this transaction ?');
-     var Comment = prompt("Enter Approval Comment");
+
+     var ApproverID = {{ auth()->user()->id }};    
+     var confirm_approval = confirm('Are You sure you want to approve this transaction ?');
+     if(confirm_approval == true) {
+       var Comment = prompt("Enter Approval Comment");
+       $.ajax({
+           url: '/transactions/multipost/approve',
+           type: 'POST',
+           data: {
+              TransactionRef: checked_transactions_array,
+              Comment: Comment
+          },
+          beforeSend: function(){
+              // show button animation
+              that.text('Approving ...');
+          }
+       })
+       .done(function(res, status, xhr) {
+           // Navigate to the list after succesful posting to the server
+           if(xhr.status == 200) {
+             document.location.href = '/transactions/multipost_approvallist';
+           } else {
+              alert('approval failed');
+              return false
+           }   
+       })
+       .fail(function() {
+           console.log("error");
+       });
+     } else  {
+      return false;
+     }
      
-     $.ajax({
-         url: '/transactions/multipost/approve',
-         type: 'POST',
-         data: {
-            TransactionRef: checked_transactions_array,
-            Comment: Comment
-        },
-        beforeSend: function(){
-            // show button animation
-            that.text('Approving ...');
-        }
-     })
-     .done(function(res, status, xhr) {
-         // Navigate to the list after succesful posting to the server
-         if(xhr.status == 200) {
-           document.location.href = '/transactions/multipost_approvallist';
-         } else {
-            alert('approval failed');
-            return false
-         }   
-     })
-     .fail(function() {
-         console.log("error");
-     });
      
  });
 
 
   $('.reject-btn').click(function(e) {
      e.preventDefault();
+      var that = $(this);
      var checked_transactions = $('.select-all-child:checked');
      var checked_transactions_array = [];
      $.each(checked_transactions, function(index, val) {
@@ -269,84 +275,39 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      console.log(checked_transactions_array)
    var RejectedDate = "{{ \Carbon\Carbon::now() }}";
    var RejecterID = {{ auth()->user()->id }};
-     alert('Are You sure you want to reject this transaction ?');
-     var Comment = prompt("Enter Rejection Comment");
+     var confirm_rejection = confirm('Are You sure you want to reject this transaction ?');
      
+     if(confirm_rejection == true) {
+      var Comment = prompt("Enter Rejection Comment");
      $.ajax({
-         url: '/transactions/reject',
+         url: '/transactions/multipost/reject',
          type: 'POST',
          data: {
-            RejecterID: {{ auth()->user()->id }},
-            SelectedID: checked_transactions_array,
-            RejectedDate: RejectedDate,
-            RejectedFlag: 1,
-            ModuleID: 2, // predefined in the DB
+            TransactionRef: checked_transactions_array,
             Comment: Comment
         },
+        beforeSend: function(){
+            // show button animation
+            that.text('Rejecting ...');
+        }
      })
      .done(function(res, status, xhr) {
          // Navigate to the list after succesful posting to the server
          if(xhr.status == 200) {
-            window.location.href  = "{{ url('transactions/multipost_approvallist') }}";
+           document.location.href = '/transactions/multipost_approvallist';
          } else {
-            alert('Rejection failed');
-            return false;
-         }
-         
+            alert('rejection failed');
+            return false
+         }   
      })
      .fail(function() {
          console.log("error");
      });
+     }
 
          
     });
 
-  // memo preview
-      $('.preview_memo').click(function(e) {
-        e.preventDefault();
-        let url = $(this).prop('href');
-        let memo_path = '{{ asset('storage/memo_attachments') }}/';
-          $("#show-memo").find('.memo-subject').html(' ');
-          $("#show-memo").find('.memo-purpose').html(' ');
-          $("#show-memo").find('.memo-status').html(' ');
-          $("#show-memo").find('.memo-status').removeClass('badge-success')
-          $("#show-memo").find('.memo-approvers').html(' ');
-          $("#show-memo").find('.memo-recipients').html(' ');
-          $("#show-memo").find('.memo-body').html(' ');
-           $('#show-memo .modal-footer .files').html(' ');
-          $("#show-memo").find('.memo-approved').html(' ');
-        $.get(url, function(data) {
-          // activate modal
-          $("#show-memo").find('.memo-subject').html(data.subject);
-          $("#show-memo").find('.memo-purpose').html(data.purpose);
-          // $("#show-memo").find('.memo-status').html(data.status);
-          $("#show-memo").find('.memo-approvers').html(data.approvers);
-          $("#show-memo").find('.memo-body').html(data.body);
-          $("#show-memo").find('.memo-recipients').html(data.recipient_list.join(', '));
-           if(data.approved === true){
-              $("#show-memo").find('.memo-status').html('approved');
-              $("#show-memo").find('.memo-status').addClass('badge-success');
-              $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="30">');
-            } else {
-              $("#show-memo").find('.memo-status').html(data.status);
-            }
-          $("#show-memo").modal('show');
-          // list attachements
-          if(data.attachments.length > 0 ){
-            $.each(data.attachments, function(index, val) {
-               $('#show-memo .modal-footer .files').append(`
-                <a target="_blank" href="${ memo_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
-              `);
-            });
-          }
-        });
-      });
-
-      function print_memo() {
-        return $("#show-memo").printMe({
-          "path": ["{{ asset('css/printmemo.css') }}"]
-        });
-      }
 </script>
         
 @endpush
