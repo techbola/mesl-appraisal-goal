@@ -20,4 +20,9 @@ class CashEntry extends Model
     {
         return $this->belongsTo(GL::class, 'GLIDCredit', 'GLRef');
     }
+
+    public function inputter()
+    {
+        return $this->belongsTo(Staff::class, 'InputterID', 'StaffRef');
+    }
 }
