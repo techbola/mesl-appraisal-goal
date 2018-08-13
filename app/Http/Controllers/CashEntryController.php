@@ -890,9 +890,9 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
 
     public function store_bill_payment_list(Request $request)
     {
-        $cashentries           = new CashEntry($request->except(['posted']));
+        $cashentries           = new CashEntry($request->all());
         $cashentries->PostFlag = 1;
-        $cashentries->posted   = 0;
+        // $cashentries->posted   = 0;
         if ($cashentries->save()) {
             return redirect()->route('BillPaymentList')->with('success', 'Bill Posted was successfully');
         } else {
