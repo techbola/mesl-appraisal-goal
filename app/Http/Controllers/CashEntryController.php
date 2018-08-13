@@ -890,7 +890,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
 
     public function store_bill_payment_list(Request $request)
     {
-        $cashentries           = new CashEntry($request->all());
+        $cashentries           = new CashEntry($request->except(['posted']));
         $cashentries->PostFlag = 1;
         $cashentries->posted   = 0;
         if ($cashentries->save()) {
@@ -1205,7 +1205,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         $cash_entry         = CashEntry::find($id);
         $configs            = Config::first();
         $customers          = Customer::all();
-       $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
@@ -1222,7 +1222,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? 
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =?
                          Order By tblGL.Description", [54, 59]));
 
         $cashentries = \DB::table('tblCashEntry')
