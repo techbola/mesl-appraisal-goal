@@ -193,7 +193,7 @@
   <input type="hidden" name="CustomerRef" id="edit_CustomerRef">
 
 </div>
-<input type="submit" id="submit_edited_client_data" class="btn btn-info btn-cons pull-right" value="Submit">
+<input type="submit" id="submit_edited_client_data" data-toggle="modal" class="btn btn-info btn-cons pull-right" value="Submit">
 
 
 @push('scripts')
