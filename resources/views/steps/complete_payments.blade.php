@@ -13,7 +13,11 @@
     <div class="card-title">Review Budget</div>
     <table class="table table-bordered tableWithSearch">
       <thead>
-        <th>Step Description</th>
+        <th>Project</th>
+        <th>Task</th>
+        <th>Milestone</th>
+        <th>Project Manager</th>
+        <th>Vendor</th>
         <th>Amount To Pay</th>
         <th>Payment Date</th>
         {{-- <th>Start Date</th>
@@ -23,7 +27,11 @@
       <tbody>
         @foreach ($payments as $payment)
           <tr>
+            <td>{{ $payment->step->task->project->Project }}</td>
+            <td>{{ $payment->step->task->Task }}</td>
             <td>{{ $payment->step->Step ?? '' }}</td>
+            <td>{{ $payment->step->task->project->supervisor->FullName ?? '&mdash;' }}</td>
+            <td>{{ $payment->step->task->project->vendor->Customer ?? '&mdash;' }}</td>
             {{-- <td class="small">
               <b>Task:</b> {{ $update->step->task->Task }}<br>
               <b>Project:</b> {{ $update->step->task->project->Project }}
