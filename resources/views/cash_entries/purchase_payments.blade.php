@@ -56,7 +56,7 @@
 						<td>{{ number_format($cashentry->Amount,2) }}</td>
 						<td>{{ $cashentry->Narration}}</td> 
 						<td class="actions">
-							<a href="{{ route('purchase_on_credits.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">Edit</a>
+							<a href="{{ route('purchase_payments.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">Edit</a>
 						</td>
 					</tr>
 					@endforeach
