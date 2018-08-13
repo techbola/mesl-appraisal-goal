@@ -412,9 +412,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/receipts', 'CashEntryController@Receipts')->name('Receipts');
     Route::post('cash_entries_receipts', 'CashEntryController@storeReceipts');
     Route::post('cash_entries_payments', 'CashEntryController@storePayments');
+    // Purchase on credit
     Route::get('cash_entries/purchase_on_credits', 'CashEntryController@purchase_on_credits')->name('PurchaseOnCredits');
     Route::patch('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_update');
     Route::get('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_edit')->name('purchase_on_credits.edit');
+    // end purchase on credit
+
+    // Purchase payments
+    Route::get('cash_entries/purchase_payments', 'CashEntryController@purchase_payments')->name('PurchasePayments');
+    Route::post('purchase_payments', 'CashEntryController@storepurchase_payments');
+    Route::patch('cash_entries/purchase_payments/{id}', 'CashEntryController@purchase_payments_update');
+    Route::get('cash_entries/purchase_payments/{id}', 'CashEntryController@purchase_payments_edit')->name('purchase_payments.edit');
+    // end purchase  payments
+
     Route::get('cash_entries/bill_posting', 'CashEntryController@bill_posting')->name('BillPosting');
     Route::post('bill_posting', 'CashEntryController@post_bill');
     Route::post('purchase_on_credits', 'CashEntryController@storepurchase_on_credits');
