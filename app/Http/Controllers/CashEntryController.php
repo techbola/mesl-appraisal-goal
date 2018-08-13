@@ -1176,8 +1176,8 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
-                         Order By tblGL.Description", [11, 12, 27, 39]));
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID = ?
+                         Order By tblGL.Description", [20, 60, 61]));
 
         $credit_acct_details = collect(\DB::select("SELECT GLRef,  concat(tblGL.Description  , ' - ', tblCurrency.Currency , CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00')))
                          AS CUST_ACCT
@@ -1186,8 +1186,8 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID =?
-                         Order By tblGL.Description", [20, 60, 61]));
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? 
+                         Order By tblGL.Description", [54, 59]));
 
         $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
                          tblCashEntry.Narration

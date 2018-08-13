@@ -77,11 +77,11 @@
                              <div class="row">
                               <div class="col-sm-12">
                                     <div class="form-group">
-                                            {{ Form::label('BuildingProjectRef', 'Building Projects') }}
-                                            <select name="BuildingProject_id"  class="form-control select2"    data-init-plugin="select2" required>
-                                                <option value="">Building Project</option>
-                                                @foreach($buildings as $building)
-                                                    <option value="{{ $building->BuildingProjectRef }}">{{ $building->ProjectName }}</option>
+                                            {{ Form::label('PlanRef', 'Payment Plan') }}
+                                            <select name="PymtID"  class="form-control select2"    data-init-plugin="select2" required>
+                                                <option value="">Select Payment Plan</option>
+                                                @foreach($payment_plans as $payment_plan)
+                                                    <option value="{{ $payment_plan->PlanRef }}">{{ $payment_plan->PlanName }}</option>
                                                 @endforeach
                                             </select>
                                     </div>

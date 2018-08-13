@@ -91,7 +91,7 @@ class BillingController extends Controller
             ->get();
         $outstanding             = \DB::select("EXEC procFinalBillAmount '$code'");
         $bill_details_collection = collect($processedbills);
-        $buildings               = BuildingProject::all();
+        $payment_plans           = \DB::table('tblPymtPlan')->get();
         $bill_amount             = $bill_details_collection->sum('Price');
         $amount_os               = $bill_details_collection->sum('AmountOutstanding');
 
@@ -111,7 +111,7 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'outstanding', 'buildings', 'configs', 'gl', 'files'));
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'outstanding', 'payment_plans', 'configs', 'gl', 'files'));
     }
 
     public function get_product($cat_id)
@@ -227,4 +227,18 @@ class BillingController extends Controller
         }
     }
 
+    public function get_client_details_onrequest($id)
+    {
+        $ref            = $id;
+        $client_details = Customer::where('CustomerRef', $ref)->first();
+        return response()->json($client_details)->setStatusCode(200);
+    }
+
+    public function submit_edited_client_data(Request $request)
+    {
+        $id      = $request->CustomerRef;
+        $details = Customer::where('CustomerRef', $id)->first();
+        $details->update($request->except(['_token', '_method']));
+        return response($content = 'Updated Successfully', $status = 200);
+    }
 }
