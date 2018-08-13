@@ -183,7 +183,7 @@
           </td>
           {{-- AMOUNT --}}
           <td>
-            <input type="text" name="amount[]" class="form-control input-sm amount" value="" required  onkeyup="calc()">
+            <input type="text" name="amount[]" class="form-control smartinput input-sm amount" value="" required  onkeyup="calc()">
           </td>
           {{-- ACCOUNT --}}
           <td>
@@ -221,6 +221,15 @@
         `
       );
 
+      AutoNumeric.multiple('.smartinput', {
+            currencySymbol : '₦ ',
+            decimalCharacter : '.',
+            unformatOnSubmit: true,
+            modifyValueOnWheel: false,
+            minimumValue: 0,
+            decimalPlaces: 2,
+            decimalPlacesRawValue: 0,
+        });
       $('.new_select').select2();
       $('.new_date').datepicker(options);
 
