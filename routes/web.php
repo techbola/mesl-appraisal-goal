@@ -504,7 +504,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('billings/bill/{client_id}/{code}', 'BillingController@bill')->name('Bill');
     Route::get('billings/view_bill/{id}', 'BillingController@view_bill')->name('View_Client_Bill_List');
     Route::post('delete_New_Bill_payment', 'BillingController@productdeletion');
-    Route::post('bill_post', 'BillingController@bill_payment');
+    Route::post('bill_posting_post', 'BillingController@bill_payment');
+    Route::get('get_client_details_onrequest/{id}', 'BillingController@get_client_details_onrequest');
+    Route::post('submit_edited_client_data', 'BillingController@submit_edited_client_data')->name('route_name'); // comment
 
     //ClientDocument
     Route::get('client_document/client_document_list/{id}', 'ClientDocumentController@client_list')->name('Client_Document_List');
@@ -626,6 +628,12 @@ Route::middleware(['auth'])->group(function () {
     // All employees payslip
     Route::get('payslips', 'PayrollController@payslip_general')->name('general-payslip');
     Route::post('payslips', 'PayrollController@payslip_general_post')->name('general-payslip-post');
+
+    //Payment Plan
+    Route::get('pymtPlan/index', 'PymtPlanController@index')->name('PaymentPlan');
+    Route::post('store_payment_plan', 'PymtPlanController@store_payment_plan'); // comment
+    Route::get('get_plan_data/{id}', 'PymtPlanController@get_plan_data');
+    Route::post('submit_plan_edit_form', 'PymtPlanController@submit_plan_edit_form'); // comment
 
     // -- end payroll
 
