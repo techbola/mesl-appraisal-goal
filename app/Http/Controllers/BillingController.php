@@ -227,4 +227,18 @@ class BillingController extends Controller
         }
     }
 
+    public function get_client_details_onrequest($id)
+    {
+        $ref            = $id;
+        $client_details = Customer::where('CustomerRef', $ref)->first();
+        return response()->json($client_details)->setStatusCode(200);
+    }
+
+    public function submit_edited_client_data(Request $request)
+    {
+        $id      = $request->CustomerRef;
+        $details = Customer::where('CustomerRef', $id)->first();
+        $details->update($request->except(['_token', '_method']));
+        return response($content = 'Updated Successfully', $status = 200);
+    }
 }

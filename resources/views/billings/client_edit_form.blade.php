@@ -80,7 +80,7 @@
   <div class="col-sm-4">
      <div class="form-group">
        {{ Form::label('MaritalStatusID', 'Marital Status') }}
-       {{ Form::select('MaritalStatusID', ['' => 'Select Marital Status'] + $maritalstatuses->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(), null, ['class'=>'form-control select2', 'id'=>'edit_', 'data-init-plugin'=>'select2']) }}
+       {{ Form::select('MaritalStatusID', ['' => 'Select Marital Status'] + $maritalstatuses->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(), null, ['class'=>'form-control select2', 'id'=>'edit_MaritalStatusID', 'data-init-plugin'=>'select2']) }}
     </div>
   </div>
   <div class="col-sm-4">
@@ -107,7 +107,7 @@
        {{ Form::label('PropertyCost', 'Property Cost') }}
        {{ Form::text('PropertyCost', null, ['class' => 'form-control smartinput', 'id'=>'edit_PropertyCost', 'placeholder' => 'Enter Property Cost']) }}
     </div>
-  </div>
+  </div><div class="clearfix"></div>
   <div class="col-sm-4">
      <div class="form-group">
        {{ Form::label('AmountPaid', 'Amount Paid') }}
@@ -132,7 +132,7 @@
   <div class="col-sm-4">
     <div class="form-group">
       {{ Form::label('DeliveryPeriod', 'Delivery Period') }}
-      {{ Form::text('DeliveryPeriod', null, ['class' => 'form-control', 'id'=>'DeliveryPeriod', 'placeholder' => 'Enter Delivery Period']) }}
+      {{ Form::text('DeliveryPeriod', null, ['class' => 'form-control', 'id'=>'edit_DeliveryPeriod', 'placeholder' => 'Enter Delivery Period']) }}
     </div>
   </div>
   <div class="col-sm-4">
@@ -190,6 +190,21 @@
       {{ Form::text('Remarks', null, ['class' => 'form-control', 'id'=>'edit_Remarks', 'placeholder' => 'Enter Remarks']) }}
     </div>
   </div>
+  <input type="hidden" name="CustomerRef" id="edit_CustomerRef">
 
 </div>
-<input type="submit" class="btn btn-info btn-cons pull-right" value="Submit">
+<input type="submit" id="submit_edited_client_data" class="btn btn-info btn-cons pull-right" value="Submit">
+
+
+@push('scripts')
+  <script>
+      $('#submit_edited_client_data').click(function(event) {
+        $.post('/submit_edited_client_data', $('#xyz').serialize(), function(data, status) {
+          if (status == 'success') 
+          {
+            alert('jesus');
+          }
+        });
+      });
+  </script>
+@endpush

@@ -243,8 +243,8 @@
                   <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #000">Edit Client Details</span></h5>
                 </div>
                 <div class="modal-body">
-                  {{ Form::open(['action' => 'ClientController@store', 'autocomplete' => 'off', 'role' => 'form']) }}
-                    @include('billings.client_form')
+                  {{ Form::open(['id' => 'xyz', 'autocomplete' => 'off', 'role' => 'form']) }}
+                    @include('billings.client_edit_form')
                   {{ Form::close() }}
                 </div>
                 <div class="modal-footer">
@@ -416,7 +416,42 @@
   <script>
     function customer_edit_details(id)
     {
-      alert('Jesus');
+      var ref = id;
+      $.get('/get_client_details_onrequest/' +ref, function(data, status) {
+        if(status == 'success')
+        {
+          console.log(data);
+          $('#edit_client_form #edit_FileNo').val(data.FileNo);
+          $('#edit_client_form #edit_Customer').val(data.Customer);
+          $('select[name="HouseType"]').val(data.HouseType).trigger('change');
+          $('#edit_BlockAllocation').val(data.BlockAllocation);
+          $('#edit_UnitAllocation').val(data.UnitAllocation);
+          $('#edit_Phone').val(data.Phone);
+          $('#edit_Email').val(data.Email);
+          $('select[name="TitleID"]').val(data.TitleID).trigger('change');
+          $('select[name="GenderID"]').val(data.GenderID).trigger('change');
+          $('select[name="NationalityID"]').val(data.NationalityID).trigger('change');
+          $('select[name="MaritalStatusID"]').val(data.MaritalStatusID).trigger('change');
+          $('select[name="AccountMgrID"]').val(data.AccountMgrID).trigger('change');
+          $('select[name="PaymentPlanID"]').val(data.PaymentPlanID).trigger('change');
+          $('#edit_EnrollmentDate').val(data.EnrollmentDate);
+          $('#edit_PropertyCost').val(data.PropertyCost);
+          $('#edit_AmountPaid').val(data.AmountPaid);
+          $('#edit_AmountOutstanding').val(data.AmountOutstanding);
+          $('#edit_PropertyReference').val(data.PropertyReference);
+          $('#edit_DeliveryPeriod').val(data.DeliveryPeriod);
+          $('#edit_HouseUnitStatus').val(data.HouseUnitStatus);
+          $('#edit_DefaultPeriod').val(data.DefaultPeriod);
+          $('#edit_Address').val(data.Address);
+          $('#edit_DateOfBirth').val(data.DateOfBirth);
+          $('#edit_NextOfKIN').val(data.NextOfKIN);
+          $('#edit_Employer').val(data.Employer);
+          $('#edit_Industry').val(data.Industry);
+          $('#edit_ContactSource').val(data.ContactSource);
+          $('#edit_Remarks').val(data.Remarks);
+          $('#edit_CustomerRef').val(data.CustomerRef);
+        }
+      });
     }
   </script>
 

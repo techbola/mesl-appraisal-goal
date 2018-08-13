@@ -490,6 +490,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('billings/view_bill/{id}', 'BillingController@view_bill')->name('View_Client_Bill_List');
     Route::post('delete_New_Bill_payment', 'BillingController@productdeletion');
     Route::post('bill_posting_post', 'BillingController@bill_payment');
+    Route::get('get_client_details_onrequest/{id}', 'BillingController@get_client_details_onrequest');
+    Route::post('submit_edited_client_data', 'BillingController@submit_edited_client_data')->name('route_name'); // comment
 
     //ClientDocument
     Route::get('client_document/client_document_list/{id}', 'ClientDocumentController@client_list')->name('Client_Document_List');
