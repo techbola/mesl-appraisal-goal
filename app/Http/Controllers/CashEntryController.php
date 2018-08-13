@@ -858,14 +858,14 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
     public function post_bill(Request $request)
     {
         $billcodes = $request->BillPost;
-        $userid    = \Auth::user()->staffId;
+        $userid    = \Auth::user()->id;
         $details   = Staff::where('StaffRef', $userid)->first();
-        $location  = $details->LocationID;
+        //$location  = $details->LocationID;
 
         foreach ($billcodes as $billcode) {
             $trans = \DB::statement("EXEC procPostBilling '$billcode', $userid ");
         }
-        $postedbills = \DB::select("EXEC procViewBillGroup $location");
+        $postedbills = \DB::select("EXEC procViewBillGroup");
         return view('cash_entries.bill_posting', compact('postedbills'));
     }
 
@@ -1205,15 +1205,15 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         $cash_entry         = CashEntry::find($id);
         $configs            = Config::first();
         $customers          = Customer::all();
-        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+       $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
-                         Order By tblGL.Description", [11, 12, 27, 39]));
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID = ?
+                         Order By tblGL.Description", [20, 60, 61]));
 
         $credit_acct_details = collect(\DB::select("SELECT GLRef,  concat(tblGL.Description  , ' - ', tblCurrency.Currency , CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00')))
                          AS CUST_ACCT
@@ -1222,8 +1222,8 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID =?
-                         Order By tblGL.Description", [20, 60, 61]));
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? 
+                         Order By tblGL.Description", [54, 59]));
 
         $cashentries = \DB::table('tblCashEntry')
             ->leftJoin('tblGL', 'tblCashEntry.GLIDCredit', '=', 'tblGL.GLRef')
