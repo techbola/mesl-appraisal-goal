@@ -728,7 +728,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID =?
                          Order By tblGL.Description", [20, 60, 61, 59]));
 
-        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount, tblCashEntry.InputterID,
                          tblCashEntry.Narration
 FROM            tblCashEntry INNER JOIN
                          tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
@@ -892,7 +892,8 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
     {
         $cashentries           = new CashEntry($request->all());
         $cashentries->PostFlag = 1;
-        $cashentries->posted   = 0;
+        $cashentries->Posted   = 0;
+        // $cashentries->Posted   = 0;
         if ($cashentries->save()) {
             return redirect()->route('BillPaymentList')->with('success', 'Bill Posted was successfully');
         } else {
@@ -1189,7 +1190,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =?
                          Order By tblGL.Description", [54, 59]));
 
-        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,  tblCashEntry.InputterID,
                          tblCashEntry.Narration
 FROM            tblCashEntry INNER JOIN
                          tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
@@ -1205,7 +1206,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         $cash_entry         = CashEntry::find($id);
         $configs            = Config::first();
         $customers          = Customer::all();
-       $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
@@ -1222,7 +1223,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? 
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =?
                          Order By tblGL.Description", [54, 59]));
 
         $cashentries = \DB::table('tblCashEntry')
@@ -1250,57 +1251,10 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                 'Amount.max' => "Insufficient Funds. You may not transfer more than " . number_format($absoluteDebitLimit, 2),
             ]);
         if ($cash_entry->update($request->except(['_token', '_method']))) {
-            return redirect()->route('PurchasePayments')->with('success', 'Cash Entry was successfully');
+            return redirect()->route('PurchasePayments')->with('success', 'Cash Entry was successful');
         } else {
             return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
         }
-    }
-
-    public function post_bill_purchase_journal(Request $request)
-    {
-        foreach ($request->CashEntryRef as $ref) {
-            $cash_entry           = CashEntry::find($ref);
-            $cash_entry->PostFlag = 1;
-            $cash_entry->save();
-        }
-
-        return 'done';
-    }
-
-    public function reject_purchase_journal_posting_approvals(Request $request)
-    {
-        // dd($request->all());
-        foreach ($request->CashEntryRef as $ref) {
-            $cash_entry               = CashEntry::find($ref);
-            $cash_entry->PostFlag     = 0;
-            $cash_entry->ApprovedFlag = 0;
-            $cash_entry->save();
-        }
-
-        return 'done';
-    }
-
-    public function submit_purchase_journal_for_approval(Request $request)
-    {
-        foreach ($request->CashEntryRef as $ref) {
-            $cash_entry               = CashEntry::find($ref);
-            $cash_entry->ApprovedFlag = 1;
-            $cash_entry->save();
-        }
-        return 'done';
-    }
-
-    public function show_approve_purchase_journal()
-    {
-        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
-                         tblCashEntry.Narration
-FROM            tblCashEntry INNER JOIN
-                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
-                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
-WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 13)
-
-            "));
-        return view('cash_entries.approve_purchase_journal', compact('cashentries'));
     }
 
 }

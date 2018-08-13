@@ -200,15 +200,51 @@ class TransactionController extends Controller
 
     public function multipost_listing()
     {
+        $unsent_transaction = TransactionMP::where('ApprovedFlag', 0)
+            ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')
+            ->where('NotifyFlag', 0)
+            ->get();
         $unapproved_transaction = TransactionMP::where('ApprovedFlag', 0)
             ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
-            ->having('Amount', '>', 0)
-            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')->get();
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')
+            ->where('NotifyFlag', 1)
+            ->get();
         $approved_transaction = TransactionMP::where('ApprovedFlag', 1)
-            ->groupBy(['AlphaCode', 'PostDate'])
-            ->select('AlphaCode', 'PostDate')->get();
+            ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
+            ->where('NotifyFlag', 1)
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')->get();
 
-        return view('transactions.mp_approvallist', compact('unapproved_transaction', 'approved_transaction'));
+        $posted_transaction = TransactionMP::where('ApprovedFlag', 1)
+            ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
+            ->where('NotifyFlag', 1)
+            ->where('PostFlag', 1)
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')->get();
+
+        return view('transactions.mp_approvallist', compact('unapproved_transaction', 'unsent_transaction', 'approved_transaction'));
+    }
+
+    // send multi post for approval
+    public function multipost_send(Request $request)
+    {
+        $ref = $request->AlphaCode;
+        // return response()->json($refs);
+        // foreach ($refs as $key => $ref) {
+        $transaction = TransactionMP::where('AlphaCode', $ref);
+        $transaction->update(['NotifyFlag' => 1]);
+        // }
+        return response()->json(['success' => true, 'message' => str_plural('Transaction', count($ref))]);
+    }
+
+    public function multipost_detail($alpha_code)
+    {
+        $transactions = TransactionMP::where('AlphaCode', $alpha_code)->get();
+        return response()->json(['success' => true, 'message', 'transactions' => $transactions]);
+    }
+
+    public function multipost_update(Request $request, $alpha_code)
+    {
+
     }
 
     public function multipost_approve(Request $request)
@@ -217,7 +253,11 @@ class TransactionController extends Controller
         
         foreach ($refs as $key => $ref) {
             $transaction = TransactionMP::where('AlphaCode', $ref);
-            $transaction->update(['ApprovedFlag' => 1, 'PostFlag' => 1]);
+            $transaction->update([
+                'ApprovedFlag' => 1,
+                'PostFlag'     => 1,
+                'ApproverID'   => auth()->user()->id,
+            ]);
         }
     }
 

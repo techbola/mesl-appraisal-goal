@@ -36,11 +36,12 @@
     {{-- START TABS --}}
      <h3 class="card-title">MultiPost Transaction List</h3>
       <ul class="nav nav-tabs outside">
-        <li class="active"><a data-toggle="tab" href="#unapproved">UnApproved Transactions &nbsp; <span class="badge badge-warning">{{ $unapproved_transaction->count() }}</span></a></li>
+        <li class="active"><a data-toggle="tab" href="#unsent">Unsent Transactions &nbsp; <span class="badge badge-warning">{{ $unsent_transaction->count() }}</span></a></li>
+        <li class=""><a data-toggle="tab" href="#unapproved">UnApproved Transactions &nbsp; <span class="badge badge-warning">{{ $unapproved_transaction->count() }}</span></a></li>
         <li><a data-toggle="tab" href="#approved">Approved Transaction &nbsp; <span class="badge badge-success">{{ $approved_transaction->count() }}</span></a></li>
       </ul>
       <div class="tab-content">
-        <div id="unapproved" class="tab-pane fade in active">
+        <div id="unapproved" class="tab-pane fade in">
           
             <div class="card-box ">
                 <table class="table tableWithSearch_a">
@@ -79,7 +80,7 @@
             </div>
         </div>
 
-        <div id="approved" class="tab-pane fade">
+        <div id="approved" class="tab-pane fade in">
 
           
           <div class="card-box">
@@ -99,12 +100,12 @@
                   <tbody>
                     @foreach ($approved_transaction as $transaction)
                       <tr>
-                        <!-- <td>
+                        {{-- <td>
                           <div class="checkbox check-info">
                               <input type="checkbox" id="select-all2-child-{{ $transaction->AlphaCode }}" class="select-all2-child" value="{{ $transaction->AlphaCode }}">
                               <label for="select-all2-child-{{ $transaction->AlphaCode }}" class="text-white"></label>
                             </div>
-                        </td> -->
+                        </td>  --}}
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
@@ -121,6 +122,53 @@
           </div>
 
         </div>
+
+        <div id="unsent" class="active tab-pane fade in">
+
+          
+          <div class="card-box">
+            <table class="table tableWithSearch">
+                  <thead>
+                    <!-- <th width="5%">
+                        <div class="checkbox check-info">
+                          <input type="checkbox" id="select-all2">
+                          <label for="select-all2" class="text-white">Bulk Select</label>
+                        </div>
+                    </th> -->
+                    <th>Alpha Code</th>
+                    <th>Post Date</th>
+                    <th>Value Date</th>
+                    <th>Amount</th>
+                    <th></th>
+                  </thead>
+                  <tbody>
+                    @foreach ($unsent_transaction as $transaction)
+                      <tr>
+                        {{-- <td>
+                          <div class="checkbox check-info">
+                              <input type="checkbox" id="select-all2-child-{{ $transaction->AlphaCode }}" class="select-all2-child" value="{{ $transaction->AlphaCode }}">
+                              <label for="select-all2-child-{{ $transaction->AlphaCode }}" class="text-white"></label>
+                            </div>
+                        </td>  --}}
+                        <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
+                        <td>{{ $transaction->PostDate }}</td>
+                        <td>{{ $transaction->ValueDate }}</td>
+                        <td>
+                            {{ nairazify(number_format($transaction->Amount, 2)) }}
+                        </td>
+                        <td>
+                          @if($transaction->NotifyFlag == false)
+                            <button id="send_for_approval" data-ref="{{ $transaction->AlphaCode }}" class="btn btn-default">Send</button>
+                          @endif
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+            </table>
+          </div>
+
+        </div>
+
       </div>
   {{-- END TABS --}}
     <!-- End tabs for transactions -->
@@ -297,16 +345,28 @@ var table = $('.tableWithSearch_a').DataTable(settings);
            document.location.href = '/transactions/multipost_approvallist';
          } else {
             alert('rejection failed');
-            return false
+            return false;
          }   
      })
      .fail(function() {
          console.log("error");
      });
      }
-
          
     });
+
+  // send multipost for  approval
+  $("#send_for_approval").click(function(e) {
+       e.preventDefault();
+       $.post('/transaction/multipost/send-for-approval',{
+          AlphaCode: $(this).data('ref')
+       }, function(data, textStatus, xhr) {
+         if(data.success === true){
+          console.log('sent');
+         }
+       });
+     });
+
 
 </script>
         
