@@ -892,7 +892,8 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
     {
         $cashentries           = new CashEntry($request->all());
         $cashentries->PostFlag = 1;
-        // $cashentries->posted   = 0;
+        $cashentries->Posted   = 0;
+        // $cashentries->Posted   = 0;
         if ($cashentries->save()) {
             return redirect()->route('BillPaymentList')->with('success', 'Bill Posted was successfully');
         } else {
