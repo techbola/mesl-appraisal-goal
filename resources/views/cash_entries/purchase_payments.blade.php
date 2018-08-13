@@ -32,6 +32,7 @@
 				<p>Posted Successfully</p>
 			</div><br>
 			{{ Form::open(['id'=>'post_bill','autocomplete' => 'off', 'role' => 'form']) }}
+			{{ method_field('PATCH') }}
 			<button type="submit" id="submit_bill" class="btn btn-info btn-lg">Send for Approval</button>
 			{{-- <a href="#" id="submit_bill" class="btn btn-info btn-lg"  title="">Send for Approval</a> --}}
 			<table class="table tableWithSearch" id="cash_entry_table">
@@ -68,6 +69,20 @@
 	<!-- END PANEL -->
 </div>
 @endsection
+
+
+@push('scripts')
+	<script>
+		$('#submit_bill').click(function(event) {
+			$.post('/submit_post_bill_purchase',$('#post_bill').serialize() , function(data, status) {
+				$('#cash_entry_table').load(location.href + ' #cash_entry_table');
+				$('#approve_notification').removeClass('hide');
+				$('#approve_notification').fadeOut( 3000, "linear");
+			});
+			return false;
+		});
+	</script>
+@endpush
 
 
 

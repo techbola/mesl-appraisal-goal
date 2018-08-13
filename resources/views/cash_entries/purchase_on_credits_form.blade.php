@@ -33,7 +33,7 @@
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('Amount', 'Amount' ) }}
-                {{ Form::text('Amount', null, ['class' => 'form-control', 'placeholder' => 'Enter Amount']) }}
+                {{ Form::text('Amount', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Amount']) }}
             </div>
         </div>
     </div>

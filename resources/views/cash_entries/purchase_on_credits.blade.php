@@ -55,6 +55,7 @@
 					<th>Value Date</th>
 					<th>Amount</th>
 					<th>Narration</th>
+					{{-- <th>Inputter</th> --}}
 					{{-- <th></th> --}}
 				</thead>
 				<tbody>
@@ -67,6 +68,7 @@
 						<td>{{ $cashentry->ValueDate }}</td>
 						<td>{{ number_format($cashentry->Amount,2) }}</td>
 						<td>{{ $cashentry->Narration}}</td> 
+						{{-- <td>{{ get_staff_name($cashentry->InputterID) }}</td> --}}
 						<td class="actions">
 							<a href="{{ route('purchase_on_credits.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">Edit</a>
 						</td>
