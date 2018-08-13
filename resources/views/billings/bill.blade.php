@@ -6,6 +6,11 @@
   #printPageButton {
     display: none;
   }
+#bill-box{
+  background: #eee;
+  padding: 10px;
+}
+
 }        
   </style>      
 @endpush
@@ -126,10 +131,11 @@
 @push('scripts')
 <script src="{{ asset('js/jquery-printme.min.js') }}"></script>
 <script>
+  var print_options = {
+    "path": ["{{ asset('css/printmemo.css') }}"]
+  }
   function print_bill() {
-        return $("#bill-box").printMe({
-          "path": ["{{ asset('css/printmemo.css') }}"]
-        }); 
+        return $("#bill-box").printMe(); 
     }
 </script>
 @endpush
