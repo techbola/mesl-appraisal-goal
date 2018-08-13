@@ -82,6 +82,7 @@
         <th>Task</th>
         <th width="15%">Milestone</th>
         <th>Project Manager</th>
+        <th>Vendor</th>
         <th>Budget Cost</th>
         {{-- <th>Start Date</th>
         <th>End Date</th> --}}
@@ -105,7 +106,8 @@
               {{ $update->step->task->Task }}
             </td>
             <td>{{ $update->step->Step ?? '' }}</td>
-            <td>{{ $update->step->task->project->supervisor->FullName ?? '' }}</td>
+            <td>{{ $update->step->task->project->supervisor->FullName ?? '&mdash;' }}</td>
+            <td>{{ $update->step->task->project->vendor->Customer ?? '&mdash;' }}</td>
             <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
             {{-- <td>{{ $update->step->StartDate ?? '' }}</td>
             <td>{{ $update->step->EndDate ?? '' }}</td> --}}
