@@ -202,6 +202,7 @@
         $.post('/submit_edited_client_data', $('#xyz').serialize(), function(data, status) {
           if (status == 'success') 
           {
+            $('#edit_client_form').modal('toggle');
           }
         });
       });
