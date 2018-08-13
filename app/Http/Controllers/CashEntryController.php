@@ -855,7 +855,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         $user_id     = \Auth::user()->staffId;
         $auth_user   = auth()->user()->id;
         $details     = Staff::where('StaffRef', $user_id)->first();
-        $postedbills = \DB::select("EXEC procViewBillGroup");
+        $postedbills = \DB::select("EXEC procViewBillGroup $auth_user");
         return view('cash_entries.bill_posting', compact('postedbills'));
     }
 
