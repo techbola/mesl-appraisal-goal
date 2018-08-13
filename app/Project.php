@@ -73,6 +73,10 @@ class Project extends Model
   {
     return $this->belongsTo('Cavidel\Customer', 'CustomerID');
   }
+  public function vendor()
+  {
+    return $this->belongsTo('Cavidel\Contact', 'VendorID');
+  }
   public function tasks()
   {
     return $this->hasMany('Cavidel\ProjectTask', 'ProjectID', 'ProjectRef');

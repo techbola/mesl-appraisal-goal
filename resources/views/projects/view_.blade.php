@@ -73,29 +73,37 @@
           <div class="col-lg-3 col-sm-6">
             <div class="widget-inline-box text-center">
               <div class="text-muted">Customer</div>
-              <div class="f20"><b>{{ $project->customer->Customer ?? '-' }}</b>
+              <div class="f18"><b>{{ $project->customer->Customer ?? '-' }}</b>
               </div>
             </div>
           </div>
 
           <div class="col-lg-3 col-sm-6">
             <div class="widget-inline-box text-center">
-              <div class="text-muted">Supervisor</div>
-              <div class="f20"><b>{{ $project->supervisor->FullName ?? '-'}}</b></div>
+              <div class="text-muted">Vendor</div>
+              <div class="f18"><b>{{ $project->vendor->Customer ?? '-' }}</b>
+              </div>
             </div>
           </div>
 
-          <div class="col-lg-3 col-sm-6">
+          <div class="col-lg-2 col-sm-6">
+            <div class="widget-inline-box text-center">
+              <div class="text-muted">Supervisor</div>
+              <div class="f18"><b>{{ $project->supervisor->FullName ?? '-'}}</b></div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-sm-6">
             <div class="widget-inline-box text-center">
               <div class="text-muted">Start Date</div>
-              <div class="f20"><b>{{ date('j M. Y', strtotime($project->StartDate)) }}</b></div>
+              <div class="f18"><b>{{ date('j M. Y', strtotime($project->StartDate)) }}</b></div>
             </div>
           </div>
 
-          <div class="col-lg-3 col-sm-6">
+          <div class="col-lg-2 col-sm-6">
             <div class="widget-inline-box text-center">
               <div class="text-muted">End Date</div>
-              <div class="f20"><b>{{ date('j M. Y', strtotime($project->EndDate)) }}</b></div>
+              <div class="f18"><b>{{ date('j M. Y', strtotime($project->EndDate)) }}</b></div>
             </div>
           </div>
 
@@ -218,6 +226,7 @@
 @endsection
 
 @push('scripts')
+
   <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css') }}" rel="stylesheet" type="text/css">
   <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
   <script>
@@ -233,248 +242,12 @@
 
 
 
-  <!-- common functions -->
-  <script src="{{ asset('assets/plugins/altair/common.min.js') }}" charset="utf-8"></script>
-  <!-- uikit functions -->
-  {{-- <script src="http://altair_html.tzdthemes.com/assets/js/uikit_custom.min.js"></script> --}}
-  <!-- altair common functions/helpers -->
-  <script src="{{ asset('assets/plugins/altair/admin_common.min.js') }}" charset="utf-8"></script>
-
-
-  <link rel="stylesheet" href="{{ asset('assets/plugins/gantt/gantt.min.css') }}">
-  {{-- <script src="http://altair_html.tzdthemes.com/bower_components/jquery-ui/jquery-ui.min.js" charset="utf-8"></script> --}}
-  <script src="{{ asset('assets/plugins/gantt/gantt_chart.min.js') }}" charset="utf-8"></script>
-  <script src="{{ asset('assets/plugins/gantt/plugins_gantt_chart.min.js') }}" charset="utf-8"></script>
-
-  {{-- Start Gantt --}}
-  <script>
-    var ganttData = {!! $gantt !!};
-    var ganttData2 = [
-        {
-            name: "Concept",
-            series: [
-                {
-                    name: "Brainstorm",
-                    sub_series: [
-                        {
-                            id: 1,
-                            start: '08/01/2018',
-                            end: '08/03/2018',
-                            color: "#039BE5",
-                            title: 'Custom title',
-                            link: 'http://themeforest.com',
-                            user_name: "Grayson Schmeler",
-                            user_avatar: "assets/img/avatars/avatar_01_tn.png"
-                        },
-                        {
-                            id: 2,
-                            start: '08/05/2018',
-                            end: '08/08/2018',
-                            color: "#039BE5"
-                        }
-                    ]
-                },
-                {
-                    name: "Wireframes",
-                    sub_series: [
-                        {
-                            id: 3,
-                            start: '08/04/2018',
-                            end: '08/07/2018',
-                            color: "#0288D1",
-                            title: 'lorem ipsum dolor',
-                            user_name: "Israel Rempel",
-                            user_avatar: "assets/img/avatars/avatar_03_tn.png"
-                        },
-                        {
-                            id: 4,
-                            start: '08/10/2018',
-                            end: '08/14/2018',
-                            color: "#0288D1"
-                        },
-                        {
-                            id: 5,
-                            start: '08/18/2018',
-                            end: '08/26/2018',
-                            color: "#0277BD",
-                            user_name: "Coty Rosenbaum",
-                            user_avatar: "assets/img/avatars/avatar_06_tn.png"
-                        }
-                    ]
-                },
-                {
-                    id: 6,
-                    name: "Concept description",
-                    start: '08/06/2018',
-                    end: '08/10/2018',
-                    color: "#0277BD"
-                }
-            ]
-        },
-        {
-            name: "Design",
-            series: [
-                {
-                    id: 7,
-                    name: "Sketching",
-                    start: '08/08/2018',
-                    end: '08/16/2018',
-                    color: "#673AB7"
-                },
-                {
-                    id: 8,
-                    name: "Photography",
-                    start: '08/10/2018',
-                    end: '08/16/2018',
-                    color: "#5E35B1",
-                    title: 'Some inspirations',
-                    link: 'https://unsplash.com/',
-                    user_name: "Jamarcus Block",
-                    user_avatar: "assets/img/avatars/avatar_05_tn.png"
-                },
-                {
-                    name: "Feedback",
-                    sub_series: [
-                        {
-                            id: 9,
-                            start: '08/19/2018',
-                            end: '08/21/2018',
-                            color: "#512DA8"
-                        },
-                        {
-                            id: 10,
-                            start: '08/24/2018',
-                            end: '08/28/2018',
-                            color: "#512DA8"
-                        }
-                    ]
-
-                },
-                {
-                    id: 11,
-                    name: "Final Design",
-                    start: '08/21/2018',
-                    end: '08/29/2018',
-                    color: "#4527A0",
-                    user_name: "Annetta Roberts",
-                    user_avatar: "assets/img/avatars/avatar_02_tn.png"
-                }
-            ]
-        },
-        {
-            name: "Implementation",
-            series: [
-                {
-                    id: 12,
-                    name: "Specifications",
-                    start: '08/26/2018',
-                    end: '09/06/2018',
-                    color: "#8BC34A"
-                },
-                {
-                    id: 13,
-                    name: "Templates",
-                    start: '09/04/2018',
-                    end: '09/10/2018',
-                    color: "#7CB342"
-                },
-                {
-                    id: 14,
-                    name: "Database",
-                    start: '09/05/2018',
-                    end: '09/13/2018',
-                    color: "#689F38"
-                },
-                {
-                    id: 15,
-                    name: "Integration",
-                    start: '09/16/2018',
-                    end: '10/10/2018',
-                    color: "#558B2F",
-                    user_name: "Will Kemmer",
-                    user_avatar: "assets/img/avatars/avatar_07_tn.png"
-                }
-            ]
-        },
-        {
-            name: "Testing & Delivery",
-            series: [
-                {
-                    id: 16,
-                    name:   "Focus Group",
-                    start:  '10/17/2018',
-                    end:    '10/27/2018',
-                    color:  "#F57C00"
-                },
-                {
-                    name:   "Stress Test",
-                    sub_series: [
-                        {
-                            id: 17,
-                            start:  '10/25/2018',
-                            end:    '11/06/2018',
-                            color:  "#EF6C00"
-                        },
-                        {
-                            id: 18,
-                            start:  '11/09/2018',
-                            end:    '11/12/2018',
-                            color:  "#EF6C00"
-                        }
-                    ]
-                },
-                {
-                    id: 19,
-                    name:   "Delivery",
-                    start:  '11/07/2018',
-                    end:    '11/12/2018',
-                    color:  "#E65100",
-                    user_name: "Princess Schmidt",
-                    user_avatar: "assets/img/avatars/avatar_06_tn.png"
-                }
-            ]
-        }
-    ];
-
-    $(function() {
-        altair_gantt.init()
-    }), altair_gantt = {
-        init: function() {
-            var t = $("#gantt_chart");
-            t.length && (t.ganttView({
-                data: ganttData,
-                startDate: "{{ Carbon::parse($project->StartDate)->format('m/d/Y') }}",
-                endDate: "{{ Carbon::parse($project->EndDate)->format('m/d/Y') }}",
-                behavior: {
-                    onClick: function(t) {
-                        console.log("You clicked on an event: \n", t)
-                    },
-                    onResize: function(t) {
-                        console.log("You resized an event: \n", t)
-                    },
-                    onDrag: function(t) {
-                        console.log("You dragged an event: \n", t)
-                    }
-                }
-            }), t.find("[title]").each(function() {
-                $(this).attr("data-uk-tooltip", "{offset:4}")
-            }))
-        }
-    };
-
-    // $(document).ready(function(){
-    //   setTimeout(function(){
-    //     $("div.ganttview-vtheader-group-name").remove();
-    //   }, 5000);
-    // });
-  </script>
-  {{-- End Gantt --}}
-
-  {{-- <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/css/summernote.css') }}" />
-  <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}" charset="utf-8"></script> --}}
+  <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/css/summernote.css') }}" />
+  <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}" charset="utf-8"></script>
   <script>
     $('.summernote').summernote();
   </script>
+
 
   <script>
     $('#file_upload_form').on('submit', function(){
