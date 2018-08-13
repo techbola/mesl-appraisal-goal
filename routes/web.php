@@ -122,7 +122,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('edit_step/{id}', 'TaskController@edit_step')->name('edit_step');
     Route::delete('delete_step/{id}', 'TaskController@delete_step')->name('delete_step');
 
-    Route::get('enter_step_budget', 'TaskController@enter_step_budget')->name('enter_step_budget');
+    Route::get('enter_step_budget/{project?}/{status?}', 'TaskController@enter_step_budget')->name('enter_step_budget');
     Route::post('submit_budget/{id}', 'TaskController@submit_budget')->name('submit_budget');
     Route::post('submit_variation/{id}', 'TaskController@submit_variation')->name('submit_variation');
     Route::get('review_step_budget', 'TaskController@review_step_budget')->name('review_step_budget');
@@ -131,6 +131,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('bulk_approve_budget', 'TaskController@bulk_approve_budget')->name('bulk_approve_budget');
     Route::patch('bulk_reject_budget', 'TaskController@bulk_reject_budget')->name('bulk_reject_budget');
     Route::get('pay_step_budget', 'TaskController@pay_step_budget')->name('pay_step_budget');
+    Route::post('reject_step_payment', 'TaskController@reject_step_payment')->name('reject_step_payment');
     Route::post('store_step_payment/{id}', 'TaskController@store_step_payment')->name('store_step_payment');
     Route::get('complete_step_payments', 'TaskController@complete_step_payments')->name('complete_step_payments');
     Route::patch('mark_step_payment/{id}', 'TaskController@mark_step_payment')->name('mark_step_payment');
@@ -411,9 +412,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/receipts', 'CashEntryController@Receipts')->name('Receipts');
     Route::post('cash_entries_receipts', 'CashEntryController@storeReceipts');
     Route::post('cash_entries_payments', 'CashEntryController@storePayments');
+    // Purchase on credit
     Route::get('cash_entries/purchase_on_credits', 'CashEntryController@purchase_on_credits')->name('PurchaseOnCredits');
     Route::patch('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_update');
     Route::get('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_edit')->name('purchase_on_credits.edit');
+    // end purchase on credit
+
+    // Purchase payments
+    Route::get('cash_entries/purchase_payments', 'CashEntryController@purchase_payments')->name('PurchasePayments');
+    Route::post('purchase_payments', 'CashEntryController@storepurchase_payments');
+    Route::patch('cash_entries/purchase_payments/{id}', 'CashEntryController@purchase_payments_update');
+    Route::get('cash_entries/purchase_payments/{id}', 'CashEntryController@purchase_payments_edit')->name('purchase_payments.edit');
+    // end purchase  payments
+
     Route::get('cash_entries/bill_posting', 'CashEntryController@bill_posting')->name('BillPosting');
     Route::post('bill_posting', 'CashEntryController@post_bill');
     Route::post('purchase_on_credits', 'CashEntryController@storepurchase_on_credits');
@@ -432,7 +443,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('transactions/transactionlist', 'TransactionController@TransactionList')->name('Transaction_List');
     Route::post('transactions/transactionlistrange', 'TransactionController@TransactionListRange')->name('Transaction_List_Range');
     Route::get('transactions/multipost', 'TransactionController@multipost')->name('transactions.multipost');
+    Route::get('transactions/multipost_approvallist', 'TransactionController@multipost_listing')->name('transactions.multipost_listing');
     Route::post('transactions/multipost', 'TransactionController@multipost_store')->name('transactions.multipost.store');
+    Route::post('transactions/multipost/approve', 'TransactionController@multipost_approve')->name('transactions.multipost.approve');
+    Route::post('transactions/multipost/reject', 'TransactionController@multipost_reject')->name('transactions.multipost.reject');
+    Route::get('transactions/multipost/details/{code}', 'TransactionController@multipost_details')->where('code', '(.*)')->name('transactions.multipost.details');
 
     Route::resource('transactions', 'TransactionController');
 

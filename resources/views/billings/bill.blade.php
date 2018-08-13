@@ -6,6 +6,11 @@
   #printPageButton {
     display: none;
   }
+#bill-box{
+  background: #eee;
+  padding: 10px;
+}
+
 }        
   </style>      
 @endpush
@@ -31,8 +36,8 @@
         <hr>
         <div class="row">
             <div class="col-md-10 col-md-offset-1" style="margin-bottom: 40px">
-              <a href="#" class="btn btn-sm btn-info" title=""  onclick="javascript:window.print()">Print</a>
-              <div  style="padding: 20px; border: 1px solid #eee">
+              <a href="#" class="btn btn-sm btn-info" title=""  onclick="print_bill()">Print</a>
+              <div id="bill-box"  style="padding: 20px; border: 1px solid #eee">
                 <div style="background: #eee; max-height: 300px">
 
                   <div class="row" style="padding-top: 10px">
@@ -124,6 +129,15 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('js/jquery-printme.min.js') }}"></script>
+<script>
+  var print_options = {
+    "path": ["{{ asset('css/printmemo.css') }}"]
+  }
+  function print_bill() {
+        return $("#bill-box").printMe(); 
+    }
+</script>
 @endpush
 
 

@@ -9,28 +9,36 @@
 @endsection
 
 @section('content')
+  <style media="screen">
+    tbody > tr > td {
+      font-size: 13px !important;
+    }
+  </style>
+
   <div class="card-box">
     <div class="card-title">Budget Payments</div>
     <table class="table table-bordered tableWithSearch">
       <thead>
-        <th>Project / Task</th>
+        <th width="15%">Project</th>
+        <th width="15%">Task</th>
         <th>Milestone</th>
         <th>Project Manager</th>
         <th>Budget Cost</th>
         <th>Amount Paid</th>
         <th>Amount Outstanding</th>
         <th>Amount To Pay</th>
+        <th>Actions</th>
         {{-- <th>Start Date</th>
         <th>End Date</th> --}}
         {{-- <th>Actions</th> --}}
       </thead>
       <tbody>
         @foreach ($updates as $update)
-          <tr>
-            <td class="small">
-              <b>Project:</b> {{ $update->step->task->project->Project }}<br>
-              <b>Task:</b> {{ $update->step->task->Task }}
+          <tr id="budget_{{ $update->id }}">
+            <td>
+              {{ $update->step->task->project->Project }}
             </td>
+            <td>{{ $update->step->task->Task }}</td>
             <td>{{ $update->step->Step ?? '' }}</td>
             <td>{{ $update->step->task->project->supervisor->FullName ?? '' }}</td>
             <td>{{ ngn($update->BudgetCost + $update->Variation) }}</td>
@@ -42,6 +50,11 @@
                 <input type="text" class="form-control input-sm smartinput" name="Amount" placeholder="Amount to pay" autocomplete="off">
                 <button type="submit" name="button" class="btn btn-sm btn-success" onclick="$('#spinner').show()">Pay</button>
               </form>
+            </td>
+            <td>
+              @if ($update->step->payment_made == 0)
+                <a class="btn btn-danger btn-xs" onclick="reject_payment({{ $update->id }})">Reject</a>
+              @endif
             </td>
             {{-- <td>{{ $update->step->StartDate ?? '' }}</td>
             <td>{{ $update->step->EndDate ?? '' }}</td> --}}
@@ -70,3 +83,29 @@
     </table>
   </div>
 @endsection
+
+@push('scripts')
+  <script>
+  function reject_payment(budget_id) {
+
+    swal({
+      title: 'Enter rejection comment',
+      input: 'textarea',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve, error) => {
+          if (value) {
+            resolve();
+            $.post('/reject_step_payment', {budget_id:budget_id, comment:value}, function(data, status){
+              $('#budget_'+budget_id).fadeOut('3000').remove();
+            });
+          } else {
+            error('Please type something.');
+          }
+        })
+      }
+    });
+
+  }
+  </script>
+@endpush

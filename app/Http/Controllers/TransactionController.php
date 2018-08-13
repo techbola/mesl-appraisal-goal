@@ -200,7 +200,42 @@ class TransactionController extends Controller
 
     public function multipost_listing()
     {
-        // return view()
+        $unapproved_transaction = TransactionMP::where('ApprovedFlag', 0)
+            ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
+            ->having('Amount', '>', 0)
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')->get();
+        $approved_transaction = TransactionMP::where('ApprovedFlag', 1)
+            ->groupBy(['AlphaCode', 'PostDate'])
+            ->select('AlphaCode', 'PostDate')->get();
+
+        return view('transactions.mp_approvallist', compact('unapproved_transaction', 'approved_transaction'));
+    }
+
+    public function multipost_approve(Request $request)
+    {
+        $refs = $request->TransactionRef;
+        foreach ($refs as $key => $ref) {
+            $transaction = TransactionMP::where('AlphaCode', $ref);
+            $transaction->update(['ApprovedFlag' => 1, 'PostFlag' => 1]);
+        }
+    }
+
+    public function multipost_reject(Request $request)
+    {
+        $refs = $request->TransactionRef;
+        foreach ($refs as $key => $ref) {
+            $transaction = TransactionMP::where('AlphaCode', $ref);
+            $transaction->update(['ApprovedFlag' => 0, 'PostFlag' => 0]);
+        }
+    }
+
+    public function multipost_post(Request $request)
+    {
+        $refs = $request->TransactionRef;
+        foreach ($refs as $key => $ref) {
+            $transaction = TransactionMP::where('AlphaCode');
+            $transaction->update(['PostFlag' => 1]);
+        }
     }
 
 }

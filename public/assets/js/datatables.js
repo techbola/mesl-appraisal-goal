@@ -42,7 +42,10 @@
                 "sLengthMenu": "_MENU_ ",
                 "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
             },
-            "iDisplayLength": 5
+            "iDisplayLength": 5,
+            buttons: [
+                'print', 'excel', 'pdf'
+            ]
         };
         table.dataTable(settings);
         $('#show-modal').click(function() {
