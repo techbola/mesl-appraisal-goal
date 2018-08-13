@@ -380,6 +380,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('delete_imprest', 'CashEntryController@delete_imprest');
     Route::get('cash_entries/imprest_edit/{id}', 'CashEntryController@imprest_edit')->name('ImprestEdit');
     Route::patch('cash_entries/edit_i/{id}', 'CashEntryController@update_imprest');
+    Route::post('submit_post_bill_purchase', 'CashEntryController@post_bill_purchase_journal');
+    Route::post('submit_purchase_journal_for_approval', 'CashEntryController@submit_purchase_journal_for_approval');
+    Route::post('reject_purchase_journal_posting_approvals', 'CashEntryController@reject_purchase_journal_posting_approvals');
+    Route::get('cash_entries/show_approve_purchase_journal', 'CashEntryController@show_approve_purchase_journal')->name('ApprovePurchaseJournal');
 
     // Learning Management System
 
