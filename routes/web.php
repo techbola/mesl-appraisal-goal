@@ -448,6 +448,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('transactions/multipost/approve', 'TransactionController@multipost_approve')->name('transactions.multipost.approve');
     Route::post('transactions/multipost/reject', 'TransactionController@multipost_reject')->name('transactions.multipost.reject');
     Route::get('transactions/multipost/details/{code}', 'TransactionController@multipost_details')->where('code', '(.*)')->name('transactions.multipost.details');
+    Route::post('transaction/multipost/send-for-approval', 'TransactionController@multipost_send')->name('transactions.multipost.send');
 
     Route::resource('transactions', 'TransactionController');
 

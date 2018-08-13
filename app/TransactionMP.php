@@ -20,4 +20,5 @@ class TransactionMP extends Model
     {
         return $this->belongsTo('Cavidel\Currency', 'CurrencyID', 'CurrencyRef');
     }
+
 }

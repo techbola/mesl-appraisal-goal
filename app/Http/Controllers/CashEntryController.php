@@ -726,7 +726,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID =?
-                         Order By tblGL.Description", [20, 60, 61,59]));
+                         Order By tblGL.Description", [20, 60, 61, 59]));
 
         $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
                          tblCashEntry.Narration
@@ -1250,7 +1250,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                 'Amount.max' => "Insufficient Funds. You may not transfer more than " . number_format($absoluteDebitLimit, 2),
             ]);
         if ($cash_entry->update($request->except(['_token', '_method']))) {
-            return redirect()->route('PurchasePayments')->with('success', 'Cash Entry was successfully');
+            return redirect()->route('PurchasePayments')->with('success', 'Cash Entry was successful');
         } else {
             return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
         }
