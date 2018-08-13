@@ -100,7 +100,7 @@
                            <div class="form-group">
                                <div class="controls">
                                    <label for="">Amount Paid</label>
-                                   <input type="text" id="formattedNumberField" max=""  name="Amount"  class="form-control" required>
+                                   <input type="text" id="formattedNumberField" max=""  name="Amount"  class="form-control smartinput" required>
                                </div>
                            </div>
                        </div><div class="clearfix"></div>
