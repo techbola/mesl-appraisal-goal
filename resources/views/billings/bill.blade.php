@@ -2,15 +2,19 @@
 
 @push('styles')
   <style>
-    @media print {
-  #printPageButton {
-    display: none;
-  }
-#bill-box{
-  background: #eee;
-  padding: 10px;
-}
+  @media print {
+    #printPageButton {
+      display: none;
+    }
+    #bill-box{
+      background: #eee;
+      border: 1px solid #eee;
+      padding: 10px;
+    }
 
+    img {
+max-width: 500px;
+}
 }        
   </style>      
 @endpush
@@ -49,7 +53,7 @@
                       {{ $company_details->Email }}<br>
                       <span style="color: #2ea1f8">{{ $company_details->Website }}</span></h5>
                     </div>
-                    <div class="col-md-3" style="padding: 15px; font-size: 12px">
+                    <div class="col-md-3 pr-fl" style="padding: 15px; font-size: 12px">
                       <h5 style="font-size: 14px; font-weight: 500">{{ $company_details->Address }}</h5>
                     </div>
                   </div>
@@ -148,7 +152,7 @@
     "path": ["{{ asset('css/printmemo.css') }}"]
   }
   function print_bill() {
-        return $("#bill-box").printMe(); 
+        return $("#bill-box").printMe(print_options); 
     }
 </script>
 @endpush
