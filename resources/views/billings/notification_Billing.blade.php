@@ -35,7 +35,12 @@
               @endif
             <div style="background: #eee; padding: 5px;">
                 <h5 style="margin-left: 10px">Product list</h5><hr>
-                <a href="#" class="btn btn-sm btn-info pull-right" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to bill</a>
+                @if($bill_narration->count() >= 1)
+                 <a href="#" class="btn btn-sm btn-warning pull-right hide" id="edit_bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Edit Narration to bill</a>
+                @else
+                <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to bill</a>
+                @endif
+               
                              <table class="table table-hover">
                                  <thead>
                                      <tr>
@@ -155,11 +160,11 @@
                                 <input type="hidden" name="StaffRef" value="{{ $staff_id->StaffRef }}">
                                 <input type="hidden" name="InvItemID" id="InvItemID">
                                 {{-- <input type="hidden" name="PatientRef" value="{{ $patientRef }}"> --}}
-                                <input type="hidden" name="GroupID" value="{{ $code }}">
+                                <input type="hidden" id="bill_groupid" name="GroupID" value="{{ $code }}">
                                 <input type="hidden" name="ServiceDesc" id="service_desc">
                                 <input type="hidden" name="UserID" value="{{ $staff_id->StaffRef }}">
                                 {{-- <input type="hidden" name="Produt_ServiceType" id="product_service"> --}}
-                                <input type="hidden" name="ClientID" value="{{ $client_details->CustomerRef }}">
+                                <input type="hidden" id="bill_clientid" name="ClientID" value="{{ $client_details->CustomerRef }}">
 
                                 <div class="pull-right">
                                     <input type="submit" class="btn btn-rounded btn-primary hide" id="add_to_list" value="Add to list">
@@ -237,6 +242,7 @@
                 </div>
                 <div class="modal-body" style="width: 1000px">
                   <div class="row">
+                     {{ Form::open(['id' => 'bill_narration_form', 'autocomplete' => 'off', 'role' => 'form']) }}
                     <div class="col-sm-12">
                                       <div class="form-group">
                                           <div class="controls">
@@ -244,6 +250,10 @@
                                          </div>
                                       </div>
                                   </div>
+                                  <input type="hidden" id="narration_bill_code" name="BillCode">
+                                  <input type="hidden" id="narration_bill_clientid" name="ClientID">
+                                  <input type="submit" id="submit_bill_narration" class="btn btn-lg btn-info pull-right" value="Submit">
+                    {{ Form::close() }}
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -430,7 +440,6 @@
                 $.each(data, function(index, val) {
                     $('#product').append("<option value='"+val.ProductService+"'>" + val.ProductService+' / &#8358;'+accounting.formatNumber(val.Price)+"</option>");
                     $('#product').select2().val(val.ProductService);
-                    console.log('aye');
                 });
 
             });
@@ -495,6 +504,30 @@
           $('#plan_option').addClass('hide');
         }
       }
+    </script>
+
+    <script>
+      $('#bill_narration').click(function(event) {
+        var code = $('#bill_groupid').val();
+        var client_id = $('#bill_clientid').val();
+        $('#narration_bill_code').val(code);
+        $('#narration_bill_clientid').val(client_id);
+      });
+
+      $('#submit_bill_narration').click(function(event) {
+        $.post('/submit_bill_narration', $('#bill_narration_form').serialize(), function(data, status) {
+          if(status == 'success')
+          {
+            var code = $('#bill_groupid').val();
+        var client_id = $('#bill_clientid').val();
+           window.location.href = "{{ url('/billings/notification_Billing') }}/" + client_id + '/' + code;
+          }
+        });
+
+        $('#BillNarration').modal('toggle');
+        var form = $('#bill_narration_form')[0]; 
+        return false;
+      });
     </script>
 
 @endpush

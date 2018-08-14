@@ -16,6 +16,7 @@ use Cavidel\Title;
 use Cavidel\Nationality;
 use Cavidel\Gender;
 use Cavidel\MaritalStatus;
+use Cavidel\BillNarration;
 use Cavidel\PaymentPlan;
 use Cavidel\PymtPlan;
 use Cavidel\HouseType;
@@ -100,6 +101,8 @@ class BillingController extends Controller
         $bill_amount             = $bill_details_collection->sum('Price');
         $amount_os               = $bill_details_collection->sum('AmountOutstanding');
         $options                 = PlanOption::all();
+        $bill_narration          = BillNarration::where('BillCode', '$code')->get();
+        dd($bill_narration);
 
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
@@ -117,7 +120,7 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files'));
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files'));
     }
 
     public function get_product($cat_id)
@@ -248,5 +251,14 @@ class BillingController extends Controller
         $details = Customer::where('CustomerRef', $id)->first();
         $details->update($request->except(['_token', '_method']));
         return response()->json($details)->setStatusCode(200);
+    }
+
+    public function submit_bill_narration(Request $request)
+    {
+        $narration          = new BillNarration($request->except(['_token']));
+        $narration->StaffID = \Auth()->user()->id;
+        $narration->save();
+        $narration_data = BillNarration::where('BillCode', $request->BillCode)->get();
+        return response()->json($narration_data)->setStatusCode(200);
     }
 }
