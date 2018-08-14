@@ -101,8 +101,7 @@ class BillingController extends Controller
         $bill_amount             = $bill_details_collection->sum('Price');
         $amount_os               = $bill_details_collection->sum('AmountOutstanding');
         $options                 = PlanOption::all();
-        $bill_narration          = BillNarration::where('BillCode', '$code')->get();
-        dd($bill_narration);
+        $bill_narration          = BillNarration::where('BillCode', $code)->first();
 
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
@@ -167,8 +166,9 @@ class BillingController extends Controller
         $total_discount  = Billing::where('GroupID', $code)->sum('Discount');
         $bills           = Billing::where('GroupID', $code)->get();
         $tot             = $total_bill - $total_discount;
+        $narrations      = BillNarration::where('BillCode', $code)->first();
         // $tax             = ($total_bill / 100) * 5;
-        return view('billings.bill', compact('client_details', 'code', 'tot', 'bill_header', 'total_discount', 'total_bill', 'company_details', 'bills', 'tax'));
+        return view('billings.bill', compact('client_details', 'code', 'tot', 'bill_header', 'narrations', 'total_discount', 'total_bill', 'company_details', 'bills', 'tax'));
     }
 
     public function view_bill($id)
@@ -260,5 +260,20 @@ class BillingController extends Controller
         $narration->save();
         $narration_data = BillNarration::where('BillCode', $request->BillCode)->get();
         return response()->json($narration_data)->setStatusCode(200);
+    }
+
+    public function get_bill_narration_detail($id)
+    {
+        $ref     = $id;
+        $details = BillNarration::where('BillNarrationRef', $ref)->first();
+        return response()->json($details)->setStatusCode(200);
+    }
+
+    public function edit_bill_narration_form(Request $request)
+    {
+        $id   = $request->BillNarrationRef;
+        $data = BillNarration::where('BillNarrationRef', $id)->first();
+        $data->update($request->except(['_token', '_method']));
+        return response($content = 'Successfully updated', $status = 200);
     }
 }

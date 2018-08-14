@@ -34,9 +34,10 @@
                   </p>
               @endif
             <div style="background: #eee; padding: 5px;">
+
                 <h5 style="margin-left: 10px">Product list</h5><hr>
-                @if($bill_narration->count() >= 1)
-                 <a href="#" class="btn btn-sm btn-warning pull-right hide" id="edit_bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Edit Narration to bill</a>
+                @if(count($bill_narration) > 0)
+                 <a href="#" class="btn btn-sm btn-warning pull-right" onclick="get_narration({{ $bill_narration->BillNarrationRef }})" id="edit_bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Edit Narration to bill</a>
                 @else
                 <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to bill</a>
                 @endif
@@ -70,6 +71,9 @@
                                      @endforeach
                                  </tbody>
                       </table>
+                      <div style="background: #fff; padding: 20px">
+                        <p>{!! $bill_narration->Narration !!}</p>
+                      </div><br>
                              @if(count($bill_items) > 0)
                              <a href="#" data-target="#modalFillIn2" class="btn btn-lg btn-primary pull-right" data-toggle="modal" id="btnFillSizeToggler2" title="">Pay Now</a><div class="clearfix"></div>
                               @endif
@@ -238,10 +242,11 @@
             <div class="modal-dialog ">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #fff;">Add Narration to Bill.</span></h5>
+                  <h5 class="text-left p-b-5"><span class="semi-bold" id="narration_title" style="color: #fff;"></span></h5>
                 </div>
                 <div class="modal-body" style="width: 1000px">
                   <div class="row">
+                    <div id="narration_div">
                      {{ Form::open(['id' => 'bill_narration_form', 'autocomplete' => 'off', 'role' => 'form']) }}
                     <div class="col-sm-12">
                                       <div class="form-group">
@@ -253,6 +258,20 @@
                                   <input type="hidden" id="narration_bill_code" name="BillCode">
                                   <input type="hidden" id="narration_bill_clientid" name="ClientID">
                                   <input type="submit" id="submit_bill_narration" class="btn btn-lg btn-info pull-right" value="Submit">
+                    {{ Form::close() }}
+                  </div>
+                    <div id="narration_edit_div">
+                     {{ Form::open(['id' => 'edit_bill_narration_form', 'autocomplete' => 'off', 'role' => 'form']) }}
+                    <div class="col-sm-12">
+                                      <div class="form-group">
+                                          <div class="controls">
+                                              {{ Form::textarea('Narration', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Be expressive', 'id'=>'edit_summernote']) }}
+                                         </div>
+                                      </div>
+                                  </div>
+                                  <input type="hidden" name="BillNarrationRef" id="bill_narration_ref">
+                                  <input type="submit" id="edit_submit_bill_narration" class="btn btn-lg btn-success pull-right" value="Save">
+                                </div>
                     {{ Form::close() }}
                   </div>
                 </div>
@@ -512,6 +531,9 @@
         var client_id = $('#bill_clientid').val();
         $('#narration_bill_code').val(code);
         $('#narration_bill_clientid').val(client_id);
+        $('#narration_div').removeClass('hide');
+        $('#narration_edit_div').addClass('hide');
+        $('#narration_title').html('Add New Narration');
       });
 
       $('#submit_bill_narration').click(function(event) {
@@ -528,6 +550,36 @@
         var form = $('#bill_narration_form')[0]; 
         return false;
       });
+
+      function get_narration(id)
+      {
+        var ref = id;
+        $('#narration_div').addClass('hide');
+        $('#narration_edit_div').removeClass('hide');
+        $('#narration_title').html('Edit Narration');
+        $('#bill_narration_ref').val(ref);
+        $.get('/get_bill_narration_detail/' +ref, function(data, status) {
+          if(status == 'success')
+          {
+           $('#narration_edit_div .note-editable').html(data.Narration);
+          }
+        });
+      }
+
+      $('#edit_submit_bill_narration').click(function(event) {
+        $.post('/edit_bill_narration_form', $('#edit_bill_narration_form').serialize(), function(data, status) {
+          if (status == 'success')
+           {
+            $('#BillNarration').modal('toggle');
+             var code = $('#bill_groupid').val();
+             var client_id = $('#bill_clientid').val();
+           window.location.href = "{{ url('/billings/notification_Billing') }}/" + client_id + '/' + code;
+           }
+        });
+        return false
+      });
+
+
     </script>
 
 @endpush

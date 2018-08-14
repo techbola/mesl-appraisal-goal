@@ -513,6 +513,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_client_details_onrequest/{id}', 'BillingController@get_client_details_onrequest');
     Route::post('submit_edited_client_data', 'BillingController@submit_edited_client_data')->name('route_name');
     Route::post('submit_bill_narration', 'BillingController@submit_bill_narration');
+    Route::get('get_bill_narration_detail/{id}', 'BillingController@get_bill_narration_detail');
+    Route::post('edit_bill_narration_form', 'BillingController@edit_bill_narration_form');
 
     //ClientDocument
     Route::get('client_document/client_document_list/{id}', 'ClientDocumentController@client_list')->name('Client_Document_List');

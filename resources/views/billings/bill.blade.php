@@ -123,10 +123,7 @@
 
                   <div class="row" style="padding: 30px">
                     <h3>Bill Narration :</h3>
-                    <?php $id=1; ?>
-                    @foreach($bills as $bill)
-                    <span style="font-size: 16px">{{ $id++ }}.   {!! $bill->Narration !!}</span>
-                    @endforeach
+                    <p style="font-size: 16px">{!! $narrations->Narration !!}</p>
                   </div>
 
             </div>
