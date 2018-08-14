@@ -150,7 +150,6 @@
                                             <input type="text" name="TotalPrice" class="form-control" id="total" readonly required>
                                     </div>
                                 </div>
-                               
 
                                 {{-- <input type="hidden" name="LocationID" value="{{ $location_id }}"> --}}
                                 <input type="hidden" name="StaffRef" value="{{ $staff_id->StaffRef }}">
@@ -234,11 +233,17 @@
             <div class="modal-dialog ">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #fff">Add Narration to Bill.</span></h5>
+                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #fff; width: 900px">Add Narration to Bill.</span></h5>
                 </div>
                 <div class="modal-body">
                   <div class="row">
-
+                    <div class="col-sm-12">
+                                      <div class="form-group">
+                                          <div class="controls">
+                                              {{ Form::textarea('Narration', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Be expressive']) }}
+                                         </div>
+                                      </div>
+                                  </div>
                   </div>
                 </div>
                 <div class="modal-footer">
