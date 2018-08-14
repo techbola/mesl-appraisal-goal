@@ -439,6 +439,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('Post_cash_entry_reciept', 'CashEntryController@postReceipts');
     Route::get('cash_entries/approve_receipt', 'CashEntryController@show_receipt_posting')->name('Receipt_Approval_Posting');
 
+    // search and print receipt
+    Route::get('receipts', 'BillingController@search_client_receipt');
+    Route::post('receipts/client_search', 'BillingController@client_search_receipt');
+    Route::get('receipts/view_receipt/{id}', 'BillingController@view_receipt')->name('view_receipt_list');
+    Route::get('receipts/print_receipt/{ref}/{client_id}', 'BillingController@print_receipt')->name('print_receipt');
+
     Route::resource('cash_entries', 'CashEntryController');
 
     // Transactions
