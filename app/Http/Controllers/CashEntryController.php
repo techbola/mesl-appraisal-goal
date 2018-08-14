@@ -932,7 +932,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where (tblGL.AccountTypeID between ? and ?) OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? Order By tblGL.Description", [31, 35, 37, 39, 40, 49]));
+                         Where (tblGL.CustomerID = ? )", [1]));
 
         $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
                          AS CUST_ACCT
