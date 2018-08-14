@@ -35,6 +35,7 @@
               @endif
             <div style="background: #eee; padding: 5px;">
                 <h5 style="margin-left: 10px">Product list</h5><hr>
+                <a href="#" class="btn btn-sm btn-info pull-right" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to bill</a>
                              <table class="table table-hover">
                                  <thead>
                                      <tr>
@@ -149,19 +150,7 @@
                                             <input type="text" name="TotalPrice" class="form-control" id="total" readonly required>
                                     </div>
                                 </div>
-                                <p class="pointer" id="open_narration" style="color: #fff">Add Narration</p>
-                                <p class="pointer hide" id="close_narration" style="color: #fff">Close Narration</p>
-
-                                <div class="hide" id='narration'>
-                                <div class="col-sm-12">
-                                      <div class="form-group">
-                                          <div class="controls">
-                                              {{ Form::label('Narration', 'Narration') }}
-                                              {{ Form::textarea('Narration', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Be expressive']) }}
-                                         </div>
-                                      </div>
-                                  </div>
-                                </div>
+                               
 
                                 {{-- <input type="hidden" name="LocationID" value="{{ $location_id }}"> --}}
                                 <input type="hidden" name="StaffRef" value="{{ $staff_id->StaffRef }}">
@@ -234,6 +223,35 @@
         </div>
       </div>
   	<!-- END PANEL -->
+
+    <div class="page-content-wrapper ">
+<div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="BillNarration" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #fff">Add Narration to Bill.</span></h5>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+
+                  </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+      </div>
+    <!-- END PANEL -->
 
 <div class="page-content-wrapper "> 
      <div class="content ">
@@ -458,20 +476,6 @@
          });
 
        }
-    </script>
-
-    <script>
-      $('#open_narration').click(function(event) {
-        $('#narration').removeClass('hide');
-        $('#close_narration').removeClass('hide');
-        $('#open_narration').addClass('hide');
-      });
-
-       $('#close_narration').click(function(event) {
-        $('#narration').addClass('hide');
-        $('#close_narration').addClass('hide');
-        $('#open_narration').removeClass('hide');
-      });
     </script>
 
     <script>

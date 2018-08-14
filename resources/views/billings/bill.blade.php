@@ -129,12 +129,6 @@
                     @endforeach
                   </div>
 
-                  <div class="row" style="padding: 20px">
-                    <div style="background: #eee; text-align: center;">
-                      <p style="font-weight: bold">officemate by Cavidel Limited</p>
-                    </div>
-                  </div>
-
             </div>
         </div>
   	</div>
