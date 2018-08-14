@@ -1,14 +1,14 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="panel panel-transparent">
+<div class="card-box">
 	<div class="panel-heading">
 		<div class="panel-title">
 			Purchase Payments
 		</div>
 	</div>
 	<div class="panel-body">
-		{{ Form::open(['action' => 'CashEntryController@storepurchase_payments', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+		{{ Form::open(['action' => 'CashEntryController@storepurchase_payments', 'autocomplete' => 'off', 'role' => 'form']) }}
 		@include('cash_entries.purchase_payments_form', ['buttonText' => 'Save'])
 		{{ Form::close() }}
 	</div>

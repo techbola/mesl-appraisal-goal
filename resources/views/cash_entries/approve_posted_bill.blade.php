@@ -47,18 +47,18 @@
 			
 			<table class="table tableWithSearch" id="cash_entry_table">
 				<thead>
-					<th>
+					<th style="width: 2%">
 						<div class="checkbox check-info">
                           <input type="checkbox" id="select-all">
                           <label for="select-all" class="text-white">Bulk Select</label>
                         </div>
 					</th>
-					<th>DR Account</th>
-					<th>CR Account</th>
-					<th>Post Date</th>
-					<th>Value Date</th>
+					<th style="width: 10%">DR Account</th>
+					<th style="width: 10%">CR Account</th>
+					<th style="width: 12%">Post Date</th>
+					<th style="width: 12%">Value Date</th>
 					<th>Amount</th>
-					<th>Narration</th>
+					<th style="width: 30%">Narration</th>
 					{{-- <th></th> --}}
 				</thead>
 				<tbody>
@@ -70,7 +70,7 @@
 						<td>{{ $cashentry->PostDate }}</td>
 						<td>{{ $cashentry->ValueDate }}</td>
 						<td>{{ number_format($cashentry->Amount,2) }}</td>
-						<td>{{ $cashentry->Narration}}</td>
+						<td style="width: 30%">{{ $cashentry->Narration}}</td>
 						{{-- <td class="actions">
 							<a href="{{ route('customer_transfer.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">View / Post</a>
 						</td> --}}

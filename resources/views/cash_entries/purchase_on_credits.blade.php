@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		{{ Form::open(['action' => 'CashEntryController@storepurchase_on_credits', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+		{{ Form::open(['action' => 'CashEntryController@storepurchase_on_credits', 'autocomplete' => 'off', 'role' => 'form']) }}
 		@include('cash_entries.purchase_on_credits_form', ['buttonText' => 'Save'])
 		{{ Form::close() }}
 	</div>

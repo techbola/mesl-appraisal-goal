@@ -19,7 +19,7 @@
 	<div class="card-title">
 		Imprest Posting
 	</div>
-	{{ Form::open(['action' => 'CashEntryController@storeImprest', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+	{{ Form::open(['action' => 'CashEntryController@storeImprest', 'autocomplete' => 'off', 'role' => 'form']) }}
 	@include('cash_entries.imprest_form', ['buttonText' => 'Save'])
 	{{ Form::close() }}
 </div>
