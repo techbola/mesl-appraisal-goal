@@ -39,9 +39,9 @@
                                  <thead>
                                      <tr>
                                          <th>Date</th>
-                                         {{-- <th>Category</th> --}}
+                                         <th>Payment Plan</th>
+                                         <th>Option</th>
                                          <th>Product</th>
-                                         {{-- <th>Quantity</th> --}}
                                          <th>Price</th>
                                          <th>Action</th>
                                      </tr>
@@ -50,9 +50,9 @@
                                     @foreach($bill_items as $bill_item)
                                      <tr>
                                         <td>{{ $bill_item->BillingDate }}</td>
-                                        {{-- <td>{{ $bill_item->ServiceDesc }}</td> --}}
+                                        <td>{{ $bill_item->PlanName }}</td>
+                                        <td>{{ $bill_item->PlanOption }}</td>
                                         <td>{{ $bill_item->Produt_ServiceType }}</td>
-                                        {{-- <td>{{ $bill_item->Quantity }}</td> --}}
                                         <td>&#8358;{{ number_format($bill_item->Price,2) }}</td>
                                         @if($bill_item->BillingDate < $date)
                                         <td><i class="fa fa-lock" style="font-size: 20px; color: #009688" ></i></td>
@@ -78,7 +78,7 @@
                               <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('PlanRef', 'Payment Plan') }}
-                                            <select name="PymtID"  class="form-control select2"    data-init-plugin="select2" required>
+                                            <select name="PymtID"  class="form-control select2" id="PymtID" onchange="get_plan_option()"  data-init-plugin="select2" required>
                                                 <option value="">Select Payment Plan</option>
                                                 @foreach($payment_plans as $payment_plan)
                                                     <option value="{{ $payment_plan->PlanRef }}">{{ $payment_plan->PlanName }}</option>
@@ -86,6 +86,20 @@
                                             </select>
                                     </div>
                                 </div>
+
+                                <div class="hide" id="plan_option">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                            {{ Form::label('OptionPlan', 'Payment Option Plan') }}
+                                            <select name="OptionID"  class="form-control select2"    data-init-plugin="select2" required>
+                                                <option value="">Select Payment Plan</option>
+                                                @foreach($options as $option)
+                                                    <option value="{{ $option->OptionRef }}">{{ $option->PlanOption }}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
+                                </div>
+                              </div>
                                 
                                 <div class="col-sm-12">
                                     <div class="form-group">
@@ -135,6 +149,20 @@
                                             <input type="text" name="TotalPrice" class="form-control" id="total" readonly required>
                                     </div>
                                 </div>
+                                <p class="pointer" id="open_narration" style="color: #fff">Add Narration</p>
+                                <p class="pointer hide" id="close_narration" style="color: #fff">Close Narration</p>
+
+                                <div class="hide" id='narration'>
+                                <div class="col-sm-12">
+                                      <div class="form-group">
+                                          <div class="controls">
+                                              {{ Form::label('Narration', 'Narration') }}
+                                              {{ Form::textarea('Narration', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Be expressive']) }}
+                                         </div>
+                                      </div>
+                                  </div>
+                                </div>
+
                                 {{-- <input type="hidden" name="LocationID" value="{{ $location_id }}"> --}}
                                 <input type="hidden" name="StaffRef" value="{{ $staff_id->StaffRef }}">
                                 <input type="hidden" name="InvItemID" id="InvItemID">
@@ -144,6 +172,7 @@
                                 <input type="hidden" name="UserID" value="{{ $staff_id->StaffRef }}">
                                 {{-- <input type="hidden" name="Produt_ServiceType" id="product_service"> --}}
                                 <input type="hidden" name="ClientID" value="{{ $client_details->CustomerRef }}">
+
                                 <div class="pull-right">
                                     <input type="submit" class="btn btn-rounded btn-primary hide" id="add_to_list" value="Add to list">
                                 </div>
@@ -390,7 +419,7 @@
     <script>
       function calculate_total_price()
       {
-        var unit = $('#unit_price').val();
+        var unit = AutoNumeric.unformat($('#unit_price').val());
         var qty = $('#quantity').val();
         var discount = $('#discount').val();
         var total = unit * qty;
@@ -414,8 +443,8 @@
          $('#InvItemID').val(prod_id);
          $('#product_service').val(productname);
          $.get('/get_new_product_price/'+prod_id, function(data, status) {
-             $('#unit_price').val(data.Price);
-             $('#total').val(data.Price * 1);
+             $('#unit_price').val(AutoNumeric.unformat(data.Price));
+             $('#total').val(AutoNumeric.unformat(data.Price * 1));
               $('#quantity').val(1); 
              var total = $('#total').val();
              
@@ -429,6 +458,34 @@
          });
 
        }
+    </script>
+
+    <script>
+      $('#open_narration').click(function(event) {
+        $('#narration').removeClass('hide');
+        $('#close_narration').removeClass('hide');
+        $('#open_narration').addClass('hide');
+      });
+
+       $('#close_narration').click(function(event) {
+        $('#narration').addClass('hide');
+        $('#close_narration').addClass('hide');
+        $('#open_narration').removeClass('hide');
+      });
+    </script>
+
+    <script>
+      function get_plan_option()
+      {
+        var id = $('#PymtID').val();
+        if(id == 2)
+        {
+          $('#plan_option').removeClass('hide');
+        }else
+        {
+          $('#plan_option').addClass('hide');
+        }
+      }
     </script>
 
 @endpush

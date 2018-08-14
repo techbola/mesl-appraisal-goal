@@ -59,8 +59,8 @@
                   <div class="row" style="padding: 20px">
                     <div class="col-md-6">
                       <h5>Billing To : </h5>
-                      <p>Client Name :<br> <span style="font-size: 16px; font-weight: 800; color: #2ea1f8">{{ $client_details->Name }}</span></p>
-                      <p>Client Address:<br>  <span style="font-size: 16px; font-weight: 800">{{ $client_details->Address }}</span></p>
+                      <p>Client Name :<br> <span style="font-size: 16px; font-weight: 800; color: #2ea1f8">{{ $client_details->Customer }}</span></p>
+                      <p>Client Address:<br>  <span style="font-size: 16px; font-weight: 800">{{ $client_details->AddressLine1 }}</span></p>
                     </div>
                     <div class="col-md-3">
                       <h5>Invoice Number : </h5>
@@ -71,7 +71,7 @@
                     </div>
                     <div class="col-md-3">
                       <h5>Invoice total : </h5>
-                      <h2 style="font-weight: 700">&#8358;{{ number_format($total_bill,2) }}</h2>
+                      <h2 style="font-weight: 700">&#8358;{{ number_format($tot,2) }}</h2>
                     </div>
                   </div><hr>
 
@@ -82,6 +82,7 @@
                         <th style="color: #000; text-align: center; color: #000 !important">Service</th>
                         <th style="color: #000; text-align: center; color: #000 !important">Unit Price</th>
                         <th style="color: #000; text-align: center; color: #000 !important">Qty</th>
+                        <th style="color: #000; text-align: center; color: #000 !important">Discount</th>
                         <th style="color: #000; text-align: center; color: #000 !important">Amount</th>
                       </thead>
                       <tbody>
@@ -91,29 +92,41 @@
                           <td style="text-align: center;">{{ $bill->Produt_ServiceType }}</td>
                           <td style="text-align: center;">&#8358;{{ number_format($bill->UnitPrice, 2) }}</td>
                           <td style="text-align: center;">{{ $bill->Quantity }}</td>
+                          <td style="text-align: center;">{{ number_format($bill->Discount, 2)  }}</td>
                           <td style="text-align: center;">&#8358;{{ number_format($bill->Price, 2) }}</td>
                         </tr>
                         @endforeach
                       </tbody>
-                       <tfoot>
+                      <tfoot>
                         <tr>
-                        <td></th>
-                        <td></th>
-                        <td></th>
-                        <td style="font-weight: 800; background: #95cbf5; text-align: center;">Tax</th>
-                        <td style="font-weight: 800; background: #95cbf5; text-align: center;">&#8358;{{ number_format($tax, 2) }}</th>
+                          <td></th>
+                        
+                          <td></th>
+                          <td></th>
+                            <th></th>
+                            <td style="font-weight: 800; text-align: center;">Total Amount</th>
+                        <td style="font-weight: 800; text-align: center;">&#8358;{{ number_format($tot ,2) }}</th>
                         </tr>
                       </tfoot>
                       <tfoot>
                         <tr>
                           <td></th>
-                        <td></th>
-                        <td></th>
                         <td style="font-weight: 800; text-align: center;">Total</th>
+                          <td></th>
+                          <td></th>
+                          <td style="font-weight: 800; text-align: center;">&#8358;{{ number_format($total_discount,2) }}</th>
                         <td style="font-weight: 800; text-align: center;">&#8358;{{ number_format($total_bill,2) }}</th>
                         </tr>
                       </tfoot>
                     </table>
+                  </div>
+
+                  <div class="row" style="padding: 30px">
+                    <h3>Bill Narration :</h3>
+                    <?php $id=1; ?>
+                    @foreach($bills as $bill)
+                    <span style="font-size: 16px">{{ $id++ }}.   {!! $bill->Narration !!}</span>
+                    @endforeach
                   </div>
 
                   <div class="row" style="padding: 20px">
