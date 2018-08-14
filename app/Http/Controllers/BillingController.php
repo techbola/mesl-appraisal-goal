@@ -21,6 +21,8 @@ use Cavidel\PymtPlan;
 use Cavidel\HouseType;
 use Cavidel\Config;
 use Cavidel\PlanOption;
+use Cavidel\GL;
+use NumberFormatter;
 
 class BillingController extends Controller
 {
@@ -180,6 +182,18 @@ class BillingController extends Controller
         return view('billings.view_bill', compact('client_details', 'bill_details'));
     }
 
+    public function view_receipt($id)
+    {
+        $client_details = Customer::where('CustomerRef', $id)->first();
+        // dd($client_details);
+        $gl = GL::where('CustomerID', $client_details->CustomerRef)->first();
+
+        $cash_details = CashEntry::where('GLIDCredit', $gl->GLRef)
+            ->get();
+        // dd($cash_details);
+        return view('receipts.view_receipt', compact('client_details', 'cash_details'));
+    }
+
     public function productdeletion(Request $request)
     {
         $deleteproduct = new ProductDeleted($request->all());
@@ -248,5 +262,65 @@ class BillingController extends Controller
         $details = Customer::where('CustomerRef', $id)->first();
         $details->update($request->except(['_token', '_method']));
         return response()->json($details)->setStatusCode(200);
+    }
+
+    // search  receipts
+
+    public function search_client_receipt()
+    {
+        $user               = auth()->user();
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+        $locations          = Location::orderBy('Location')->get();
+        $titles             = Title::orderBy('Title')->get();
+        $nationalities      = Nationality::orderBy('Nationality')->get();
+        $genders            = Gender::all();
+        $maritalstatuses    = MaritalStatus::orderBy('MaritalStatus')->get();
+        $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans       = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes         = HouseType::orderBy('HouseType')->get();
+        return view('receipts.search_client', compact('product_categories', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
+    }
+
+    public function client_search_receipt(Request $request)
+    {
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+        $locations          = Location::orderBy('Location')->get();
+        $client_name        = $request->client_name;
+        $results            = Customer::where('Customer', 'like', '%' . $client_name . '%')
+            ->join('tblGL', 'tblCustomer.CustomerRef', '=', 'tblGl.CustomerID')
+            ->join('tblCashEntry', 'tblGL.GLRef', '=', 'tblCashEntry.GLIDCredit')
+            ->where('tblCashEntry.PostingTypeID', 14)
+            ->get();
+        $user            = auth()->user();
+        $titles          = Title::orderBy('Title')->get();
+        $nationalities   = Nationality::orderBy('Nationality')->get();
+        $genders         = Gender::all();
+        $maritalstatuses = MaritalStatus::orderBy('MaritalStatus')->get();
+        $staff           = Staff::where('CompanyID', $user->CompanyID)->get();
+        $paymentplans    = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes      = HouseType::orderBy('HouseType')->get();
+        return view('receipts.search_result', compact('results', 'product_categories', 'locations', 'titles', 'nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
+    }
+
+    public function print_receipt($ref, $client_id)
+    {
+
+        $coy            = Staff::where('UserID', auth()->user()->id)->first();
+        $client_details = Customer::where('CustomerRef', $client_id)->first();
+        // dd($client_details);
+        $company_id      = $coy->CompanyID;
+        $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
+        $cash_entry      = CashEntry::find($ref);
+        $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
+        $amount_in_words = $aw->format($cash_entry->Amount);
+        return view('receipts.receipt', compact('company_details', 'client_details', 'cash_entry', 'amount_in_words'));
+    }
+
+    public function show_receipt()
+    {
+        $coy             = Staff::where('UserID', auth()->user()->id)->first();
+        $company_id      = $coy->CompanyID;
+        $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
+        return view('receipts.receipt', compact('company_details'));
     }
 }
