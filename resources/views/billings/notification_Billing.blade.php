@@ -233,9 +233,9 @@
             <div class="modal-dialog ">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #fff; width: 900px">Add Narration to Bill.</span></h5>
+                  <h5 class="text-left p-b-5"><span class="semi-bold" style="color: #fff;">Add Narration to Bill.</span></h5>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="width: 1000px">
                   <div class="row">
                     <div class="col-sm-12">
                                       <div class="form-group">
