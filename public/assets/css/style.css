@@ -1134,3 +1134,10 @@ a[href$="doc"], a[href$="docx"] {
 .select2-container--default .select2-selection--single {
   border: none;
 }
+
+.dataTables_length select {
+  line-height: normal !important;
+}
+.dropdown-menu {
+  z-index: 900 !important;
+}
