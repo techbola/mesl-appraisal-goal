@@ -22,7 +22,7 @@
 			Create a New Receipt 
 		</div>
 	<div class="panel-body">
-		{{ Form::open(['action' => 'CashEntryController@storeReceipts', 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+		{{ Form::open(['action' => 'CashEntryController@storeReceipts', 'autocomplete' => 'off', 'role' => 'form']) }}
 		@include('cash_entries.receipts_form', ['buttonText' => 'Save'])
 		{{ Form::close() }}
 	</div>

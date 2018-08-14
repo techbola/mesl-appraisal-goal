@@ -1,5 +1,5 @@
 <?php
-use Cavidel\Staff;
+use Cavidel\User;
 // namespace Cavidel;
 
 // appends naira to strings
@@ -32,6 +32,6 @@ if (!function_exists('ngn')) {
 if (!function_exists('get_staff_name')) {
     function get_staff_name($id)
     {
-        return Staff::find(1);
+        return User::find($id)->fullName;
     }
 }

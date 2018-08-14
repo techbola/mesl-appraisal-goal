@@ -13,7 +13,7 @@
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('GLIDDebit', 'Debit') }}
-                {{ Form::select('GLIDDebit', [ '' =>  'Select Customer Account'] + $customer_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required"]) }}
+                {{ Form::select('GLIDDebit', [ '' =>  'Select Customer Account'] + $customer_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('GLIDCredit', 'Credit') }}
-                {{ Form::select('GLIDCredit', [ '' =>  'Select Customer Account'] + $customer_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required"]) }}
+                {{ Form::select('GLIDCredit', [ '' =>  'Select Customer Account'] + $customer_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
             </div>
         </div>
     </div>
