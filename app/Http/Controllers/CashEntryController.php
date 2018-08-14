@@ -855,7 +855,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         $user_id     = \Auth::user()->staffId;
         $auth_user   = auth()->user()->id;
         $details     = Staff::where('StaffRef', $user_id)->first();
-        $postedbills = \DB::select("EXEC procViewBillGroup");
+        $postedbills = \DB::select("EXEC procViewBillGroup $auth_user");
         return view('cash_entries.bill_posting', compact('postedbills'));
     }
 
@@ -878,7 +878,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         $user_id      = \Auth::user()->staffId;
         $auth_user    = auth()->user()->id;
         $details      = Staff::where('StaffRef', $user_id)->first();
-        $paymentlists = \DB::select("EXEC procBillPaymentList");
+        $paymentlists = \DB::select("EXEC procBillPaymentList $auth_user");
 
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
@@ -887,7 +887,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? AND InputterID = $auth_user
+                         Where tblGL.AccountTypeID = ? 
                          Order By tblGL.Description", [54]));
         $configs = Config::first();
         return view('cash_entries.bill_payment_list', compact('paymentlists', 'debit_acct_details', 'configs'));
@@ -1186,7 +1186,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =? OR tblGL.AccountTypeID = ?
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?
                          Order By tblGL.Description", [20, 60, 61]));
 
         $credit_acct_details = collect(\DB::select("SELECT GLRef,  concat(tblGL.Description  , ' - ', tblCurrency.Currency , CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00')))
@@ -1196,7 +1196,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID =?
+                         Where tblGL.AccountTypeID = ? OR tblGL.AccountTypeID = ?
                          Order By tblGL.Description", [54, 59]));
 
         $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,  tblCashEntry.InputterID,
@@ -1204,7 +1204,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
 FROM            tblCashEntry INNER JOIN
                          tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
                          tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
-WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND ( InputterID = $auth_user   = auth()->user()->id;) order by tblCashEntry.CashEntryRef desc
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND ( tblCashEntry.InputterID = $auth_user) order by tblCashEntry.CashEntryRef desc
 "));
 
         return view('cash_entries.purchase_payments', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
@@ -1313,48 +1313,48 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
         }
     }
 
-    public function post_bill_purchase_journal(Request $request)
-    {
-        foreach ($request->CashEntryRef as $ref) {
-            $cash_entry           = CashEntry::find($ref);
-            $cash_entry->PostFlag = 1;
-            $cash_entry->save();
-        }
+    // public function post_bill_purchase_journal(Request $request)
+    // {
+    //     foreach ($request->CashEntryRef as $ref) {
+    //         $cash_entry           = CashEntry::find($ref);
+    //         $cash_entry->PostFlag = 1;
+    //         $cash_entry->save();
+    //     }
 
-        return 'done';
-    }
+    //     return 'done';
+    // }
 
-    public function reject_purchase_journal_posting_approvals(Request $request)
-    {
-        // dd($request->all());
-        foreach ($request->CashEntryRef as $ref) {
-            $cash_entry               = CashEntry::find($ref);
-            $cash_entry->PostFlag     = 0;
-            $cash_entry->ApprovedFlag = 0;
-            $cash_entry->save();
-        }
+    // public function reject_purchase_journal_posting_approvals(Request $request)
+    // {
+    //     // dd($request->all());
+    //     foreach ($request->CashEntryRef as $ref) {
+    //         $cash_entry               = CashEntry::find($ref);
+    //         $cash_entry->PostFlag     = 0;
+    //         $cash_entry->ApprovedFlag = 0;
+    //         $cash_entry->save();
+    //     }
 
-        return 'done';
-    }
+    //     return 'done';
+    // }
 
-    public function submit_purchase_journal_for_approval(Request $request)
-    {
-        foreach ($request->CashEntryRef as $ref) {
-            $cash_entry               = CashEntry::find($ref);
-            $cash_entry->ApprovedFlag = 1;
-            $cash_entry->save();
-        }
-        return 'done';
-    }
+    // public function submit_purchase_journal_for_approval(Request $request)
+    // {
+    //     foreach ($request->CashEntryRef as $ref) {
+    //         $cash_entry               = CashEntry::find($ref);
+    //         $cash_entry->ApprovedFlag = 1;
+    //         $cash_entry->save();
+    //     }
+    //     return 'done';
+    // }
 
-    public function show_approve_purchase_journal()
-    {
-        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount, tblCashEntry.Narration FROM tblCashEntry INNER JOIN
-                        tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
-                        tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef WHERE(tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 13)
+    // public function show_approve_purchase_journal()
+    // {
+    //     $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount, tblCashEntry.Narration FROM tblCashEntry INNER JOIN
+    //                     tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+    //                     tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef WHERE(tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 13)
 
-           "));
-        return view('cash_entries.approve_purchase_journal', compact('cashentries'));
-    }
+    //        "));
+    //     return view('cash_entries.approve_purchase_journal', compact('cashentries'));
+    // }
 
 }
