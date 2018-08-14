@@ -13,6 +13,7 @@ use Cavidel\Staff;
 use Illuminate\Http\Request;
 use Cavidel\ProductDeleted;
 use Cavidel\Title;
+use Cavidel\Mail\Orderbill;
 use Cavidel\Nationality;
 use Cavidel\Gender;
 use Cavidel\MaritalStatus;
@@ -22,6 +23,7 @@ use Cavidel\PymtPlan;
 use Cavidel\HouseType;
 use Cavidel\Config;
 use Cavidel\PlanOption;
+use Mail;
 
 class BillingController extends Controller
 {
@@ -275,5 +277,41 @@ class BillingController extends Controller
         $data = BillNarration::where('BillNarrationRef', $id)->first();
         $data->update($request->except(['_token', '_method']));
         return response($content = 'Successfully updated', $status = 200);
+    }
+
+    public function delete_bill_narration($id)
+    {
+        $ref         = $id;
+        $delete_data = \DB::table('tblBillNarration')->where('BillNarrationRef', $ref)->delete();
+        return response($content = 'Deleted Sucessfully', $status = 200);
+    }
+
+    public function sendbill($CustomerRef, $billCode)
+    {
+
+        $CustomerRef     = $CustomerRef;
+        $billCode        = $billCode;
+        $customerDetails = Customer::where('CustomerRef', $CustomerRef)->first();
+        $processedbills  = collect(\DB::table('tblBilling')
+                ->where('ClientID', $CustomerRef)
+                ->where('GroupID', $billCode)
+                ->get());
+        $totalprice = \DB::table('tblBilling')
+            ->where('GroupID', $billCode)
+            ->sum('AmountPaid');
+        $totaloutstanding = \DB::table('tblBilling')
+            ->where('GroupID', $billCode)
+            ->sum('AmountOutstanding');
+        $discount = \DB::table('tblBilling')
+            ->where('GroupID', $billCode)
+            ->sum('Discount');
+        $total = \DB::table('tblBilling')
+            ->where('GroupID', $billCode)
+            ->sum('QuantityPrice');
+
+        $email = $customerDetails->Email;
+        Mail::to("$email")->send(new Orderbill($customerDetails, $processedbills, $totalprice, $totaloutstanding, $discount, $total));
+
+        return back()->with('success', 'Bill Sent Successfully');
     }
 }

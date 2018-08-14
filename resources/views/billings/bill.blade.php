@@ -41,6 +41,9 @@ max-width: 500px;
         <div class="row">
             <div class="col-md-10 col-md-offset-1" style="margin-bottom: 40px">
               <a href="#" class="btn btn-sm btn-info" title=""  onclick="print_bill()">Print</a>
+              @if($client_details->Email)
+              <a href="{{ route('SendBill',[$client_details->CustomerRef, $code]) }}" class="btn btn-sm btn-info">Send Bill Via Email</a>
+              @endif
               <div id="bill-box"  style="padding: 20px; border: 1px solid #eee">
                 <div style="background: #eee; max-height: 300px">
 
@@ -126,7 +129,6 @@ max-width: 500px;
                   </div>
 
                   <div class="row" style="padding: 30px">
-                    <h3>Bill Narration :</h3>
                     <p style="font-size: 16px">{!! $narrations->Narration !!}</p>
                   </div>
 

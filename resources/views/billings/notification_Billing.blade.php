@@ -71,9 +71,12 @@
                                      @endforeach
                                  </tbody>
                       </table>
+                      @if(count($bill_narration) > 0)
                       <div style="background: #fff; padding: 20px">
-                        <p>{!! $bill_narration->Narration !!}</p>
+                        <p>{!! $bill_narration->Narration ?? "-" !!}</p>
+                        <a href="#" class="btn btn-xs btn-danger pull-right" data-id="{{ $bill_narration->BillNarrationRef }}" data-target="#DeleteBillNarration" data-toggle="modal" id="Toggler2">Delete Narration</a><div class="clearfix"></div>
                       </div><br>
+                      @endif
                              @if(count($bill_items) > 0)
                              <a href="#" data-target="#modalFillIn2" class="btn btn-lg btn-primary pull-right" data-toggle="modal" id="btnFillSizeToggler2" title="">Pay Now</a><div class="clearfix"></div>
                               @endif
@@ -273,6 +276,39 @@
                                   <input type="submit" id="edit_submit_bill_narration" class="btn btn-lg btn-success pull-right" value="Save">
                                 </div>
                     {{ Form::close() }}
+                  </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+      </div>
+    <!-- END PANEL -->
+
+    <div class="page-content-wrapper ">
+<div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="DeleteBillNarration" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="text-left p-b-5"><span class="semi-bold" id="narration_title" style="color: #fff;"></span></h5>
+                </div>
+                <div class="modal-body" style="width: 1000px">
+                  <div class="row">
+                    <div class="col-md-6 col-md-offset-3" style="padding: 40px; background: #fff">
+                    <h5 style="font-size: 25px; color: #000">Are you sure you want to delete this narration ? </h5>
+                    <input type="hidden" name="BillNarrationRef" id="delete_narration_ref">
+                    <input type="submit" onclick="deleteNarration()" class="btn btn-lg btn-danger" value="Delete">
+                  </div>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -579,7 +615,23 @@
         return false
       });
 
+      $('#Toggler2').click(function(event) {
+        var id = $(this).data('id');
+        $('#delete_narration_ref').val(id);
+      });
 
+      function deleteNarration()
+      {
+        var ref = $('#delete_narration_ref').val();
+        $.get('/delete_bill_narration/' +ref, function(data, status) {
+          if(status == 'success')
+          {
+             var code = $('#bill_groupid').val();
+             var client_id = $('#bill_clientid').val();
+           window.location.href = "{{ url('/billings/notification_Billing') }}/" + client_id + '/' + code;
+          }
+        });
+      }
     </script>
 
 @endpush
