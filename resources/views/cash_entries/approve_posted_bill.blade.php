@@ -47,30 +47,32 @@
 			
 			<table class="table tableWithSearch" id="cash_entry_table">
 				<thead>
-					<th style="width: 2%">
+					<th style="width: 1%">
 						<div class="checkbox check-info">
                           <input type="checkbox" id="select-all">
                           <label for="select-all" class="text-white">Bulk Select</label>
                         </div>
 					</th>
-					<th style="width: 10%">DR Account</th>
-					<th style="width: 10%">CR Account</th>
-					<th style="width: 12%">Post Date</th>
-					<th style="width: 12%">Value Date</th>
+					<th style="width: 7%">DR Account</th>
+					<th style="width: 7%">CR Account</th>
+					<th style="width: 15%">Post Date</th>
+					<th style="width: 15%">Value Date</th>
 					<th>Amount</th>
-					<th style="width: 30%">Narration</th>
+					<th>Inputter</th>
+					<th style="width: 20%">Narration</th>
 					{{-- <th></th> --}}
 				</thead>
 				<tbody>
 					@foreach ($cashentries as $cashentry)
 						<tr>
-						<td><input type="checkbox" class="select-all-child" name="CashEntryRef[]" value="{{ $cashentry->CashEntryRef }}"></td>
+						<td style="width: 1%"><input type="checkbox" class="select-all-child" name="CashEntryRef[]" value="{{ $cashentry->CashEntryRef }}"></td>
 						<td>{{ $cashentry->gl_debit }}</td>
 						<td>{{ $cashentry->gl_credit}}</td>
 						<td>{{ $cashentry->PostDate }}</td>
 						<td>{{ $cashentry->ValueDate }}</td>
 						<td>{{ number_format($cashentry->Amount,2) }}</td>
-						<td style="width: 30%">{{ $cashentry->Narration}}</td>
+						<td>{{ get_staff_name($cashentry->InputterID) }}</td>
+						<td style="width: 20%">{{ $cashentry->Narration}}</td>
 						{{-- <td class="actions">
 							<a href="{{ route('customer_transfer.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">View / Post</a>
 						</td> --}}
