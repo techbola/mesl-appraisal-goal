@@ -211,6 +211,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit-profile', 'UserController@edit_profile')->name('edit_profile');
     Route::patch('disengage/{id}', 'UserController@disengage')->name('disengage');
     Route::patch('reengage/{id}', 'UserController@reengage')->name('reengage');
+    Route::get('get_staff_list', 'StaffController@get_staff_list')->name('get_staff_list');
 
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
