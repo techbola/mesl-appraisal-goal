@@ -71,7 +71,7 @@
 						<td>{{ $cashentry->PostDate }}</td>
 						<td>{{ $cashentry->ValueDate }}</td>
 						<td>{{ number_format($cashentry->Amount,2) }}</td>
-						<td>{{ get_staff_name($cashentry->InputterID) }}</td>
+						<td>{{ get_staff_name($cashentry->InputterID) ?? '-' }}</td>
 						<td style="width: 20%">{{ $cashentry->Narration}}</td>
 						{{-- <td class="actions">
 							<a href="{{ route('customer_transfer.edit',[$cashentry->CashEntryRef]) }}" class="btn btn-info">View / Post</a>
