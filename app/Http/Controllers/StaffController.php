@@ -49,15 +49,47 @@ class StaffController extends Controller
         // return view('staff.index', compact('staffs'));
         $user = auth()->user();
         if ($user->is_superadmin) {
-            $staffs    = Staff::with('user')->get();
+            $staffs    = Staff::with('user')->paginate(20);
             $companies = Company::all();
             $roles     = Role::all();
         } else {
-            $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             $roles  = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
+            if (!empty($_GET['q'])) {
+              $q = $_GET['q'];
+              $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function($query) use($q){
+                $query->where('first_name', 'LIKE', '%'.$q.'%')->orWhere('last_name', 'LIKE', '%'.$q.'%')->orWhere('email', 'LIKE', '%'.$q.'%');
+              })->orWhere('MobilePhone', 'LIKE', '%'.$q.'%')->with('user')->paginate(20);
+            } else {
+              $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->paginate(20);
+            }
         }
         $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
-        return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments'));
+        return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments', 'q'));
+    }
+
+
+    public function get_staff_list()
+    {
+      $user = auth()->user();
+      $staff = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
+
+      return $staff;
+    }
+
+    public function staff_search()
+    {
+      $user = auth()->user();
+      if (!empty($_GET['q'])) {
+        $q = $_GET['q'];
+        $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function($query) use($q){
+          $query->where('first_name', 'LIKE', '%'.$q.'%')->orWhere('last_name', 'LIKE', '%'.$q.'%')->orWhere('email', 'LIKE', '%'.$q.'%');
+        })->orWhere('MobilePhone', 'LIKE', '%'.$q.'%')->with('user')->paginate(20);
+      } else {
+        $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->paginate(20);
+      }
+
+
+      return view('staff.staff_search', compact('staffs', 'q'));
     }
 
     public function post_invite(Request $request)
@@ -530,5 +562,6 @@ class StaffController extends Controller
 
       return view('staff.subordinates', compact('staffs', 'companies', 'roles'));
     }
+
 
 }
