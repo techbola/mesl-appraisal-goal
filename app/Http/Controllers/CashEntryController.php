@@ -1314,5 +1314,3 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
     }
 
 }
-
-// comment from riliwan

@@ -23,7 +23,7 @@
   <div class="col-md-6">
     <div class="form-group">
       {{ Form::label('ContactID', 'Solicitor') }} <span style="padding: 0 !important" class="form-add-more add-more-contacts badge badge-success"><i class="fa fa-plus"></i></span>
-      {{ Form::select('ContactID', [''=>'Select Contact'] + $contacts->pluck('Customer', 'CustomerRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Contact", 'data-init-plugin' => "select2",]) }}
+      {{ Form::select('ContactID', [''=>'Select Contact'] + $contacts->pluck('Customer', 'CustomerRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Contact", 'required', 'data-init-plugin' => "select2",]) }}
     </div>
   </div>
 

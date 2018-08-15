@@ -211,6 +211,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit-profile', 'UserController@edit_profile')->name('edit_profile');
     Route::patch('disengage/{id}', 'UserController@disengage')->name('disengage');
     Route::patch('reengage/{id}', 'UserController@reengage')->name('reengage');
+    Route::get('get_staff_list', 'StaffController@get_staff_list')->name('get_staff_list');
 
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
@@ -438,6 +439,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/approve_posting', 'CashEntryController@approve_posting')->name('ApprovePosting');
     Route::post('Post_cash_entry_reciept', 'CashEntryController@postReceipts');
     Route::get('cash_entries/approve_receipt', 'CashEntryController@show_receipt_posting')->name('Receipt_Approval_Posting');
+
+    // search and print receipt
+    Route::get('receipts', 'BillingController@search_client_receipt')->name('print_receipt.index');
+    Route::post('receipts/client_search', 'BillingController@client_search_receipt');
+    Route::get('receipts/view_receipt/{id}', 'BillingController@view_receipt')->name('view_receipt_list');
+    Route::get('receipts/print_receipt/{ref}/{client_id}', 'BillingController@print_receipt')->name('print_receipt');
 
     Route::resource('cash_entries', 'CashEntryController');
 

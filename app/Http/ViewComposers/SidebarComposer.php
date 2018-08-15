@@ -5,6 +5,7 @@ namespace Cavidel\Http\ViewComposers;
 // use Cavidel\User;
 use Cavidel\Menu;
 use Illuminate\View\View;
+use Route;
 
 class SidebarComposer
 {
@@ -32,6 +33,8 @@ class SidebarComposer
         $system = Menu::where('name', 'System Setup')->first();
         $menus = Menu::where('parent_id', 0)->get();
         $dashboard = Menu::where('name', 'Dashboard')->first();
+        $current_menu = Menu::where('route', Route::currentRouteName())->first();
+        $current_parent = (!empty($current_menu))? Menu::find($current_menu->parent_id) : '';
 
         // If user has roles, return their parent and child menus
         if($user->is_superadmin){
@@ -52,6 +55,6 @@ class SidebarComposer
             $child_menus = [];
         }
         // $view->with('parent_menus', $parent_menus);
-        $view->with( compact('parent_menus', 'child_menus', 'menus', 'dashboard') );
+        $view->with( compact('parent_menus', 'child_menus', 'menus', 'dashboard', 'current_menu', 'current_parent') );
     }
 }
