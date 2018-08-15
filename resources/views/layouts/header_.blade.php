@@ -367,7 +367,7 @@
                   @if (!empty($current_menu)) {{-- If page is stored as a menu --}}
                     <li id="header_submenus" class="dropdown" onclick="header_submenus()">
                       @if (!empty($current_parent))
-                        <a class="btn bg-muted btn-sm dropdown-toggle bold" style="font-size:16px !important; padding: 7px 13px;border-radius: 10px;font-family:karla !important">{{ ($current_parent)? $current_parent->name : $current_menu->name }} <span class="pg-menu_justify p-l-10"></span>
+                        <a class="btn bg-muted btn-sm dropdown-toggle bold" style="font-size:16px !important; padding: 7px 13px;border-radius: 10px;font-family:karla !important; background:#424d54; color:#fff;">{{ ($current_parent)? $current_parent->name : $current_menu->name }} <span class="pg-menu_justify p-l-10 text-white"></span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                           @foreach ($current_parent->user_submenus() as $child)
