@@ -842,8 +842,8 @@
 
       <script>
         function header_submenus(){
-          console.log($('#header_submenus'));
           $('#header_submenus').find('ul').toggleClass('inline-block');
+          $('#header_submenus ul').css( 'min-width', $('#header_submenus').width() );
         }
       </script>
 
