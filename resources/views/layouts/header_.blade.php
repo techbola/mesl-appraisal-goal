@@ -363,17 +363,44 @@
                     <p class="theme-secondary text-uppercase">{{ config('app.name', 'OfficeMate') }}</p>
                   </li>
                   <li><a href="#" class="active text-uppercase">{{ Route::currentRouteName() }}</a></li> --}}
-                    @if(View::hasSection('page-title'))
+
+                  @if (!empty($current_menu)) {{-- If page is stored as a menu --}}
+                    <li id="header_submenus" class="dropdown" onclick="header_submenus()">
+                      @if (!empty($current_parent))
+                        <a class="btn bg-muted btn-sm dropdown-toggle bold" style="font-size:16px !important; padding: 7px 13px;border-radius: 10px;font-family:karla !important">{{ ($current_parent)? $current_parent->name : $current_menu->name }} <span class="pg-menu_justify p-l-10"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                          @foreach ($current_parent->user_submenus() as $child)
+                            <li><a href="{{ route($child->route) }}" class="pointer karla bold" style="font-size:15px !important">{{ $child->name }}</a></li>
+                          @endforeach
+                          {{-- <li role="separator" class="divider"></li>
+                          <li><a class="pointer">Delete</a></li> --}}
+                        </ul>
+                      @else
+
+                        {{-- @if(View::hasSection('page-title')) --}}
+                          <div class="page-title">
+                            @yield('title')
+                          </div>
+                        {{-- @endif --}}
+
+                      @endif
+                    </li>
+
+
+                  @endif
+
+
+                    {{-- @if(View::hasSection('page-title'))
                       <li class="page-title">
                         @yield('page-title')
                       </li>
                     @else
-                      {{-- @yield('title') --}}
                       <li>
                         <p class="theme-secondary text-uppercase">{{ config('app.name', 'OfficeMate') }}</p>
                       </li>
                       <li><a href="#" class="active text-uppercase">{{ Route::currentRouteName() }}</a></li>
-                    @endif
+                    @endif --}}
                 </ul>
                 <span  class="pull-right" style="margin-top : -45px">
                   <button onclick="goBack()" class="btn btn-sm btn-rounded btn-inverse"><i class="fa fa-arrow-left m-r-5"></i> Back</button>
@@ -393,7 +420,7 @@
           <div class="container-fluid container-fixed-lg">
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
             @yield('content')
-</div>
+          </div>
           <!-- END CONTAINER FLUID -->
           <!-- -->
           @yield('bottom-content')
@@ -401,7 +428,6 @@
         </div>
         <!-- END PAGE CONTENT -->
         <!-- START COPYRIGHT -->
-        <!-- START CONTAINER FLUID -->
         <!-- START CONTAINER FLUID -->
         <div class="container-fluid container-fixed-lg footer">
           <div class="copyright sm-text-center">
@@ -810,6 +836,13 @@
         </script>
         {{-- End Gantt --}}
       @endif
+
+      <script>
+        function header_submenus(){
+          console.log($('#header_submenus'));
+          $('#header_submenus').find('ul').toggleClass('inline-block');
+        }
+      </script>
 
 
   </body>
