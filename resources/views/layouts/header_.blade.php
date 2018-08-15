@@ -380,14 +380,17 @@
 
                         {{-- @if(View::hasSection('page-title')) --}}
                           <div class="page-title">
-                            @yield('title')
+                            {{ $current_menu->name }}
                           </div>
                         {{-- @endif --}}
 
                       @endif
                     </li>
 
-
+                  @else
+                    <div class="page-title">
+                      @yield('title')
+                    </div>
                   @endif
 
 

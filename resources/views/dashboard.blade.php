@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title')
+  Dashboard
+@endsection
+
 @section('page-title')
   Dashboard
 @endsection
