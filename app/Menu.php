@@ -73,6 +73,18 @@ class Menu extends Model
         }
     }
 
+    public function user_submenus()
+    {
+      $user   = Auth::user();
+
+      if ($user->is_superadmin || $user->hasRole('admin')) {
+          $subs = Menu::where('parent_id', $this->id)->with('children')->get();
+      } else {
+          $subs = \Auth::user()->roles()->first()->menus->where('parent_id', $this->id);
+      }
+      return $subs;
+    }
+
     // ASSESSORS
     public function getRoleNamesAttribute()
     {

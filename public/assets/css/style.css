@@ -1141,3 +1141,12 @@ a[href$="doc"], a[href$="docx"] {
 .dropdown-menu {
   z-index: 900 !important;
 }
+.jumbotron {
+  overflow: visible;
+}
+.karla {
+  font-family: Karla, sans-serif !important;
+}
+.panel .panel-heading {
+  z-index: unset !important;
+}
