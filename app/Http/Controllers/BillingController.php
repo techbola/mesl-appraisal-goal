@@ -13,14 +13,17 @@ use Cavidel\Staff;
 use Illuminate\Http\Request;
 use Cavidel\ProductDeleted;
 use Cavidel\Title;
+use Cavidel\Mail\Orderbill;
 use Cavidel\Nationality;
 use Cavidel\Gender;
 use Cavidel\MaritalStatus;
+use Cavidel\BillNarration;
 use Cavidel\PaymentPlan;
 use Cavidel\PymtPlan;
 use Cavidel\HouseType;
 use Cavidel\Config;
 use Cavidel\PlanOption;
+use Mail;
 use Cavidel\GL;
 use NumberFormatter;
 
@@ -102,6 +105,7 @@ class BillingController extends Controller
         $bill_amount             = $bill_details_collection->sum('Price');
         $amount_os               = $bill_details_collection->sum('AmountOutstanding');
         $options                 = PlanOption::all();
+        $bill_narration          = BillNarration::where('BillCode', $code)->first();
 
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
@@ -119,7 +123,7 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files'));
+        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files'));
     }
 
     public function get_product($cat_id)
@@ -166,8 +170,9 @@ class BillingController extends Controller
         $total_discount  = Billing::where('GroupID', $code)->sum('Discount');
         $bills           = Billing::where('GroupID', $code)->get();
         $tot             = $total_bill - $total_discount;
+        $narrations      = BillNarration::where('BillCode', $code)->first();
         // $tax             = ($total_bill / 100) * 5;
-        return view('billings.bill', compact('client_details', 'code', 'tot', 'bill_header', 'total_discount', 'total_bill', 'company_details', 'bills', 'tax'));
+        return view('billings.bill', compact('client_details', 'code', 'tot', 'bill_header', 'narrations', 'total_discount', 'total_bill', 'company_details', 'bills', 'tax'));
     }
 
     public function view_bill($id)
@@ -264,6 +269,65 @@ class BillingController extends Controller
         return response()->json($details)->setStatusCode(200);
     }
 
+    public function submit_bill_narration(Request $request)
+    {
+        $narration          = new BillNarration($request->except(['_token']));
+        $narration->StaffID = \Auth()->user()->id;
+        $narration->save();
+        $narration_data = BillNarration::where('BillCode', $request->BillCode)->get();
+        return response()->json($narration_data)->setStatusCode(200);
+    }
+
+    public function get_bill_narration_detail($id)
+    {
+        $ref     = $id;
+        $details = BillNarration::where('BillNarrationRef', $ref)->first();
+        return response()->json($details)->setStatusCode(200);
+    }
+
+    public function edit_bill_narration_form(Request $request)
+    {
+        $id   = $request->BillNarrationRef;
+        $data = BillNarration::where('BillNarrationRef', $id)->first();
+        $data->update($request->except(['_token', '_method']));
+        return response($content = 'Successfully updated', $status = 200);
+    }
+
+    public function delete_bill_narration($id)
+    {
+        $ref         = $id;
+        $delete_data = \DB::table('tblBillNarration')->where('BillNarrationRef', $ref)->delete();
+        return response($content = 'Deleted Sucessfully', $status = 200);
+    }
+
+    public function sendbill($CustomerRef, $billCode)
+    {
+
+        $CustomerRef     = $CustomerRef;
+        $billCode        = $billCode;
+        $customerDetails = Customer::where('CustomerRef', $CustomerRef)->first();
+        $processedbills  = collect(\DB::table('tblBilling')
+                ->where('ClientID', $CustomerRef)
+                ->where('GroupID', $billCode)
+                ->get());
+        $totalprice = \DB::table('tblBilling')
+            ->where('GroupID', $billCode)
+            ->sum('AmountPaid');
+        $totaloutstanding = \DB::table('tblBilling')
+            ->where('GroupID', $billCode)
+            ->sum('AmountOutstanding');
+        $discount = \DB::table('tblBilling')
+            ->where('GroupID', $billCode)
+            ->sum('Discount');
+        $total = \DB::table('tblBilling')
+            ->where('GroupID', $billCode)
+            ->sum('QuantityPrice');
+
+        $email = $customerDetails->Email;
+        Mail::to("$email")->send(new Orderbill($customerDetails, $processedbills, $totalprice, $totaloutstanding, $discount, $total));
+
+        return back()->with('success', 'Bill Sent Successfully');
+    }
     // search  receipts
 
     public function search_client_receipt()

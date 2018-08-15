@@ -536,6 +536,7 @@
 
     <script src="{{ asset('pages/js/pages.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.js') }}" ></script>
+    <script src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.colVis.js"></script>
     <script src="{{ asset('assets/js/scripts.js') }}" ></script>
 
     <!-- smart-input -->
@@ -678,6 +679,7 @@
 
     <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css') }}" rel="stylesheet" type="text/css">
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
 
     <script>
       $(function(){
