@@ -1,5 +1,5 @@
 <?php
-
+use Cavidel\User;
 // namespace Cavidel;
 
 // appends naira to strings
@@ -25,5 +25,13 @@ if (!function_exists('ngn')) {
     function ngn($amount)
     {
         return '₦' . number_format($amount);
+    }
+}
+
+// get staff name from anywhere
+if (!function_exists('get_staff_name')) {
+    function get_staff_name($id)
+    {
+        return User::find($id)->fullName;
     }
 }
