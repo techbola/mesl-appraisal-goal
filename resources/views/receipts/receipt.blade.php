@@ -58,8 +58,10 @@
             <div id="invoice-company-details" class="row">
               <div class="col-md-6 col-sm-12  text-left">
                 <div class="media">
-                  <img src="{{ asset("images/logos/".$narrations->brand->LogoLocation ?? 'lekkigardens.jpg') }}" alt="company logo" width="120px" class="p-t-50 ">
-                  
+                  <img src="{{ asset("images/logos/".$narrations->brand->LogoLocation ?? 'lekkigardens.jpg') }}" alt="company logo" width="120px" class="p-t-30 ">
+                  <div class="m-t-25">
+                    {!! str_replace(',', ',<br>', $narrations->brand->Address) !!}
+                  </div>
                 </div>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
@@ -89,9 +91,9 @@
                 <p>
                   <span class="text-muted m-r-10">Receipt Date</span> {{ nice_date($cash_entry->ValueDate) }}</p>
                 <p>
-                  <span class="text-muted m-r-10">Account Manager</span> <b>ELOHO Q. OCHUKO</b></p>
+                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $cash_entry->account_manager ?? 'ELOHO Q. OCHUKO' }}</b></p>
                 <p>
-                  <span class="text-muted m-r-10">Contact Number</span> Company Number Here</p>
+                  <span class="text-muted m-r-10">Contact Number</span>{{ $narrations->brand->Phone ?? '-' }}</p>
               </div>
             </div> <hr>
             <!--/ Invoice Customer Details -->
