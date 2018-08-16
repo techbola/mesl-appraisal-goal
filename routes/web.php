@@ -538,6 +538,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('vendors/search_vendors', 'VendorController@search_vendors')->name('SearchVendors');
     Route::post('search_bank_account', 'VendorController@search_company_vendor');
     Route::post('submit_vendor', 'VendorController@submit_vendor');
+    Route::post('vendors/new_bill', 'VendorController@new_bill')->name('NewVendorBill');
+    Route::get('vendors/view_bill/{id}', 'VendorController@view_bill')->name('View_Vendor_Bill_List');
+    Route::get('vendors/notification_Billing/{id}/{billcode}', 'VendorController@notification_bill')->name('VendorNotificationBilling');
+
     // Route::get('get_bank_account_details/{id}', 'VendorController@get_bank_account_details');
     // Route::post('submit_bank_account_edit', 'VendorController@submit_bank_account_edit');
     // Route::get('get_searched_bank_account/{id}', 'VendorController@get_searched_bank_account');

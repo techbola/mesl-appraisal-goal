@@ -57,12 +57,21 @@
             <!-- Invoice Company Details -->
             <div id="invoice-company-details" class="row">
               <div class="col-md-6 col-sm-12  text-left">
-                <div class="media">
-                  <img src="{{ asset("images/logos/".$narrations->brand->LogoLocation ?? 'lekkigardens.jpg') }}" alt="company logo" width="120px" class="p-t-30 ">
+                @if(!is_null($narrations))
+                  <div class="media">
+                  <img src="{{ asset("images/logos/".$narrations->brand->LogoLocation) }}" alt="company logo" width="170px" class="p-t-30 ">
                   <div class="m-t-25">
                     {!! str_replace(',', ',<br>', $narrations->brand->Address) !!}
                   </div>
                 </div>
+                @else
+                <div class="media">
+                  <img src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class="p-t-30 ">
+                  <div class="m-t-25">
+                    {{-- {!! str_replace(',', ',<br>', $narrations->brand->Address) !!} --}}
+                  </div>
+                </div>
+                @endif
               </div>
               <div class="col-md-6 col-sm-12  text-right">
                 <h2>RECEIPT</h2>
@@ -101,20 +110,18 @@
             <div id="invoice-items-details" class="pt-2">
               <div class="row">
                 <div class="table-responsive col-sm-12">
-                  <table class="table">
+                  <table class="table table-borderless">
                     <thead>
                       <tr>
-                        <th>Product</th>
-                        <th class="text-right">Description</th>
+                        <th class="text-left">Description</th>
                         <th class="text-right">Amount</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td>
-                          <p>{!! $cash_entry->Narration !!}</p>
+                          <p>{!! $narrations->Narration ?? $cash_entry->Narration !!}</p>
                         </td>
-                        <td class="text-right"></td>
                         <td class="text-right">{{ nairazify(number_format($cash_entry->Amount,2)) }}</td>
                       </tr>
                     </tbody>
@@ -155,10 +162,14 @@
             </div>
             <!-- Invoice Footer -->
             <div id="invoice-footer" class="m-t-100">
-              <b>Amount in words</b>
-              <h5>
-                <b>{{ ucwords($amount_in_words) }}</b>
-              </h5> <br><br>
+              <span>Amount in words : </span>
+              <span>
+                <b>{{ ucwords($amount_in_words) ?? '-'  }} Naira Only</b>
+              </span> <br>
+              <span>Bank transfer to : </span>
+              <span>
+                <b>{{ ucwords($cash_entry->gl_debit->Description) ?? '-' }}</b>
+              </span> <br><br><br>
               <div class="row">
                 <div class="col-md-12 col-sm-12">
                   <div class="row">
