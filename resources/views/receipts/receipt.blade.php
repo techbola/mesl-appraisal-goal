@@ -58,7 +58,7 @@
             <div id="invoice-company-details" class="row">
               <div class="col-md-6 col-sm-12  text-left">
                 <div class="media">
-                  <img src="{{ asset("images/$company_details->Logo") }}" alt="company logo" width="120" class="img-responsive">
+                  <img src="{{ asset("images/logos/".$narrations->brand->LogoLocation ?? 'lekkigardens.jpg') }}" alt="company logo" width="120px" class="p-t-50 ">
                   
                 </div>
               </div>
