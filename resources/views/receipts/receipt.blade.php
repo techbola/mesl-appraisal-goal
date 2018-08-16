@@ -58,15 +58,9 @@
             <div id="invoice-company-details" class="row">
               <div class="col-md-6 col-sm-12  text-left">
                 <div class="media">
-                  <img src="{{ asset("images/$company_details->Logo") }}" alt="company logo" width="120" class="img-responsive">
-                  <div class="media-body hide">
-                    <ul class="ml-2 px-0 list-unstyled">
-                      <li class="text-bold-800">Stack Creative Studio</li>
-                      <li>4025 Oak Avenue,</li>
-                      <li>Melbourne,</li>
-                      <li>Florida 32940,</li>
-                      <li>USA</li>
-                    </ul>
+                  <img src="{{ asset("images/logos/".$narrations->brand->LogoLocation ?? 'lekkigardens.jpg') }}" alt="company logo" width="120px" class="p-t-30 ">
+                  <div class="m-t-25">
+                    {!! str_replace(',', ',<br>', $narrations->brand->Address) !!}
                   </div>
                 </div>
               </div>
@@ -97,9 +91,9 @@
                 <p>
                   <span class="text-muted m-r-10">Receipt Date</span> {{ nice_date($cash_entry->ValueDate) }}</p>
                 <p>
-                  <span class="text-muted m-r-10">Account Manager</span> <b>ELOHO Q. OCHUKO</b></p>
+                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $cash_entry->account_manager ?? 'ELOHO Q. OCHUKO' }}</b></p>
                 <p>
-                  <span class="text-muted m-r-10">Contact Number</span> Company Number Here</p>
+                  <span class="text-muted m-r-10">Contact Number</span>{{ $narrations->brand->Phone ?? '-' }}</p>
               </div>
             </div> <hr>
             <!--/ Invoice Customer Details -->
@@ -176,7 +170,7 @@
                           <hr>
                         </div>
 
-                        <h5 class="semi-bold">Dipo Odeyemi</h5>
+                        <h5 class="semi-bold">{{ $client_details->Customer ?? '-' }}</h5>
 
                         {{-- <p class="text-muted">Managing Director</p> --}}
                       </div>

@@ -40,6 +40,8 @@ class User extends Authenticatable
         'password', 'remember_token', 'google2fa_secret',
     ];
 
+    public $appends = ['FullName'];
+
     public function staff()
     {
         return $this->hasOne('Cavidel\Staff', 'UserID');

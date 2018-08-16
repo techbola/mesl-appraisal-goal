@@ -6,25 +6,45 @@
 	{{-- </div> --}}
 @endsection
 
+@section('page-title')
+	Staff Listing
+@endsection
+
 @section('content')
+
 	{{-- <div class="clearfix m-b-20">
 		<button class="btn btn-info pull-right" data-toggle="modal" data-target="#new_staff">New Staff</button>
 	</div> --}}
+
+	{{-- Search --}}
+	<div class="card-box">
+		<div class="row col-md-offset-1">
+			<form action="" method="get">
+				<div class="col-md-8">
+					<input type="text" name="q" value="{{ $q ?? '' }}" class="form-control" placeholder="Search staff">
+				</div>
+				<div class="col-md-2">
+					<button type="submit" class="btn btn-info btn-block">Search</button>
+				</div>
+			</form>
+		</div>
+	</div>
 
 	<!-- START PANEL -->
 	<div class="card-box">
 		<div class="card-title pull-left">
 			Staff Listing
 		</div>
-		<div class="pull-right">
+		{{-- <div class="pull-right">
 			<div class="col-xs-12">
 				<input type="text" class="search-table form-control pull-right" placeholder="Search">
 			</div>
-		</div>
+		</div> --}}
 		<div class="clearfix"></div>
 		<div class="panel-body">
-			<table class="table tableWithSearch table-striped table-bordered">
+			<table id="staff_table" class="table table-striped table-bordered">
 				<thead>
+					<th>Avatar</th>
 					<th>Staff Name</th>
 					<th>Email Address</th>
 					<th>Mobile Number</th>
@@ -34,6 +54,9 @@
 				<tbody>
 					@foreach ($staffs as $staff)
 						<tr>
+						<td>
+							<img class="avatar2" src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" alt="" width="48" height="48">
+						</td>
 						<td><a href="{{ route('staff.show', $staff->StaffRef) }}" title="">{{ $staff->user->FullName ?? '&mdash;' }}</a></td>
 						<td>{{ $staff->user->email ?? '&mdash;' }}</td>
 						<td>{{ $staff->MobilePhone ?? '&mdash;' }}</td>
@@ -60,6 +83,7 @@
 					@endforeach
 				</tbody>
 			</table>
+			{{ $staffs->links() }}
 		</div>
 	</div>
 	<!-- END PANEL -->
@@ -237,4 +261,37 @@
 			},
 		})
 	</script>
+@endpush
+
+
+@push('scripts')
+	{{-- <script>
+    $(document).ready(function() {
+			var base = '{{ url('/') }}';
+
+      $.get('/get_staff_list', function(data, status){
+
+
+        $.each(data, function(i, v){
+          $('#staff_table tbody').append(`
+            <tr>
+              <td>
+                <img class="avatar2" src="{{ asset('images/avatars/') }}/${v.user.avatar || 'default.png'}" alt="" width="48" height="48">
+              </td>
+              <td>${v.user.FullName}</td>
+              <td>${v.user.email}</td>
+              <td>${v.MobilePhone || '&mdash;'}</td>
+							<td class="actions">
+								<a href="${base + '/staff/' + v.StaffRef}" class="btn btn-xs btn-info">View</a>
+								<a href="" class="btn btn-xs btn-inverse" data-toggle="modal" data-target="#edit_staff" @click="edit_staff(${v})">Edit</a>
+								<a href="${base + '/staff/' + v.StaffRef +'/edit_biodata'}" class="btn btn-xs btn-inverse">Edit Biodata</a>
+							</td>
+            </tr>
+          `);
+        });
+        $('#staff_table').DataTable();
+      });
+
+    });
+  </script> --}}
 @endpush

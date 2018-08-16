@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
+
     protected $table   = 'tblClients';
     protected $guarded = ['ClientRef'];
     public $primaryKey = 'ClientRef';

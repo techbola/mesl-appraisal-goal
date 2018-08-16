@@ -250,6 +250,7 @@ class TransactionController extends Controller
     public function multipost_approve(Request $request)
     {
         $refs = $request->TransactionRef;
+        
         foreach ($refs as $key => $ref) {
             $transaction = TransactionMP::where('AlphaCode', $ref);
             $transaction->update([
