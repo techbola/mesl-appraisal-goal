@@ -14,10 +14,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \Cavidel\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \Cavidel\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \Cavidel\Http\Middleware\TrustProxies::class,
     ];
 
     /**
@@ -50,13 +51,15 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth'       => \Illuminate\Auth\Middleware\Authenticate::class,
+        'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings'   => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'can'        => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest'      => \Cavidel\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-// ENTRUST
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest' => \Cavidel\Http\Middleware\RedirectIfAuthenticated::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        // ENTRUST
         'role'       => \Zizaco\Entrust\Middleware\EntrustRole::class,
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability'    => \Zizaco\Entrust\Middleware\EntrustAbility::class,
