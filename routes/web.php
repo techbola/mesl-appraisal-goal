@@ -525,6 +525,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('delete_bill_narration/{id}', 'BillingController@delete_bill_narration');
     Route::get('billings.sendbill/{CustomerRef}/{billCode}', 'BillingController@sendbill')->name('SendBill');
 
+    //Bank Account
+    Route::get('bank_account/search_account', 'BankAccountController@search_account')->name('SearchBankAccount');
+    Route::post('search_bank_account', 'BankAccountController@search_bank_account');
+    Route::post('submit_bank_account', 'BankAccountController@submit_bank_account');
+    Route::get('get_bank_account_details/{id}', 'BankAccountController@get_bank_account_details');
+    Route::post('submit_bank_account_edit', 'BankAccountController@submit_bank_account_edit');
+    Route::get('get_searched_bank_account/{id}', 'BankAccountController@get_searched_bank_account');
+
+    //Vendor
+    Route::get('vendors/search_vendors', 'VendorController@search_vendors')->name('SearchVendors');
+    Route::post('search_bank_account', 'VendorController@search_company_vendor');
+    Route::post('submit_vendor', 'VendorController@submit_vendor');
+    // Route::get('get_bank_account_details/{id}', 'VendorController@get_bank_account_details');
+    // Route::post('submit_bank_account_edit', 'VendorController@submit_bank_account_edit');
+    // Route::get('get_searched_bank_account/{id}', 'VendorController@get_searched_bank_account');
+
     //ClientDocument
     Route::get('client_document/client_document_list/{id}', 'ClientDocumentController@client_list')->name('Client_Document_List');
     Route::get('client_document/add_client_document/{id}', 'ClientDocumentController@add_client_document')->name('Add_Client_Document');
