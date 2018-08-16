@@ -23,6 +23,7 @@ use Cavidel\PymtPlan;
 use Cavidel\HouseType;
 use Cavidel\Config;
 use Cavidel\PlanOption;
+use Cavidel\Brand;
 use Mail;
 use Cavidel\GL;
 use NumberFormatter;
@@ -106,6 +107,7 @@ class BillingController extends Controller
         $amount_os               = $bill_details_collection->sum('AmountOutstanding');
         $options                 = PlanOption::all();
         $bill_narration          = BillNarration::where('BillCode', $code)->first();
+        $brands                  = Brand::all();
 
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
                          AS CUST_ACCT
@@ -123,7 +125,7 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files'));
+        return view('billings.notification_Billing', compact('client_details', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files'));
     }
 
     public function get_product($cat_id)
@@ -354,6 +356,7 @@ class BillingController extends Controller
             ->join('tblGL', 'tblCustomer.CustomerRef', '=', 'tblGl.CustomerID')
             ->join('tblCashEntry', 'tblGL.GLRef', '=', 'tblCashEntry.GLIDCredit')
             ->where('tblCashEntry.PostingTypeID', 14)
+            ->orWhere('tblCashEntry.PostingTypeID', 16)
             ->get();
         $user            = auth()->user();
         $titles          = Title::orderBy('Title')->get();

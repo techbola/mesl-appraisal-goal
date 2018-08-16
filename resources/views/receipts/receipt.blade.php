@@ -59,15 +59,7 @@
               <div class="col-md-6 col-sm-12  text-left">
                 <div class="media">
                   <img src="{{ asset("images/$company_details->Logo") }}" alt="company logo" width="120" class="img-responsive">
-                  <div class="media-body hide">
-                    <ul class="ml-2 px-0 list-unstyled">
-                      <li class="text-bold-800">Stack Creative Studio</li>
-                      <li>4025 Oak Avenue,</li>
-                      <li>Melbourne,</li>
-                      <li>Florida 32940,</li>
-                      <li>USA</li>
-                    </ul>
-                  </div>
+                  
                 </div>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
@@ -176,7 +168,7 @@
                           <hr>
                         </div>
 
-                        <h5 class="semi-bold">Dipo Odeyemi</h5>
+                        <h5 class="semi-bold">{{ $client_details->Customer ?? '-' }}</h5>
 
                         {{-- <p class="text-muted">Managing Director</p> --}}
                       </div>

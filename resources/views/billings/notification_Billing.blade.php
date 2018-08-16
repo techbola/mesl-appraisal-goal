@@ -251,13 +251,22 @@
                   <div class="row">
                     <div id="narration_div">
                      {{ Form::open(['id' => 'bill_narration_form', 'autocomplete' => 'off', 'role' => 'form']) }}
-                    <div class="col-sm-12">
+                                  <div class="col-sm-6">
                                       <div class="form-group">
                                           <div class="controls">
-                                              {{ Form::textarea('Narration', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Be expressive']) }}
+                                              {{ Form::select('BrandID', [''=>'Select Brand'] + $brands->pluck('BrandName', 'BrandRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Brand", 'required', 'data-init-plugin' => "select2",]) }}
                                          </div>
                                       </div>
+                                  </div> <div class="clearfix"></div>
+
+                                  <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="controls">
+                                            {{ Form::textarea('Narration', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Be expressive']) }}
+                                       </div>
+                                    </div>
                                   </div>
+
                                   <input type="hidden" id="narration_bill_code" name="BillCode">
                                   <input type="hidden" id="narration_bill_clientid" name="ClientID">
                                   <input type="submit" id="submit_bill_narration" class="btn btn-lg btn-info pull-right" value="Submit">
@@ -380,7 +389,7 @@
                            <div class="form-group">
                                <div class="controls">
                                    <label for="">Amount Paid</label>
-                                   <input type="text" id="formattedNumberField" max="{{ $amount_os }}"  name="Amount"  class="form-control" required>
+                                   <input type="text" id="formattedNumberField" max="{{ $amount_os }}"  name="Amount"  class="form-control smartinput" required>
                                </div>
                            </div>
                        </div><div class="clearfix"></div>
