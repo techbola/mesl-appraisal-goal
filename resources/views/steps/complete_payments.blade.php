@@ -19,7 +19,8 @@
         <th>Project Manager</th>
         <th>Vendor</th>
         <th>Amount To Pay</th>
-        <th>Payment Date</th>
+        <th>Approved By</th>
+        <th>Approval Date</th>
         {{-- <th>Start Date</th>
         <th>End Date</th> --}}
         <th>Actions</th>
@@ -39,6 +40,7 @@
             <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
             <td>{{ nairazify(number_format($update->step->payment_made)) }}</td> --}}
             <td>{{ nairazify(number_format($payment->Amount)) }}</td>
+            <td>{{ $payment->inputter->FullName ?? '&mdash;' }}</td>
             <td>{{ $payment->created_at }}</td>
             <td>
               @if ($payment->IsPaid)

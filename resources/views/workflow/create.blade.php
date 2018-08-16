@@ -47,7 +47,7 @@
 				Document Flow
 				@endif
 			</td>
-			<td>{{ Cavidel\User::find($workflow->RequesterID)->Fullname }}</td>
+			<td>{{ Cavidel\User::find($workflow->RequesterID)->Fullname ?? '-' }}</td>
 			<td>{{ is_null(Cavidel\User::find($workflow->ApproverID1))  ? '' : Cavidel\User::find($workflow->ApproverID1)->Fullname }}</td>
 			<td>{{ is_null(Cavidel\User::find($workflow->ApproverID2))  ? '' : Cavidel\User::find($workflow->ApproverID2)->Fullname  }}</td>
 			<td>{{ is_null(Cavidel\User::find($workflow->ApproverID3))  ? '' : Cavidel\User::find($workflow->ApproverID3)->Fullname }}</td>

@@ -15,4 +15,9 @@ class StepBudgetPayment extends Model
     return $this->belongsTo('Cavidel\Step', 'StepID');
   }
 
+  public function inputter()
+  {
+    return $this->belongsTo('Cavidel\User', 'InputterID');
+  }
+
 }
