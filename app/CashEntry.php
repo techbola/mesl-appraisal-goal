@@ -25,4 +25,9 @@ class CashEntry extends Model
     {
         return $this->belongsTo(Staff::class, 'InputterID', 'StaffRef');
     }
+
+    public function bill_narrations()
+    {
+        return $this->belongsTo(BillNarration::class, 'Reference1', 'BillCode');
+    }
 }

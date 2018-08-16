@@ -57,18 +57,21 @@
             <!-- Invoice Company Details -->
             <div id="invoice-company-details" class="row">
               <div class="col-md-6 col-sm-12  text-left">
-                <div class="media">
-                  <img src="{{ asset("images/$company_details->Logo") }}" alt="company logo" width="120" class="img-responsive">
-                  <div class="media-body hide">
-                    <ul class="ml-2 px-0 list-unstyled">
-                      <li class="text-bold-800">Stack Creative Studio</li>
-                      <li>4025 Oak Avenue,</li>
-                      <li>Melbourne,</li>
-                      <li>Florida 32940,</li>
-                      <li>USA</li>
-                    </ul>
+                @if(!is_null($narrations))
+                  <div class="media">
+                  <img src="{{ asset("images/logos/".$narrations->brand->LogoLocation) }}" alt="company logo" width="170px" class="p-t-30 ">
+                  <div class="m-t-25">
+                    {!! str_replace(',', ',<br>', $narrations->brand->Address) !!}
                   </div>
                 </div>
+                @else
+                <div class="media">
+                  <img src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class="p-t-30 ">
+                  <div class="m-t-25">
+                    {{-- {!! str_replace(',', ',<br>', $narrations->brand->Address) !!} --}}
+                  </div>
+                </div>
+                @endif
               </div>
               <div class="col-md-6 col-sm-12  text-right">
                 <h2>RECEIPT</h2>
@@ -97,9 +100,9 @@
                 <p>
                   <span class="text-muted m-r-10">Receipt Date</span> {{ nice_date($cash_entry->ValueDate) }}</p>
                 <p>
-                  <span class="text-muted m-r-10">Account Manager</span> <b>ELOHO Q. OCHUKO</b></p>
+                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $cash_entry->account_manager ?? 'ELOHO Q. OCHUKO' }}</b></p>
                 <p>
-                  <span class="text-muted m-r-10">Contact Number</span> Company Number Here</p>
+                  <span class="text-muted m-r-10">Contact Number</span>{{ $narrations->brand->Phone ?? '-' }}</p>
               </div>
             </div> <hr>
             <!--/ Invoice Customer Details -->
@@ -107,20 +110,18 @@
             <div id="invoice-items-details" class="pt-2">
               <div class="row">
                 <div class="table-responsive col-sm-12">
-                  <table class="table">
+                  <table class="table table-borderless">
                     <thead>
                       <tr>
-                        <th>Product</th>
-                        <th class="text-right">Description</th>
+                        <th class="text-left">Description</th>
                         <th class="text-right">Amount</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td>
-                          <p>{!! $cash_entry->Narration !!}</p>
+                          <p>{!! $narrations->Narration ?? $cash_entry->Narration !!}</p>
                         </td>
-                        <td class="text-right"></td>
                         <td class="text-right">{{ nairazify(number_format($cash_entry->Amount,2)) }}</td>
                       </tr>
                     </tbody>
@@ -161,10 +162,14 @@
             </div>
             <!-- Invoice Footer -->
             <div id="invoice-footer" class="m-t-100">
-              <b>Amount in words</b>
-              <h5>
-                <b>{{ ucwords($amount_in_words) }}</b>
-              </h5> <br><br>
+              <span>Amount in words : </span>
+              <span>
+                <b>{{ ucwords($amount_in_words) ?? '-'  }} Naira Only</b>
+              </span> <br>
+              <span>Bank transfer to : </span>
+              <span>
+                <b>{{ ucwords($cash_entry->gl_debit->Description) ?? '-' }}</b>
+              </span> <br><br><br>
               <div class="row">
                 <div class="col-md-12 col-sm-12">
                   <div class="row">
@@ -176,7 +181,7 @@
                           <hr>
                         </div>
 
-                        <h5 class="semi-bold">Dipo Odeyemi</h5>
+                        <h5 class="semi-bold">{{ $client_details->Customer ?? '-' }}</h5>
 
                         {{-- <p class="text-muted">Managing Director</p> --}}
                       </div>

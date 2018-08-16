@@ -40,7 +40,7 @@
             "database/factories",
             "database",
             "app/Http/Controllers",
-            "app/"
+            "app/Notifications"
         ],
         "psr-4": {
             "Cavidel\\": "app/"

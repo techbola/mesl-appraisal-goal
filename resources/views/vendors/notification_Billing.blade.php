@@ -24,13 +24,13 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Create New bill for <span class="text-info">{{ $client_details->Customer }}</span></div><div class="clearfix"></div>
+  			<div class="card-title pull-left">Create New bill for <span class="text-info">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div>
         <div class="row">
 
           <div class="col-md-7">
               @if(count($bill_items) > 0)
                   <p>
-                      <a href="{{ route('Bill', [$client_details->CustomerRef, $code]) }}" class="btn btn-success btn-sm pull-right" title="">Print Bill</a>
+                      <a href="{{ route('Bill', [$client_details->VendorRef, $code]) }}" class="btn btn-success btn-sm pull-right" title="">Print Bill</a>
                   </p>
               @endif
             <div style="background: #eee; padding: 5px;">
@@ -171,7 +171,7 @@
                                 <input type="hidden" name="ServiceDesc" id="service_desc">
                                 <input type="hidden" name="UserID" value="{{ $staff_id->StaffRef }}">
                                 {{-- <input type="hidden" name="Produt_ServiceType" id="product_service"> --}}
-                                <input type="hidden" id="bill_clientid" name="ClientID" value="{{ $client_details->CustomerRef }}">
+                                <input type="hidden" id="bill_clientid" name="ClientID" value="{{ $client_details->VendorRef }}">
 
                                 <div class="pull-right">
                                     <input type="submit" class="btn btn-rounded btn-primary hide" id="add_to_list" value="Add to list">
@@ -349,8 +349,8 @@
                   <div class="row">
                     <div style="padding: 20px; margin-bottom: 20px">
                       <div class="col-md-12">
-                        <span>Customer Name</span>
-                        <p  class="text-primary" style="color: #fff; font-weight: 600; font-size: 25px; color: #000" id="customername">{{ $client_details->Customer }}</p>
+                        <span>Vendor Name</span>
+                        <p  class="text-primary" style="color: #fff; font-weight: 600; font-size: 25px; color: #000" id="customername">{{ $client_details->Vendor }}</p>
                       </div><br><br>
                       <div class="col-md-6">
                         <span>Bill Amount</span>
@@ -421,7 +421,7 @@
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('Narration', 'Narration' ) }}
-                                        {{ Form::textarea('Narration', $code.': '.$client_details->Customer ,  ['class' => 'form-control', 'placeholder' => 'Enter Narration', 'rows'=>'2']) }}
+                                        {{ Form::textarea('Narration', $code.': '.$client_details->Vendor ,  ['class' => 'form-control', 'placeholder' => 'Enter Narration', 'rows'=>'2']) }}
                                     </div>
                                 </div>
                             </div>
