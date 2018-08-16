@@ -23,7 +23,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $user       = auth()->userX();
+        $user       = auth()->user();
         $today      = date('Y-m-d');
         $start_week = Carbon::parse($today)->startofWeek()->format('Y-m-d');
         $end_week   = Carbon::parse($today)->endofWeek()->format('Y-m-d');
