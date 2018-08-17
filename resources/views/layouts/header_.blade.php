@@ -105,7 +105,7 @@
             @if($menu->name != 'Dashboard') continue; @endif --}}
             @if ($dashboard)
               <li>
-                <a href="{{ $dashboard->route != '/' ? route($dashboard->route) : "#" }}" class="">
+                <a href="{{ $dashboard->route != '#' ? route($dashboard->route) : "#" }}" class="">
                   <span class="title">{{$dashboard->name }}</span>
                   @if(count($dashboard->children) > 0 )
                     <span class="arrow"></span>
@@ -552,7 +552,7 @@
     </script>
 
     {{-- PUSHER --}}
-    <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
 
     {{-- PUSH.JS BROWSER NOTIF --}}
     <script src="{{ asset('assets/plugins/push.js/push.min.js') }}" charset="utf-8"></script>

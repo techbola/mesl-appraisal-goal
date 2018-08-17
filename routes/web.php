@@ -625,6 +625,7 @@ Route::middleware(['auth'])->group(function () {
 
     // -- payroll
 
+    // Route::get('payroll/details', 'PayrollController@details')->name('payroll.details');
     Route::get('payroll/details', 'PayrollController@details')->name('payroll.details');
 
     // apply updates to employees
@@ -659,7 +660,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('payroll/deductions/manual', 'PayrollController@post_manual_deductions')->name('payroll.deductions.store');
     Route::post('/payroll/process-payroll', 'PayrollController@process_payroll');
 
-    Route::get('payroll/deductions/{id}', 'PayrollController@get_user_deductions')->name('payroll.deduction.manual');
+    Route::get('payroll/deductions/{id}', 'PayrollController@get_user_deductions')->name('payroll.deduction.manual2');
 
     // payslip
     Route::get('payslip', 'PayrollController@payslip_individual')->name('individual-payslip');

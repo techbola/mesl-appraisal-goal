@@ -57,11 +57,11 @@
             <!-- Invoice Company Details -->
             <div id="invoice-company-details" class="row">
               <div class="col-md-6 col-sm-12  text-left">
-                @if(!is_null($narrations))
+                @if(!is_null($cash_entry->BrandID))
                   <div class="media">
-                  <img src="{{ asset("images/logos/".$narrations->brand->LogoLocation) }}" alt="company logo" width="170px" class="p-t-30 ">
+                  <img src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class="p-t-30 ">
                   <div class="m-t-25">
-                    {!! str_replace(',', ',<br>', $narrations->brand->Address) !!}
+                    {!! str_replace(',', ',<br>', $cash_entry->brand->Address ?? '-') !!}
                   </div>
                 </div>
                 @else
@@ -76,9 +76,9 @@
               <div class="col-md-6 col-sm-12  text-right">
                 <h2>RECEIPT</h2>
                 <p class="pb-3"># {{ 'BNKRCPOM'.$cash_entry->CashEntryRef }}</p>
-                <ul class="px-0 list-unstyled">
+                <ul class="px-0 list-unstyled hide">
                   <li>Balance Due</li>
-                  <li class="lead text-bold-800">{{ nairazify(number_format(0.00, 2)) }}</li>
+                  <li class="lead text-bold-800">{{-- nairazify(number_format(0.00, 2)) --}}</li>
                 </ul>
               </div>
             </div> <hr>
@@ -107,37 +107,16 @@
             </div> <hr>
             <!--/ Invoice Customer Details -->
             <!-- Invoice Items Details -->
-            <div id="invoice-items-details" class="pt-2">
-              <div class="row">
-                <div class="table-responsive col-sm-12">
-                  <table class="table table-borderless">
-                    <thead>
-                      <tr>
-                        <th class="text-left">Description</th>
-                        <th class="text-right">Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <p>{!! $narrations->Narration ?? $cash_entry->Narration !!}</p>
-                        </td>
-                        <td class="text-right">{{ nairazify(number_format($cash_entry->Amount,2)) }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+            
 
-            <h4 class="text-center semi-bold m-t-15 m-b-15">Payments</h4>
+            <h4 class="text-center semi-bold m-t-15 m-b-15"></h4>
             <div id="invoice-items-details" class="pt-2">
               <div class="row">
                 <div class="table-responsive col-sm-12">
                   <table class="table table-bordered">
                     <thead>
                       <tr>
-                        <th class="text-center">#</th>
+                        <th class="text-center">S/N</th>
                         <th class="text-left">Description</th>
                         <th class="text-right">Amount</th>
                       </tr>
@@ -146,15 +125,15 @@
                       <tr>
                         <th class="text-center" scope="row">1</th>
                         <td>
-                          <p>Total Payment received till date</p>
+                          <p>{!! $narrations->Narration ?? $cash_entry->Narration !!}</p>
                         </td>
                         <td class="text-right">{{ nairazify(number_format($cash_entry->Amount,2)) }}</td>
                       </tr>
                     </tbody>
                     <tfoot>
                       <td></td>
-                      <td class="text-right">Outstanding Balance</td>
-                      <td class="text-right">{{ nairazify(number_format($cash_entry->Amount,2)) }}</td>
+                      <td class="text-right"><b>TOTAL</b></td>
+                      <td class="text-right"><b>{{ nairazify(number_format($cash_entry->Amount,2)) }}</b></td>
                     </tfoot>
                   </table>
                 </div>

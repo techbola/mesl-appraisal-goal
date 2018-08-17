@@ -30,4 +30,9 @@ class CashEntry extends Model
     {
         return $this->belongsTo(BillNarration::class, 'Reference1', 'BillCode');
     }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'BrandID', 'BrandRef');
+    }
 }
