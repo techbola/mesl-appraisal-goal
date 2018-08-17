@@ -105,7 +105,7 @@
             @if($menu->name != 'Dashboard') continue; @endif --}}
             @if ($dashboard)
               <li>
-                <a href="{{ $dashboard->route != '#' ? route($dashboard->route) : "#" }}" class="">
+                <a href="{{ $dashboard->route != '/' ? route($dashboard->route) : "#" }}" class="">
                   <span class="title">{{$dashboard->name }}</span>
                   @if(count($dashboard->children) > 0 )
                     <span class="arrow"></span>
@@ -363,17 +363,47 @@
                     <p class="theme-secondary text-uppercase">{{ config('app.name', 'OfficeMate') }}</p>
                   </li>
                   <li><a href="#" class="active text-uppercase">{{ Route::currentRouteName() }}</a></li> --}}
-                    @if(View::hasSection('page-title'))
+
+                  @if (!empty($current_menu)) {{-- If page is stored as a menu --}}
+                    <li id="header_submenus" class="dropdown" onclick="header_submenus()">
+                      @if (!empty($current_parent))
+                        <a class="btn bg-muted btn-sm dropdown-toggle bold" style="font-size:16px !important; padding: 7px 13px;border-radius: 10px;font-family:karla !important; background:#424d54; color:#fff;">{{ ($current_parent)? $current_parent->name : $current_menu->name }} <span class="pg-menu_justify p-l-10 text-white"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                          @foreach ($current_parent->user_submenus() as $child)
+                            <li><a href="{{ route($child->route) }}" class="pointer karla bold" style="font-size:15px !important">{{ $child->name }}</a></li>
+                          @endforeach
+                          {{-- <li role="separator" class="divider"></li>
+                          <li><a class="pointer">Delete</a></li> --}}
+                        </ul>
+                      @else
+
+                        {{-- @if(View::hasSection('page-title')) --}}
+                          <div class="page-title">
+                            {{ $current_menu->name }}
+                          </div>
+                        {{-- @endif --}}
+
+                      @endif
+                    </li>
+
+                  @else
+                    <div class="page-title">
+                      @yield('title')
+                    </div>
+                  @endif
+
+
+                    {{-- @if(View::hasSection('page-title'))
                       <li class="page-title">
                         @yield('page-title')
                       </li>
                     @else
-                      {{-- @yield('title') --}}
                       <li>
                         <p class="theme-secondary text-uppercase">{{ config('app.name', 'OfficeMate') }}</p>
                       </li>
                       <li><a href="#" class="active text-uppercase">{{ Route::currentRouteName() }}</a></li>
-                    @endif
+                    @endif --}}
                 </ul>
                 <span  class="pull-right" style="margin-top : -45px">
                   <button onclick="goBack()" class="btn btn-sm btn-rounded btn-inverse"><i class="fa fa-arrow-left m-r-5"></i> Back</button>
@@ -393,7 +423,7 @@
           <div class="container-fluid container-fixed-lg">
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
             @yield('content')
-</div>
+          </div>
           <!-- END CONTAINER FLUID -->
           <!-- -->
           @yield('bottom-content')
@@ -401,7 +431,6 @@
         </div>
         <!-- END PAGE CONTENT -->
         <!-- START COPYRIGHT -->
-        <!-- START CONTAINER FLUID -->
         <!-- START CONTAINER FLUID -->
         <div class="container-fluid container-fixed-lg footer">
           <div class="copyright sm-text-center">
@@ -507,6 +536,7 @@
 
     <script src="{{ asset('pages/js/pages.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.js') }}" ></script>
+    <script src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.colVis.js"></script>
     <script src="{{ asset('assets/js/scripts.js') }}" ></script>
 
     <!-- smart-input -->
@@ -522,7 +552,7 @@
     </script>
 
     {{-- PUSHER --}}
-    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
 
     {{-- PUSH.JS BROWSER NOTIF --}}
     <script src="{{ asset('assets/plugins/push.js/push.min.js') }}" charset="utf-8"></script>
@@ -649,6 +679,7 @@
 
     <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css') }}" rel="stylesheet" type="text/css">
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
 
     <script>
       $(function(){
@@ -810,6 +841,13 @@
         </script>
         {{-- End Gantt --}}
       @endif
+
+      <script>
+        function header_submenus(){
+          $('#header_submenus').find('ul').toggleClass('inline-block');
+          $('#header_submenus ul').css( 'min-width', $('#header_submenus').width() );
+        }
+      </script>
 
 
   </body>

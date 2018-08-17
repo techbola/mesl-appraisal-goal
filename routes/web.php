@@ -211,6 +211,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit-profile', 'UserController@edit_profile')->name('edit_profile');
     Route::patch('disengage/{id}', 'UserController@disengage')->name('disengage');
     Route::patch('reengage/{id}', 'UserController@reengage')->name('reengage');
+    Route::get('/staff_search', 'StaffController@staff_search')->name('staff_search');
+    Route::get('get_staff_list', 'StaffController@get_staff_list')->name('get_staff_list');
 
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
@@ -517,7 +519,32 @@ Route::middleware(['auth'])->group(function () {
     Route::post('delete_New_Bill_payment', 'BillingController@productdeletion');
     Route::post('bill_posting_post', 'BillingController@bill_payment');
     Route::get('get_client_details_onrequest/{id}', 'BillingController@get_client_details_onrequest');
-    Route::post('submit_edited_client_data', 'BillingController@submit_edited_client_data')->name('route_name'); // comment
+    Route::post('submit_edited_client_data', 'BillingController@submit_edited_client_data')->name('route_name');
+    Route::post('submit_bill_narration', 'BillingController@submit_bill_narration');
+    Route::get('get_bill_narration_detail/{id}', 'BillingController@get_bill_narration_detail');
+    Route::post('edit_bill_narration_form', 'BillingController@edit_bill_narration_form');
+    Route::get('delete_bill_narration/{id}', 'BillingController@delete_bill_narration');
+    Route::get('billings.sendbill/{CustomerRef}/{billCode}', 'BillingController@sendbill')->name('SendBill');
+
+    //Bank Account
+    Route::get('bank_account/search_account', 'BankAccountController@search_account')->name('SearchBankAccount');
+    Route::post('search_bank_account', 'BankAccountController@search_bank_account');
+    Route::post('submit_bank_account', 'BankAccountController@submit_bank_account');
+    Route::get('get_bank_account_details/{id}', 'BankAccountController@get_bank_account_details');
+    Route::post('submit_bank_account_edit', 'BankAccountController@submit_bank_account_edit');
+    Route::get('get_searched_bank_account/{id}', 'BankAccountController@get_searched_bank_account');
+
+    //Vendor
+    Route::get('vendors/search_vendors', 'VendorController@search_vendors')->name('SearchVendors');
+    Route::post('search_bank_account', 'VendorController@search_company_vendor');
+    Route::post('submit_vendor', 'VendorController@submit_vendor');
+    Route::post('vendors/new_bill', 'VendorController@new_bill')->name('NewVendorBill');
+    Route::get('vendors/view_bill/{id}', 'VendorController@view_bill')->name('View_Vendor_Bill_List');
+    Route::get('vendors/notification_Billing/{id}/{billcode}', 'VendorController@notification_bill')->name('VendorNotificationBilling');
+
+    // Route::get('get_bank_account_details/{id}', 'VendorController@get_bank_account_details');
+    // Route::post('submit_bank_account_edit', 'VendorController@submit_bank_account_edit');
+    // Route::get('get_searched_bank_account/{id}', 'VendorController@get_searched_bank_account');
 
     //ClientDocument
     Route::get('client_document/client_document_list/{id}', 'ClientDocumentController@client_list')->name('Client_Document_List');

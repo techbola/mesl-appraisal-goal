@@ -256,7 +256,8 @@ class TaskController extends Controller
     public function pay_step_budget()
     {
       $user = auth()->user();
-      $updates = StepBudget::where('CompanyID', $user->CompanyID)->where('Status', '1')->where('PaymentRejectedFlag', '0')->get();
+      // $updates = StepBudget::where('CompanyID', $user->CompanyID)->where('Status', '1')->where('PaymentRejectedFlag', '0')->get();
+      $updates = StepBudget::where('CompanyID', $user->CompanyID)->where('Status', '1')->orWhere('PaymentRejectedFlag', '1')->get();
 
       return view('steps.pay_budget', compact('updates'));
     }

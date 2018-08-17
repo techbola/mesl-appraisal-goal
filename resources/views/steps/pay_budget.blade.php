@@ -29,6 +29,7 @@
         <th>Amount Outstanding</th>
         <th>Amount To Pay</th>
         <th>Actions</th>
+        <th>Comment</th>
         {{-- <th>Start Date</th>
         <th>End Date</th> --}}
         {{-- <th>Actions</th> --}}
@@ -53,11 +54,14 @@
                 <button type="submit" name="button" class="btn btn-sm btn-success" onclick="$('#spinner').show()">Pay</button>
               </form>
             </td>
-            <td>
-              @if ($update->step->payment_made == 0)
+            <td class="actions">
+              @if ($update->step->payment_made == 0 && $update->PaymentRejectedFlag != '1')
                 <a class="btn btn-danger btn-xs" onclick="reject_payment({{ $update->id }})">Reject</a>
+              @elseif($update->PaymentRejectedFlag == '1')
+                <span class="text-danger">Rejected</span>
               @endif
             </td>
+            <td class="comment">{{ $update->Comment }}</td>
             {{-- <td>{{ $update->step->StartDate ?? '' }}</td>
             <td>{{ $update->step->EndDate ?? '' }}</td> --}}
             {{-- <td class="actions">
@@ -99,7 +103,9 @@
           if (value) {
             resolve();
             $.post('/reject_step_payment', {budget_id:budget_id, comment:value}, function(data, status){
-              $('#budget_'+budget_id).fadeOut('3000').remove();
+              // $('#budget_'+budget_id).fadeOut('3000').remove();
+              $('#budget_'+budget_id+' .actions').html('<span class="text-danger">Rejected</span>');
+              $('#budget_'+budget_id+' .comment').html(value);
             });
           } else {
             error('Please type something.');

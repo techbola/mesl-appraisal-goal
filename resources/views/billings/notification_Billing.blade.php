@@ -34,7 +34,14 @@
                   </p>
               @endif
             <div style="background: #eee; padding: 5px;">
+
                 <h5 style="margin-left: 10px">Product list</h5><hr>
+                @if(count($bill_narration) > 0)
+                 <a href="#" class="btn btn-sm btn-warning pull-right" onclick="get_narration({{ $bill_narration->BillNarrationRef }})" id="edit_bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Edit Narration to bill</a>
+                @else
+                <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to bill</a>
+                @endif
+               
                              <table class="table table-hover">
                                  <thead>
                                      <tr>
@@ -64,6 +71,12 @@
                                      @endforeach
                                  </tbody>
                       </table>
+                      @if(count($bill_narration) > 0)
+                      <div style="background: #fff; padding: 20px">
+                        <p>{!! $bill_narration->Narration ?? "-" !!}</p>
+                        <a href="#" class="btn btn-xs btn-danger pull-right" data-id="{{ $bill_narration->BillNarrationRef }}" data-target="#DeleteBillNarration" data-toggle="modal" id="Toggler2">Delete Narration</a><div class="clearfix"></div>
+                      </div><br>
+                      @endif
                              @if(count($bill_items) > 0)
                              <a href="#" data-target="#modalFillIn2" class="btn btn-lg btn-primary pull-right" data-toggle="modal" id="btnFillSizeToggler2" title="">Pay Now</a><div class="clearfix"></div>
                               @endif
@@ -149,29 +162,16 @@
                                             <input type="text" name="TotalPrice" class="form-control" id="total" readonly required>
                                     </div>
                                 </div>
-                                <p class="pointer" id="open_narration" style="color: #fff">Add Narration</p>
-                                <p class="pointer hide" id="close_narration" style="color: #fff">Close Narration</p>
-
-                                <div class="hide" id='narration'>
-                                <div class="col-sm-12">
-                                      <div class="form-group">
-                                          <div class="controls">
-                                              {{ Form::label('Narration', 'Narration') }}
-                                              {{ Form::textarea('Narration', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Be expressive']) }}
-                                         </div>
-                                      </div>
-                                  </div>
-                                </div>
 
                                 {{-- <input type="hidden" name="LocationID" value="{{ $location_id }}"> --}}
                                 <input type="hidden" name="StaffRef" value="{{ $staff_id->StaffRef }}">
                                 <input type="hidden" name="InvItemID" id="InvItemID">
                                 {{-- <input type="hidden" name="PatientRef" value="{{ $patientRef }}"> --}}
-                                <input type="hidden" name="GroupID" value="{{ $code }}">
+                                <input type="hidden" id="bill_groupid" name="GroupID" value="{{ $code }}">
                                 <input type="hidden" name="ServiceDesc" id="service_desc">
                                 <input type="hidden" name="UserID" value="{{ $staff_id->StaffRef }}">
                                 {{-- <input type="hidden" name="Produt_ServiceType" id="product_service"> --}}
-                                <input type="hidden" name="ClientID" value="{{ $client_details->CustomerRef }}">
+                                <input type="hidden" id="bill_clientid" name="ClientID" value="{{ $client_details->CustomerRef }}">
 
                                 <div class="pull-right">
                                     <input type="submit" class="btn btn-rounded btn-primary hide" id="add_to_list" value="Add to list">
@@ -235,6 +235,103 @@
       </div>
   	<!-- END PANEL -->
 
+    <div class="page-content-wrapper ">
+<div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="BillNarration" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="text-left p-b-5"><span class="semi-bold" id="narration_title" style="color: #fff;"></span></h5>
+                </div>
+                <div class="modal-body" style="width: 1000px">
+                  <div class="row">
+                    <div id="narration_div">
+                     {{ Form::open(['id' => 'bill_narration_form', 'autocomplete' => 'off', 'role' => 'form']) }}
+                                  <div class="col-sm-6">
+                                      <div class="form-group">
+                                          <div class="controls">
+                                              {{ Form::select('BrandID', [''=>'Select Brand'] + $brands->pluck('BrandName', 'BrandRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Brand", 'required', 'data-init-plugin' => "select2",]) }}
+                                         </div>
+                                      </div>
+                                  </div> <div class="clearfix"></div>
+
+                                  <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="controls">
+                                            {{ Form::textarea('Narration', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Be expressive']) }}
+                                       </div>
+                                    </div>
+                                  </div>
+
+                                  <input type="hidden" id="narration_bill_code" name="BillCode">
+                                  <input type="hidden" id="narration_bill_clientid" name="ClientID">
+                                  <input type="submit" id="submit_bill_narration" class="btn btn-lg btn-info pull-right" value="Submit">
+                    {{ Form::close() }}
+                  </div>
+                    <div id="narration_edit_div">
+                     {{ Form::open(['id' => 'edit_bill_narration_form', 'autocomplete' => 'off', 'role' => 'form']) }}
+                    <div class="col-sm-12">
+                                      <div class="form-group">
+                                          <div class="controls">
+                                              {{ Form::textarea('Narration', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Be expressive', 'id'=>'edit_summernote']) }}
+                                         </div>
+                                      </div>
+                                  </div>
+                                  <input type="hidden" name="BillNarrationRef" id="bill_narration_ref">
+                                  <input type="submit" id="edit_submit_bill_narration" class="btn btn-lg btn-success pull-right" value="Save">
+                                </div>
+                    {{ Form::close() }}
+                  </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+      </div>
+    <!-- END PANEL -->
+
+    <div class="page-content-wrapper ">
+<div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="DeleteBillNarration" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="text-left p-b-5"><span class="semi-bold" id="narration_title" style="color: #fff;"></span></h5>
+                </div>
+                <div class="modal-body" style="width: 1000px">
+                  <div class="row">
+                    <div class="col-md-6 col-md-offset-3" style="padding: 40px; background: #fff">
+                    <h5 style="font-size: 25px; color: #000">Are you sure you want to delete this narration ? </h5>
+                    <input type="hidden" name="BillNarrationRef" id="delete_narration_ref">
+                    <input type="submit" onclick="deleteNarration()" class="btn btn-lg btn-danger" value="Delete">
+                  </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+      </div>
+    <!-- END PANEL -->
+
 <div class="page-content-wrapper "> 
      <div class="content ">
           <!-- Modal -->
@@ -292,7 +389,7 @@
                            <div class="form-group">
                                <div class="controls">
                                    <label for="">Amount Paid</label>
-                                   <input type="text" id="formattedNumberField" max="{{ $amount_os }}"  name="Amount"  class="form-control" required>
+                                   <input type="text" id="formattedNumberField" max="{{ $amount_os }}"  name="Amount"  class="form-control smartinput" required>
                                </div>
                            </div>
                        </div><div class="clearfix"></div>
@@ -407,7 +504,6 @@
                 $.each(data, function(index, val) {
                     $('#product').append("<option value='"+val.ProductService+"'>" + val.ProductService+' / &#8358;'+accounting.formatNumber(val.Price)+"</option>");
                     $('#product').select2().val(val.ProductService);
-                    console.log('aye');
                 });
 
             });
@@ -461,20 +557,6 @@
     </script>
 
     <script>
-      $('#open_narration').click(function(event) {
-        $('#narration').removeClass('hide');
-        $('#close_narration').removeClass('hide');
-        $('#open_narration').addClass('hide');
-      });
-
-       $('#close_narration').click(function(event) {
-        $('#narration').addClass('hide');
-        $('#close_narration').addClass('hide');
-        $('#open_narration').removeClass('hide');
-      });
-    </script>
-
-    <script>
       function get_plan_option()
       {
         var id = $('#PymtID').val();
@@ -485,6 +567,79 @@
         {
           $('#plan_option').addClass('hide');
         }
+      }
+    </script>
+
+    <script>
+      $('#bill_narration').click(function(event) {
+        var code = $('#bill_groupid').val();
+        var client_id = $('#bill_clientid').val();
+        $('#narration_bill_code').val(code);
+        $('#narration_bill_clientid').val(client_id);
+        $('#narration_div').removeClass('hide');
+        $('#narration_edit_div').addClass('hide');
+        $('#narration_title').html('Add New Narration');
+      });
+
+      $('#submit_bill_narration').click(function(event) {
+        $.post('/submit_bill_narration', $('#bill_narration_form').serialize(), function(data, status) {
+          if(status == 'success')
+          {
+            var code = $('#bill_groupid').val();
+        var client_id = $('#bill_clientid').val();
+           window.location.href = "{{ url('/billings/notification_Billing') }}/" + client_id + '/' + code;
+          }
+        });
+
+        $('#BillNarration').modal('toggle');
+        var form = $('#bill_narration_form')[0]; 
+        return false;
+      });
+
+      function get_narration(id)
+      {
+        var ref = id;
+        $('#narration_div').addClass('hide');
+        $('#narration_edit_div').removeClass('hide');
+        $('#narration_title').html('Edit Narration');
+        $('#bill_narration_ref').val(ref);
+        $.get('/get_bill_narration_detail/' +ref, function(data, status) {
+          if(status == 'success')
+          {
+           $('#narration_edit_div .note-editable').html(data.Narration);
+          }
+        });
+      }
+
+      $('#edit_submit_bill_narration').click(function(event) {
+        $.post('/edit_bill_narration_form', $('#edit_bill_narration_form').serialize(), function(data, status) {
+          if (status == 'success')
+           {
+            $('#BillNarration').modal('toggle');
+             var code = $('#bill_groupid').val();
+             var client_id = $('#bill_clientid').val();
+           window.location.href = "{{ url('/billings/notification_Billing') }}/" + client_id + '/' + code;
+           }
+        });
+        return false
+      });
+
+      $('#Toggler2').click(function(event) {
+        var id = $(this).data('id');
+        $('#delete_narration_ref').val(id);
+      });
+
+      function deleteNarration()
+      {
+        var ref = $('#delete_narration_ref').val();
+        $.get('/delete_bill_narration/' +ref, function(data, status) {
+          if(status == 'success')
+          {
+             var code = $('#bill_groupid').val();
+             var client_id = $('#bill_clientid').val();
+           window.location.href = "{{ url('/billings/notification_Billing') }}/" + client_id + '/' + code;
+          }
+        });
       }
     </script>
 
