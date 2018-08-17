@@ -208,7 +208,7 @@
 
                     <div class="col-sm-5 col-xs-6 col-md-offset-1">
                       <div class="text-center">
-                       @if(!is_null($cash_entry->signatory))
+                       @if(!is_null($cash_entry->SignatoryID))
                         @if($cash_entry->signatory->SignatureLocation != null)                       
                         <div class="rule" style="height: 100px">
                           <img src="{{ asset("images/".$cash_entry->signatory->SignatureLocation) }}" width="100"  alt="sample signature">
