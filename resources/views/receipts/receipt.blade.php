@@ -221,7 +221,16 @@
                         </div>
                         @endif
 
+                       
+                       @endif
+                       @if(!is_null($cash_entry->SignatoryID))
                         <h5 class="semi-bold">{{ $cash_entry->signatory->fullName }} (Accountant)</h5>
+                        @else
+                         <div class="rule" style="height: 100px">
+                          
+                          {{-- <hr> --}}
+                        </div>
+                        <h5 class="semi-bold">No Signatory (Accountant)</h5>
                        @endif
 
                         {{-- <p class="text-muted">Managing Director</p> --}}
