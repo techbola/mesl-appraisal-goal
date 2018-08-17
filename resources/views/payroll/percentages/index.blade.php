@@ -29,10 +29,10 @@
 					<th>Basic</th>
 					<th>Housing</th>
 					<th>Transport</th>
-					<th>Housing	Lunch</th>
+					<th>Meal</th>
 					<th>Dressing</th>
 					<th>Leave</th>
-					<th>13th Month</th>
+					<th>Utility</th>
 					<th>
 						Actions
 					</th>
@@ -44,10 +44,10 @@
 						<td>{{ number_format($p->Basic, 2) }}%</td>
 						<td>{{ number_format($p->Housing, 2) }}%</td>
 						<td>{{ number_format($p->Transport, 2) }}%</td>
-						<td>{{ number_format($p->Housing, 2) }}%</td>
+						<td>{{ number_format($p->Lunch, 2) }}%</td>
 						<td>{{ number_format($p->Dressing, 2) }}%</td>
 						<td>{{ number_format($p->Leave, 2) }}%</td>
-						<td>{{ number_format($p->Month13, 2) }}%</td>
+						<td>{{ number_format($p->Utilities, 2) }}%</td>
 						<td>
 							<a href="{{ url('/payroll/percentage/').'/'.$p->ScenarioRef }}" class="btn btn-sm btn-inverse">Edit</a>
 						</td>

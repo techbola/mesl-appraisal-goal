@@ -39,7 +39,7 @@
 				        </div>
 
 				        <div class="form-group col-sm-4">
-				            {{ Form::label('Month13','Month13') }}
-				            {{ Form::text('Month13', null, ['class'=> "form-control",'placeholder' => '0.5']) }}
+				            {{ Form::label('Utility','Utility') }}
+				            {{ Form::text('Utilities', null, ['class'=> "form-control",'placeholder' => '0.5']) }}
 				        </div>
 				</div>
