@@ -1115,10 +1115,11 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          Where tblGL.AccountTypeID = ? and tblGL.CustomerID > ?
                          Order By tblGL.Description", [19, 1]));
         $cashentries        = CashEntry::all();
+        $brands             = Brand::all();
         $user               = auth()->user();
         $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
         $product_categories = ProductCategory::orderBy('ProductCategory')->get();
-        return view('cash_entries.receipt_edit', compact('cashentries', 'entry', 'staff', 'product_categories', 'debit_acct_details', 'credit_acct_details', 'configs', 'customer_details'));
+        return view('cash_entries.receipt_edit', compact('cashentries', 'entry', 'brands', 'staff', 'product_categories', 'debit_acct_details', 'credit_acct_details', 'configs', 'customer_details'));
     }
 
     public function update_receipt(Request $request, $id)

@@ -10,7 +10,7 @@
 	<div class="panel-body">
 		{{ Form::model($entry, ['action' => ['CashEntryController@update_receipt', $entry->CashEntryRef ], 'autocomplete' => 'off', 'role' => 'form']) }}
 		{{ method_field('PATCH') }}
-		@include('cash_entries.receipt_edit_form', ['buttonText' => 'Save'])
+		@include('cash_entries.receipts_form', ['buttonText' => 'Save'])
 		{{ Form::close() }}
 	</div>
 </div>
