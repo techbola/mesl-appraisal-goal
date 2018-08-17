@@ -28,6 +28,8 @@
     </div>
 </div>
 
+
+
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
@@ -63,7 +65,24 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('Product', 'Product' ) }}
+                {{ Form::select('Product', [ '' =>  'Select Product Category'] + $product_categories->pluck('ProductCategory', 'ProductCategoryRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('Description' ) }}
+                {{ Form::textarea('Description', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Description']) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('BrandID', 'Select Brand' ) }}
@@ -75,6 +94,33 @@
     <div class="clearfix"></div>
 
 
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('PaymentToDate', 'Payment to Date' ) }}
+                {{ Form::text('PaymentToDate', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Payment to date']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('OutstandingBalance', 'Outstanding Balance' ) }}
+                {{ Form::text('OutstandingBalance', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Narration']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('Terms', 'Terms' ) }}
+                {{ Form::textarea('Terms', null, ['class' => 'form-control', 'placeholder' => 'Enter Terms']) }}
+            </div>
+        </div>
+    </div>
+
     <div class="col-sm-12">
         <div class="form-group">
             <div class="controls">
@@ -83,8 +129,23 @@
             </div>
         </div>
     </div>
+
+
+    <div class="clearfix"></div>
+    <div class="">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('SignatoryID', 'Signatory') }}
+                {{ Form::select('SignatoryID', [ '' =>  'Select Signatory'] + $staff->pluck('fullName', 'StaffRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
 </div>
 </div>
+</div>
+
 
 <div class="row">
     {{ Form::hidden('PostingTypeID', 14, ['class' => 'form-control', 'placeholder' => 'Account Type']) }}

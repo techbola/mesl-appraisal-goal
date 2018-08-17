@@ -108,6 +108,33 @@
             <!--/ Invoice Customer Details -->
             <!-- Invoice Items Details -->
             
+            <div id="invoice-items-details" class="pt-2">
+              <div class="row">
+                <div class="table-responsive col-sm-12">
+                  <table class="table ">
+                    <thead>
+                      <tr>
+                        <th width="40%" class="text-left">Product(s)</th>
+                        <th class="text-left">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="width: 40%">
+                          <p>{!! $cash_entry->product->ProductCategory ?? '-' !!}</p>
+                        </td>
+                        <td>{!! $cash_entry->Description ?? '-' !!}</td>
+                      </tr>
+                    </tbody>
+                    {{-- <tfoot>
+                      <td></td>
+                      <td class="text-right"><b>TOTAL</b></td>
+                      <td class="text-right"><b>{{ nairazify(number_format($cash_entry->Amount,2)) }}</b></td>
+                    </tfoot> --}}
+                  </table>
+                </div>
+              </div>
+            </div>
 
             <h4 class="text-center semi-bold m-t-15 m-b-15"></h4>
             <div id="invoice-items-details" class="pt-2">
@@ -141,6 +168,18 @@
             </div>
             <!-- Invoice Footer -->
             <div id="invoice-footer" class="m-t-100">
+              <span>Total Payments Received Till Date : </span>
+              <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br><br>
+
+              <span>Outstanding Balance : </span>
+              <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->OutstandingBalance, 2)) ?? '-' !!}</b></span> <br><br>
+
+              <span>Terms : </span>
+              <span> {!! $cash_entry->Terms ?? '-' !!}</span> <br><br>
+
+              
+
+
               <span>Amount in words : </span>
               <span>
                 <b>{{ ucwords($amount_in_words) ?? '-'  }} Naira Only</b>
@@ -154,10 +193,11 @@
                   <div class="row">
                     <div class="col-sm-5 col-xs-6">
                       <div class="text-center">
-                        <p>The Client</p> 
+                        {{-- <p>The Client</p>  --}}
                         
-                        <div class="rule">
-                          <hr>
+                        <div class="rule" style="height: 100px">
+                          {{-- <img src="{{ asset('images/signature-scan.png') }}" width="100"  alt="sample signature"> --}}
+                          {{-- <hr> --}}
                         </div>
 
                         <h5 class="semi-bold">{{ $client_details->Customer ?? '-' }}</h5>
@@ -168,13 +208,19 @@
 
                     <div class="col-sm-5 col-xs-6 col-md-offset-1">
                       <div class="text-center">
-                        <p>Official Signature</p>
-                        
-                        <div class="rule">
+                        @if($cash_entry->signatory->SignatureLocation != null)                       
+                        <div class="rule" style="height: 100px">
+                          <img src="{{ asset("images/".$cash_entry->signatory->SignatureLocation) }}" width="100"  alt="sample signature">
                           <hr>
                         </div>
+                        @else
+                        <div class="rule" style="height: 100px">
+                          <img src="{{ asset("images/signature-scan.png") }}" width="100"  alt="sample signature">
+                          <hr>
+                        </div>
+                        @endif
 
-                        <h5 class="semi-bold">Motunrayo Awoniyi (Accountant)</h5>
+                        <h5 class="semi-bold">{{ $cash_entry->signatory->fullName }} (Accountant)</h5>
 
                         {{-- <p class="text-muted">Managing Director</p> --}}
                       </div>

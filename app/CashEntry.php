@@ -35,4 +35,13 @@ class CashEntry extends Model
     {
         return $this->belongsTo(Brand::class, 'BrandID', 'BrandRef');
     }
+    public function product()
+    {
+        return $this->belongsTo(ProductCategory::class, 'Product', 'ProductCategoryRef');
+    }
+
+    public function signatory()
+    {
+        return $this->belongsTo(Staff::class, 'SignatoryID', 'StaffRef');
+    }
 }
