@@ -42,8 +42,8 @@
             </td>
             <td>{{ $update->step->task->Task }}</td>
             <td>{{ $update->step->Step ?? '' }}</td>
-            <td>{{ $update->step->task->project->supervisor->FullName ?? '&mdash;' }}</td>
-            <td>{{ $update->step->task->project->vendor->Customer ?? '&mdash;' }}</td>
+            <td>{{ $update->step->task->project->supervisor->FullName ?? '—' }}</td>
+            <td>{{ $update->step->task->project->vendor->Customer ?? '—' }}</td>
             <td>{{ ngn($update->BudgetCost + $update->Variation) }}</td>
             <td>{{ ngn($update->step->payment_made) }}</td>
             <td>{{ ngn($update->step->payment_outstanding) }}</td>

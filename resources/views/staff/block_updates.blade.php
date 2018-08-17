@@ -23,8 +23,8 @@
           <div class="col-md-5">
             @if (count($task->updates) > 0)
               {{ $task->updates->take('1')->first()->Body }}
-              <span class="text-muted small">&mdash; {{ $task->updates->take('1')->first()->staff->FullName }}</span>
-            @else &mdash; @endif
+              <span class="text-muted small">— {{ $task->updates->take('1')->first()->staff->FullName }}</span>
+            @else — @endif
           </div>
           <div class="col-md-2">
 

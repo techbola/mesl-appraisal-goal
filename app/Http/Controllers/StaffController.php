@@ -539,7 +539,11 @@ class StaffController extends Controller
             $staff->save();
 
             DB::commit();
-            return redirect()->back()->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
+            if ($user->hasRole('admin')) {
+              return redirect()->route('staff.index')->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
+            } else {
+              return redirect()->route('staff.show', $staff->StaffRef)->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
+            }
 
             } catch (Exception $e) {
                 DB::rollback();

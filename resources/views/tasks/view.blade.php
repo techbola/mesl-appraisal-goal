@@ -58,7 +58,7 @@
 
               @if ($step->StartDate || $step->EndDate)
                 <div class="small text-muted p-l-25">
-                  {{ Carbon::parse($step->StartDate)->format('jS M, Y') }} &mdash; {{ Carbon::parse($step->EndDate)->format('jS M, Y') }}
+                  {{ Carbon::parse($step->StartDate)->format('jS M, Y') }} — {{ Carbon::parse($step->EndDate)->format('jS M, Y') }}
                 </div>
               @endif
               <div class="small text-success p-l-25 CompletedDate">

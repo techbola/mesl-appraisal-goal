@@ -60,16 +60,16 @@
 							<td>
 								<input type="checkbox" name="assets[]" value="{{ $asset->AssetRef }}">
 							</td>
-							<td>{{ $asset->Description ?? '&mdash;' }}</td>
+							<td>{{ $asset->Description ?? '—' }}</td>
 							<td>{{ $asset->category->AssetCategory ?? '-' }}</td>
 							<td>{{ $asset->location->Location ?? '-' }}</td>
-							<td>{{ $asset->Quantity ?? '&mdash;' }}</td>
+							<td>{{ $asset->Quantity ?? '—' }}</td>
 							<td>{{ number_format($asset->UnitCost, 2)}}</td>
 							<td>{{ number_format($asset->TotalCost, 2) }}</td>
-							<td>{{ ($asset->PurchaseDate)? $asset->PurchaseDate->format('jS M, Y') : '&mdash;' }}</td>
+							<td>{{ ($asset->PurchaseDate)? $asset->PurchaseDate->format('jS M, Y') : '—' }}</td>
 							<td>{{ $asset->SerialNo ?? '-' }}</td>
 							<td>{{ $asset->AssetNo ?? '-' }}</td>
-							<td>{{ $asset->allotee->FullName ?? '&mdash;' }}</td>
+							<td>{{ $asset->allotee->FullName ?? '—' }}</td>
 							<td class="actions">
 								<a href="#" data-toggle="modal" data-target="#edit_asset" class="" @click="edit_asset({{ $asset }})">
 									<i class="fa fa-pencil text-warning"></i>
@@ -109,8 +109,8 @@
 						<div class="table-cell p-r-10">{{ QRCode::text('Asset name: '.strtoupper($asset->Description).' // Purchase Date: '.$asset->PurchaseDate->format('jS M, Y'))->svg() }}</div>
 						<div class="table-cell" style="vertical-align:middle">
 							<div class="f15 bold">{{ $asset->Description }}</div>
-							<div class="f22 m-t-10">{{ $asset->AssetNo ?? '&mdash;' }}</div>
-							<div class="f15 m-t-10">Serial: {{ $asset->SerialNo ?? '&mdash;' }}</div>
+							<div class="f22 m-t-10">{{ $asset->AssetNo ?? '—' }}</div>
+							<div class="f15 m-t-10">Serial: {{ $asset->SerialNo ?? '—' }}</div>
 						</div>
 					</li>
 				</div>
@@ -187,8 +187,8 @@
 								<div class="table-cell p-r-10">`+asset.qrcode+`</div>
 								<div class="table-cell" style="vertical-align:middle">
 									<div class="f15 bold">${asset.Description}</div>
-									<div class="f22 m-t-10">${asset.AssetNo ? asset.AssetNo : '&mdash;'}</div>
-									<div class="f15 m-t-10">Serial: ${asset.SerialNo ? asset.SerialNo : '&mdash;'}</div>
+									<div class="f22 m-t-10">${asset.AssetNo ? asset.AssetNo : '—'}</div>
+									<div class="f15 m-t-10">Serial: ${asset.SerialNo ? asset.SerialNo : '—'}</div>
 								</div>
 							</li>
 						</div>

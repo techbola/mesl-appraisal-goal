@@ -36,7 +36,7 @@
 						</td>
 						<td>{{ $staff->user->email }}</td>
 						<td>{{ $staff->MobilePhone }}</td>
-						<td>{{ $staff->location->Location ?? '&mdash;' }}</td>
+						<td>{{ $staff->location->Location ?? '—' }}</td>
 						{{-- <td>
 							@if ($staff->user->is_activated)
 								<span class="label label-success">Active</span>

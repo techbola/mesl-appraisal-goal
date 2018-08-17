@@ -37,6 +37,7 @@
           <th>Staff Name</th>
           <th>Email Address</th>
           <th>Mobile Number</th>
+          <th>Office Location</th>
           {{-- <th>Account Status</th>
           <th>Actions</th> --}}
         </thead>
@@ -46,9 +47,10 @@
               <td>
                 <img class="avatar2" src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" alt="" width="48" height="48">
               </td>
-              <td><a href="{{ route('staff.show', $staff->StaffRef) }}" title="">{{ $staff->user->FullName ?? '&mdash;' }}</a></td>
-              <td>{{ $staff->user->email ?? '&mdash;' }}</td>
-              <td>{{ $staff->MobilePhone ?? '&mdash;' }}</td>
+              <td>{{ $staff->user->FullName ?? '—' }}</td>
+              <td>{{ $staff->user->email ?? '—' }}</td>
+              <td>{{ $staff->MobilePhone ?? '—' }}</td>
+              <td>{{ $staff->OfficeLocation ?? '—' }}</td>
             </tr>
           @endforeach
         </tbody>

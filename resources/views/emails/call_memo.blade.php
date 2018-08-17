@@ -7,13 +7,13 @@ Please see the attached file for the detailed meeting note.
 
 # Summary
 
-<b>Attendeees:</b> {{ $memo->Attendees ?? '&mdash;' }}.
+<b>Attendeees:</b> {{ $memo->Attendees ?? '—' }}.
 <br>
-<b>Meeting Date:</b> {{ $memo->MeetingDate ?? '&mdash;' }}.
+<b>Meeting Date:</b> {{ $memo->MeetingDate ?? '—' }}.
 <br>
-<b>Location:</b> {{ $memo->Location ?? '&mdash;' }}.
+<b>Location:</b> {{ $memo->Location ?? '—' }}.
 <br>
-<b>Handouts:</b> {{ $memo->Handouts ?? '&mdash;' }}.
+<b>Handouts:</b> {{ $memo->Handouts ?? '—' }}.
 
 @foreach ($memo->discussions as $discuss)
 

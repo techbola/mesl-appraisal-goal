@@ -18,14 +18,14 @@
 
     <ul class="my-list">
       <li>
-        <b>Title:</b> {{ $contact->title->Title ?? '&mdash;' }}
+        <b>Title:</b> {{ $contact->title->Title ?? '—' }}
       </li>
       <li>
-        <b>Name:</b> {{ $contact->Customer ?? '&mdash;' }}
+        <b>Name:</b> {{ $contact->Customer ?? '—' }}
       </li>
-      <li><b>Phone:</b> {{ $contact->MobilePhone1 ?? '&mdash;' }}</li>
-      <li><b>Estate:</b> {{ $contact->estate->ProjectName ?? '&mdash;' }}</li>
-      <li><b>House Type:</b> {{ $contact->housetype->HouseType ?? '&mdash;' }}</li>
+      <li><b>Phone:</b> {{ $contact->MobilePhone1 ?? '—' }}</li>
+      <li><b>Estate:</b> {{ $contact->estate->ProjectName ?? '—' }}</li>
+      <li><b>House Type:</b> {{ $contact->housetype->HouseType ?? '—' }}</li>
     </ul>
     <a class="btn btn-sm btn-inverse" data-toggle="modal" data-target="#edit_contact">Edit</a>
   </div>
@@ -48,11 +48,11 @@
         @foreach ($contact->conversations as $conv)
           <tr>
             <td>{{ $conv->Conversation }}</td>
-            <td>{{ ($conv->VisitDate)? Carbon::parse($conv->VisitDate)->format('jS M, Y') : '&mdash;' }}</td>
-            <td>{{ $conv->assignedto->FullName ?? '&mdash;' }}</td>
+            <td>{{ ($conv->VisitDate)? Carbon::parse($conv->VisitDate)->format('jS M, Y') : '—' }}</td>
+            <td>{{ $conv->assignedto->FullName ?? '—' }}</td>
             <td>{{ ($conv->SiteVisit)? 'Yes':'No' }}</td>
             <td>{{ ($conv->VisitCompleted)? 'Yes':'No' }}</td>
-            <td>{{ ($conv->inputter->FullName ?? '&mdash;') }}</td>
+            <td>{{ ($conv->inputter->FullName ?? '—') }}</td>
             <td class="actions">
               <a class="btn btn-xs btn-inverse" data-toggle="modal" data-target="#edit_conv" onclick="edit_conv({{ $conv->ConversationRef }})">Edit</a>
             </td>
