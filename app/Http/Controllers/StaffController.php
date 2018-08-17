@@ -49,7 +49,7 @@ class StaffController extends Controller
         // return view('staff.index', compact('staffs'));
         $user = auth()->user();
         if ($user->is_superadmin) {
-            $staffs    = Staff::with('user')->paginate(20);
+            $staffs    = Staff::with('user')->get();
             $companies = Company::all();
             $roles     = Role::all();
         } else {
@@ -58,9 +58,9 @@ class StaffController extends Controller
               $q = $_GET['q'];
               $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function($query) use($q){
                 $query->where('first_name', 'LIKE', '%'.$q.'%')->orWhere('last_name', 'LIKE', '%'.$q.'%')->orWhere('email', 'LIKE', '%'.$q.'%');
-              })->orWhere('MobilePhone', 'LIKE', '%'.$q.'%')->with('user')->paginate(20);
+              })->orWhere('MobilePhone', 'LIKE', '%'.$q.'%')->with('user')->get();
             } else {
-              $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->paginate(20);
+              $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             }
         }
         $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();

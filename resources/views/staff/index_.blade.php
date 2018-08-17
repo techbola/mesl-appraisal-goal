@@ -17,7 +17,7 @@
 	</div> --}}
 
 	{{-- Search --}}
-	<div class="card-box">
+	{{-- <div class="card-box">
 		<div class="row col-md-offset-1">
 			<form action="" method="get">
 				<div class="col-md-8">
@@ -28,7 +28,7 @@
 				</div>
 			</form>
 		</div>
-	</div>
+	</div> --}}
 
 	<!-- START PANEL -->
 	<div class="card-box">
@@ -83,7 +83,7 @@
 					@endforeach
 				</tbody>
 			</table>
-			{{ $staffs->links() }}
+			{{-- {{ $staffs->links() }} --}}
 		</div>
 	</div>
 	<!-- END PANEL -->
@@ -265,6 +265,9 @@
 
 
 @push('scripts')
+	<script>
+		$('#staff_table').DataTable();
+	</script>
 	{{-- <script>
     $(document).ready(function() {
 			var base = '{{ url('/') }}';
