@@ -8,23 +8,16 @@
     margin-left: -15px;
 }
 
-.col-md-3 {
-    width: 25%;
-    float: left;
-        position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
+.address{
+      display: block;
+    }
 
-.col-md-6 {
-    width: 50%;
-    float: left;
-        position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
+    img{
+        display: block;
+        clear: both;
+    }
+
+
 #bill-box  {
     padding: 20px; 
     border: 1px solid #eee;

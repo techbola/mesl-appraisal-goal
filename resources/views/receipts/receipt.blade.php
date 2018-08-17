@@ -12,6 +12,11 @@
       padding: 10px;
     }
 
+    .address{
+      display: block;
+      clear: both;
+    }
+
     img {
     max-width: 500px;
     }
@@ -60,7 +65,7 @@
                 @if(!is_null($cash_entry->BrandID))
                   <div class="media">
                   <img src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class="p-t-30 ">
-                  <div class="m-t-25">
+                  <div class="m-t-25 address">
                     {!! str_replace(',', ',<br>', $cash_entry->brand->Address ?? '-') !!}
                   </div>
                 </div>
