@@ -105,7 +105,7 @@
             @if($menu->name != 'Dashboard') continue; @endif --}}
             @if ($dashboard)
               <li>
-                <a href="{{ $dashboard->route != '#' ? route($dashboard->route) : "#" }}" class="">
+                <a href="{{ $dashboard->route != '/' ? route($dashboard->route) : "#" }}" class="">
                   <span class="title">{{$dashboard->name }}</span>
                   @if(count($dashboard->children) > 0 )
                     <span class="arrow"></span>
