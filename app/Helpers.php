@@ -12,13 +12,13 @@ if (!function_exists('nairazify')) {
 if (!function_exists('nice_date')) {
     function nice_date($date)
     {
-        return ($date) ? Carbon::parse($date)->format('jS M, Y') : '&mdash;';
+        return ($date) ? Carbon::parse($date)->format('jS M, Y') : '—';
     }
 }
 if (!function_exists('nice_datetime')) {
     function nice_datetime($date)
     {
-        return ($date) ? Carbon::parse($date)->format('jS M, Y - g:is') : '&mdash;';
+        return ($date) ? Carbon::parse($date)->format('jS M, Y - g:is') : '—';
     }
 }
 if (!function_exists('ngn')) {

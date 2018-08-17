@@ -106,13 +106,13 @@
               {{ $update->step->task->Task }}
             </td>
             <td>{{ $update->step->Step ?? '' }}</td>
-            <td>{{ $update->step->task->project->supervisor->FullName ?? '&mdash;' }}</td>
-            <td>{{ $update->step->task->project->vendor->Customer ?? '&mdash;' }}</td>
+            <td>{{ $update->step->task->project->supervisor->FullName ?? '—' }}</td>
+            <td>{{ $update->step->task->project->vendor->Customer ?? '—' }}</td>
             <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
             {{-- <td>{{ $update->step->StartDate ?? '' }}</td>
             <td>{{ $update->step->EndDate ?? '' }}</td> --}}
-            <td>{{ ngn($update->Variation) ?? '&mdash;' }}</td>
-            <td class="bold">{{ ngn($update->BudgetCost + $update->Variation) ?? '&mdash;' }}</td>
+            <td>{{ ngn($update->Variation) ?? '—' }}</td>
+            <td class="bold">{{ ngn($update->BudgetCost + $update->Variation) ?? '—' }}</td>
             <td class="actions">
               @if ($update->Status == NULL)
                 @if ($status != '0')

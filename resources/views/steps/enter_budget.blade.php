@@ -88,7 +88,7 @@
                 </td>
                 <td class="actions small">
                   @if (empty($step->last_budget))
-                    &mdash;
+                    —
                   @elseif(!empty($step->last_budget) && $step->last_budget->Status == NULL)
                     Pending
                   @elseif(!empty($step->last_budget) && $step->last_budget->Status == '1')

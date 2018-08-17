@@ -31,8 +31,8 @@
             <td>{{ $payment->step->task->project->Project }}</td>
             <td>{{ $payment->step->task->Task }}</td>
             <td>{{ $payment->step->Step ?? '' }}</td>
-            <td>{{ $payment->step->task->project->supervisor->FullName ?? '&mdash;' }}</td>
-            <td>{{ $payment->step->task->project->vendor->Customer ?? '&mdash;' }}</td>
+            <td>{{ $payment->step->task->project->supervisor->FullName ?? '—' }}</td>
+            <td>{{ $payment->step->task->project->vendor->Customer ?? '—' }}</td>
             {{-- <td class="small">
               <b>Task:</b> {{ $update->step->task->Task }}<br>
               <b>Project:</b> {{ $update->step->task->project->Project }}
@@ -40,7 +40,7 @@
             <td>{{ nairazify(number_format($update->BudgetCost)) }}</td>
             <td>{{ nairazify(number_format($update->step->payment_made)) }}</td> --}}
             <td>{{ nairazify(number_format($payment->Amount)) }}</td>
-            <td>{{ $payment->inputter->FullName ?? '&mdash;' }}</td>
+            <td>{{ $payment->inputter->FullName ?? '—' }}</td>
             <td>{{ $payment->created_at }}</td>
             <td>
               @if ($payment->IsPaid)

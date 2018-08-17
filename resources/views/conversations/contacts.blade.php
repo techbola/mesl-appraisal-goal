@@ -28,11 +28,11 @@
       <tbody>
         @foreach ($contacts as $contact)
           <tr>
-            <td>{{ $contact->title->Title ?? '&mdash;' }}</td>
-            <td>{{ $contact->Customer ?? '&mdash;' }}</td>
-            <td>{{ $contact->MobilePhone1 ?? '&mdash;' }}</td>
-            <td>{{ $contact->Estate ?? '&mdash;' }}</td>
-            <td>{{ $contact->housetype->HouseType ?? '&mdash;' }}</td>
+            <td>{{ $contact->title->Title ?? '—' }}</td>
+            <td>{{ $contact->Customer ?? '—' }}</td>
+            <td>{{ $contact->MobilePhone1 ?? '—' }}</td>
+            <td>{{ $contact->Estate ?? '—' }}</td>
+            <td>{{ $contact->housetype->HouseType ?? '—' }}</td>
             <td>
               <a href="{{ route('view_conversations', $contact->CustomerRef) }}" class="btn btn-sm btn-info">View Conversations</a>
             </td>

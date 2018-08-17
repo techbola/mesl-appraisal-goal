@@ -9,7 +9,7 @@
         <div class="col-md-6"><b>Assigned To:</b></div> <span class="col-md-6">{{ ($task->staff)? $task->staff->FullName : 'Unassigned' }}</span>
       </li>
       <li class="row card-list-item list-inline">
-        <div class="col-md-6"><b>Due Date:</b></div> <span class="col-md-6">{{ ($task->EndDate)? Carbon::parse($task->EndDate)->format('jS M, Y') : '&mdash;' }}</span>
+        <div class="col-md-6"><b>Due Date:</b></div> <span class="col-md-6">{{ ($task->EndDate)? Carbon::parse($task->EndDate)->format('jS M, Y') : '—' }}</span>
       </li>
       <li class="row card-list-item list-inline">
         <div class="col-md-6"><b>From Project:</b></div> <span class="col-md-6"><a href="{{ route('view_project', $task->ProjectID) }}">{{ $task->project->Project }}</a></span>

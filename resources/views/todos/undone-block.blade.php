@@ -16,7 +16,7 @@
 
         @if ($todo->DueDate)
           <div class="small text-muted p-l-25">
-            {{ ($todo->DueDate)? Carbon::parse($todo->DueDate)->format('jS M, Y') : '&mdash;' }}
+            {{ ($todo->DueDate)? Carbon::parse($todo->DueDate)->format('jS M, Y') : '—' }}
           </div>
         @endif
       </div>

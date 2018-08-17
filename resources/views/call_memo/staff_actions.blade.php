@@ -91,7 +91,7 @@
                 <td></td>
                 <td><span class="label label-{{ $action->status->Color }} pull-right">{{ $action->status->Status }}</span></td>
                 <td class="small"><i class="fa fa-bullseye text-muted m-r-5 f16"></i> {!! $action->ActionPoint !!}</td>
-                <td class="small"><i class="pg-comment text-muted m-r-5 f15"></i> {!! $action->Comment ?? '&mdash;' !!}</td>
+                <td class="small"><i class="pg-comment text-muted m-r-5 f15"></i> {!! $action->Comment ?? '—' !!}</td>
                 <td class="small">
                   <i class="fa fa-clock-o text-muted m-r-5 f16"></i> {{ $action->StartDate.' - '.$action->EndDate  }}
                   {{-- <a class="add_point pointer btn btn-xs btn-warning pull-right" data-toggle="modal" data-target="#action_point" onclick="edit_action('{{ $action->id }}')"><i class="fa fa-pencil m-r-5"></i> Review</a> --}}

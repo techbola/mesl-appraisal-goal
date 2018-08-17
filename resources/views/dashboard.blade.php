@@ -95,7 +95,7 @@
                     <div class="table-cell p-l-10">
                       <div class="" style="margin-top:0 !important">{{ $item->Event }}</div>
                       <div class="no-margin text-muted small">
-                        {{ (Carbon::parse($item->StartDate)->isToday())? 'Today' : ''.Carbon::parse($item->StartDate)->format('jS M, Y') }} &mdash; {{ (Carbon::parse($item->EndDate)->isToday())? 'Today' : ''.Carbon::parse($item->EndDate)->format('jS M, Y') }}
+                        {{ (Carbon::parse($item->StartDate)->isToday())? 'Today' : ''.Carbon::parse($item->StartDate)->format('jS M, Y') }} — {{ (Carbon::parse($item->EndDate)->isToday())? 'Today' : ''.Carbon::parse($item->EndDate)->format('jS M, Y') }}
                       </div>
                     </div>
                   </li>
@@ -151,9 +151,9 @@
                   </div>
 
                   <div class="table-cell p-l-10">
-                    <div class="" style="margin-top:0 !important">{{ $item->Title ?? '&mdash;' }}</div>
+                    <div class="" style="margin-top:0 !important">{{ $item->Title ?? '—' }}</div>
                     <div class="no-margin text-muted small">
-                      <span>{{ ($item->poster)? $item->poster->FullName : ''}}</span> &mdash; @if(!empty($item->CreatedDate)){{ ($item->CreatedDate->isToday())? 'Today' : ''.$item->CreatedDate->format('jS M, Y') }} at {{ $item->CreatedDate->format('g:ia') }}@endif
+                      <span>{{ ($item->poster)? $item->poster->FullName : ''}}</span> — @if(!empty($item->CreatedDate)){{ ($item->CreatedDate->isToday())? 'Today' : ''.$item->CreatedDate->format('jS M, Y') }} at {{ $item->CreatedDate->format('g:ia') }}@endif
                     </div>
                     <div class="small bg-light">
                       {!! str_limit(strip_tags($item->Body), 30) !!}
@@ -182,7 +182,7 @@
                   <div class="table-cell p-l-10">
                     <div class="" style="margin-top:0 !important">{{ ($item->segment)? $item->segment->Segment : '' }}</div>
                     <div class="no-margin text-muted small">
-                      <span>{{ ($item->poster)? $item->poster->FullName : '' }}</span> &mdash; @if(!empty($item->EntryDate)){{ (Carbon::parse($item->EntryDate)->isToday())? 'Today' : ''.Carbon::parse($item->EntryDate)->format('jS M, Y') }}@endif
+                      <span>{{ ($item->poster)? $item->poster->FullName : '' }}</span> — @if(!empty($item->EntryDate)){{ (Carbon::parse($item->EntryDate)->isToday())? 'Today' : ''.Carbon::parse($item->EntryDate)->format('jS M, Y') }}@endif
                     </div>
                     <div class="small bg-light">
                       {!! str_limit(strip_tags($item->Statement), 30) !!}
@@ -249,7 +249,7 @@
       <div class="table-cell p-l-10">
       <div class="" style="margin-top:0 !important">{{ $item->Subject }}</div>
       <div class="no-margin text-muted small">
-      <span>{{ $item->sender->FullName }}</span> &mdash; {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
+      <span>{{ $item->sender->FullName }}</span> — {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
     </div>
     <div class="small bg-light">
     {!! str_limit(strip_tags($item->Body), 30) !!}
@@ -310,7 +310,7 @@
                 <div class="table-cell p-l-10">
                   <div class="" style="margin-top:0 !important">{{ $item->Subject }}</div>
                   <div class="no-margin text-muted small">
-                    <span>{{ $item->sender->FullName }}</span> &mdash; {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
+                    <span>{{ $item->sender->FullName }}</span> — {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
                   </div>
                   <div class="small bg-light">
                     {!! str_limit(strip_tags($item->Body), 30) !!}

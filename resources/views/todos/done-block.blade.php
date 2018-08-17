@@ -15,7 +15,7 @@
 
         @if ($done->DueDate)
           <div class="small text-muted p-l-25">
-            {{ ($done->DueDate)? Carbon::parse($done->DueDate)->format('jS M, Y') : '&mdash;' }}
+            {{ ($done->DueDate)? Carbon::parse($done->DueDate)->format('jS M, Y') : '—' }}
           </div>
         @endif
       </div>

@@ -57,9 +57,9 @@
 						<td>
 							<img class="avatar2" src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" alt="" width="48" height="48">
 						</td>
-						<td><a href="{{ route('staff.show', $staff->StaffRef) }}" title="">{{ $staff->user->FullName ?? '&mdash;' }}</a></td>
-						<td>{{ $staff->user->email ?? '&mdash;' }}</td>
-						<td>{{ $staff->MobilePhone ?? '&mdash;' }}</td>
+						<td><a href="{{ route('staff.show', $staff->StaffRef) }}" title="">{{ $staff->user->FullName ?? '—' }}</a></td>
+						<td>{{ $staff->user->email ?? '—' }}</td>
+						<td>{{ $staff->MobilePhone ?? '—' }}</td>
 						<td>
 							@if ($staff->user->is_disengaged)
 								<span class="label label-danger">Disengaged</span>
@@ -283,7 +283,7 @@
               </td>
               <td>${v.user.FullName}</td>
               <td>${v.user.email}</td>
-              <td>${v.MobilePhone || '&mdash;'}</td>
+              <td>${v.MobilePhone || '—'}</td>
 							<td class="actions">
 								<a href="${base + '/staff/' + v.StaffRef}" class="btn btn-xs btn-info">View</a>
 								<a href="" class="btn btn-xs btn-inverse" data-toggle="modal" data-target="#edit_staff" @click="edit_staff(${v})">Edit</a>
