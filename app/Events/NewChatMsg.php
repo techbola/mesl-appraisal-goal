@@ -32,7 +32,7 @@ class NewChatMsg implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('new-chat');
+        return new Channel('new-chat');
     }
 
     public function broadcastWith()
