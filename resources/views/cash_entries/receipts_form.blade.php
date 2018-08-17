@@ -62,6 +62,18 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('BrandID', 'Select Brand' ) }}
+                {{ Form::select('BrandID', [ '' =>  'Select Brand For Receipt'] + $brands->pluck('BrandName', 'BrandRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
 
     <div class="col-sm-12">
         <div class="form-group">
@@ -71,6 +83,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <div class="row">

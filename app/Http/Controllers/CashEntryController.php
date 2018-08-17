@@ -6,6 +6,7 @@ use Cavidel\CashEntry;
 use Cavidel\Config;
 use Cavidel\Customer;
 use Cavidel\Staff;
+use Cavidel\Brand;
 use Illuminate\Http\Request;
 
 class CashEntryController extends Controller
@@ -703,7 +704,8 @@ FROM            tblCashEntry INNER JOIN
 WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 14) AND (tblCashEntry.InputterID = $auth_user) order by tblCashEntry.CashEntryRef desc
 
             "));
-        return view('cash_entries.receipts', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
+        $brands = Brand::all();
+        return view('cash_entries.receipts', compact('cashentries', 'brands', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
     }
 
     public function purchase_on_credits()
