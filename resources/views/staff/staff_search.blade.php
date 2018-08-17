@@ -37,6 +37,7 @@
           <th>Staff Name</th>
           <th>Email Address</th>
           <th>Mobile Number</th>
+          <th>Office Location</th>
           {{-- <th>Account Status</th>
           <th>Actions</th> --}}
         </thead>
@@ -49,6 +50,7 @@
               <td>{{ $staff->user->FullName ?? '—' }}</td>
               <td>{{ $staff->user->email ?? '—' }}</td>
               <td>{{ $staff->MobilePhone ?? '—' }}</td>
+              <td>{{ $staff->OfficeLocation ?? '—' }}</td>
             </tr>
           @endforeach
         </tbody>
