@@ -1150,7 +1150,16 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
     {
         $entry              = CashEntry::where('CashEntryRef', $id)->first();
         $configs            = Config::first();
-        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+       $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
+                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where (tblGL.CustomerID = ? )", [1]));
+
+        $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
                          AS CUST_ACCT
                             FROM            tblGL INNER JOIN
                          tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
@@ -1158,17 +1167,8 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
                          tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
                          tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ?
-                         Order By tblGL.Description", [54]));
-
-        $credit_acct_details = collect(\DB::select("SELECT GLRef,  tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
-                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? and tblGL.CustomerID > ?
-                         Order By tblGL.Description", [19, 1]));
+                         Order By tblGL.Description", [59]));
+                         
         $cashentries = CashEntry::all();
         return view('cash_entries.imprest_edit', compact('cashentries', 'entry', 'debit_acct_details', 'credit_acct_details', 'configs', 'customer_details'));
     }
