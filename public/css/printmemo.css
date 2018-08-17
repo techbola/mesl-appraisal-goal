@@ -1,7 +1,10 @@
 @import url('../pages/css/pages.min.css');
 @import url('app.css');
 
-
+@page {
+    padding: 2cm;
+    margin: 3cm;    
+}
 
 .row {
     margin-right: -15px;
@@ -13,8 +16,11 @@
     }
 
     img{
-        display: block;
-        clear: both;
+    }
+
+    img.logo{
+        width: 150px !important;
+        margin: 0 !important;
     }
 
 
