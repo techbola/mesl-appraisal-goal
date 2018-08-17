@@ -28,11 +28,11 @@
         <div class="row">
 
           <div class="col-md-7">
-              @if(count($bill_items) > 0)
+              {{-- @if(count($bill_items) > 0)
                   <p>
                       <a href="{{ route('Bill', [$client_details->VendorRef, $code]) }}" class="btn btn-success btn-sm pull-right" title="">Print Bill</a>
                   </p>
-              @endif
+              @endif --}}
             <div style="background: #eee; padding: 5px;">
 
                 <h5 style="margin-left: 10px">Product list</h5><hr>
@@ -46,8 +46,7 @@
                                  <thead>
                                      <tr>
                                          <th>Date</th>
-                                         <th>Payment Plan</th>
-                                         <th>Option</th>
+                                         
                                          <th>Product</th>
                                          <th>Price</th>
                                          <th>Action</th>
@@ -57,9 +56,7 @@
                                     @foreach($bill_items as $bill_item)
                                      <tr>
                                         <td>{{ $bill_item->BillingDate }}</td>
-                                        <td>{{ $bill_item->PlanName }}</td>
-                                        <td>{{ $bill_item->PlanOption }}</td>
-                                        <td>{{ $bill_item->Produt_ServiceType }}</td>
+                                        <td>{{ $bill_item->project->Project ?? '-' }}</td>
                                         <td>&#8358;{{ number_format($bill_item->Price,2) }}</td>
                                         @if($bill_item->BillingDate < $date)
                                         <td><i class="fa fa-lock" style="font-size: 20px; color: #009688" ></i></td>
@@ -86,9 +83,9 @@
           <div class="col-md-5">
             <div style="background: #6e7071; padding: 15px; color: #fff">
                              <h5 style="margin-left: 10px; color:#fff">Product Form</h5><hr>
-                             {{ Form::open(['action' => 'BillingController@save_bill_item', 'autocomplete' => 'off', 'role' => 'form']) }}
+                             {{ Form::open(['action' => 'VendorController@save_bill_item', 'autocomplete' => 'off', 'role' => 'form']) }}
                              <div class="row">
-                              <div class="col-sm-12">
+                              {{-- <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('PlanRef', 'Payment Plan') }}
                                             <select name="PymtID"  class="form-control select2" id="PymtID" onchange="get_plan_option()"  data-init-plugin="select2" required>
@@ -98,10 +95,10 @@
                                                 @endforeach
                                             </select>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="hide" id="plan_option">
-                                <div class="col-sm-12">
+                                {{-- <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('OptionPlan', 'Payment Option Plan') }}
                                             <select name="OptionID"  class="form-control select2"    data-init-plugin="select2" required>
@@ -111,10 +108,10 @@
                                                 @endforeach
                                             </select>
                                     </div>
-                                </div>
+                                </div> --}}
                               </div>
                                 
-                                <div class="col-sm-12">
+                                {{-- <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('Surname', 'Category') }}
                                             <select name="CategoryID" id="category" class="form-control select2"    data-init-plugin="select2" required onchange="getProduct()">
@@ -124,16 +121,28 @@
                                                 @endforeach
                                             </select>
                                     </div>
+                                </div> --}}
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                            {{ Form::label('Project') }}
+                                            <select name="ProjectID" id="category" class="form-control select2"    data-init-plugin="select2">
+                                                <option value="">Select Project</option>
+                                                @foreach($projects as $project)
+                                                    <option value="{{ $project->ProjectRef }}">{{ $project->Project }}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
                                 </div>
                                
-                                <div class="col-sm-12">
+                                {{-- <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('Product') }}
                                             <select name="Produt_ServiceType" id="product" data-init-plugin="select2" class="form-control select2"     required >
                                                 <option value=" ">Select Product</option>
                                             </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                             {{ Form::label('UnitPrice', 'Unit Price') }}
@@ -160,6 +169,13 @@
                                     <div class="form-group">
                                             {{ Form::label('TotalPrice', 'Total Price') }}
                                             <input type="text" name="TotalPrice" class="form-control" id="total" readonly required>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                            {{ Form::label('Comment', 'Narration ') }}
+                                            <textarea name="Comment" id="Comment"  rows="3" class="form-control full-width"></textarea>
                                     </div>
                                 </div>
 
@@ -202,7 +218,7 @@
                      Please be notified that on click of the button this product will be deleted and please provide reason for deletion in the comment box provided below.
                     </div>
                     <div class="col-md-5 no-padding  ">
-                      {{ Form::open(['action' => 'BillingController@productdeletion', 'autocomplete' => 'off', 'role' => 'form']) }}
+                      {{ Form::open(['action' => 'VendorController@productdeletion', 'autocomplete' => 'off', 'role' => 'form']) }}
                       <textarea name="Comment" style="width: 100%;" rows="4" required></textarea>
                       <input type="hidden" name="BillingID" value="" id="getValue">
                       <input type="hidden" name="BillCode" value="" id="getBillCode">
@@ -371,7 +387,7 @@
                     </div><hr><br>
                     
                     <div class="col-md-12"><hr>
-                      {{ Form::open(['action' => 'BillingController@bill_payment', 'autocomplete' => 'off', 'role' => 'form']) }}
+                      {{ Form::open(['action' => 'VendorController@bill_payment', 'autocomplete' => 'off', 'role' => 'form']) }}
                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="controls">
@@ -587,7 +603,7 @@
           {
             var code = $('#bill_groupid').val();
         var client_id = $('#bill_clientid').val();
-           window.location.href = "{{ url('/billings/notification_Billing') }}/" + client_id + '/' + code;
+           window.location.href = "{{ url('/vendors/notification_Billing') }}/" + client_id + '/' + code;
           }
         });
 
@@ -618,7 +634,7 @@
             $('#BillNarration').modal('toggle');
              var code = $('#bill_groupid').val();
              var client_id = $('#bill_clientid').val();
-           window.location.href = "{{ url('/billings/notification_Billing') }}/" + client_id + '/' + code;
+           window.location.href = "{{ url('/vendors/notification_Billing') }}/" + client_id + '/' + code;
            }
         });
         return false
@@ -637,7 +653,7 @@
           {
              var code = $('#bill_groupid').val();
              var client_id = $('#bill_clientid').val();
-           window.location.href = "{{ url('/billings/notification_Billing') }}/" + client_id + '/' + code;
+           window.location.href = "{{ url('/vendors/notification_Billing') }}/" + client_id + '/' + code;
           }
         });
       }

@@ -541,6 +541,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('vendors/new_bill', 'VendorController@new_bill')->name('NewVendorBill');
     Route::get('vendors/view_bill/{id}', 'VendorController@view_bill')->name('View_Vendor_Bill_List');
     Route::get('vendors/notification_Billing/{id}/{billcode}', 'VendorController@notification_bill')->name('VendorNotificationBilling');
+    Route::post('add_new_product_to_bill_list_vendor', 'VendorController@save_bill_item');
+    Route::post('bill_vendor_posting_post', 'VendorController@bill_payment');
+    Route::post('delete_New_Bill_Vendor_payment', 'VendorController@productdeletion');
 
     // Route::get('get_bank_account_details/{id}', 'VendorController@get_bank_account_details');
     // Route::post('submit_bank_account_edit', 'VendorController@submit_bank_account_edit');
