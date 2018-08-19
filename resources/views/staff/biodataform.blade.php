@@ -26,7 +26,7 @@
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('FirstName','First Name') }}
-        {{ Form::text('FirstName', $staff->FirstName,  ['class' => 'form-control', 'placeholder' => 'First name']) }}
+        {{ Form::text('FirstName', $staff->FirstName,  ['class' => 'form-control', 'placeholder' => 'First name','required']) }}
         {{-- <input type="text" value="{{ $staff->FullName }}" class="form-control" readonly> --}}
       </div>
     </div>
@@ -39,7 +39,7 @@
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('LastName','Last Name') }}
-        {{ Form::text('LastName', $staff->LastName,  ['class' => 'form-control', 'placeholder' => 'Last name']) }}
+        {{ Form::text('LastName', $staff->LastName,  ['class' => 'form-control', 'placeholder' => 'Last name','required']) }}
       </div>
     </div>
     @if (auth()->user()->hasRole('admin'))
@@ -373,7 +373,15 @@
     <div class="clearfix"></div>
 
     <div class="card-section p-l-5">Payroll Details</div>
-    <div class="col-sm-12">
+    
+    <div class="col-sm-6">
+      <div class="form-group">
+        {{ Form::label('LifeAssurance','Annual Life Assurance') }}
+        {{ Form::text('LifeAssurance', null,  ['class' => 'form-control', 'placeholder' => 'Enter Annual Life Assurance Amount','required']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('PayrollGroupID','Payroll Group') }}
         {{ Form::select('PayrollGroupID', [ 0 =>  'Select a payroll group'] + $payroll_groups->pluck('GroupDescription', 'GroupRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
