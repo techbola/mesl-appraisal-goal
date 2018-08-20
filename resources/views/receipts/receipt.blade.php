@@ -64,19 +64,19 @@
               <div class="col-md-6 col-sm-12  text-left">
                 @if(!is_null($cash_entry->BrandID))
                   <div class="media">
-                  <img src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class="p-t-30 ">
-                  <div class="m-t-25 address">
-                    {!! str_replace(',', ',<br>', $cash_entry->brand->Address ?? '-') !!}
-                  </div>
+                  <img style="margin: 0 !important" src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class=" logo"> 
                 </div>
                 @else
                 <div class="media">
-                  <img src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class="p-t-30 ">
+                  <img style="margin: 0 !important" src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class=" logo">
                   <div class="m-t-25">
                     {{-- {!! str_replace(',', ',<br>', $narrations->brand->Address) !!} --}}
                   </div>
                 </div>
                 @endif
+                <div class="m-t-25 address">
+                    {!! str_replace(',', ',<br>', $cash_entry->brand->Address ?? '-') !!}
+                  </div>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
                 <h2>RECEIPT</h2>
@@ -96,7 +96,7 @@
               <div class="col-md-6 col-sm-12  text-left">
                 <ul class="px-0 list-unstyled">
                   <li class="text-bold-800"> <span class="text-muted m-r-10">Customer Name:</span> {{ $client_details->Customer ?? '-' }}</li>
-                  <li><span class="text-muted m-r-10">Email:</span> <span class="text-info">{{ $client_details->Email ?? '-' }}</span></li>
+                  <li><span class="text-muted m-r-10">Email:</span> <span class="text">{{ $client_details->Email ?? '-' }}</span></li>
                   <li><span class="text-muted m-r-10">Phone No:</span> <span class="">{{ $client_details->Phone ?? '-' }}</span></li>
                   <li></li>
                 </ul>
