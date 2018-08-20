@@ -282,7 +282,7 @@ function makePDF() {
         //! MAKE YOUR PDF
         var pdf = new jsPDF('p', 'in', 'letter');
 
-        for (var i = 0; i <= quotes.clientHeight; i++) {
+        for (var i = 0; i <= quotes.clientHeight/980; i++) {
             //! This is all just html2canvas stuff
             var srcImg  = canvas;
             var sX      = 0;
