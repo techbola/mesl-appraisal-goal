@@ -173,6 +173,7 @@ return [
         LaravelQRCode\Providers\QRCodeServiceProvider::class,
         PragmaRX\Google2FA\Vendor\Laravel\ServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -233,6 +234,7 @@ return [
         'QRCode'       => LaravelQRCode\Facades\QRCode::class,
         'Activity'     => Spatie\Activitylog\Models\Activity::class,
         'Google2FA'    => PragmaRX\Google2FA\Vendor\Laravel\Facade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 
