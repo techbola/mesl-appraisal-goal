@@ -461,7 +461,7 @@ class jsonResponseController extends Controller
         foreach ($bank_list as $list) {
             # code...
             $data = [
-                'bank_name' => $list->BankName,
+                'bank_name' => $list->AccountNumber,
             ];
 
             array_push($bank_list_box, $data);
