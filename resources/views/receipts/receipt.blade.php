@@ -191,7 +191,7 @@
               <span>Bank transfer to : </span>
               <span>
                 <b>{{ ucwords($cash_entry->gl_debit->Description) ?? '-' }}</b>
-              </span> <br>
+              </span> <br> <br><br>
               <div class="row">
                 <div class="col-md-12 col-sm-12">
                   <div class="row">
@@ -274,7 +274,7 @@
   // This code is collected but useful, click below to jsfiddle link.
 function makePDF() {
 
-    var quotes = document.getElementById('print-area');
+    var quotes = document.getElementById('invoice-template');
 
     html2canvas(quotes, {
         onrendered: function(canvas) {
@@ -311,7 +311,7 @@ function makePDF() {
             // add another page
 
             //! now we add content to that page!
-            pdf.addImage(canvasDataURL, 'PNG', 10, 20, (width*.62), (height*.62));
+            pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.62), (height*.62));
         }
         //! after the for loop is finished running, we save the pdf.
         pdf.save('Receipt.pdf');
