@@ -108,9 +108,9 @@
                 <p>
                   <span class="text-muted m-r-10">Receipt Date</span> {{ nice_date($cash_entry->ValueDate) }}</p>
                 <p>
-                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $cash_entry->account_manager->AccountManager ?? '-' }}</b></p>
+                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $client_details->account_manager->AccountManager ?? 'Somebody Here' }}</b></p>
                 <p>
-                  <span class="text-muted m-r-10">Contact Number</span>{{ $cash_entry->account_manager->MobileNumber ?? '-' }}</p>
+                  <span class="text-muted m-r-10">Contact Number</span>{{ $client_details->account_manager->MobileNumber ?? '-' }}</p>
               </div>
             </div> <hr>
             <!--/ Invoice Customer Details -->
@@ -280,23 +280,23 @@ function makePDF() {
     html2canvas(quotes, {
         onrendered: function(canvas) {
         //! MAKE YOUR PDF
-        var pdf = new jsPDF('p', 'pt', 'letter');
+        var pdf = new jsPDF('p', 'in', 'letter');
 
-        for (var i = 0; i <= quotes.clientHeight/980; i++) {
+        for (var i = 0; i <= quotes.clientHeight; i++) {
             //! This is all just html2canvas stuff
             var srcImg  = canvas;
             var sX      = 0;
             var sY      = 0*i; // start 980 pixels down for every new page
-            var sWidth  = 1600;
-            var sHeight = 1500;
+            var sWidth  = 1366;
+            var sHeight = 2700;
             var dX      = 0;
             var dY      = 0;
-            var dWidth  = 1600;
-            var dHeight = 1500;
+            var dWidth  = 1366;
+            var dHeight = 2700;
 
             window.onePageCanvas = document.createElement("canvas");
-            onePageCanvas.setAttribute('width', 1600);
-            onePageCanvas.setAttribute('height', 1500);
+            onePageCanvas.setAttribute('width', 1366);
+            onePageCanvas.setAttribute('height', 2700);
             var ctx = onePageCanvas.getContext('2d');
             // details on this usage of this function: 
             // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing

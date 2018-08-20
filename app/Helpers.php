@@ -32,6 +32,6 @@ if (!function_exists('ngn')) {
 if (!function_exists('get_staff_name')) {
     function get_staff_name($id)
     {
-        return User::find($id)->fullName;
+        return User::find($id)->fullName ?? '-';
     }
 }

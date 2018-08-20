@@ -18,7 +18,7 @@ class Customer extends Model
 
     public function account_manager()
     {
-        return $this->belongsTo('Cavidel\Staff', 'AccountMgrID');
+        return $this->belongsTo('Cavidel\AccountMgr', 'AccountMgrID');
     }
 
     public function house_type()
