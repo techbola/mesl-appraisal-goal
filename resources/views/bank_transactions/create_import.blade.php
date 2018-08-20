@@ -52,6 +52,7 @@
 
   @if (session('staging') == '1')
     <div class="card-box">
+      <div class="card-title">Confirm Import Data</div>
       <table class="table table-bordered">
         <thead>
           <th width="5%">TransactionRef</th>

@@ -33,11 +33,11 @@ class BankTransactionController extends Controller
         if ($extension == "csv") {
 
             $path = $request->file->getRealPath();
-            // $csv = Excel::load($path, function($file) {
+            // $csv = file_get_contents(Excel::load($path, function($file) {
             //
-            //     $file->convert('csv');
-            //
-            // })->get();
+            // })->convert('csv'));
+            // dd($csv);
+
 
 
             // $data = file_get_contents($path);
