@@ -266,7 +266,7 @@
             <path class="stars" fill="#FFF" d="M112.456 363.093c-.056 7.866-6.478 14.197-14.344 14.142 7.866.056 14.198 6.48 14.142 14.345.056-7.866 6.48-14.198 14.345-14.142-7.868-.057-14.2-6.48-14.144-14.345zM432.436 274.908c-.056 7.866-6.478 14.198-14.344 14.142 7.866.057 14.197 6.48 14.142 14.345.056-7.866 6.48-14.197 14.345-14.142-7.868-.056-14.2-6.48-14.144-14.345zM159.75 58.352c-.12 16.537-13.62 29.848-30.157 29.73 16.537.118 29.848 13.62 29.73 30.156.118-16.537 13.62-29.848 30.156-29.73-16.54-.117-29.85-13.62-29.73-30.156z"/>
           </g>
         </svg>
-        <a href="/"><button class="denied__link">Go Home</button></a>
+        <a href="/"><button class="denied__link">Back to Dashboard</button></a>
 
         <div style="background:#00000077; margin-top:30px;padding:5px 15px; border-radius:7px">
           <div style="color:#888;text-align:center;font-size: 14px;font-family: sans-serif;">{{ $exception->getMessage() }}</div>

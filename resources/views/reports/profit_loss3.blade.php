@@ -53,7 +53,7 @@
         <thead>
           <th>Category</th>
           {{-- <th>Name</th> --}}
-          <th>RetainedPL (&#8358;)</th>
+          <th>Amount (&#8358;)</th>
         </thead>
 
         <tbody>
@@ -61,7 +61,7 @@
             <tr>
               <td class="text-uppercase text-complete {{ (strpos($pl->AccountCategory, ':') != '')? 'bold':'' }}">{{ $pl->AccountCategory }}</td>
               {{-- <td>{{ $pl->AccountType }}</td> --}}
-              <td class="{{ ($pl->RetainedPL < 0)? 'text-danger' : 'text-success' }} {{ (strpos($pl->AccountCategory, ':') != '')? 'bold':'' }}">{{ number_format(abs($pl->RetainedPL)) }}</td>
+              <td class="{{ ($pl->RetainedPL > 0)? 'text-danger' : 'text-success' }} {{ (strpos($pl->AccountCategory, ':') != '')? 'bold':'' }}">{{ number_format(abs($pl->RetainedPL)) }}</td>
             </tr>
           @endforeach
         </tbody>

@@ -26,7 +26,7 @@ class PayrollController extends Controller
             ->get();
         // months
         $months = Month::select('Months', 'MonthsRef');
-        return view('payroll.details', compact('payroll_details', 'months'));
+        return view('payroll.details', compact('payroll_details', 'months','max_month','logged_in_user'));
     }
 
     public function groups()

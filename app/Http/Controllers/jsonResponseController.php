@@ -461,7 +461,7 @@ class jsonResponseController extends Controller
         foreach ($bank_list as $list) {
             # code...
             $data = [
-                'bank_name' => $list->BankName,
+                'bank_name' => $list->AccountNumber,
             ];
 
             array_push($bank_list_box, $data);
@@ -478,12 +478,12 @@ class jsonResponseController extends Controller
      */
     public function loadBranchSelectMenu()
     {
-        $location_list     = DB::table("tblLocation")->get();
+        $location_list     = DB::table("tblBankLocation")->get();
         $location_list_box = [];
         foreach ($location_list as $list) {
             # code...
             $data = [
-                'location_name' => $list->Location,
+                'location_name' => $list->BankLocationCode,
             ];
 
             array_push($location_list_box, $data);
