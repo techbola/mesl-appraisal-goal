@@ -280,7 +280,7 @@ function makePDF() {
     html2canvas(quotes, {
         onrendered: function(canvas) {
         //! MAKE YOUR PDF
-        var pdf = new jsPDF('p', 'in', 'letter');
+        var pdf = new jsPDF('p', 'pt', 'letter');
 
         for (var i = 0; i <= quotes.clientHeight/980; i++) {
             //! This is all just html2canvas stuff
