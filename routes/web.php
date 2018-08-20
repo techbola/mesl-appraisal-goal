@@ -182,6 +182,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('save_bulletin', 'BulletinController@save_bulletin')->name('save_bulletin');
     Route::get('bulletin/{id}', 'BulletinController@view_bulletin')->name('view_bulletin');
 
+    Route::get('bank_txn/create_import', 'BankTransactionController@create_import')->name('create_import');
+    Route::post('bank_txn/store_import', 'BankTransactionController@store_import')->name('store_import');
+    // Route::post('bank_txn/stage_import', 'BankTransactionController@store_import')->name('store_import');
+
     // post forum messages
     // Route::post('/send/forum-post', 'ForumPostController@createPost');
     // Route::post('/send/forum-comment', 'ForumPostController@postComment');
