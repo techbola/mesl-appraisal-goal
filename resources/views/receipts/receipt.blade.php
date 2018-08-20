@@ -199,7 +199,7 @@
                       <div class="text-center">
                         {{-- <p>The Client</p>  --}}
                         
-                        <div class="rule" style="height: 70px">
+                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee; margin-right: 10px">
                           {{-- <img src="{{ asset('images/signature-scan.png') }}" width="100"  alt="sample signature"> --}}
                           {{-- <hr> --}}
                         </div>
@@ -214,12 +214,11 @@
                       <div class="text-center">
                        @if(!is_null($cash_entry->SignatoryID))
                         @if($cash_entry->signatory->SignatureLocation != null)                       
-                        <div class="rule" style="height: 70px">
+                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee; margin-right: 10px">
                           <img src="{{ asset("images/".$cash_entry->signatory->SignatureLocation) }}" width="100"  alt="sample signature">
-                          <hr>
                         </div>
                         @else
-                        <div class="rule" style="height: 70px">
+                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee">
                           <img src="{{ asset("images/signature-scan.png") }}" width="100"  alt="sample signature">
                           <hr>
                         </div>
@@ -300,10 +299,10 @@ function makePDF() {
             var ctx = onePageCanvas.getContext('2d');
             // details on this usage of this function: 
             // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
-            ctx.drawImage(srcImg,sX,sY,sWidth,sHeight,dX,dY,dWidth,dHeight);
+            ctx.drawImage(srcImg,sX,sY);
 
             // document.body.appendChild(canvas);
-            var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
+            var canvasDataURL = onePageCanvas.toDataURL("image/png", 0.2);
 
             var width         = onePageCanvas.width;
             var height        = onePageCanvas.clientHeight;
@@ -312,7 +311,7 @@ function makePDF() {
             // add another page
 
             //! now we add content to that page!
-            pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width*.62), (height*.62));
+            pdf.addImage(canvasDataURL, 'PNG', 10, 20, (width*.62), (height*.62));
         }
         //! after the for loop is finished running, we save the pdf.
         pdf.save('Receipt.pdf');
