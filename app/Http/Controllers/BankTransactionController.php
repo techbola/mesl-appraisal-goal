@@ -69,9 +69,16 @@ class BankTransactionController extends Controller
             $transactions = array_map('str_getcsv', file($path));
 
             if(!empty($transactions)){
+
+              foreach ($transactions as $trans2) {
+                // dd(count(array_filter($trans2)));
+                if(count(array_filter($trans2)) > 4 && is_numeric($trans2[0]))
+                $clean_trans[] = $trans2;
+              }
+              // dd($clean_trans);
               BankTransactionStaging::truncate();
 
-              foreach ($transactions as $trans) {
+              foreach ($clean_trans as $trans) {
                 $row = new BankTransactionStaging;
                 $row->TransactionRef = $trans['0'];
                 $row->PostDate = $trans['1'];

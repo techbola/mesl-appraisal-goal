@@ -13,7 +13,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="">Select Bank Account</label>
-            <select class="form-control select2" name="bank" data-init-plugin="select2">
+            <select class="form-control select2" name="bank" data-init-plugin="select2" required>
               <option value="">Select Bank</option>
               @foreach ($banks as $bank)
                 <option value="{{ $bank->BankAccountRef }}">{{ $bank->BankName }}</option>
