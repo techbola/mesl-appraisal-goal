@@ -1,66 +1,36 @@
-@extends('layouts.master')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt</title>
+    <link rel="stylesheet" href="{{ asset('css/printmemo.css') }}">
+</head>
+<body>
 
-@push('styles')
-  <style>
-  @media print {
-    #printPageButton {
-      display: none;
-    }
-    #bill-box{
-      background: #eee;
-      border: 1px solid #eee;
-      padding: 10px;
-    }
+    <style>
+    @import '{{ asset('css/printmemo.css') }}';
+        @media print {
+        #printPageButton {
+          display: none;
+        }
+        #bill-box{
+          background: #eee;
+          border: 1px solid #eee;
+          padding: 10px;
+        }
 
-    .address{
-      display: block;
-      clear: both;
-    }
+        .address{
+          display: block;
+          clear: both;
+        }
 
-    img {
-    max-width: 500px;
-    }
-}        
-  </style>      
-@endpush
-
-@section('title')
-  Receipt
-@endsection
-
-@section('page-title')
-  Receipt
-@endsection
-
-@section('buttons')
-
-@endsection
-
-@push('styles')
-  <style>
-    #invoice-template {
-      width: 100%;
-      text-align: left;
-      /*padding: 4rem;*/
-    }
-    .card-box {
-      padding: 3rem;
-    }
-  </style>
-@endpush
-@section('content')
-
-    {{-- print --}}
-
-    <div class="text-right m-b-20">
-      <button type="button" class="btn btn-sm btn-complete my-1 m-r-10" onclick="print_bill()"><i class="fa fa-paper-plane-o"></i> Print Receipt</button>
-      <button type="button" id="to-pdf" class="btn btn-sm btn-secondary my-1 m-r-10" onclick="makePDF()"><i class="fa fa-share-square"></i> Export PDF</button>
-      <a href="{{ route('send_receipt', ['ref' => $cash_entry->CashEntryRef,'client_id' => $client_details->CustomerRef]) }}" class="btn btn-sm  my-1"><i class="fa "></i> Send Receipt</a>
-    </div>
-
-  	<!-- START PANEL -->
-  	<div id="print-area">
-     <section class="card-box" style="width: 100%">
+        img {
+        max-width: 500px;
+        }
+    }        
+    </style>
+    <!-- START PANEL -->
+    <table class="card-box" id="print-area" style="width: 100%">
           <div id="invoice-template" class="card-body">
             <!-- Invoice Company Details -->
             <div id="invoice-company-details" class="row">
@@ -108,9 +78,9 @@
                 <p>
                   <span class="text-muted m-r-10">Receipt Date</span> {{ nice_date($cash_entry->ValueDate) }}</p>
                 <p>
-                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $cash_entry->account_manager->AccountManager ?? '-' }}</b></p>
+                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $cash_entry->account_manager ?? 'ELOHO Q. OCHUKO' }}</b></p>
                 <p>
-                  <span class="text-muted m-r-10">Contact Number</span>{{ $cash_entry->account_manager->MobileNumber ?? '-' }}</p>
+                  <span class="text-muted m-r-10">Contact Number</span>{{ $narrations->brand->Phone ?? '-' }}</p>
               </div>
             </div> <hr>
             <!--/ Invoice Customer Details -->
@@ -181,8 +151,12 @@
 
               <span>Outstanding Balance : </span>
               <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->OutstandingBalance, 2)) ?? '-' !!}</b></span> <br><br>
+
               <span>Terms : </span>
-              <span> {!! $cash_entry->Terms ?? '-' !!}</span> <br>
+              <span> {!! $cash_entry->Terms ?? '-' !!}</span> <br><br>
+
+              
+
 
               <span>Amount in words : </span>
               <span>
@@ -191,7 +165,7 @@
               <span>Bank transfer to : </span>
               <span>
                 <b>{{ ucwords($cash_entry->gl_debit->Description) ?? '-' }}</b>
-              </span> <br>
+              </span> <br><br><br>
               <div class="row">
                 <div class="col-md-12 col-sm-12">
                   <div class="row">
@@ -199,7 +173,7 @@
                       <div class="text-center">
                         {{-- <p>The Client</p>  --}}
                         
-                        <div class="rule" style="height: 70px">
+                        <div class="rule" style="height: 100px">
                           {{-- <img src="{{ asset('images/signature-scan.png') }}" width="100"  alt="sample signature"> --}}
                           {{-- <hr> --}}
                         </div>
@@ -214,12 +188,12 @@
                       <div class="text-center">
                        @if(!is_null($cash_entry->SignatoryID))
                         @if($cash_entry->signatory->SignatureLocation != null)                       
-                        <div class="rule" style="height: 70px">
+                        <div class="rule" style="height: 100px">
                           <img src="{{ asset("images/".$cash_entry->signatory->SignatureLocation) }}" width="100"  alt="sample signature">
                           <hr>
                         </div>
                         @else
-                        <div class="rule" style="height: 70px">
+                        <div class="rule" style="height: 100px">
                           <img src="{{ asset("images/signature-scan.png") }}" width="100"  alt="sample signature">
                           <hr>
                         </div>
@@ -230,7 +204,7 @@
                        @if(!is_null($cash_entry->SignatoryID))
                         <h5 class="semi-bold">{{ $cash_entry->signatory->fullName }} (Accountant)</h5>
                         @else
-                         <div class="rule" style="height: 70px">
+                         <div class="rule" style="height: 100px">
                           
                           {{-- <hr> --}}
                         </div>
@@ -249,80 +223,7 @@
             </div>
             <!--/ Invoice Footer -->
           </div>
-        </section> 
-    </div>
-  	<!-- END PANEL -->
-@endsection
-
-@push('scripts')
-
-<script src="{{ asset('js/jquery-printme.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
-<script src="{{ asset('js/jspdf.debug.js') }}"></script>
-<script src="{{ asset('js/from-html.js') }}"></script>
-<script>
-  var print_options = {
-    "path": ["{{ asset('css/printmemo.css') }}"]
-  }
-  function print_bill() {
-        return $(".card-box").printMe(print_options); 
-  }
-
-  //  export to pdf
-
-
-
-  // This code is collected but useful, click below to jsfiddle link.
-function makePDF() {
-
-    var quotes = document.getElementById('print-area');
-
-    html2canvas(quotes, {
-        onrendered: function(canvas) {
-        //! MAKE YOUR PDF
-        var pdf = new jsPDF('p', 'pt', 'letter');
-
-        for (var i = 0; i <= quotes.clientHeight/980; i++) {
-            //! This is all just html2canvas stuff
-            var srcImg  = canvas;
-            var sX      = 0;
-            var sY      = 0*i; // start 980 pixels down for every new page
-            var sWidth  = 1600;
-            var sHeight = 1500;
-            var dX      = 0;
-            var dY      = 0;
-            var dWidth  = 1600;
-            var dHeight = 1500;
-
-            window.onePageCanvas = document.createElement("canvas");
-            onePageCanvas.setAttribute('width', 1600);
-            onePageCanvas.setAttribute('height', 1500);
-            var ctx = onePageCanvas.getContext('2d');
-            // details on this usage of this function: 
-            // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
-            ctx.drawImage(srcImg,sX,sY,sWidth,sHeight,dX,dY,dWidth,dHeight);
-
-            // document.body.appendChild(canvas);
-            var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
-
-            var width         = onePageCanvas.width;
-            var height        = onePageCanvas.clientHeight;
-
-            //! If we're on anything other than the first page,
-            // add another page
-
-            //! now we add content to that page!
-            pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width*.62), (height*.62));
-        }
-        //! after the for loop is finished running, we save the pdf.
-        pdf.save('Receipt.pdf');
-    }
-  });
-}
-
-</script>
-@endpush
-
-
-
-
+        </table>
+    <!-- END PANEL -->
+</body>
+</html>

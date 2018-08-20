@@ -446,6 +446,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('receipts/client_search', 'BillingController@client_search_receipt');
     Route::get('receipts/view_receipt/{id}', 'BillingController@view_receipt')->name('view_receipt_list');
     Route::get('receipts/print_receipt/{ref}/{client_id}', 'BillingController@print_receipt')->name('print_receipt');
+    Route::get('receipts/send_receipt/{ref}/{client_id}', 'BillingController@send_receipt')->name('send_receipt');
 
     Route::resource('cash_entries', 'CashEntryController');
 

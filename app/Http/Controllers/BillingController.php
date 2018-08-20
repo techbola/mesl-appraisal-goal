@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Cavidel\ProductDeleted;
 use Cavidel\Title;
 use Cavidel\Mail\Orderbill;
+use Cavidel\Mail\SendReceipt;
 use Cavidel\Nationality;
 use Cavidel\Gender;
 use Cavidel\MaritalStatus;
@@ -110,12 +111,11 @@ class BillingController extends Controller
         $brands                  = Brand::all();
 
         $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
-                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         AS CUST_ACCT FROM tblGL
+                         INNER JOIN tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef
+                         INNER JOIN tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef
+                         INNER JOIN tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef
+                         --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ?
                          Order By tblGL.Description", [54]));
         $configs = Config::first();
@@ -390,5 +390,20 @@ class BillingController extends Controller
         $company_id      = $coy->CompanyID;
         $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
         return view('receipts.receipt', compact('company_details'));
+    }
+
+    public function send_receipt($ref, $client_id)
+    {
+        $coy            = Staff::where('UserID', auth()->user()->id)->first();
+        $client_details = Customer::where('CustomerRef', $client_id)->first();
+        // dd($client_details);
+        $company_id      = $coy->CompanyID;
+        $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
+        $cash_entry      = CashEntry::find($ref);
+        $narrations      = $cash_entry->bill_narrations;
+        $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
+        $amount_in_words = $aw->format($cash_entry->Amount);
+        $email           = $client_details->Email;
+        Mail::to($email)->send(new SendReceipt($cash_entry, $client_details, $narrations, $amount_in_words));
     }
 }
