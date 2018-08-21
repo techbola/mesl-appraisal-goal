@@ -44,4 +44,9 @@ class CashEntry extends Model
     {
         return $this->belongsTo(Staff::class, 'SignatoryID', 'StaffRef');
     }
+
+     public function account_manager()
+    {
+        return $this->belongsTo(AccountManager::class, 'AccountMgrID', 'AccountMgrRef');
+    }
 }
