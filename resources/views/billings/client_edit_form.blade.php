@@ -86,7 +86,7 @@
   <div class="col-sm-4">
      <div class="form-group">
        {{ Form::label('AccountMgrID', 'Account Manager') }}
-       {{ Form::select('AccountMgrID', ['' => 'Select Account Manager'] + $staff->pluck('FullName', 'UserID')->toArray(), null, ['class'=>'form-control select2', 'id'=>'edit_AccountMgrID', 'data-init-plugin'=>'select2']) }}
+       {{ Form::select('AccountMgrID', ['' => 'Select Account Manager'] + $AccountMgr->pluck('AccountManager', 'AccountMgrRef')->toArray(), null, ['class'=>'form-control select2', 'id'=>'edit_AccountMgrID', 'data-init-plugin'=>'select2']) }}
     </div>
   </div>
   <div class="col-sm-4">

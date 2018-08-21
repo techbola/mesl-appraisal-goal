@@ -28,6 +28,7 @@ use Cavidel\Brand;
 use Mail;
 use Cavidel\GL;
 use NumberFormatter;
+use Cavidel\AccountMgr;
 
 class BillingController extends Controller
 {
@@ -41,9 +42,10 @@ class BillingController extends Controller
         $genders            = Gender::all();
         $maritalstatuses    = MaritalStatus::orderBy('MaritalStatus')->get();
         $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
+        $AccountMgr         = AccountMgr::orderBy('AccountManager')->get();
         $paymentplans       = PaymentPlan::orderBy('PaymentPlan')->get();
         $housetypes         = HouseType::orderBy('HouseType')->get();
-        return view('billings.search_client', compact('product_categories', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
+        return view('billings.search_client', compact('product_categories', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes','AccountMgr'));
     }
 
     public function client_search(Request $request)
@@ -58,9 +60,10 @@ class BillingController extends Controller
         $genders            = Gender::all();
         $maritalstatuses    = MaritalStatus::orderBy('MaritalStatus')->get();
         $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
+        $AccountMgr         = AccountMgr::orderBy('AccountManager')->get();
         $paymentplans       = PaymentPlan::orderBy('PaymentPlan')->get();
         $housetypes         = HouseType::orderBy('HouseType')->get();
-        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles', 'nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
+        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles', 'nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes','AccountMgr'));
     }
 
     public function new_bill(Request $request)
