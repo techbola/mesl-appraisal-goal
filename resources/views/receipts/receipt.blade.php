@@ -108,9 +108,9 @@
                 <p>
                   <span class="text-muted m-r-10">Receipt Date</span> {{ nice_date($cash_entry->ValueDate) }}</p>
                 <p>
-                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $cash_entry->account_manager->AccountManager ?? '-' }}</b></p>
+                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $client_details->account_manager->AccountManager ?? 'Somebody Here' }}</b></p>
                 <p>
-                  <span class="text-muted m-r-10">Contact Number</span>{{ $cash_entry->account_manager->MobileNumber ?? '-' }}</p>
+                  <span class="text-muted m-r-10">Contact Number</span>{{ $client_details->account_manager->MobileNumber ?? '-' }}</p>
               </div>
             </div> <hr>
             <!--/ Invoice Customer Details -->
@@ -191,7 +191,7 @@
               <span>Bank transfer to : </span>
               <span>
                 <b>{{ ucwords($cash_entry->gl_debit->Description) ?? '-' }}</b>
-              </span> <br>
+              </span> <br> <br><br>
               <div class="row">
                 <div class="col-md-12 col-sm-12">
                   <div class="row">
@@ -199,7 +199,7 @@
                       <div class="text-center">
                         {{-- <p>The Client</p>  --}}
                         
-                        <div class="rule" style="height: 70px">
+                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee; margin-right: 10px">
                           {{-- <img src="{{ asset('images/signature-scan.png') }}" width="100"  alt="sample signature"> --}}
                           {{-- <hr> --}}
                         </div>
@@ -214,12 +214,11 @@
                       <div class="text-center">
                        @if(!is_null($cash_entry->SignatoryID))
                         @if($cash_entry->signatory->SignatureLocation != null)                       
-                        <div class="rule" style="height: 70px">
+                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee; margin-right: 10px">
                           <img src="{{ asset("images/".$cash_entry->signatory->SignatureLocation) }}" width="100"  alt="sample signature">
-                          <hr>
                         </div>
                         @else
-                        <div class="rule" style="height: 70px">
+                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee">
                           <img src="{{ asset("images/signature-scan.png") }}" width="100"  alt="sample signature">
                           <hr>
                         </div>
@@ -275,7 +274,7 @@
   // This code is collected but useful, click below to jsfiddle link.
 function makePDF() {
 
-    var quotes = document.getElementById('print-area');
+    var quotes = document.getElementById('invoice-template');
 
     html2canvas(quotes, {
         onrendered: function(canvas) {
@@ -287,23 +286,23 @@ function makePDF() {
             var srcImg  = canvas;
             var sX      = 0;
             var sY      = 0*i; // start 980 pixels down for every new page
-            var sWidth  = 1600;
-            var sHeight = 1500;
+            var sWidth  = 1366;
+            var sHeight = 2700;
             var dX      = 0;
             var dY      = 0;
-            var dWidth  = 1600;
-            var dHeight = 1500;
+            var dWidth  = 1366;
+            var dHeight = 2700;
 
             window.onePageCanvas = document.createElement("canvas");
-            onePageCanvas.setAttribute('width', 1600);
-            onePageCanvas.setAttribute('height', 1500);
+            onePageCanvas.setAttribute('width', 1366);
+            onePageCanvas.setAttribute('height', 2700);
             var ctx = onePageCanvas.getContext('2d');
             // details on this usage of this function: 
             // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
-            ctx.drawImage(srcImg,sX,sY,sWidth,sHeight,dX,dY,dWidth,dHeight);
+            ctx.drawImage(srcImg,sX,sY);
 
             // document.body.appendChild(canvas);
-            var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
+            var canvasDataURL = onePageCanvas.toDataURL("image/png", 0.2);
 
             var width         = onePageCanvas.width;
             var height        = onePageCanvas.clientHeight;
@@ -312,7 +311,7 @@ function makePDF() {
             // add another page
 
             //! now we add content to that page!
-            pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width*.62), (height*.62));
+            pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.62), (height*.62));
         }
         //! after the for loop is finished running, we save the pdf.
         pdf.save('Receipt.pdf');

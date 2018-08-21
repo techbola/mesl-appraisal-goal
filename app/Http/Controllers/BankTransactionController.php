@@ -10,6 +10,7 @@ use Excel;
 use File;
 use DB;
 use Session;
+use Cavidel\SimpleXLSX;
 
 class BankTransactionController extends Controller
 {
@@ -29,10 +30,19 @@ class BankTransactionController extends Controller
 
       if($request->hasFile('file')){
         $extension = File::extension($request->file->getClientOriginalName());
-        // if ($extension == "xlsx" || $extension == "xls" || $extension == "csv") {
-        if ($extension == "csv") {
+        if ($extension == "xlsx" || $extension == "xls" || $extension == "csv") {
 
-            $path = $request->file->getRealPath();
+          $path = $request->file->getRealPath();
+
+          if ($extension == "xlsx" || $extension == "xls") {
+            $xlsx = @(new SimpleXLSX($path));
+            $transactions =  $xlsx->rows();
+            // dd($transactions);
+          } elseif($extension == 'csv') {
+            $transactions = array_map('str_getcsv', file($path));
+          }
+
+
             // $csv = file_get_contents(Excel::load($path, function($file) {
             //
             // })->convert('csv'));
@@ -64,9 +74,10 @@ class BankTransactionController extends Controller
             // }
             // dd($insert);
 
-            // $bank = BankAccount::find($request->bank);
+            $bank = BankAccount::find($request->bank);
+            $account_no = BankAccount::find($request->account_number);
 
-            $transactions = array_map('str_getcsv', file($path));
+
 
             if(!empty($transactions)){
 
@@ -88,8 +99,10 @@ class BankTransactionController extends Controller
                 $row->Credit = !empty($trans['5'])? str_replace(',','',$trans['5']) : '0';
                 $row->Balance = str_replace(',','',$trans['6']);
                 $row->Narration = $trans['7'];
-                $row->Bank = $request->bank;
-                $row->AccountNumber = $request->account_number;
+                $row->Bank = $bank->BankName;
+                if (!empty($account_no)) {
+                  $row->AccountNumber = $account_no->AccountNumber;
+                }
                 $row->save();
               }
               // $insertData = DB::table('tblBankTransaction')->insert($insert);
