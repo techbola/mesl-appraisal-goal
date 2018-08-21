@@ -53,7 +53,15 @@
 
   @if (session('staging') == '1')
     <div class="card-box">
-      <div class="card-title">Confirm Import Data</div>
+      <div class="card-title pull-left">Confirm Import Data</div>
+      <div class="pull-right">
+        <a href="{{ url()->current() }}" class="btn btn-inverse btn-lg">Cancel</a>
+        <a href="#" class="btn btn-success btn-cons btn-lg m-l-10" onclick="confirm2('Are you sure you want to import this data?', '', 'complete_import')">Proceed</a>
+        <form class="hidden" id="complete_import" action="{{ route('complete_import') }}" method="post" onsubmit="$('#spinner').show()">
+          {{ csrf_field() }}
+        </form>
+      </div>
+      <div class="clearfix"></div>
       <table class="table table-bordered">
         <thead>
           <th width="5%">TransactionRef</th>
@@ -86,10 +94,7 @@
         </tbody>
       </table>
 
-      <div class="">
-        <a href="{{ url()->current() }}" class="btn btn-info">Cancel</a>
-        <a href="#" class="btn btn-success m-l-20">Import</a>
-      </div>
+
     </div>
   @endif
 @endsection

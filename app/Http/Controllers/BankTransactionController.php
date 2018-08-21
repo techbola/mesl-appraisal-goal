@@ -133,11 +133,15 @@ class BankTransactionController extends Controller
       return $bank->AccountNumber;
     }
 
-    // public function complete_import()
-    // {
-    //   $staging = BankTransactionStaging::all();
-    //   foreach ($staging as $stage) {
-    //     $
-    //   }
-    // }
+    public function complete_import()
+    {
+      $import = DB::statement('procInsertBankTransactions');
+
+      if ($import) {
+        return redirect()->back()->with('success', 'Your data has been imported successfully.');
+      } else {
+        return redirect()->back()->with('error', 'There was a problem importing your data.');
+      }
+
+    }
 }

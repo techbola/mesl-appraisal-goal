@@ -185,7 +185,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('bank_txn/create_import', 'BankTransactionController@create_import')->name('create_import');
     Route::post('bank_txn/store_import', 'BankTransactionController@store_import')->name('store_import');
     Route::get('bank_txn/get_account_no/{id}', 'BankTransactionController@get_account_no')->name('get_account_no');
-    // Route::post('bank_txn/stage_import', 'BankTransactionController@store_import')->name('store_import');
+    Route::post('bank_txn/complete_import', 'BankTransactionController@complete_import')->name('complete_import');
 
     // post forum messages
     // Route::post('/send/forum-post', 'ForumPostController@createPost');
