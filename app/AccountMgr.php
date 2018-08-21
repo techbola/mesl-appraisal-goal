@@ -12,3 +12,5 @@ class AccountMgr extends Model
     public $primaryKey = 'AccountMgrRef';
     public $timestamps = false;
 
+}
+
