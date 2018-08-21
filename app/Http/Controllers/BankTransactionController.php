@@ -75,7 +75,7 @@ class BankTransactionController extends Controller
             // dd($insert);
 
             $bank = BankAccount::find($request->bank);
-            $account_no = BankAccount::find($request->account_number);
+            // $account_no = BankAccount::find($request->account_no);
 
 
 
@@ -100,9 +100,7 @@ class BankTransactionController extends Controller
                 $row->Balance = str_replace(',','',$trans['6']);
                 $row->Narration = $trans['7'];
                 $row->Bank = $bank->BankName;
-                if (!empty($account_no)) {
-                  $row->AccountNumber = $account_no->AccountNumber;
-                }
+                $row->AccountNumber = $bank->AccountNumber;
                 $row->save();
               }
               // $insertData = DB::table('tblBankTransaction')->insert($insert);
@@ -127,6 +125,12 @@ class BankTransactionController extends Controller
       //     // reader methods
       // });
 
+    }
+
+    public function get_account_no($id)
+    {
+      $bank = BankAccount::find($id);
+      return $bank->AccountNumber;
     }
 
     // public function complete_import()
