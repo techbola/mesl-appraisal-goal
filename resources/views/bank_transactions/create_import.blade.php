@@ -13,7 +13,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="">Select Bank Account</label>
-            <select class="form-control select2" name="bank" data-init-plugin="select2" required>
+            <select id="bank" class="form-control select2" name="bank" data-init-plugin="select2" required>
               <option value="">Select Bank</option>
               @foreach ($banks as $bank)
                 <option value="{{ $bank->BankAccountRef }}">{{ $bank->BankName }}</option>
@@ -23,18 +23,19 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label for="">Select Account Number</label>
+            {{-- <label for="">Select Account Number</label>
             <select class="form-control select2" name="account_number" data-init-plugin="select2">
               <option value="">Account Number</option>
               @foreach ($banks as $bank)
-                {{-- <option value="{{ $bank->BankAccountRef }}">{{ $bank->AccountNumber }}</option> --}}
                 <option value="{{ $bank->BankAccountRef }}">{{ $bank->AccountNumber }}</option>
               @endforeach
-            </select>
+            </select> --}}
+            <label>Account Number</label>
+            <input id="account_no" type="text" name="account_no" value="" class="form-control" placeholder="Account number" disabled>
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="form-group">
             <label>Upload Excel File</label>
             <input type="file" name="file" class="form-control filestyle" placeholder="" data-buttonname="btn-info" data-buttonBefore="true">
@@ -92,3 +93,16 @@
     </div>
   @endif
 @endsection
+
+@push('scripts')
+  <script>
+    $('#bank').on('change', function(){
+      $('#spinner').show();
+      $.get('/bank_txn/get_account_no/'+ $('#bank').val(), function(data, status){
+        // console.log(data);
+        $('#account_no').val(data);
+        $('#spinner').hide();
+      });
+    });
+  </script>
+@endpush
