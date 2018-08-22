@@ -12,6 +12,7 @@ use Cavidel\ProjectFile;
 use Cavidel\Client;
 use Cavidel\Customer;
 use Cavidel\Contact;
+use Cavidel\Vendor;
 use DB;
 use Auth;
 use Carbon;
@@ -45,7 +46,7 @@ class ProjectController extends Controller
         $supervisors = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $assignees = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $customers = Customer::where('CompanyID', $user->staff->CompanyID)->get();
-        $vendors = Contact::where('CompanyID', $user->staff->CompanyID)->get();
+        $vendors = Vendor::where('CompanyID', $user->staff->CompanyID)->get();
       }
       return view('projects.index', compact('projects', 'supervisors', 'assignees', 'customers', 'vendors'));
     }
@@ -106,7 +107,7 @@ class ProjectController extends Controller
         $supervisors = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         // $assignees = Staff::where('CompanyID', $user->staff->CompanyID)->get();
         $customers = Customer::where('CompanyID', $user->staff->CompanyID)->get();
-        $vendors = Contact::where('CompanyID', $user->staff->CompanyID)->get();
+        $vendors = Vendor::where('CompanyID', $user->staff->CompanyID)->get();
       }
 
       $colors = ["#E65100", "#EF6C00", "#F57C00", "#558B2F", "#689F38", "#7CB342", "#8BC34A", "#4527A0", "#512DA8", "#5E35B1", "#673AB7", "#0277BD", "#0288D1", "#039BE5"];

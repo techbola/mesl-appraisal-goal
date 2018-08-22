@@ -81,7 +81,7 @@
           <div class="col-lg-3 col-sm-6">
             <div class="widget-inline-box text-center">
               <div class="text-muted">Vendor</div>
-              <div class="f18"><b>{{ $project->vendor->Customer ?? '-' }}</b>
+              <div class="f18"><b>{{ $project->vendor->Vendor ?? '-' }}</b>
               </div>
             </div>
           </div>

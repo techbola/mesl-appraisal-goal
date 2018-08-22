@@ -75,7 +75,7 @@ class Project extends Model
   }
   public function vendor()
   {
-    return $this->belongsTo('Cavidel\Contact', 'VendorID');
+    return $this->belongsTo('Cavidel\Vendor', 'VendorID');
   }
   public function tasks()
   {
