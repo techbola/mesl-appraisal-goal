@@ -1,17 +1,17 @@
 <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-group">
                     <label>Vendor</label>
                     <input type="text" class="form-control" name="Vendor" placeholder="Enter Vendor" required>
                   </div>
                 </div>
-
+<!-- 
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Vendor Code</label>
                     <input type="text" class="form-control" name="VendorCode" placeholder="Enter Vendor Codee" required>
                   </div>
-                </div>
+                </div> -->
 
                 <div class="col-md-6">
                   <div class="form-group">
