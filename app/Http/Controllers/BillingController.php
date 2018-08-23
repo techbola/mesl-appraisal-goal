@@ -30,6 +30,7 @@ use Cavidel\GL;
 use NumberFormatter;
 use Cavidel\AccountMgr;
 use PDF;
+use Cavidel\Vendor;
 
 class BillingController extends Controller
 {
@@ -273,6 +274,21 @@ class BillingController extends Controller
     {
         $id      = $request->CustomerRef;
         $details = Customer::where('CustomerRef', $id)->first();
+        $details->update($request->except(['_token', '_method']));
+        return response()->json($details)->setStatusCode(200);
+    }
+
+    public function get_vendor_details_onrequest($id)
+    {
+        $ref            = $id;
+        $vendor_details = Vendor::where('VendorRef', $ref)->first();
+        return response()->json($vendor_details)->setStatusCode(200);
+    }
+
+    public function submit_edited_vendor_data(Request $request)
+    {
+        $id      = $request->VendorRef;
+        $details = Vendor::where('VendorRef', $id)->first();
         $details->update($request->except(['_token', '_method']));
         return response()->json($details)->setStatusCode(200);
     }

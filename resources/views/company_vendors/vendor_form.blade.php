@@ -58,7 +58,7 @@
                 </div>
 
               </div>
-              <button type="submit" id="submit_vendor" class="btn btn-info btn-form pull-right">Submit</button>
+             
 
               @push('scripts')
                 <script>
@@ -67,7 +67,7 @@
                       if(status == 'success')
                       {
                         $('#new_project').modal('toggle');
-                        $("##vendor_form")[0].reset();
+                        $("#vendor_form")[0].reset();
                       }
                     });
                     return false;
