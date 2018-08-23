@@ -76,10 +76,16 @@ class BankTransactionController extends Controller
 
             $bank = BankAccount::find($request->bank);
             // $account_no = BankAccount::find($request->account_no);
+            $clean_trans = [];
 
 
 
             if(!empty($transactions)){
+
+              $duplicate = BankTransaction::where('PostDate', end($transactions)[1])->where('Narration', end($transactions)[7])->where('AccountNumber', $bank->AccountNumber)->get();
+              if (count($duplicate) > 0) {
+                return redirect()->back()->with('error', 'Looks like this data already exists. Please try another file.');
+              }
 
               foreach ($transactions as $trans2) {
                 // dd(count(array_filter($trans2)));
