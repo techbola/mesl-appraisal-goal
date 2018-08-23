@@ -109,7 +109,8 @@
 
 		$('#submit_bill').click(function(event) {
 			$.post('/submit_bill_for_approval', $('#post_bill').serialize(), function(data, status) {
-			$('#cash_entry_table').load(location.href + ' #cash_entry_table');
+			// $('#cash_entry_table').load(location.href + ' #cash_entry_table');
+			document.location.href = '/cash_entries/show_approve_posting';
 			$('#approve_notification').removeClass('hide');
 				$('#approve_notification').fadeOut( 2000, "linear");
 		    });
