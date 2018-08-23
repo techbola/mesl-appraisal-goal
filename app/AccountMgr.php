@@ -13,4 +13,3 @@ class AccountMgr extends Model
     public $timestamps = false;
 
 }
-

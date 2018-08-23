@@ -43,9 +43,10 @@ class BillingController extends Controller
         $maritalstatuses    = MaritalStatus::orderBy('MaritalStatus')->get();
         $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
         $AccountMgr         = AccountMgr::orderBy('AccountManager')->get();
-        $paymentplans       = PaymentPlan::orderBy('PaymentPlan')->get();
-        $housetypes         = HouseType::orderBy('HouseType')->get();
-        return view('billings.search_client', compact('product_categories', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes','AccountMgr'));
+
+        $paymentplans = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes   = HouseType::orderBy('HouseType')->get();
+        return view('billings.search_client', compact('product_categories', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes', 'AccountMgr'));
     }
 
     public function client_search(Request $request)
@@ -61,9 +62,10 @@ class BillingController extends Controller
         $maritalstatuses    = MaritalStatus::orderBy('MaritalStatus')->get();
         $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
         $AccountMgr         = AccountMgr::orderBy('AccountManager')->get();
-        $paymentplans       = PaymentPlan::orderBy('PaymentPlan')->get();
-        $housetypes         = HouseType::orderBy('HouseType')->get();
-        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles', 'nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes','AccountMgr'));
+
+        $paymentplans = PaymentPlan::orderBy('PaymentPlan')->get();
+        $housetypes   = HouseType::orderBy('HouseType')->get();
+        return view('billings.search_result', compact('results', 'product_categories', 'locations', 'titles', 'nationalities', 'countries', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes', 'AccountMgr'));
     }
 
     public function new_bill(Request $request)
@@ -347,7 +349,8 @@ class BillingController extends Controller
         $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
         $paymentplans       = PaymentPlan::orderBy('PaymentPlan')->get();
         $housetypes         = HouseType::orderBy('HouseType')->get();
-        return view('receipts.search_client', compact('product_categories', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
+        $AccountMgr         = AccountMgr::orderBy('AccountManager')->get();
+        return view('receipts.search_client', compact('product_categories', 'AccountMgr', 'locations', 'titles', 'nationalities', 'genders', 'maritalstatuses', 'staff', 'paymentplans', 'housetypes'));
     }
 
     public function client_search_receipt(Request $request)
