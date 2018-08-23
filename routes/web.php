@@ -448,6 +448,7 @@ Route::middleware(['auth'])->group(function () {
 
     // search and print receipt
     Route::get('receipts', 'BillingController@search_client_receipt')->name('print_receipt.index');
+    Route::get('receipts/download/{ref}/{client_id}', 'BillingController@download_receipt_pdf')->name('print_receipt.download');
     Route::post('receipts/client_search', 'BillingController@client_search_receipt');
     Route::get('receipts/view_receipt/{id}', 'BillingController@view_receipt')->name('view_receipt_list');
     Route::get('receipts/print_receipt/{ref}/{client_id}', 'BillingController@print_receipt')->name('print_receipt');

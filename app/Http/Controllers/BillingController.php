@@ -29,6 +29,7 @@ use Mail;
 use Cavidel\GL;
 use NumberFormatter;
 use Cavidel\AccountMgr;
+use PDF;
 
 class BillingController extends Controller
 {
@@ -388,6 +389,23 @@ class BillingController extends Controller
         $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
         $amount_in_words = $aw->format($cash_entry->Amount);
         return view('receipts.receipt', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
+    }
+
+    public function download_receipt_pdf($ref, $client_id)
+    {
+        $coy            = Staff::where('UserID', auth()->user()->id)->first();
+        $client_details = Customer::where('CustomerRef', $client_id)->first();
+        // dd($client_details);
+        $company_id      = $coy->CompanyID;
+        $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
+        $cash_entry      = CashEntry::find($ref);
+        $narrations      = $cash_entry->bill_narrations;
+        $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
+        $amount_in_words = $aw->format($cash_entry->Amount);
+        $pdf             = PDF::loadView('receipts.template', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
+        return $pdf->download('receipt.pdf');
+        // $pdf = Cavidel::make('dompdf.wrapper');
+        // $pdf->loadHTML('<h1>Test</h1>');
     }
 
     public function show_receipt()
