@@ -1,5 +1,4 @@
  @extends('layouts.master')
- @section('content')
  <div id="invoice-template" class="card-body">
             <!-- Invoice Company Details -->
             <div id="invoice-company-details" class="row">
@@ -187,4 +186,3 @@
             </div>
             <!--/ Invoice Footer -->
           </div>
- @endsection
