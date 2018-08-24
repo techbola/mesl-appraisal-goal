@@ -1,3 +1,4 @@
+ @extends('layouts.master')
  <div id="invoice-template" class="card-body">
             <!-- Invoice Company Details -->
             <div id="invoice-company-details" class="row">

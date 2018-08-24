@@ -56,6 +56,7 @@
                          <form id="edit_vendor_form" class="hide">
                             {{ csrf_field() }}
                             {{-- @include('company_vendors.vendor_edit_form') --}}
+                             <button type="submit" id="submit_vendor" class="btn btn-info btn-form pull-right">Submit</button>
                          </form>
                     </div>
                 </div>

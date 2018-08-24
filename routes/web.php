@@ -552,6 +552,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('bill_vendor_posting_post', 'VendorController@bill_payment');
     Route::post('delete_New_Bill_Vendor_payment', 'VendorController@productdeletion');
 
+    Route::get('get_vendor_details_onrequest/{id}', 'BillingController@get_vendor_details_onrequest');
+    Route::post('submit_edited_vendor_data', 'BillingController@submit_edited_vendor_data')->name('edit-vendor');
+
     // Route::get('get_bank_account_details/{id}', 'VendorController@get_bank_account_details');
     // Route::post('submit_bank_account_edit', 'VendorController@submit_bank_account_edit');
     // Route::get('get_searched_bank_account/{id}', 'VendorController@get_searched_bank_account');

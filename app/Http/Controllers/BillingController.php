@@ -30,6 +30,7 @@ use Cavidel\GL;
 use NumberFormatter;
 use Cavidel\AccountMgr;
 use PDF;
+use Cavidel\Vendor;
 
 class BillingController extends Controller
 {
@@ -277,6 +278,21 @@ class BillingController extends Controller
         return response()->json($details)->setStatusCode(200);
     }
 
+    public function get_vendor_details_onrequest($id)
+    {
+        $ref            = $id;
+        $vendor_details = Vendor::where('VendorRef', $ref)->first();
+        return response()->json($vendor_details)->setStatusCode(200);
+    }
+
+    public function submit_edited_vendor_data(Request $request)
+    {
+        $id      = $request->VendorRef;
+        $details = Vendor::where('VendorRef', $id)->first();
+        $details->update($request->except(['_token', '_method']));
+        return response()->json($details)->setStatusCode(200);
+    }
+
     public function submit_bill_narration(Request $request)
     {
         $narration          = new BillNarration($request->except(['_token']));
@@ -402,7 +418,8 @@ class BillingController extends Controller
         $narrations      = $cash_entry->bill_narrations;
         $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
         $amount_in_words = $aw->format($cash_entry->Amount);
-        $pdf             = PDF::loadView('receipts.template', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
+        PDF::setOptions(['dpi' => 96, 'defaultPaperSize' => "letter", 'defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadView('receipts.template_pdf', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
         return $pdf->download('receipt.pdf');
         // $pdf = Cavidel::make('dompdf.wrapper');
         // $pdf->loadHTML('<h1>Test</h1>');

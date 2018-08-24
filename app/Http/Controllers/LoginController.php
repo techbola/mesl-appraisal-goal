@@ -205,7 +205,7 @@ class LoginController extends Controller
     public function timeout()
     {
         // Activity
-        activity()->performedOn(auth()->user())->causedBy(auth()->user())->log('Timed Out');
+        // activity()->performedOn()->log('Timed Out');
 
         Auth::logout();
         return redirect('/login?timedout=true')->withErrors('You were timedout due to inactivity');
