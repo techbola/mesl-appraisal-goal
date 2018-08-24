@@ -11,10 +11,9 @@ return array(
     | in dompdf_config.inc.php. You can also override the entire config file.
     |
      */
-    'show_warnings'           => false, // Throw an Exception on warnings from dompdf
-    'orientation'             => 'portrait',
-    'DOMPDF_ENABLE_CSS_FLOAT' => true,
-    'defines'                 => array(
+    'show_warnings' => false, // Throw an Exception on warnings from dompdf
+    'orientation'   => 'portrait',
+    'defines'       => array(
         /**
          * The location of the DOMPDF font directory
          *
@@ -77,7 +76,7 @@ return array(
         /**
          * Whether to enable font subsetting or not.
          */
-        "enable_font_subsetting" => true,
+        "enable_font_subsetting" => false,
 
         /**
          * The PDF rendering backend to use
@@ -233,12 +232,12 @@ return array(
         /**
          * A ratio applied to the fonts height to be more like browsers' line height
          */
-        "font_height_ratio"      => 0.8,
+        "font_height_ratio"      => 1.1,
 
         /**
          * Use the more-than-experimental HTML5 Lib parser
          */
-        "enable_html5_parser"    => true,
+        "enable_html5_parser"    => false,
     ),
 
 );
