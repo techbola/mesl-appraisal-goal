@@ -137,10 +137,10 @@
             <!-- Invoice Footer -->
             <div id="invoice-footer" class="m-t-100">
               <span>Total Payments Received Till Date : </span>
-              <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br><br>
+              <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
 
               <span>Outstanding Balance : </span>
-              <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->OutstandingBalance, 2)) ?? '-' !!}</b></span> <br><br>
+              <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->OutstandingBalance, 2)) ?? '-' !!}</b></span> <br>
               <span>Terms : </span>
               <span> {!! $cash_entry->Terms ?? '-' !!}</span> <br>
 
@@ -151,7 +151,7 @@
               <span>Bank transfer to : </span>
               <span>
                 <b>{{ ucwords($cash_entry->gl_debit->Description) ?? '-' }}</b>
-              </span> <br> <br><br>
+              </span> <br> 
               <div class="row">
                 <div class="col-md-12 col-sm-12">
                   <div class="row">
