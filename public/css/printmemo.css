@@ -8,7 +8,7 @@
 }
 
 body {
-     /*background: #fff;*/
+     background: #fff;
 }
 
 .row {
@@ -16,7 +16,9 @@ body {
     margin-left: -15px;
 }
 
-
+hr {
+    margin: 10px 0 !important;
+}
 
 .address{
       display: block;
