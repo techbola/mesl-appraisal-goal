@@ -770,6 +770,7 @@ Route::get('/testing', function () {
 
 Route::get('/entry/ars', 'internalPageController@index')->name('ars_recon');
 Route::get('/entry/ars_recon_upload', 'internalPageController@upload_data')->name('ars_recon_upload_data');
+
 Route::get('/bank', 'internalPageController@showBank');
 Route::get('/ledger', 'internalPageController@showLedger');
 
@@ -831,3 +832,194 @@ Route::get('/load/ledger/name', 'jsonResponseController@loadLedgerSelectMenu');
 |
  */
 Route::post('/save/data/recon/table', 'jsonResponseController@saveDataForSorting');
+
+
+
+// Reconciliation 1
+Route::get('/entry/ars1', 'internalPageController1@index')->name('ars_recon1');
+Route::get('/entry/ars_recon_upload1', 'internalPageController1@upload_data')->name('ars_recon_upload_data1');
+Route::get('/bank1', 'internalPageController1@showBank');
+Route::get('/ledger1', 'internalPageController1@showLedger');
+Route::post('/bank1', 'jsonResponseController1@addBankItem');
+Route::post('/ledger1', 'jsonResponseController1@addLedgerItem');
+Route::get('/load/all1', 'jsonResponseController1@loadAllItems');
+Route::get('/load/bank1', 'jsonResponseController1@loadBankItem');
+Route::get('/load/ledger1', 'jsonResponseController1@loadLedgerItem');
+Route::post('/flag/item1', 'jsonResponseController1@flagItem');
+Route::post('/flag/ledger/checked1', 'jsonResponseController1@checkedLedgerItem');
+Route::post('/flag/ledger/unchecked1', 'jsonResponseController1@uncheckedLedgerItem');
+Route::post('/flag/bank/checked1', 'jsonResponseController1@checkedBankItem');
+Route::post('/flag/bank/unchecked1', 'jsonResponseController1@uncheckedBankItem');
+Route::get('/load/recon/total1', 'jsonResponseController1@loadStoredRecon');
+Route::get('/load/bank/name1', 'jsonResponseController1@loadBankSelectMenu');
+Route::get('/load/location/name1', 'jsonResponseController1@loadBranchSelectMenu');
+Route::get('/load/ledger/name1', 'jsonResponseController1@loadLedgerSelectMenu');
+Route::post('/save/data/recon/table1', 'jsonResponseController1@saveDataForSorting');
+
+// Reconciliation 1
+Route::get('/entry/ars2', 'internalPageController2@index')->name('ars_recon2');
+Route::get('/entry/ars_recon_upload2', 'internalPageController2@upload_data')->name('ars_recon_upload_data2');
+Route::get('/bank2', 'internalPageController2@showBank');
+Route::get('/ledger2', 'internalPageController2@showLedger');
+Route::post('/bank2', 'jsonResponseController2@addBankItem');
+Route::post('/ledger2', 'jsonResponseController2@addLedgerItem');
+Route::get('/load/all2', 'jsonResponseController2@loadAllItems');
+Route::get('/load/bank2', 'jsonResponseController2@loadBankItem');
+Route::get('/load/ledger2', 'jsonResponseController2@loadLedgerItem');
+Route::post('/flag/item2', 'jsonResponseController2@flagItem');
+Route::post('/flag/ledger/checked2', 'jsonResponseController2@checkedLedgerItem');
+Route::post('/flag/ledger/unchecked2', 'jsonResponseController2@uncheckedLedgerItem');
+Route::post('/flag/bank/checked2', 'jsonResponseController2@checkedBankItem');
+Route::post('/flag/bank/unchecked2', 'jsonResponseController2@uncheckedBankItem');
+Route::get('/load/recon/total2', 'jsonResponseController2@loadStoredRecon');
+Route::get('/load/bank/name2', 'jsonResponseController2@loadBankSelectMenu');
+Route::get('/load/location/name2', 'jsonResponseController2@loadBranchSelectMenu');
+Route::get('/load/ledger/name2', 'jsonResponseController2@loadLedgerSelectMenu');
+Route::post('/save/data/recon/table2', 'jsonResponseController2@saveDataForSorting');
+
+// Reconciliation 1
+Route::get('/entry/ars3', 'internalPageController3@index')->name('ars_recon3');
+Route::get('/entry/ars_recon_upload3', 'internalPageController3@upload_data')->name('ars_recon_upload_data3');
+Route::get('/bank3', 'internalPageController3@showBank');
+Route::get('/ledger3', 'internalPageController3@showLedger');
+Route::post('/bank3', 'jsonResponseController3@addBankItem');
+Route::post('/ledger3', 'jsonResponseController3@addLedgerItem');
+Route::get('/load/all3', 'jsonResponseController3@loadAllItems');
+Route::get('/load/bank3', 'jsonResponseController3@loadBankItem');
+Route::get('/load/ledger3', 'jsonResponseController3@loadLedgerItem');
+Route::post('/flag/item3', 'jsonResponseController3@flagItem');
+Route::post('/flag/ledger/checked3', 'jsonResponseController3@checkedLedgerItem');
+Route::post('/flag/ledger/unchecked3', 'jsonResponseController3@uncheckedLedgerItem');
+Route::post('/flag/bank/checked3', 'jsonResponseController3@checkedBankItem');
+Route::post('/flag/bank/unchecked3', 'jsonResponseController3@uncheckedBankItem');
+Route::get('/load/recon/total3', 'jsonResponseController3@loadStoredRecon');
+Route::get('/load/bank/name3', 'jsonResponseController3@loadBankSelectMenu');
+Route::get('/load/location/name3', 'jsonResponseController3@loadBranchSelectMenu');
+Route::get('/load/ledger/name3', 'jsonResponseController3@loadLedgerSelectMenu');
+Route::post('/save/data/recon/table3', 'jsonResponseController3@saveDataForSorting');
+
+// Reconciliation 1
+Route::get('/entry/ars4', 'internalPageController4@index')->name('ars_recon4');
+Route::get('/entry/ars_recon_upload4', 'internalPageController4@upload_data')->name('ars_recon_upload_data4');
+Route::get('/bank4', 'internalPageController4@showBank');
+Route::get('/ledger4', 'internalPageController4@showLedger');
+Route::post('/bank4', 'jsonResponseController4@addBankItem');
+Route::post('/ledger4', 'jsonResponseController4@addLedgerItem');
+Route::get('/load/all4', 'jsonResponseController4@loadAllItems');
+Route::get('/load/bank4', 'jsonResponseController4@loadBankItem');
+Route::get('/load/ledger4', 'jsonResponseController4@loadLedgerItem');
+Route::post('/flag/item4', 'jsonResponseController4@flagItem');
+Route::post('/flag/ledger/checked4', 'jsonResponseController4@checkedLedgerItem');
+Route::post('/flag/ledger/unchecked4', 'jsonResponseController4@uncheckedLedgerItem');
+Route::post('/flag/bank/checked4', 'jsonResponseController4@checkedBankItem');
+Route::post('/flag/bank/unchecked4', 'jsonResponseController4@uncheckedBankItem');
+Route::get('/load/recon/total4', 'jsonResponseController4@loadStoredRecon');
+Route::get('/load/bank/name4', 'jsonResponseController4@loadBankSelectMenu');
+Route::get('/load/location/name4', 'jsonResponseController4@loadBranchSelectMenu');
+Route::get('/load/ledger/name4', 'jsonResponseController4@loadLedgerSelectMenu');
+Route::post('/save/data/recon/table4', 'jsonResponseController4@saveDataForSorting');
+
+// Reconciliation 5
+Route::get('/entry/ars5', 'internalPageController5@index')->name('ars_recon5');
+Route::get('/entry/ars_recon_upload5', 'internalPageController5@upload_data')->name('ars_recon_upload_data5');
+Route::get('/bank5', 'internalPageController5@showBank');
+Route::get('/ledger5', 'internalPageController5@showLedger');
+Route::post('/bank5', 'jsonResponseController5@addBankItem');
+Route::post('/ledger5', 'jsonResponseController5@addLedgerItem');
+Route::get('/load/all5', 'jsonResponseController5@loadAllItems');
+Route::get('/load/bank5', 'jsonResponseController5@loadBankItem');
+Route::get('/load/ledger5', 'jsonResponseController5@loadLedgerItem');
+Route::post('/flag/item5', 'jsonResponseController5@flagItem');
+Route::post('/flag/ledger/checked5', 'jsonResponseController5@checkedLedgerItem');
+Route::post('/flag/ledger/unchecked5', 'jsonResponseController5@uncheckedLedgerItem');
+Route::post('/flag/bank/checked5', 'jsonResponseController5@checkedBankItem');
+Route::post('/flag/bank/unchecked5', 'jsonResponseController5@uncheckedBankItem');
+Route::get('/load/recon/total5', 'jsonResponseController5@loadStoredRecon');
+Route::get('/load/bank/name5', 'jsonResponseController5@loadBankSelectMenu');
+Route::get('/load/location/name5', 'jsonResponseController5@loadBranchSelectMenu');
+Route::get('/load/ledger/name5', 'jsonResponseController5@loadLedgerSelectMenu');
+Route::post('/save/data/recon/table5', 'jsonResponseController5@saveDataForSorting');
+
+// Reconciliation 6
+Route::get('/entry/ars6', 'internalPageController6@index')->name('ars_recon6');
+Route::get('/entry/ars_recon_upload6', 'internalPageController6@upload_data')->name('ars_recon_upload_data6');
+Route::get('/bank6', 'internalPageController6@showBank');
+Route::get('/ledger6', 'internalPageController6@showLedger');
+Route::post('/bank6', 'jsonResponseController6@addBankItem');
+Route::post('/ledger6', 'jsonResponseController6@addLedgerItem');
+Route::get('/load/all6', 'jsonResponseController6@loadAllItems');
+Route::get('/load/bank6', 'jsonResponseController6@loadBankItem');
+Route::get('/load/ledger6', 'jsonResponseController6@loadLedgerItem');
+Route::post('/flag/item6', 'jsonResponseController6@flagItem');
+Route::post('/flag/ledger/checked6', 'jsonResponseController6@checkedLedgerItem');
+Route::post('/flag/ledger/unchecked6', 'jsonResponseController6@uncheckedLedgerItem');
+Route::post('/flag/bank/checked6', 'jsonResponseController6@checkedBankItem');
+Route::post('/flag/bank/unchecked6', 'jsonResponseController6@uncheckedBankItem');
+Route::get('/load/recon/total6', 'jsonResponseController6@loadStoredRecon');
+Route::get('/load/bank/name6', 'jsonResponseController6@loadBankSelectMenu');
+Route::get('/load/location/name6', 'jsonResponseController6@loadBranchSelectMenu');
+Route::get('/load/ledger/name6', 'jsonResponseController6@loadLedgerSelectMenu');
+Route::post('/save/data/recon/table6', 'jsonResponseController6@saveDataForSorting');
+
+// Reconciliation 7
+Route::get('/entry/ars7', 'internalPageController7@index')->name('ars_recon7');
+Route::get('/entry/ars_recon_upload7', 'internalPageController7@upload_data')->name('ars_recon_upload_data7');
+Route::get('/bank7', 'internalPageController7@showBank');
+Route::get('/ledger7', 'internalPageController7@showLedger');
+Route::post('/bank7', 'jsonResponseController7@addBankItem');
+Route::post('/ledger7', 'jsonResponseController7@addLedgerItem');
+Route::get('/load/all7', 'jsonResponseController7@loadAllItems');
+Route::get('/load/bank7', 'jsonResponseController7@loadBankItem');
+Route::get('/load/ledger7', 'jsonResponseController7@loadLedgerItem');
+Route::post('/flag/item7', 'jsonResponseController7@flagItem');
+Route::post('/flag/ledger/checked7', 'jsonResponseController7@checkedLedgerItem');
+Route::post('/flag/ledger/unchecked7', 'jsonResponseController7@uncheckedLedgerItem');
+Route::post('/flag/bank/checked7', 'jsonResponseController7@checkedBankItem');
+Route::post('/flag/bank/unchecked7', 'jsonResponseController7@uncheckedBankItem');
+Route::get('/load/recon/total7', 'jsonResponseController7@loadStoredRecon');
+Route::get('/load/bank/name7', 'jsonResponseController7@loadBankSelectMenu');
+Route::get('/load/location/name7', 'jsonResponseController7@loadBranchSelectMenu');
+Route::get('/load/ledger/name7', 'jsonResponseController7@loadLedgerSelectMenu');
+Route::post('/save/data/recon/table7', 'jsonResponseController7@saveDataForSorting');
+
+// Reconciliation 8
+Route::get('/entry/ars8', 'internalPageController8@index')->name('ars_recon8');
+Route::get('/entry/ars_recon_upload8', 'internalPageController8@upload_data')->name('ars_recon_upload_data8');
+Route::get('/bank8', 'internalPageController8@showBank');
+Route::get('/ledger8', 'internalPageController8@showLedger');
+Route::post('/bank8', 'jsonResponseController8@addBankItem');
+Route::post('/ledger8', 'jsonResponseController8@addLedgerItem');
+Route::get('/load/all8', 'jsonResponseController8@loadAllItems');
+Route::get('/load/bank8', 'jsonResponseController8@loadBankItem');
+Route::get('/load/ledger8', 'jsonResponseController8@loadLedgerItem');
+Route::post('/flag/item8', 'jsonResponseController8@flagItem');
+Route::post('/flag/ledger/checked8', 'jsonResponseController8@checkedLedgerItem');
+Route::post('/flag/ledger/unchecked8', 'jsonResponseController8@uncheckedLedgerItem');
+Route::post('/flag/bank/checked8', 'jsonResponseController8@checkedBankItem');
+Route::post('/flag/bank/unchecked8', 'jsonResponseController8@uncheckedBankItem');
+Route::get('/load/recon/total8', 'jsonResponseController8@loadStoredRecon');
+Route::get('/load/bank/name8', 'jsonResponseController8@loadBankSelectMenu');
+Route::get('/load/location/name8', 'jsonResponseController8@loadBranchSelectMenu');
+Route::get('/load/ledger/name8', 'jsonResponseController8@loadLedgerSelectMenu');
+Route::post('/save/data/recon/table8', 'jsonResponseController8@saveDataForSorting');
+
+// Reconciliation 9
+Route::get('/entry/ars9', 'internalPageController9@index')->name('ars_recon9');
+Route::get('/entry/ars_recon_upload9', 'internalPageController9@upload_data')->name('ars_recon_upload_data9');
+Route::get('/bank9', 'internalPageController9@showBank');
+Route::get('/ledger9', 'internalPageController9@showLedger');
+Route::post('/bank9', 'jsonResponseController9@addBankItem');
+Route::post('/ledger9', 'jsonResponseController9@addLedgerItem');
+Route::get('/load/all9', 'jsonResponseController9@loadAllItems');
+Route::get('/load/bank9', 'jsonResponseController9@loadBankItem');
+Route::get('/load/ledger9', 'jsonResponseController9@loadLedgerItem');
+Route::post('/flag/item9', 'jsonResponseController9@flagItem');
+Route::post('/flag/ledger/checked9', 'jsonResponseController9@checkedLedgerItem');
+Route::post('/flag/ledger/unchecked9', 'jsonResponseController9@uncheckedLedgerItem');
+Route::post('/flag/bank/checked9', 'jsonResponseController9@checkedBankItem');
+Route::post('/flag/bank/unchecked9', 'jsonResponseController9@uncheckedBankItem');
+Route::get('/load/recon/total9', 'jsonResponseController9@loadStoredRecon');
+Route::get('/load/bank/name9', 'jsonResponseController9@loadBankSelectMenu');
+Route::get('/load/location/name9', 'jsonResponseController9@loadBranchSelectMenu');
+Route::get('/load/ledger/name9', 'jsonResponseController9@loadLedgerSelectMenu');
+Route::post('/save/data/recon/table9', 'jsonResponseController9@saveDataForSorting');

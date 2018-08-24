@@ -9,17 +9,6 @@
 @endsection
 
 @section('content')
-  <style media="screen">
-    .col-md-4 {
-      /* width: 100%; */
-    }
-    .balloons {
-      position: absolute;
-      right: 0;
-      top: -10px;
-      opacity: 0.2;
-    }
-  </style>
   {{-- <div class="text-center">
     <img src="{{ asset('assets/img/backgrounds/cavidel-slide.jpg') }}" alt="" width="95%">
   </div> --}}
@@ -79,9 +68,11 @@
   </div>
   {{-- END TOP BLOCKS --}}
 
-  <div class="row grid">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="row">
         {{-- Events --}}
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 grid-item" data-sort="{{ count($events) }}">
+        <div class="col-md-12">
           <div class="card-box">
             <div class="card-title">
               Upcoming Events
@@ -145,7 +136,7 @@
         {{-- End Events --}}
 
         {{-- Bulletins --}}
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 grid-item" data-sort="{{ count($bulletins) }}">
+        <div class="col-md-12">
           <div class="card-box">
             <div class="card-title">
               Bulletin Board <span class="badge badge-danger badge-sm badge-tab">{{ count($bulletins) }}</span>
@@ -177,7 +168,7 @@
         {{-- End Bulletins --}}
 
         {{-- Policies --}}
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 grid-item" data-sort="{{ count($policy_statements) }}">
+        <div class="col-md-12">
           <div class="card-box">
             <div class="card-title">
               New Policies <span class="badge badge-danger badge-sm badge-tab">{{ count($policy_statements) }}</span>
@@ -185,7 +176,7 @@
             </div>
 
             <div class="my-list">
-              @forelse ($policy_statements as $item)
+              @foreach ($policy_statements as $item)
                 <li>
 
                   <div class="table-cell p-l-10">
@@ -198,19 +189,18 @@
                     </div>
                   </div>
                 </li>
-              @empty
-                @emptylist()
-              @endforelse
+              @endforeach
             </div>
 
           </div>
         </div>
-        {{-- End Policies --}}
+        {{-- End Bulletins --}}
+      </div>
+    </div>
 
-
+    <div class="col-md-4">
       {{-- Todos Week --}}
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 grid-item" data-sort="{{ count($todos_week) }}">
-        <div class="card-box">
+      <div class="card-box">
         <div class="card-title">
           To-Dos This Week
           {{-- <span class="badge badge-danger badge-sm badge-tab">{{ count($todos_week) }}</span> --}}
@@ -240,58 +230,47 @@
         </div>
 
       </div>
-      </div>
       {{-- End Todos Week --}}
 
       {{-- Memos --}}
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 grid-item" data-sort="{{ count($unapproved_memos) }}">
-
-        <div class="card-box">
-          <div class="card-title">
-            Unapproved Memos <span class="badge badge-danger badge-sm badge-tab">{{ count($unapproved_memos) }}</span>
-            <a href="{{ route('memos_approvallist') }}" class="label label-inverse pull-right btn-rounded text-capitalize">See all <i class="fa fa-arrow-right m-l-5"></i></a>
-          </div>
-
-          {{-- <div class="my-list">
-          @foreach ($unapproved_memos->take('3') as $item)
-          <li>
-          <div class="thumbnail-wrapper d24 circular">
-          <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->sender->avatar()) }}">
+      <div class="card-box">
+        <div class="card-title">
+          Unapproved Memos <span class="badge badge-danger badge-sm badge-tab">{{ count($unapproved_memos) }}</span>
+          <a href="{{ route('memos_approvallist') }}" class="label label-inverse pull-right btn-rounded text-capitalize">See all <i class="fa fa-arrow-right m-l-5"></i></a>
         </div>
 
-        <div class="table-cell p-l-10">
-        <div class="" style="margin-top:0 !important">{{ $item->Subject }}</div>
-        <div class="no-margin text-muted small">
-        <span>{{ $item->sender->FullName }}</span> — {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
+        {{-- <div class="my-list">
+        @foreach ($unapproved_memos->take('3') as $item)
+        <li>
+        <div class="thumbnail-wrapper d24 circular">
+        <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->sender->avatar()) }}">
       </div>
-      <div class="small bg-light">
-      {!! str_limit(strip_tags($item->Body), 30) !!}
+
+      <div class="table-cell p-l-10">
+      <div class="" style="margin-top:0 !important">{{ $item->Subject }}</div>
+      <div class="no-margin text-muted small">
+      <span>{{ $item->sender->FullName }}</span> — {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
     </div>
+    <div class="small bg-light">
+    {!! str_limit(strip_tags($item->Body), 30) !!}
   </div>
+</div>
 </li>
 @endforeach
 </div> --}}
 
-@emptylist()
-
 </div>
-      </div>
       {{-- End Memos --}}
+    </div>
 
-
-
+    <div class="col-md-4">
       {{-- Birthdays --}}
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 grid-item" data-sort="{{ count($birthdays) }}">
-        <div class="card-box" style="position: relative; overflow: hidden;">
-        <div class="card-title">Birthdays Today <span class="badge badge-danger badge-sm badge-tab">{{ count($birthdays) }}</span></div>
-
-        <div class="balloons">
-          <img src="{{ asset('images/site/balloons.png') }}" alt="">
-        </div>
+      <div class="card-box">
+        <div class="card-title">Birthdays Today</div>
 
         <div class="my-list">
           @foreach ($birthdays as $item)
-            {{-- @if (Carbon::parse($item->DateofBirth)->isBirthday()) --}}
+            @if (Carbon::parse($item->DateofBirth)->isBirthday())
               <li>
                 <div class="thumbnail-wrapper d24 circular">
                   <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->user->avatar()) }}">
@@ -305,79 +284,76 @@
                   </div>
                 </div>
               </li>
-            {{-- @endif --}}
+            @endif
           @endforeach
         </div>
 
       </div>
-      </div>
       {{-- End Birthdays --}}
 
+
       {{-- Messages --}}
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 grid-item" data-sort="{{ count($messages) }}">
-        <div class="card-box">
-          <div class="card-title">
-            New Messages <span class="badge badge-danger badge-sm badge-tab">{{ count($messages) }}</span>
-            <a href="{{ route('inbox') }}" class="label label-inverse pull-right btn-rounded text-capitalize">See all <i class="fa fa-arrow-right m-l-5"></i></a>
-          </div>
-
-          <div class="my-list">
-            @forelse ($messages->take('3') as $item)
-              <li>
-                <a href="{{ route('view_message', ['id'=>($item->ParentID)? $item->ParentID : $item->MessageRef, 'reply'=>$item->MessageRef] ) }}" class="no-color">
-                  <div class="thumbnail-wrapper d24 circular">
-                    <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->sender->avatar())  }}">
-                  </div>
-
-                  <div class="table-cell p-l-10">
-                    <div class="" style="margin-top:0 !important">{{ $item->Subject }}</div>
-                    <div class="no-margin text-muted small">
-                      <span>{{ $item->sender->FullName }}</span> — {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
-                    </div>
-                    <div class="small bg-light">
-                      {!! str_limit(strip_tags($item->Body), 30) !!}
-                    </div>
-                  </div>
-
-                </a>
-              </li>
-            @empty
-              @emptylist()
-            @endforelse
-          </div>
-
+      <div class="card-box">
+        <div class="card-title">
+          New Messages <span class="badge badge-danger badge-sm badge-tab">{{ count($messages) }}</span>
+          <a href="{{ route('inbox') }}" class="label label-inverse pull-right btn-rounded text-capitalize">See all <i class="fa fa-arrow-right m-l-5"></i></a>
         </div>
+
+        <div class="my-list">
+          @forelse ($messages->take('3') as $item)
+            <li>
+              <a href="{{ route('view_message', ['id'=>($item->ParentID)? $item->ParentID : $item->MessageRef, 'reply'=>$item->MessageRef] ) }}" class="no-color">
+                <div class="thumbnail-wrapper d24 circular">
+                  <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->sender->avatar())  }}">
+                </div>
+
+                <div class="table-cell p-l-10">
+                  <div class="" style="margin-top:0 !important">{{ $item->Subject }}</div>
+                  <div class="no-margin text-muted small">
+                    <span>{{ $item->sender->FullName }}</span> — {{ ($item->created_at->isToday())? 'Today' : ''.$item->created_at->format('jS M, Y') }} at {{ $item->created_at->format('g:ia') }}
+                  </div>
+                  <div class="small bg-light">
+                    {!! str_limit(strip_tags($item->Body), 30) !!}
+                  </div>
+                </div>
+
+              </a>
+            </li>
+          @empty
+            @emptylist()
+          @endforelse
+        </div>
+
       </div>
       {{-- End Messages --}}
 
       {{-- Leave Requests --}}
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 grid-item" data-sort="{{ count($leave_requests) }}">
-        <div class="card-box">
-          <div class="card-title">Leave Requests <span class="badge badge-danger badge-sm badge-tab">{{ count($leave_requests) }}</span></div>
+      <div class="card-box">
+        <div class="card-title">Leave Requests <span class="badge badge-danger badge-sm badge-tab">{{ count($leave_requests) }}</span></div>
 
-          <div class="my-list">
-            @forelse ($leave_requests as $item)
-              <li>
-                <div class="thumbnail-wrapper d24 circular">
-                  <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->requester->avatar()) }}">
+        <div class="my-list">
+          @foreach ($leave_requests as $item)
+            <li>
+              <div class="thumbnail-wrapper d24 circular">
+                <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->requester->avatar()) }}">
+              </div>
+
+              <div class="table-cell p-l-10">
+                <div class="" style="margin-top:0 !important">{{ $item->requester->FullName }}</div>
+                <div class="no-margin text-muted small">
+                  <span>From <b>{{ Carbon::parse($item->StartDate)->format('jS M, Y') }}</b> To <b>{{ Carbon::parse($item->ReturnDate)->format('jS M, Y') }}</b></span>
                 </div>
-
-                <div class="table-cell p-l-10">
-                  <div class="" style="margin-top:0 !important">{{ $item->requester->FullName }}</div>
-                  <div class="no-margin text-muted small">
-                    <span>From <b>{{ Carbon::parse($item->StartDate)->format('jS M, Y') }}</b> To <b>{{ Carbon::parse($item->ReturnDate)->format('jS M, Y') }}</b></span>
-                  </div>
-                  <div class="label label-inverse m-t-5">{{ $item->NumberofDays }} Days</div>
-                </div>
-              </li>
-            @empty
-              @emptylist()
-            @endforelse
-          </div>
-
+                <div class="label label-inverse m-t-5">{{ $item->NumberofDays }} Days</div>
+              </div>
+            </li>
+          @endforeach
         </div>
+
       </div>
       {{-- End Leave Requests --}}
+
+
+    </div>
 
   </div> {{-- Close Row --}}
 
@@ -389,22 +365,6 @@
   <i data-feather="circle"></i>
 
 <script>
-  feather.replace();
-</script>
-
-<script src="{{ asset('js/isotope/isotope.pkgd.min.js') }}" charset="utf-8"></script>
-<script src="{{ asset('js/isotope/packery-mode.pkgd.min.js') }}" charset="utf-8"></script>
-<script>
-  $('.grid').isotope({
-    // options
-    itemSelector: '.grid-item',
-    layoutMode: 'packery',
-    percentPosition: true,
-    getSortData: {
-      count: '[data-sort]',
-    },
-    sortBy: 'count',
-    sortAscending: false
-  });
+  feather.replace()
 </script>
 @endpush
