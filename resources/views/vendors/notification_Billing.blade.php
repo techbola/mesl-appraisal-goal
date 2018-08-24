@@ -48,6 +48,7 @@
                                          <th>Date</th>
                                          
                                          <th>Product</th>
+                                         <th>Narration</th>
                                          <th>Price</th>
                                          <th>Action</th>
                                      </tr>
@@ -57,6 +58,7 @@
                                      <tr>
                                         <td>{{ $bill_item->BillingDate }}</td>
                                         <td>{{ $bill_item->project->Project ?? '-' }}</td>
+                                        <td>{{ $bill_item->Comment ?? '-' }}</td>
                                         <td>&#8358;{{ number_format($bill_item->Price,2) }}</td>
                                         @if($bill_item->BillingDate < $date)
                                         <td><i class="fa fa-lock" style="font-size: 20px; color: #009688" ></i></td>
@@ -122,6 +124,18 @@
                                             </select>
                                     </div>
                                 </div> --}}
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                            {{ Form::label('Expense Account') }}
+                                            <select name="ExpenseGLID" id="category" class="form-control select2"    data-init-plugin="select2">
+                                                <option value="">Select Expense Account</option>
+                                                @foreach($glid_debit as $gl)
+                                                    <option value="{{ $gl->GLRef }}">{{ $gl->Account }}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
+                                </div>
 
                                 <div class="col-sm-12">
                                     <div class="form-group">
@@ -391,11 +405,11 @@
                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="controls">
-                                    {{ Form::label('GLIDDebit', 'Cash or Bank') }}
-                                    <select name="GLIDDebit" id="dropDown" class="full-width" data-init-plugin="select2" required>
+                                    {{ Form::label('GLIDCredit', 'Cash or Bank') }}
+                                    <select name="GLIDCredit" id="dropDown" class="full-width" data-init-plugin="select2" required>
                                       <option value="">Select Cash or Bank</option>
                                       @foreach($debit_acct_details as $debit_acct_detail)
-                                        <option value="{{ $debit_acct_detail->GLRef }}">{{ $debit_acct_detail->CUST_ACCT }}</option>
+                                        <option value="{{ $debit_acct_detail->GLRef }}">{{ $debit_acct_detail->Account }}</option>
                                       @endforeach
                                     </select>
                                 </div>
@@ -446,7 +460,7 @@
                       <input type="hidden" name="StaffID" value="{{ auth()->user()->id }}">
                       <input type="hidden" name="PostingTypeID" value="1">
                       <input type="hidden" name="CurrencyID" value="1">
-                      <input type="hidden" name="GLIDCredit" value="{{ $gl->GLRef }}" id="getGLIDDebit">
+                      <input type="hidden" name="GLIDDebit" value="{{ $vendor_gl->GLRef }}">
                       <input type="hidden" name="Reference1" value="{{ $code }}" id="billid">
                       <input type="submit" id="post" class="btn btn-primary btn-lg btn-sm fs-15 pull-right" value="Post">
                       {{ Form::close() }}

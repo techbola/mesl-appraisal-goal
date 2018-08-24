@@ -5,6 +5,7 @@ namespace Cavidel\Http\Controllers;
 use Cavidel\Vendor;
 use Cavidel\Currency;
 use Cavidel\Staff;
+use Cavidel\CashEntry;
 use Cavidel\Billing;
 use Cavidel\BillingVendor;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use Cavidel\Config;
 use Cavidel\PlanOption;
 use Cavidel\Brand;
 use Cavidel\Project;
+use DB;
 
 class VendorController extends Controller
 {
@@ -75,7 +77,6 @@ class VendorController extends Controller
     public function save_bill_item(Request $request)
     {
         // dd($request->all());
-
         $save_bill = new BillingVendor($request->except(['CategoryID', 'Product', 'TotalPrice']));
 
         if ($save_bill->save()) {
@@ -100,7 +101,7 @@ class VendorController extends Controller
             $cashentries->PostingTypeID = 16;
             $cashentries->PostFlag      = 1;
             if ($cashentries->save()) {
-                return redirect()->route('NotificationBilling', [$customer_ref, $billcode])->with('success', 'Bill Posting was successfully');
+                return redirect()->route('VendorNotificationBilling', [$customer_ref, $billcode])->with('success', 'Bill Posting was successfully');
             } else {
                 return redirect()->back()->withInput()->with('error', 'Cash Entry failed to save');
             }
@@ -158,7 +159,7 @@ class VendorController extends Controller
             ->where('ClientID', $client_id)
             ->where('GroupID', $billcode)
             ->get();
-        $outstanding             = \DB::select("EXEC procFinalBillAmount '$code'");
+        $outstanding             = \DB::select("EXEC procFinalBillAmount_Vendor '$code'");
         $bill_details_collection = collect($processedbills);
         $payment_plans           = PymtPlan::all();
         $bill_amount             = $bill_details_collection->sum('Price');
@@ -168,23 +169,27 @@ class VendorController extends Controller
         $brands                  = Brand::all();
         $projects                = Project::all();
 
-        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
-                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+        $debit_acct_details = collect(\DB::select("SELECT        tblGL.GLRef, { fn CONCAT(tblGL.Description + ' - ', tblAccountType.AccountType + '  [' + CONVERT(varchar, format(tblGL.BookBalance, '#,###.00')) + ']') } AS Account
+FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef
                          Where tblGL.AccountTypeID = ?
-                         Order By tblGL.Description", [54]));
+                         Order By Account", [54]));
         $configs = Config::first();
-        $gl      = \DB::table('tblCustomer')
+        $gl      = \DB::table('tblVendors')
             ->select('GLRef')
-            ->join('tblGL', 'tblCustomer.CustomerRef', '=', 'tblGl.CustomerID')
-            ->where('tblCustomer.CustomerRef', $client_id)
+            ->join('tblGL', 'tblVendors.VendorCode', '=', 'tblGl.FileNo')
+            ->where('tblVendors.VendorRef', $client_id)
             ->first();
 
-        return view('vendors.notification_Billing', compact('client_details', 'projects', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files'));
+        $vendor_gl = \DB::table('tblVendors')
+            ->select('GLRef')
+            ->join('tblGL', 'tblVendors.VendorCode', '=', 'tblGl.FileNo')
+            ->where('tblVendors.VendorRef', $client_id)
+            ->first();
+
+        $glid_debit = collect(DB::select('Exec procAllExpenseAccount'));
+
+        return view('vendors.notification_Billing', compact('client_details', 'projects', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'vendor_gl', 'files', 'glid_debit'));
     }
 
 }
