@@ -11,7 +11,7 @@
     margin-left: -15px;
 }*/
 
-* 
+*
 {
     background: #fff;
 }
@@ -21,11 +21,13 @@
     }
 
     img{
+        background: transparent !important;
     }
 
     img.logo{
         width: 150px !important;
         margin: 0 !important;
+        background: transparent !important;
     }
 
 
