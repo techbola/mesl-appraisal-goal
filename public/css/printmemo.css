@@ -4,16 +4,21 @@
 @page {
     /*padding: 2cm;*/
     /*margin: 3cm;    */
+     background: #fff;
 }
 
-/*.row {
+body {
+     background: #fff;
+}
+
+.row {
     margin-right: -15px;
     margin-left: -15px;
-}*/
+}
 
 *
 {
-    background: #fff;
+   
 }
 
 .address{
