@@ -4,11 +4,11 @@
 @page {
     /*padding: 2cm;*/
     /*margin: 3cm;    */
-     background: #fff;
+     /*background: #fff;*/
 }
 
 body {
-     background: #fff;
+     /*background: #fff;*/
 }
 
 .row {
@@ -16,10 +16,7 @@ body {
     margin-left: -15px;
 }
 
-*
-{
-   
-}
+
 
 .address{
       display: block;
