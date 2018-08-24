@@ -2,13 +2,18 @@
 @import url('app.css');
 
 @page {
-    padding: 2cm;
-    margin: 3cm;    
+    /*padding: 2cm;*/
+    /*margin: 3cm;    */
 }
 
-.row {
+/*.row {
     margin-right: -15px;
     margin-left: -15px;
+}*/
+
+* 
+{
+    background: #fff;
 }
 
 .address{
