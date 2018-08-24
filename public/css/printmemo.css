@@ -7,6 +7,10 @@
     zoom: 90%;
 }
 
+* {
+    background: #fff;
+}
+
 body {
     background: #fff;
     font-family: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
