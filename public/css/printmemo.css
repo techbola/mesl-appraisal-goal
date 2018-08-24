@@ -2,8 +2,13 @@
 @import url('app.css');
 
 @page {
-    padding: 2cm;
-    margin: 3cm;    
+    /*padding: 2cm;*/
+    /*margin: 3cm;    */
+    background: #fff;
+}
+
+body {
+    background: #fff;
 }
 
 .row {
