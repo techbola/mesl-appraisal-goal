@@ -1,4 +1,5 @@
-
+@import url('../pages/css/pages.min.css');
+@import url('app.css');
 @page {
     /*padding: 2cm;*/
     /*margin: 3cm;    */
@@ -65,7 +66,7 @@ table {
 } 
 
 #bill-box + div {
-    /*background: #eee; */
+    background: #eee; 
     max-height: 300px;
     border: 1px solid #ddd;
 }
