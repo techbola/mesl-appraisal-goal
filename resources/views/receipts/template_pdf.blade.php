@@ -18,7 +18,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/white.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style2.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('css/printmemo.css') }}" media="screen"> --}}
+    <link rel="stylesheet" href="{{ asset('css/printmemo.css') }}" media="screen">
   </head>
     <body>
  <div id="invoice-template" class="card-body">
