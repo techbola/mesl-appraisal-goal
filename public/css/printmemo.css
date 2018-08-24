@@ -2,13 +2,17 @@
 @import url('app.css');
 
 @page {
-    /*padding: 2cm;*/
-    /*margin: 3cm;    */
-     /*background: #fff;*/
+    padding: 0.2cm;
+    margin: 0.2cm;    
+     background: #fff;
 }
 
 body {
      background: #fff;
+}
+
+* {
+    background: #fff;
 }
 
 .row {
@@ -25,10 +29,14 @@ hr {
     }
 
     img{
+        position: relative;
+        z-index: 999999;
         background: transparent !important;
     }
 
     img.logo{
+        position: relative;
+        z-index: 999999;
         width: 150px !important;
         margin: 0 !important;
         background: transparent !important;
