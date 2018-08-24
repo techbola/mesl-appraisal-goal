@@ -418,7 +418,8 @@ class BillingController extends Controller
         $narrations      = $cash_entry->bill_narrations;
         $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
         $amount_in_words = $aw->format($cash_entry->Amount);
-        $pdf             = PDF::loadView('receipts.template_pdf', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
+        PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadView('receipts.template_pdf', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
         return $pdf->stream('receipt.pdf');
         // $pdf = Cavidel::make('dompdf.wrapper');
         // $pdf->loadHTML('<h1>Test</h1>');
