@@ -108,7 +108,7 @@
             <div id="invoice-items-details" class="pt-2">
               <div class="row">
                 <div class="table-responsive col-sm-12">
-                  <table class="table table-bordered">
+                  <table class="table">
                     <thead>
                       <tr>
                         <th class="text-center">S/N</th>
@@ -135,7 +135,7 @@
               </div>
             </div>
             <!-- Invoice Footer -->
-            <div id="invoice-footer" class="m-t-100">
+            <div id="invoice-footer" class="m-t-30">
               <span>Total Payments Received Till Date : </span>
               <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
 
