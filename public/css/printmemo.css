@@ -2,8 +2,8 @@
 @import url('app.css');
 
 @page {
-    padding: 0.2cm;
-    margin: 0.2cm;    
+    padding: 10px;
+    margin: 10px;    
      background: #fff;
 }
 
