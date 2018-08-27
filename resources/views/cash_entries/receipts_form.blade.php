@@ -129,6 +129,15 @@
             </div>
         </div>
     </div>
+    {{-- Mode of payment --}}
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('ModeOfPayment', 'Mode Of Payment' ) }}
+                {{ Form::text('ModeOfPayment', null, ['class' => 'form-control', 'placeholder' => 'Mode of payment']) }}
+            </div>
+        </div>
+    </div>
 
 
     <div class="clearfix"></div>
