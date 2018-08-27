@@ -279,22 +279,22 @@ function makePDF() {
     html2canvas(quotes, {
         onrendered: function(canvas) {
         //! MAKE YOUR PDF
-        var pdf = new jsPDF('p', 'pt', 'a4');
+        var pdf = new jsPDF('p', 'pt', 'letter');
 
         for (var i = 0; i <= quotes.clientHeight/980; i++) {
             //! This is all just html2canvas stuff
             var srcImg  = canvas;
             var sX      = 0;
             var sY      = 0*i; // start 980 pixels down for every new page
-            var sWidth  = 5000;
+            var sWidth  = 3000;
             var sHeight = 2700;
             var dX      = 0;
             var dY      = 0;
-            var dWidth  = 5000;
+            var dWidth  = 3000;
             var dHeight = 2700;
 
             window.onePageCanvas = document.createElement("canvas");
-            onePageCanvas.setAttribute('width', 5000);
+            onePageCanvas.setAttribute('width', 3000);
             onePageCanvas.setAttribute('height', 2700);
             var ctx = onePageCanvas.getContext('2d');
             // details on this usage of this function: 
@@ -311,7 +311,7 @@ function makePDF() {
             // add another page
 
             //! now we add content to that page!
-            pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.62), (height*.62));
+            pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.42), (height*.62));
         }
         //! after the for loop is finished running, we save the pdf.
         pdf.save('Receipt.pdf');
