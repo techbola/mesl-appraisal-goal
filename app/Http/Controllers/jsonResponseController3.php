@@ -3,8 +3,8 @@
 namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\ArsLedger;
-use Cavidel\ArsBank;
+use Cavidel\ArsLedger3;
+use Cavidel\ArsBank3;
 use DB;
 
 class jsonResponseController3 extends Controller
@@ -34,7 +34,7 @@ class jsonResponseController3 extends Controller
             ]);
         }
 
-        $bank     = new ArsLedger();
+        $bank     = new ArsLedger3();
         $response = $bank->saveLedgerItem($details, $debit, $credit, $date, $status);
 
         // return response
@@ -51,7 +51,7 @@ class jsonResponseController3 extends Controller
     public function loadLedgerItem(Request $request)
     {
         // body..
-        $bank     = new ArsLedger();
+        $bank     = new ArsLedger3();
         $response = $bank->loadLedgerItem();
 
         // return response
@@ -114,7 +114,7 @@ class jsonResponseController3 extends Controller
             ]);
         }
 
-        $bank     = new ArsBank();
+        $bank     = new ArsBank3();
         $response = $bank->saveBankItem($details, $debit, $credit, $date, $status);
 
         // return response
@@ -131,7 +131,7 @@ class jsonResponseController3 extends Controller
     public function loadBankItem(Request $request)
     {
         // body..
-        $bank     = new ArsBank();
+        $bank     = new ArsBank3();
         $response = $bank->loadBankItem();
 
         // return response
@@ -228,7 +228,7 @@ class jsonResponseController3 extends Controller
         // check type and update record
         if ($item_type == 'bank') {
             // update bank
-            $bank = ArsBank::where('id', $item_id)->first();
+            $bank = ArsBank3::where('id', $item_id)->first();
             if ($bank !== null) {
 
                 // check if already click
@@ -239,7 +239,7 @@ class jsonResponseController3 extends Controller
                 }
 
                 // find and update item
-                $update_bank             = ArsBank::find($bank->id);
+                $update_bank             = ArsBank3::find($bank->id);
                 $update_bank->recon_flag = 1;
                 $update_bank->update();
 
@@ -251,7 +251,7 @@ class jsonResponseController3 extends Controller
             }
         } elseif ($item_type == 'ledger') {
             // check type for ledger and update
-            $ledger = ArsLedger::where('id', $item_id)->first();
+            $ledger = ArsLedger3::where('id', $item_id)->first();
             if ($ledger !== null) {
 
                 // check if already click
@@ -261,7 +261,7 @@ class jsonResponseController3 extends Controller
                     $recon_flag = 0;
                 }
                 // find and update item
-                $update_ledger             = ArsLedger::find($ledger->id);
+                $update_ledger             = ArsLedger3::find($ledger->id);
                 $update_ledger->recon_flag = $recon_flag;
                 $update_ledger->status     = 'recon_flag';
                 $update_ledger->update();
@@ -297,11 +297,11 @@ class jsonResponseController3 extends Controller
         $recon_flag = 1;
 
         // check type for ledger and update
-        $ledger = ArsLedger::where('id', $item_id)->first();
+        $ledger = ArsLedger3::where('id', $item_id)->first();
         if ($ledger !== null) {
 
             // find and update item
-            $update_ledger             = ArsLedger::find($ledger->id);
+            $update_ledger             = ArsLedger3::find($ledger->id);
             $update_ledger->recon_flag = $recon_flag;
             $update_ledger->status     = 'recon_flag';
             $update_ledger->update();
@@ -331,11 +331,11 @@ class jsonResponseController3 extends Controller
         $recon_flag = 0;
 
         // check type for ledger and update
-        $ledger = ArsLedger::where('id', $item_id)->first();
+        $ledger = ArsLedger3::where('id', $item_id)->first();
         if ($ledger !== null) {
 
             // find and update item
-            $update_ledger             = ArsLedger::find($ledger->id);
+            $update_ledger             = ArsLedger3::find($ledger->id);
             $update_ledger->recon_flag = $recon_flag;
             $update_ledger->status     = 'recon_flag';
             $update_ledger->update();
@@ -366,11 +366,11 @@ class jsonResponseController3 extends Controller
         $recon_flag = 1;
 
         // check type for ledger and update
-        $bank = ArsBank::where('id', $item_id)->first();
+        $bank = ArsBank3::where('id', $item_id)->first();
         if ($bank !== null) {
 
             // find and update item
-            $update_bank             = ArsBank::find($bank->id);
+            $update_bank             = ArsBank3::find($bank->id);
             $update_bank->recon_flag = $recon_flag;
             $update_bank->status     = 'recon_flag';
             $update_bank->update();
@@ -400,11 +400,11 @@ class jsonResponseController3 extends Controller
         $recon_flag = 0;
 
         // check type for bank and update
-        $bank = ArsBank::where('id', $item_id)->first();
+        $bank = ArsBank3::where('id', $item_id)->first();
         if ($bank !== null) {
 
             // find and update item
-            $update_bank             = ArsBank::find($bank->id);
+            $update_bank             = ArsBank3::find($bank->id);
             $update_bank->recon_flag = $recon_flag;
             $update_bank->status     = 'recon_flag';
             $update_bank->update();
