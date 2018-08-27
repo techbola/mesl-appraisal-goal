@@ -54,7 +54,7 @@
 
     <div class="text-right m-b-20">
       <button type="button" class="btn btn-sm btn-complete my-1 m-r-10" onclick="print_bill()"><i class="fa fa-paper-plane-o"></i> Print Receipt</button>
-      <a href="{{ route('print_receipt.download', ['ref' => $cash_entry->CashEntryRef,'client_id' => $client_details->CustomerRef]) }}" type="button"  class="btn btn-sm btn-secondary my-1 m-r-10" ><i class="fa fa-share-square"></i> Export PDF</button>
+      <a href="#" onclick="makePDF()"  class="btn btn-sm btn-secondary my-1 m-r-10" ><i class="fa fa-share-square"></i> Export PDF</a>
       <a href="{{ route('send_receipt', ['ref' => $cash_entry->CashEntryRef,'client_id' => $client_details->CustomerRef]) }}" class="btn btn-sm  my-1"><i class="fa "></i> Send Receipt</a>
     </div>
 
@@ -101,7 +101,8 @@
                   <li class="text-bold-800"> <span class="text-muted m-r-10">Customer Name:</span> {{ $client_details->Customer ?? '-' }}</li>
                   <li><span class="text-muted m-r-10">Email:</span> <span class="text">{{ $client_details->Email ?? '-' }}</span></li>
                   <li><span class="text-muted m-r-10">Phone No:</span> <span class="">{{ $client_details->Phone ?? '-' }}</span></li>
-                  <li></li>
+                   <li><span class="text-muted m-r-10">Address:</span> <span class="">{{ $client_details->Address ?? '-' }}</span></li>
+                  {{-- <li></li> --}}
                 </ul>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
@@ -176,6 +177,8 @@
             </div>
             <!-- Invoice Footer -->
             <div id="invoice-footer" class="m-t-100">
+              <span>Mode of Payment : </span>
+              <span> {!! $cash_entry->ModeOfPayment ?? '-' !!}</span> <br>
               <span>Total Payments Received Till Date : </span>
               <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br><br>
 
@@ -286,15 +289,15 @@ function makePDF() {
             var srcImg  = canvas;
             var sX      = 0;
             var sY      = 0*i; // start 980 pixels down for every new page
-            var sWidth  = 1366;
+            var sWidth  = 3000;
             var sHeight = 2700;
             var dX      = 0;
             var dY      = 0;
-            var dWidth  = 1366;
+            var dWidth  = 3000;
             var dHeight = 2700;
 
             window.onePageCanvas = document.createElement("canvas");
-            onePageCanvas.setAttribute('width', 1366);
+            onePageCanvas.setAttribute('width', 3000);
             onePageCanvas.setAttribute('height', 2700);
             var ctx = onePageCanvas.getContext('2d');
             // details on this usage of this function: 
@@ -311,7 +314,7 @@ function makePDF() {
             // add another page
 
             //! now we add content to that page!
-            pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.62), (height*.62));
+            pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.40), (height*.62));
         }
         //! after the for loop is finished running, we save the pdf.
         pdf.save('Receipt.pdf');

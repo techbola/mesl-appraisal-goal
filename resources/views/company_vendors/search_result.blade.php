@@ -92,6 +92,7 @@
                          <form id="vendor_form">
                             {{ csrf_field() }}
                             @include('company_vendors.vendor_form')
+                            <button type="submit" id="submit_vendor" class="btn btn-info btn-form pull-right">Submit</button>
                          </form>
                     </div>
 
@@ -99,6 +100,7 @@
                          <form id="edit_vendor_form">
                             {{ csrf_field() }}
                             {{-- @include('bank_account.bank_account_edit_form') --}}
+
                          </form>
                     </div>
                 </div>
