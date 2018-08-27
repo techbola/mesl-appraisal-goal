@@ -371,7 +371,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                           @foreach ($current_parent->user_submenus() as $child)
-                            <li><a href="{{ route($child->route) }}" class="pointer karla bold" style="font-size:15px !important">{{ $child->name }}</a></li>
+                            <li><a href="{{ ($child->route != '#')? route($child->route) : '#' }}" class="pointer karla bold" style="font-size:15px !important">{{ $child->name }}</a></li>
                           @endforeach
                           {{-- <li role="separator" class="divider"></li>
                           <li><a class="pointer">Delete</a></li> --}}
