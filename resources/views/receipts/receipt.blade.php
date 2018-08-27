@@ -311,7 +311,7 @@ function makePDF() {
             // add another page
 
             //! now we add content to that page!
-            pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.02), (height*.62));
+            pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.62), (height*.62));
         }
         //! after the for loop is finished running, we save the pdf.
         pdf.save('Receipt.pdf');
