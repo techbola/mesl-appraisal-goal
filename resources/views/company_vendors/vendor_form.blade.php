@@ -68,7 +68,7 @@
                       {
                         $('#new_project').modal('toggle');
                         $("#vendor_form")[0].reset();
-                        document.location.href = 'vendors/search_vendors';
+                        document.location.href = '/vendors/search_vendors';
                       }
                     });
                     return false;
