@@ -129,9 +129,8 @@ max-width: 500px;
                   </div>
 
                   <div class="row" style="padding: 30px">
-                    <p style="font-size: 16px">{!! $narrations->Narration !!}</p>
+                    <p style="font-size: 16px">{!! $narrations->Narration ?? '-' !!}</p>
                   </div>
-
             </div>
         </div>
   	</div>

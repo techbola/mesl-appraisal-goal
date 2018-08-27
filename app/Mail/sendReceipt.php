@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use PDF;
 
 class sendReceipt extends Mailable
 {
@@ -26,6 +27,17 @@ class sendReceipt extends Mailable
 
     public function build()
     {
-        return $this->view('emails.receipt');
+        $cash_entry      = $this->cash_entry;
+        $client_details  = $this->client_details;
+        $narrations      = $this->narrations;
+        $amount_in_words = $this->amount_in_words;
+
+        $pdf = PDF::loadView('receipts.template_pdf', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
+
+        return $this->markdown('emails.receipt_singular')
+            ->subject('Receipt ')
+            ->attachData($pdf->output(), 'Receipt_' . $client_details->Customer ?? '-' . '.pdf', [
+                'mime' => 'application/pdf',
+            ]);
     }
 }
