@@ -70,7 +70,7 @@ class jsonResponseController4 extends Controller
     {
 
         $recon_total = DB::select("
-            EXEC procReconTotal
+            EXEC procReconTotal4
         ");
 
         // collect results
