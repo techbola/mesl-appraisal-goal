@@ -286,15 +286,15 @@ function makePDF() {
             var srcImg  = canvas;
             var sX      = 0;
             var sY      = 0*i; // start 980 pixels down for every new page
-            var sWidth  = 1366;
+            var sWidth  = 3000;
             var sHeight = 2700;
             var dX      = 0;
             var dY      = 0;
-            var dWidth  = 1366;
+            var dWidth  = 3000;
             var dHeight = 2700;
 
             window.onePageCanvas = document.createElement("canvas");
-            onePageCanvas.setAttribute('width', 1366);
+            onePageCanvas.setAttribute('width', 3000);
             onePageCanvas.setAttribute('height', 2700);
             var ctx = onePageCanvas.getContext('2d');
             // details on this usage of this function: 
