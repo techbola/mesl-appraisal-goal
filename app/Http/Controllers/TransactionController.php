@@ -181,19 +181,19 @@ class TransactionController extends Controller
                 $row                    = new TransactionMP;
                 $row->AlphaCode         = $code;
                 $row->TransactionTypeID = $type;
-                if ($request->amount[$key]) {
+                if (!empty($request->amount[$key])) {
                   $row->Amount = $request->amount[$key];
                 }
-                if ($request->account[$key]) {
+                if (!empty($request->account[$key])) {
                   $row->GLID = $request->account[$key];
                 }
-                if ($request->post_date[$key]) {
+                if (!empty($request->post_date[$key])) {
                   $row->PostDate = $request->post_date[$key];
                 }
-                if ($request->value_date[$key]) {
+                if (!empty($request->value_date[$key])) {
                   $row->ValueDate = $request->value_date[$key];
                 }
-                if ($request->narration[$key]) {
+                if (!empty($request->narration[$key])) {
                   $row->Narration = $request->narration[$key];
                 }
                 // $row->BankSlipNo = $request->slip_no[$key];
