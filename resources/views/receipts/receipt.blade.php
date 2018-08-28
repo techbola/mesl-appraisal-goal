@@ -315,7 +315,7 @@ function makePDF() {
             // add another page
 
             //! now we add content to that page!
-            pdf.setFontSize(19);
+            pdf.setFontSize('19');
             pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.40), (height*.62));
         }
         //! after the for loop is finished running, we save the pdf.
