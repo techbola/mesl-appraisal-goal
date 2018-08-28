@@ -183,7 +183,7 @@
           </td>
           {{-- AMOUNT --}}
           <td>
-            <input type="text" name="amount[]" class="form-control smartinput input-sm amount" value="" required  onkeyup="calc()">
+            <input type="text" name="amount[]" class="form-control input-sm amount" value="" required  onkeyup="calc()">
           </td>
           {{-- ACCOUNT --}}
           <td>
