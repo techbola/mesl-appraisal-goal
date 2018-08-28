@@ -101,8 +101,9 @@
                   <li class="text-bold-800"> <span class="text-muted m-r-10">Customer Name:</span> {{ $client_details->Customer ?? '-' }}</li>
                   <li><span class="text-muted m-r-10">Email:</span> <span class="text">{{ $client_details->Email ?? '-' }}</span></li>
                   <li><span class="text-muted m-r-10">Phone No:</span> <span class="">{{ $client_details->Phone ?? '-' }}</span></li>
-                   <li><span class="text-muted m-r-10">Address:</span> <span class="">{{ $client_details->Address ?? '-' }}</span></li>
-                  {{-- <li></li> --}}
+                   <li>
+                    <span class="text-muted m-r-10">Address:</span> <span class="">{{ $client_details->Address ?? '-' }}</span>
+                   </li>
                 </ul>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
@@ -314,6 +315,7 @@ function makePDF() {
             // add another page
 
             //! now we add content to that page!
+            pdf.setFontSize(14);
             pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.40), (height*.62));
         }
         //! after the for loop is finished running, we save the pdf.
