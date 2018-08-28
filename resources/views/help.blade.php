@@ -16,6 +16,6 @@
     $('#spinner').show();
     setTimeout(function(){
       $('#spinner').hide();
-    }, 7000);
+    }, 8000);
   </script>
 @endpush

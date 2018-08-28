@@ -64,7 +64,7 @@
     <link href="assets/plugins/codrops-dialogFx/dialog.ie.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <![endif]-->
   </head>
-  <body class="fixed-header horizontal-menu menu-pin">
+  <body class="fixed-header horizontal-menu sidebar-visible menu-pin">
     @if (auth()->check())
       <?php $user = auth()->user(); ?>
     @endif
