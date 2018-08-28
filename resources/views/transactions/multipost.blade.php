@@ -67,7 +67,7 @@
               {{-- POST DATE --}}
               <td>
                 <div class="input-group date dp">
-                  <input type="text" name="post_date[]" class="form-control input-sm" value="{{ date('Y-m-d') }}" required disabled>
+                  <input type="text" name="post_date[]" class="form-control input-sm" value="{{ date('Y-m-d') }}" required>
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </td>
@@ -183,7 +183,7 @@
           </td>
           {{-- AMOUNT --}}
           <td>
-            <input type="text" name="amount[]" class="form-control smartinput input-sm amount" value="" required  onkeyup="calc()">
+            <input type="text" name="amount[]" class="form-control input-sm amount" value="" required  onkeyup="calc()">
           </td>
           {{-- ACCOUNT --}}
           <td>
@@ -197,7 +197,7 @@
           {{-- POST DATE --}}
           <td>
             <div class="new_date input-group date dp">
-              <input type="text" name="post_date[]" class="form-control input-sm" value="" required>
+              <input type="text" name="post_date[]" class="form-control input-sm" value="{{ date('Y-m-d') }}" required>
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
           </td>

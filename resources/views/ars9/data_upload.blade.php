@@ -90,7 +90,7 @@
                     $(".success_msg").html(`
                         <div class="alert alert-success">`+data.message+`</div>
                     `);
-                    window.location.href = "/entry/ars1";
+                    window.location.href = "/entry/ars9";
                 }
 
                 if(data.status == 'error'){

@@ -181,11 +181,21 @@ class TransactionController extends Controller
                 $row                    = new TransactionMP;
                 $row->AlphaCode         = $code;
                 $row->TransactionTypeID = $type;
-                $row->Amount            = $request->amount[$key];
-                $row->GLID              = $request->account[$key];
-                $row->PostDate          = $request->post_date[$key];
-                $row->ValueDate         = $request->value_date[$key];
-                $row->Narration         = $request->narration[$key];
+                if (!empty($request->amount[$key])) {
+                  $row->Amount = $request->amount[$key];
+                }
+                if (!empty($request->account[$key])) {
+                  $row->GLID = $request->account[$key];
+                }
+                if (!empty($request->post_date[$key])) {
+                  $row->PostDate = $request->post_date[$key];
+                }
+                if (!empty($request->value_date[$key])) {
+                  $row->ValueDate = $request->value_date[$key];
+                }
+                if (!empty($request->narration[$key])) {
+                  $row->Narration = $request->narration[$key];
+                }
                 // $row->BankSlipNo = $request->slip_no[$key];
                 // $row->StaffID = $request->staff[$key];
                 $row->InputterID      = $user->id;
@@ -250,7 +260,7 @@ class TransactionController extends Controller
     public function multipost_approve(Request $request)
     {
         $refs = $request->TransactionRef;
-        
+
         foreach ($refs as $key => $ref) {
             $transaction = TransactionMP::where('AlphaCode', $ref);
             $transaction->update([
