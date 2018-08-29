@@ -49,4 +49,19 @@ class internalPageController6 extends Controller
         // body..
         return view('ars6.ledger');
     }
+
+    public function recon_statement()
+    {
+      if (empty($_GET['from']) && empty($_GET['to'])) {
+        $from = date('Y-m-d', strtotime("3 months ago"));
+        $to = date('Y-m-d');
+      } else {
+        $from = $_GET['from'];
+        $to = $_GET['to'];
+      }
+      // $rows = collect(DB::select("exec procReconStatement '$from', '$to'"));
+      $rows = collect(\DB::select("exec procReconStatement6"));
+      // dd($rows);
+      return view('ars6.recon_statement', compact('rows', 'from', 'to'));
+    }
 }

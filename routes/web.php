@@ -836,6 +836,8 @@ Route::get('/load/ledger/name', 'jsonResponseController@loadLedgerSelectMenu');
  */
 Route::post('/save/data/recon/table', 'jsonResponseController@saveDataForSorting');
 
+Route::get('/recon_statement', 'internalPageController@recon_statement')->name('recon_statement');
+
 
 
 // Reconciliation 1
@@ -858,8 +860,9 @@ Route::get('/load/bank/name1', 'jsonResponseController1@loadBankSelectMenu');
 Route::get('/load/location/name1', 'jsonResponseController1@loadBranchSelectMenu');
 Route::get('/load/ledger/name1', 'jsonResponseController1@loadLedgerSelectMenu');
 Route::post('/save/data/recon/table1', 'jsonResponseController1@saveDataForSorting');
+Route::get('/recon_statement1', 'internalPageController1@recon_statement')->name('recon_statement1');
 
-// Reconciliation 1
+// Reconciliation 2
 Route::get('/entry/ars2', 'internalPageController2@index')->name('ars_recon2');
 Route::get('/entry/ars_recon_upload2', 'internalPageController2@upload_data')->name('ars_recon_upload_data2');
 Route::get('/bank2', 'internalPageController2@showBank');
@@ -879,8 +882,9 @@ Route::get('/load/bank/name2', 'jsonResponseController2@loadBankSelectMenu');
 Route::get('/load/location/name2', 'jsonResponseController2@loadBranchSelectMenu');
 Route::get('/load/ledger/name2', 'jsonResponseController2@loadLedgerSelectMenu');
 Route::post('/save/data/recon/table2', 'jsonResponseController2@saveDataForSorting');
+Route::get('/recon_statement2', 'internalPageController2@recon_statement')->name('recon_statement2');
 
-// Reconciliation 1
+// Reconciliation 3
 Route::get('/entry/ars3', 'internalPageController3@index')->name('ars_recon3');
 Route::get('/entry/ars_recon_upload3', 'internalPageController3@upload_data')->name('ars_recon_upload_data3');
 Route::get('/bank3', 'internalPageController3@showBank');
@@ -900,8 +904,9 @@ Route::get('/load/bank/name3', 'jsonResponseController3@loadBankSelectMenu');
 Route::get('/load/location/name3', 'jsonResponseController3@loadBranchSelectMenu');
 Route::get('/load/ledger/name3', 'jsonResponseController3@loadLedgerSelectMenu');
 Route::post('/save/data/recon/table3', 'jsonResponseController3@saveDataForSorting');
+Route::get('/recon_statement3', 'internalPageController3@recon_statement')->name('recon_statement3');
 
-// Reconciliation 1
+// Reconciliation 4
 Route::get('/entry/ars4', 'internalPageController4@index')->name('ars_recon4');
 Route::get('/entry/ars_recon_upload4', 'internalPageController4@upload_data')->name('ars_recon_upload_data4');
 Route::get('/bank4', 'internalPageController4@showBank');
@@ -921,6 +926,7 @@ Route::get('/load/bank/name4', 'jsonResponseController4@loadBankSelectMenu');
 Route::get('/load/location/name4', 'jsonResponseController4@loadBranchSelectMenu');
 Route::get('/load/ledger/name4', 'jsonResponseController4@loadLedgerSelectMenu');
 Route::post('/save/data/recon/table4', 'jsonResponseController4@saveDataForSorting');
+Route::get('/recon_statement4', 'internalPageController4@recon_statement')->name('recon_statement4');
 
 // Reconciliation 5
 Route::get('/entry/ars5', 'internalPageController5@index')->name('ars_recon5');
@@ -942,6 +948,7 @@ Route::get('/load/bank/name5', 'jsonResponseController5@loadBankSelectMenu');
 Route::get('/load/location/name5', 'jsonResponseController5@loadBranchSelectMenu');
 Route::get('/load/ledger/name5', 'jsonResponseController5@loadLedgerSelectMenu');
 Route::post('/save/data/recon/table5', 'jsonResponseController5@saveDataForSorting');
+Route::get('/recon_statement5', 'internalPageController5@recon_statement')->name('recon_statement5');
 
 // Reconciliation 6
 Route::get('/entry/ars6', 'internalPageController6@index')->name('ars_recon6');
@@ -963,6 +970,7 @@ Route::get('/load/bank/name6', 'jsonResponseController6@loadBankSelectMenu');
 Route::get('/load/location/name6', 'jsonResponseController6@loadBranchSelectMenu');
 Route::get('/load/ledger/name6', 'jsonResponseController6@loadLedgerSelectMenu');
 Route::post('/save/data/recon/table6', 'jsonResponseController6@saveDataForSorting');
+Route::get('/recon_statement6', 'internalPageController6@recon_statement')->name('recon_statement6');
 
 // Reconciliation 7
 Route::get('/entry/ars7', 'internalPageController7@index')->name('ars_recon7');
@@ -984,6 +992,7 @@ Route::get('/load/bank/name7', 'jsonResponseController7@loadBankSelectMenu');
 Route::get('/load/location/name7', 'jsonResponseController7@loadBranchSelectMenu');
 Route::get('/load/ledger/name7', 'jsonResponseController7@loadLedgerSelectMenu');
 Route::post('/save/data/recon/table7', 'jsonResponseController7@saveDataForSorting');
+Route::get('/recon_statement7', 'internalPageController7@recon_statement')->name('recon_statement7');
 
 // Reconciliation 8
 Route::get('/entry/ars8', 'internalPageController8@index')->name('ars_recon8');
@@ -1005,6 +1014,7 @@ Route::get('/load/bank/name8', 'jsonResponseController8@loadBankSelectMenu');
 Route::get('/load/location/name8', 'jsonResponseController8@loadBranchSelectMenu');
 Route::get('/load/ledger/name8', 'jsonResponseController8@loadLedgerSelectMenu');
 Route::post('/save/data/recon/table8', 'jsonResponseController8@saveDataForSorting');
+Route::get('/recon_statement8', 'internalPageController8@recon_statement')->name('recon_statement8');
 
 // Reconciliation 9
 Route::get('/entry/ars9', 'internalPageController9@index')->name('ars_recon9');
@@ -1026,3 +1036,4 @@ Route::get('/load/bank/name9', 'jsonResponseController9@loadBankSelectMenu');
 Route::get('/load/location/name9', 'jsonResponseController9@loadBranchSelectMenu');
 Route::get('/load/ledger/name9', 'jsonResponseController9@loadLedgerSelectMenu');
 Route::post('/save/data/recon/table9', 'jsonResponseController9@saveDataForSorting');
+Route::get('/recon_statement9', 'internalPageController9@recon_statement')->name('recon_statement9');

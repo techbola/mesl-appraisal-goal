@@ -3,11 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>
-      @if(View::hasSection('title'))
-        OfficeMate - @yield('title')
-      @else
-          OfficeMate
-      @endif
+      @if(View::hasSection('title')) OfficeMate - @yield('title') @else OfficeMate @endif
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
 
@@ -847,6 +843,12 @@
           $('#header_submenus').find('ul').toggleClass('inline-block');
           $('#header_submenus ul').css( 'min-width', $('#header_submenus').width() );
         }
+
+        // $(document).on('click',function(event){
+        //   if( ! $(event.target).parents().hasClass('has-subnav') ) {
+        //     $('.has-subnav').removeClass('visible');
+        //   }
+        // });
       </script>
 
 

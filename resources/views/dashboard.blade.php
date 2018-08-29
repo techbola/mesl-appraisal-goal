@@ -15,9 +15,10 @@
     }
     .balloons {
       position: absolute;
-      right: 0;
+      right: -30px;
       top: -10px;
-      opacity: 0.2;
+      opacity: 0.05;
+      zoom: 2;
     }
   </style>
   {{-- <div class="text-center">
