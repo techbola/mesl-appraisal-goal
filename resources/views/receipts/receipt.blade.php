@@ -23,7 +23,7 @@
 
 }  
 .card-box * {
-      font-size: 19px !important;
+      font-size: 18px !important;
     }      
   </style>      
 @endpush
