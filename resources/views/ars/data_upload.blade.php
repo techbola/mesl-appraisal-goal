@@ -49,6 +49,20 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+          <div class="col-md-2">
+              <div class="form-group">
+                <label>Bank Opening Balance</label>
+                <input type="number" class="form-control" id="BankOpeningBalance" value="" placeholder="Bank Opening Balance" pattern="[0-9]*" required>
+              </div>
+          </div>
+          <div class="col-md-2">
+              <div class="form-group">
+                <label>Bank Closing Balance</label>
+                <input type="number" class="form-control" id="BankClosingBalance" value="" placeholder="Bank Closing Balance" pattern="[0-9]*" required>
+              </div>
+          </div>
+        </div>
     </form>
 
     <div class="row">
@@ -60,7 +74,7 @@
 @endsection
 
 @push('scripts')
-   
+
 
     <script type="text/javascript">
         // fetch and pull data to ARS Ledger
@@ -72,6 +86,8 @@
             var ledger    = $("#select_ledger").val();
             var startDate       = $("#start_date").val();
             var endDate         = $("#end_date").val();
+            var BankOpeningBalance = $("#BankOpeningBalance").val();
+            var BankClosingBalance = $("#BankClosingBalance").val();
 
             var data = {
                 _token:token,
@@ -79,10 +95,12 @@
                 location:location,
                 ledger:ledger,
                 startDate:startDate,
-                endDate:endDate            
+                endDate:endDate,
+                BankOpeningBalance: BankOpeningBalance,
+                BankClosingBalance: BankClosingBalance
             };
 
-            // post data 
+            // post data
             $.post('/save/data/recon/table', data, function(data, textStatus, xhr) {
                 /*optional stuff to do after success */
                 console.log(data);
@@ -152,4 +170,3 @@
         });
     </script>
 @endpush
-

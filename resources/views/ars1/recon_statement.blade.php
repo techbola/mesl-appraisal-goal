@@ -21,6 +21,17 @@
   <div class="card-box" id="print-content">
       <h3 class="card-title">Bank Reconciliation Statement 2</h3>
 
+      @if ($details)
+        <div class="">
+          <span class="text-muted bold">Bank:</span> <span class="text-success bold">{{ $details->BankName ?? '' }}</span>
+        </div>
+        <div class="m-t-10">
+          <span class="text-muted bold">Period:</span> From <span class="text-success bold">{{ nice_date($details->StartDate) }}</span> To <span class="text-success bold">{{ nice_date($details->EndDate) }}</span>
+        </div>
+      @else
+        No reconciliation data uploaded yet.
+      @endif
+
       <table class="table tableWithExportOptions table-bordered font-title">
         <thead>
           <th>GLID</th>

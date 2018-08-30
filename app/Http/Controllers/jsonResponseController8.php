@@ -534,32 +534,38 @@ class jsonResponseController8 extends Controller
     public function saveDataForSorting(Request $request)
     {
 
-        $bank      = $request->bank;
-        $location  = $request->location;
-        $ledger    = $request->ledger;
-        $startDate = $request->startDate;
-        $endDate   = $request->endDate;
+      $bank      = $request->bank;
+      $location  = $request->location;
+      $ledger    = $request->ledger;
+      $startDate = $request->startDate;
+      $endDate   = $request->endDate;
+      $opening = $request->BankOpeningBalance;
+      $closing = $request->BankClosingBalance;
 
-        // return $request->all();
-        // listen for already inserted data
-        $check_data = DB::table('tblReconSetup8')->get();
-        if (count($check_data) > 0) {
-            $proccess_update = DB::table('tblReconSetup8')->update([
-                'BankName'   => $bank,
-                'Location'   => $location,
-                'LedgerName' => $ledger,
-                'StartDate'  => $startDate,
-                'EndDate'    => $endDate,
-            ]);
-        } else {
-            $proccess_update = DB::table('tblReconSetup8')->insert([
-                'BankName'   => $bank,
-                'Location'   => $location,
-                'LedgerName' => $ledger,
-                'StartDate'  => $startDate,
-                'EndDate'    => $endDate,
-            ]);
-        }
+      // return $request->all();
+      // listen for already inserted data
+      $check_data = DB::table('tblReconSetup8')->get();
+      if (count($check_data) > 0) {
+          $proccess_update = DB::table('tblReconSetup8')->update([
+              'BankName'   => $bank,
+              'Location'   => $location,
+              'LedgerName' => $ledger,
+              'StartDate'  => $startDate,
+              'EndDate'    => $endDate,
+              'BankOpeningBalance' => $opening,
+              'BankClosingBalance' => $closing,
+          ]);
+      } else {
+          $proccess_update = DB::table('tblReconSetup8')->insert([
+              'BankName'   => $bank,
+              'Location'   => $location,
+              'LedgerName' => $ledger,
+              'StartDate'  => $startDate,
+              'EndDate'    => $endDate,
+              'BankOpeningBalance' => $opening,
+              'BankClosingBalance' => $closing,
+          ]);
+      }
 
         if ($proccess_update == true) {
             $data = [

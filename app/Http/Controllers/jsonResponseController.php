@@ -539,6 +539,8 @@ class jsonResponseController extends Controller
         $ledger    = $request->ledger;
         $startDate = $request->startDate;
         $endDate   = $request->endDate;
+        $opening = $request->BankOpeningBalance;
+        $closing = $request->BankClosingBalance;
 
         // return $request->all();
         // listen for already inserted data
@@ -550,6 +552,8 @@ class jsonResponseController extends Controller
                 'LedgerName' => $ledger,
                 'StartDate'  => $startDate,
                 'EndDate'    => $endDate,
+                'BankOpeningBalance' => $opening,
+                'BankClosingBalance' => $closing,
             ]);
         } else {
             $proccess_update = DB::table('tblReconSetup')->insert([
@@ -558,6 +562,8 @@ class jsonResponseController extends Controller
                 'LedgerName' => $ledger,
                 'StartDate'  => $startDate,
                 'EndDate'    => $endDate,
+                'BankOpeningBalance' => $opening,
+                'BankClosingBalance' => $closing,
             ]);
         }
 

@@ -61,7 +61,8 @@ class internalPageController4 extends Controller
       }
       // $rows = collect(DB::select("exec procReconStatement '$from', '$to'"));
       $rows = collect(\DB::select("exec procReconStatement4"));
+      $details = \DB::table('tblReconSetup4')->first();
       // dd($rows);
-      return view('ars4.recon_statement', compact('rows', 'from', 'to'));
+      return view('ars4.recon_statement', compact('rows', 'from', 'to', 'details'));
     }
 }
