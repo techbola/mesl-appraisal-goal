@@ -54,8 +54,6 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
     @stack('styles')
 
-
-
     <!--[if lte IE 9]>
     <link href="assets/plugins/codrops-dialogFx/dialog.ie.css') }}" rel="stylesheet" type="text/css" media="screen" />
     <![endif]-->
@@ -64,6 +62,21 @@
     @if (auth()->check())
       <?php $user = auth()->user(); ?>
     @endif
+
+    <style>
+      .menu-items li:last-child {
+          margin-bottom: 30px;
+      }
+      .page-sidebar .sidebar-menu .menu-items {
+        height: calc(100% - 100px);
+      }
+      .scroll-wrapper>.scroll-element.scroll-y .scroll-bar {
+        width: 7px;
+      }
+      .page-sidebar .sidebar-menu .menu-items li>a>.arrow {
+          float: right;
+      }
+    </style>
   {{-- begin vue init  --}}
   <div id="app" >
     <!-- BEGIN SIDEBPANEL-->
@@ -124,7 +137,7 @@
               @endif
             </a>
             <span class="icon-thumbnail">{{ substr($menu->name, 0, 2) }}</span>
-            {{ $menu->hasSubmenu($menu->id ) }}
+            {{ $menu->hasSubmenu($menu->id) }}
           </li>
           @endforeach
         </ul>
