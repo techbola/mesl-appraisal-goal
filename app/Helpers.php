@@ -24,7 +24,10 @@ if (!function_exists('nice_datetime')) {
 if (!function_exists('ngn')) {
     function ngn($amount)
     {
+      if(!empty($amount))
         return '₦' . number_format($amount);
+      else
+        '—';
     }
 }
 

@@ -1152,5 +1152,5 @@ a[href$="doc"], a[href$="docx"] {
 }
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
   font-weight: normal !important;
-  color: #bbbbbb !important;
+  color: #aaaaaa !important;
 }

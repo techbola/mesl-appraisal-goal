@@ -13,7 +13,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Select Bank</label>
-                    <select class="form-control" id="select_bank" required></select>
+                    <select class="form-control" id="select_bank" onchange="get_balances()" required></select>
                 </div>
             </div>
             <div class="col-md-2">
@@ -31,13 +31,13 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label>Start Date:</label>
-                    <input type="date" class="form-control" id="start_date" required>
+                    <input type="date" class="form-control" id="start_date" onchange="get_balances()" required>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label>End Date:</label>
-                    <input type="date" class="form-control" id="end_date" required>
+                    <input type="date" class="form-control" id="end_date" onchange="get_balances()" required>
                 </div>
             </div>
             <div class="col-md-2">
@@ -53,13 +53,13 @@
           <div class="col-md-2">
               <div class="form-group">
                 <label>Bank Opening Balance</label>
-                <input type="number" class="form-control" id="BankOpeningBalance" value="" placeholder="Bank Opening Balance" pattern="[0-9]*" required>
+                <input type="number" class="form-control" id="BankOpeningBalance" value="" placeholder="Bank Opening Balance" pattern="[0-9]*" required step="0.01" readonly>
               </div>
           </div>
           <div class="col-md-2">
               <div class="form-group">
                 <label>Bank Closing Balance</label>
-                <input type="number" class="form-control" id="BankClosingBalance" value="" placeholder="Bank Closing Balance" pattern="[0-9]*" required>
+                <input type="number" class="form-control" id="BankClosingBalance" value="" placeholder="Bank Closing Balance" pattern="[0-9]*" required step="0.01" readonly>
               </div>
           </div>
         </div>
@@ -74,6 +74,20 @@
 @endsection
 
 @push('scripts')
+
+  <script>
+    function get_balances() {
+      if ($("#start_date").val() && $("#end_date").val() && $("#select_bank").val()) {
+        $('#spinner').show();
+
+        $.post('/recon/get_bank_balances', { start: $("#start_date").val(), end: $("#end_date").val(), bank: $("#select_bank").val() }, function(data, status){
+          $('#BankOpeningBalance').val(data[0]);
+          $('#BankClosingBalance').val(data[1]);
+          $('#spinner').hide();
+        });
+      }
+    }
+  </script>
 
 
     <script type="text/javascript">

@@ -3,6 +3,8 @@
 namespace Cavidel\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Cavidel\BankTransaction;
+use Cavidel\Transaction;
 
 class internalPageController9 extends Controller
 {
@@ -62,7 +64,19 @@ class internalPageController9 extends Controller
       // $rows = collect(DB::select("exec procReconStatement '$from', '$to'"));
       $rows = collect(\DB::select("exec procReconStatement9"));
       $details = \DB::table('tblReconSetup9')->first();
+
+      $open_bal = Transaction::where('GLID', $details->LedgerName)->whereBetween('ValueDate', [$details->StartDate, $details->EndDate])->where(function($q){
+        $q->where('Narration', 'LIKE', '%openg%')->orwhere('Narration', 'LIKE', '%opening%');
+      })->first();
       // dd($rows);
-      return view('ars9.recon_statement', compact('rows', 'from', 'to', 'details'));
+      return view('ars9.recon_statement', compact('rows', 'from', 'to', 'details', 'open_bal'));
+    }
+
+    public function get_bank_balances(Request $request)
+    {
+      $start_bal = BankTransaction::where('Bank', $request->bank)->whereBetween('ValueDate', [$request->start, $request->end])->orderBy('ValueDate')->first();
+      $end_bal = BankTransaction::where('Bank', $request->bank)->whereBetween('ValueDate', [$request->start, $request->end])->orderBy('ValueDate', 'desc')->orderBy('BankTransactionRef', 'desc')->first();
+      return [$start_bal->Balance, $end_bal->Balance];
+      // return $start_bal->Balance;
     }
 }

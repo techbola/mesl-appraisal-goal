@@ -28,6 +28,15 @@
         <div class="m-t-10">
           <span class="text-muted bold">Period:</span> From <span class="text-success bold">{{ nice_date($details->StartDate) }}</span> To <span class="text-success bold">{{ nice_date($details->EndDate) }}</span>
         </div>
+        <div class="m-t-10">
+          <span class="text-muted bold">Opening Balance (Ledger):</span> <span>{{ ngn($details->BankOpeningBalance) ?? '' }}</span>
+        </div>
+        <div class="m-t-10">
+          <span class="text-muted bold">Closing Balance (Ledger):</span> <span>{{ ngn($details->BankClosingBalance) ?? '' }}</span>
+        </div>
+        <div class="m-t-10">
+          <span class="text-muted bold">Opening Balance (Officemate):</span> <span>{{ ngn($open_bal->Amount ?? '') ?? '' }}</span>
+        </div>
       @else
         No reconciliation data uploaded yet.
       @endif
