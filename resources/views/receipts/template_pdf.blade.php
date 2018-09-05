@@ -28,7 +28,7 @@ body {
 }
 
 * {
-    /*background: #fff;*/
+    background: #fff;
     font-family: 'Arial', sans-serif;
     font-size: 12px !important;
 }
