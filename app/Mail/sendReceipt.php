@@ -32,11 +32,11 @@ class sendReceipt extends Mailable
         $narrations      = $this->narrations;
         $amount_in_words = $this->amount_in_words;
 
-        $pdf = PDF::loadView('receipts.template_pdf', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
+        $pdf_ = PDF::loadView('receipts.template_pdf', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
 
         return $this->markdown('emails.receipt_singular')
             ->subject('Receipt ')
-            ->attachData($pdf->output(), 'Receipt_' . $client_details->Customer ?? '-' . '.pdf', [
+            ->attachData($pdf_->output(), 'Receipt_' . $client_details->Customer ?? '-' . '.pdf', [
                 'mime' => 'application/pdf',
             ]);
     }

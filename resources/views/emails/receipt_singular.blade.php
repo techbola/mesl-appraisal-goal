@@ -1,5 +1,5 @@
 @component('mail::message')
-# Hi,
+# Hi {{ $client_details->Customer ?? '-' }},
 
 Please Find attached your receipt
 
