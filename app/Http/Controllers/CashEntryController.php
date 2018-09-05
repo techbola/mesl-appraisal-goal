@@ -950,16 +950,26 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          Where tblGL.AccountTypeID = ?
                          Order By tblGL.Description", [59]));
 
-        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
-                         tblCashEntry.Narration
-FROM            tblCashEntry INNER JOIN
-                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
-                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+        if (auth()->user()->hasRole('admin')) {
+          $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+                           tblCashEntry.Narration
+  FROM            tblCashEntry INNER JOIN
+                           tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                           tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
 
-WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 15) AND (tblCashEntry.InputterID = $auth_user) order by tblCashEntry.CashEntryRef desc
+  WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 15) order by tblCashEntry.CashEntryRef desc "));
 
+        } else {
 
-            "));
+          $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+                           tblCashEntry.Narration
+  FROM            tblCashEntry INNER JOIN
+                           tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                           tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+
+  WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 15) AND (tblCashEntry.InputterID = $auth_user) order by tblCashEntry.CashEntryRef desc "));
+        }
+
 
         return view('cash_entries.Imprest', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
     }
