@@ -11,9 +11,10 @@ return array(
     | in dompdf_config.inc.php. You can also override the entire config file.
     |
      */
-    'show_warnings' => false, // Throw an Exception on warnings from dompdf
-    'orientation'   => 'portrait',
-    'defines'       => array(
+    'show_warnings'           => false, // Throw an Exception on warnings from dompdf
+    'orientation'             => 'portrait',
+    "DOMPDF_ENABLE_CSS_FLOAT" => true,
+    'defines'                 => array(
         /**
          * The location of the DOMPDF font directory
          *

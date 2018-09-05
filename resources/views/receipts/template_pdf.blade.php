@@ -16082,7 +16082,7 @@ Main components
                 <p class="pb-3"># {{ 'BNKRCPOM'.$cash_entry->CashEntryRef }}</p>
                 <ul class="px-0 list-unstyled hide">
                   <li>Balance Due</li>
-                  <li class="lead text-bold-800">{{-- nairazify(number_format(0.00, 2)) --}}</li>
+                  <li class="lead text-bold-800">{{-- 'N'(number_format(0.00, 2)) --}}</li>
                 </ul>
               </div>
             </div> <hr>
@@ -16133,7 +16133,7 @@ Main components
                     {{-- <tfoot>
                       <td></td>
                       <td class="text-right"><b>TOTAL</b></td>
-                      <td class="text-right"><b>{{ nairazify(number_format($cash_entry->Amount,2)) }}</b></td>
+                      <td class="text-right"><b>{{ 'N'(number_format($cash_entry->Amount,2)) }}</b></td>
                     </tfoot> --}}
                   </table>
                 </div>
@@ -16158,13 +16158,13 @@ Main components
                         <td>
                           <p>{!! $narrations->Narration ?? $cash_entry->Narration !!}</p>
                         </td>
-                        <td class="text-right">{{ nairazify(number_format($cash_entry->Amount,2)) }}</td>
+                        <td class="text-right">{{ 'N'(number_format($cash_entry->Amount,2)) }}</td>
                       </tr>
                     </tbody>
                     <tfoot>
                       <td></td>
                       <td class="text-right"><b>TOTAL</b></td>
-                      <td class="text-right"><b>{{ nairazify(number_format($cash_entry->Amount,2)) }}</b></td>
+                      <td class="text-right"><b>{{ 'N'(number_format($cash_entry->Amount,2)) }}</b></td>
                     </tfoot>
                   </table>
                 </div>
@@ -16173,10 +16173,10 @@ Main components
             <!-- Invoice Footer -->
             <div id="invoice-footer" class="m-t-30">
               <span>Total Payments Received Till Date : </span>
-              <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
+              <span class="semi-bold"> <b>{!! 'N'(number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
 
               <span>Outstanding Balance : </span>
-              <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->OutstandingBalance, 2)) ?? '-' !!}</b></span> <br>
+              <span class="semi-bold"> <b>{!! 'N'(number_format($cash_entry->OutstandingBalance, 2)) ?? '-' !!}</b></span> <br>
               <span>Terms : </span>
               <span> {!! $cash_entry->Terms ?? '-' !!}</span> <br>
 
