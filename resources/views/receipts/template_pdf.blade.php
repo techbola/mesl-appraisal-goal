@@ -29,6 +29,7 @@ body {
 
 * {
     background: #fff;
+    font-family: 'Arial', sans-serif;
 }
 
 .row {
@@ -115,7 +116,7 @@ img {
     color: #ffffff;
 }
 
-@import url(https://fonts.googleapis.com/css?family=Nunito);/*!
+/*!
  * Bootstrap v4.1.2 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
