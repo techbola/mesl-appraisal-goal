@@ -6,13 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
      <meta charset="utf-8">
      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-     
+
      
     {{-- <link rel="stylesheet" href="{{ asset('css/printmemo.css') }}" media="screen"> --}}
   </head>
       <body style="font-family:sans-serif">
     <style>
-     @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 
 /*------------------------------------------------------------------
 Pages v2.1.2
