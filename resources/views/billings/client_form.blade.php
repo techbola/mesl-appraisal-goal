@@ -4,7 +4,7 @@
        <div class="form-group">
            <div class="controls">
              {{ Form::label('FileNo' ) }}
-             {{ Form::text('FileNo', null, ['class' => 'form-control', 'placeholder' => 'Enter File No', 'required']) }}
+             {{ Form::text('FileNo', null, ['class' => 'form-control', 'placeholder' => 'Enter File No']) }}
            </div>
       </div>
   </div>
@@ -28,7 +28,7 @@
   <div class="col-sm-4">
        <div class="form-group">
          {{ Form::label('BlockAllocation' ) }}
-         {{ Form::text('BlockAllocation', null, ['class' => 'form-control', 'placeholder' => 'Input Block Allocation', 'required']) }}
+         {{ Form::text('BlockAllocation', null, ['class' => 'form-control', 'placeholder' => 'Input Block Allocation']) }}
       </div>
   </div>
 
@@ -36,7 +36,7 @@
        <div class="form-group">
            <div class="controls">
                {{ Form::label('UnitAllocation' ) }}
-                   {{ Form::text('UnitAllocation', null, ['class' => 'form-control', 'placeholder' => 'Input Unit Allocation', 'required']) }}
+                   {{ Form::text('UnitAllocation', null, ['class' => 'form-control', 'placeholder' => 'Input Unit Allocation']) }}
            </div>
       </div>
   </div>
@@ -45,7 +45,7 @@
        <div class="form-group">
            <div class="controls">
                {{ Form::label('Phone' ) }}
-                   {{ Form::text('Phone', null, ['class' => 'form-control', 'placeholder' => 'Phone Number', 'required']) }}
+                   {{ Form::text('Phone', null, ['class' => 'form-control', 'placeholder' => 'Phone Number']) }}
            </div>
       </div>
   </div>
