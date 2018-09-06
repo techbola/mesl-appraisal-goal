@@ -250,7 +250,7 @@ $(function(){
                 "sLengthMenu": "_MENU_ ",
                  "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
             },
-            "iDisplayLength": 5,
+            "iDisplayLength": 20,
              fnDrawCallback: function(oSettings) {
         $('.export-options-container').append($('.exportOptions').css('float', 'right'));
         $('div.actionBtn').html('<button style="margin-left: 10px" class="approve-btn btn btn-sm btn-success">Approve</button><button class="reject-btn btn btn-sm btn-danger">Reject</button>');
