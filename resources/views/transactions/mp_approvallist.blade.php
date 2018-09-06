@@ -72,7 +72,7 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
-                         <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DB</b>' : '<b style="color:green">CR</b>' !!}</td>
+                         <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -88,7 +88,7 @@
 
           
           <div class="card-box">
-            <table class="table tableWithSearch">
+            <table class="table tableWithSearch2">
                   <thead>
                     <th>Alpha Code</th>
                     <th>Post Date</th>
@@ -109,7 +109,7 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
-                        <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DB</b>' : '<b style="color:green">CR</b>' !!}</td>
+                        <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -128,14 +128,9 @@
 
           
           <div class="card-box">
-            <table class="table tableWithSearch">
+            <table class="table tableWithSearch2">
                   <thead>
-                    <!-- <th width="5%">
-                        <div class="checkbox check-info">
-                          <input type="checkbox" id="select-all2">
-                          <label for="select-all2" class="text-white">Bulk Select</label>
-                        </div>
-                    </th> -->
+                    
                     <th>Alpha Code</th>
                     <th>Post Date</th>
                     <th>Value Date</th>
@@ -156,7 +151,7 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
-                         <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DB</b>' : '<b style="color:green">CR</b>' !!}</td>
+                         <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -237,7 +232,7 @@ $(function(){
             });
            var settings = {
             // "sDom": "<'exportOptions'>l f<'table-responsive 't> B <''<p i >>",
-             dom: "<'row'<'col-sm-4'<'actionBtn'>> <'col-sm-4 text-center'B><'col-sm-4'>> <'table-responsive 't> p",
+             dom: "f<'row'<'col-sm-4'<'actionBtn'>> <'col-sm-4 text-center'B><'col-sm-4'>> <'table-responsive 't> p ",
             // "dom": 'Bfrtip',
             "destroy": true,
             "scrollCollapse": true,
