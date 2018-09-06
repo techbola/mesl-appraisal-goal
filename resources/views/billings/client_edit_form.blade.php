@@ -53,6 +53,25 @@
   <div class="col-sm-4">
        <div class="form-group">
            <div class="controls">
+               {{ Form::label('Phone2', 'Phone 2' ) }}
+                   {{ Form::text('Phone2', null, ['class' => 'form-control', 'id'=>'edit_Phone', 'placeholder' => 'Phone Number']) }}
+           </div>
+      </div>
+  </div>
+
+  <div class="col-sm-4">
+       <div class="form-group">
+           <div class="controls">
+               {{ Form::label('Phone3', 'Phone 3' ) }}
+                   {{ Form::text('Phone3', null, ['class' => 'form-control', 'id'=>'edit_Phone', 'placeholder' => 'Phone Number']) }}
+           </div>
+      </div>
+  </div>
+
+
+  <div class="col-sm-4">
+       <div class="form-group">
+           <div class="controls">
              {{ Form::label('Email' ) }}
              {{ Form::text('Email', null, ['class' => 'form-control', 'id'=>'edit_Email', 'placeholder' => 'Input Email Address']) }}
            </div>
