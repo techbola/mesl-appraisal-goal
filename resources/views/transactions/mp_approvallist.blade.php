@@ -56,6 +56,7 @@
                     <th>Post Date</th>
                     <th>Value Date</th>
                     <th>Amount</th>
+                    <th>Narration</th>
 
                   </thead>
                   <tbody>
@@ -73,6 +74,7 @@
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
+                        <td>{{ $transaction->Narration }}</td>
                       </tr>
                     @endforeach
                   </tbody>
@@ -96,6 +98,7 @@
                     <th>Post Date</th>
                     <th>Value Date</th>
                     <th>Amount</th>
+                    <th>Narration</th>
                   </thead>
                   <tbody>
                     @foreach ($approved_transaction as $transaction)
@@ -113,7 +116,7 @@
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
                         <td>
-                            {{-- {{ $transaction->approvers() }} --}}
+                            {{ $transaction->Narration }}
                         </td>
                       </tr>
                     @endforeach
@@ -139,6 +142,7 @@
                     <th>Post Date</th>
                     <th>Value Date</th>
                     <th>Amount</th>
+                    <th>Narration</th>
                     <th></th>
                   </thead>
                   <tbody>
@@ -156,6 +160,7 @@
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
+                        <td>{{ $transaction->Narration }}</td>
                         <td>
                           @if($transaction->NotifyFlag == false)
                             <button id="send_for_approval" data-ref="{{ $transaction->AlphaCode }}" class="btn btn-default">Send</button>

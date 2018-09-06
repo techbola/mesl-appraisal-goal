@@ -539,29 +539,29 @@ class jsonResponseController extends Controller
         $ledger    = $request->ledger;
         $startDate = $request->startDate;
         $endDate   = $request->endDate;
-        $opening = $request->BankOpeningBalance;
-        $closing = $request->BankClosingBalance;
+        $opening   = $request->BankOpeningBalance;
+        $closing   = $request->BankClosingBalance;
 
         // return $request->all();
         // listen for already inserted data
         $check_data = DB::table('tblReconSetup')->get();
         if (count($check_data) > 0) {
             $proccess_update = DB::table('tblReconSetup')->update([
-                'BankName'   => $bank,
-                'Location'   => $location,
-                'LedgerName' => $ledger,
-                'StartDate'  => $startDate,
-                'EndDate'    => $endDate,
+                'BankName'           => $bank,
+                'Location'           => $location,
+                'LedgerName'         => $ledger,
+                'StartDate'          => $startDate,
+                'EndDate'            => $endDate,
                 'BankOpeningBalance' => $opening,
                 'BankClosingBalance' => $closing,
             ]);
         } else {
             $proccess_update = DB::table('tblReconSetup')->insert([
-                'BankName'   => $bank,
-                'Location'   => $location,
-                'LedgerName' => $ledger,
-                'StartDate'  => $startDate,
-                'EndDate'    => $endDate,
+                'BankName'           => $bank,
+                'Location'           => $location,
+                'LedgerName'         => $ledger,
+                'StartDate'          => $startDate,
+                'EndDate'            => $endDate,
                 'BankOpeningBalance' => $opening,
                 'BankClosingBalance' => $closing,
             ]);
@@ -580,5 +580,36 @@ class jsonResponseController extends Controller
         }
 
         return response()->json($data);
+    }
+
+    public function customer_list(Request $request)
+    {
+        if (isset($_GET['searchTerm'])) {
+            $string    = '%' . $_GET['searchTerm'] . '%';
+            $customers = collect(DB::select(DB::raw("SELECT *
+                FROM (
+                SELECT  CustomerRef,
+                        Customer,
+                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
+                FROM tblCustomer
+                            ) a
+                WHERE rn = 1 AND Customer like '$string'")));
+        } else {
+            $customers = collect(DB::select(DB::raw("SELECT *
+                FROM (
+                SELECT  CustomerRef,
+                        Customer,
+                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
+                FROM tblCustomer
+                            ) a
+                WHERE rn = 1")));
+        }
+
+        $customers = $customers->transform(function ($item, $key) {
+            $item->id   = $item->CustomerRef;
+            $item->text = $item->Customer;
+            return $item;
+        });
+        return response()->json($customers);
     }
 }

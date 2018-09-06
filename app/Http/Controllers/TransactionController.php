@@ -182,19 +182,19 @@ class TransactionController extends Controller
                 $row->AlphaCode         = $code;
                 $row->TransactionTypeID = $type;
                 if (!empty($request->amount[$key])) {
-                  $row->Amount = $request->amount[$key];
+                    $row->Amount = $request->amount[$key];
                 }
                 if (!empty($request->account[$key])) {
-                  $row->GLID = $request->account[$key];
+                    $row->GLID = $request->account[$key];
                 }
                 if (!empty($request->post_date[$key])) {
-                  $row->PostDate = $request->post_date[$key];
+                    $row->PostDate = $request->post_date[$key];
                 }
                 if (!empty($request->value_date[$key])) {
-                  $row->ValueDate = $request->value_date[$key];
+                    $row->ValueDate = $request->value_date[$key];
                 }
                 if (!empty($request->narration[$key])) {
-                  $row->Narration = $request->narration[$key];
+                    $row->Narration = $request->narration[$key];
                 }
                 // $row->BankSlipNo = $request->slip_no[$key];
                 // $row->StaffID = $request->staff[$key];
@@ -211,25 +211,25 @@ class TransactionController extends Controller
     public function multipost_listing()
     {
         $unsent_transaction = TransactionMP::where('ApprovedFlag', 0)
-            ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
-            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')
+        // ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration')
             ->where('NotifyFlag', 0)
             ->get();
         $unapproved_transaction = TransactionMP::where('ApprovedFlag', 0)
-            ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
-            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')
+        // ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration')
             ->where('NotifyFlag', 1)
             ->get();
         $approved_transaction = TransactionMP::where('ApprovedFlag', 1)
-            ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
+        // ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
             ->where('NotifyFlag', 1)
-            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')->get();
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration')->get();
 
         $posted_transaction = TransactionMP::where('ApprovedFlag', 1)
-            ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
+        // ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
             ->where('NotifyFlag', 1)
             ->where('PostFlag', 1)
-            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount')->get();
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration')->get();
 
         return view('transactions.mp_approvallist', compact('unapproved_transaction', 'unsent_transaction', 'approved_transaction'));
     }

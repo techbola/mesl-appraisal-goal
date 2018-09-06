@@ -2,36 +2,8 @@
 // Please leave the arrangement of this file as is
 
 Auth::routes();
-Route::get('/customer-list', function (Request $request) {
 
-    if (isset($_GET['searchTerm'])) {
-        $string    = '%' . $_GET['searchTerm'] . '%';
-        $customers = collect(DB::select(DB::raw("SELECT *
-                FROM (
-                SELECT  CustomerRef,
-                        Customer,
-                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
-                FROM tblCustomer
-                            ) a
-                WHERE rn = 1 AND Customer like '$string'")));
-    } else {
-        $customers = collect(DB::select(DB::raw("SELECT *
-                FROM (
-                SELECT  CustomerRef,
-                        Customer,
-                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
-                FROM tblCustomer
-                            ) a
-                WHERE rn = 1")));
-    }
-
-    $customers = $customers->transform(function ($item, $key) {
-        $item->id   = $item->CustomerRef;
-        $item->text = $item->Customer;
-        return $item;
-    });
-    return response()->json($customers);
-});
+Route::get('/customer-list', 'jsonResponseController@customer_list');
 Route::group(['domain' => 'officemate.test'], function () {
     Route::any('/123', function () {
         return 'My own domain';
@@ -839,7 +811,6 @@ Route::post('/save/data/recon/table', 'jsonResponseController@saveDataForSorting
 Route::get('/recon_statement', 'internalPageController@recon_statement')->name('recon_statement');
 
 Route::post('/recon/get_bank_balances', 'internalPageController@get_bank_balances')->name('get_bank_balances');
-
 
 // Reconciliation 1
 Route::get('/entry/ars1', 'internalPageController1@index')->name('ars_recon1');
