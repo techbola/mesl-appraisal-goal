@@ -363,6 +363,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
        }, function(data, textStatus, xhr) {
          if(data.success === true){
           console.log('sent');
+          window.location.href = '/transactions/multipost_approvallist';
          }
        });
      });
