@@ -74,7 +74,7 @@
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
                          <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
-                        <td>{{ $transaction->gl->Description ?? '-' }}</td>
+                        <td>{{$transaction->gl->Description . '-' .$transaction->gl->account_type->AccountType }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -113,7 +113,7 @@
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
                         <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
-                        <td>{{ $transaction->gl->Description ?? '-' }}</td>
+                        <td>{{ $transaction->gl->Description . ' - ' .$transaction->gl->account_type->AccountType ?? '-' }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -157,7 +157,7 @@
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
                          <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
-                        <td>{{ $transaction->gl->Description ?? '-' }}</td>
+                        <td>{{ $transaction->gl->Description . '-' .$transaction->gl->account_type->AccountType }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
