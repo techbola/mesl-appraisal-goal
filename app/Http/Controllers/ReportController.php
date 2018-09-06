@@ -179,8 +179,9 @@ class ReportController extends Controller
         $to = $_GET['to'];
         $pls = collect(DB::select("exec procPL '$from', '$to'"));
       } else {
+        $config = Config::where('ConfigRef', '1')->first();
         $today = date('Y-m-d');
-        $pls = collect(DB::select("exec procPL '2005-01-01', '$today'"));
+        $pls = collect(DB::select("exec procPL '$config->YearStart', '$today'"));
       }
 
         return view('reports.profit_loss3', compact('pls', 'from', 'to'));
