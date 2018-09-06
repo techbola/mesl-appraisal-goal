@@ -34,9 +34,9 @@
         <div class="m-t-10">
           <span class="text-muted bold">Closing Balance (Bank):</span> <span>{{ ngn($details->BankClosingBalance) ?? '' }}</span>
         </div>
-        <div class="m-t-10">
+        <!-- <div class="m-t-10">
           <span class="text-muted bold">Opening Balance (Officemate):</span> <span>{{ ngn($open_bal->Amount ?? '') ?? '' }}</span>
-        </div>
+        </div> -->
       @else
         No reconciliation data uploaded yet.
       @endif
