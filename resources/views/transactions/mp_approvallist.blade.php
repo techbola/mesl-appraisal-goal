@@ -55,6 +55,7 @@
                     <th>Alpha Code</th>
                     <th>Post Date</th>
                     <th>Value Date</th>
+                    <th>Type</th>
                     <th>Amount</th>
                     <th>Narration</th>
 
@@ -71,6 +72,7 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
+                        <td>{{ $transaction->TransactionTypeID == 3 ? 'DB' : 'CR' }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -97,6 +99,7 @@
                     <th>Alpha Code</th>
                     <th>Post Date</th>
                     <th>Value Date</th>
+                    <th>Type</th>
                     <th>Amount</th>
                     <th>Narration</th>
                   </thead>
@@ -112,6 +115,7 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
+                        <td>{{ $transaction->TransactionTypeID === 3 ? 'DB' : 'CR' }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -141,6 +145,7 @@
                     <th>Alpha Code</th>
                     <th>Post Date</th>
                     <th>Value Date</th>
+                    <th>Type</th>
                     <th>Amount</th>
                     <th>Narration</th>
                     <th></th>
@@ -157,6 +162,7 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
+                        <td>{{ $transaction->TransactionTypeID === 3 ? 'DB' : 'CR' }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>

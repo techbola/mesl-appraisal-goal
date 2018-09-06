@@ -210,26 +210,28 @@ class TransactionController extends Controller
 
     public function multipost_listing()
     {
+        // 4 Credit
+        // 3 debit
         $unsent_transaction = TransactionMP::where('ApprovedFlag', 0)
         // ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
-            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration')
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration', 'TransactionTypeID')
             ->where('NotifyFlag', 0)
             ->get();
         $unapproved_transaction = TransactionMP::where('ApprovedFlag', 0)
         // ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
-            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration')
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration', 'TransactionTypeID')
             ->where('NotifyFlag', 1)
             ->get();
         $approved_transaction = TransactionMP::where('ApprovedFlag', 1)
         // ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
             ->where('NotifyFlag', 1)
-            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration')->get();
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration', 'TransactionTypeID')->get();
 
         $posted_transaction = TransactionMP::where('ApprovedFlag', 1)
         // ->groupBy(['AlphaCode', 'PostDate', 'ValueDate', 'Amount'])
             ->where('NotifyFlag', 1)
             ->where('PostFlag', 1)
-            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration')->get();
+            ->select('AlphaCode', 'PostDate', 'ValueDate', 'Amount', 'Narration', 'TransactionTypeID')->get();
 
         return view('transactions.mp_approvallist', compact('unapproved_transaction', 'unsent_transaction', 'approved_transaction'));
     }
