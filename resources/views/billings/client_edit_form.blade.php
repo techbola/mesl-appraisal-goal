@@ -78,6 +78,15 @@
       </div>
   </div>
 
+    <div class="col-sm-4">
+       <div class="form-group">
+           <div class="controls">
+             {{ Form::label('Email2', 'Other Emails' ) }}
+             {{ Form::text('Email2', null, ['class' => 'form-control', 'placeholder' => 'Input Email Addresses']) }}
+           </div>
+      </div>
+  </div>
+
   <div class="col-sm-4">
      <div class="form-group">
        {{ Form::label('TitleID', 'Title') }}
