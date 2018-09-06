@@ -70,7 +70,7 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $result->Customer }}</td>
                 <td>{{ $result->Email }}</td>
-                <td>{{ $result->Phone }}</td>
+                <td>{{ $result->Phone ? '-' }}</td>
                 <td>{{ $result->Address }}</td>
                 <td>{{ $result->estate_allocation->estate->ProjectName ?? '' }}</td>
                 <td>{{ $result->estate_allocation->Block ?? '' }}</td>
