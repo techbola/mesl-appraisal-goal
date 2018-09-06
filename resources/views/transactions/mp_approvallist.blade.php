@@ -56,6 +56,7 @@
                     <th>Post Date</th>
                     <th>Value Date</th>
                     <th>Type</th>
+                    <th>Account</th>
                     <th>Amount</th>
                     <th>Narration</th>
 
@@ -73,6 +74,7 @@
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
                          <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
+                        <td>{{ $transaction->gl->Description }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -94,6 +96,7 @@
                     <th>Post Date</th>
                     <th>Value Date</th>
                     <th>Type</th>
+                    <th>Account</th>
                     <th>Amount</th>
                     <th>Narration</th>
                   </thead>
@@ -110,6 +113,7 @@
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
                         <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
+                        <td>{{ $transaction->gl->Description }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -135,6 +139,7 @@
                     <th>Post Date</th>
                     <th>Value Date</th>
                     <th>Type</th>
+                    <th>Account</th>
                     <th>Amount</th>
                     <th>Narration</th>
                     <th></th>
@@ -152,13 +157,14 @@
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
                          <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
+                        <td>{{ $transaction->gl->Description }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
                         <td>{{ $transaction->Narration }}</td>
                         <td>
                           @if($transaction->NotifyFlag == false)
-                            <button id="send_for_approval" data-ref="{{ $transaction->AlphaCode }}" class="btn btn-default">Send</button>
+                            <button  data-ref="{{ $transaction->AlphaCode }}" class="btn btn-default send_for_approval">Send</button>
                           @endif
                         </td>
                       </tr>
@@ -356,14 +362,18 @@ var table = $('.tableWithSearch_a').DataTable(settings);
     });
 
   // send multipost for  approval
-  $("#send_for_approval").click(function(e) {
+  $(".send_for_approval").click(function(e) {
        e.preventDefault();
+       $(this).text('Sending...');
+       var _this = $(this);
        $.post('/transaction/multipost/send-for-approval',{
           AlphaCode: $(this).data('ref')
        }, function(data, textStatus, xhr) {
          if(data.success === true){
           console.log('sent');
           window.location.href = '/transactions/multipost_approvallist';
+         } else {
+          _this.text('Send');
          }
        });
      });
