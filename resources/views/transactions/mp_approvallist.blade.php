@@ -72,7 +72,7 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
-                        <td>{{ $transaction->TransactionTypeID == 3 ? 'DB' : 'CR' }}</td>
+                         <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DB</b>' : '<b style="color:green">CR</b>' !!}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -90,12 +90,6 @@
           <div class="card-box">
             <table class="table tableWithSearch">
                   <thead>
-                    <!-- <th width="5%">
-                        <div class="checkbox check-info">
-                          <input type="checkbox" id="select-all2">
-                          <label for="select-all2" class="text-white">Bulk Select</label>
-                        </div>
-                    </th> -->
                     <th>Alpha Code</th>
                     <th>Post Date</th>
                     <th>Value Date</th>
@@ -115,7 +109,7 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
-                        <td>{{ $transaction->TransactionTypeID === 3 ? 'DB' : 'CR' }}</td>
+                        <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DB</b>' : '<b style="color:green">CR</b>' !!}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -162,7 +156,7 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
-                        <td>{{ $transaction->TransactionTypeID === 3 ? 'DB' : 'CR' }}</td>
+                         <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DB</b>' : '<b style="color:green">CR</b>' !!}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
@@ -329,7 +323,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      var checked_transactions = $('.select-all-child:checked');
      var checked_transactions_array = [];
      $.each(checked_transactions, function(index, val) {
-          checked_transactions_array.push(parseInt($(val).prop('value')));
+          checked_transactions_array.push(($(val).prop('value')));
      });
      console.log(checked_transactions_array)
    var RejectedDate = "{{ \Carbon\Carbon::now() }}";

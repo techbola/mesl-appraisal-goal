@@ -278,7 +278,7 @@ class TransactionController extends Controller
         $refs = $request->TransactionRef;
         foreach ($refs as $key => $ref) {
             $transaction = TransactionMP::where('AlphaCode', $ref);
-            $transaction->update(['ApprovedFlag' => 0, 'PostFlag' => 0]);
+            $transaction->update(['ApprovedFlag' => 0, 'PostFlag' => 0, 'NotifyFlag' => 0]);
         }
     }
 
