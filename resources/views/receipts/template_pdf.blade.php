@@ -6599,6 +6599,10 @@ button.close {
     display: none !important;
   }
 }
+
+.table tbody tr td {
+    word-break: break-word;
+}
 /*# sourceMappingURL=bootstrap.css.map */
 
 </style>
