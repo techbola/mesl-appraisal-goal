@@ -4811,7 +4811,7 @@ a.list-group-item-danger.active:focus {
                           <p>{!! $cash_entry->product->ProductCategory ?? '-' !!}</p>
                         </td>
                         <td style="width: 60%">
-                          <p>{!! $cash_entry->Description ?? '-' !!}</p>
+                          <p> {!! str_replace(',', ',<br>', $cash_entry->Description ?? '-') !!} </p>
                         </td>
                       </tr>
                     </tbody>
