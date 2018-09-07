@@ -44,7 +44,8 @@
         <div id="unapproved" class="tab-pane fade in">
           
             <div class="card-box ">
-                <table class="table tableWithSearch_a">
+                <div class="table-responsive">
+                  <table class="table tableWithSearch_a">
                   <thead>
                     <th width="5%">
                         <div class="checkbox check-info">
@@ -83,6 +84,7 @@
                     @endforeach
                   </tbody>
               </table>
+                </div>
             </div>
         </div>
 

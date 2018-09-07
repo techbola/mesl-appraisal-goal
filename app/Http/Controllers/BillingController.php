@@ -445,7 +445,7 @@ class BillingController extends Controller
         $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
         $amount_in_words = $aw->format($cash_entry->Amount);
         $email           = $client_details->Email;
-        Mail::to($email)->send(new SendReceipt($cash_entry, $client_details, $narrations, $amount_in_words));
+        Mail::to($email)->queue(new SendReceipt($cash_entry, $client_details, $narrations, $amount_in_words));
         return redirect('/receipts')->with('success', 'Receipt has been sent successfully');
     }
 }
