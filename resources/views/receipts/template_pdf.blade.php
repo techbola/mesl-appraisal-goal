@@ -30,6 +30,7 @@ html {
 }
 body {
   margin: 0;
+  font-size: 15px;
 }
 article,
 aside,
