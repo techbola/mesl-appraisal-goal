@@ -30,7 +30,11 @@ html {
 }
 body {
   margin: 0;
-  font-size: 15px;
+
+}
+
+* {
+  font-size: 12px;
 }
 article,
 aside,
@@ -302,7 +306,7 @@ html {
 }
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 12px !important;
   line-height: 1.42857143;
   color: #333;
   background-color: #fff;
@@ -4724,6 +4728,10 @@ a.list-group-item-danger.active:focus {
   .hidden-print {
     display: none !important;
   }
+}
+
+* {
+  font-size: 12px !important;
 }
 
 .table tbody tr td {
