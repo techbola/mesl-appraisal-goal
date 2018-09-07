@@ -4798,7 +4798,7 @@ a.list-group-item-danger.active:focus {
             <div id="invoice-items-details" class="pt-2">
               <div class="row">
                 <div class="table-responsive col-sm-12">
-                  <table class="table ">
+                  <table class="table " style="word-wrap: break-word;">
                     <thead>
                       <tr>
                         <th width="30%" class="text-left">Product(s)</th>
@@ -4811,7 +4811,7 @@ a.list-group-item-danger.active:focus {
                           <p>{!! $cash_entry->product->ProductCategory ?? '-' !!}</p>
                         </td>
                         <td style="width: 70%; word-wrap: break-word !important;">
-                          <p>{!! $cash_entry->Description ?? '-' !!} </p>
+                          <p>{!! wordwrap($cash_entry->Description) ?? '-' !!} </p>
                         </td>
                       </tr>
                     </tbody>
