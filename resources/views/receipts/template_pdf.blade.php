@@ -6771,7 +6771,7 @@ button.close {
                         @else
                         <div class="rule" style="height: 70px; border-bottom: 1px solid #eee">
                           <img src="{{ asset("images/signature-scan.png") }}" width="100"  alt="sample signature">
-                          <hr>
+                          
                         </div>
                         @endif
 
@@ -6782,7 +6782,6 @@ button.close {
                         @else
                          <div class="rule" style="height: 70px">
                           
-                          {{-- <hr> --}}
                         </div>
                         <h5 class="semi-bold">No Signatory (Accountant)</h5>
                        @endif
