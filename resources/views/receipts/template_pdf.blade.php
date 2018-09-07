@@ -4810,10 +4810,8 @@ a.list-group-item-danger.active:focus {
                         <td style="width: 40%">
                           <p>{!! $cash_entry->product->ProductCategory ?? '-' !!}</p>
                         </td>
-                        <td>
-                          <p>
-                            {!! $cash_entry->Description ?? '-' !!}
-                          </p>
+                        <td style="width: 60%">
+                          <p>{!! $cash_entry->Description ?? '-' !!}</p>
                         </td>
                       </tr>
                     </tbody>
