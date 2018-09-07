@@ -4811,7 +4811,7 @@ a.list-group-item-danger.active:focus {
                           <p>{!! $cash_entry->product->ProductCategory ?? '-' !!}</p>
                         </td>
                         <td style="width: 70%; word-wrap: break-word !important;">
-                          <p>{!! wordwrap($cash_entry->Description,50,"<br>\n",TRUE) ?? '-' !!} </p>
+                          <p>{!! wordwrap($cash_entry->Description,70,"<br>\n",TRUE) ?? '-' !!} </p>
                         </td>
                       </tr>
                     </tbody>
