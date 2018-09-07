@@ -4810,7 +4810,9 @@ a.list-group-item-danger.active:focus {
                         <td style="width: 40%">
                           <p>{!! $cash_entry->product->ProductCategory ?? '-' !!}</p>
                         </td>
-                        <td style="word-wrap: break-word; word-break: break-all;">{!! $cash_entry->Description ?? '-' !!}</td>
+                        <td style="word-wrap: break-word; word-break: break-all;">
+                          <p>{{  $cash_entry->Description ?? '-' }}</p>
+                        </td>
                       </tr>
                     </tbody>
                     {{-- <tfoot>
