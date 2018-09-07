@@ -23,25 +23,14 @@
  */
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
-body, table, td, a{-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
-    table, td{mso-table-lspace: 0pt; mso-table-rspace: 0pt;} /* Remove spacing between tables in Outlook 2007 and up */
-    img{-ms-interpolation-mode: bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
-
-    /* RESET STYLES */
-    img{border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none;}
-    table{border-collapse: collapse !important;}
-    body{height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important;}
-
-    /* iOS BLUE LINKS */
-    a[x-apple-data-detectors] {
-        color: inherit !important;
-        text-decoration: none !important;
-        font-size: inherit !important;
-        font-family: inherit !important;
-        font-weight: inherit !important;
-        line-height: inherit !important;
-    }
-
+html {
+  font-family: 'Arial', sans-serif;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+}
 article,
 aside,
 details,
@@ -4812,16 +4801,20 @@ a.list-group-item-danger.active:focus {
                   <table class="table ">
                     <thead>
                       <tr>
-                        <th  class="text-left">Product(s)</th>
+                        <th width="40%" class="text-left">Product(s)</th>
                         <th class="text-left">Description</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td >
+                        <td style="width: 40%">
                           <p>{!! $cash_entry->product->ProductCategory ?? '-' !!}</p>
                         </td>
-                        <td style="word-wrap: break-word; word-break: break-all;">{!! $cash_entry->Description ?? '-' !!}</td>
+                        <td>
+                          <p>
+                            {!! $cash_entry->Description ?? '-' !!}
+                          </p>
+                        </td>
                       </tr>
                     </tbody>
                     {{-- <tfoot>
@@ -4849,7 +4842,7 @@ a.list-group-item-danger.active:focus {
                     <tbody>
                       <tr>
                         <th class="text-center" scope="row">1</th>
-                        <td style="word-wrap: break-word; word-break: break-all;">
+                        <td style="word-wrap: break-word;">
                           <p>{!! $narrations->Narration ?? $cash_entry->Narration !!}</p>
                         </td>
                         <td class="text-right">{{ 'N' . (number_format($cash_entry->Amount,2)) }}</td>
