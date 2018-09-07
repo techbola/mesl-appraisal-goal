@@ -4801,18 +4801,16 @@ a.list-group-item-danger.active:focus {
                   <table class="table ">
                     <thead>
                       <tr>
-                        <th width="40%" class="text-left">Product(s)</th>
+                        <th  class="text-left">Product(s)</th>
                         <th class="text-left">Description</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td style="width: 40%">
+                        <td >
                           <p>{!! $cash_entry->product->ProductCategory ?? '-' !!}</p>
                         </td>
-                        <td style="word-wrap: break-word; word-break: break-all;">
-                          <p>{{  $cash_entry->Description ?? '-' }}</p>
-                        </td>
+                        <td style="word-wrap: break-word; word-break: break-all;">{!! $cash_entry->Description ?? '-' }}</td>
                       </tr>
                     </tbody>
                     {{-- <tfoot>
