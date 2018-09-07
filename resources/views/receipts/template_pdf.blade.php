@@ -4801,17 +4801,17 @@ a.list-group-item-danger.active:focus {
                   <table class="table ">
                     <thead>
                       <tr>
-                        <th width="40%" class="text-left">Product(s)</th>
-                        <th class="text-left">Description</th>
+                        <th width="30%" class="text-left">Product(s)</th>
+                        <th width="70%" class="text-left">Description</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td style="width: 40%">
+                        <td style="width: 30%">
                           <p>{!! $cash_entry->product->ProductCategory ?? '-' !!}</p>
                         </td>
-                        <td style="width: 60%">
-                          <p> {!! str_replace(',', ',<br>', $cash_entry->Description ?? '-') !!} </p>
+                        <td style="width: 70%; word-wrap: break-word !important;">
+                          <p>{!! $cash_entry->Description ?? '-' !!} </p>
                         </td>
                       </tr>
                     </tbody>
