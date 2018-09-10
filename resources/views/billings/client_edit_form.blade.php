@@ -4,7 +4,7 @@
        <div class="form-group">
            <div class="controls">
              {{ Form::label('FileNo' ) }}
-             {{ Form::text('FileNo', null, ['class' => 'form-control','id'=>'edit_FileNo', 'placeholder' => 'Enter File No', 'required']) }}
+             {{ Form::text('FileNo', null, ['class' => 'form-control','id'=>'edit_FileNo', 'placeholder' => 'Enter File No']) }}
            </div>
       </div>
   </div>
@@ -28,7 +28,7 @@
   <div class="col-sm-4">
        <div class="form-group">
          {{ Form::label('BlockAllocation' ) }}
-         {{ Form::text('BlockAllocation', null, ['class' => 'form-control', 'id'=>'edit_BlockAllocation', 'placeholder' => 'Input Block Allocation', 'required']) }}
+         {{ Form::text('BlockAllocation', null, ['class' => 'form-control', 'id'=>'edit_BlockAllocation', 'placeholder' => 'Input Block Allocation']) }}
       </div>
   </div>
 
@@ -36,7 +36,7 @@
        <div class="form-group">
            <div class="controls">
                {{ Form::label('UnitAllocation' ) }}
-                   {{ Form::text('UnitAllocation', null, ['class' => 'form-control', 'id'=>'edit_UnitAllocation', 'placeholder' => 'Input Unit Allocation', 'required']) }}
+                   {{ Form::text('UnitAllocation', null, ['class' => 'form-control', 'id'=>'edit_UnitAllocation', 'placeholder' => 'Input Unit Allocation']) }}
            </div>
       </div>
   </div>
@@ -45,7 +45,7 @@
        <div class="form-group">
            <div class="controls">
                {{ Form::label('Phone' ) }}
-                   {{ Form::text('Phone', null, ['class' => 'form-control', 'id'=>'edit_Phone', 'placeholder' => 'Phone Number', 'required']) }}
+                   {{ Form::text('Phone', null, ['class' => 'form-control', 'id'=>'edit_Phone', 'placeholder' => 'Phone Number']) }}
            </div>
       </div>
   </div>
@@ -53,8 +53,36 @@
   <div class="col-sm-4">
        <div class="form-group">
            <div class="controls">
+               {{ Form::label('Phone2', 'Phone 2' ) }}
+                   {{ Form::text('Phone2', null, ['class' => 'form-control', 'id'=>'edit_Phone', 'placeholder' => 'Phone Number']) }}
+           </div>
+      </div>
+  </div>
+
+  <div class="col-sm-4">
+       <div class="form-group">
+           <div class="controls">
+               {{ Form::label('Phone3', 'Phone 3' ) }}
+                   {{ Form::text('Phone3', null, ['class' => 'form-control', 'id'=>'edit_Phone', 'placeholder' => 'Phone Number']) }}
+           </div>
+      </div>
+  </div>
+
+
+  <div class="col-sm-4">
+       <div class="form-group">
+           <div class="controls">
              {{ Form::label('Email' ) }}
              {{ Form::text('Email', null, ['class' => 'form-control', 'id'=>'edit_Email', 'placeholder' => 'Input Email Address']) }}
+           </div>
+      </div>
+  </div>
+
+    <div class="col-sm-4">
+       <div class="form-group">
+           <div class="controls">
+             {{ Form::label('Email2', 'Other Emails' ) }}
+             {{ Form::text('Email2', null, ['class' => 'form-control', 'placeholder' => 'Input Email Addresses']) }}
            </div>
       </div>
   </div>

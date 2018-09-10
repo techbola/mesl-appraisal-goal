@@ -44,7 +44,8 @@
         <div id="unapproved" class="tab-pane fade in">
           
             <div class="card-box ">
-                <table class="table tableWithSearch_a">
+                <div class="table-responsive">
+                  <table class="table tableWithSearch_a">
                   <thead>
                     <th width="5%">
                         <div class="checkbox check-info">
@@ -55,7 +56,10 @@
                     <th>Alpha Code</th>
                     <th>Post Date</th>
                     <th>Value Date</th>
+                    <th>Type</th>
+                    <th>Account</th>
                     <th>Amount</th>
+                    <th>Narration</th>
 
                   </thead>
                   <tbody>
@@ -70,13 +74,17 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
+                         <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
+                        <td>{{$transaction->gl->Description . '-' .$transaction->gl->account_type->AccountType }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
+                        <td>{{ $transaction->Narration }}</td>
                       </tr>
                     @endforeach
                   </tbody>
               </table>
+                </div>
             </div>
         </div>
 
@@ -84,18 +92,15 @@
 
           
           <div class="card-box">
-            <table class="table tableWithSearch">
+            <table class="table tableWithSearch2">
                   <thead>
-                    <!-- <th width="5%">
-                        <div class="checkbox check-info">
-                          <input type="checkbox" id="select-all2">
-                          <label for="select-all2" class="text-white">Bulk Select</label>
-                        </div>
-                    </th> -->
                     <th>Alpha Code</th>
                     <th>Post Date</th>
                     <th>Value Date</th>
+                    <th>Type</th>
+                    <th>Account</th>
                     <th>Amount</th>
+                    <th>Narration</th>
                   </thead>
                   <tbody>
                     @foreach ($approved_transaction as $transaction)
@@ -109,11 +114,13 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
+                        <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
+                        <td>{{ $transaction->gl->Description . ' - ' .$transaction->gl->account_type->AccountType ?? '-' }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
                         <td>
-                            {{-- {{ $transaction->approvers() }} --}}
+                            {{ $transaction->Narration }}
                         </td>
                       </tr>
                     @endforeach
@@ -127,18 +134,16 @@
 
           
           <div class="card-box">
-            <table class="table tableWithSearch">
+            <table class="table tableWithSearch2">
                   <thead>
-                    <!-- <th width="5%">
-                        <div class="checkbox check-info">
-                          <input type="checkbox" id="select-all2">
-                          <label for="select-all2" class="text-white">Bulk Select</label>
-                        </div>
-                    </th> -->
+                    
                     <th>Alpha Code</th>
                     <th>Post Date</th>
                     <th>Value Date</th>
+                    <th>Type</th>
+                    <th>Account</th>
                     <th>Amount</th>
+                    <th>Narration</th>
                     <th></th>
                   </thead>
                   <tbody>
@@ -153,12 +158,15 @@
                         <td class="text-info"><b>{{ $transaction->AlphaCode }}</b></td>
                         <td>{{ $transaction->PostDate }}</td>
                         <td>{{ $transaction->ValueDate }}</td>
+                         <td>{!! $transaction->TransactionTypeID == 3 ? '<b style="color:red">DR</b>' : '<b style="color:green">CR</b>' !!}</td>
+                        <td>{{ $transaction->gl->Description . '-' .$transaction->gl->account_type->AccountType }}</td>
                         <td>
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
+                        <td>{{ $transaction->Narration }}</td>
                         <td>
                           @if($transaction->NotifyFlag == false)
-                            <button id="send_for_approval" data-ref="{{ $transaction->AlphaCode }}" class="btn btn-default">Send</button>
+                            <button  data-ref="{{ $transaction->AlphaCode }}" class="btn btn-default send_for_approval">Send</button>
                           @endif
                         </td>
                       </tr>
@@ -232,7 +240,7 @@ $(function(){
             });
            var settings = {
             // "sDom": "<'exportOptions'>l f<'table-responsive 't> B <''<p i >>",
-             dom: "<'row'<'col-sm-4'<'actionBtn'>> <'col-sm-4 text-center'B><'col-sm-4'>> <'table-responsive 't> p",
+             dom: "f<'row'<'col-sm-4'<'actionBtn'>> <'col-sm-4 text-center'B><'col-sm-4'>> <'table-responsive 't> p ",
             // "dom": 'Bfrtip',
             "destroy": true,
             "scrollCollapse": true,
@@ -245,7 +253,7 @@ $(function(){
                 "sLengthMenu": "_MENU_ ",
                  "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
             },
-            "iDisplayLength": 5,
+            "iDisplayLength": 20,
              fnDrawCallback: function(oSettings) {
         $('.export-options-container').append($('.exportOptions').css('float', 'right'));
         $('div.actionBtn').html('<button style="margin-left: 10px" class="approve-btn btn btn-sm btn-success">Approve</button><button class="reject-btn btn btn-sm btn-danger">Reject</button>');
@@ -318,7 +326,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      var checked_transactions = $('.select-all-child:checked');
      var checked_transactions_array = [];
      $.each(checked_transactions, function(index, val) {
-          checked_transactions_array.push(parseInt($(val).prop('value')));
+          checked_transactions_array.push(($(val).prop('value')));
      });
      console.log(checked_transactions_array)
    var RejectedDate = "{{ \Carbon\Carbon::now() }}";
@@ -356,13 +364,18 @@ var table = $('.tableWithSearch_a').DataTable(settings);
     });
 
   // send multipost for  approval
-  $("#send_for_approval").click(function(e) {
+  $(".send_for_approval").click(function(e) {
        e.preventDefault();
+       $(this).text('Sending...');
+       var _this = $(this);
        $.post('/transaction/multipost/send-for-approval',{
           AlphaCode: $(this).data('ref')
        }, function(data, textStatus, xhr) {
          if(data.success === true){
           console.log('sent');
+          window.location.href = '/transactions/multipost_approvallist';
+         } else {
+          _this.text('Send');
          }
        });
      });

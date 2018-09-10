@@ -24,11 +24,11 @@ class ReportController extends Controller
     public function balance_sheet()
     {
       // $categories = AccountCategory::whereIn('AccountCategoryRef', ['1', '2', '6'])->orderBy('AccountCategory')->get();
-      if (empty($_GET['date'])) {
+      if (empty($_GET['to'])) {
         $today = date('Y-m-d');
         $bs = collect(DB::select("exec procBalanceSheet '$today'"));
       } else {
-        $date = $_GET['date'];
+        $date = $_GET['to'];
         $bs = collect(DB::select("exec procBalanceSheet '$date'"));
       }
       // dd($bs);
@@ -179,8 +179,9 @@ class ReportController extends Controller
         $to = $_GET['to'];
         $pls = collect(DB::select("exec procPL '$from', '$to'"));
       } else {
+        $config = Config::where('ConfigRef', '1')->first();
         $today = date('Y-m-d');
-        $pls = collect(DB::select("exec procPL '2005-01-01', '$today'"));
+        $pls = collect(DB::select("exec procPL '$config->YearStart', '$today'"));
       }
 
         return view('reports.profit_loss3', compact('pls', 'from', 'to'));
