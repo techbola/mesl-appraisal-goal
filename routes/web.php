@@ -767,6 +767,7 @@ Route::get('/testing', function () {
     // return Cavidel\Department::find('4')->staff();
     // return Cavidel\Staff::all()->filter('1', function(){
     // })->get();
+    return Carbon::parse('02-Jan-2018 04:38 PM')->format('Y-m-d');
 });
 
 //Reconciliation Routes
