@@ -49,7 +49,7 @@
       <table class="table tableWithExportOptions table-bordered font-title">
         <thead>
           <th>Category</th>
-          
+          <th>Ledger Items</th>
           <th>Debit Balance (&#8358;)</th>
           <th>Credit Balance (&#8358;)</th>
         </thead>
@@ -58,7 +58,7 @@
           @foreach ($tbs as $tb)
             <tr>
               <td class="text-uppercase text-complete">{{ $tb->AccountCategory }}</td>
-              
+              <td class="text-uppercase text-complete">{{ $tb->TrialBalanceName }}</td>
               <td>{{ number_format($tb->DebitBalance) }}</td>
               <td>{{ number_format($tb->CreditBalance) }}</td>
             </tr>
@@ -67,7 +67,7 @@
         <tfoot>
           <tr>
             <td colspan="1" class="text-uppercase text-complete f18" style="border-top:4px double #777">Total<span class="pull-right text-white f18">=</span></td>
-            
+            <td></td>
             <td class="text-uppercase text-danger f18">&#8358; {{ number_format($tbs->sum('DebitBalance')) }}</td>
             <td class="text-uppercase text-success f18">&#8358; {{ number_format($tbs->sum('CreditBalance')) }}</td>
           </tr>

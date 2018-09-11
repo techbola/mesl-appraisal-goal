@@ -65,9 +65,9 @@ class internalPageController3 extends Controller
       $rows = collect(\DB::select("exec procReconStatement3"));
       $details = \DB::table('tblReconSetup3')->first();
 
-      $open_bal = Transaction::where('GLID', $details->LedgerName)->whereBetween('ValueDate', [$details->StartDate, $details->EndDate])->where(function($q){
-        $q->where('Narration', 'LIKE', '%openg%')->orwhere('Narration', 'LIKE', '%opening%');
-      })->first();
+      // $open_bal = Transaction::where('GLID', $details->LedgerName)->whereBetween('ValueDate', [$details->StartDate, $details->EndDate])->where(function($q){
+      //   $q->where('Narration', 'LIKE', '%openg%')->orwhere('Narration', 'LIKE', '%opening%');
+      // })->first();
       // dd($rows);
       return view('ars3.recon_statement', compact('rows', 'from', 'to', 'details', 'open_bal'));
     }
