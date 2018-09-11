@@ -55,11 +55,17 @@
 @section('content')
 
     {{-- print --}}
-
+    @if($cash_entry->ApprovedFlag != 1)
+    <div class="text text-danger">
+      <b>Receipt Status: </b> Unapproved
+    </div>
+    @endif
     <div class="text-right m-b-20">
-      <button type="button" class="btn btn-sm btn-complete my-1 m-r-10" onclick="print_bill()"><i class="fa fa-paper-plane-o"></i> Print Receipt</button>
+      <button type="button" class="btn btn-sm btn-complete my-1 m-r-10" onclick="print_bill()"><i class="fa fa-paper-plane-o"></i> Print Receipt</button> 
+     @if($cash_entry->ApprovedFlag == 1)
       <a href="{{ route('print_receipt.download', ['ref' => $cash_entry->CashEntryRef,'client_id' => $client_details->CustomerRef]) }}"   class="btn btn-sm btn-secondary my-1 m-r-10" ><i class="fa fa-share-square"></i> Export PDF</a>
       <a href="{{ route('send_receipt', ['ref' => $cash_entry->CashEntryRef,'client_id' => $client_details->CustomerRef]) }}" class="btn btn-sm  my-1"><i class="fa "></i> Send Receipt</a>
+      @endif
     </div>
 
   	<!-- START PANEL -->
@@ -275,60 +281,6 @@
         return $(".card-box").printMe(print_options); 
   }
 
-  //  export to pdf
-
-
-
-  // This code is collected but useful, click below to jsfiddle link.
-function makePDF() {
-
-    var quotes = document.getElementById('invoice-template');
-
-    html2canvas(quotes, {
-        onrendered: function(canvas) {
-        //! MAKE YOUR PDF
-        var pdf = new jsPDF('p', 'pt', 'letter');
-        // pdf.setFontSize(16);
-
-        for (var i = 0; i <= quotes.clientHeight/980; i++) {
-            //! This is all just html2canvas stuff
-            var srcImg  = canvas;
-            var sX      = 0;
-            var sY      = 0*i; // start 980 pixels down for every new page
-            var sWidth  = 3000;
-            var sHeight = 2700;
-            var dX      = 0;
-            var dY      = 0;
-            var dWidth  = 3000;
-            var dHeight = 2700;
-
-            window.onePageCanvas = document.createElement("canvas");
-            onePageCanvas.setAttribute('width', 3000);
-            onePageCanvas.setAttribute('height', 2700);
-            var ctx = onePageCanvas.getContext('2d');
-            // details on this usage of this function: 
-            // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
-            ctx.drawImage(srcImg,sX,sY);
-
-            // document.body.appendChild(canvas);
-            var canvasDataURL = onePageCanvas.toDataURL("image/png", 0.2);
-
-            var width         = onePageCanvas.width;
-            var height        = onePageCanvas.clientHeight;
-
-            //! If we're on anything other than the first page,
-            // add another page
-
-            //! now we add content to that page!
-            
-            pdf.setFontSize(14);
-            pdf.addImage(canvasDataURL, 'PNG', 40, 40, (width*.42), (height*.62));
-        }
-        //! after the for loop is finished running, we save the pdf.
-        pdf.save('Receipt.pdf');
-    }
-  });
-}
 
 </script>
 @endpush
