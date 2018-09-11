@@ -4770,7 +4770,7 @@ a.list-group-item-danger.active:focus {
                   </div>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
-                <h2 style="font-family: 'Arial', sans-serif; font-size: 30px !important;">RECEIPT</h2>
+                <h2 style="font-family: 'Arial', sans-serif; font-size: 30px;">RECEIPT</h2>
                 <p class="pb-3"># {{ 'BNKRCPOM'.$cash_entry->CashEntryRef }}</p>
                 <ul class="px-0 list-unstyled hide">
                   <li>Balance Due</li>
@@ -4898,7 +4898,7 @@ a.list-group-item-danger.active:focus {
                           {{-- <hr> --}}
                         </div>
 
-                        <h5 class="semi-bold">{{ $client_details->Customer ?? '-' }}</h5>
+                        <h5 class="semi-bold" style="font-family: 'Arial', sans-serif;">{{ $client_details->Customer ?? '-' }}</h5>
 
                         {{-- <p class="text-muted">Managing Director</p> --}}
                       </div>
@@ -4921,12 +4921,12 @@ a.list-group-item-danger.active:focus {
                        
                        @endif
                        @if(!is_null($cash_entry->SignatoryID))
-                        <h5 class="semi-bold">{{ $cash_entry->signatory->fullName }} (Accountant)</h5>
+                        <h5 class="semi-bold" style="font-family: 'Arial', sans-serif;">{{ $cash_entry->signatory->fullName }} (Accountant)</h5>
                         @else
                          <div class="rule" style="height: 70px">
                           
                         </div>
-                        <h5 class="semi-bold">No Signatory (Accountant)</h5>
+                        <h5 class="semi-bold" style="font-family: 'Arial', sans-serif;">No Signatory (Accountant)</h5>
                        @endif
 
                         {{-- <p class="text-muted">Managing Director</p> --}}
