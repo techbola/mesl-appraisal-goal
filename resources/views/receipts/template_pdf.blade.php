@@ -4755,11 +4755,11 @@ a.list-group-item-danger.active:focus {
               <div class="col-md-6 col-sm-12  text-left">
                 @if(!is_null($cash_entry->BrandID))
                   <div class="media">
-                  <img style="margin: 0 !important" src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class=" logo"> 
+                  <img  src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class=" logo"> 
                 </div>
                 @else
                 <div class="media">
-                  <img style="margin: 0 !important" src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class=" logo">
+                  <img  src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class=" logo">
                   <div class="m-t-25">
                     {{-- {!! str_replace(',', ',<br>', $narrations->brand->Address) !!} --}}
                   </div>
@@ -4870,7 +4870,7 @@ a.list-group-item-danger.active:focus {
               <span>Mode of Payment : </span>
               <span> {!! $cash_entry->ModeOfPayment ?? '-' !!}</span> <br>
               <span>Total Payments Received Till Date : </span>
-              <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
+              <span class="semi-bold"> <b>{!! 'N' . (number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
               
 
               <span>Outstanding Balance : </span>
