@@ -75,7 +75,7 @@
 
 @push('scripts')
 
-  <script>
+  {{-- <script>
     function get_balances() {
       if ($("#start_date").val() && $("#end_date").val() && $("#select_bank").val()) {
         $('#spinner').show();
@@ -87,7 +87,7 @@
         });
       }
     }
-  </script>
+  </script> --}}
 
 
     <script type="text/javascript">
