@@ -4895,7 +4895,7 @@ a.list-group-item-danger.active:focus {
                       <div class="text-center">
                         {{-- <p>The Client</p>  --}}
                         
-                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee; margin-right: 10px">
+                        <div class="rule" style="height: 30px; border-bottom: 1px solid #eee; margin-right: 10px">
                           {{-- <img src="{{ asset('images/signature-scan.png') }}" width="100"  alt="sample signature"> --}}
                           {{-- <hr> --}}
                         </div>
@@ -4910,11 +4910,11 @@ a.list-group-item-danger.active:focus {
                       <div class="text-center">
                        @if(!is_null($cash_entry->SignatoryID))
                         @if($cash_entry->signatory->SignatureLocation != null)                       
-                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee; margin-right: 10px">
+                        <div class="rule" style="height: 30px; border-bottom: 1px solid #eee; margin-right: 10px">
                           <img src="{{ asset("images/".$cash_entry->signatory->SignatureLocation) }}" width="100"  alt="sample signature">
                         </div>
                         @else
-                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee">
+                        <div class="rule" style="height: 30px; border-bottom: 1px solid #eee">
                           <img src="{{ asset("images/signature-scan.png") }}" width="100"  alt="sample signature">
                           
                         </div>
@@ -4925,7 +4925,7 @@ a.list-group-item-danger.active:focus {
                        @if(!is_null($cash_entry->SignatoryID))
                         <h5 class="semi-bold" style="font-family: 'Arial', sans-serif;">{{ $cash_entry->signatory->fullName }} (Accountant)</h5>
                         @else
-                         <div class="rule" style="height: 70px">
+                         <div class="rule" style="height: 30px">
                           
                         </div>
                         <h5 class="semi-bold" style="font-family: 'Arial', sans-serif;">No Signatory (Accountant)</h5>
