@@ -4755,11 +4755,11 @@ a.list-group-item-danger.active:focus {
               <div class="col-md-6 col-sm-12  text-left">
                 @if(!is_null($cash_entry->BrandID))
                   <div class="media">
-                  <img style="margin: 15px 0 0 !important" src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class=" logo"> 
+                  <img style="margin: 0 0 15px 0  !important" src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class=" logo"> 
                 </div>
                 @else
                 <div class="media">
-                  <img style="margin: 15px 0 0 !important" src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class=" logo">
+                  <img style="margin: 0 0 15px 0 !important" src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class=" logo">
                   <div class="m-t-25">
                     {{-- {!! str_replace(',', ',<br>', $narrations->brand->Address) !!} --}}
                   </div>
@@ -4770,7 +4770,7 @@ a.list-group-item-danger.active:focus {
                   </div>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
-                <h2 style="font-family: 'Arial', sans-serif; font-size: 25px;">RECEIPT</h2>
+                <h2 style="font-family: 'Arial', sans-serif; font-size: 30px !important;">RECEIPT</h2>
                 <p class="pb-3"># {{ 'BNKRCPOM'.$cash_entry->CashEntryRef }}</p>
                 <ul class="px-0 list-unstyled hide">
                   <li>Balance Due</li>
