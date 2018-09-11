@@ -4770,7 +4770,7 @@ a.list-group-item-danger.active:focus {
                   </div>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
-                <h2 style="font-family: 'Arial', sans-serif; font-size: 30px;">RECEIPT</h2>
+                <h2 style="font-family: 'Arial', sans-serif; font-size: 30px;"><b>RECEIPT</b></h2>
                 <p class="pb-3"># {{ 'BNKRCPOM'.$cash_entry->CashEntryRef }}</p>
                 <ul class="px-0 list-unstyled hide">
                   <li>Balance Due</li>
@@ -4855,11 +4855,13 @@ a.list-group-item-danger.active:focus {
                         <td class="text-right">{{ 'N' . (number_format($cash_entry->Amount,2)) }}</td>
                       </tr>
                     </tbody>
-                    <tfoot>
-                      <th></th>
-                      <th class="text-right"><b>TOTAL</b></th>
-                      <th class="text-right"><b>{{ 'N' . (number_format($cash_entry->Amount,2)) }}</b></th>
-                    </tfoot>
+                    <tbody>
+                      <tr>  
+                      <td></td>
+                      <td class="text-right"><b>TOTAL</b></td>
+                      <td class="text-right"><b>{{ 'N' . (number_format($cash_entry->Amount,2)) }}</b></td>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
               </div>
