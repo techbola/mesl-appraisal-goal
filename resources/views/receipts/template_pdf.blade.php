@@ -4770,7 +4770,7 @@ a.list-group-item-danger.active:focus {
                   </div>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
-                <h2>RECEIPT</h2>
+                <h2 style="font-family: 'Arial', sans-serif; font-size: 20px;">RECEIPT</h2>
                 <p class="pb-3"># {{ 'BNKRCPOM'.$cash_entry->CashEntryRef }}</p>
                 <ul class="px-0 list-unstyled hide">
                   <li>Balance Due</li>
