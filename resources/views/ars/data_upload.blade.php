@@ -53,13 +53,13 @@
           <div class="col-md-2">
               <div class="form-group">
                 <label>Bank Opening Balance</label>
-                <input type="number" class="form-control" id="BankOpeningBalance" value="" placeholder="Bank Opening Balance" pattern="[0-9]*" required step="0.01" readonly>
+                <input type="number" class="form-control" id="BankOpeningBalance" value="" placeholder="Bank Opening Balance" pattern="[0-9]*" required step="0.01">
               </div>
           </div>
           <div class="col-md-2">
               <div class="form-group">
                 <label>Bank Closing Balance</label>
-                <input type="number" class="form-control" id="BankClosingBalance" value="" placeholder="Bank Closing Balance" pattern="[0-9]*" required step="0.01" readonly>
+                <input type="number" class="form-control" id="BankClosingBalance" value="" placeholder="Bank Closing Balance" pattern="[0-9]*" required step="0.01">
               </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
 
 @push('scripts')
 
-  <script>
+  {{-- <script>
     function get_balances() {
       if ($("#start_date").val() && $("#end_date").val() && $("#select_bank").val()) {
         $('#spinner').show();
@@ -87,7 +87,7 @@
         });
       }
     }
-  </script>
+  </script> --}}
 
 
     <script type="text/javascript">

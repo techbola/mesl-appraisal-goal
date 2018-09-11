@@ -1,7 +1,7 @@
 @component('mail::message')
-# Hi {{ $client_details->Customer ?? '-' }},
+# Hi, {{ ucwords($client_details->Customer) ?? '-' }},
 
-Please Find attached your receipt
+Please Find attached your receipt!
 
 
 

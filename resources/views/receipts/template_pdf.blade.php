@@ -4755,11 +4755,11 @@ a.list-group-item-danger.active:focus {
               <div class="col-md-6 col-sm-12  text-left">
                 @if(!is_null($cash_entry->BrandID))
                   <div class="media">
-                  <img style="margin: 0 !important" src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class=" logo"> 
+                  <img style="margin: 0 0 15px 0  !important" src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class=" logo"> 
                 </div>
                 @else
                 <div class="media">
-                  <img style="margin: 0 !important" src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class=" logo">
+                  <img style="margin: 0 0 15px 0 !important" src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class=" logo">
                   <div class="m-t-25">
                     {{-- {!! str_replace(',', ',<br>', $narrations->brand->Address) !!} --}}
                   </div>
@@ -4770,7 +4770,7 @@ a.list-group-item-danger.active:focus {
                   </div>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
-                <h2>RECEIPT</h2>
+                <h2 style="font-family: 'Arial', sans-serif; font-size: 30px !important;">RECEIPT</h2>
                 <p class="pb-3"># {{ 'BNKRCPOM'.$cash_entry->CashEntryRef }}</p>
                 <ul class="px-0 list-unstyled hide">
                   <li>Balance Due</li>
@@ -4794,11 +4794,11 @@ a.list-group-item-danger.active:focus {
               </div>
               <div class="col-md-6 col-sm-12  text-right">
                 <p>
-                  <span class="text-muted m-r-10">Receipt Date</span> {{ nice_date($cash_entry->ValueDate) }}</p>
+                  <span class="text-muted m-r-10">Receipt Date: </span> {{ nice_date($cash_entry->ValueDate) }}</p>
                 <p>
-                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $client_details->account_manager->AccountManager ?? 'Somebody Here' }}</b></p>
+                  <span class="text-muted m-r-10">Account Manager: </span> <b>{{ $client_details->account_manager->AccountManager ?? 'Somebody Here' }}</b></p>
                 <p>
-                  <span class="text-muted m-r-10">Contact Number</span>{{ $client_details->account_manager->MobileNumber ?? '-' }}</p>
+                  <span class="text-muted m-r-10">Contact Number: </span>{{ $client_details->account_manager->MobileNumber ?? '-' }}</p>
               </div>
             </div> <hr>
             <!--/ Invoice Customer Details -->
@@ -4838,7 +4838,7 @@ a.list-group-item-danger.active:focus {
             <div id="invoice-items-details" class="pt-2">
               <div class="row">
                 <div class="table-responsive col-sm-12">
-                  <table class="table">
+                  <table class="table table-bordered">
                     <thead>
                       <tr>
                         <th class="text-center">S/N</th>
@@ -4856,19 +4856,22 @@ a.list-group-item-danger.active:focus {
                       </tr>
                     </tbody>
                     <tfoot>
-                      <td></td>
-                      <td class="text-right"><b>TOTAL</b></td>
-                      <td class="text-right"><b>{{ 'N' . (number_format($cash_entry->Amount,2)) }}</b></td>
+                      <th></th>
+                      <th class="text-right"><b>TOTAL</b></th>
+                      <th class="text-right"><b>{{ 'N' . (number_format($cash_entry->Amount,2)) }}</b></th>
                     </tfoot>
                   </table>
                 </div>
               </div>
             </div>
             <!-- Invoice Footer -->
-            <div id="invoice-footer" class="m-t-30">
-              
+            <div id="invoice-footer" class="m-t-50" style="margin-top: 50px">
+
+              <span>Mode of Payment : </span>
+              <span> {!! $cash_entry->ModeOfPayment ?? '-' !!}</span> <br>
               <span>Total Payments Received Till Date : </span>
               <span class="semi-bold"> <b>{!! 'N' . (number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
+              
 
               <span>Outstanding Balance : </span>
               <span class="semi-bold"> <b>{!! 'N' . (number_format($cash_entry->OutstandingBalance, 2)) ?? '-' !!}</b></span> <br>

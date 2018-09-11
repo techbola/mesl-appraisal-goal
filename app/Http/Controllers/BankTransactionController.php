@@ -11,6 +11,7 @@ use File;
 use DB;
 use Session;
 use Cavidel\SimpleXLSX;
+use Carbon;
 
 class BankTransactionController extends Controller
 {
@@ -98,13 +99,13 @@ class BankTransactionController extends Controller
               foreach ($clean_trans as $trans) {
                 $row = new BankTransactionStaging;
                 $row->TransactionRef = $trans['0'];
-                $row->PostDate = $trans['1'];
-                $row->Reference = $trans['2'];
+                $row->PostDate = !empty($trans['1'])? Carbon::parse($trans['1'])->format('Y-m-d') : '';
+                $row->Reference = !empty($trans['2'])? str_replace(',','',$trans['2']) : '';
                 $row->ValueDate = $trans['3'];
                 $row->Debit = !empty($trans['4'])? str_replace(',','',$trans['4']) : '0';
                 $row->Credit = !empty($trans['5'])? str_replace(',','',$trans['5']) : '0';
                 $row->Balance = str_replace(',','',$trans['6']);
-                $row->Narration = $trans['7'];
+                $row->Narration = !empty($trans['7'])? str_replace(',','',$trans['7']) : '';
                 $row->Bank = $bank->BankName;
                 $row->AccountNumber = $bank->AccountNumber;
                 $row->save();

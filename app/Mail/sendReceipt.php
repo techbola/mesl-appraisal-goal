@@ -36,7 +36,7 @@ class sendReceipt extends Mailable
 
         return $this->markdown('emails.receipt_singular')
             ->subject('Receipt ')
-            ->attachData($pdf->output(), 'Receipt_' . $client_details->Customer ?? '-' . '.pdf', [
+            ->attachData($pdf->output(), 'Receipt_' . $client_details->Customer . '.pdf' ?? '-' . '.pdf', [
                 'mime' => 'application/pdf',
             ]);
     }
