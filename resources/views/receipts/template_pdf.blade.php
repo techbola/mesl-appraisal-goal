@@ -4794,11 +4794,11 @@ a.list-group-item-danger.active:focus {
               </div>
               <div class="col-md-6 col-sm-12  text-right">
                 <p>
-                  <span class="text-muted m-r-10">Receipt Date</span> {{ nice_date($cash_entry->ValueDate) }}</p>
+                  <span class="text-muted m-r-10">Receipt Date: </span> {{ nice_date($cash_entry->ValueDate) }}</p>
                 <p>
-                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $client_details->account_manager->AccountManager ?? 'Somebody Here' }}</b></p>
+                  <span class="text-muted m-r-10">Account Manager: </span> <b>{{ $client_details->account_manager->AccountManager ?? 'Somebody Here' }}</b></p>
                 <p>
-                  <span class="text-muted m-r-10">Contact Number</span>{{ $client_details->account_manager->MobileNumber ?? '-' }}</p>
+                  <span class="text-muted m-r-10">Contact Number: </span>{{ $client_details->account_manager->MobileNumber ?? '-' }}</p>
               </div>
             </div> <hr>
             <!--/ Invoice Customer Details -->
@@ -4866,9 +4866,12 @@ a.list-group-item-danger.active:focus {
             </div>
             <!-- Invoice Footer -->
             <div id="invoice-footer" class="m-t-30">
-              
+
+              <span>Mode of Payment : </span>
+              <span> {!! $cash_entry->ModeOfPayment ?? '-' !!}</span> <br>
               <span>Total Payments Received Till Date : </span>
-              <span class="semi-bold"> <b>{!! 'N' . (number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
+              <span class="semi-bold"> <b>{!! nairazify(number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
+              
 
               <span>Outstanding Balance : </span>
               <span class="semi-bold"> <b>{!! 'N' . (number_format($cash_entry->OutstandingBalance, 2)) ?? '-' !!}</b></span> <br>
