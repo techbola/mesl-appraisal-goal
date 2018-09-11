@@ -76,7 +76,7 @@ class internalPageController extends Controller
     {
       $start_bal = BankTransaction::where('Bank', $request->bank)->whereBetween('ValueDate', [$request->start, $request->end])->orderBy('ValueDate')->first();
       $end_bal = BankTransaction::where('Bank', $request->bank)->whereBetween('ValueDate', [$request->start, $request->end])->orderBy('ValueDate', 'desc')->orderBy('BankTransactionRef', 'desc')->first();
-      return [$start_bal->Balance, $end_bal->Balance];
+      return [$start_bal->Balance ?? '', $end_bal->Balance ?? ''];
       // return $start_bal->Balance;
     }
 }
