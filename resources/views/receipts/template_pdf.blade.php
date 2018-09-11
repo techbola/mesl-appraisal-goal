@@ -4838,7 +4838,7 @@ a.list-group-item-danger.active:focus {
             <div id="invoice-items-details" class="pt-2">
               <div class="row">
                 <div class="table-responsive col-sm-12">
-                  <table class="table table-bordered">
+                  <table class="table">
                     <thead>
                       <tr>
                         <th class="text-center">S/N</th>
