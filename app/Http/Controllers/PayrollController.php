@@ -67,10 +67,8 @@ class PayrollController extends Controller
     {
         $pag       = PayrollAdjustmentGroup::find($id);
         $validator = \Validator::make($request->all(), [
-
-        ], [
-
-        ]);
+            'GroupDescription' => 'required',
+        ], []);
         if (!$validator->fails()) {
             $pag->update($request->all());
             return redirect()->route('payroll.groups.index')->with('success', 'Payroll group was updated successfully');
