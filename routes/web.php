@@ -621,6 +621,7 @@ Route::middleware(['auth'])->group(function () {
     // Payroll groups
     Route::get('payroll/groups', 'PayrollController@groups')->name('payroll.groups.index');
     Route::get('payroll/groups/edit/{id}', 'PayrollController@edit_group');
+    Route::get('payroll/groups/delete/{id}', 'PayrollController@delete_group');
     Route::patch('payroll/groups/{id}', 'PayrollController@update_group');
     Route::get('payroll/groups/new', 'PayrollController@new_group')->name('payroll.groups.new');
 

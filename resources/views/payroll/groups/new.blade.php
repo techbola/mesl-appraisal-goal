@@ -4,6 +4,7 @@
 	{{-- <div class="clearfix m-b-20"> --}}
 		{{-- <button class="btn btn-info btn-rounded" data-toggle="modal" data-target="#new_staff">Set Payroll Period</button> --}}
 	{{-- </div> --}}
+	<a href="{{ route('payroll.groups.index') }}" class="btn btn-rounded btn-complete">View Groups</a>
 @endsection
 
 @section('content')
@@ -25,6 +26,7 @@
 				@include('payroll.groups.form')
 
 				<div class="action-btns row">
+					
 					<button class="btn btn-success">Create Group</button>
 				</div>
 			{{Form::close()}}

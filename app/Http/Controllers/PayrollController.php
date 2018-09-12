@@ -26,7 +26,7 @@ class PayrollController extends Controller
             ->get();
         // months
         $months = Month::select('Months', 'MonthsRef');
-        return view('payroll.details', compact('payroll_details', 'months','max_month','logged_in_user'));
+        return view('payroll.details', compact('payroll_details', 'months', 'max_month', 'logged_in_user'));
     }
 
     public function groups()
@@ -51,6 +51,16 @@ class PayrollController extends Controller
         $seniority_levels = SeniorityLevel::select('SeniorityLevel', 'GradeLevel', 'SeniorityRef');
 
         return view('payroll.groups.edit', compact('pag', 'payroll_levels', 'seniority_levels'));
+    }
+
+    public function delete_group($id)
+    {
+        $pag = PayrollAdjustmentGroup::find($id);
+        if ($pag->delete()) {
+            return redirect('/payroll/groups')->with('success', 'Payroll group deleted successfully');
+        } else {
+            return back()->with('danger', 'Payroll group failed to delete');
+        }
     }
 
     public function update_group(Request $request, $id)
