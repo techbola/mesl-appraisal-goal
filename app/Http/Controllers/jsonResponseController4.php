@@ -151,7 +151,7 @@ class jsonResponseController4 extends Controller
         // fetch all transaction
 
         // load from bank table section
-        $all_bank_items = DB::table('ars_banks4')->where('recon_flag', 0)->orderBy('date', 'ASC')->get();
+        $all_bank_items = DB::table('ars_banks4')->where('match_flag', 0)->orderBy('date', 'ASC')->get();
         if (count($all_bank_items) > 0) {
             $bank_box = [];
             foreach ($all_bank_items as $bank_item) {
@@ -177,7 +177,7 @@ class jsonResponseController4 extends Controller
         }
 
         // load from ledger table section
-        $all_ledger_items = DB::table('ars_ledgers4')->where('recon_flag', 0)->orderBy('date', 'ASC')->get();
+        $all_ledger_items = DB::table('ars_ledgers4')->where('match_flag', 0)->orderBy('date', 'ASC')->get();
         if (count($all_ledger_items) > 0) {
             $ledger_box = [];
             foreach ($all_ledger_items as $ledger_item) {

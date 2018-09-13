@@ -99,6 +99,13 @@
 
         $.get('/load/all3', function(data) {
             // console.log(data.ars);
+             let verifyCheckbox;
+                if(val.recon_flag == "1"){
+                    verifyCheckbox = `checked="checked"`;
+                }else{
+                    verifyCheckbox = ``;
+                }
+
             $(".load-ledger-item").html();
             $(".load-bank-item").html();
             // ledger section
@@ -115,7 +122,7 @@
                         <td class="column100 column2" data-column="column2">
                             <label class="control control--checkbox">
                               <input type="checkbox" id="ledgercheckbox_`+val.id+`"
-                                onclick="checkMatch('`+val.id+`', 'ledger', '`+val.amount+`')" />
+                                onclick="checkMatch('`+val.id+`', 'ledger', '`+val.amount+`')" ${verifyCheckbox}/>
                               <div class="control__indicator"></div>
                             </label>
                         </td>
@@ -127,11 +134,18 @@
             console.log(data.bank);
             $.each(data.bank, function(index, val) {
                 // console.log(val);
+                 let verifyCheckbox;
+                if(val.recon_flag == "1"){
+                    verifyCheckbox = `checked="checked"`;
+                }else{
+                    verifyCheckbox = ``;
+                }
+                
                 $(".load-bank-item").append(`
                     <tr class="row100">
                         <td>
                             <input type="checkbox" id="bankcheckbox_`+val.id+`"
-                              onclick="checkMatch('`+val.id+`', 'bank', '`+val.amount+`')" />
+                              onclick="checkMatch('`+val.id+`', 'bank', '`+val.amount+`')" ${verifyCheckbox}/>
                         </td>
                         <td class="om-bank-dr">&#8358;`+val.debit+`</td>
                         <td class="om-bank-cr">&#8358;`+val.credit+`</td>
@@ -272,6 +286,9 @@
                 $.each(data, function(index, val) {
                     if(val.Total == 0){
                         // body...
+                        <?php
+                            DB::statement("exec procReconMatching");
+                        ?>
                         window.location.reload();
 
                     }else{
