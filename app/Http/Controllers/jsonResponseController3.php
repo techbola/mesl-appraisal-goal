@@ -165,6 +165,7 @@ class jsonResponseController3 extends Controller
                     'debit'   => number_format($bank_item->debit, 2),
                     'amount'  => $bank_item->amount,
                     'status'  => $bank_item->status,
+                    'recon_flag'  => $bank_item->recon_flag,
                     'date'    => $bank_item->date,
                     // 'last_seen' => $bank_item->created_at->diffForHumans(),
                 ];
@@ -191,6 +192,7 @@ class jsonResponseController3 extends Controller
                     'debit'   => number_format($ledger_item->debit, 2),
                     'amount'  => $ledger_item->amount,
                     'status'  => $ledger_item->status,
+                    'recon_flag'  => $ledger_item->recon_flag,
                     'date'    => $ledger_item->date,
                     // 'last_seen' => $ledger_item->created_at->diffForHumans(),
                 ];
