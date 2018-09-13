@@ -288,7 +288,7 @@
                     if(val.Total == 0){
                         // body...
                         <?php
-                            DB::statement("exec procReconMatching");
+                            DB::statement("exec procReconMatching3");
                         ?>
                         window.location.reload();
 
