@@ -99,18 +99,18 @@
 
         $.get('/load/all1', function(data) {
             // console.log(data.ars);
-             let verifyCheckbox;
-                if(val.recon_flag == "1"){
-                    verifyCheckbox = `checked="checked"`;
-                }else{
-                    verifyCheckbox = ``;
-                }
-
             $(".load-ledger-item").html();
             $(".load-bank-item").html();
             // ledger section
             $.each(data.ledger, function(index, val) {
                 // console.log(val);
+                let verifyCheckbox;
+                if(val.recon_flag == "1"){
+                    verifyCheckbox = `checked="checked"`;
+                }else{
+                    verifyCheckbox = ``;
+                }
+                
                 $(".load-ledger-item").append(`
                     <tr class="row100">
                         <td class="column100 column2" data-column="column2">`+val.date+`</td>
