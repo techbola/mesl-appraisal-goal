@@ -409,7 +409,7 @@ Route::middleware(['auth'])->group(function () {
     // end purchase  payments
 
     Route::get('cash_entries/bill_posting', 'CashEntryController@bill_posting')->name('BillPosting');
-    Route::get('cash_entries/vendor_posting', 'CashEntryController@vendor_posting');
+    Route::get('cash_entries/vendor_posting', 'CashEntryController@vendor_posting')->name('VendorPosting');
     Route::post('bill_posting', 'CashEntryController@post_bill');
 
     Route::post('bill_posting_vendor', 'CashEntryController@post_bill_vendor');
