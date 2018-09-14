@@ -409,7 +409,11 @@ Route::middleware(['auth'])->group(function () {
     // end purchase  payments
 
     Route::get('cash_entries/bill_posting', 'CashEntryController@bill_posting')->name('BillPosting');
+    Route::get('cash_entries/vendor_posting', 'CashEntryController@vendor_posting');
     Route::post('bill_posting', 'CashEntryController@post_bill');
+
+    Route::post('bill_posting_vendor', 'CashEntryController@post_bill_vendor');
+
     Route::post('purchase_on_credits', 'CashEntryController@storepurchase_on_credits');
     Route::get('cash_entries/bill_payment_list', 'CashEntryController@bill_payment_list')->name('BillPaymentList');
     Route::post('pay_List', 'CashEntryController@store_bill_payment_list');
@@ -520,6 +524,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('vendors/new_bill', 'VendorController@new_bill')->name('NewVendorBill');
     Route::get('vendors/view_bill/{id}', 'VendorController@view_bill')->name('View_Vendor_Bill_List');
     Route::get('vendors/notification_Billing/{id}/{billcode}', 'VendorController@notification_bill')->name('VendorNotificationBilling');
+
     Route::post('add_new_product_to_bill_list_vendor', 'VendorController@save_bill_item');
     Route::post('bill_vendor_posting_post', 'VendorController@bill_payment');
     Route::post('delete_New_Bill_Vendor_payment', 'VendorController@productdeletion');

@@ -200,6 +200,8 @@
                                 <input type="hidden" id="bill_groupid" name="GroupID" value="{{ $code }}">
                                 <input type="hidden" name="ServiceDesc" id="service_desc">
                                 <input type="hidden" name="UserID" value="{{ $staff_id->StaffRef }}">
+                                <input type="hidden" name="inputter_id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="BillingDate" value="{{ Carbon::now()->toDateString() }}">
                                 {{-- <input type="hidden" name="Produt_ServiceType" id="product_service"> --}}
                                 <input type="hidden" id="bill_clientid" name="ClientID" value="{{ $client_details->VendorRef }}">
 

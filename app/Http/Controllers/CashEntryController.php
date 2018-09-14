@@ -865,6 +865,16 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         return view('cash_entries.bill_posting', compact('postedbills'));
     }
 
+    public function vendor_posting(Request $request)
+    {
+        $user_id     = \Auth::user()->staffId;
+        $auth_user   = auth()->user()->id;
+        $details     = Staff::where('StaffRef', $user_id)->first();
+        $postedbills = \DB::select("EXEC procViewBillGroupVendor $auth_user");
+        // dd($postedbills);
+        return view('cash_entries.bill_posting_vendor', compact('postedbills'));
+    }
+
     public function post_bill(Request $request)
     {
         $billcodes = $request->BillPost;
@@ -877,6 +887,22 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         }
         $postedbills = \DB::select("EXEC procViewBillGroup");
         return view('cash_entries.bill_posting', compact('postedbills'));
+    }
+
+    public function post_bill_vendor(Request $request)
+    {
+        $billcodes = $request->BillPost;
+        $userid    = \Auth::user()->id;
+        $details   = Staff::where('StaffRef', $userid)->first();
+        //$location  = $details->LocationID;
+
+        // dd($billcodes);
+
+        foreach ($billcodes as $billcode) {
+            $trans = \DB::statement("EXEC procPostBillingVendor '$billcode', $userid ");
+        }
+        $postedbills = \DB::select("EXEC procViewBillGroupVendor $userid");
+        return view('cash_entries.bill_posting_vendor', compact('postedbills'));
     }
 
     public function bill_payment_list()
