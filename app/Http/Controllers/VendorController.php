@@ -188,8 +188,13 @@ FROM            tblGL INNER JOIN
             ->first();
 
         $glid_debit = collect(DB::select('Exec procAllExpenseAccount'));
+        $user       = auth()->user();
+        $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
+        // $brands             = Brand::all();
 
-        return view('vendors.notification_Billing', compact('client_details', 'projects', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'vendor_gl', 'files', 'glid_debit'));
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+
+        return view('vendors.notification_Billing', compact('client_details', 'projects', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'vendor_gl', 'files', 'glid_debit', 'staff', 'user'));
     }
 
 }
