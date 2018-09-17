@@ -564,9 +564,12 @@
         if(id == 2)
         {
           $('#plan_option').removeClass('hide');
+          $('#plan_option select[name=OptionID]').attr('required');
         }else
         {
           $('#plan_option').addClass('hide');
+          $('#plan_option select[name=OptionID]').removeAttr('required');
+
         }
       }
     </script>
