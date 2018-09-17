@@ -144,7 +144,7 @@
                     <th>Account</th>
                     <th>Amount</th>
                     <th>Narration</th>
-                    <th></th>
+                    <th width="15%"></th>
                   </thead>
                   <tbody>
                     @foreach ($unsent_transaction as $transaction)
@@ -164,10 +164,11 @@
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
                         <td>{{ $transaction->Narration }}</td>
-                        <td>
+                        <td width="15%">
                           @if($transaction->NotifyFlag == false)
-                            <button  data-ref="{{ $transaction->AlphaCode }}" class="btn btn-default send_for_approval">Send</button>
+                            <button  data-ref="{{ $transaction->AlphaCode }}" class="btn btn-xs btn-default send_for_approval">Send</button>
                           @endif
+                          <button  data-ref="{{ $transaction->AlphaCode }}" class="btn btn-xs btn-danger delete_batch">Delete</button>
                         </td>
                       </tr>
                     @endforeach
@@ -376,6 +377,23 @@ var table = $('.tableWithSearch_a').DataTable(settings);
           window.location.href = '/transactions/multipost_approvallist';
          } else {
           _this.text('Send');
+         }
+       });
+     });
+
+  // delete multipost for  approval
+  $(".delete_batch").click(function(e) {
+       e.preventDefault();
+       $(this).text('Deleting...');
+       var _this = $(this);
+       $.post('/transactions/multipost/delete-batch',{
+          AlphaCode: $(this).data('ref')
+       }, function(data, textStatus, xhr) {
+         if(data.success === true){
+          // console.log('deleted');
+          window.location.href = '/transactions/multipost_approvallist';
+         } else {
+          _this.text('Delete');
          }
        });
      });
