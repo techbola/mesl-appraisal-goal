@@ -508,7 +508,7 @@
                         
 
                       <input type="hidden" name="StaffID" value="{{ auth()->user()->id }}">
-                       {{-- {{ Form::hidden('inputter_id',auth()->user()->id) }} --}}
+                       {{ Form::hidden('InputterID',auth()->user()->id) }}
                       <input type="hidden" name="PostingTypeID" value="1">
                       <input type="hidden" name="CurrencyID" value="1">
                       <input type="hidden" name="GLIDCredit" value="{{ $gl->GLRef }}" id="getGLIDDebit">
