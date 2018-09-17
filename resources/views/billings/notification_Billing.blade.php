@@ -25,6 +25,22 @@
   	<!-- START PANEL -->
   	<div class="card-box">
   			<div class="card-title pull-left">Create New bill for <span class="text-info">{{ $client_details->Customer }}</span></div><div class="clearfix"></div>
+
+         <div class="row">
+          {{ Form::open(['action' => 'BillingController@client_search', 'autocomplete' => 'off', 'role' => 'form']) }}
+          <div class="col-md-6 col-md-offset-3">
+                 <div class="form-group">
+                   {{ Form::label('client_name', 'Client Name' ) }}
+                     {{ Form::text('client_name', null, ['class' => 'form-control', 'placeholder' => 'Client Name...', 'required']) }}
+                   </div>
+
+                   <div class="pull-right">
+                     {{ Form::submit('Search', ['class' => 'btn btn-sm btn-info']) }}
+                   </div>
+          </div>
+          {{ Form::close() }}
+        </div><br>
+
         <div class="row">
 
           <div class="col-md-7">

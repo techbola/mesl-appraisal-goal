@@ -885,7 +885,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         foreach ($billcodes as $billcode) {
             $trans = \DB::statement("EXEC procPostBilling '$billcode', $userid ");
         }
-        $postedbills = \DB::select("EXEC procViewBillGroup");
+        $postedbills = \DB::select("EXEC procViewBillGroup $userid");
         return view('cash_entries.bill_posting', compact('postedbills'));
     }
 
