@@ -132,7 +132,13 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files'));
+        $user  = auth()->user();
+        $staff = Staff::where('CompanyID', $user->CompanyID)->get();
+        // $brands             = Brand::all();
+        $brands             = Brand::all();
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+
+        return view('billings.notification_Billing', compact('client_details', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files', 'staff', 'product_categories', 'brands'));
     }
 
     public function get_product($cat_id)
