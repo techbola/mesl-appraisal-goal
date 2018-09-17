@@ -144,7 +144,7 @@
                     <th>Account</th>
                     <th>Amount</th>
                     <th>Narration</th>
-                    <th width="15%"></th>
+                    <th width="12%"></th>
                   </thead>
                   <tbody>
                     @foreach ($unsent_transaction as $transaction)
@@ -164,7 +164,7 @@
                             {{ nairazify(number_format($transaction->Amount, 2)) }}
                         </td>
                         <td>{{ $transaction->Narration }}</td>
-                        <td width="15%">
+                        <td width="12%">
                           @if($transaction->NotifyFlag == false)
                             <button  data-ref="{{ $transaction->AlphaCode }}" class="btn btn-xs btn-default send_for_approval">Send</button>
                           @endif
