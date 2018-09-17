@@ -165,6 +165,7 @@
 
                                 {{-- <input type="hidden" name="LocationID" value="{{ $location_id }}"> --}}
                                 <input type="hidden" name="StaffRef" value="{{ $staff_id->StaffRef }}">
+                                <input type="hidden" name="inputter_id" value="{{ auth()->user()->id }}">
                                 <input type="hidden" name="InvItemID" id="InvItemID">
                                 {{-- <input type="hidden" name="PatientRef" value="{{ $patientRef }}"> --}}
                                 <input type="hidden" id="bill_groupid" name="GroupID" value="{{ $code }}">
@@ -507,7 +508,7 @@
                         
 
                       <input type="hidden" name="StaffID" value="{{ auth()->user()->id }}">
-                       {{ Form::hidden('InputterID',auth()->user()->id) }}
+                       {{ Form::hidden('inputter_id',auth()->user()->id) }}
                       <input type="hidden" name="PostingTypeID" value="1">
                       <input type="hidden" name="CurrencyID" value="1">
                       <input type="hidden" name="GLIDCredit" value="{{ $gl->GLRef }}" id="getGLIDDebit">
