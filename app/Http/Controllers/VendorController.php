@@ -62,6 +62,25 @@ class VendorController extends Controller
         }
     }
 
+    public function bill($client_id, $code)
+    {
+        $client_id       = $client_id;
+        $code            = $code;
+        $user_id         = \Auth::user()->id;
+        $coy             = Staff::where('UserID', $user_id)->first();
+        $company_id      = $coy->CompanyID;
+        $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
+        $client_details  = Vendor::where('VendorRef', $client_id)->first();
+        $bill_header     = BillingVendor::select('BillingDate')->first();
+        $total_bill      = BillingVendor::where('GroupID', $code)->sum('Price');
+        $total_discount  = BillingVendor::where('GroupID', $code)->sum('Discount');
+        $bills           = BillingVendor::where('GroupID', $code)->get();
+        $tot             = $total_bill - $total_discount;
+        $narrations      = BillNarration::where('BillCode', $code)->first();
+        // $tax             = ($total_bill / 100) * 5;
+        return view('billings.bill', compact('client_details', 'code', 'tot', 'bill_header', 'narrations', 'total_discount', 'total_bill', 'company_details', 'bills', 'tax'));
+    }
+
     public function view_bill($id)
     {
         $bill_id        = $id;

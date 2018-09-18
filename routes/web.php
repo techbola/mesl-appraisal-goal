@@ -520,6 +520,7 @@ Route::middleware(['auth'])->group(function () {
 
     //Vendor
     Route::get('vendors/search_vendors', 'VendorController@search_vendors')->name('SearchVendors');
+    Route::get('vendors/bill/{client_id}/{code}', 'VendorController@bill')->name('VendorBill');
     Route::post('search_bank_account', 'VendorController@search_company_vendor');
     Route::post('submit_vendor', 'VendorController@submit_vendor');
     Route::post('vendors/new_bill', 'VendorController@new_bill')->name('NewVendorBill');

@@ -20,14 +20,14 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Bills List for <span style="color: #2a9df5">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div>
+  			<div class="card-title pull-left">Invoice List for <span style="color: #2a9df5">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div>
         <div class="row">
           <table class="table tabel-hover table-striped">
             <thead>
               <tr>
                 <th></th>
-                    <th>Billing Code</th>
-                    <th>Billing Date</th>
+                    <th>Invoice Code</th>
+                    <th>Invoice Date</th>
                     <th>Add to bill</th>
                     <th>Action</th>
               </tr>
@@ -38,8 +38,8 @@
                 <td>{{ $loop->index + 1 }}</td>
                 <td>{{ $bill_detail->GroupID }}</td>
                 <td>{{ $bill_detail->BillingDate }}</td>
-                <td><a href="{{ route('NotificationBilling',[$client_details->VendorRef, $bill_detail->GroupID]) }}" class="btn btn-sm btn-info">Add Item</a></td>
-                <td><a href="{{ route('Bill',[$client_details->VendorRef, $bill_detail->GroupID]) }}" class="btn btn-sm btn-success">View Bill</a></td>
+                <td><a href="{{ route('VendorNotificationBilling',[$client_details->VendorRef, $bill_detail->GroupID]) }}" class="btn btn-sm btn-info">Add Item</a></td>
+                <td><a href="{{ route('VendorBill',[$client_details->VendorRef, $bill_detail->GroupID]) }}" class="btn btn-sm btn-success">View Bill</a></td>
                 
               </tr>
               @endforeach

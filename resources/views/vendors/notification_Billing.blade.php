@@ -9,11 +9,11 @@
 @endpush
 
 @section('title')
-  Create Bill
+  Create Invoice
 @endsection
 
 @section('page-title')
-  Create Bill
+  Create Invoice
 @endsection
 
 @section('buttons')
@@ -24,7 +24,7 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Create New bill for <span class="text-info">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div>
+  			<div class="card-title pull-left">Create New invoice for <span class="text-info">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div>
         <div class="row">
 
           <div class="col-md-7">
@@ -39,7 +39,7 @@
                 @if(count($bill_narration) > 0)
                  <a href="#" class="btn btn-sm btn-warning pull-right" onclick="get_narration({{ $bill_narration->BillNarrationRef }})" id="edit_bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Edit Narration to bill</a>
                 @else
-                <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to bill</a>
+                <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to invoice</a>
                 @endif
                
                              <table class="table table-hover">
@@ -370,7 +370,7 @@
                 
                 <div class="modal-body" style="background: #eee; color: #000">
                   <div class="modal-header" style="background: #eee; color: #000">
-                  <h5 class="text-left p-b-5"><span class="semi-bold">Bill Payment
+                  <h5 class="text-left p-b-5"><span class="semi-bold">Invoice Payment
                 </div><hr>
                   <div class="row">
                     <div style="padding: 20px; margin-bottom: 20px">
