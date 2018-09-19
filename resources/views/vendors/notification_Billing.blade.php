@@ -17,7 +17,7 @@
 @endsection
 
 @section('buttons')
- 
+
 @endsection
 
 @section('content')
@@ -41,12 +41,12 @@
                 @else
                 <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to invoice</a>
                 @endif
-               
+
                              <table class="table table-hover">
                                  <thead>
                                      <tr>
                                          <th>Date</th>
-                                         
+
                                          <th>Product</th>
                                          <th>Narration</th>
                                          <th>Price</th>
@@ -112,7 +112,7 @@
                                     </div>
                                 </div> --}}
                               </div>
-                                
+
                                 {{-- <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('Surname', 'Category') }}
@@ -148,7 +148,7 @@
                                             </select>
                                     </div>
                                 </div>
-                               
+
                                 {{-- <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('Product') }}
@@ -169,7 +169,7 @@
                                             {{ Form::label('Discount', 'Product Discount') }}
                                             <input type="number" name="Discount" id="discount" class="form-control" value="0.00" onkeyup="get_new_total_price()">
                                     </div>
-                                </div> 
+                                </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -177,8 +177,8 @@
                                             <input type="text" name="Quantity" class="form-control" id="quantity"  value="0" onblur="calculate_total_price()">
                                     </div>
                                 </div>
-                                
-                                
+
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                             {{ Form::label('TotalPrice', 'Total Price') }}
@@ -283,7 +283,7 @@
                   <div class="row">
                     <div id="narration_div">
                      {{ Form::open(['id' => 'bill_narration_form', 'autocomplete' => 'off', 'role' => 'form']) }}
-                                  
+
 
                                   <div class="col-sm-12">
                                     <div class="form-group">
@@ -358,7 +358,7 @@
       </div>
     <!-- END PANEL -->
 
-<div class="page-content-wrapper "> 
+<div class="page-content-wrapper ">
      <div class="content ">
           <!-- Modal -->
           <div class="modal fade fill-in" id="modalFillIn2" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
@@ -367,7 +367,7 @@
             </button>
             <div class="modal-dialog ">
               <div class="modal-content">
-                
+
                 <div class="modal-body" style="background: #eee; color: #000">
                   <div class="modal-header" style="background: #eee; color: #000">
                   <h5 class="text-left p-b-5"><span class="semi-bold">Invoice Payment
@@ -383,8 +383,8 @@
                         <p  class="text-primary" style="color: #fff; font-weight: 600; font-size: 16px; color: #000" id="bill-amt">&#8358;{{ number_format($bill_amount,2) }}</p>
                       </div>
                       <div class="col-md-6">
-                        <span>Amount Outstanding</span> 
-                     
+                        <span>Amount Outstanding</span>
+
 
                         <p  class="text-primary" style="color: #fff; font-weight: 600; font-size: 16px; color: #000" id="bill-os">&#8358;
                             @if(!empty($outstanding[0]->AmountOS))
@@ -395,7 +395,7 @@
                         </p>
                       </div>
                     </div><hr><br>
-                    
+
                     <div class="col-md-12"><hr>
                       {{ Form::open(['action' => 'VendorController@bill_payment', 'autocomplete' => 'off', 'role' => 'form']) }}
                        <div class="col-sm-6">
@@ -522,7 +522,7 @@
     </div>
     <div class="clearfix"></div>
 </div>
-                       
+
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="controls">
@@ -531,7 +531,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
 
                       <input type="hidden" name="StaffID" value="{{ auth()->user()->id }}">
                       {{ Form::hidden('InputterID',auth()->user()->id) }}
@@ -561,7 +561,7 @@
 <script src="{{ asset('assets/js/accounting.js') }}" type="text/javascript"></script>
 
 <script>
-    
+
     $(document).on("click", "#btnFillSizeToggler2", function() {
             var id = $(this).data('id');
             $("#modalFillIn #getValue").val(id);
@@ -599,7 +599,7 @@
 
           });
 
-  </script> 
+  </script>
 
 <script>
   function getProduct()
@@ -649,9 +649,9 @@
          $.get('/get_new_product_price/'+prod_id, function(data, status) {
              $('#unit_price').val(AutoNumeric.unformat(data.Price));
              $('#total').val(AutoNumeric.unformat(data.Price * 1));
-              $('#quantity').val(1); 
+              $('#quantity').val(1);
              var total = $('#total').val();
-             
+
              if(total >= 1)
              {
                  $('#add_to_list').removeClass('hide');
@@ -700,7 +700,7 @@
         });
 
         $('#BillNarration').modal('toggle');
-        var form = $('#bill_narration_form')[0]; 
+        var form = $('#bill_narration_form')[0];
         return false;
       });
 
@@ -752,5 +752,3 @@
     </script>
 
 @endpush
-
-
