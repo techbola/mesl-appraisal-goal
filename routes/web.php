@@ -666,6 +666,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('store_payment_plan', 'PymtPlanController@store_payment_plan'); // comment
     Route::get('get_plan_data/{id}', 'PymtPlanController@get_plan_data');
     Route::post('submit_plan_edit_form', 'PymtPlanController@submit_plan_edit_form'); // comment
+    Route::get('delete_payment_plan/{id}', 'PymtPlanController@delete_payment_plan');
+
+    //Plan Option
+    Route::get('plan_option/index', 'PlanOptionController@index')->name('PlanOption');
+    Route::post('store_plan_option', 'PlanOptionController@store_plan_option'); // comment
+    Route::get('get_plan_option_data/{id}', 'PlanOptionController@get_plan_option_data');
+    Route::post('submit_plan_option_edit_form', 'PlanOptionController@submit_plan_option_edit_form'); // comment
+    Route::get('delete_plan_option/{id}', 'PlanOptionController@delete_plan_option');
 
     // -- end payroll
 
