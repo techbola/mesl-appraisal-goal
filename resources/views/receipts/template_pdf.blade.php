@@ -4850,7 +4850,8 @@ a.list-group-item-danger.active:focus {
                       <tr>
                         <th class="text-center" scope="row">1</th>
                         <td style="word-wrap: break-word;">
-                          <p>{!! $narrations->Narration ?? $cash_entry->Narration !!}</p>
+                          {{-- <p>{!! $narrations->Narration ?? $cash_entry->Narration !!}</p> --}}
+                          <p>{!! wordwrap($narrations->Narration ?? $cash_entry->Narration,70,"<br>\n",TRUE) ?? '-' !!}</p>
                         </td>
                         <td class="text-right">{{ 'N' . (number_format($cash_entry->Amount,2)) }}</td>
                       </tr>
