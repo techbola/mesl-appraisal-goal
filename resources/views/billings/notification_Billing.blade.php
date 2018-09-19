@@ -456,11 +456,23 @@
         </div>
     </div>
 
+
+
     <div class="col-sm-6">
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('OutstandingBalance', 'Outstanding Balance' ) }}
                 {{ Form::text('OutstandingBalance', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Narration']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('Description' ) }}
+                {{ Form::textarea('Description', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Description', 'rows' => 2]) }}
             </div>
         </div>
     </div>
