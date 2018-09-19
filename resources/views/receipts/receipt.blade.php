@@ -118,11 +118,11 @@
               </div>
               <div class="col-md-6 col-sm-12  text-right">
                 <p>
-                  <span class="text-muted m-r-10">Receipt Date</span> {{ nice_date($cash_entry->ValueDate) }}</p>
+                  <span class="text-muted m-r-10">Receipt Date: </span> {{ nice_date($cash_entry->ValueDate) }}</p>
                 <p>
-                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $client_details->account_manager->AccountManager ?? 'Somebody Here' }}</b></p>
+                  <span class="text-muted m-r-10">Account Manager: </span> <b>{{ $client_details->account_manager->AccountManager ?? 'Somebody Here' }}</b></p>
                 <p>
-                  <span class="text-muted m-r-10">Contact Number</span>{{ $client_details->account_manager->MobileNumber ?? '-' }}</p>
+                  <span class="text-muted m-r-10">Contact Number: </span>{{ $client_details->account_manager->MobileNumber ?? '-' }}</p>
               </div>
             </div> <hr>
             <!--/ Invoice Customer Details -->

@@ -19,7 +19,7 @@
 		<div class="clearfix"></div>
 
 		<div class="panel-body">
-			<table class="tableWithSearch table-striped table-bordered">
+			<table class="tableWithSearch2 table-striped table-bordered">
 				<thead>
 					<th>Actions</th>
 					<th>Group Description</th>
@@ -50,7 +50,8 @@
 					@foreach($payroll_groups as $pg)
 					<tr>
 						<td>
-							<a href="/payroll/groups/edit/{{ $pg->GroupRef }}" class="btn btn-inverse">Edit</a>
+							<a href="/payroll/groups/edit/{{ $pg->GroupRef }}" class="btn btn-sm btn-inverse">Edit</a>
+							<a href="/payroll/groups/delete/{{ $pg->GroupRef }}" class="btn btn-sm btn-danger">Del</a>
 						</td>
 						<td>{{ $pg->GroupDescription }}</td>
 						<td>{{ $pg->seniority_level->GradeLevel ?? '-' }}</td>

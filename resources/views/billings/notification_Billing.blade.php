@@ -25,6 +25,22 @@
   	<!-- START PANEL -->
   	<div class="card-box">
   			<div class="card-title pull-left">Create New bill for <span class="text-info">{{ $client_details->Customer }}</span></div><div class="clearfix"></div>
+
+         <div class="row">
+          {{ Form::open(['action' => 'BillingController@client_search', 'autocomplete' => 'off', 'role' => 'form']) }}
+          <div class="col-md-6 col-md-offset-3">
+                 <div class="form-group">
+                   {{ Form::label('client_name', 'Client Name' ) }}
+                     {{ Form::text('client_name', null, ['class' => 'form-control', 'placeholder' => 'Client Name...', 'required']) }}
+                   </div>
+
+                   <div class="pull-right">
+                     {{ Form::submit('Search', ['class' => 'btn btn-sm btn-info']) }}
+                   </div>
+          </div>
+          {{ Form::close() }}
+        </div><br>
+
         <div class="row">
 
           <div class="col-md-7">
@@ -165,6 +181,7 @@
 
                                 {{-- <input type="hidden" name="LocationID" value="{{ $location_id }}"> --}}
                                 <input type="hidden" name="StaffRef" value="{{ $staff_id->StaffRef }}">
+                                <input type="hidden" name="inputter_id" value="{{ auth()->user()->id }}">
                                 <input type="hidden" name="InvItemID" id="InvItemID">
                                 {{-- <input type="hidden" name="PatientRef" value="{{ $patientRef }}"> --}}
                                 <input type="hidden" id="bill_groupid" name="GroupID" value="{{ $code }}">
@@ -335,7 +352,7 @@
 <div class="page-content-wrapper "> 
      <div class="content ">
           <!-- Modal -->
-          <div class="modal fade fill-in" id="modalFillIn2" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+          <div class="modal fade fill-in" id="modalFillIn2"  role="dialog" aria-hidden="true" style="display: none;">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
               <i class="pg-close" style="color: #fff"></i>
             </button>
@@ -395,6 +412,15 @@
                        </div><div class="clearfix"></div>
 
                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="controls">
+                                    {{ Form::label('Product', 'Product' ) }}
+                                    {{ Form::select('Product', [ '' =>  'Select Product Category'] + $product_categories->pluck('ProductCategory', 'ProductCategoryRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
+                                </div>
+                            </div>
+                        </div>  <div class="clearfix"></div>
+
+                       <div class="col-sm-6">
                          <div class="form-group">
                              <div class="controls">
                                  {{ Form::label('ValueDate', 'Value Date') }}
@@ -416,6 +442,76 @@
                                </div>
                            </div>
                        </div>
+
+
+    <div class="clearfix"></div>
+
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('PaymentToDate', 'Payment to Date' ) }}
+                {{ Form::text('PaymentToDate', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Payment to date']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('OutstandingBalance', 'Outstanding Balance' ) }}
+                {{ Form::text('OutstandingBalance', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Narration']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('Terms', 'Terms' ) }}
+                {{ Form::textarea('Terms', null, ['class' => 'form-control', 'placeholder' => 'Enter Terms', 'rows' => 2]) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('Narration', 'Narration' ) }}
+                {{ Form::textarea('Narration', null, ['class' => 'form-control', 'placeholder' => 'Enter Narration', 'rows' => 2]) }}
+            </div>
+        </div>
+    </div>
+    {{-- Mode of payment --}}
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('ModeOfPayment', 'Mode Of Payment' ) }}
+                {{ Form::text('ModeOfPayment', null, ['class' => 'form-control', 'placeholder' => 'Mode of payment']) }}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="clearfix"></div>
+    <div class="">
+      <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+              {{ Form::label('BrandID', 'Select Brand' ) }}
+                {{ Form::select('BrandID', [''=>'Select Brand'] + $brands->pluck('BrandName', 'BrandRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Brand", 'required', 'data-init-plugin' => "select2",]) }}
+           </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('SignatoryID', 'Signatory') }}
+                {{ Form::select('SignatoryID', [ '' =>  'Select Signatory'] + $staff->pluck('fullName', 'StaffRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
                        
                             <div class="col-sm-12">
                                 <div class="form-group">
@@ -428,6 +524,7 @@
                         
 
                       <input type="hidden" name="StaffID" value="{{ auth()->user()->id }}">
+                       {{ Form::hidden('InputterID',auth()->user()->id) }}
                       <input type="hidden" name="PostingTypeID" value="1">
                       <input type="hidden" name="CurrencyID" value="1">
                       <input type="hidden" name="GLIDCredit" value="{{ $gl->GLRef }}" id="getGLIDDebit">
@@ -563,9 +660,12 @@
         if(id == 2)
         {
           $('#plan_option').removeClass('hide');
+          $('#plan_option select[name=OptionID]').attr('required');
         }else
         {
           $('#plan_option').addClass('hide');
+          $('#plan_option select[name=OptionID]').removeAttr('required');
+
         }
       }
     </script>

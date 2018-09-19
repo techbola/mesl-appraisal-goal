@@ -72,6 +72,7 @@ class jsonResponseController extends Controller
         $recon_total = DB::select("
             EXEC procReconTotal
         ");
+        // DB::statement("EXEC procReconMatching");
 
         // collect results
         $scan_total    = collect($recon_total);
@@ -151,7 +152,7 @@ class jsonResponseController extends Controller
         // fetch all transaction
 
         // load from bank table section
-        $all_bank_items = DB::table('ars_banks')->where('recon_flag', 0)->orderBy('date', 'ASC')->get();
+        $all_bank_items = DB::table('ars_banks')->where('match_flag', 0)->orderBy('date', 'ASC')->get();
         if (count($all_bank_items) > 0) {
             $bank_box = [];
             foreach ($all_bank_items as $bank_item) {
@@ -165,6 +166,7 @@ class jsonResponseController extends Controller
                     'debit'   => number_format($bank_item->debit, 2),
                     'amount'  => $bank_item->amount,
                     'status'  => $bank_item->status,
+                    'recon_flag'  => $bank_item->recon_flag,
                     'date'    => $bank_item->date,
                     // 'last_seen' => $bank_item->created_at->diffForHumans(),
                 ];
@@ -177,7 +179,7 @@ class jsonResponseController extends Controller
         }
 
         // load from ledger table section
-        $all_ledger_items = DB::table('ars_ledgers')->where('recon_flag', 0)->orderBy('date', 'ASC')->get();
+        $all_ledger_items = DB::table('ars_ledgers')->where('match_flag', 0)->orderBy('date', 'ASC')->get();
         if (count($all_ledger_items) > 0) {
             $ledger_box = [];
             foreach ($all_ledger_items as $ledger_item) {
@@ -191,6 +193,7 @@ class jsonResponseController extends Controller
                     'debit'   => number_format($ledger_item->debit, 2),
                     'amount'  => $ledger_item->amount,
                     'status'  => $ledger_item->status,
+                    'recon_flag'  => $ledger_item->recon_flag,
                     'date'    => $ledger_item->date,
                     // 'last_seen' => $ledger_item->created_at->diffForHumans(),
                 ];

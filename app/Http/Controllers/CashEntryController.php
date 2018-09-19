@@ -865,6 +865,16 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         return view('cash_entries.bill_posting', compact('postedbills'));
     }
 
+    public function vendor_posting(Request $request)
+    {
+        $user_id     = \Auth::user()->staffId;
+        $auth_user   = auth()->user()->id;
+        $details     = Staff::where('StaffRef', $user_id)->first();
+        $postedbills = \DB::select("EXEC procViewBillGroupVendor $auth_user");
+        // dd($postedbills);
+        return view('cash_entries.bill_posting_vendor', compact('postedbills'));
+    }
+
     public function post_bill(Request $request)
     {
         $billcodes = $request->BillPost;
@@ -875,8 +885,24 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         foreach ($billcodes as $billcode) {
             $trans = \DB::statement("EXEC procPostBilling '$billcode', $userid ");
         }
-        $postedbills = \DB::select("EXEC procViewBillGroup");
+        $postedbills = \DB::select("EXEC procViewBillGroup $userid");
         return view('cash_entries.bill_posting', compact('postedbills'));
+    }
+
+    public function post_bill_vendor(Request $request)
+    {
+        $billcodes = $request->BillPost;
+        $userid    = \Auth::user()->id;
+        $details   = Staff::where('StaffRef', $userid)->first();
+        //$location  = $details->LocationID;
+
+        // dd($billcodes);
+
+        foreach ($billcodes as $billcode) {
+            $trans = \DB::statement("EXEC procPostBillingVendor '$billcode', $userid ");
+        }
+        $postedbills = \DB::select("EXEC procViewBillGroupVendor $userid");
+        return view('cash_entries.bill_posting_vendor', compact('postedbills'));
     }
 
     public function bill_payment_list()
@@ -951,7 +977,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
                          Order By tblGL.Description", [59]));
 
         if (auth()->user()->hasRole('admin')) {
-          $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+            $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
                            tblCashEntry.Narration
   FROM            tblCashEntry INNER JOIN
                            tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
@@ -961,7 +987,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
 
         } else {
 
-          $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+            $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
                            tblCashEntry.Narration
   FROM            tblCashEntry INNER JOIN
                            tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
@@ -969,7 +995,6 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
 
   WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 15) AND (tblCashEntry.InputterID = $auth_user) order by tblCashEntry.CashEntryRef desc "));
         }
-
 
         return view('cash_entries.Imprest', compact('cashentries', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
     }

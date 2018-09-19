@@ -281,6 +281,17 @@ class TransactionController extends Controller
         }
     }
 
+    public function delete_batch(Request $request)
+    {
+        $refs = $request->AlphaCode;
+
+        // foreach ($refs as $key => $ref) {
+        $transaction = TransactionMP::where('AlphaCode', $refs);
+        $transaction->delete();
+        // }
+        return response()->json(['success' => true, 'message' => 'Deleted Successfully']);
+    }
+
     public function multipost_reject(Request $request)
     {
         $refs = $request->TransactionRef;

@@ -26,7 +26,7 @@ class PayrollController extends Controller
             ->get();
         // months
         $months = Month::select('Months', 'MonthsRef');
-        return view('payroll.details', compact('payroll_details', 'months','max_month','logged_in_user'));
+        return view('payroll.details', compact('payroll_details', 'months', 'max_month', 'logged_in_user'));
     }
 
     public function groups()
@@ -53,14 +53,22 @@ class PayrollController extends Controller
         return view('payroll.groups.edit', compact('pag', 'payroll_levels', 'seniority_levels'));
     }
 
+    public function delete_group($id)
+    {
+        $pag = PayrollAdjustmentGroup::find($id);
+        if ($pag->delete()) {
+            return redirect('/payroll/groups')->with('success', 'Payroll group deleted successfully');
+        } else {
+            return back()->with('danger', 'Payroll group failed to delete');
+        }
+    }
+
     public function update_group(Request $request, $id)
     {
         $pag       = PayrollAdjustmentGroup::find($id);
         $validator = \Validator::make($request->all(), [
-
-        ], [
-
-        ]);
+            'GroupDescription' => 'required',
+        ], []);
         if (!$validator->fails()) {
             $pag->update($request->all());
             return redirect()->route('payroll.groups.index')->with('success', 'Payroll group was updated successfully');
@@ -72,10 +80,6 @@ class PayrollController extends Controller
     public function apply_updates(Request $request)
     {
         try {
-            // $procedures = \DB::statement("
-            //     EXEC procInsertNewEmployee2Payroll
-            //     EXEC procUpdateAllIndividualColumns
-            // ");
             $procedures = \DB::statement("
                 EXEC procRunPayroll
             ");

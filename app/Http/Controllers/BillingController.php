@@ -132,7 +132,13 @@ class BillingController extends Controller
             ->where('tblCustomer.CustomerRef', $client_id)
             ->first();
 
-        return view('billings.notification_Billing', compact('client_details', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files'));
+        $user  = auth()->user();
+        $staff = Staff::where('CompanyID', $user->CompanyID)->get();
+        // $brands             = Brand::all();
+        $brands             = Brand::all();
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+
+        return view('billings.notification_Billing', compact('client_details', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'files', 'staff', 'product_categories', 'brands'));
     }
 
     public function get_product($cat_id)
@@ -418,7 +424,7 @@ class BillingController extends Controller
         $narrations      = $cash_entry->bill_narrations;
         $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
         $amount_in_words = $aw->format($cash_entry->Amount);
-        PDF::setOptions(['dpi' => 96, 'defaultPaperSize' => "letter", 'defaultFont' => 'sans-serif']);
+        // PDF::setOptions(['dpi' => 96, 'defaultPaperSize' => "letter", 'defaultFont' => 'sans-serif']);
         $pdf = PDF::loadView('receipts.template_pdf', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
         return $pdf->stream('receipt.pdf');
         // $pdf = Cavidel::make('dompdf.wrapper');

@@ -9,11 +9,11 @@
 @endpush
 
 @section('title')
-  Create Bill
+  Create Invoice
 @endsection
 
 @section('page-title')
-  Create Bill
+  Create Invoice
 @endsection
 
 @section('buttons')
@@ -24,7 +24,7 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Create New bill for <span class="text-info">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div>
+  			<div class="card-title pull-left">Create New invoice for <span class="text-info">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div>
         <div class="row">
 
           <div class="col-md-7">
@@ -39,7 +39,7 @@
                 @if(count($bill_narration) > 0)
                  <a href="#" class="btn btn-sm btn-warning pull-right" onclick="get_narration({{ $bill_narration->BillNarrationRef }})" id="edit_bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Edit Narration to bill</a>
                 @else
-                <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to bill</a>
+                <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to invoice</a>
                 @endif
 
                              <table class="table table-hover">
@@ -200,6 +200,8 @@
                                 <input type="hidden" id="bill_groupid" name="GroupID" value="{{ $code }}">
                                 <input type="hidden" name="ServiceDesc" id="service_desc">
                                 <input type="hidden" name="UserID" value="{{ $staff_id->StaffRef }}">
+                                <input type="hidden" name="inputter_id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="BillingDate" value="{{ Carbon::now()->toDateString() }}">
                                 {{-- <input type="hidden" name="Produt_ServiceType" id="product_service"> --}}
                                 <input type="hidden" id="bill_clientid" name="ClientID" value="{{ $client_details->VendorRef }}">
 
@@ -281,13 +283,7 @@
                   <div class="row">
                     <div id="narration_div">
                      {{ Form::open(['id' => 'bill_narration_form', 'autocomplete' => 'off', 'role' => 'form']) }}
-                                  <div class="col-sm-6">
-                                      <div class="form-group">
-                                          <div class="controls">
-                                              {{ Form::select('BrandID', [''=>'Select Brand'] + $brands->pluck('BrandName', 'BrandRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Brand", 'required', 'data-init-plugin' => "select2",]) }}
-                                         </div>
-                                      </div>
-                                  </div> <div class="clearfix"></div>
+
 
                                   <div class="col-sm-12">
                                     <div class="form-group">
@@ -374,7 +370,7 @@
 
                 <div class="modal-body" style="background: #eee; color: #000">
                   <div class="modal-header" style="background: #eee; color: #000">
-                  <h5 class="text-left p-b-5"><span class="semi-bold">Bill Payment
+                  <h5 class="text-left p-b-5"><span class="semi-bold">Invoice Payment
                 </div><hr>
                   <div class="row">
                     <div style="padding: 20px; margin-bottom: 20px">
@@ -424,6 +420,15 @@
                            </div>
                        </div><div class="clearfix"></div>
 
+                         <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="controls">
+                                    {{ Form::label('Product', 'Product' ) }}
+                                    {{ Form::select('Product', [ '' =>  'Select Product Category'] + $product_categories->pluck('ProductCategory', 'ProductCategoryRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
+                                </div>
+                            </div>
+                        </div>  <div class="clearfix"></div>
+
                        <div class="col-sm-6">
                          <div class="form-group">
                              <div class="controls">
@@ -447,6 +452,77 @@
                            </div>
                        </div>
 
+
+    <div class="clearfix"></div>
+
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('PaymentToDate', 'Payment to Date' ) }}
+                {{ Form::text('PaymentToDate', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Payment to date']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('OutstandingBalance', 'Outstanding Balance' ) }}
+                {{ Form::text('OutstandingBalance', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Narration']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('Terms', 'Terms' ) }}
+                {{ Form::textarea('Terms', null, ['class' => 'form-control', 'placeholder' => 'Enter Terms', 'rows' => 2]) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('Narration', 'Narration' ) }}
+                {{ Form::textarea('Narration', null, ['class' => 'form-control', 'placeholder' => 'Enter Narration', 'rows' => 2]) }}
+            </div>
+        </div>
+    </div>
+    {{-- Mode of payment --}}
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('ModeOfPayment', 'Mode Of Payment' ) }}
+                {{ Form::text('ModeOfPayment', null, ['class' => 'form-control', 'placeholder' => 'Mode of payment']) }}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="clearfix"></div>
+    <div class="">
+      <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+              {{ Form::label('BrandID', 'Select Brand' ) }}
+                {{ Form::select('BrandID', [''=>'Select Brand'] + $brands->pluck('BrandName', 'BrandRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Brand", 'required', 'data-init-plugin' => "select2",]) }}
+           </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('SignatoryID', 'Signatory') }}
+                {{ Form::select('SignatoryID', [ '' =>  'Select Signatory'] + $staff->pluck('fullName', 'StaffRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="controls">
@@ -458,6 +534,8 @@
 
 
                       <input type="hidden" name="StaffID" value="{{ auth()->user()->id }}">
+                      {{ Form::hidden('InputterID',auth()->user()->id) }}
+                      {{ Form::hidden('ModifierID',auth()->user()->id) }}
                       <input type="hidden" name="PostingTypeID" value="1">
                       <input type="hidden" name="CurrencyID" value="1">
                       <input type="hidden" name="GLIDDebit" value="{{ $vendor_gl->GLRef }}">

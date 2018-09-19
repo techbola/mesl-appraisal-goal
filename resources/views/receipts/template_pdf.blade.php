@@ -4755,11 +4755,11 @@ a.list-group-item-danger.active:focus {
               <div class="col-md-6 col-sm-12  text-left">
                 @if(!is_null($cash_entry->BrandID))
                   <div class="media">
-                  <img style="margin: 0 !important" src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class=" logo"> 
+                  <img style="margin: 0 0 15px 0  !important" src="{{ asset("images/logos/".$cash_entry->brand->LogoLocation) }}" alt="company logo" width="170px" class=" logo"> 
                 </div>
                 @else
                 <div class="media">
-                  <img style="margin: 0 !important" src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class=" logo">
+                  <img style="margin: 0 0 15px 0 !important" src="{{ asset("images/logos/lekkigardens.jpg") }}" alt="company logo" width="170px" class=" logo">
                   <div class="m-t-25">
                     {{-- {!! str_replace(',', ',<br>', $narrations->brand->Address) !!} --}}
                   </div>
@@ -4770,7 +4770,7 @@ a.list-group-item-danger.active:focus {
                   </div>
               </div>
               <div class="col-md-6 col-sm-12  text-right">
-                <h2>RECEIPT</h2>
+                <h2 style="font-family: 'Arial', sans-serif; font-size: 30px;"><b>RECEIPT</b></h2>
                 <p class="pb-3"># {{ 'BNKRCPOM'.$cash_entry->CashEntryRef }}</p>
                 <ul class="px-0 list-unstyled hide">
                   <li>Balance Due</li>
@@ -4794,11 +4794,11 @@ a.list-group-item-danger.active:focus {
               </div>
               <div class="col-md-6 col-sm-12  text-right">
                 <p>
-                  <span class="text-muted m-r-10">Receipt Date</span> {{ nice_date($cash_entry->ValueDate) }}</p>
+                  <span class="text-muted m-r-10">Receipt Date: </span> {{ nice_date($cash_entry->ValueDate) }}</p>
                 <p>
-                  <span class="text-muted m-r-10">Account Manager</span> <b>{{ $client_details->account_manager->AccountManager ?? 'Somebody Here' }}</b></p>
+                  <span class="text-muted m-r-10">Account Manager: </span> <b>{{ $client_details->account_manager->AccountManager ?? 'Somebody Here' }}</b></p>
                 <p>
-                  <span class="text-muted m-r-10">Contact Number</span>{{ $client_details->account_manager->MobileNumber ?? '-' }}</p>
+                  <span class="text-muted m-r-10">Contact Number: </span>{{ $client_details->account_manager->MobileNumber ?? '-' }}</p>
               </div>
             </div> <hr>
             <!--/ Invoice Customer Details -->
@@ -4855,20 +4855,25 @@ a.list-group-item-danger.active:focus {
                         <td class="text-right">{{ 'N' . (number_format($cash_entry->Amount,2)) }}</td>
                       </tr>
                     </tbody>
-                    <tfoot>
+                    <tbody>
+                      <tr>  
                       <td></td>
                       <td class="text-right"><b>TOTAL</b></td>
                       <td class="text-right"><b>{{ 'N' . (number_format($cash_entry->Amount,2)) }}</b></td>
-                    </tfoot>
+                      </tr>
+                    </tbody>
                   </table>
                 </div>
               </div>
             </div>
             <!-- Invoice Footer -->
-            <div id="invoice-footer" class="m-t-30">
-              
+            <div id="invoice-footer" class="m-t-30" style="margin-top: 30px">
+
+              <span>Mode of Payment : </span>
+              <span> {!! $cash_entry->ModeOfPayment ?? '-' !!}</span> <br>
               <span>Total Payments Received Till Date : </span>
               <span class="semi-bold"> <b>{!! 'N' . (number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
+              
 
               <span>Outstanding Balance : </span>
               <span class="semi-bold"> <b>{!! 'N' . (number_format($cash_entry->OutstandingBalance, 2)) ?? '-' !!}</b></span> <br>
@@ -4890,12 +4895,12 @@ a.list-group-item-danger.active:focus {
                       <div class="text-center">
                         {{-- <p>The Client</p>  --}}
                         
-                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee; margin-right: 10px">
+                        <div class="rule" style="height: 50px; border-bottom: 1px solid #eee; margin-right: 10px">
                           {{-- <img src="{{ asset('images/signature-scan.png') }}" width="100"  alt="sample signature"> --}}
                           {{-- <hr> --}}
                         </div>
 
-                        <h5 class="semi-bold">{{ $client_details->Customer ?? '-' }}</h5>
+                        <h5 class="semi-bold" style="font-family: 'Arial', sans-serif;">{{ $client_details->Customer ?? '-' }}</h5>
 
                         {{-- <p class="text-muted">Managing Director</p> --}}
                       </div>
@@ -4905,11 +4910,11 @@ a.list-group-item-danger.active:focus {
                       <div class="text-center">
                        @if(!is_null($cash_entry->SignatoryID))
                         @if($cash_entry->signatory->SignatureLocation != null)                       
-                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee; margin-right: 10px">
+                        <div class="rule" style="height: 50px; border-bottom: 1px solid #eee; margin-right: 10px">
                           <img src="{{ asset("images/".$cash_entry->signatory->SignatureLocation) }}" width="100"  alt="sample signature">
                         </div>
                         @else
-                        <div class="rule" style="height: 70px; border-bottom: 1px solid #eee">
+                        <div class="rule" style="height: 50px; border-bottom: 1px solid #eee">
                           <img src="{{ asset("images/signature-scan.png") }}" width="100"  alt="sample signature">
                           
                         </div>
@@ -4918,12 +4923,12 @@ a.list-group-item-danger.active:focus {
                        
                        @endif
                        @if(!is_null($cash_entry->SignatoryID))
-                        <h5 class="semi-bold">{{ $cash_entry->signatory->fullName }} (Accountant)</h5>
+                        <h5 class="semi-bold" style="font-family: 'Arial', sans-serif;">{{ $cash_entry->signatory->fullName }} (Accountant)</h5>
                         @else
-                         <div class="rule" style="height: 70px">
+                         <div class="rule" style="height: 50px">
                           
                         </div>
-                        <h5 class="semi-bold">No Signatory (Accountant)</h5>
+                        <h5 class="semi-bold" style="font-family: 'Arial', sans-serif;">No Signatory (Accountant)</h5>
                        @endif
 
                         {{-- <p class="text-muted">Managing Director</p> --}}

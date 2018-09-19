@@ -409,7 +409,11 @@ Route::middleware(['auth'])->group(function () {
     // end purchase  payments
 
     Route::get('cash_entries/bill_posting', 'CashEntryController@bill_posting')->name('BillPosting');
+    Route::get('cash_entries/vendor_posting', 'CashEntryController@vendor_posting')->name('VendorPosting');
     Route::post('bill_posting', 'CashEntryController@post_bill');
+
+    Route::post('bill_posting_vendor', 'CashEntryController@post_bill_vendor');
+
     Route::post('purchase_on_credits', 'CashEntryController@storepurchase_on_credits');
     Route::get('cash_entries/bill_payment_list', 'CashEntryController@bill_payment_list')->name('BillPaymentList');
     Route::post('pay_List', 'CashEntryController@store_bill_payment_list');
@@ -437,6 +441,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('transactions/multipost_approvallist', 'TransactionController@multipost_listing')->name('transactions.multipost_listing');
     Route::post('transactions/multipost', 'TransactionController@multipost_store')->name('transactions.multipost.store');
     Route::post('transactions/multipost/approve', 'TransactionController@multipost_approve')->name('transactions.multipost.approve');
+    Route::post('transactions/multipost/delete-batch', 'TransactionController@delete_batch')->name('transactions.multipost.delete');
     Route::post('transactions/multipost/reject', 'TransactionController@multipost_reject')->name('transactions.multipost.reject');
     Route::get('transactions/multipost/details/{code}', 'TransactionController@multipost_details')->where('code', '(.*)')->name('transactions.multipost.details');
     Route::post('transaction/multipost/send-for-approval', 'TransactionController@multipost_send')->name('transactions.multipost.send');
@@ -515,11 +520,13 @@ Route::middleware(['auth'])->group(function () {
 
     //Vendor
     Route::get('vendors/search_vendors', 'VendorController@search_vendors')->name('SearchVendors');
+    Route::get('vendors/bill/{client_id}/{code}', 'VendorController@bill')->name('VendorBill');
     Route::post('search_bank_account', 'VendorController@search_company_vendor');
     Route::post('submit_vendor', 'VendorController@submit_vendor');
     Route::post('vendors/new_bill', 'VendorController@new_bill')->name('NewVendorBill');
     Route::get('vendors/view_bill/{id}', 'VendorController@view_bill')->name('View_Vendor_Bill_List');
     Route::get('vendors/notification_Billing/{id}/{billcode}', 'VendorController@notification_bill')->name('VendorNotificationBilling');
+
     Route::post('add_new_product_to_bill_list_vendor', 'VendorController@save_bill_item');
     Route::post('bill_vendor_posting_post', 'VendorController@bill_payment');
     Route::post('delete_New_Bill_Vendor_payment', 'VendorController@productdeletion');
@@ -621,6 +628,7 @@ Route::middleware(['auth'])->group(function () {
     // Payroll groups
     Route::get('payroll/groups', 'PayrollController@groups')->name('payroll.groups.index');
     Route::get('payroll/groups/edit/{id}', 'PayrollController@edit_group');
+    Route::get('payroll/groups/delete/{id}', 'PayrollController@delete_group');
     Route::patch('payroll/groups/{id}', 'PayrollController@update_group');
     Route::get('payroll/groups/new', 'PayrollController@new_group')->name('payroll.groups.new');
 
