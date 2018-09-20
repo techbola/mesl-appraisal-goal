@@ -469,6 +469,15 @@
         </div>
     </div>
 
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('ExcessivePayment', 'Excessive Payment' ) }}
+                {{ Form::text('ExcessivePayment', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Excessive Payment']) }}
+            </div>
+        </div>
+    </div>
+
     <div class="clearfix"></div>
     <div class="col-sm-12">
         <div class="form-group">

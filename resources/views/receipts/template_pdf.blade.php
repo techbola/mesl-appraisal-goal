@@ -4874,6 +4874,9 @@ a.list-group-item-danger.active:focus {
               <span> {!! $cash_entry->ModeOfPayment ?? '-' !!}</span> <br>
               <span>Total Payments Received Till Date : </span>
               <span class="semi-bold"> <b>{!! 'N' . (number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
+              @if(!is_null($cash_entry->ExcessivePayment))
+              <span>Excessive Fund of: N{{ number_format($cash_entry->ExcessivePayment, 2) }}</span>
+              @endif
               
 
               <span>Outstanding Balance : </span>
