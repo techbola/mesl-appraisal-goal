@@ -124,7 +124,7 @@ class BillingController extends Controller
                          INNER JOIN tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef
                          --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? or tblGL.GLRef=?
-                         Order By tblGL.Description", [54,63]));
+                         Order By tblGL.Description", [54, 63]));
         $configs = Config::first();
         $gl      = \DB::table('tblCustomer')
             ->select('GLRef')
@@ -408,9 +408,10 @@ class BillingController extends Controller
         $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
         $cash_entry      = CashEntry::find($ref);
         $narrations      = $cash_entry->bill_narrations;
+        $bill_narr       = collect($cash_entry->bill_narrations);
         $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
         $amount_in_words = $aw->format($cash_entry->Amount);
-        return view('receipts.receipt', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
+        return view('receipts.receipt', compact('company_details', 'narrations', 'bill_narr', 'client_details', 'cash_entry', 'amount_in_words'));
     }
 
     public function download_receipt_pdf($ref, $client_id)

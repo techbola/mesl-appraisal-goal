@@ -172,10 +172,22 @@
                       <tr>
                         <th class="text-center" scope="row">1</th>
                         <td>
-                          <p>{!! $narrations->Narration ?? $cash_entry->Narration !!}</p>
+                          <p>{!! $cash_entry->Narration ?? '-' !!}</p>
                         </td>
                         <td class="text-right">{{ nairazify(number_format($cash_entry->Amount,2)) }}</td>
                       </tr>
+
+                      @foreach($bill_narr as $narr)
+                      <tr>
+                        <th class="text-center" scope="row"></th>
+                        <td>
+                          <p>{!! $narr->Narration ?? '-' !!}</p>
+
+                        </td>
+                        <td class="text-right"></td>
+                      </tr>
+                      @endforeach
+
                     </tbody>
                     <tfoot>
                       <td></td>

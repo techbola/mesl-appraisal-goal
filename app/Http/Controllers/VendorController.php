@@ -202,7 +202,7 @@ FROM            tblGL INNER JOIN
 
         $vendor_gl = \DB::table('tblVendors')
             ->select('GLRef')
-            ->join('tblGL', 'tblVendors.NavVendorCode', '=', 'tblGl.FileNo')
+            ->join('tblGL', 'tblVendors.VendorCode', '=', 'tblGl.FileNo')
             ->where('tblVendors.VendorRef', $client_id)
             ->first();
 
