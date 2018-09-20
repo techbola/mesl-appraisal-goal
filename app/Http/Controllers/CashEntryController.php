@@ -742,7 +742,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
 FROM            tblCashEntry INNER JOIN
                          tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
                          tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
-WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 1) AND (tblCashEntry.PostingTypeID = 14)  OR (tblCashEntry.PostingTypeID = 16) order by tblCashEntry.CashEntryRef desc
+WHERE       (tblCashEntry.PostingTypeID = 14)  OR (tblCashEntry.PostingTypeID = 16) order by tblCashEntry.CashEntryRef desc
 
             "));
         $brands             = Brand::all();
