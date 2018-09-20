@@ -24,7 +24,7 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Create New invoice for <span class="text-info">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div>
+  			<div class="card-title pull-left">Create New invoice for <span class="text-info">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div> 
         <div class="row">
 
           <div class="col-md-7">
@@ -47,7 +47,7 @@
                                      <tr>
                                          <th>Date</th>
 
-                                         <th>Product</th>
+                                         <th>Project</th>
                                          <th>Narration</th>
                                          <th>Price</th>
                                          <th>Action</th>
