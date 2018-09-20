@@ -133,7 +133,7 @@
   <div class="col-sm-4">
      <div class="form-group">
        {{ Form::label('PropertyCost', 'Property Cost') }}
-       {{ Form::text('PropertyCost', null, ['class' => 'form-control smartinput', 'id'=>'edit_PropertyCost', 'placeholder' => 'Enter Property Cost']) }}
+       {{ Form::text('PropertyCost', null, ['class' => 'form-control', 'id'=>'edit_PropertyCost', 'placeholder' => 'Enter Property Cost']) }}
     </div>
   </div><div class="clearfix"></div>
   <div class="col-sm-4">

@@ -420,14 +420,6 @@
                            </div>
                        </div><div class="clearfix"></div>
 
-                         <div class="col-sm-6">
-                            <div class="form-group">
-                                <div class="controls">
-                                    {{ Form::label('Product', 'Product' ) }}
-                                    {{ Form::select('Product', [ '' =>  'Select Product Category'] + $product_categories->pluck('ProductCategory', 'ProductCategoryRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
-                                </div>
-                            </div>
-                        </div>  <div class="clearfix"></div>
 
                        <div class="col-sm-6">
                          <div class="form-group">
@@ -456,7 +448,7 @@
     <div class="clearfix"></div>
 
 
-    <div class="col-sm-6">
+ {{--    <div class="col-sm-6">
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('PaymentToDate', 'Payment to Date' ) }}
@@ -472,56 +464,13 @@
                 {{ Form::text('OutstandingBalance', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Narration']) }}
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="col-sm-12">
-        <div class="form-group">
-            <div class="controls">
-                {{ Form::label('Terms', 'Terms' ) }}
-                {{ Form::textarea('Terms', null, ['class' => 'form-control', 'placeholder' => 'Enter Terms', 'rows' => 2]) }}
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-12">
-        <div class="form-group">
-            <div class="controls">
-                {{ Form::label('Narration', 'Narration' ) }}
-                {{ Form::textarea('Narration', null, ['class' => 'form-control', 'placeholder' => 'Enter Narration', 'rows' => 2]) }}
-            </div>
-        </div>
-    </div>
-    {{-- Mode of payment --}}
-    <div class="col-sm-12">
-        <div class="form-group">
-            <div class="controls">
-                {{ Form::label('ModeOfPayment', 'Mode Of Payment' ) }}
-                {{ Form::text('ModeOfPayment', null, ['class' => 'form-control', 'placeholder' => 'Mode of payment']) }}
-            </div>
-        </div>
-    </div>
+ 
 
 
     <div class="clearfix"></div>
-    <div class="">
-      <div class="col-sm-6">
-        <div class="form-group">
-            <div class="controls">
-              {{ Form::label('BrandID', 'Select Brand' ) }}
-                {{ Form::select('BrandID', [''=>'Select Brand'] + $brands->pluck('BrandName', 'BrandRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Brand", 'required', 'data-init-plugin' => "select2",]) }}
-           </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <div class="controls">
-                {{ Form::label('SignatoryID', 'Signatory') }}
-                {{ Form::select('SignatoryID', [ '' =>  'Select Signatory'] + $staff->pluck('fullName', 'StaffRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
-            </div>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-</div>
+
 
                             <div class="col-sm-12">
                                 <div class="form-group">

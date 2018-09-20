@@ -56,6 +56,8 @@
                  <a href="#" class="btn btn-sm btn-warning pull-right" onclick="get_narration({{ $bill_narration->BillNarrationRef }})" id="edit_bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Edit Narration to bill</a>
                 @else
                 <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to bill</a>
+
+                
                 @endif
                
                              <table class="table table-hover">
@@ -456,11 +458,23 @@
         </div>
     </div>
 
+
+
     <div class="col-sm-6">
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('OutstandingBalance', 'Outstanding Balance' ) }}
                 {{ Form::text('OutstandingBalance', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Narration']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('Description' ) }}
+                {{ Form::textarea('Description', null, ['class' => 'form-control', 'placeholder' => 'Enter Product Description', 'rows' => 2]) }}
             </div>
         </div>
     </div>
@@ -596,8 +610,9 @@
              var service = $('#category option:selected').text();
             $('#service_desc').val(service);
             var cat_id = $('#category').val();
-            $('#product').html('<option value="">Select From Option</option>');
+            $('#product').html(' ');
             $.get('/get_newProduct/'+cat_id, function(data, status) {
+              $('#product').html('<option value="">Select From Option</option>');
                 $.each(data, function(index, val) {
                     $('#product').append("<option value='"+val.ProductService+"'>" + val.ProductService+' / &#8358;'+accounting.formatNumber(val.Price)+"</option>");
                     $('#product').select2().val(val.ProductService);

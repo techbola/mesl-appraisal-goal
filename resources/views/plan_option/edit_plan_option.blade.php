@@ -4,12 +4,24 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>Payment Plan Name</label>
-                    <input type="text" name="PlanName" id="edit_PlanName" class="form-control" required>
+                    <input type="text" name="PlanOption" id="edit_PlanOption" class="form-control" required>
                   </div>
                 </div>
-              </div>
 
-            <input type="hidden" name="PlanRef" id="edit_PymtPlanRef">
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Duration</label>
+                    <input type="text" name="Duration" id="edit_Duration" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Payment Period</label>
+                    <input type="text" name="PymtPeriod" id="edit_PymtPeriod" class="form-control" required>
+                  </div>
+                </div>
+
+            <input type="hidden" name="OptionRef" id="edit_OptionRef">
 
             <div class="text-right m-t-10">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -20,7 +32,7 @@
           @push('scripts')
             <script>
               $('#submit_edit_form').click(function(event) {
-                $.post('/submit_plan_edit_form', $('#plan_edit_data_form').serialize(), function(data, status) {
+                $.post('/submit_plan_option_edit_form', $('#plan_edit_data_form').serialize(), function(data, status) {
                     if(status == 'success')
                     {
                        location.reload();

@@ -35,14 +35,14 @@ max-width: 500px;
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Invoice for <span></span></div>
+  			<div class="card-title pull-left">Invoice for  <span class="text-info">{{ $client_details->Vendor ?? '-' }}</span></div>
         <div class="clearfix"></div>
         <hr>
         <div class="row">
             <div class="col-md-10 col-md-offset-1" style="margin-bottom: 40px">
               <a href="#" class="btn btn-sm btn-info" title=""  onclick="print_bill()">Print</a>
               @if($client_details->Email)
-              <a href="{{ route('SendBill',[$client_details->CustomerRef, $code]) }}" class="btn btn-sm btn-info">Send Bill Via Email</a>
+              <a href="{{ route('SendBill',[$client_details->VendorRef, $code]) }}" class="btn btn-sm btn-info">Send Bill Via Email</a>
               @endif
               <div id="bill-box"  style="padding: 20px; border: 1px solid #eee">
                 <div style="background: #eee; max-height: 300px">
@@ -66,8 +66,8 @@ max-width: 500px;
                   <div class="row" style="padding: 20px">
                     <div class="col-md-6">
                       <h5>Billing To : </h5>
-                      <p>Client Name :<br> <span style="font-size: 16px; font-weight: 800; color: #2ea1f8">{{ $client_details->Customer }}</span></p>
-                      <p>Client Address:<br>  <span style="font-size: 16px; font-weight: 800">{{ $client_details->AddressLine1 }}</span></p>
+                      <p>Client Name :<br> <span style="font-size: 16px; font-weight: 800; color: #2ea1f8">{{ $client_details->Vendor ?? '-' }}</span></p>
+                      <p>Client Address:<br>  <span style="font-size: 16px; font-weight: 800">{{ $client_details->AddressLine1 ?? '-' }}</span></p>
                     </div>
                     <div class="col-md-3">
                       <h5>Invoice Number : </h5>

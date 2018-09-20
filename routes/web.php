@@ -393,13 +393,16 @@ Route::middleware(['auth'])->group(function () {
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
     Route::get('cash_entries/receipts', 'CashEntryController@Receipts')->name('Receipts');
+    // to be removed
+    Route::get('cash_entries/receipts2', 'CashEntryController@Receipts2')->name('Receipts2');
+    //  to be removed
     Route::post('cash_entries_receipts', 'CashEntryController@storeReceipts');
     Route::post('cash_entries_payments', 'CashEntryController@storePayments');
     // Purchase on credit
     Route::get('cash_entries/purchase_on_credits', 'CashEntryController@purchase_on_credits')->name('PurchaseOnCredits');
     Route::patch('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_update');
     Route::get('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_edit')->name('purchase_on_credits.edit');
-    // end purchase on credit
+    // end purchase on credit2
 
     // Purchase payments
     Route::get('cash_entries/purchase_payments', 'CashEntryController@purchase_payments')->name('PurchasePayments');
@@ -666,6 +669,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('store_payment_plan', 'PymtPlanController@store_payment_plan'); // comment
     Route::get('get_plan_data/{id}', 'PymtPlanController@get_plan_data');
     Route::post('submit_plan_edit_form', 'PymtPlanController@submit_plan_edit_form'); // comment
+    Route::get('delete_payment_plan/{id}', 'PymtPlanController@delete_payment_plan');
+
+    //Plan Option
+    Route::get('plan_option/index', 'PlanOptionController@index')->name('PlanOption');
+    Route::post('store_plan_option', 'PlanOptionController@store_plan_option'); // comment
+    Route::get('get_plan_option_data/{id}', 'PlanOptionController@get_plan_option_data');
+    Route::post('submit_plan_option_edit_form', 'PlanOptionController@submit_plan_option_edit_form'); // comment
+    Route::get('delete_plan_option/{id}', 'PlanOptionController@delete_plan_option');
 
     // -- end payroll
 
