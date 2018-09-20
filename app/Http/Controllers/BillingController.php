@@ -123,8 +123,8 @@ class BillingController extends Controller
                          INNER JOIN tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef
                          INNER JOIN tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef
                          --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ?
-                         Order By tblGL.Description", [54]));
+                         Where tblGL.AccountTypeID = ? or tblGL.GLRef=?
+                         Order By tblGL.Description", [54,63]));
         $configs = Config::first();
         $gl      = \DB::table('tblCustomer')
             ->select('GLRef')
