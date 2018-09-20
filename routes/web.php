@@ -394,7 +394,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
     Route::get('cash_entries/receipts', 'CashEntryController@Receipts')->name('Receipts');
     // to be removed
-    Route::get('cash_entries/receipts', 'CashEntryController@Receipts2')->name('Receipts');
+    Route::get('cash_entries/receipts2', 'CashEntryController@Receipts2')->name('Receipts');
     //  to be removed
     Route::post('cash_entries_receipts', 'CashEntryController@storeReceipts');
     Route::post('cash_entries_payments', 'CashEntryController@storePayments');
@@ -402,7 +402,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/purchase_on_credits', 'CashEntryController@purchase_on_credits')->name('PurchaseOnCredits');
     Route::patch('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_update');
     Route::get('cash_entries/purchase_on_credits/{id}', 'CashEntryController@purchase_on_credits_edit')->name('purchase_on_credits.edit');
-    // end purchase on credit
+    // end purchase on credit2
 
     // Purchase payments
     Route::get('cash_entries/purchase_payments', 'CashEntryController@purchase_payments')->name('PurchasePayments');
