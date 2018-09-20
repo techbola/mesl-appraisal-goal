@@ -56,6 +56,8 @@
                  <a href="#" class="btn btn-sm btn-warning pull-right" onclick="get_narration({{ $bill_narration->BillNarrationRef }})" id="edit_bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Edit Narration to bill</a>
                 @else
                 <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to bill</a>
+
+                
                 @endif
                
                              <table class="table table-hover">

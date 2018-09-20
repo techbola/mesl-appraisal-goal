@@ -78,7 +78,7 @@ class VendorController extends Controller
         $tot             = $total_bill - $total_discount;
         $narrations      = BillNarration::where('BillCode', $code)->first();
         // $tax             = ($total_bill / 100) * 5;
-        return view('billings.bill', compact('client_details', 'code', 'tot', 'bill_header', 'narrations', 'total_discount', 'total_bill', 'company_details', 'bills', 'tax'));
+        return view('vendors.bill', compact('client_details', 'code', 'tot', 'bill_header', 'narrations', 'total_discount', 'total_bill', 'company_details', 'bills', 'tax'));
     }
 
     public function view_bill($id)
