@@ -749,7 +749,7 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         $user               = auth()->user();
         $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
         $product_categories = ProductCategory::orderBy('ProductCategory')->get();
-        return view('cash_entries.receipts', compact('cashentries', 'brands', 'staff', 'product_categories', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
+        return view('cash_entries.receipts2', compact('cashentries', 'brands', 'staff', 'product_categories', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
     }
 
     public function purchase_on_credits()

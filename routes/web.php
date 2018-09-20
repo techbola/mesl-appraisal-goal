@@ -394,7 +394,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
     Route::get('cash_entries/receipts', 'CashEntryController@Receipts')->name('Receipts');
     // to be removed
-    Route::get('cash_entries/receipts2', 'CashEntryController@Receipts2')->name('Receipts');
+    Route::get('cash_entries/receipts2', 'CashEntryController@Receipts2')->name('Receipts2');
     //  to be removed
     Route::post('cash_entries_receipts', 'CashEntryController@storeReceipts');
     Route::post('cash_entries_payments', 'CashEntryController@storePayments');
