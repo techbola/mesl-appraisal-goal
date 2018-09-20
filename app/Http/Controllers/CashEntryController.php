@@ -702,7 +702,47 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
 FROM            tblCashEntry INNER JOIN
                          tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
                          tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
-WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 14) AND (tblCashEntry.InputterID = $auth_user) order by tblCashEntry.CashEntryRef desc
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 0) AND (tblCashEntry.PostingTypeID = 14) AND (tblCashEntry.InputterID = $auth_user)  order by tblCashEntry.CashEntryRef desc
+
+            "));
+        $brands             = Brand::all();
+        $user               = auth()->user();
+        $staff              = Staff::where('CompanyID', $user->CompanyID)->get();
+        $product_categories = ProductCategory::orderBy('ProductCategory')->get();
+        return view('cash_entries.receipts', compact('cashentries', 'brands', 'staff', 'product_categories', 'customers', 'configs', 'debit_acct_details', 'credit_acct_details'));
+    }
+
+    public function Receipts2()
+    {
+        $configs            = Config::first();
+        $customers          = Customer::all();
+        $auth_user          = auth()->user()->id;
+        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef
+                         --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ?
+                         Order By tblGL.Description", [54]));
+
+        $credit_acct_details = collect(\DB::select("SELECT GLRef,  tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
+                         AS CUST_ACCT
+                            FROM            tblGL INNER JOIN
+                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
+                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
+                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef
+                         --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ? and tblGL.CustomerID > ?
+                         Order By tblGL.Description", [19, 1]));
+
+        $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
+                         tblCashEntry.Narration
+FROM            tblCashEntry INNER JOIN
+                         tblGL ON tblCashEntry.GLIDDebit = tblGL.GLRef INNER JOIN
+                         tblGL AS tblGL_1 ON tblCashEntry.GLIDCredit = tblGL_1.GLRef
+WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblCashEntry.ApprovedFlag = 1) AND (tblCashEntry.PostingTypeID = 14)  OR (tblCashEntry.PostingTypeID = 16) order by tblCashEntry.CashEntryRef desc
 
             "));
         $brands             = Brand::all();
