@@ -610,8 +610,9 @@
              var service = $('#category option:selected').text();
             $('#service_desc').val(service);
             var cat_id = $('#category').val();
-            $('#product').html('<option value="">Select From Option</option>');
+            $('#product').html(' ');
             $.get('/get_newProduct/'+cat_id, function(data, status) {
+              $('#product').html('<option value="">Select From Option</option>');
                 $.each(data, function(index, val) {
                     $('#product').append("<option value='"+val.ProductService+"'>" + val.ProductService+' / &#8358;'+accounting.formatNumber(val.Price)+"</option>");
                     $('#product').select2().val(val.ProductService);

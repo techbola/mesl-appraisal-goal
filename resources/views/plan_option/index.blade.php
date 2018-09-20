@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-  Payment Plan
+  Plan Option
 @endsection
 
 @section('buttons')
@@ -12,8 +12,8 @@
 
   <div class="card-box">
     <div class="clearfix">
-      <div class="card-title pull-left">Payment Plan</div>
-      <div class=" pull-right"><a href="#" id="add_p" class="btn btn-lg btn-info" data-toggle="modal" data-target="#edit_item">Add New plan</a></div>
+      <div class="card-title pull-left">Plan Option</div>
+      <div class=" pull-right"><a href="#" id="add_p" class="btn btn-lg btn-info" data-toggle="modal" data-target="#edit_item">Add New plan Option</a></div>
       <div class="clearfix"></div> 
       <div class="pull-right">
         <div class="col-xs-12"><br>
@@ -26,7 +26,9 @@
    <table class="table tableWithSearch table-striped table-bordered">
       <thead>
         <th></th>
-        <th>Plan</th>
+        <th>Options</th>
+        <th>Duration</th>
+        <th>Payment Period</th>
         <th></th>
         <th></th>
       </thead>
@@ -34,9 +36,11 @@
         @foreach ($plans as $plan)
           <tr>
           <td>{{ $loop->index + 1 }}</td>
-          <td>{{ $plan->PlanName }}</td>
-          <td><a href="#" class="btn btn-xs btn-info edit_plan" data-id="{{ $plan->PlanRef }}" data-toggle="modal" data-target="#edit_item">Edit</a></td>
-          <td><a href="#" class="btn btn-xs btn-danger delete_button" data-id="{{ $plan->PlanRef }}" data-toggle="modal" data-target="#delete_item">Delete</a></td>
+          <td>{{ $plan->PlanOption }}</td>
+          <td>{{ $plan->Duration }}</td>
+          <td>{{ $plan->PymtPeriod }}</td>
+          <td><a href="#" class="btn btn-xs btn-info edit_plan" data-id="{{ $plan->OptionRef }}" data-toggle="modal" data-target="#edit_item">Edit</a></td>
+          <td><a href="#" class="btn btn-xs btn-danger delete_button" data-id="{{ $plan->OptionRef }}" data-toggle="modal" data-target="#delete_item1">Delete</a></td>
         </tr>
         @endforeach
       </tbody>
@@ -53,18 +57,18 @@
         <div class="modal-body">
           @include('errors.list')
           <div class="hide" id="payment_add">
-             @include('pymtPlan.add_payment_form')
+             @include('plan_option.add_option')
           </div>
 
           <div class="hide" id="payment_edit">
-             @include('pymtPlan.edit_payment_form')
+             @include('plan_option.edit_plan_option')
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="modal fade" id="delete_item" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal fade" id="delete_item1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -91,14 +95,15 @@
     });
 
      $('.edit_plan').click(function(event) {
-      $('#title').html('Edit Payment Plan');
+      $('#title').html('Edit Plan Option');
       $('#payment_add').addClass('hide');
       $('#payment_edit').removeClass('hide');
       var id = $(this).data('id');
-      $.get('/get_plan_data/' +id, function(data, status) {
-        $('#edit_item #edit_PlanName').val(data.PlanName);
-        $('#edit_item #edit_PymtPlanRef').val(data.PlanRef);
-        console.log(data);
+      $.get('/get_plan_option_data/' +id, function(data, status) {
+        $('#edit_item #edit_PlanOption').val(data.PlanOption);
+        $('#edit_item #edit_OptionRef').val(data.OptionRef);
+         $('#edit_item #edit_Duration').val(data.Duration);
+          $('#edit_item #edit_PymtPeriod').val(data.PymtPeriod);
       });
     });
 
@@ -109,7 +114,7 @@
 
       $('#delete_data').click(function(event) {
        var item_id = $('#ref').val();
-       $.get('/delete_payment_plan/'+item_id, function(data, status) {
+       $.get('/delete_plan_option/'+item_id, function(data, status) {
          if(status == 'success')
          {
           location.reload();
