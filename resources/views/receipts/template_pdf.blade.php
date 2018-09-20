@@ -34,7 +34,7 @@ body {
 }
 
 * {
-  font-size: 12px;
+  font-size: 11px;
 }
 article,
 aside,
@@ -4868,7 +4868,7 @@ a.list-group-item-danger.active:focus {
               </div>
             </div>
             <!-- Invoice Footer -->
-            <div id="invoice-footer" class="m-t-30" style="margin-top: 30px">
+            <div id="invoice-footer" class="m-t-30" style="margin-top: 10px">
 
               <span>Mode of Payment : </span>
               <span> {!! $cash_entry->ModeOfPayment ?? '-' !!}</span> <br>
