@@ -124,7 +124,7 @@ class BillingController extends Controller
                          INNER JOIN tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef
                          --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
                          Where tblGL.AccountTypeID = ? or tblGL.GLRef=?
-                         Order By tblGL.Description", [54,63]));
+                         Order By tblGL.Description", [54, 63]));
         $configs = Config::first();
         $gl      = \DB::table('tblCustomer')
             ->select('GLRef')
@@ -408,9 +408,11 @@ class BillingController extends Controller
         $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
         $cash_entry      = CashEntry::find($ref);
         $narrations      = $cash_entry->bill_narrations;
+        $bill_narr       = BillNarration::where('BillCode', $cash_entry->Reference1)->get();
+        // dd($bill_narr);
         $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
         $amount_in_words = $aw->format($cash_entry->Amount);
-        return view('receipts.receipt', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
+        return view('receipts.receipt', compact('company_details', 'narrations', 'bill_narr', 'client_details', 'cash_entry', 'amount_in_words'));
     }
 
     public function download_receipt_pdf($ref, $client_id)
@@ -424,8 +426,9 @@ class BillingController extends Controller
         $narrations      = $cash_entry->bill_narrations;
         $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
         $amount_in_words = $aw->format($cash_entry->Amount);
+        $bill_narr       = BillNarration::where('BillCode', $cash_entry->Reference1)->get();
         // PDF::setOptions(['dpi' => 96, 'defaultPaperSize' => "letter", 'defaultFont' => 'sans-serif']);
-        $pdf = PDF::loadView('receipts.template_pdf', compact('company_details', 'narrations', 'client_details', 'cash_entry', 'amount_in_words'));
+        $pdf = PDF::loadView('receipts.template_pdf', compact('company_details', 'narrations', 'bill_narr', 'client_details', 'cash_entry', 'amount_in_words'));
         return $pdf->stream('receipt.pdf');
         // $pdf = Cavidel::make('dompdf.wrapper');
         // $pdf->loadHTML('<h1>Test</h1>');
@@ -451,6 +454,7 @@ class BillingController extends Controller
         $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
         $amount_in_words = $aw->format($cash_entry->Amount);
         $email           = $client_details->Email;
+        $bill_narr       = BillNarration::where('BillCode', $cash_entry->Reference1)->get();
         Mail::to($email)->queue(new SendReceipt($cash_entry, $client_details, $narrations, $amount_in_words));
         return redirect('/receipts')->with('success', 'Receipt has been sent successfully');
     }

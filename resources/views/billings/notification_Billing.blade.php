@@ -270,13 +270,13 @@
                   <div class="row">
                     <div id="narration_div">
                      {{ Form::open(['id' => 'bill_narration_form', 'autocomplete' => 'off', 'role' => 'form']) }}
-                                  <div class="col-sm-6">
+                                  {{-- <div class="col-sm-6">
                                       <div class="form-group">
                                           <div class="controls">
                                               {{ Form::select('BrandID', [''=>'Select Brand'] + $brands->pluck('BrandName', 'BrandRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Brand", 'required', 'data-init-plugin' => "select2",]) }}
                                          </div>
                                       </div>
-                                  </div> <div class="clearfix"></div>
+                                  </div> <div class="clearfix"></div> --}}
 
                                   <div class="col-sm-12">
                                     <div class="form-group">
@@ -465,6 +465,15 @@
             <div class="controls">
                 {{ Form::label('OutstandingBalance', 'Outstanding Balance' ) }}
                 {{ Form::text('OutstandingBalance', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Narration']) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('ExcessivePayment', 'Excessive Payment' ) }}
+                {{ Form::text('ExcessivePayment', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Excessive Payment']) }}
             </div>
         </div>
     </div>

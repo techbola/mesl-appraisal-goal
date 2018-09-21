@@ -24,7 +24,7 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Create New invoice for <span class="text-info">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div>
+  			<div class="card-title pull-left">Create New invoice for <span class="text-info">{{ $client_details->Vendor }}</span></div><div class="clearfix"></div> 
         <div class="row">
 
           <div class="col-md-7">
@@ -47,7 +47,7 @@
                                      <tr>
                                          <th>Date</th>
 
-                                         <th>Product</th>
+                                         <th>Project</th>
                                          <th>Narration</th>
                                          <th>Price</th>
                                          <th>Action</th>
@@ -401,8 +401,8 @@
                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="controls">
-                                    {{ Form::label('GLIDCredit', 'Cash or Bank') }}
-                                    <select name="GLIDCredit" id="dropDown" class="full-width" data-init-plugin="select2" required>
+                                    {{ Form::label('GLIDDebit', 'Cash or Bank') }}
+                                    <select name="GLIDDebit" id="dropDown" class="full-width" data-init-plugin="select2" required>
                                       <option value="">Select Cash or Bank</option>
                                       @foreach($debit_acct_details as $debit_acct_detail)
                                         <option value="{{ $debit_acct_detail->GLRef }}">{{ $debit_acct_detail->Account }}</option>
@@ -487,7 +487,7 @@
                       {{ Form::hidden('ModifierID',auth()->user()->id) }}
                       <input type="hidden" name="PostingTypeID" value="1">
                       <input type="hidden" name="CurrencyID" value="1">
-                      <input type="hidden" name="GLIDDebit" value="{{ $vendor_gl->GLRef }}">
+                      <input type="hidden" name="GLIDCredit" value="{{ $vendor_gl->GLRef }}">
                       <input type="hidden" name="Reference1" value="{{ $code }}" id="billid">
                       <input type="submit" id="post" class="btn btn-primary btn-lg btn-sm fs-15 pull-right" value="Post">
                       {{ Form::close() }}

@@ -299,6 +299,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
           beforeSend: function(){
               // show button animation
               that.text('Approving ...');
+              that.attr('disabled','disabled');
           }
        })
        .done(function(res, status, xhr) {
@@ -306,12 +307,14 @@ var table = $('.tableWithSearch_a').DataTable(settings);
            if(xhr.status == 200) {
              document.location.href = '/transactions/multipost_approvallist';
            } else {
+              that.removeAttr('disabled');
               alert('approval failed');
               return false
            }   
        })
        .fail(function() {
-           console.log("error");
+          that.removeAttr('disabled','disabled');
+          console.log("error");
        });
      } else  {
       return false;
@@ -346,6 +349,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
         beforeSend: function(){
             // show button animation
             that.text('Rejecting ...');
+            that.attr('disabled','disabled');
         }
      })
      .done(function(res, status, xhr) {
@@ -353,6 +357,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
          if(xhr.status == 200) {
            document.location.href = '/transactions/multipost_approvallist';
          } else {
+          that.removeAttr('disabled','disabled');
             alert('rejection failed');
             return false;
          }   
@@ -368,6 +373,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
   $(".send_for_approval").click(function(e) {
        e.preventDefault();
        $(this).text('Sending...');
+       $(this).attr('disabled','disabled');
        var _this = $(this);
        $.post('/transaction/multipost/send-for-approval',{
           AlphaCode: $(this).data('ref')
@@ -377,6 +383,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
           window.location.href = '/transactions/multipost_approvallist';
          } else {
           _this.text('Send');
+          _this.removeAttr('disabled');
          }
        });
      });
