@@ -36,7 +36,7 @@
 
                        <div class="col-sm-4 form-group">
                             {{ Form::label('PayYear', 'Pay Year') }}
-                            {{ Form::select('PayYear', ['' => 'Select Years'] + $years->pluck('Years', 'Years')->toArray(), date('Y'), ['class' => 'full-width', 'data-init-plugin' => "select2"] ) }}
+                            {{ Form::select('PayYear', ['' => 'Select Years'] + $years->pluck('Year', 'Year')->toArray(), date('Y'), ['class' => 'full-width', 'data-init-plugin' => "select2"] ) }}
                        </div>
                    </div>
 
