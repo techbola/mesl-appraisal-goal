@@ -4871,7 +4871,7 @@ a.list-group-item-danger.active:focus {
                       <tr>  
                       <td></td>
                       <td class="text-right"><b>TOTAL</b></td>
-                      <td class="text-right"><b>{{ 'N' . (number_format($cash_entry->Amount,2)) }}</b></td>
+                      <td class="text-right"><b>{{ 'N' . (number_format($cash_entry->Amount - $cash_entry->ExcessivePayment,2)) }}</b></td>
                       </tr>
                     </tbody>
                   </table>
