@@ -408,7 +408,8 @@ class BillingController extends Controller
         $company_details = \DB::table('tblCompany')->where('CompanyRef', $company_id)->first();
         $cash_entry      = CashEntry::find($ref);
         $narrations      = $cash_entry->bill_narrations;
-        $bill_narr       = collect($cash_entry->bill_narrations);
+        $bill_narr       = BillNarration::where('BillCode', $cash_entry->Reference1)->get();
+        // dd($bill_narr);
         $aw              = new NumberFormatter("en-GB", NumberFormatter::SPELLOUT);
         $amount_in_words = $aw->format($cash_entry->Amount);
         return view('receipts.receipt', compact('company_details', 'narrations', 'bill_narr', 'client_details', 'cash_entry', 'amount_in_words'));

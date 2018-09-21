@@ -4849,12 +4849,23 @@ a.list-group-item-danger.active:focus {
                     <tbody>
                       <tr>
                         <th class="text-center" scope="row">1</th>
-                        <td style="word-wrap: break-word;">
-                          {{-- <p>{!! $narrations->Narration ?? $cash_entry->Narration !!}</p> --}}
-                          <p>{!! wordwrap($narrations->Narration ?? $cash_entry->Narration,70,"<br>\n",TRUE) ?? '-' !!}</p>
+                        <td>
+                          <p>{!! $cash_entry->Narration ?? '-' !!}</p>
                         </td>
-                        <td class="text-right">{{ 'N' . (number_format($cash_entry->Amount,2)) }}</td>
+                        <td class="text-right">{{ nairazify(number_format($cash_entry->Amount,2)) }}</td>
                       </tr>
+
+                      @foreach($bill_narr as $narr)
+                      <tr>
+                        <th class="text-center" scope="row"></th>
+                        <td>
+                          <p>{!! $narr->Narration !!}</p>
+
+                        </td>
+                        <td class="text-right"></td>
+                      </tr>
+                      @endforeach
+
                     </tbody>
                     <tbody>
                       <tr>  
@@ -4875,7 +4886,7 @@ a.list-group-item-danger.active:focus {
               <span>Total Payments Received Till Date : </span>
               <span class="semi-bold"> <b>{!! 'N' . (number_format($cash_entry->PaymentToDate, 2)) ?? '-' !!}</b></span> <br>
               @if(!is_null($cash_entry->ExcessivePayment))
-              <span>Excessive Fund of: N{{ number_format($cash_entry->ExcessivePayment, 2) }}</span>
+              <span>Excess Fund of: N{{ number_format($cash_entry->ExcessivePayment, 2) }}</span> <br>
               @endif
               
 
