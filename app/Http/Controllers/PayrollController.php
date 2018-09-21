@@ -11,6 +11,7 @@ use Cavidel\SeniorityLevel;
 use Cavidel\Deduction;
 use Cavidel\DeductionItem;
 use Cavidel\Month;
+use Cavidel\Year;
 use Cavidel\Staff;
 
 class PayrollController extends Controller
@@ -243,7 +244,7 @@ class PayrollController extends Controller
 
         $months = Month::select('Months', 'MonthsRef')->get();
 
-        $years = year_range(2018, 2030); // returns a collection
+        $years = Year::select('Years', 'YearsRef')->get(); //year_range(2018, 2030);  returns a collection
 
         return view('payroll.reports.payslip_search', compact('employees', 'months', 'years'));
     }
