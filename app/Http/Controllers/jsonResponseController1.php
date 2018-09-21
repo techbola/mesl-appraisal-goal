@@ -151,7 +151,7 @@ class jsonResponseController1 extends Controller
         // fetch all transaction
 
         // load from bank table section
-        $all_bank_items = DB::table('ars_banks1')->where('match_flag', 0)->orderBy('date', 'ASC')->get();
+        $all_bank_items = DB::table('ars_banks1')->where('match_flag', 0)->orderBy('recon_flag', 'desc')->orderBy('date', 'ASC')->get();
         if (count($all_bank_items) > 0) {
             $bank_box = [];
             foreach ($all_bank_items as $bank_item) {
