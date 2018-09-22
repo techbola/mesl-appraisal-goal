@@ -5,7 +5,9 @@ namespace Cavidel\Http\Controllers;
 use Illuminate\Http\Request;
 use Cavidel\ArsLedger;
 use Cavidel\ArsBank;
+use Excel;
 use DB;
+use Cavidel\Exports\ReconExport;
 
 class jsonResponseController extends Controller
 {
@@ -158,16 +160,16 @@ class jsonResponseController extends Controller
             foreach ($all_bank_items as $bank_item) {
                 // sort items by date
                 $data_bank = [
-                    'id'      => $bank_item->id,
-                    'owner'   => $bank_item->owner,
-                    'details' => $bank_item->details,
-                    'balance' => $bank_item->balance,
-                    'credit'  => number_format($bank_item->credit, 2),
-                    'debit'   => number_format($bank_item->debit, 2),
-                    'amount'  => $bank_item->amount,
-                    'status'  => $bank_item->status,
-                    'recon_flag'  => $bank_item->recon_flag,
-                    'date'    => $bank_item->date,
+                    'id'         => $bank_item->id,
+                    'owner'      => $bank_item->owner,
+                    'details'    => $bank_item->details,
+                    'balance'    => $bank_item->balance,
+                    'credit'     => number_format($bank_item->credit, 2),
+                    'debit'      => number_format($bank_item->debit, 2),
+                    'amount'     => $bank_item->amount,
+                    'status'     => $bank_item->status,
+                    'recon_flag' => $bank_item->recon_flag,
+                    'date'       => $bank_item->date,
                     // 'last_seen' => $bank_item->created_at->diffForHumans(),
                 ];
                 // $data = [];
@@ -185,16 +187,16 @@ class jsonResponseController extends Controller
             foreach ($all_ledger_items as $ledger_item) {
                 // // compare date
                 $data_ledger = [
-                    'id'      => $ledger_item->id,
-                    'owner'   => $ledger_item->owner,
-                    'details' => $ledger_item->details,
-                    'balance' => $ledger_item->balance,
-                    'credit'  => number_format($ledger_item->credit, 2),
-                    'debit'   => number_format($ledger_item->debit, 2),
-                    'amount'  => $ledger_item->amount,
-                    'status'  => $ledger_item->status,
-                    'recon_flag'  => $ledger_item->recon_flag,
-                    'date'    => $ledger_item->date,
+                    'id'         => $ledger_item->id,
+                    'owner'      => $ledger_item->owner,
+                    'details'    => $ledger_item->details,
+                    'balance'    => $ledger_item->balance,
+                    'credit'     => number_format($ledger_item->credit, 2),
+                    'debit'      => number_format($ledger_item->debit, 2),
+                    'amount'     => $ledger_item->amount,
+                    'status'     => $ledger_item->status,
+                    'recon_flag' => $ledger_item->recon_flag,
+                    'date'       => $ledger_item->date,
                     // 'last_seen' => $ledger_item->created_at->diffForHumans(),
                 ];
                 // $data = [];
@@ -614,5 +616,11 @@ class jsonResponseController extends Controller
             return $item;
         });
         return response()->json($customers);
+    }
+
+    // export unposeted ars ledger
+    public function export_unposted_ars_ledger()
+    {
+        return Excel::download(new ReconExport, 'unreconciled_' . \Carbon\Carbon::now()->toDateString() . '.xlsx');
     }
 }

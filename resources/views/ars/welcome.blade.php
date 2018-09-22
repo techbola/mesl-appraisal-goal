@@ -59,6 +59,7 @@
         <div class="row">
             <div class="col-md-6">
                 <h5>Ledger</h5>
+                <a href="{{ url('/recon-data') }}" class="btn btn-sm btn-success">Export to excel</a>
                 <table class="table om-ledger small" id="ledger-table" data-pagination="true" data-search="true">
                     <thead>
                         {{-- Ledger table --}}

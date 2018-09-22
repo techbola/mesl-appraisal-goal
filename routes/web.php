@@ -1038,3 +1038,6 @@ Route::get('/load/ledger/name9', 'jsonResponseController9@loadLedgerSelectMenu')
 Route::post('/save/data/recon/table9', 'jsonResponseController9@saveDataForSorting');
 Route::get('/recon_statement9', 'internalPageController9@recon_statement')->name('recon_statement9');
 Route::post('/recon/get_bank_balances9', 'internalPageController9@get_bank_balances')->name('get_bank_balances9');
+
+//
+Route::get('/recon-data', 'jsonResponseController@export_unposted_ars_ledger');
