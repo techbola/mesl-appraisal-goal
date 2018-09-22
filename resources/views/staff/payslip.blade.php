@@ -16,7 +16,7 @@
         <div class="invoice padding-50 sm-padding-10">
             <div>
                 <div class="pull-left">
-                    <img style="width: 150px" alt="" class="invoice-logo" data-src-retina="{{ asset('images/officemate.png') }}" data-src="{{ asset('images/officemate.png') }}" src="{{ asset('images/officemate.png') }}">
+                    <img style="width: 150px" alt="" class="invoice-logo" data-src-retina="{{ asset('images/LG_Logo.png') }}" data-src="{{ asset('images/LG_Logo.png') }}" src="{{ asset('images/LG_Logo.png') }}">
                     <address class="m-t-10">
                       {{-- Apple Enterprise Sales --}}
                       {{-- <br>(877) 412-7753. --}}
@@ -74,11 +74,11 @@
                         </tr> 
                         <tr>
                           <td class="">
-                                <p class="text-black">Furniture</p>
+                                <p class="text-black">Utility Allowance</p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Furniture,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Utilities,2)) }}</td>
                         </tr>
-                        <tr>
+                       <!--  <tr>
                           <td class="">
                                 <p class="text-black">Vehicle Mt'ce</p>
                             </td>
@@ -88,33 +88,33 @@
                           <td class="">
                                 <p class="text-black">Driver, Family & Oths.                </p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Others,2)) }}</td>
-                        </tr> 
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Drivers,2)) }}</td>
+                        </tr> --> 
                         <tr>
                           <td class="">
-                                <p class="text-black">Lunch & Beverage </p>
+                                <p class="text-black">Meal Subsidy </p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->LunchVoucher,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->MealSubsidy,2)) }}</td>
                         </tr> 
                         <tr>
                           <td class="">
-                                <p class="text-black">Dressing </p>
+                                <p class="text-black">Wardrobe Allowance </p>
                             </td>
                             <td class="text-right">{{ nairazify(number_format($payslip_detail->Dressing,2)) }}</td>
                         </tr> 
-                        <tr>
+                        <!-- <tr>
                           <td class="">
                                 <p class="text-black">Prof & Club                    </p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->ClubandProfessionalPymt,2)) }}</td>
-                        </tr> 
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->ClubandProfessional,2)) }}</td>
+                        </tr>  -->
                         <tr>
                           <td class="">
-                                <p class="text-black">Leave Arrears</p>
+                                <p class="text-black">Leave</p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->LeaveArrears,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Leave,2)) }}</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                           <td class="">
                                 <p class="text-black">13th Month Bonus </p>
                             </td>
@@ -124,32 +124,32 @@
                           <td class="">
                                 <p class="text-black">Upfront Housing                 </p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->UpfrontHousingPymt,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->UpfrontHousing,2)) }}</td>
                         </tr> 
                         <tr>
                           <td class="">
                                 <p class="text-black">Upfront Furnishing</p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Basic,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->UpfrontFurnishing,2)) }}</td>
                         </tr>
                        <tr>
                         <td class="">
                                 <p class="text-black"> Leave Allowance                    </p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Basic,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->LeaveAllowance,2)) }}</td>
                         </tr> 
                         <tr>
                           <td class="">
                                 <p class="text-black">Telephone Subsidy                  </p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Basic,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->GSMBill,2)) }}</td>
                         </tr> 
                         <tr>
                           <td class="">
                                 <p class="text-black">Other Allowances     </p>
                             </td>
                             <td class="text-right">{{ nairazify(number_format($payslip_detail->OtherAllowances,2)) }}</td>
-                        </tr> 
+                        </tr>  -->
                     </tbody>
                 </table>
                 </div>
@@ -165,15 +165,15 @@
                     <tbody>
                         <tr>
                             <td class="">
-                                <p class="text-black">Tax</p>
+                                <p class="text-black">PAYE Tax</p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Basic,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->PAYETax,2)) }}</td>
                         </tr>
                         <tr>
                           <td class="">
                                 <p class="text-black">Pension Statutory</p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Housing,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Pension,2)) }}</td>
                         </tr> 
                         <tr>
                           <td class="">
@@ -183,15 +183,15 @@
                         </tr> 
                         <tr>
                           <td class="">
-                                <p class="text-black">Welfare</p>
+                                <p class="text-black">N.H.I.S.</p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Welfare,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->NHIS,2)) }}</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                           <td class="">
-                                <p class="text-black">Meal Voucher</p>
+                                <p class="text-black">Life Assurance</p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Vehicle,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->LifeAssurance,2)) }}</td>
                         </tr> 
                         <tr>
                           <td class="">
@@ -203,7 +203,7 @@
                           <td class="">
                                 <p class="text-black">Upfront Furnishing</p>
                             </td>
-                            <td class="text-right">{{ nairazify(number_format($payslip_detail->Basic,2)) }}</td>
+                            <td class="text-right">{{ nairazify(number_format($payslip_detail->UpfrontFurnishing,2)) }}</td>
                         </tr>
                        <tr>
                         <td class="">
@@ -216,7 +216,7 @@
                                 <p class="text-black">Staff Loan                 </p>
                             </td>
                             <td class="text-right">{{ nairazify(number_format($payslip_detail->LoanDeduction,2)) }}</td>
-                        </tr> 
+                        </tr>  -->
                         <tr>
                           <td class="">
                                 <p class="text-black">Pension Voluntary        </p>
@@ -229,7 +229,7 @@
                             </td>
                             <td class="text-right">{{ nairazify(number_format($payslip_detail->CarLoan,2)) }}</td>
                         </tr> 
-                        <tr>
+                        <!-- <tr>
                           <td class="">
                                 <p class="text-black">Development Levy                    </p>
                             </td>
@@ -240,7 +240,7 @@
                                 <p class="text-black">Trust Fund                    </p>
                             </td>
                             <td class="text-right">{{ nairazify(number_format($payslip_detail->TrustFund,2)) }}</td>
-                        </tr> 
+                        </tr>  -->
                         <tr>
                           <td class="">
                                 <p class="text-black">Other Deductions                    </p>
@@ -260,25 +260,26 @@
             <br>
             <div class="p-l-15 p-r-15">
                 <div class="row b-a b-grey">
-                    <div class="col-md-2 p-l-15 sm-p-t-15 clearfix sm-p-b-15 d-flex flex-column justify-content-center">
-                        <h5 class="font-montserrat all-caps small no-margin hint-text bold">Total Deductions</h5>
-                        <h3 class="no-margin"></h3>
-                    </div>
+                    
                     <div class="col-md-5 clearfix sm-p-b-15 d-flex flex-column justify-content-center">
                         <h5 class="font-montserrat all-caps small no-margin hint-text bold">Total Gross Earnings</h5>
-                        <h3 class="no-margin"></h3>
+                        <h1 class="no-margin text-black">{{ nairazify(number_format($payslip_detail->GrossPay, 2)) }}</h1>
+                    </div>
+                    <div class="col-md-2 p-l-15 sm-p-t-15 clearfix sm-p-b-15 d-flex flex-column justify-content-center">
+                        <h5 class="font-montserrat all-caps small no-margin hint-text bold">Total Deductions</h5>
+                        <h1 class="no-margin text-black">{{ nairazify(number_format($payslip_detail->TotalDeductions, 2)) }}</h1>
                     </div>
                     <div class="col-md-5 text-right bg-master-darker col-sm-height padding-15 d-flex flex-column justify-content-center align-items-end">
                         <h5 class="font-montserrat all-caps small no-margin hint-text text-white bold">Net Pay</h5>
-                        <h1 class="no-margin text-white">{{ nairazify(number_format($payslip_detail->NetPay, 2)) }}</h1>
+                        <h1 class="no-margin text-white">{{ nairazify(number_format($payslip_detail->ToBeNetPay, 2)) }}</h1>
                     </div>
                 </div>
             </div>
             <hr>
             <div>
                 <img src="{{ asset('images/officemate.png') }}" alt="logo" data-src="assets/img/logo.png" data-src-retina="{{ asset('images/officemate.png') }}" style="width: 100px !important">
-                <span class="m-l-70 text-black sm-pull-right">+234 000 000 0000</span>
-                <span class="m-l-40 text-black sm-pull-right">email@company.com</span>
+                <span class="m-l-70 text-black sm-pull-right">+234 814 990 6906</span>
+                <span class="m-l-40 text-black sm-pull-right">support@cavidel.com</span>
             </div>
         </div>
     </div>

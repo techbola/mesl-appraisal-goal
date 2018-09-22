@@ -246,7 +246,7 @@ class PayrollController extends Controller
 
         $years = Year::select('Years', 'YearsRef')->get(); //year_range(2018, 2030);  returns a collection
 
-        return view('payroll.reports.payslip_search', compact('employees', 'months', 'years'));
+        return view('payroll.reports.payslip_search1', compact('employees', 'months', 'years'));
     }
 
     public function payslip_general_post(Request $request)
