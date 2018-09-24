@@ -622,6 +622,5 @@ class jsonResponseController extends Controller
     public function export_unposted_ars_ledger()
     {
         return Excel::download(new ReconExport, 'unreconciled_' . \Carbon\Carbon::now()->toDateString() . '.xlsx');
-
     }
 }

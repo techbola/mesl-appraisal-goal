@@ -4852,7 +4852,7 @@ a.list-group-item-danger.active:focus {
                         <td>
                           <p>{!! $cash_entry->Narration ?? '-' !!}</p>
                         </td>
-                        <td class="text-right">{{ nairazify(number_format($cash_entry->Amount,2)) }}</td>
+                        <td class="text-right">N{{ (number_format($cash_entry->Amount,2)) }}</td>
                       </tr>
 
                       @foreach($bill_narr as $narr)
