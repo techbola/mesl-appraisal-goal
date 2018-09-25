@@ -716,6 +716,7 @@ Route::middleware(['auth'])->group(function () {
     // Litigation
     Route::name('litigation.')->prefix('litigation')->group(function () {
         Route::get('/', 'LitigationController@index')->name('index');
+        Route::get('/solicitor', 'LitigationController@solicitors')->name('solicitors');
         Route::post('/create', 'LitigationController@store')->name('store');
         Route::get('/{id}', 'LitigationController@show')->name('show');
         Route::patch('/{id}', 'LitigationController@update')->name('update');

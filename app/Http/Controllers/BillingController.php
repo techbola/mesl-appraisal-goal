@@ -249,6 +249,19 @@ class BillingController extends Controller
 
     public function bill_payment(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'GLIDDebit'  => "required",
+            'GLIDCredit' => "required",
+            'Amount'     => 'required',
+        ], [
+            'GLIDDebit.required'  => 'Account to Debit not selected',
+            'GLIDCredit.required' => 'Account to Credit not selected',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
+
         $billcode   = $request->Reference1;
         $userid     = \Auth::user()->id;
         $getdetails = \DB::table('tblBilling')

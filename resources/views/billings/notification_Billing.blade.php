@@ -390,7 +390,7 @@
                     </div><hr><br>
                     
                     <div class="col-md-12"><hr>
-                      {{ Form::open(['action' => 'BillingController@bill_payment', 'autocomplete' => 'off', 'role' => 'form']) }}
+                      {{ Form::open(['action' => 'BillingController@bill_payment', 'autocomplete' => 'off', 'role' => 'form', 'onsubmit'=>"$('#post').attr('disabled', 'disabled');"]) }}
                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="controls">
@@ -552,7 +552,7 @@
                       <input type="hidden" name="CurrencyID" value="1">
                       <input type="hidden" name="GLIDCredit" value="{{ $gl->GLRef }}" id="getGLIDDebit">
                       <input type="hidden" name="Reference1" value="{{ $code }}" id="billid">
-                      <input type="submit" id="post" class="btn btn-primary btn-lg btn-sm fs-15 pull-right" value="Post">
+                      <input type="submit" id="post" class="btn btn-primary btn-lg btn-sm fs-15 pull-right"  value="Post">
                       {{ Form::close() }}
                     </div>
                   </div>

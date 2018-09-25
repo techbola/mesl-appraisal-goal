@@ -131,4 +131,5 @@ class LitigationController extends Controller
         }
         return redirect()->back()->with('success', 'The file was uploaded successfully');
     }
+
 }
