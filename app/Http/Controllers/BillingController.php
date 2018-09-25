@@ -184,7 +184,7 @@ class BillingController extends Controller
         $total_bill      = Billing::where('GroupID', $code)->sum('Price');
         $total_discount  = Billing::where('GroupID', $code)->sum('Discount');
         $bills           = Billing::where('GroupID', $code)->get();
-        $tot             = $total_bill - $total_discount;
+        $tot             = $total_bill;
         $narrations      = BillNarration::where('BillCode', $code)->first();
         // $tax             = ($total_bill / 100) * 5;
         return view('billings.bill', compact('client_details', 'code', 'tot', 'bill_header', 'narrations', 'total_discount', 'total_bill', 'company_details', 'bills', 'tax'));
