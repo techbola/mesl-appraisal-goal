@@ -221,7 +221,7 @@
 
     $('#add_title').click(function(event) {
       $('#add_category_div').addClass('hide');
-      $('#edit_price_div').removeClass('hide');
+      $('#edit_price_div').addClass('hide');
       $('#add_price_div').addClass('hide');
       $('#add_product_div').removeClass('hide');
       $('#title').html('Add New Product'); 
@@ -229,7 +229,7 @@
 
      $('#add_category').click(function(event) {
       $('#add_category_div').removeClass('hide');
-      $('#edit_price_div').removeClass('hide');
+      $('#edit_price_div').addClass('hide');
       $('#add_price_div').addClass('hide');
       $('#add_product_div').addClass('hide');
        $('#title').html('Add New Product Category'); 
@@ -237,7 +237,7 @@
 
       $('#add_price').click(function(event) {
       $('#add_category_div').addClass('hide');
-      $('#edit_price_div').removeClass('hide');
+      $('#edit_price_div').addClass('hide');
       $('#add_price_div').removeClass('hide');
       $('#add_product_div').addClass('hide');
        $('#title').html('Add New Product & Services'); 
