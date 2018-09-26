@@ -157,9 +157,17 @@ class TransactionController extends Controller
     {
         // validation for value date
 
-        if ($validator->fails()) {
-            return redirect()->back()->withInput()->with('error', $validator->messages()->first());
-        }
+        // $validator = \Validator::make($request->all(), [
+        //     'GLIDDebit'  => "required",
+        //     'GLIDCredit' => "required",
+        //     'Amount'     => 'required',
+        // ], [
+        //     'GLIDDebit.required'  => 'Account to Debit not selected',
+        //     'GLIDCredit.required' => 'Account to Credit not selected',
+        // ]);
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withInput()->with('error', $validator->messages()->first());
+        // }
 
         $user       = Auth::user();
         $sum_debit  = '0';
