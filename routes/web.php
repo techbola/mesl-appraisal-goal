@@ -607,6 +607,14 @@ Route::middleware(['auth'])->group(function () {
 
     //ProductService
     Route::post('store_product_srvice', 'ProductServiceController@store');
+    Route::get('product_service', 'ProductServiceController@product_service')->name('ProductandServices');
+    Route::post('get_product_and_service', 'ProductServiceController@get_product_and_service');
+    Route::post('post_new_product', 'ProductServiceController@post_new_product');
+    Route::post('post_new_category', 'ProductServiceController@post_new_category');
+    // Route::get('find_product/{id}', 'ProductServiceController@find_product');
+    Route::post('post_new_product_service', 'ProductServiceController@post_new_product_service');
+    Route::get('product_service_editproduct/{id}', 'ProductServiceController@product_service_editproduct');
+    Route::post('post_edited_product', 'ProductServiceController@post_edited_product');
 
     //Training
 
