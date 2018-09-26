@@ -74,7 +74,7 @@
               {{-- VALUE DATE --}}
               <td>
                 <div class="input-group date dp">
-                  <input type="text" name="value_date[]" class="form-control input-sm" value="" required>
+                  <input type="text" name="value_date[]" class="form-control input-sm"  value="" required>
                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                 </div>
               </td>
@@ -159,7 +159,8 @@
     var options = {
         todayHighlight: true,
         format: 'yyyy-mm-dd',
-        autoclose: true,
+        startDate: '2018-01-01', //USE Start of year from config table
+        autoclose: true
     };
      $('.dp').datepicker(options);
 

@@ -31,7 +31,7 @@
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('ValueDate', 'Value Date') }}
-                <div class="input-group date dp">
+                <div class="input-group date dp-value-date">
                     {{ Form::text('ValueDate', null, ['class' => 'form-control', 'placeholder' => 'Value Date']) }}
                     <span class="input-group-addon">
                         <i class="fa fa-calendar">
@@ -83,3 +83,9 @@
         {{ Form::hidden('InputterID',auth()->user()->id) }}
         {{ Form::hidden('ModifierID',auth()->user()->id) }}
         {{ Form::submit( $buttonText, [ 'class' => 'btn btn-complete pull-right'  ]) }}
+
+@push('scripts')
+<script>
+    $('.dp-value-date').datepicker({autoclose:true, format: 'yyyy-mm-dd', startDate: '2018-01-01'});
+</script>
+@endpush
