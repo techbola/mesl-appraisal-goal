@@ -425,7 +425,7 @@
                          <div class="form-group">
                              <div class="controls">
                                  {{ Form::label('ValueDate', 'Value Date') }}
-                                 <div class="input-group date dp">
+                                 <div class="input-group date dp-value-date">
                                      {{ Form::text('ValueDate', null, ['class' => 'form-control', 'placeholder' => 'Value Date', 'required']) }}
                                      <span class="input-group-addon">
                                          <i class="fa fa-calendar"></i>
@@ -508,9 +508,14 @@
 
 @push('scripts')
 <script src="{{ asset('assets/js/accounting.js') }}" type="text/javascript"></script>
+<script> 
+$(function(){
+  $('.dp-value-date').datepicker({autoclose:true, format: 'yyyy-mm-dd', startDate: '2018-01-01'});
+})
+</script>
 
 <script>
-
+    
     $(document).on("click", "#btnFillSizeToggler2", function() {
             var id = $(this).data('id');
             $("#modalFillIn #getValue").val(id);

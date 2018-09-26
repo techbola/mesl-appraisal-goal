@@ -12,6 +12,7 @@ use Cavidel\AccountType;
 use Cavidel\Staff;
 use Auth;
 use DB;
+use Cavidel\Rules\ValidateValueDateYear;
 
 class TransactionController extends Controller
 {
@@ -154,9 +155,13 @@ class TransactionController extends Controller
 
     public function multipost_store(Request $request)
     {
-        $user = Auth::user();
-        // dd($request->all());
+        // validation for value date
 
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->with('error', $validator->messages()->first());
+        }
+
+        $user       = Auth::user();
         $sum_debit  = '0';
         $sum_credit = '0';
 

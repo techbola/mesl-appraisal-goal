@@ -41,7 +41,7 @@
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('ValueDate', 'Value Date') }}
-                <div class="input-group date dp">
+                <div class="input-group date dp-value-date">
                     {{ Form::text('ValueDate', null, ['class' => 'form-control', 'placeholder' => 'Value Date', 'required']) }}
                     <span class="input-group-addon">
                         <i class="fa fa-calendar">
@@ -102,6 +102,7 @@
             format: 'yyyy-mm-dd'
         };
          $('.dp').datepicker({autoclose:true});
+         $('.dp-value-date').datepicker({autoclose:true, format: 'yyyy-mm-dd', startDate: '2018-01-01'});
 
         var GLIDDebit = $("#GLIDDebit");
     GLIDDebit.change(function(event) {
