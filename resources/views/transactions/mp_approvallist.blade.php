@@ -370,7 +370,8 @@ var table = $('.tableWithSearch_a').DataTable(settings);
     });
 
   // send multipost for  approval
-  $(".send_for_approval").click(function(e) {
+  $('.table').on('click', '.send_for_approval', function (e) {
+  
        e.preventDefault();
        $(this).text('Sending...');
        $(this).attr('disabled','disabled');
