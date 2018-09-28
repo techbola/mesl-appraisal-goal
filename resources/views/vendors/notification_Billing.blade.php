@@ -149,6 +149,18 @@
                                     </div>
                                 </div>
 
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                            {{ Form::label('Location') }}
+                                            <select name="LocationID" id="LocationID" class="form-control select2"    data-init-plugin="select2">
+                                                <option value="">Select Location</option>
+                                                @foreach($locations as $location)
+                                                    <option value="{{ $location->LocationRef }}">{{ $location->Location }}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
+                                </div>
+
                                 {{-- <div class="col-sm-12">
                                     <div class="form-group">
                                             {{ Form::label('Product') }}
@@ -397,7 +409,7 @@
                     </div><hr><br>
 
                     <div class="col-md-12"><hr>
-                      {{ Form::open(['action' => 'VendorController@bill_payment', 'autocomplete' => 'off', 'role' => 'form']) }}
+                      {{ Form::open(['action' => 'VendorController@bill_payment', 'autocomplete' => 'off', 'role' => 'form','onsubmit'=>"$('#post').attr('disabled', 'disabled');"]) }}
                        <div class="col-sm-6">
                             <div class="form-group">
                                 <div class="controls">
@@ -448,7 +460,7 @@
     <div class="clearfix"></div>
 
 
- {{--    <div class="col-sm-6">
+    <div class="col-sm-6">
         <div class="form-group">
             <div class="controls">
                 {{ Form::label('PaymentToDate', 'Payment to Date' ) }}
@@ -464,7 +476,7 @@
                 {{ Form::text('OutstandingBalance', null, ['class' => 'form-control smartinput', 'placeholder' => 'Enter Narration']) }}
             </div>
         </div>
-    </div> --}}
+    </div>
 
  
 

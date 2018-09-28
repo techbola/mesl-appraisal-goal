@@ -18,6 +18,7 @@ use Cavidel\Config;
 use Cavidel\PlanOption;
 use Cavidel\Brand;
 use Cavidel\Project;
+use Cavidel\Location;
 use DB;
 
 class VendorController extends Controller
@@ -187,6 +188,7 @@ class VendorController extends Controller
         $bill_narration          = BillNarration::where('BillCode', $code)->first();
         $brands                  = Brand::all();
         $projects                = Project::all();
+        $locations               = Location::all();
 
         $debit_acct_details = collect(\DB::select("SELECT        tblGL.GLRef, { fn CONCAT(tblGL.Description + ' - ', tblAccountType.AccountType + '  [' + CONVERT(varchar, format(tblGL.BookBalance, '#,###.00')) + ']') } AS Account
 FROM            tblGL INNER JOIN
@@ -213,7 +215,7 @@ FROM            tblGL INNER JOIN
 
         $product_categories = ProductCategory::orderBy('ProductCategory')->get();
 
-        return view('vendors.notification_Billing', compact('client_details', 'projects', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'gl', 'vendor_gl', 'files', 'glid_debit', 'staff', 'user'));
+        return view('vendors.notification_Billing', compact('client_details', 'projects', 'brands', 'date', 'product_categories', 'bill_items', 'staff_id', 'code', 'bill_amount', 'amount_os', 'bill_narration', 'debit_acct_details', 'outstanding', 'options', 'payment_plans', 'configs', 'locations', 'gl', 'vendor_gl', 'files', 'glid_debit', 'staff', 'user'));
     }
 
 }
