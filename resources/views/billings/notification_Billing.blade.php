@@ -50,17 +50,14 @@
                   </p>
               @endif
             <div style="background: #eee; padding: 5px;">
-
                 <h5 style="margin-left: 10px">Product list</h5><hr>
                 @if(count($bill_narration) > 0)
                  <a href="#" class="btn btn-sm btn-warning pull-right" onclick="get_narration({{ $bill_narration->BillNarrationRef }})" id="edit_bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Edit Narration to bill</a>
                 @else
                 <a href="#" class="btn btn-sm btn-info pull-right" id="bill_narration" data-target="#BillNarration" data-toggle="modal" id="btnFillSizeToggler2">Add Narration to bill</a>
-
-                
-                @endif
                
-                             <table class="table table-hover">
+                @endif
+                 <table class="table table-hover">
                                  <thead>
                                      <tr>
                                          <th>Date</th>

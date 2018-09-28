@@ -448,7 +448,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('transactions/multipost/reject', 'TransactionController@multipost_reject')->name('transactions.multipost.reject');
     Route::get('transactions/multipost/details/{code}', 'TransactionController@multipost_details')->where('code', '(.*)')->name('transactions.multipost.details');
     Route::post('transaction/multipost/send-for-approval', 'TransactionController@multipost_send')->name('transactions.multipost.send');
-
     Route::resource('transactions', 'TransactionController');
 
     // REPORTS
@@ -463,6 +462,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/loans-report', 'ReportController@loans_report')->name('loans_report');
 
     Route::get('reports/cash-flow', 'ReportController@cash_flow')->name('cash_flow');
+    Route::get('reports/outstanding-bills', 'ReportController@outstanding_bills')->name('outstanding_bills');
+    Route::get('reports/outstanding-vendor-bills', 'ReportController@outstanding_vendor_bills')->name('outstanding_vendor_bills');
+
+    Route::post('get-outstanding-bill-details', 'ReportController@fetchOutstandingBillsForCode');
+    Route::post('get-outstanding-vendor-bill-details', 'ReportController@fetchOutstandingVendorBillsForCode');
 
     Route::get('report/balance-sheet-vce', 'ReportController@balance_sheet_vce')->name('balance_sheet_vce');
     Route::get('report/profit-loss-vce', 'ReportController@profit_loss_vce')->name('profit_loss_vce');
