@@ -20,6 +20,28 @@
     .brief * {
       font-size: 15px !important;
     }
+
+    .progress {
+      border-radius: 3px !important;
+    }
+
+    .modal {
+      padding-left: 0 !important
+    }
+
+    #new_court .modal-content, #new_contact .modal-content {
+      box-shadow: 0 0 50px #000;
+    }
+
+    .form-add-more{
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      border-radius: 50%;
+      text-align: center;
+      padding: 0 !important;
+      cursor: pointer;
+    }
   </style>
 
 
@@ -181,6 +203,60 @@
         }
       });
     });
+
+    $('.add-more-courts').click(function(e){
+          e.preventDefault();
+          $('#new_court').show();
+          $('#new_court').modal('show');
+          
+        });
+
+        var form1 = $("#courts-form");
+          form1.submit(function(e) {
+            e.preventDefault();
+            $.post('/courts', {
+              Court: $('#Court').val(),
+              Location: $('#Location').val()
+            }, function(data, textStatus, xhr) {
+              if(data.success === true){
+                $('#CourtID').append('<option selected value="'+ data.data.ContactRef +'">' +  data.data.Contact + ' - ' + data.data.Location  + '</option>');
+                 $('#new_court').hide();
+                 $('#Court').val('');
+                 $('#Location').val('');
+                 $('#new_court').modal('handleUpdate');
+              }
+            });
+          });
+
+        $('.add-more-contacts').click(function(e){
+          e.preventDefault();
+          $('#new_contact').show();
+          $('#new_contact').modal('show');
+         
+        });
+
+         var form2 = $("#contacts-form");
+          form2.submit(function(e) {
+            e.preventDefault();
+            $.post('/contact-post-ajax', 
+              form2.serialize()
+            , function(data, textStatus, xhr) {
+              if(data.success === true){
+                $('#ContactID').append('<option selected value="'+ data.data.CustomerRef +'">' +  data.data.Customer   + '</option>');
+                 $('#new_contact').hide();
+                 $('#new_contact').modal('hide');
+                 $('#Court').val('');
+                 $('#Location').val('');
+                 $('#new_contact').modal('handleUpdate');
+              }
+            });
+          });
+
+        $('#new_schedule').on('hidden.bs.modal', function (e) {
+          $('#new_court').modal('hide');
+           $('#new_contact').modal('hide');
+           // $('#new_contact').modal('hide');
+        });  
   </script>
 @endpush
 

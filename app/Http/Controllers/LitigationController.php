@@ -32,7 +32,7 @@ class LitigationController extends Controller
         $countries          = Country::orderBy('Country', 'asc')->get();
         $relationship_types = BusinessRelationshipType::select(['BusinessRelationshipTypeRef', 'RelationshipType'])->get();
         //  return business contacts created by current user;
-        $contacts = Contact::where('InputterID', auth()->user()->id)->select(['CustomerRef', 'Customer', 'Department'])->get();
+        $contacts = Contact::select(['CustomerRef', 'Customer', 'Department'])->get();
         $courts   = Court::select(['CourtRef', 'Court', 'Location'])->get()->transform(function ($item, $key) {
             $item->Court = $item->Court . ' - ' . $item->Location;
             return $item;
@@ -73,7 +73,7 @@ class LitigationController extends Controller
     public function show($id)
     {
         $litigation = Litigation::find($id);
-        $contacts   = Contact::where('InputterID', auth()->user()->id)->select(['CustomerRef', 'Customer', 'Department'])->get();
+        $contacts   = Contact::select(['CustomerRef', 'Customer', 'Department'])->get();
         $courts     = Court::select(['CourtRef', 'Court', 'Location'])->get()->transform(function ($item, $key) {
             $item->Court = $item->Court . ' - ' . $item->Location;
             return $item;
