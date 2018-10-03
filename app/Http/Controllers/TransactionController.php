@@ -121,6 +121,18 @@ class TransactionController extends Controller
         return view('transactions.show_searched_result', compact('statements', 'accounts'));
     }
 
+    public function all_transactions(Request $request)
+    {
+        $accounts   = AccountType::all();
+        $statements = collect(\DB::select("EXEC procViewBalancesAllExtended "))->transform(function ($item, $key) {
+            $item->Debit  = is_null($item->Debit) ? 0 : $item->Debit;
+            $item->Credit = is_null($item->Credit) ? 0 : $item->Credit;
+            return $item;
+        });
+        // return response()->json($statements, 200);
+        return view('transactions.show_all_transactions', compact('statements', 'accounts'));
+    }
+
     public function edit($id)
     {
         $gls               = GL::all();

@@ -442,6 +442,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('transactions/transactionlistrange', 'TransactionController@TransactionListRange')->name('Transaction_List_Range');
     Route::get('transactions/multipost', 'TransactionController@multipost')->name('transactions.multipost');
     Route::get('transactions/multipost_approvallist', 'TransactionController@multipost_listing')->name('transactions.multipost_listing');
+    Route::get('transactions/all_transactions', 'TransactionController@all_transactions')->name('gl_details');
     Route::post('transactions/multipost', 'TransactionController@multipost_store')->name('transactions.multipost.store');
     Route::post('transactions/multipost/approve', 'TransactionController@multipost_approve')->name('transactions.multipost.approve');
     Route::post('transactions/multipost/delete-batch', 'TransactionController@delete_batch')->name('transactions.multipost.delete');
