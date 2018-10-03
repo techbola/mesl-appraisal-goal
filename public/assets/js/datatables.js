@@ -141,4 +141,5 @@
     initTableWithSearch2();
     initTableWithDynamicRows();
     initTableWithExportOptions();
+    
 })(window.jQuery);

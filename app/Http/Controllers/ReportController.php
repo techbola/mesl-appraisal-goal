@@ -153,13 +153,20 @@ class ReportController extends Controller
 
     public function trial_balance3()
     {
-        if (empty($_GET['date'])) {
-            $today = date('Y-m-d');
-            $tbs   = collect(DB::select("exec procTrialBalance '$today'"));
+
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
         } else {
-            $date = $_GET['date'];
-            $tbs  = collect(DB::select("exec procTrialBalance '$date'"));
+            $from = date('Y-m-d');
         }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $tbs = collect(DB::select("exec procTrialBalance '$from', '$to'"));
         // dd($tbs);
         return view('reports.trial_balance3', compact('tbs', 'date'));
     }
