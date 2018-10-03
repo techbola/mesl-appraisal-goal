@@ -153,11 +153,11 @@ class ReportController extends Controller
 
     public function trial_balance3()
     {
-
+        $config = Config::where('ConfigRef', '1')->first();
         if (!empty($_GET['from'])) {
             $from = $_GET['from'];
         } else {
-            $from = date('Y-m-d');
+            $from = $config->YearStart;
         }
 
         if (!empty($_GET['to'])) {

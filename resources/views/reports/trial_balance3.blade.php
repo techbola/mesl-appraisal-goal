@@ -51,11 +51,7 @@
   <div class="card-box" id="print-content">
       <h3 class="card-title">Trial Balance Report</h3>
 
-      <div class="clearfix">
-
-      </div>
-
-      <table class="table tableWithExportOptions table-bordered font-title">
+      <table class="table table-bordered font-title">
         <thead>
           <th>Category</th>
           <th>Ledger Items</th>
