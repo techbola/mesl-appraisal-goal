@@ -170,13 +170,8 @@
         "sLengthMenu": "_MENU_ ",
         "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
     },
-     // "columnDefs": [
-     //        {
-     //            "targets": [ 3 ],
-     //            "visible": false
-     //        }
-     //    ],
-    "iDisplayLength": 20,
+     'paging': false,
+    "iDisplayLength": 'All',
     "oTableTools": {
         "sSwfPath": "../assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
         "aButtons": [{
