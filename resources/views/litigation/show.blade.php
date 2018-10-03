@@ -181,7 +181,7 @@
   </script>
 
   <script>
-    $('#file_upload_form').on('submit', function(){
+    $('#file_upload_form').on('submit', function() {
       $('#spinner').show();
     });
 
