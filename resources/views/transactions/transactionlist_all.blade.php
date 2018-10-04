@@ -1,10 +1,6 @@
 @push('styles')
 <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css') }}" media="screen" rel="stylesheet" type="text/css">
     <style>
-     /*   textarea {
-        max-height: 50px;
-        resize: none;
-    }*/
      tfoot{
       display: table-header-group;
      }
@@ -84,7 +80,7 @@
 					</div>
 				</div> --}}
 				<div class="clearfix"></div>
-			<div class="panel-body">
+			<div class="panel-body table-responsive">
 				<table id="transactions">
 					<thead>
                         <th>Ref</th>
