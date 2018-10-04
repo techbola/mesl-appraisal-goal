@@ -57,7 +57,8 @@
 					@endif
 				</div>
 			</div><hr>
-			<table class="table tableWithExportOptions" id="transactions">
+			<div class="table-responsive">
+				<table class="table tableWithExportOptions" id="transactions">
 				<thead>
 					<th>Transaction Date</th>
 					<th>Value Date</th>
@@ -89,6 +90,7 @@
 				@endif
 				</tbody>
 			</table>
+			</div>
 		</div>
 	</div><br><br>
 	<!-- END PANEL -->
@@ -106,7 +108,15 @@
 	// $('#transactions').editableTableWidget();
   // $(document).ready(function(){
   	 var settings = {
-    "sDom": "<'exportOptions pull-right'T><'table-responsive't><'row'<p i>>",
+    // "sDom": "<'exportOptions pull-right'T><'table-responsive't><'row'<p i>>",
+    sDom: 'lfrB<"pull-right">tip',
+buttons: [
+            'copy', 'excel', 'pdf', 'print', {
+                extend: 'colvis',
+                columns: ':gt(0)',
+                text: 'Columns'
+            }
+        ],
     "sPaginationType": "bootstrap",
     "destroy": true,
     "scrollCollapse": true,
@@ -121,22 +131,22 @@
      //        }
      //    ],
     "iDisplayLength": 20,
-    "oTableTools": {
-        "sSwfPath": "../assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
-        "aButtons": [{
-            "sExtends": "csv",
-            "sButtonText": "<i class='pg-grid'></i>",
-        }, {
-            "sExtends": "xls",
-            "sButtonText": "<i class='fa fa-file-excel-o'></i>",
-        }, {
-            "sExtends": "pdf",
-            "sButtonText": "<i class='fa fa-file-pdf-o'></i>",
-        }, {
-            "sExtends": "copy",
-            "sButtonText": "<i class='fa fa-copy'></i>",
-        }]
-    },
+    // "oTableTools": {
+    //     "sSwfPath": "../assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
+    //     "aButtons": [{
+    //         "sExtends": "csv",
+    //         "sButtonText": "<i class='pg-grid'></i>",
+    //     }, {
+    //         "sExtends": "xls",
+    //         "sButtonText": "<i class='fa fa-file-excel-o'></i>",
+    //     }, {
+    //         "sExtends": "pdf",
+    //         "sButtonText": "<i class='fa fa-file-pdf-o'></i>",
+    //     }, {
+    //         "sExtends": "copy",
+    //         "sButtonText": "<i class='fa fa-copy'></i>",
+    //     }]
+    // },
     fnDrawCallback: function(oSettings) {
         $('.export-options-container').append($('.exportOptions'));
     }
