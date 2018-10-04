@@ -51,7 +51,7 @@
   <div class="card-box" id="print-content">
       <h3 class="card-title">Trial Balance Report</h3>
 
-      <table class="table table-bordered font-title">
+      <table class="table table-bordered font-title table-with-column-search">
         <thead>
           <th>Category</th>
           <th>Ledger Items</th>
@@ -59,6 +59,14 @@
           <th>Credit Balance (&#8358;)</th>
           <th>Balance (&#8358;)</th>
         </thead>
+
+        <tfoot style="display: table-header-group;">
+          <th>Category</th>
+          <th>Ledger Items</th>
+          <th>Debit Balance (&#8358;)</th>
+          <th>Credit Balance (&#8358;)</th>
+          <th>Balance (&#8358;)</th>
+        </tfoot>
 
         <tbody>
           @foreach ($tbs as $tb)
@@ -105,5 +113,48 @@
 
   <script>
     $('.exportOptions').append('<span class="btn btn-warning btn-cons m-l-10" onclick="window.print()"><i class="fa fa-print m-r-5"></i> Print</span>');
+  </script>
+
+  <script>
+    var settings = {
+    sDom: 'rB<"pull-right">tip',
+    "sPaginationType": "bootstrap",
+    "destroy": true,
+    paging: false,
+    "scrollCollapse": true,
+    "oLanguage": {
+        "sLengthMenu": "_MENU_ ",
+        "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+    },
+    // "iDisplayLength": 20,
+     buttons: [
+            'copy', 'excel', 'pdf', 'print', {
+                extend: 'colvis',
+                columns: ':gt(0)',
+                text: 'Columns'
+            }
+        ],
+    fnDrawCallback: function(oSettings) {
+        $('.export-options-container').append($('.exportOptions'));
+    }
+  };
+
+
+var table = $('.table-with-column-search').DataTable(settings);
+ $('.table-with-column-search tfoot th').each(function(key, val) {
+            var title = $(this).text();
+            if (key === $('.table-with-column-search tfoot th')) {
+                return false
+            }
+            $(this).html('<input type="text" class="form-control" placeholder="' + $.trim(title) + '" />');
+        });
+ table.columns().every(function() {
+            var that = this;
+            $('input', this.footer()).on('keyup change', function() {
+                if (that.search() !== this.value) {
+                    that.search(this.value).draw();
+                }
+            });
+        });
   </script>
 @endpush
