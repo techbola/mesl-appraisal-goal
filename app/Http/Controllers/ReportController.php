@@ -166,7 +166,7 @@ class ReportController extends Controller
             $to = date('Y-m-d');
         }
 
-        $tbs = collect(DB::select("exec procTrialBalance '$from', '$to'"));
+        $tbs = collect(DB::select("exec procTrialBalanceDiff '$from', '$to'"));
         // dd($tbs);
         return view('reports.trial_balance3', compact('tbs', 'date'));
     }
