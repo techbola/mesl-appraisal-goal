@@ -88,7 +88,7 @@
           </div>
         </div>
         <div class="clearfix"></div>
-      <div class="panel-body">
+      <div class="panel-body table-responsive">
         <table class="table tableWithExportOptions" id="transactions">
           <thead>
                         <th>Ref</th>
@@ -166,7 +166,8 @@
   // $('#transactions').editableTableWidget();
   // $(document).ready(function(){
      var settings = {
-    "sDom": "<'exportOptions'T><'table-responsive't><'row'<p i>>",
+    // "sDom": "<'exportOptions'T><'table-responsive't><'row'<p i>>",
+    sDom: 'lfrB<"pull-right">tip',
     "sPaginationType": "bootstrap",
     "destroy": true,
     "scrollCollapse": true,
@@ -181,22 +182,13 @@
      //        }
      //    ],
     "iDisplayLength": 20,
-    "oTableTools": {
-        "sSwfPath": "../assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
-        "aButtons": [{
-            "sExtends": "csv",
-            "sButtonText": "<i class='pg-grid'></i>",
-        }, {
-            "sExtends": "xls",
-            "sButtonText": "<i class='fa fa-file-excel-o'></i>",
-        }, {
-            "sExtends": "pdf",
-            "sButtonText": "<i class='fa fa-file-pdf-o'></i>",
-        }, {
-            "sExtends": "copy",
-            "sButtonText": "<i class='fa fa-copy'></i>",
-        }]
-    },
+    buttons: [
+            'copy', 'excel', 'pdf', 'print', {
+                extend: 'colvis',
+                columns: ':gt(0)',
+                text: 'Columns'
+            }
+        ],
     fnDrawCallback: function(oSettings) {
         $('.export-options-container').append($('.exportOptions'));
     }
