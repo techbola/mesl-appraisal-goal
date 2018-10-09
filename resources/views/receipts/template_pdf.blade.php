@@ -4737,6 +4737,10 @@ a.list-group-item-danger.active:focus {
 .table tbody tr td {
     word-break: break-word;
 }
+
+.f-14 {
+  font-size: 14px !important;
+}
 /*# sourceMappingURL=bootstrap.css.map */
 
 </style>
@@ -4820,7 +4824,7 @@ a.list-group-item-danger.active:focus {
                           <p>{!! $cash_entry->product->ProductCategory ?? '-' !!}</p>
                         </td>
                         <td style="width: 70%; word-wrap: break-word !important; font-size: 14px !important">
-                          <p>{!! wordwrap($cash_entry->Description,70,"<br>\n",TRUE) ?? '-' !!} </p>
+                          <p class="f-14">{!! wordwrap($cash_entry->Description,90,"<br>\n",TRUE) ?? '-' !!} </p>
                         </td>
                       </tr>
                     </tbody>
