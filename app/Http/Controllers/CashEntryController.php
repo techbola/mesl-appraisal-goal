@@ -677,25 +677,9 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
         $configs            = Config::first();
         $customers          = Customer::all();
         $auth_user          = auth()->user()->id;
-        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef
-                         --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ?
-                         Order By tblGL.Description", [54]));
+        $debit_acct_details = collect(\DB::select("exec procGLBalances '54'"));
 
-        $credit_acct_details = collect(\DB::select("SELECT GLRef,  tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef
-                         --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? and tblGL.CustomerID > ?
-                         Order By tblGL.Description", [19, 1]));
+        $credit_acct_details = collect(\DB::select("EXEC procGLBalances '1'"))->where('CustomerID', '>', 1);
 
         $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
                          tblCashEntry.Narration
@@ -997,26 +981,9 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         $auth_user          = auth()->user()->id;
         $configs            = Config::first();
         $customers          = Customer::all();
-        $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
-            FROM            tblTransaction 
-            INNER JOIN tblTransactionType ON tblTransaction.TransactionTypeID = tblTransactionType.TransactionTypeRef 
-            INNER JOIN tblGL on tblTransaction.GLID=tblGL.GLRef
-            inner join tblCurrency on tblGL.CurrencyID=tblCurrency.CurrencyRef
-            CROSS JOIN tblConfig
-                         --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? or tblGL.AccountTypeID = ? or  tblGL.AccountTypeID = ? or tblGL.AccountTypeID = ?
-                         GROUP BY tblTransaction.GLID,tblGL.Description,Currency
-                         Order By tblGL.Description", [2,5,12,14]));
+        $debit_acct_details = collect(\DB::select("exec procGLBalances '2,5,12,14'"));
 
-        $credit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
-            FROM            tblTransaction 
-            INNER JOIN tblTransactionType ON tblTransaction.TransactionTypeID = tblTransactionType.TransactionTypeRef 
-            INNER JOIN tblGL on tblTransaction.GLID=tblGL.GLRef
-            inner join tblCurrency on tblGL.CurrencyID=tblCurrency.CurrencyRef
-            CROSS JOIN tblConfig
-                         Where tblGL.AccountTypeID = ? or tblGL.GLRef=?
-                         GROUP BY tblTransaction.GLID,tblGL.Description,Currency
-                         Order By tblGL.Description", [3,98]));
+        $credit_acct_details = collect(\DB::select("exec procGLBalances '2,3'"))->wherein('GLRef',[61,64]);
 
         if (auth()->user()->hasRole('admin')) {
             $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
@@ -1172,25 +1139,9 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
     {
         $entry              = CashEntry::where('CashEntryRef', $id)->first();
         $configs            = Config::first();
-        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef
-                         --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ?
-                         Order By tblGL.Description", [54]));
+        $debit_acct_details = collect(\DB::select("exec procGLBalances '54'"));
 
-        $credit_acct_details = collect(\DB::select("SELECT GLRef,  tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00'))
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef
-                         --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ? and tblGL.CustomerID > ?
-                         Order By tblGL.Description", [19, 1]));
+        $credit_acct_details = collect(\DB::select("EXEC procGLBalances '1'"))->where('CustomerID', '>', 1);
         $cashentries        = CashEntry::all();
         $brands             = Brand::all();
         $user               = auth()->user();
@@ -1227,24 +1178,9 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 1) AND (tblC
     {
         $entry              = CashEntry::where('CashEntryRef', $id)->first();
         $configs            = Config::first();
-        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
-                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where (tblGL.CustomerID = ? )", [1]));
+         $debit_acct_details = collect(\DB::select("exec procGLBalances '2,5,12,14'"));
 
-        $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
-                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where tblGL.AccountTypeID = ?
-                         Order By tblGL.Description", [59]));
+        $credit_acct_details = collect(\DB::select("exec procGLBalances '2,3'"))->wherein('GLRef',[61,64]);
 
         $cashentries = CashEntry::all();
         return view('cash_entries.imprest_edit', compact('cashentries', 'entry', 'debit_acct_details', 'credit_acct_details', 'configs', 'customer_details'));
