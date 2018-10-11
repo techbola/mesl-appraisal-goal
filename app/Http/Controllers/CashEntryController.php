@@ -450,13 +450,7 @@ class CashEntryController extends Controller
         $auth_user        = auth()->user()->id;
         $configs          = Config::first();
         $customers        = Customer::all();
-        $customer_details = collect(\DB::select("SELECT GLRef, concat(tblCustomer.Customer, ' - ' , tblAccountType.AccountType , ' / ' , CASE WHEN CustomerID = 1 THEN tblGL.Description ELSE '/' END , ' - ' , tblCurrency.Currency , CONVERT(varchar, format(tblGL.BookBalance,'#,##0.00')))
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
-                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef"));
+        $customer_details = collect(\DB::select("exec procGLBalances '0'"));
 
         $cashentries = collect(\DB::select("SELECT        tblCashEntry.CashEntryRef, tblCashEntry.PostingTypeID, tblCashEntry.CurrencyID, tblGL.Description AS gl_debit, tblGL_1.Description AS gl_credit, tblCashEntry.PostDate, tblCashEntry.ValueDate, tblCashEntry.Amount,
                          tblCashEntry.Narration
