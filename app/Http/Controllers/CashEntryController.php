@@ -997,24 +997,25 @@ WHERE        (tblCashEntry.Posted = 0) AND (tblCashEntry.PostFlag = 0) AND (tblC
         $auth_user          = auth()->user()->id;
         $configs            = Config::first();
         $customers          = Customer::all();
-        $debit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
-                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
-                         Where (tblGL.AccountTypeID = ? or tblGL.AccountTypeID = ? or tblGL.AccountTypeID = ? or tblGL.AccountTypeID = ?) 
+        $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
+            FROM            tblTransaction 
+            INNER JOIN tblTransactionType ON tblTransaction.TransactionTypeID = tblTransactionType.TransactionTypeRef 
+            INNER JOIN tblGL on tblTransaction.GLID=tblGL.GLRef
+            inner join tblCurrency on tblGL.CurrencyID=tblCurrency.CurrencyRef
+            CROSS JOIN tblConfig
+                         --INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+                         Where tblGL.AccountTypeID = ? or tblGL.AccountTypeID = ? or  tblGL.AccountTypeID = ? or tblGL.AccountTypeID = ?
+                         GROUP BY tblTransaction.GLID,tblGL.Description,Currency
                          Order By tblGL.Description", [2,5,12,14]));
 
-        $credit_acct_details = collect(\DB::select("SELECT GLRef, tblGL.Description
-                         AS CUST_ACCT
-                            FROM            tblGL INNER JOIN
-                         tblAccountType ON tblGL.AccountTypeID = tblAccountType.AccountTypeRef INNER JOIN
-                         tblCustomer ON tblGL.CustomerID = tblCustomer.CustomerRef INNER JOIN
-                         tblCurrency ON tblGL.CurrencyID = tblCurrency.CurrencyRef INNER JOIN
-                         tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+        $credit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
+            FROM            tblTransaction 
+            INNER JOIN tblTransactionType ON tblTransaction.TransactionTypeID = tblTransactionType.TransactionTypeRef 
+            INNER JOIN tblGL on tblTransaction.GLID=tblGL.GLRef
+            inner join tblCurrency on tblGL.CurrencyID=tblCurrency.CurrencyRef
+            CROSS JOIN tblConfig
                          Where tblGL.AccountTypeID = ? or tblGL.GLRef=?
+                         GROUP BY tblTransaction.GLID,tblGL.Description,Currency
                          Order By tblGL.Description", [3,98]));
 
         if (auth()->user()->hasRole('admin')) {
