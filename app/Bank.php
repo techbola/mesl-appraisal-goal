@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bank extends Model
 {
-    protected $table   = 'tblBanks';
+    protected $table   = 'tblBank';
     protected $guarded = ['BankRef'];
     public $timestamps = false;
 }
