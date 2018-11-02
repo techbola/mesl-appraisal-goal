@@ -2,7 +2,7 @@
 
 @push('styles')
   <style>
-   
+
   </style>
 @endpush
 
@@ -15,8 +15,8 @@
 @endsection
 
 @section('buttons')
-  
-@endsection 
+
+@endsection
 
 
 @section('content')
@@ -37,7 +37,14 @@
           <h4 style="color: #5198cd">Course Tutorials</h4>
           <ul style="list-style: none !important">
             @foreach($course_materials as $course_material)
-            <li><a class="material_id" href="#"  data-id ="{{ $course_material->course_material_ref }}" title="">{{ $course_material->material_name }}</a></li>
+            <li>
+                <div class="form-check">
+                    <input class="form-check-input prog" type="checkbox" value="" name="checkbox" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1" name="checkbox">
+                        <a class="material_id" href="#"  data-id ="{{ $course_material->course_material_ref }}" title="">{{ $course_material->material_name }}</a>
+                    </label>
+                </div>
+            </li>
             @endforeach
           </ul>
         </div><hr>
@@ -60,7 +67,7 @@
    <div class="col-md-8">
      <div class="card-box" style="padding: 20px">
        <div id='show_material_info'>
-         
+
        </div>
      </div>
    </div>
@@ -70,7 +77,7 @@
 
 @push('scripts')
  <script>
-   
+
    $('.material_id').click(function(event) {
      var id = $(this).data('id');
      $.get('/course_material_with_id/' +id, function(data, status) {
@@ -80,7 +87,7 @@
               $('#show_material_info').html(' ');
               $('#show_material_info').append(`
                   <iframe src = "{{ asset('/assets/plugins/ViewerJS/#/storage/Course_Docs/') }}/${data.document_link}" width="100%" height="700" allowfullscreen webkitallowfullscreen></iframe>
-                `)  
+                `)
             } else if(data.material_type == 2)
             {
               $('#show_material_info').html(' ');
@@ -93,10 +100,30 @@
               $('#show_material_info').append(`
                  <iframe style="width : 100%" height="400" src="${data.youtube_link}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 `)
+              }else if(data.material_type == 4)
+            {
+              $('#show_material_info').html(' ');
+              $('#show_material_info').append(`
+                    <audio controls="controls" id="audio-player" style="width : 100%" height="400" >
+                        <source src= "{{ asset('/storage/course_audio') }}/${data.audio_link}" type="audio/mpeg">
+                    </audio>
+
+                `)
             }
           }
         });
    });
+
+
+        var progress_status = prog_count()
+        $('.prog').change(function(e){
+            progress_status = prog_count - 1
+        });
+
+        var checked_boxes = $('input:prog:checked').length;
+
+
+
 
  </script>
 @endpush

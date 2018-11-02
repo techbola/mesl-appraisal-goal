@@ -59,7 +59,7 @@
                           <span><a href="#" id="show_course_table" class="label label-inverse pull-right btn-rounded text-capitalize pull-right">See all <i class="fa fa-arrow-right m-l-5"></i></a></span>
                        </div>
                      </div>
-			</div> 
+			</div>
 
 			<div class="col-md-3">
                      <div class="card-box">
@@ -153,7 +153,7 @@
 
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -278,7 +278,7 @@
                                <option value="{{ $course_name->course_ref }}">{{ $course_name->courses_name }}</option>
                              @endforeach
                            </select>
-       
+
                          </div>
                        </div>
 
@@ -290,6 +290,7 @@
                               <option value="1">Document</option>
                               <option value="2">Video</option>
                               <option value="3">Youtube</option>
+                              <option value="4">Audio</option>
                             </select>
                           </div>
                         </div>
@@ -321,6 +322,13 @@
                            {{ Form::text('youtube_link', null, ['class' => 'form-control','id'=>'youtube_link', 'placeholder' => 'Paste Youtube Link', 'required']) }}
                          </div>
                        </div>
+
+                       <div class="col-md-12 hide" id="audio">
+                        <div class="form-group">
+                          {{ Form::label('audio_link', 'Upload Audio file' ) }}
+                          {{ Form::file('audio_link', null, ['class' => 'form-control','id'=>'audio_link', 'placeholder' => 'upload cover page', 'required']) }}
+                        </div>
+                      </div>
 
                        <button type="submit" id="submit_material" class="btn btn-info btn-form pull-right hide" data-dismiss="modal">Add New Course</button>
 
@@ -367,7 +375,7 @@
         $('#course_input').val(' ');
       });
 
-      
+
       $('#submit_course_category').click(function(event) {
              $.post('/submit_new_category', $('#course_category').serialize(), function(data, status) {
             if(status === 'success'){
@@ -401,7 +409,7 @@
             }
           });
       });
-		
+
 	</script>
 
   <script>
@@ -420,10 +428,10 @@
           });
         });
       });
-      
+
       $('#submit_course').click(function(event) {
 
-        var form = $('#course')[0]; 
+        var form = $('#course')[0];
         var formData = new FormData(form);
         $.ajax({
                    url: '/submit_new_course',
@@ -461,7 +469,7 @@
             }
           });
       });
-    
+
   </script>
 
   <script>
@@ -512,7 +520,7 @@
          if(status === 'success'){
               $('#instructor_count').html(data);
               $("#instructor")[0].reset();
-              $('select').select2().destroy(); 
+              $('select').select2().destroy();
             }
       });
     });
@@ -627,7 +635,7 @@
       });
     }
 
-    
+
     function material()
     {
       var id = $('#material_type').val();
@@ -637,6 +645,7 @@
         $('#submit_material').removeClass('hide');
         $('#video').addClass('hide');
         $('#youtube').addClass('hide');
+        $('#audio').addClass('hide');
         $('#material_title').removeClass('hide')
       } else if(id == 2)
       {
@@ -644,6 +653,7 @@
         $('#submit_material').removeClass('hide');
         $('#video').removeClass('hide');
         $('#youtube').addClass('hide');
+        $('#audio').addClass('hide');
         $('#material_title').removeClass('hide')
       }
 
@@ -653,12 +663,23 @@
         $('#submit_material').removeClass('hide');
         $('#video').addClass('hide');
         $('#youtube').removeClass('hide');
+        $('#audio').addClass('hide');
         $('#material_title').removeClass('hide')
       }
+      else if(id == 4)
+      {
+        $('#document').addClass('hide');
+        $('#submit_material').removeClass('hide');
+        $('#video').addClass('hide');
+        $('#youtube').addClass('hide');
+        $('#audio').removeClass('hide');
+        $('#material_title').removeClass('hide')
+      }
+
     }
 
     $('#submit_material').click(function(event) {
-        var form = $('#submit_course_material_form')[0]; 
+        var form = $('#submit_course_material_form')[0];
         var formData = new FormData(form);
         $.ajax({
                    url: '/submit_course_material',
@@ -689,7 +710,7 @@
             `);
           });
         });
-       
+
        $.get('/get_course_details/'+ref, function(data, status) {
          $('#edit_courses_name').val(data.courses_name);
          $('#edit_course_duration').val(data.course_duration);
