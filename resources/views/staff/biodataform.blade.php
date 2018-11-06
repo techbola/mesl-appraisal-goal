@@ -42,6 +42,8 @@
         {{ Form::text('LastName', $staff->LastName,  ['class' => 'form-control', 'placeholder' => 'Last name','required']) }}
       </div>
     </div>
+</div>
+<div class="row">
     @if (auth()->user()->hasRole('admin'))
       <div class="col-sm-6">
         <div class="form-group">
@@ -62,7 +64,9 @@
           </select>
         </div>
       </div>
-      <div class="col-md-6">
+</div>
+<div class="row">
+      <div class="col-md-4">
         <div class="form-group">
           <label>Supervisor</label>
           {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
@@ -81,7 +85,18 @@
             {{ Form::email('IDNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter ID Number']) }}
         </div>
     </div>
-    <div class="col-sm-4">
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="">
+          {{ Form::label('EmploymentDate','Employment Date', ['class' => 'form-label']) }}
+          <div class="input-group date dp">
+            {{ Form::text('EmploymentDate', null, ['class' => 'form-control', 'placeholder' => 'Employment Date']) }}
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
         <div class="">
           {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label']) }}
           <div class="input-group date dp">
@@ -90,18 +105,20 @@
           </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('HomePhone','Home Phone Number') }}
             {{ Form::text('HomePhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Home Phone Number']) }}
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('MobilePhone','Mobile Phone') }}
             {{ Form::text('MobilePhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Mobile PhoneNumber']) }}
         </div>
     </div>
+</div>
+<div class="row">
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('WorkPhone','Work Phone Number') }}
@@ -120,6 +137,8 @@
             {{ Form::select('MaritalStatusID', [ 0 =>  'Marital Status'] + $status->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Marital Status", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
+</div>
+<div class="row">
     <div class="col-sm-4">
         <div class="">
           {{ Form::label('DateOfMarriage','Date Of Marriage', ['class' => 'form-label']) }}
@@ -148,10 +167,8 @@
             {{ Form::select('LocationID', [ '' =>  'Select Location'] + $locations->pluck('Location', 'LocationRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Office Location", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
-
-  {{-- </div>
-
-  <div class="row"> --}}
+</div>
+<div class="row">
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('StateID','State') }}
@@ -170,11 +187,11 @@
             {{ Form::select('CountryID', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
-
+</div>
 
     {{-- <div class="clearfix"></div> --}}
-  </div>
-  <div class="row">
+
+<div class="row">
     <div class="col-sm-6">
         <div class="form-group">
             {{ Form::label('AddressLine1','Address1') }}
@@ -187,7 +204,7 @@
             {{ Form::textarea('AddressLine2', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Address2']) }}
         </div>
     </div>
-  </div>
+</div>
 
   <div class="row">
 
@@ -371,6 +388,23 @@
     </div>
 
     <div class="clearfix"></div>
+ 
+    <div class="card-section p-l-5">PFA Details</div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        {{ Form::label('PFAID','Choose PFA') }}
+        {{ Form::select('PFAID', [ 0 =>  'Select a PFA'] + $pfa->pluck('PFA', 'PFARef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose PFA", 'data-init-plugin' => "select2"]) }}
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        {{ Form::label('PensionRSANumber','PFA RSA Number') }}
+        {{ Form::text('PensionRSANumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter PFA RSA Number']) }}
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
 
     <div class="card-section p-l-5">Payroll Details</div>
 
@@ -387,6 +421,14 @@
         {{ Form::select('PayrollGroupID', [ 0 =>  'Select a payroll group'] + $payroll_groups->pluck('GroupDescription', 'GroupRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
       </div>
     </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('LeaveDays','Number of Leave Days') }}
+        {{ Form::number('LeaveDays', null,  ['class' => 'form-control', 'placeholder' => 'Enter Number of Leave Days']) }}
+      </div>
+    </div>
+
     @endif
 
   </div>
