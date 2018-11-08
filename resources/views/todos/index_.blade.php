@@ -43,7 +43,7 @@
       <div class="tab-content">
         <div id="undone" class="tab-pane fade in active">
 
-          @include('todos.undone-block')
+          @include('todos.undone')
 
         </div>
         <div id="done" class="tab-pane fade">
