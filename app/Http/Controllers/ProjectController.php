@@ -65,7 +65,7 @@ class ProjectController extends Controller
         $project = new Project;
         $project->Project = $request->Project;
         $project->SupervisorID = $request->SupervisorID;
-        $project->VendorID = $request->VendorID;
+        // $project->VendorID = $request->VendorID;
         $project->StartDate = $request->StartDate;
         $project->EndDate = $request->EndDate;
         $project->Description = $request->Description;
@@ -144,7 +144,7 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $project->Project = $request->Project;
         $project->SupervisorID = $request->SupervisorID;
-        $project->VendorID = $request->VendorID;
+        // $project->VendorID = $request->VendorID;
         $project->StartDate = $request->StartDate;
         $project->EndDate = $request->EndDate;
         $project->Description = $request->Description;
