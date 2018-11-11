@@ -425,4 +425,11 @@ class ReportController extends Controller
         return response()->json(['sucess' => true, 'data' => ($outstanding_bills)], 200);
     }
 
+    public function fetchTransactionDetailsForCode(Request $request)
+    {
+        $transaction_ref     = $request->ref;
+        $transaction_details = collect(DB::select("exec procTransactionDetails '$transaction_ref'"));
+        return response()->json(['success' => true, 'data' => $transaction_details], 200);
+    }
+
 }

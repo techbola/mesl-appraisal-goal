@@ -1055,3 +1055,6 @@ Route::post('/recon/get_bank_balances9', 'internalPageController9@get_bank_balan
 
 //
 Route::get('/recon-data', 'jsonResponseController@export_unposted_ars_ledger');
+
+//modal for double entry
+Route::post('get-transaction-details', 'ReportController@fetchTransactionDetailsForCode');
