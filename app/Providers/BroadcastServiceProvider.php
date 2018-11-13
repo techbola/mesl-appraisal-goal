@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Providers;
+namespace Cavi\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavidel\Http\ViewComposers;
+namespace Cavi\Http\ViewComposers;
 
-// use Cavidel\User;
-use Cavidel\Menu;
+// use Cavi\User;
+use Cavi\Menu;
 use Illuminate\View\View;
 use Route;
 

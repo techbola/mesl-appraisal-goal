@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,12 +12,12 @@ class LoanRating extends Model
 
   public function status()
   {
-    return $this->belongsTo('Cavidel\LoanRatingStatus', 'StatusID', 'StatusRef');
+    return $this->belongsTo('Cavi\LoanRatingStatus', 'StatusID', 'StatusRef');
   }
 
   public function customer()
   {
-    return $this->belongsTo('Cavidel\Customer', 'CustomerID', 'CustomerRef');
+    return $this->belongsTo('Cavi\Customer', 'CustomerID', 'CustomerRef');
   }
 
   public function getFullNameAttribute()

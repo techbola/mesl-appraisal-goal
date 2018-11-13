@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\PlanOption;
+use Cavi\PlanOption;
 use Illuminate\Http\Request;
 
 class PlanOptionController extends Controller

@@ -1,24 +1,24 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Vendor;
-use Cavidel\Currency;
-use Cavidel\Staff;
-use Cavidel\CashEntry;
-use Cavidel\Billing;
-use Cavidel\BillingVendor;
+use Cavi\Vendor;
+use Cavi\Currency;
+use Cavi\Staff;
+use Cavi\CashEntry;
+use Cavi\Billing;
+use Cavi\BillingVendor;
 use Illuminate\Http\Request;
-use Cavidel\ProductService;
-use Cavidel\ProductCategory;
-use Cavidel\BillNarration;
-use Cavidel\PaymentPlan;
-use Cavidel\PymtPlan;
-use Cavidel\Config;
-use Cavidel\PlanOption;
-use Cavidel\Brand;
-use Cavidel\Project;
-use Cavidel\Location;
+use Cavi\ProductService;
+use Cavi\ProductCategory;
+use Cavi\BillNarration;
+use Cavi\PaymentPlan;
+use Cavi\PymtPlan;
+use Cavi\Config;
+use Cavi\PlanOption;
+use Cavi\Brand;
+use Cavi\Project;
+use Cavi\Location;
 use DB;
 
 class VendorController extends Controller

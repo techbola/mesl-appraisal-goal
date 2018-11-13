@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class GL extends Model
 
     public function customer()
     {
-        return $this->belongsTo('Cavidel\Customer', 'CustomerID', 'CustomerRef');
+        return $this->belongsTo('Cavi\Customer', 'CustomerID', 'CustomerRef');
     }
 
     public function real_customer()
@@ -23,27 +23,27 @@ class GL extends Model
 
     public function account_type()
     {
-        return $this->belongsTo('Cavidel\AccountType', 'AccountTypeID', 'AccountTypeRef');
+        return $this->belongsTo('Cavi\AccountType', 'AccountTypeID', 'AccountTypeRef');
     }
 
     public function currency()
     {
-        return $this->belongsTo('Cavidel\Currency', 'CurrencyID', 'CurrencyRef');
+        return $this->belongsTo('Cavi\Currency', 'CurrencyID', 'CurrencyRef');
     }
 
     public function bank()
     {
-        return $this->belongsTo('Cavidel\Bank', 'BankID', 'BankRef');
+        return $this->belongsTo('Cavi\Bank', 'BankID', 'BankRef');
     }
 
     public function branch()
     {
-        return $this->belongsTo('Cavidel\Branch', 'BranchID', 'BranchRef');
+        return $this->belongsTo('Cavi\Branch', 'BranchID', 'BranchRef');
     }
 
     public function loan_type()
     {
-        return $this->belongsTo('Cavidel\LoanType', 'LoanTypeID', 'LoanTypeRef');
+        return $this->belongsTo('Cavi\LoanType', 'LoanTypeID', 'LoanTypeRef');
     }
 
     public function getAccountTitleAttribute()

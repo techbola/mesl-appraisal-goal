@@ -1,5 +1,5 @@
 <?php
-namespace Cavidel;
+namespace Cavi;
 
 use Zizaco\Entrust\EntrustPermission;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\CourseCategory;
-use Cavidel\Courses;
-use Cavidel\Staff;
-use Cavidel\CourseInstructor;
-use Cavidel\CourseBatch;
-use Cavidel\CourseMaterial;
+use Cavi\CourseCategory;
+use Cavi\Courses;
+use Cavi\Staff;
+use Cavi\CourseInstructor;
+use Cavi\CourseBatch;
+use Cavi\CourseMaterial;
 use Image;
 use Illuminate\Http\Request;
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Process;
-use Cavidel\ProcessApprover;
-use Cavidel\ProcessAttribute;
-use Cavidel\ProcessRiskControl;
-use Cavidel\ProcessSteps;
-use Cavidel\ProcessDept;
-use Cavidel\User;
+use Cavi\Process;
+use Cavi\ProcessApprover;
+use Cavi\ProcessAttribute;
+use Cavi\ProcessRiskControl;
+use Cavi\ProcessSteps;
+use Cavi\ProcessDept;
+use Cavi\User;
 use Illuminate\Http\Request;
 
 class ProcessController extends Controller

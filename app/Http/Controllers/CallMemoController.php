@@ -1,19 +1,19 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\CallMemo;
-use Cavidel\CallMemoDiscussion;
-use Cavidel\CallMemoAction;
-use Cavidel\CallMemoActionStatus;
-use Cavidel\CallMemoMeetingType;
-use Cavidel\CallMemoFile;
-use Cavidel\Contact;
-use Cavidel\Staff;
-use Cavidel\HelpersOld;
+use Cavi\CallMemo;
+use Cavi\CallMemoDiscussion;
+use Cavi\CallMemoAction;
+use Cavi\CallMemoActionStatus;
+use Cavi\CallMemoMeetingType;
+use Cavi\CallMemoFile;
+use Cavi\Contact;
+use Cavi\Staff;
+use Cavi\HelpersOld;
 use Mail;
-use Cavidel\Mail\SendCallMemo;
+use Cavi\Mail\SendCallMemo;
 
 use DB;
 use PDF;

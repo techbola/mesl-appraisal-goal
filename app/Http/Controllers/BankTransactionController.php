@@ -1,16 +1,16 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\BankAccount;
-use Cavidel\BankTransaction;
-use Cavidel\BankTransactionStaging;
+use Cavi\BankAccount;
+use Cavi\BankTransaction;
+use Cavi\BankTransactionStaging;
 use Excel;
 use File;
 use DB;
 use Session;
-use Cavidel\SimpleXLSX;
+use Cavi\SimpleXLSX;
 use Carbon;
 
 class BankTransactionController extends Controller

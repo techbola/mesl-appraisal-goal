@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Http\Controllers\Controller;
+use Cavi\Http\Controllers\Controller;
 use Crypt;
 use Google2FA;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Cavidel\Http\Requests\ValidateSecretRequest;
+use Cavi\Http\Requests\ValidateSecretRequest;
 use \ParagonIE\ConstantTime\Base32;
 
 class Google2FAController extends Controller

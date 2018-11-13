@@ -43,7 +43,7 @@
             <tr>
               <td>{{ $rating->customer->Customer }}</td>
               <td>&#8358;{{ number_format($rating->LoanAmount) }}</td>
-              <td>{{ $Rate->{Cavidel\HelpersOld::num_words($rating->Rate)} }}%</td>
+              <td>{{ $Rate->{Cavi\HelpersOld::num_words($rating->Rate)} }}%</td>
               <td>{{ $rating->customer->OfficePhone1 ?? '-' }}</td>
               <td>{{ $rating->customer->OfficeEmail ?? '-' }}</td>
               <td>{{ $rating->PercentScore }}% ({{ $rating->Score }})</td>

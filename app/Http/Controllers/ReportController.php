@@ -1,16 +1,16 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\AccountGroup;
-use Cavidel\AccountCategory;
-use Cavidel\AccountType;
-use Cavidel\TransactionEntry;
-use Cavidel\GL;
+use Cavi\AccountGroup;
+use Cavi\AccountCategory;
+use Cavi\AccountType;
+use Cavi\TransactionEntry;
+use Cavi\GL;
 use DB;
 use Carbon\Carbon;
 use Auth;
-use Cavidel\Config;
+use Cavi\Config;
 
 use Illuminate\Http\Request;
 

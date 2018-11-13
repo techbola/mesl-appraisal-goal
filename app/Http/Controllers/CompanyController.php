@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Company;
+use Cavi\Company;
 use Illuminate\Http\Request;
 use Image;
 use File;

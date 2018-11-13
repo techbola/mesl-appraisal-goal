@@ -1,12 +1,12 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Company;
-use Cavidel\Department;
-use Cavidel\Division;
-use Cavidel\Group;
-use Cavidel\Subsidiary;
+use Cavi\Company;
+use Cavi\Department;
+use Cavi\Division;
+use Cavi\Group;
+use Cavi\Subsidiary;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller

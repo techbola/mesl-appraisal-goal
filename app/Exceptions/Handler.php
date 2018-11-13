@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Exceptions;
+namespace Cavi\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;

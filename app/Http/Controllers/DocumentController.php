@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Document;
-use Cavidel\DocType;
-use Cavidel\Role;
-use Cavidel\Staff;
-use Cavidel\Workflow;
-use Cavidel\Department;
+use Cavi\Document;
+use Cavi\DocType;
+use Cavi\Role;
+use Cavi\Staff;
+use Cavi\Workflow;
+use Cavi\Department;
 use Auth;
 use DB;
 

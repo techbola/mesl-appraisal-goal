@@ -19,7 +19,7 @@ return [
     | the role if it is in a different namespace.
     |
      */
-    'role'                  => 'Cavidel\Role',
+    'role'                  => 'Cavi\Role',
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ return [
     | Update the permission if it is in a different namespace.
     |
      */
-    'permission'            => 'Cavidel\Permission',
+    'permission'            => 'Cavi\Permission',
 
     /*
     |--------------------------------------------------------------------------

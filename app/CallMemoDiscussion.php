@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class CallMemoDiscussion extends Model
 
   public function actions()
   {
-    return $this->hasMany('Cavidel\CallMemoAction', 'DiscussionID');
+    return $this->hasMany('Cavi\CallMemoAction', 'DiscussionID');
   }
 
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavidel\Mail;
+namespace Cavi\Mail;
 
-use Cavidel\Customer;
+use Cavi\Customer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;

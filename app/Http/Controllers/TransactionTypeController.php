@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\TradeType;
+use Cavi\TradeType;
 use Illuminate\Http\Request;
 
 class TransactionTypeController extends Controller

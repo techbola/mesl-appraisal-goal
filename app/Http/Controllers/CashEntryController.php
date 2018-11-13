@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\CashEntry;
-use Cavidel\Config;
-use Cavidel\Customer;
-use Cavidel\Staff;
-use Cavidel\Brand;
-use Cavidel\ProductCategory;
+use Cavi\CashEntry;
+use Cavi\Config;
+use Cavi\Customer;
+use Cavi\Staff;
+use Cavi\Brand;
+use Cavi\ProductCategory;
 use Illuminate\Http\Request;
 
 class CashEntryController extends Controller

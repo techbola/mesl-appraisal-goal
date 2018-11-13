@@ -156,13 +156,13 @@ return [
         /*
          * Application Service Providers...
          */
-        Cavidel\Providers\AppServiceProvider::class,
-        Cavidel\Providers\AuthServiceProvider::class,
-        Cavidel\Providers\BroadcastServiceProvider::class,
-        Cavidel\Providers\EventServiceProvider::class,
-        Cavidel\Providers\RouteServiceProvider::class,
+        Cavi\Providers\AppServiceProvider::class,
+        Cavi\Providers\AuthServiceProvider::class,
+        Cavi\Providers\BroadcastServiceProvider::class,
+        Cavi\Providers\EventServiceProvider::class,
+        Cavi\Providers\RouteServiceProvider::class,
 
-        Cavidel\Providers\ComposerServiceProvider::class,
+        Cavi\Providers\ComposerServiceProvider::class,
 
         Zizaco\Entrust\EntrustServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,

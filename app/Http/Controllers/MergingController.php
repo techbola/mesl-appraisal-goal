@@ -1,12 +1,12 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Address1;
-use Cavidel\Address2;
-use Cavidel\MergedRecord;
-use Cavidel\FileUpload;
+use Cavi\Address1;
+use Cavi\Address2;
+use Cavi\MergedRecord;
+use Cavi\FileUpload;
 
 class MergingController extends Controller
 {

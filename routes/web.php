@@ -765,14 +765,6 @@ Route::get('/cda', function () {
 
 Route::get('/testing', function () {
 
-    // return Cavidel\Staff::whereRaw("DepartmentID@ > array['1']::varchar[]")->get();
-    // return Cavidel\Staff::whereRaw("1 = ANY(DepartmentID)")->get();
-    // return Cavidel\Staff::whereRaw("find_in_set('1', DepartmentID)")->get();
-    // return Cavidel\Staff::whereRaw("CONCAT(',', DepartmentID, ',')LIKECONCAT('%,', 1, ',%')")->get();
-    // return Cavidel\Department::find('4')->staff();
-    // return Cavidel\Staff::all()->filter('1', function(){
-    // })->get();
-    return Carbon::parse('02-Jan-2018 04:38 PM')->format('Y-m-d');
 });
 
 //Reconciliation Routes

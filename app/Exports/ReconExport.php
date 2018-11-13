@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Exports;
+namespace Cavi\Exports;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;

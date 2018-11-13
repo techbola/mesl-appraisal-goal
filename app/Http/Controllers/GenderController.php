@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Gender;
+use Cavi\Gender;
 use Illuminate\Http\Request;
 
 class GenderController extends Controller

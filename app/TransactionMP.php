@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,12 +16,12 @@ class TransactionMP extends Model
 
     public function gl()
     {
-        return $this->belongsTo('Cavidel\GL', 'GLID', 'GLRef');
+        return $this->belongsTo('Cavi\GL', 'GLID', 'GLRef');
     }
 
     public function currency()
     {
-        return $this->belongsTo('Cavidel\Currency', 'CurrencyID', 'CurrencyRef');
+        return $this->belongsTo('Cavi\Currency', 'CurrencyID', 'CurrencyRef');
     }
 
 }

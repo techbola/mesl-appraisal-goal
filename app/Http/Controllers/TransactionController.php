@@ -1,18 +1,18 @@
 <?php
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Customer;
-use Cavidel\GL;
-use Cavidel\PostingType;
-use Cavidel\Transaction;
-use Cavidel\TransactionMP;
-use Cavidel\TransactionType;
+use Cavi\Customer;
+use Cavi\GL;
+use Cavi\PostingType;
+use Cavi\Transaction;
+use Cavi\TransactionMP;
+use Cavi\TransactionType;
 use Illuminate\Http\Request;
-use Cavidel\AccountType;
-use Cavidel\Staff;
+use Cavi\AccountType;
+use Cavi\Staff;
 use Auth;
 use DB;
-use Cavidel\Rules\ValidateValueDateYear;
+use Cavi\Rules\ValidateValueDateYear;
 
 class TransactionController extends Controller
 {

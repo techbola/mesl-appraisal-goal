@@ -1,11 +1,11 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\MonthlyAmortItem;
-use Cavidel\MonthlyAmortisation;
-use Cavidel\GL;
+use Cavi\MonthlyAmortItem;
+use Cavi\MonthlyAmortisation;
+use Cavi\GL;
 
 class AmortisationController extends Controller
 {

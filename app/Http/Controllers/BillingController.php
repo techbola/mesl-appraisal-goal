@@ -1,36 +1,36 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Customer;
-use Cavidel\Billing;
-use Cavidel\Location;
-use Cavidel\CashEntry;
-use Cavidel\ProductCategory;
-use Cavidel\BuildingProject;
-use Cavidel\ProductService;
-use Cavidel\Staff;
+use Cavi\Customer;
+use Cavi\Billing;
+use Cavi\Location;
+use Cavi\CashEntry;
+use Cavi\ProductCategory;
+use Cavi\BuildingProject;
+use Cavi\ProductService;
+use Cavi\Staff;
 use Illuminate\Http\Request;
-use Cavidel\ProductDeleted;
-use Cavidel\Title;
-use Cavidel\Mail\Orderbill;
-use Cavidel\Mail\SendReceipt;
-use Cavidel\Nationality;
-use Cavidel\Gender;
-use Cavidel\MaritalStatus;
-use Cavidel\BillNarration;
-use Cavidel\PaymentPlan;
-use Cavidel\PymtPlan;
-use Cavidel\HouseType;
-use Cavidel\Config;
-use Cavidel\PlanOption;
-use Cavidel\Brand;
+use Cavi\ProductDeleted;
+use Cavi\Title;
+use Cavi\Mail\Orderbill;
+use Cavi\Mail\SendReceipt;
+use Cavi\Nationality;
+use Cavi\Gender;
+use Cavi\MaritalStatus;
+use Cavi\BillNarration;
+use Cavi\PaymentPlan;
+use Cavi\PymtPlan;
+use Cavi\HouseType;
+use Cavi\Config;
+use Cavi\PlanOption;
+use Cavi\Brand;
 use Mail;
-use Cavidel\GL;
+use Cavi\GL;
 use NumberFormatter;
-use Cavidel\AccountMgr;
+use Cavi\AccountMgr;
 use PDF;
-use Cavidel\Vendor;
+use Cavi\Vendor;
 
 class BillingController extends Controller
 {
@@ -443,7 +443,7 @@ class BillingController extends Controller
         // PDF::setOptions(['dpi' => 96, 'defaultPaperSize' => "letter", 'defaultFont' => 'sans-serif']);
         $pdf = PDF::loadView('receipts.template_pdf', compact('company_details', 'narrations', 'bill_narr', 'client_details', 'cash_entry', 'amount_in_words'));
         return $pdf->stream('receipt.pdf');
-        // $pdf = Cavidel::make('dompdf.wrapper');
+        // $pdf = Cavi::make('dompdf.wrapper');
         // $pdf->loadHTML('<h1>Test</h1>');
     }
 

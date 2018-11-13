@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\BankTransaction;
-use Cavidel\Transaction;
+use Cavi\BankTransaction;
+use Cavi\Transaction;
 
 class internalPageController6 extends Controller
 {

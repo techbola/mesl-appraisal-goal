@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,12 +12,12 @@ class TaskUpdate extends Model
 
   public function staff()
   {
-    return $this->belongsTo('Cavidel\Staff', 'StaffID', 'StaffRef');
+    return $this->belongsTo('Cavi\Staff', 'StaffID', 'StaffRef');
   }
 
   public function task()
   {
-    return $this->belongsTo('Cavidel\ProjectTask', 'TaskID', 'TaskRef');
+    return $this->belongsTo('Cavi\ProjectTask', 'TaskID', 'TaskRef');
   }
 
 }

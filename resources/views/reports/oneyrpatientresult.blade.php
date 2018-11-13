@@ -52,7 +52,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(Cavidel\Billing::details($billresult->GroupID) as $d)
+								@foreach(Cavi\Billing::details($billresult->GroupID) as $d)
 								<tr>
 									<td>{{ $d->BillingDate }}</td>
 									<td>{{ $d->ServiceDesc }}</td>
@@ -98,7 +98,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach(Cavidel\Billing::details($billresult->GroupID) as $d)
+								@foreach(Cavi\Billing::details($billresult->GroupID) as $d)
 								<tr>
 									<td>{{ $d->BillingDate }}</td>
 									<td>{{ $d->ServiceDesc }}</td>

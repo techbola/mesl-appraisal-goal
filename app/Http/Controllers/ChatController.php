@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Chat;
-use Cavidel\User;
-use Cavidel\Staff;
-// use Cavidel\Events\NewChatUser;
+use Cavi\Chat;
+use Cavi\User;
+use Cavi\Staff;
+// use Cavi\Events\NewChatUser;
 use Event;
-use Cavidel\Events\NewChatMsg;
+use Cavi\Events\NewChatMsg;
 use Auth;
 use DB;
 use Carbon\Carbon;

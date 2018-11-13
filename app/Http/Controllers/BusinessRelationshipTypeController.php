@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\BusinessRelationshipType;
+use Cavi\BusinessRelationshipType;
 use Validator;
 
 class BusinessRelationshipTypeController extends Controller

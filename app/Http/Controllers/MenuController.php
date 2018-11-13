@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Http\Requests\MenuRequest;
-use Cavidel\Menu;
-use Cavidel\Role;
+use Cavi\Http\Requests\MenuRequest;
+use Cavi\Menu;
+use Cavi\Role;
 use DB;
 use Event;
 use Illuminate\Http\Request;

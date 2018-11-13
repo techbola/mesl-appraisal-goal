@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\StickyNote;
-use Cavidel\StickyNoteChecklist;
+use Cavi\StickyNote;
+use Cavi\StickyNoteChecklist;
 
 class StickyNoteController extends Controller
 {

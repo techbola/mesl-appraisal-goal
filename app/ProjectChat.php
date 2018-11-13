@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,12 +12,12 @@ class ProjectChat extends Model
 
   public function staff()
   {
-    return $this->belongsTo('Cavidel\Staff', 'StaffID', 'StaffRef');
+    return $this->belongsTo('Cavi\Staff', 'StaffID', 'StaffRef');
   }
 
   public function project()
   {
-    return $this->belongsTo('Cavidel\Project', 'ProjectID', 'ProjectRef');
+    return $this->belongsTo('Cavi\Project', 'ProjectID', 'ProjectRef');
   }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,12 +13,12 @@ class Customers extends Model
 
     public function projects()
     {
-      return $this->hasMany('Cavidel\Project', 'CustomerID');
+      return $this->hasMany('Cavi\Project', 'CustomerID');
     }
 
     public function country()
     {
-      return $this->belongsTo('Cavidel\Country', 'CountryID', 'CountryRef');
+      return $this->belongsTo('Cavi\Country', 'CountryID', 'CountryRef');
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,36 +12,36 @@ class Contact extends Model
 
     public function projects()
     {
-      return $this->hasMany('Cavidel\Project', 'CustomerID');
+      return $this->hasMany('Cavi\Project', 'CustomerID');
     }
 
     public function country()
     {
-      return $this->belongsTo('Cavidel\Country', 'CountryID', 'CountryRef');
+      return $this->belongsTo('Cavi\Country', 'CountryID', 'CountryRef');
     }
 
     public function title()
     {
-      return $this->belongsTo('Cavidel\Title', 'TitleID', 'TitleRef');
+      return $this->belongsTo('Cavi\Title', 'TitleID', 'TitleRef');
     }
 
     public function housetype()
     {
-      return $this->belongsTo('Cavidel\HouseType', 'HouseTypeID', 'HouseTypeRef');
+      return $this->belongsTo('Cavi\HouseType', 'HouseTypeID', 'HouseTypeRef');
     }
 
     public function estate()
     {
-      return $this->belongsTo('Cavidel\BuildingProject', 'EstateID', 'BuildingProjectRef');
+      return $this->belongsTo('Cavi\BuildingProject', 'EstateID', 'BuildingProjectRef');
     }
 
     public function call_memos()
     {
-      return $this->hasMany('Cavidel\CallMemo', 'CustomerID')->orderBy('MeetingDate', 'desc');
+      return $this->hasMany('Cavi\CallMemo', 'CustomerID')->orderBy('MeetingDate', 'desc');
     }
 
     public function conversations()
     {
-      return $this->hasMany('Cavidel\Conversation', 'ContactID')->orderBy('VisitDate', 'desc');
+      return $this->hasMany('Cavi\Conversation', 'ContactID')->orderBy('VisitDate', 'desc');
     }
 }

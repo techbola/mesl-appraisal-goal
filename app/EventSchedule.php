@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +22,7 @@ class EventSchedule extends Model
 
   public function poster()
   {
-    return $this->belongsTo('Cavidel\User', 'Initiator');
+    return $this->belongsTo('Cavi\User', 'Initiator');
   }
 
   // public function setEndDateAttribute($value)

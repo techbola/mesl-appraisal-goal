@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers\Auth;
+namespace Cavi\Http\Controllers\Auth;
 
-use Cavidel\Http\Controllers\Controller;
+use Cavi\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Cavidel\Http\Requests\ValidateSecretRequest;
+use Cavi\Http\Requests\ValidateSecretRequest;
 class LoginController extends Controller
 {
     /*

@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\LeaveType;
-// use Cavidel\Mail\Leave;
-use Cavidel\Staff;
-use Cavidel\LeaveRequest;
+use Cavi\LeaveType;
+// use Cavi\Mail\Leave;
+use Cavi\Staff;
+use Cavi\LeaveRequest;
 use Carbon\Carbon;
-use Cavidel\RestrictionDates;
-use Cavidel\LeaveTransaction;
+use Cavi\RestrictionDates;
+use Cavi\LeaveTransaction;
 use Illuminate\Http\Request;
 use Mail;
 

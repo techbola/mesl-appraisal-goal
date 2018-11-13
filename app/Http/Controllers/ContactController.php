@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Contact;
-use Cavidel\Country;
-use Cavidel\User;
+use Cavi\Contact;
+use Cavi\Country;
+use Cavi\User;
 use Validator;
-use Cavidel\BusinessRelationshipType;
+use Cavi\BusinessRelationshipType;
 
 class ContactController extends Controller
 {

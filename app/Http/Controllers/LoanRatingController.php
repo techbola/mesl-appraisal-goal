@@ -1,11 +1,11 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
-use Cavidel\Gender;
-use Cavidel\LoanRatingOption;
-use Cavidel\LoanRating;
-use Cavidel\Country;
-use Cavidel\Customer;
+namespace Cavi\Http\Controllers;
+use Cavi\Gender;
+use Cavi\LoanRatingOption;
+use Cavi\LoanRating;
+use Cavi\Country;
+use Cavi\Customer;
 
 use Illuminate\Http\Request;
 

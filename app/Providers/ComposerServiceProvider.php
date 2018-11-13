@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Providers;
+namespace Cavi\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -15,11 +15,11 @@ class ComposerServiceProvider extends ServiceProvider
     {
         view()->composer(
             'layouts.header_',
-            'Cavidel\Http\ViewComposers\SidebarComposer'
+            'Cavi\Http\ViewComposers\SidebarComposer'
         );
         view()->composer(
             'layouts.uikit',
-            'Cavidel\Http\ViewComposers\SidebarComposer'
+            'Cavi\Http\ViewComposers\SidebarComposer'
         );
     }
 

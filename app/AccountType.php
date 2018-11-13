@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class AccountType extends Model
     const UPDATED_AT = 'ModifiedDateTime';
 
     public function gls(){
-      return $this->hasMany('Cavidel\GL', 'AccountTypeID', 'AccountTypeRef');
+      return $this->hasMany('Cavi\GL', 'AccountTypeID', 'AccountTypeRef');
     }
 
     public function transactions(){

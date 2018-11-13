@@ -2,7 +2,7 @@
 
 @section('content')
   @php
-    $genders = Cavidel\Gender::all();
+    $genders = Cavi\Gender::all();
   @endphp
 <div class="container">
     <div class="row">

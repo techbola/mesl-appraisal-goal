@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,17 +14,17 @@ class LeaveRequest extends Model
 
     public function user()
     {
-        return $this->belongsTo('Cavidel\User', 'ApproverID');
+        return $this->belongsTo('Cavi\User', 'ApproverID');
     }
 
     public function leave_type()
     {
-        return $this->belongsTo('Cavidel\LeaveType', 'AbsenceTypeID');
+        return $this->belongsTo('Cavi\LeaveType', 'AbsenceTypeID');
     }
 
 
     public function requester()
     {
-        return $this->belongsTo('Cavidel\User', 'StaffID');
+        return $this->belongsTo('Cavi\User', 'StaffID');
     }
 }

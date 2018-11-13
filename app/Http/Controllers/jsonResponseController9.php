@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\ArsLedger9;
-use Cavidel\ArsBank9;
+use Cavi\ArsLedger9;
+use Cavi\ArsBank9;
 use DB;
 
 class jsonResponseController9 extends Controller

@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\ScoreCard;
-use Cavidel\Staff;
+use Cavi\ScoreCard;
+use Cavi\Staff;
 
 use Auth;
 

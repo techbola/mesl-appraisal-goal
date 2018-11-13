@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\User;
+use Cavi\User;
 use DB;
 use Illuminate\Http\Request;
 

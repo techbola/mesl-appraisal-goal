@@ -1,18 +1,18 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\ProjectTask;
-use Cavidel\Project;
-use Cavidel\Step;
-use Cavidel\Staff;
-use Cavidel\TaskUpdate;
+use Cavi\ProjectTask;
+use Cavi\Project;
+use Cavi\Step;
+use Cavi\Staff;
+use Cavi\TaskUpdate;
 use Carbon;
 use DB;
 
-use Cavidel\StepBudget;
-use Cavidel\StepBudgetPayment;
+use Cavi\StepBudget;
+use Cavi\StepBudgetPayment;
 
 class TaskController extends Controller
 {

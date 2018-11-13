@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,6 @@ class PolicySegment extends Model
 
     public function policy()
     {
-        return $this->belongsTo('Cavidel\Policy', 'PolicyID');
+        return $this->belongsTo('Cavi\Policy', 'PolicyID');
     }
 }

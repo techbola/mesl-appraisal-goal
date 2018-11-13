@@ -1,18 +1,18 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
 use Storage;
-use Cavidel\Location;
-use Cavidel\Complaint;
-use Cavidel\Customer;
-use Cavidel\BuildingProject;
-use Cavidel\Department;
-use Cavidel\ComplaintComment;
-use Cavidel\ComplaintAttachment;
-use Cavidel\Staff;
+use Cavi\Location;
+use Cavi\Complaint;
+use Cavi\Customer;
+use Cavi\BuildingProject;
+use Cavi\Department;
+use Cavi\ComplaintComment;
+use Cavi\ComplaintAttachment;
+use Cavi\Staff;
 
 class ComplaintController extends Controller
 {

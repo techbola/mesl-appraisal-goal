@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\EventSchedule;
-use Cavidel\User;
-use Cavidel\Department;
-use Cavidel\Staff;
+use Cavi\EventSchedule;
+use Cavi\User;
+use Cavi\Department;
+use Cavi\Staff;
 
-use Cavidel\Notifications\NewCalendarEvent;
+use Cavi\Notifications\NewCalendarEvent;
 use Notification;
 
 class EventScheduleController extends Controller

@@ -1,16 +1,16 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\User;
-use Cavidel\Court;
-use Cavidel\Contact;
-use Cavidel\Country;
-use Cavidel\Litigation;
-use Cavidel\BusinessRelationshipType;
+use Cavi\User;
+use Cavi\Court;
+use Cavi\Contact;
+use Cavi\Country;
+use Cavi\Litigation;
+use Cavi\BusinessRelationshipType;
 use DB, Validator;
-use Cavidel\LitigationFile;
+use Cavi\LitigationFile;
 
 class LitigationController extends Controller
 {

@@ -1,15 +1,15 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Bulletin;
-use Cavidel\User;
+use Cavi\Bulletin;
+use Cavi\User;
 use Carbon\Carbon;
-use Cavidel\Department;
-use Cavidel\Staff;
+use Cavi\Department;
+use Cavi\Staff;
 
-use Cavidel\Notifications\NewBulletin;
+use Cavi\Notifications\NewBulletin;
 use Notification;
 
 class BulletinController extends Controller

@@ -1,12 +1,12 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\ProductService;
-use Cavidel\ProductCategory;
-use Cavidel\Product;
-use Cavidel\Location;
-use Cavidel\Staff;
+use Cavi\ProductService;
+use Cavi\ProductCategory;
+use Cavi\Product;
+use Cavi\Location;
+use Cavi\Staff;
 use Auth;
 use Illuminate\Http\Request;
 

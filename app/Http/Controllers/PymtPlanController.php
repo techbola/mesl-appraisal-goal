@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\PymtPlan;
+use Cavi\PymtPlan;
 
 use Illuminate\Http\Request;
 

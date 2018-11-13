@@ -199,7 +199,7 @@
 
     var channel = pusher.subscribe('new-chat');
     // var channel = pusher.subscribe('officemate');
-    channel.bind('Cavidel\\Events\\NewChatMsg', function(data) {
+    channel.bind('Cavi\\Events\\NewChatMsg', function(data) {
       var ToID = $('#ToID').val();
       var user_id = '{{ Auth::user()->id }}';
       // console.log(data);

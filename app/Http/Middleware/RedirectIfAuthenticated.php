@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Http\Middleware;
+namespace Cavi\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
