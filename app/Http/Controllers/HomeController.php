@@ -1,17 +1,17 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\User;
-use Cavidel\CallMemoAction;
-use Cavidel\Todo;
-use Cavidel\ProjectTask;
-use Cavidel\Bulletin;
-use Cavidel\EventSchedule;
-use Cavidel\LeaveRequest;
-use Cavidel\Memo;
-use Cavidel\Staff;
-use Cavidel\PolicyStatement;
+use Cavi\User;
+use Cavi\CallMemoAction;
+use Cavi\Todo;
+use Cavi\ProjectTask;
+use Cavi\Bulletin;
+use Cavi\EventSchedule;
+use Cavi\LeaveRequest;
+use Cavi\Memo;
+use Cavi\Staff;
+use Cavi\PolicyStatement;
 use Carbon;
 
 class HomeController extends Controller

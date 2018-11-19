@@ -1,6 +1,6 @@
 <?php
-use Cavidel\User;
-// namespace Cavidel;
+use Cavi\User;
+// namespace Cavi;
 
 // appends naira to strings
 if (!function_exists('nairazify')) {

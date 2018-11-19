@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\PayrollRecon;
+use Cavi\PayrollRecon;
 
 class PayrollReconController extends Controller
 {

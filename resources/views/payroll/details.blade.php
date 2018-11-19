@@ -19,17 +19,21 @@
 		<div class="pull-right">
 			<div class="col-xs-12">
 				<button id="apply_updates" class="btn btn-info" title="Updates Employee's payroll group">Apply update to employees</button>
-				<input type="text" class="search-table form-control pull-right" placeholder="Search" style="width: 200px; margin-left: 10px">
+				{{-- <input type="text" class="search-table form-control pull-right" placeholder="Search" style="width: 200px; margin-left: 10px"> --}}
 			</div>
 		</div>
 		<div class="clearfix"></div>
 		<div class="panel-body">
-			<table class="table tableWithSearch table-striped table-bordered">
+			<table id="pay_details_table" class="table  table-striped table-bordered">
 				<thead>
 					<th>Staff Name</th>
 					<th>Basic</th>
 					<th>Housing</th>
 					<th>Transport</th>
+					<th>Meal</th>
+					<th>Utility</th>
+					<th>Leave</th>
+					<th>Dressing</th>
 					<th>Gross Pay</th>
 					<th>Pension</th>
 					<th>PAYE Tax</th>
@@ -43,6 +47,10 @@
 						<td>{{ number_format($pd->Basic, 2) }}</td>
 						<td>{{ number_format($pd->Housing, 2) }}</td>
 						<td>{{ number_format($pd->Transport, 2) }}</td>
+						<td>{{ number_format($pd->MealSubsidy, 2) }}</td>
+						<td>{{ number_format($pd->Utilities, 2) }}</td>
+						<td>{{ number_format($pd->Leave, 2) }}</td>
+						<td>{{ number_format($pd->Dressing, 2) }}</td>
 						<td>{{ number_format($pd->GrossPay, 2) }}</td>
 						<td>{{ number_format($pd->Pension, 2) }}</td>
 						<td>{{ number_format($pd->PAYETax, 2) }}</td>
@@ -114,6 +122,14 @@
 
 
 @push('scripts')
+<script>
+		$('#pay_details_table').DataTable({
+			dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+			buttons: [
+                'print', 'pdf', 'excel', 'csv'
+            ]
+		});
+	</script>
 <script>
 	$('#apply_updates').click(function(e) {
 		// e.preventDefault();

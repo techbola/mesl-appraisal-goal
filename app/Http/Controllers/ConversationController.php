@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Contact;
-use Cavidel\Title;
-use Cavidel\HouseType;
-use Cavidel\Conversation;
-use Cavidel\Staff;
-use Cavidel\BuildingProject;
+use Cavi\Contact;
+use Cavi\Title;
+use Cavi\HouseType;
+use Cavi\Conversation;
+use Cavi\Staff;
+use Cavi\BuildingProject;
 use DB;
 
 class ConversationController extends Controller

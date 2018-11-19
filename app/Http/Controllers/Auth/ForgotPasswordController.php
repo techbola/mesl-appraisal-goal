@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavidel\Http\Controllers\Auth;
+namespace Cavi\Http\Controllers\Auth;
 
-use Cavidel\Http\Controllers\Controller;
+use Cavi\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller

@@ -1,18 +1,18 @@
 <?php
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Customer;
-use Cavidel\GL;
-use Cavidel\PostingType;
-use Cavidel\Transaction;
-use Cavidel\TransactionMP;
-use Cavidel\TransactionType;
+use Cavi\Customer;
+use Cavi\GL;
+use Cavi\PostingType;
+use Cavi\Transaction;
+use Cavi\TransactionMP;
+use Cavi\TransactionType;
 use Illuminate\Http\Request;
-use Cavidel\AccountType;
-use Cavidel\Staff;
+use Cavi\AccountType;
+use Cavi\Staff;
 use Auth;
 use DB;
-use Cavidel\Rules\ValidateValueDateYear;
+use Cavi\Rules\ValidateValueDateYear;
 
 class TransactionController extends Controller
 {
@@ -103,7 +103,6 @@ class TransactionController extends Controller
         if (!empty($gls)) {
             $statements = \DB::select("EXEC procStatementDetails $gls->GLID");
         }
-
         return view('transactions.show', compact('trans', 'details', 'statements'));
     }
 
@@ -333,6 +332,28 @@ class TransactionController extends Controller
             $transaction = TransactionMP::where('AlphaCode');
             $transaction->update(['PostFlag' => 1]);
         }
+    }
+
+    public function reversal_list()
+    {
+        $trans = collect(\DB::select("EXEC procTransactionsList"))->where('ReversedFlag', '<>', 1);
+        return view('transactions.transactionlist_reversal', compact('trans'));
+    }
+
+    public function reversal_range(Request $request)
+    {
+        $StartDate = $request->StartDate;
+        $EndDate   = $request->EndDate;
+        $trans     = collect(\DB::select("EXEC procTransactionsListRange '$StartDate', '$EndDate' "))->where('ReversedFlag', '<>', 1);
+        return view('transactions.transactionlistrange_reversal', compact('trans'));
+    }
+
+    public function reversal_post(Request $request)
+    {
+        $trans_code = $request->trans_code;
+        $user_id    = auth()->user()->id;
+        \DB::statement("EXEC procReversal $user_id, '$trans_code'");
+        return response()->json(['success' => true], 200);
     }
 
 }

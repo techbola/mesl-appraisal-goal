@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 // use Codesleeve\Stapler\ORM\EloquentTrait;
 // use Codesleeve\Stapler\ORM\StaplerableInterface;
@@ -21,27 +21,27 @@ class Staff extends Model
 
     public function user()
     {
-        return $this->belongsTo('Cavidel\User', 'UserID');
+        return $this->belongsTo('Cavi\User', 'UserID');
     }
     public function company()
     {
-        return $this->belongsTo('Cavidel\Company', 'CompanyID');
+        return $this->belongsTo('Cavi\Company', 'CompanyID');
     }
     public function country()
     {
-        return $this->belongsTo('Cavidel\Country', 'CountryID');
+        return $this->belongsTo('Cavi\Country', 'CountryID');
     }
     public function state()
     {
-        return $this->belongsTo('Cavidel\State', 'StateID');
+        return $this->belongsTo('Cavi\State', 'StateID');
     }
     public function location()
     {
-        return $this->belongsTo('Cavidel\Location', 'LocationID');
+        return $this->belongsTo('Cavi\Location', 'LocationID');
     }
     public function tasks()
     {
-        return $this->hasMany('Cavidel\ProjectTask', 'StaffID', 'StaffRef');
+        return $this->hasMany('Cavi\ProjectTask', 'StaffID', 'StaffRef');
     }
     public function departments()
     {
@@ -67,7 +67,7 @@ class Staff extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->user->FullName;
+        return $this->user->FullName ?? '';
     }
     public function getFirstNameAttribute()
     {
@@ -94,12 +94,12 @@ class Staff extends Model
 
     public function scorecards()
     {
-      return $this->hasMany('Cavidel\ScoreCard', 'StaffID');
+      return $this->hasMany('Cavi\ScoreCard', 'StaffID');
     }
 
     public function subordinates()
     {
-      return $this->hasMany('Cavidel\Staff', 'SupervisorID');
+      return $this->hasMany('Cavi\Staff', 'SupervisorID');
     }
 
     // public function __construct(array $attributes = array())

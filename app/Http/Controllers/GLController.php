@@ -1,17 +1,17 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\AccountType;
-use Cavidel\Branch;
-use Cavidel\Currency;
-use Cavidel\Customers;
-// use Cavidel\Frequency;
-use Cavidel\GL;
-// use Cavidel\LoanRePaymentType;
-// use Cavidel\LoanStatus;
-use Cavidel\Staff;
-// use Cavidel\LoanType;
+use Cavi\AccountType;
+use Cavi\Branch;
+use Cavi\Currency;
+use Cavi\Customers;
+// use Cavi\Frequency;
+use Cavi\GL;
+// use Cavi\LoanRePaymentType;
+// use Cavi\LoanStatus;
+use Cavi\Staff;
+// use Cavi\LoanType;
 use Illuminate\Http\Request;
 
 use DB;

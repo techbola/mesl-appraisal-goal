@@ -57,7 +57,7 @@
           <th>Ledger Items</th>
           <th>Debit Balance (&#8358;)</th>
           <th>Credit Balance (&#8358;)</th>
-          <th>Balance (&#8358;)</th>
+          <!-- <th>Balance (&#8358;)</th> -->
         </thead>
 
         <tfoot style="display: table-header-group;">
@@ -65,7 +65,7 @@
           <th>Ledger Items</th>
           <th>Debit Balance (&#8358;)</th>
           <th>Credit Balance (&#8358;)</th>
-          <th>Balance (&#8358;)</th>
+          <!-- <th>Balance (&#8358;)</th> -->
         </tfoot>
 
         <tbody>
@@ -75,7 +75,7 @@
               <td class="text-uppercase text-complete">{{ $tb->TrialBalanceName }}</td>
               <td>{{ number_format($tb->DebitBalance) }}</td>
               <td>{{ number_format($tb->CreditBalance) }}</td>
-              <td>{{ number_format($tb->Balance) }}</td>
+              <!-- <td>{{-- number_format($tb->Balance) --}}</td> -->
             </tr>
           @endforeach
         </tbody>
@@ -85,7 +85,7 @@
             <td></td>
             <td class="text-uppercase text-danger f18">&#8358; {{ number_format($tbs->sum('DebitBalance')) }}</td>
             <td class="text-uppercase text-success f18">&#8358; {{ number_format($tbs->sum('CreditBalance')) }}</td>
-            <td class="text-uppercase text-success f18">&#8358; {{ number_format($tbs->sum('Balance')) }}</td>
+            <!-- <td class="text-uppercase text-success f18">&#8358; {{-- number_format($tbs->sum('Balance')) --}}</td> -->
           </tr>
         </tfoot>
       </table>

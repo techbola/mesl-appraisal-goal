@@ -1,19 +1,19 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Message;
-use Cavidel\User;
-use Cavidel\Staff;
-use Cavidel\MessageRecipient;
-use Cavidel\MessageFile;
+use Cavi\Message;
+use Cavi\User;
+use Cavi\Staff;
+use Cavi\MessageRecipient;
+use Cavi\MessageFile;
 
 use Event;
-use Cavidel\Events\NewMessageEvent;
+use Cavi\Events\NewMessageEvent;
 
 use Notification;
-use Cavidel\Notifications\NewMessage;
+use Cavi\Notifications\NewMessage;
 
 use DB;
 use Storage;

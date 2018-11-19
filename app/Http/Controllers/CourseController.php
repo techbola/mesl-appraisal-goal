@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\CourseCategory;
-use Cavidel\Courses;
-use Cavidel\Staff;
-use Cavidel\CourseInstructor;
-use Cavidel\CourseBatch;
-use Cavidel\CourseMaterial;
+use Cavi\CourseCategory;
+use Cavi\Courses;
+use Cavi\Staff;
+use Cavi\CourseInstructor;
+use Cavi\CourseBatch;
+use Cavi\CourseMaterial;
 use Image;
 use Illuminate\Http\Request;
 
@@ -160,8 +160,23 @@ class CourseController extends Controller
             $filenametostore       = $filename . '_' . time() . '.' . $extension;
             $request->file('video_link')->storeAs('public/course_video', $filenametostore);
 
-            $add_course_material             = new CourseMaterial($request->except(['video_link', 'document_link', 'youtube_link']));
+            $add_course_material             = new CourseMaterial($request->except(['video_link', 'document_link', 'youtube_link', 'audio_link']));
             $add_course_material->video_link = $filenametostore;
+            $add_course_material->entered_by = $user_id;
+            $add_course_material->save();
+            $count_material = CourseMaterial::where('course_id', $request->course_id)->get();
+            return response()->json($count_material)->setStatusCode(200);
+
+        //     //audio link storage
+        } elseif ($request->hasFile('audio_link')) {
+            $filenamewithextension = $request->file('audio_link')->getClientOriginalName();
+            $filename              = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+            $extension             = $request->file('audio_link')->getClientOriginalExtension();
+            $filenametostore       = $filename . '_' . time() . '.' . $extension;
+            $request->file('audio_link')->storeAs('public/course_audio', $filenametostore);
+
+            $add_course_material             = new CourseMaterial($request->except(['video_link', 'document_link', 'youtube_link', 'audio_link']));
+            $add_course_material->audio_link = $filenametostore;
             $add_course_material->entered_by = $user_id;
             $add_course_material->save();
             $count_material = CourseMaterial::where('course_id', $request->course_id)->get();
@@ -236,6 +251,11 @@ class CourseController extends Controller
         $course_id        = $course_details->course_id;
         $course_materials = CourseMaterial::where('course_id', $course_id)->get();
         return view('LMS.show_course', compact('course_details', 'course_materials'));
+
+
+        //checkbox function
+        $checkbox->$course_details = $request->input('checkbox');
+        dd('checkbox');
     }
 
     public function activate_course($id)

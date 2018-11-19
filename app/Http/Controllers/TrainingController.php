@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\State;
-use Cavidel\Country;
-use Cavidel\TrainingAgency;
-use Cavidel\TrainingType;
-use Cavidel\User;
-use Cavidel\Staff;
+use Cavi\State;
+use Cavi\Country;
+use Cavi\TrainingAgency;
+use Cavi\TrainingType;
+use Cavi\User;
+use Cavi\Staff;
 use Illuminate\Http\Request;
 
 class TrainingController extends Controller

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,12 +12,12 @@ class StepBudgetPayment extends Model
 
   public function step()
   {
-    return $this->belongsTo('Cavidel\Step', 'StepID');
+    return $this->belongsTo('Cavi\Step', 'StepID');
   }
 
   public function inputter()
   {
-    return $this->belongsTo('Cavidel\User', 'InputterID');
+    return $this->belongsTo('Cavi\User', 'InputterID');
   }
 
 }

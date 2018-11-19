@@ -102,7 +102,7 @@
             format: 'yyyy-mm-dd'
         };
          $('.dp').datepicker({autoclose:true});
-         $('.dp-value-date').datepicker({autoclose:true, format: 'yyyy-mm-dd', startDate: '2018-01-01'});
+         $('.dp-value-date').datepicker({autoclose:true, format: 'yyyy-mm-dd', startDate: '2017-01-01'});
 
         var GLIDDebit = $("#GLIDDebit");
     GLIDDebit.change(function(event) {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Asset;
-use Cavidel\AssetCategory;
-use Cavidel\Location;
-use Cavidel\Staff;
-use Cavidel\User;
+use Cavi\Asset;
+use Cavi\AssetCategory;
+use Cavi\Location;
+use Cavi\Staff;
+use Cavi\User;
 
 use QRCode;
 

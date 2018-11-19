@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,12 +13,12 @@ class Todo extends Model
 
   public function user()
   {
-    return $this->belongsTo('Cavidel\User', 'UserID');
+    return $this->belongsTo('Cavi\User', 'UserID');
   }
 
   public function initiator()
   {
-    return $this->belongsTo('Cavidel\User', 'Initiator');
+    return $this->belongsTo('Cavi\User', 'Initiator');
   }
 
 }

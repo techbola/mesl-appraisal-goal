@@ -1,37 +1,37 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Bank;
-use Cavidel\Country;
-use Cavidel\Department;
-use Cavidel\EmploymentStatus;
-use Cavidel\GradeLevel;
-use Cavidel\HMO;
-use Cavidel\HMOPlan;
-use Cavidel\Location;
-use Cavidel\MaritalStatus;
-use Cavidel\PFA;
-use Cavidel\Position;
-use Cavidel\Religion;
-use Cavidel\Role;
-use Cavidel\Sex;
-use Cavidel\Staff;
-use Cavidel\State;
-use Cavidel\LGA;
-use Cavidel\TaxableBase;
-use Cavidel\Title;
-use Cavidel\Unit;
-use Cavidel\User;
-use Cavidel\StaffPending;
-use Cavidel\PayrollAdjustmentGroup;
+use Cavi\Bank;
+use Cavi\Country;
+use Cavi\Department;
+use Cavi\EmploymentStatus;
+use Cavi\GradeLevel;
+use Cavi\HMO;
+use Cavi\HMOPlan;
+use Cavi\Location;
+use Cavi\MaritalStatus;
+use Cavi\PFA;
+use Cavi\Position;
+use Cavi\Religion;
+use Cavi\Role;
+use Cavi\Sex;
+use Cavi\Staff;
+use Cavi\State;
+use Cavi\LGA;
+use Cavi\TaxableBase;
+use Cavi\Title;
+use Cavi\Unit;
+use Cavi\User;
+use Cavi\StaffPending;
+use Cavi\PayrollAdjustmentGroup;
 use Illuminate\Http\Request;
 use Carbon;
 
 use DB;
 use Notification;
-use Cavidel\Notifications\StaffInvitation;
-use Cavidel\Company;
+use Cavi\Notifications\StaffInvitation;
+use Cavi\Company;
 use File;
 use Image;
 use Auth;
@@ -370,15 +370,16 @@ class StaffController extends Controller
         $roles          = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
         $role           = User::find($staff->UserID)->roles;
         $banks          = Bank::all();
-        $locations = Location::all();
-        $lgas = LGA::all();
+        $pfa            = PFA::all();
+        $locations      = Location::all();
+        $lgas           = LGA::all();
 
         $departments       = Department::where('CompanyID', $user->staff->CompanyID)->get();
         $staff_departments = explode(',', $staff->DepartmentID);
         $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas','pfa'));
     }
 
     public function editFinanceDetails($id)

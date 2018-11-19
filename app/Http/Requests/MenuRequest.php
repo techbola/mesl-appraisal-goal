@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Http\Requests;
+namespace Cavi\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

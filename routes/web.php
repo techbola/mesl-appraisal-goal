@@ -237,10 +237,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('my_documents/send/{id}', 'DocumentController@send')->name('send_document');
     Route::get('my_documents/approvallist', 'DocumentController@approval_list')->name('docs_approvallist');
 
+    Route::post('my_documents/approve', 'DocumentController@approve');
+    Route::post('my_documents/reject', 'DocumentController@reject');
+
     Route::post('document_store', 'DocumentController@store')->name('document_store');
     Route::patch('update_document/{id}', 'DocumentController@update_document')->name('update_document');
     Route::get('download-document/{file}', function ($file) {
-        return response()->download(storage_path("app / documents / " . $file));
+        return response()->download(storage_path("app/documents/".$file));
     })->name('docs');
 
     Route::resource('doctypes', 'DocTypeController');
@@ -773,14 +776,6 @@ Route::get('/cda', function () {
 
 Route::get('/testing', function () {
 
-    // return Cavidel\Staff::whereRaw("DepartmentID@ > array['1']::varchar[]")->get();
-    // return Cavidel\Staff::whereRaw("1 = ANY(DepartmentID)")->get();
-    // return Cavidel\Staff::whereRaw("find_in_set('1', DepartmentID)")->get();
-    // return Cavidel\Staff::whereRaw("CONCAT(',', DepartmentID, ',')LIKECONCAT('%,', 1, ',%')")->get();
-    // return Cavidel\Department::find('4')->staff();
-    // return Cavidel\Staff::all()->filter('1', function(){
-    // })->get();
-    return Carbon::parse('02-Jan-2018 04:38 PM')->format('Y-m-d');
 });
 
 //Reconciliation Routes
@@ -1063,3 +1058,6 @@ Route::post('/recon/get_bank_balances9', 'internalPageController9@get_bank_balan
 
 //
 Route::get('/recon-data', 'jsonResponseController@export_unposted_ars_ledger');
+
+//modal for double entry
+Route::post('get-transaction-details', 'ReportController@fetchTransactionDetailsForCode');

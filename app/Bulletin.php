@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ class Bulletin extends Model
 
   public function poster()
   {
-    return $this->belongsTo('Cavidel\User', 'CreatedBy');
+    return $this->belongsTo('Cavi\User', 'CreatedBy');
   }
 
   public function getCreatedDateAttribute($value)

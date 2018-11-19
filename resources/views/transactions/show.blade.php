@@ -60,6 +60,7 @@
 			<div class="table-responsive">
 				<table class="table tableWithExportOptions" id="transactions">
 				<thead>
+					<th>Action</th>
 					<th>Transaction Date</th>
 					<th>Value Date</th>
 					<th>Debits</th>
@@ -68,7 +69,8 @@
 					<th>Naration</th>
 				</thead>
 				<tfoot class="thead">
-						<th>Transaction Date</th>
+					<th>Action</th>
+					<th>Transaction Date</th>
 					<th>Value Date</th>
 					<th>Debits</th>
 					<th>Credits</th>
@@ -79,6 +81,7 @@
 				@if(isset($statements))
 					@foreach($statements as $statement)
 					<tr>
+						<td><a href="#" data-tref="{{ $statement->TransactionCode }}" class="btn btn-sm btn-complete bill-modal-trigger">Details</a></td>
 						<td>{{$statement->PostDate}}</td>
 						<td>{{$statement->ValueDate}}</td>
 						<td>{{number_format($statement->Debit,2) }}</td>
@@ -95,6 +98,39 @@
 	</div><br><br>
 	<!-- END PANEL -->
 
+	
+    <div class="bill-modal modal fade " tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Transaction details  <span class="text-info bill-owner"></span></h4>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered" id="bill-item-table">
+              <thead>
+                <th width="25%">Details</th>
+                <th>Post Date</th>
+                <th>Value Date</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Narration</th>
+              </thead>
+
+              <tbody>
+                
+              </tbody>
+
+            </table>
+          </div>
+          {{-- <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div> --}}
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 	@endsection
 
 	@push('scripts')
@@ -105,11 +141,10 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
-	// $('#transactions').editableTableWidget();
-  // $(document).ready(function(){
+	
   	 var settings = {
-    // "sDom": "<'exportOptions pull-right'T><'table-responsive't><'row'<p i>>",
-    sDom: 'lfrB<"pull-right">tip',
+    
+    sDom: 'rB<"pull-right">tip',
 buttons: [
             'copy', 'excel', 'pdf', 'print', {
                 extend: 'colvis',
@@ -124,29 +159,9 @@ buttons: [
         "sLengthMenu": "_MENU_ ",
         "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
     },
-     // "columnDefs": [
-     //        {
-     //            "targets": [ 3 ],
-     //            "visible": false
-     //        }
-     //    ],
+    
     "iDisplayLength": 20,
-    // "oTableTools": {
-    //     "sSwfPath": "../assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
-    //     "aButtons": [{
-    //         "sExtends": "csv",
-    //         "sButtonText": "<i class='pg-grid'></i>",
-    //     }, {
-    //         "sExtends": "xls",
-    //         "sButtonText": "<i class='fa fa-file-excel-o'></i>",
-    //     }, {
-    //         "sExtends": "pdf",
-    //         "sButtonText": "<i class='fa fa-file-pdf-o'></i>",
-    //     }, {
-    //         "sExtends": "copy",
-    //         "sButtonText": "<i class='fa fa-copy'></i>",
-    //     }]
-    // },
+  
     fnDrawCallback: function(oSettings) {
         $('.export-options-container').append($('.exportOptions'));
     }
@@ -169,62 +184,38 @@ var table = $('#transactions').DataTable(settings);
                 }
             });
         });
+
+ $('.table').on('click', '.bill-modal-trigger', function(event) {
+    event.preventDefault();
+    var transaction_details = $(this).data('tref');
+    // console.log(transaction_details);
+    // $('#bill-item-table').DataTable();
+    $('#bill-item-table tbody').html(' ');
+    $.post('/get-transaction-details', {ref: transaction_details}, function(data, textStatus, xhr) {
+      console.log(data.data);
+      $('.bill-owner').html(data.data[0].Customer);
+      var bill_modal_body = $.each(data.data, function(index, val) {
+        $('#bill-item-table tbody').append(` <tr>
+            <td width="25%">${val.Details}</td>
+            <td>${val.PostDate}</td>
+            <td>${val.ValueDate}</td>
+            <td class="text-danger" style="font-weight: bold">${ val.Debit != null ? AutoNumeric.format(val.Debit, 2) : '0.00'}</td>
+            <td class="text-success" style="font-weight: bold">${val.Credit != null ? AutoNumeric.format(val.Credit, 2) : '0.00'}</td>
+            <td>${val.Narration}</td>
+          </tr>
+        `); 
+      }); 
+    });
+    $('.bill-modal').modal();
+
+    // $('')
+  });
   // });
 </script>
 
-{{-- <script>
-var initTableWithExportOptions = function() {
-	var table = $('.tableWithExportOptions');
-			var settings = {
-				"order": [],
-					"sDom": "<'exportOptions pull-right m-t-10 m-b-10'T><'table-responsive't><'row'<p i>>",
-					"destroy": true,
-					"scrollCollapse": true,
-					"oLanguage": {
-							"sLengthMenu": "_MENU_ ",
-							"sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
-					},
-					"iDisplayLength": 20,
-					"oTableTools": {
-							"sSwfPath": "/assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
-							"aButtons": [{
-									"sExtends": "csv",
-									"sButtonText": "<i class='pg-grid'></i>",
-							}, {
-									"sExtends": "xls",
-									"sButtonText": "<i class='fa fa-file-excel-o'></i>",
-							}, {
-									"sExtends": "pdf",
-									"sButtonText": "<i class='fa fa-file-pdf-o'></i>",
-							}, {
-									"sExtends": "copy",
-									"sButtonText": "<i class='fa fa-copy'></i>",
-							}]
-					},
-					fnDrawCallback: function(oSettings) {
-							$('.export-options-container').append($('.exportOptions'));
-							$('#ToolTables_tableWithExportOptions_0').tooltip({
-									title: 'Export as CSV',
-									container: 'body'
-							});
-							$('#ToolTables_tableWithExportOptions_1').tooltip({
-									title: 'Export as Excel',
-									container: 'body'
-							});
-							$('#ToolTables_tableWithExportOptions_2').tooltip({
-									title: 'Export as PDF',
-									container: 'body'
-							});
-							$('#ToolTables_tableWithExportOptions_3').tooltip({
-									title: 'Copy data',
-									container: 'body'
-							});
-					}
-			};
-			table.dataTable(settings);
-}
-initTableWithExportOptions();
-</script> --}}
+
+
+
 
 <script>
 	$('.exportOptions').append('<span class="btn btn-info btn-cons m-l-10" onclick="window.print()"><i class="fa fa-print m-r-5"></i> Print</span>');

@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\ArsLedger;
-use Cavidel\ArsBank;
+use Cavi\ArsLedger;
+use Cavi\ArsBank;
 use Excel;
 use DB;
-use Cavidel\Exports\ReconExport;
+use Cavi\Exports\ReconExport;
 
 class jsonResponseController extends Controller
 {

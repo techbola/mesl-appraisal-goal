@@ -1,16 +1,16 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\AccountGroup;
-use Cavidel\AccountCategory;
-use Cavidel\AccountType;
-use Cavidel\TransactionEntry;
-use Cavidel\GL;
+use Cavi\AccountGroup;
+use Cavi\AccountCategory;
+use Cavi\AccountType;
+use Cavi\TransactionEntry;
+use Cavi\GL;
 use DB;
 use Carbon\Carbon;
 use Auth;
-use Cavidel\Config;
+use Cavi\Config;
 
 use Illuminate\Http\Request;
 
@@ -166,7 +166,7 @@ class ReportController extends Controller
             $to = date('Y-m-d');
         }
 
-        $tbs = collect(DB::select("exec procTrialBalanceDiff '$from', '$to'"));
+        $tbs = collect(DB::select("exec procTrialBalance '$from', '$to'"));
         // dd($tbs);
         return view('reports.trial_balance3', compact('tbs', 'date'));
     }
@@ -423,6 +423,13 @@ class ReportController extends Controller
         $bill_code         = $request->bill_code;
         $outstanding_bills = collect(DB::select("exec procFinalBillAmount_Vendor '$bill_code'"));
         return response()->json(['sucess' => true, 'data' => ($outstanding_bills)], 200);
+    }
+
+    public function fetchTransactionDetailsForCode(Request $request)
+    {
+        $transaction_ref     = $request->ref;
+        $transaction_details = collect(DB::select("exec procTransactionDetails '$transaction_ref'"));
+        return response()->json(['success' => true, 'data' => $transaction_details], 200);
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Providers;
+namespace Cavi\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +13,7 @@ class DashboardServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', "Cavidel\Http\ViewComposers\DashboardComposer");
+        view()->composer('*', "Cavi\Http\ViewComposers\DashboardComposer");
     }
 
     /**

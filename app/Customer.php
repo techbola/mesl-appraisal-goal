@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,27 +13,27 @@ class Customer extends Model
 
     public function projects()
     {
-        return $this->hasMany('Cavidel\Project', 'ClientID');
+        return $this->hasMany('Cavi\Project', 'ClientID');
     }
 
     public function account_manager()
     {
-        return $this->belongsTo('Cavidel\AccountMgr', 'AccountMgrID');
+        return $this->belongsTo('Cavi\AccountMgr', 'AccountMgrID');
     }
 
     public function house_type()
     {
-        return $this->belongsTo('Cavidel\HouseType', 'HouseTypeID');
+        return $this->belongsTo('Cavi\HouseType', 'HouseTypeID');
     }
 
     public function paymentplan()
     {
-        return $this->belongsTo('Cavidel\HouseType', 'PaymentPlanID');
+        return $this->belongsTo('Cavi\HouseType', 'PaymentPlanID');
     }
 
     public function estate_allocation()
     {
-        return $this->hasOne('Cavidel\EstateAllocation', 'CustomerID');
+        return $this->hasOne('Cavi\EstateAllocation', 'CustomerID');
     }
 
 }

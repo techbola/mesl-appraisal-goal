@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Policy;
-use Cavidel\PolicySegment;
-use Cavidel\PolicyApprover;
+use Cavi\Policy;
+use Cavi\PolicySegment;
+use Cavi\PolicyApprover;
 use Illuminate\Http\Request;
 
 class PolicySegmentController extends Controller

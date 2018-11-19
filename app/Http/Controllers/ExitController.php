@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
 
@@ -23,7 +23,7 @@ class ExitController extends Controller
      */
     public function create()
     {
-        return view('')
+        return view('');
     }
 
     /**

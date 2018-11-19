@@ -1,12 +1,12 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\BuildingProject;
-use Cavidel\EstateInfo;
-use Cavidel\EstateAllocation;
-use Cavidel\Customer;
+use Cavi\BuildingProject;
+use Cavi\EstateInfo;
+use Cavi\EstateAllocation;
+use Cavi\Customer;
 use DB;
 
 class EstateController extends Controller

@@ -2,7 +2,7 @@
 
 @push('styles')
   <style>
-   
+
   </style>
 @endpush
 
@@ -15,8 +15,8 @@
 @endsection
 
 @section('buttons')
-  
-@endsection 
+
+@endsection
 
 @section('content')
 
@@ -61,6 +61,11 @@
                 <p><span style="color:red">{{ $active_course->batch_code }}</span> | <span style="color:green">{{ $active_course->duration }} Course</span> | <span style="color:#af560a"> Priority : {{ $active_course->priority }}</span> | <span style="color:#3e97f3"> Start- Date : {{ $active_course->start_date }}</span> | <span style="color:#830892"> End- Date : {{ $active_course->end_date }}</span></p>
                 {{ $active_course->description }}
                <br><br>
+               {{-- progress bar --}}
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 15%; float: left;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                </div>
+                <br><br>
                 <a href="{{ route('ShowCourse',[$active_course->batch_ref]) }}" class="btn btn-lg btn-warning pull-right" title="">Continue Course</a>
               </div>
             </div>
@@ -98,7 +103,7 @@
 @endsection
 @push('scripts')
   <script>
-    
+
       $('#activate_course').click(function(event) {
 
         var id = $(this).data('id');

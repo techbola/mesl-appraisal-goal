@@ -18,5 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/employees', function (Request $request) {
-    return \Cavidel\Staff::all();
+    return \Cavi\Staff::all();
 });

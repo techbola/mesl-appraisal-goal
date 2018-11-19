@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,6 @@ class StickyNote extends Model
 
   public function checklists()
   {
-    return $this->hasMany('Cavidel\StickyNoteChecklist', 'NoteID');
+    return $this->hasMany('Cavi\StickyNoteChecklist', 'NoteID');
   }
 }

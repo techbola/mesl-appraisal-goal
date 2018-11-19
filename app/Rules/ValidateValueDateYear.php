@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Rules;
+namespace Cavi\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 

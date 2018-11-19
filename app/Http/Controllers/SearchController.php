@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Message;
-use Cavidel\EventSchedule;
+use Cavi\Message;
+use Cavi\EventSchedule;
 
 class SearchController extends Controller
 {

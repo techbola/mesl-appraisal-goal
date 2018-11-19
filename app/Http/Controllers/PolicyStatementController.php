@@ -1,11 +1,11 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Policy;
-use Cavidel\PolicySegment;
-use Cavidel\PolicyApprover;
-use Cavidel\PolicyStatement;
+use Cavi\Policy;
+use Cavi\PolicySegment;
+use Cavi\PolicyApprover;
+use Cavi\PolicyStatement;
 use Illuminate\Http\Request;
 
 class PolicyStatementController extends Controller

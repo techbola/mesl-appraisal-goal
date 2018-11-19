@@ -17,13 +17,13 @@
 
     <!-- START PANEL -->
     <div class="card-box hide">
-           
+
             <div class="pull-right">
                 <div class="col-xs-12">
                     <input type="text" class="search-table form-control pull-right" placeholder="Search">
                 </div>
             </div>
-            <div class="clearfix"></div>   
+            <div class="clearfix"></div>
     </div>
     <!-- END PANEL -->
     <!-- Tabs For Documents -->
@@ -35,17 +35,18 @@
       </ul>
       <div class="tab-content">
         <div id="unapproved" class="tab-pane fade in active">
-          
-            <div class="card-box ">
-                <table class="table tableWithSearch_a">
+
+            <div class="card-box">
+                <table class="table table-bordered tableWithSearch_a">
                     <thead>
-                        <th>
+                        <th width="5%">
                             <div class="checkbox check-info">
                               <input type="checkbox" id="select-all">
                               <label for="select-all" class="text-white">Bulk Select</label>
                             </div>
                         </th>
                         <th width="20%">Document Name</th>
+                        <th width="20%">Description</th>
                         <th width="15%">Type</th>
                         <th width="20%">Upload Date</th>
                         <th width="20%">Uploaded By</th>
@@ -60,9 +61,8 @@
                                   <label for="select-all-child-{{ $doc->DocRef }}" class="text-white"></label>
                                 </div>
                             </td>
-                            <td>
-                                {{ $doc->Description }}
-                            </td>
+                            <td>{{ $doc->DocName }}</td>
+                            <td>{{ $doc->Description }}</td>
                             <td>{{ $doc->doctype->DocType ?? '' }}</td>
                             <td>{{ date('jS M, Y - g:ia', strtotime($doc->UploadDate)) }}</td>
                             <td>{{ $doc->initiator->FullName ?? '-' }}</td>
@@ -72,7 +72,7 @@
                                 <a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i>
                                 </a>
                             </td>
-                            
+
                         </tr>
                         @endforeach
                     </tbody>
@@ -82,11 +82,12 @@
         </div>
         <div id="approved" class="tab-pane fade">
 
-          
+
           <div class="card-box">
-            <table class="table tableWithSearch">
+            <table class="table table-bordered tableWithSearch">
                     <thead>
                         <th width="">Document Name</th>
+                        <th width="">Description</th>
                         <th width="">Type</th>
                         <th width="">Upload Date</th>
                         <th width="">Uploaded By</th>
@@ -95,6 +96,9 @@
                     <tbody>
                         @foreach( $approved_docs as $doc)
                         <tr>
+                            <td>
+                                {{ $doc->DocName }}
+                            </td>
                             <td>
                                 {{ $doc->Description }}
                             </td>
@@ -107,7 +111,7 @@
                                 <a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i>
                                 </a>
                             </td>
-                            
+
                         </tr>
                         @endforeach
                     </tbody>
@@ -134,7 +138,7 @@
                             <h5>Upload New Document</h5>
                         </div>
                         <div class="modal-body">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -199,7 +203,7 @@ $(function(){
         };
 
 
-      
+
 
 var table = $('.tableWithSearch_a').DataTable(settings);
 
@@ -209,7 +213,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
                 return false
             }
             $(this).html('<input type="text" class="form-control" placeholder="' + $.trim(title) + '" />');
-        });   
+        });
 
  // Approval button script
  $('.approve-btn').click(function(e) {
@@ -225,16 +229,17 @@ var table = $('.tableWithSearch_a').DataTable(settings);
    var ApproverID = {{ auth()->user()->id }};
      alert('Are You sure you want to approve this document ?');
      var Comment = prompt("Enter Approval Comment");
-     
+
      $.ajax({
-         url: '/approvallist/approve',
+         // url: '/approvallist/approve',
+         url: '/my_documents/approve',
          type: 'POST',
          data: {
             ApproverID: {{ auth()->user()->id }},
             SelectedID: checked_docs_array,
             ApprovedDate: ApprovedDate,
             ApprovedFlag: 1,
-            ModuleID: 1, // PREDEFINED 
+            ModuleID: 1, // PREDEFINED
             Comment: Comment
         },
         beforeSend: function(){
@@ -243,18 +248,19 @@ var table = $('.tableWithSearch_a').DataTable(settings);
         }
      })
      .done(function(res, status, xhr) {
+       console.log(res);
          // Navigate to the list after succesful posting to the server
          if(xhr.status == 200) {
             window.location.href  = "{{ route('docs_approvallist') }}";
          } else {
             alert('approval failed');
             return false
-         }   
+         }
      })
      .fail(function() {
          console.log("error");
      });
-     
+
  });
 
 
@@ -270,9 +276,10 @@ var table = $('.tableWithSearch_a').DataTable(settings);
    var RejecterID = {{ auth()->user()->id }};
      alert('Are You sure you want to reject this document ?');
      var Comment = prompt("Enter Rejection Comment");
-     
+
      $.ajax({
-         url: '/approvallist/reject',
+         // url: '/approvallist/reject',
+         url: '/my_documents/reject',
          type: 'POST',
          data: {
             RejecterID: {{ auth()->user()->id }},
@@ -291,14 +298,13 @@ var table = $('.tableWithSearch_a').DataTable(settings);
             alert('Rejection failed');
             return false
          }
-         
+
      })
      .fail(function() {
          console.log("error");
      });
-     
+
  });
         </script>
-        
-        @endpush
 
+        @endpush

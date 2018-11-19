@@ -38,7 +38,7 @@
 </style>
 
 @php
-  // $messages = Cavidel\Message::where('ToID', $user->id)->orderBy('MessageRef', 'desc')->get();
+  // $messages = Cavi\Message::where('ToID', $user->id)->orderBy('MessageRef', 'desc')->get();
 @endphp
 
 <div class="col-sm-4 col-md-3 inbox-menu">

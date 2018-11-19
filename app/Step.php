@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ class Step extends Model
 
   public function task()
   {
-    return $this->belongsTo('Cavidel\ProjectTask', 'TaskID');
+    return $this->belongsTo('Cavi\ProjectTask', 'TaskID');
   }
 
   public function getLastUpdateAttribute()
@@ -29,7 +29,7 @@ class Step extends Model
 
   public function payments()
   {
-    return $this->hasMany('Cavidel\StepBudgetPayment', 'StepID');
+    return $this->hasMany('Cavi\StepBudgetPayment', 'StepID');
   }
 
   public function getPaymentMadeAttribute()

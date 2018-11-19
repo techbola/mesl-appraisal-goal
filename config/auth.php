@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Cavidel\User::class,
+            'model' => Cavi\User::class,
         ],
 
         // 'users' => [

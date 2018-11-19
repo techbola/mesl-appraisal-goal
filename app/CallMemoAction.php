@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,12 +13,12 @@ class CallMemoAction extends Model
 
   public function user()
   {
-    return $this->belongsTo('Cavidel\User', 'UserID');
+    return $this->belongsTo('Cavi\User', 'UserID');
   }
 
   public function status()
   {
-    return $this->belongsTo('Cavidel\CallMemoActionStatus', 'StatusID');
+    return $this->belongsTo('Cavi\CallMemoActionStatus', 'StatusID');
   }
 
 }

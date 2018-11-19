@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\Customer;
-use Cavidel\ClientDocument;
-use Cavidel\DocType;
+use Cavi\Customer;
+use Cavi\ClientDocument;
+use Cavi\DocType;
 use Illuminate\Http\Request;
 
 class ClientDocumentController extends Controller

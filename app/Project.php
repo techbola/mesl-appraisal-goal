@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
-use \Cavidel\ProjectStatus;
+use \Cavi\ProjectStatus;
 
 class Project extends Model
 {
@@ -17,7 +17,7 @@ class Project extends Model
 
   // public function assignees()
   // {
-  //   return $this->belongsToMany('Cavidel\Staff', 'tblProjectStaff', 'project_id', 'staff_id');
+  //   return $this->belongsToMany('Cavi\Staff', 'tblProjectStaff', 'project_id', 'staff_id');
   // }
 
   public function getAssigneesAttribute()
@@ -55,11 +55,11 @@ class Project extends Model
 
   public function supervisor()
   {
-    return $this->belongsTo('Cavidel\Staff', 'SupervisorID', 'StaffRef');
+    return $this->belongsTo('Cavi\Staff', 'SupervisorID', 'StaffRef');
   }
   // public function status()
   // {
-  //   return $this->belongsTo('Cavidel\ProjectStatus', 'StatusID');
+  //   return $this->belongsTo('Cavi\ProjectStatus', 'StatusID');
   // }
   public function getStatusAttribute()
   {
@@ -71,15 +71,15 @@ class Project extends Model
   }
   public function customer()
   {
-    return $this->belongsTo('Cavidel\Customer', 'CustomerID');
+    return $this->belongsTo('Cavi\Customer', 'CustomerID');
   }
   public function vendor()
   {
-    return $this->belongsTo('Cavidel\Vendor', 'VendorID');
+    return $this->belongsTo('Cavi\Vendor', 'VendorID');
   }
   public function tasks()
   {
-    return $this->hasMany('Cavidel\ProjectTask', 'ProjectID', 'ProjectRef');
+    return $this->hasMany('Cavi\ProjectTask', 'ProjectID', 'ProjectRef');
   }
   public function steps()
   {
@@ -87,15 +87,15 @@ class Project extends Model
   }
   public function issues()
   {
-    return $this->hasMany('Cavidel\IssueItem', 'ProjectID', 'ProjectRef');
+    return $this->hasMany('Cavi\IssueItem', 'ProjectID', 'ProjectRef');
   }
   public function chats()
   {
-    return $this->hasMany('Cavidel\ProjectChat', 'ProjectID', 'ProjectRef')->orderBy('created_at', 'desc');
+    return $this->hasMany('Cavi\ProjectChat', 'ProjectID', 'ProjectRef')->orderBy('created_at', 'desc');
   }
   public function files()
   {
-    return $this->hasMany('Cavidel\ProjectFile', 'ProjectID', 'ProjectRef')->orderBy('created_at', 'desc');
+    return $this->hasMany('Cavi\ProjectFile', 'ProjectID', 'ProjectRef')->orderBy('created_at', 'desc');
   }
   public function getOnTrackAttribute()
   {

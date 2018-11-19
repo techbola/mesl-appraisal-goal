@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 use QRCode;
@@ -16,17 +16,17 @@ class Asset extends Model
 
   public function category()
   {
-    return $this->belongsTo('Cavidel\AssetCategory', 'CategoryID');
+    return $this->belongsTo('Cavi\AssetCategory', 'CategoryID');
   }
 
   public function location()
   {
-    return $this->belongsTo('Cavidel\Location', 'LocationID');
+    return $this->belongsTo('Cavi\Location', 'LocationID');
   }
 
   public function allotee()
   {
-    return $this->belongsTo('Cavidel\Staff', 'AlloteeID');
+    return $this->belongsTo('Cavi\Staff', 'AlloteeID');
   }
 
   public function getQrcodeAttribute()

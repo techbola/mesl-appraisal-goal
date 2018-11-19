@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Providers;
+namespace Cavi\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'Cavidel\Model' => 'Cavidel\Policies\ModelPolicy',
+        'Cavi\Model' => 'Cavi\Policies\ModelPolicy',
     ];
 
     /**
@@ -24,6 +24,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        // Edit Documents
+        Gate::define('edit-doc', function ($user, $doc) {
+          return ( $user->id == $doc->Initiator || in_array($user->staff->StaffRef, $doc->assignees->pluck('StaffID')->toArray()) );
+        });
 
         // Only Sender & Recipients
         Gate::define('view-message', function ($user, $message) {

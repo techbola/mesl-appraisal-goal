@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
 use Storage;
 use Flysystem;
-use Cavidel\AutopayResponse;
-use Cavidel\LoanRatingOption;
+use Cavi\AutopayResponse;
+use Cavi\LoanRatingOption;
 
 use Mail;
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Todo;
-use Cavidel\Staff;
+use Cavi\Todo;
+use Cavi\Staff;
 use Carbon;
 
 use Notification;
-use Cavidel\Notifications\TodoAssigned;
+use Cavi\Notifications\TodoAssigned;
 
 class TodoController extends Controller
 {

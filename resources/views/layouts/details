@@ -210,7 +210,7 @@
 
             {{-- Trade Date --}}
             {{-- <div class="m-r-30 m-t-10 font-title f16" style="display:inline-block">
-              Trade Date: <span class="text-success m-l-5">{{ Cavidel\Config::find('1')->TradeDate }}</span>
+              Trade Date: <span class="text-success m-l-5">{{ Cavi\Config::find('1')->TradeDate }}</span>
             </div> --}}
 
             {{-- Notification Icon --}}
@@ -534,7 +534,7 @@
       var channel = pusher.subscribe('officemate');
       var audio = new Audio('/assets/sound/chat.mp3'); //Sound
 
-      channel.bind('Cavidel\\Events\\NewTaskEvent', function(data) {
+      channel.bind('Cavi\\Events\\NewTaskEvent', function(data) {
         if (data['StaffID'] == '{{ auth()->user()->staff->StaffRef }}') {
           // console.log(data);
 
@@ -558,7 +558,7 @@
 
       });
 
-      channel.bind('Cavidel\\Events\\NewMessageEvent', function(data) {
+      channel.bind('Cavi\\Events\\NewMessageEvent', function(data) {
         // console.log(data);
         console.log($.inArray('{{ auth()->user()->id }}', data['recipients']));
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
@@ -575,7 +575,7 @@
 
       });
 
-      channel.bind('Cavidel\\Events\\ProjectChatEvent', function(data) {
+      channel.bind('Cavi\\Events\\ProjectChatEvent', function(data) {
 
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Chat In Project: \""+data['project']+"\"", {

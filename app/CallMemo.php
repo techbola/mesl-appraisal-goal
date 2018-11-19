@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,23 +12,23 @@ class CallMemo extends Model
 
   public function discussions()
   {
-    return $this->hasMany('Cavidel\CallMemoDiscussion', 'CallMemoID');
+    return $this->hasMany('Cavi\CallMemoDiscussion', 'CallMemoID');
   }
 
 
   public function customer()
   {
-    return $this->belongsTo('Cavidel\Customer', 'CustomerID');
+    return $this->belongsTo('Cavi\Customer', 'CustomerID');
   }
 
   public function meeting_type()
   {
-    return $this->belongsTo('Cavidel\CallMemoMeetingType', 'MeetingTypeID');
+    return $this->belongsTo('Cavi\CallMemoMeetingType', 'MeetingTypeID');
   }
 
   public function files()
   {
-    return $this->hasMany('Cavidel\CallMemoFile', 'CallMemoID');
+    return $this->hasMany('Cavi\CallMemoFile', 'CallMemoID');
   }
 
 }

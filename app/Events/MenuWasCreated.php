@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Events;
+namespace Cavi\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;

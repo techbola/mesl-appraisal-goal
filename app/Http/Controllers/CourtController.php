@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator, DB;
-use Cavidel\Court;
+use Cavi\Court;
 class CourtController extends Controller
 {
     public function index()

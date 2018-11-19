@@ -37,7 +37,7 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/datatables.min.css"/>
 
-    
+
      <link href="{{ asset('assets/plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" />
@@ -490,7 +490,7 @@
     <script src="{{ asset('assets/plugins/jquery-actual/jquery.actual.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
     <script  src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-    
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.18/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/r-2.2.2/datatables.min.js"></script>
@@ -600,7 +600,7 @@
       var channel = pusher.subscribe('officemate');
       var audio = new Audio('/assets/sound/chat.mp3'); //Sound
 
-      channel.bind('Cavidel\\Events\\NewTaskEvent', function(data) {
+      channel.bind('Cavi\\Events\\NewTaskEvent', function(data) {
         if (data['StaffID'] == '{{ auth()->user()->staff->StaffRef }}') {
           // console.log(data);
 
@@ -624,7 +624,7 @@
 
       });
 
-      channel.bind('Cavidel\\Events\\NewMessageEvent', function(data) {
+      channel.bind('Cavi\\Events\\NewMessageEvent', function(data) {
         console.log($.inArray('{{ auth()->user()->id }}', data['recipients']));
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Message From "+data['from'], {
@@ -640,7 +640,7 @@
 
       });
 
-      channel.bind('Cavidel\\Events\\ProjectChatEvent', function(data) {
+      channel.bind('Cavi\\Events\\ProjectChatEvent', function(data) {
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Chat In Project: \""+data['project']+"\"", {
               body: data['body'],
@@ -662,7 +662,7 @@
       });
 
       var chat_channel = pusher.subscribe('new-chat');
-      chat_channel.bind('Cavidel\\Events\\NewChatMsg', function(data) {
+      chat_channel.bind('Cavi\\Events\\NewChatMsg', function(data) {
         // console.log(data);
         if (data.ToID == '{{ auth()->user()->id }}') {
           Push.create("New Chat From "+data.from.first_name+" "+data.from.last_name, {

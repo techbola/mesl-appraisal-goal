@@ -1,18 +1,18 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\User;
-use Cavidel\Company;
-use Cavidel\Role;
-use Cavidel\UserType;
-use Cavidel\Staff;
+use Cavi\User;
+use Cavi\Company;
+use Cavi\Role;
+use Cavi\UserType;
+use Cavi\Staff;
 use DB;
 use Hash;
 use Notification;
-use Cavidel\Http\Requests\ValidateSecretRequest;
-use Cavidel\Notifications\EmailActivation;
+use Cavi\Http\Requests\ValidateSecretRequest;
+use Cavi\Notifications\EmailActivation;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Spatie\Activitylog\Models\Activity;

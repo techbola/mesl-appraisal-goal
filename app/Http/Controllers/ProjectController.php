@@ -1,30 +1,30 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavidel\Project;
-use Cavidel\Staff;
-use Cavidel\User;
-use Cavidel\ProjectTask;
-use Cavidel\ProjectChat;
-use Cavidel\ProjectFile;
-use Cavidel\Client;
-use Cavidel\Customer;
-use Cavidel\Contact;
-use Cavidel\Vendor;
+use Cavi\Project;
+use Cavi\Staff;
+use Cavi\User;
+use Cavi\ProjectTask;
+use Cavi\ProjectChat;
+use Cavi\ProjectFile;
+use Cavi\Client;
+use Cavi\Customer;
+use Cavi\Contact;
+use Cavi\Vendor;
 use DB;
 use Auth;
 use Carbon;
 use File;
 
 use Event;
-use Cavidel\Events\NewTaskEvent;
-use Cavidel\Events\ProjectChatEvent;
+use Cavi\Events\NewTaskEvent;
+use Cavi\Events\ProjectChatEvent;
 
 use Notification;
-use Cavidel\Notifications\NewTask;
-use Cavidel\Notifications\ProjectChatNotification;
+use Cavi\Notifications\NewTask;
+use Cavi\Notifications\ProjectChatNotification;
 
 class ProjectController extends Controller
 {
@@ -65,7 +65,7 @@ class ProjectController extends Controller
         $project = new Project;
         $project->Project = $request->Project;
         $project->SupervisorID = $request->SupervisorID;
-        $project->VendorID = $request->VendorID;
+        // $project->VendorID = $request->VendorID;
         $project->StartDate = $request->StartDate;
         $project->EndDate = $request->EndDate;
         $project->Description = $request->Description;
@@ -144,7 +144,7 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $project->Project = $request->Project;
         $project->SupervisorID = $request->SupervisorID;
-        $project->VendorID = $request->VendorID;
+        // $project->VendorID = $request->VendorID;
         $project->StartDate = $request->StartDate;
         $project->EndDate = $request->EndDate;
         $project->Description = $request->Description;

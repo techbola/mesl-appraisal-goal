@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
 use Illuminate\Http\Request;
 
@@ -10,13 +10,13 @@ use Image;
 use ZipArchive;
 use Storage;
 use Notification;
-use Cavidel\Notifications\MemoApproval;
-use Cavidel\Notifications\MemoReceipient;
-use Cavidel\User;
-use Cavidel\Staff;
-use Cavidel\Memo;
-use Cavidel\RequestType;
-use Cavidel\MemoAttachment;
+use Cavi\Notifications\MemoApproval;
+use Cavi\Notifications\MemoReceipient;
+use Cavi\User;
+use Cavi\Staff;
+use Cavi\Memo;
+use Cavi\RequestType;
+use Cavi\MemoAttachment;
 
 class MemoController extends Controller
 {

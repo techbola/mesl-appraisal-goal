@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace Cavi\Http\Controllers;
 
-use Cavidel\BankAccount;
-use Cavidel\Currency;
-use Cavidel\Staff;
+use Cavi\BankAccount;
+use Cavi\Currency;
+use Cavi\Staff;
 use Illuminate\Http\Request;
 
 class BankAccountController extends Controller

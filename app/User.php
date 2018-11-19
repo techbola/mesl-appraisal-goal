@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace Cavi;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -44,44 +44,44 @@ class User extends Authenticatable
 
     public function staff()
     {
-        return $this->hasOne('Cavidel\Staff', 'UserID');
+        return $this->hasOne('Cavi\Staff', 'UserID');
     }
     // public function type()
     // {
-    //   return $this->belongsToMany('Cavidel\UserType', 'user_id', 'type_id');
+    //   return $this->belongsToMany('Cavi\UserType', 'user_id', 'type_id');
     // }
     public function types()
     {
-        return $this->belongsToMany('Cavidel\UserType', 'usertype', 'user_id', 'type_id');
+        return $this->belongsToMany('Cavi\UserType', 'usertype', 'user_id', 'type_id');
     }
     public function roles()
     {
-        return $this->belongsToMany('Cavidel\Role', 'role_user', 'user_id', 'role_id');
+        return $this->belongsToMany('Cavi\Role', 'role_user', 'user_id', 'role_id');
     }
     public function inbox()
     {
-        return $this->belongsToMany('Cavidel\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->with('sender')->withPivot('IsRead', 'IsDeleted');
+        return $this->belongsToMany('Cavi\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->with('sender')->withPivot('IsRead', 'IsDeleted');
     }
     public function unread_messages()
     {
-        return $this->belongsToMany('Cavidel\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->with('sender')->withPivot('IsRead', 'IsDeleted')->wherePivot('IsRead', false);
+        return $this->belongsToMany('Cavi\Message', 'tblMessageRecipients', 'UserID', 'MessageID')->orderBy('MessageRef', 'desc')->with('sender')->withPivot('IsRead', 'IsDeleted')->wherePivot('IsRead', false);
     }
     public function sent_messages()
     {
-        return $this->hasMany('Cavidel\Message', 'FromID')->orderBy('MessageRef', 'desc');
+        return $this->hasMany('Cavi\Message', 'FromID')->orderBy('MessageRef', 'desc');
     }
     public function unread_inbox()
     {
-        return $this->hasMany('Cavidel\MessageRecipient', 'UserID')->where('IsRead', false);
+        return $this->hasMany('Cavi\MessageRecipient', 'UserID')->where('IsRead', false);
     }
     // Start Chats
     public function unread_chats()
     {
-        return $this->hasMany('Cavidel\Chat', 'ToID')->where('IsRead', false);
+        return $this->hasMany('Cavi\Chat', 'ToID')->where('IsRead', false);
     }
     public function unread_chats_from($id)
     {
-        // return $this->hasMany('Cavidel\Chat', 'ToID')->where('IsRead', false)->where('FromID', $id)->get();
+        // return $this->hasMany('Cavi\Chat', 'ToID')->where('IsRead', false)->where('FromID', $id)->get();
         return $this->unread_chats()->where('FromID', $id)->get();
     }
     // End Chats
@@ -141,12 +141,12 @@ class User extends Authenticatable
 
     public function todos()
     {
-        return $this->hasMany('Cavidel\Todo', 'UserID')->orderBy('DueDate', 'desc');
+        return $this->hasMany('Cavi\Todo', 'UserID')->orderBy('DueDate', 'desc');
     }
 
     public function sticky_notes()
     {
-        return $this->hasMany('Cavidel\StickyNote', 'UserID')->orderBy('created_at', 'desc');
+        return $this->hasMany('Cavi\StickyNote', 'UserID')->orderBy('created_at', 'desc');
     }
 
     // relationship for staff payroll details
