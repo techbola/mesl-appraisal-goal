@@ -36,8 +36,8 @@ tfoot{
 
 @section('content')
 
-  	<!-- START PANEL -->
-  	<div class="card-box">
+    <!-- START PANEL -->
+    <div class="card-box">
       <div style="padding: 30px">
         
       </div><div class="clearfix"></div>
@@ -148,8 +148,8 @@ tfoot{
           </div>
         </div>
 
-  	</div>
-  	<!-- END PANEL -->
+    </div>
+    <!-- END PANEL -->
 
 <div class="page-content-wrapper ">
    <div class="content ">
@@ -405,6 +405,7 @@ tfoot{
             });
 
            $('#attributes').html(' ');
+           if(data.attribute.length > 0){
              $('#attributes').append(`
               <tr>
                   <td>${data.attribute.frequency}</td>
@@ -413,6 +414,9 @@ tfoot{
                   <td><a href="#" id="zone" data-id='${data.attribute.process_attribute_ref}' data-target="#modalFillIn2" data-toggle="modal" style ="color:blue">Edit</a></td>
               </tr>
              `);
+            } else {
+              $('#attributes').html(' ');
+            }
 
              $('#risk_list').html(' ');
             var sn = 1;
@@ -433,7 +437,8 @@ tfoot{
            $('#job_aid').val(' ');
            $('#item_div .note-editable').text(' ');
 
-           var count = data.step.length;
+           let count = data.step.length;
+           console.log(count)
            if(count > 1)
            {
             $('#edit_step').removeClass('hide');
@@ -604,6 +609,7 @@ tfoot{
 
 
             $('#attributes').html(' ');
+             if(data.attribute.length > 0)
              $.each(data.attribute, function(index, val){
              $('#attributes').append(`
               <tr>
@@ -666,7 +672,7 @@ tfoot{
   $(document).on('click', '#submit_attribute', function(event) {
 
    $.post('/submit_process_attribute', $('#attribute_form').serialize(), function(data, status) {
-
+    if(data.length > 0)
     $('#attributes').html(' ');
              $('#attributes').append(`
               <tr>
