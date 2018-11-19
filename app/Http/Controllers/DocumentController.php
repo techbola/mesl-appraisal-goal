@@ -36,11 +36,16 @@ class DocumentController extends Controller
             $staff       = Staff::all();
             $departments = Department::all();
         } else {
+            // $docs = Document::where('CompanyID', $user->staff->CompanyID)->where('ApprovedFlag', '1')->where('NotifyFlag', '1')->where(function($query1) use($user){
+            //   $query1->whereHas('assignees', function ($query) use ($user) {
+            //     $query->where('StaffRef', $user->staff->StaffRef);
+            //   })->orWhere('Initiator', $user->id);
+            // })->orderBy('DocRef', 'desc')->get();
             $docs = Document::where('CompanyID', $user->staff->CompanyID)->where('ApprovedFlag', '1')->where('NotifyFlag', '1')->where(function($query1) use($user){
               $query1->whereHas('assignees', function ($query) use ($user) {
-                $query->where('StaffRef', $user->staff->StaffRef);
-              })->orWhere('Initiator', $user->id);
-            })->orderBy('DocRef', 'desc')->get();
+                $query->where('StaffID', $user->staff->StaffRef);
+              });
+            })->orWhere('Initiator', $user->id)->orderBy('DocRef', 'desc')->get();
 
             $doctypes = DocType::where('CompanyID', $user->staff->CompanyID)->get();
             $roles    = Role::where('CompanyID', $user->staff->CompanyID)->get();
@@ -68,12 +73,13 @@ class DocumentController extends Controller
         $document_workflow = Workflow::where('ModuleID', 1)->get(['ApproverID1', 'ApproverID2', 'ApproverID3', 'ApproverID4', 'ApproverID5', 'ApproverID6', 'ApproverID7', 'ApproverID8', 'ApproverID9', 'ApproverID10']);
 
         // unapproved docs
-        $unapproved_docs = Document::where('ApproverID', auth()->user()->id)->where('NotifyFlag', 1)->get();
+        $unapproved_docs = Document::where('ApproverID', auth()->user()->id)->where('NotifyFlag', 1)->where('ApprovedFlag', 0)->get();
 
         // approved docs
-        $approved_docs = Document::where('ApproverID', 0)
-            ->where('ApprovedFlag', 1)
-            ->get();
+        // $approved_docs = Document::where('ApproverID', 0)
+        //     ->where('ApprovedFlag', 1)
+        //     ->get();
+        $approved_docs = Document::where('ApproverID', auth()->user()->id)->where('NotifyFlag', 1)->where('ApprovedFlag', 1)->get();
 
         return view('documents.approvallist', compact('approved_docs', 'unapproved_docs'));
     }
@@ -106,7 +112,7 @@ class DocumentController extends Controller
                     ));
                     if (!empty($request->ApproverID)) {
                       $document->ApproverID = $request->ApproverID;
-                      $document->NotifyFlag = '1';
+                      // $document->NotifyFlag = '1';
                     }
                     $document->save();
 
@@ -228,6 +234,19 @@ class DocumentController extends Controller
 
         }
 
+    }
+
+    public function approve(Request $request)
+    {
+      foreach ($request->SelectedID as $id) {
+        $doc =  Document::findorFail($id);
+        $doc->ApproverID = auth()->user()->id;
+        $doc->ApprovedFlag = '1';
+        $doc->ApprovalDate = date('Y-m-d');
+        $doc->ApproverComment = $request->Comment;
+        $doc->update();
+      }
+      return 'ok';
     }
 
 }
