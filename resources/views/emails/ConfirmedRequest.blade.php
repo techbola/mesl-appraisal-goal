@@ -3,7 +3,7 @@ Title : Leave Request.
 
 Dear {{$name->first_name}}
 
- A Leave Request awaits your approval. Click button to view request.
+ Your Leave request has been approved. Click button to view your leave dashboard.
 
 @component('mail::button', ['url' => 'http://cavidel.officemate.ng/leave_request/index'])
 Visit Officemate

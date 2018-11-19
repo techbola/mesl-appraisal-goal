@@ -6,9 +6,12 @@ use Cavidel\LeaveType;
 // use Cavidel\Mail\Leave;
 use Cavidel\Staff;
 use Cavidel\LeaveRequest;
+use Cavidel\Mail\LeaveRequest as LR;
+use Cavidel\Mail\HRLeaveConfirmation;
 use Carbon\Carbon;
 use Cavidel\RestrictionDates;
 use Cavidel\LeaveTransaction;
+use Cavidel\LeaveApprover;
 use Illuminate\Http\Request;
 use Mail;
 
@@ -102,9 +105,9 @@ class LeaveRequestController extends Controller
                         ->where('id', $details->ApproverID)
                         ->first();
 
-                    // Mail::to($email)->send(new Leave($name));
+                    Mail::to($email)->send(new LR($name));
                 }
-                return response()->json(['success' => true, ['data' => ['link' => route('LeaveDashBoard')]]]);
+                return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
             }
         } else {
             return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
@@ -133,21 +136,55 @@ class LeaveRequestController extends Controller
                         $leave_id        = $trans->LeaveReqRef;
                         $staff_id        = $trans->StaffID;
                         $id              = \Auth::user()->id;
+
                         if (is_null($new_approver_id) || $new_approver_id == 0) {
-                            $record                = new LeaveTransaction;
-                            $record->StaffID       = $staff_id;
-                            $record->DaysRequested = $leavedays;
-                            $record->LeaveID       = $leave_id;
-                            $record->save();
+
+                            if ($details->AbsenceTypeID == 1) {
+                                $record                = new LeaveTransaction;
+                                $record->StaffID       = $staff_id;
+                                $record->DaysRequested = $leavedays;
+                                $record->LeaveID       = $leave_id;
+                                $record->save();
+                            }
 
                             $update_leave = \DB::table('tblLeaveRequest')
                                 ->where('leaveReqRef', $Ref)
                                 ->update(['CompletedDate' => $current_time, 'CompletedFlag' => '1']);
+
+                            $get_approvers = LeaveApprover::where('ModuleID', 3)->get();
+
+                            foreach ($get_approvers as $ref) {
+                                $email = \DB::table('users')
+                                    ->select('email')
+                                    ->where('id', Staff::find($ref->StaffID)->first()->user->id)
+                                    ->first();
+
+                                $name = \DB::table('users')
+                                    ->select('first_name')
+                                    ->where('id', Staff::find($ref->StaffID)->first()->user->id)
+                                    ->first();
+
+                                Mail::to($email)->send(new HRLeaveConfirmation($name));
+                            }
+                        }
+
+                        if ($new_approver_id > 0) {
+                            $email = \DB::table('users')
+                                ->select('email')
+                                ->where('id', $new_approver_id)
+                                ->first();
+
+                            $name = \DB::table('users')
+                                ->select('first_name')
+                                ->where('id', $new_approver_id)
+                                ->first();
+
+                            Mail::to($email)->send(new LR($name));
                         }
                     }
                 }
                 \DB::commit();
-                return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
+                return redirect()->route('LeaveApproval')->with('success', 'Leave Request was added successfully');
             } catch (Exception $e) {
                 \DB::rollback();
                 return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
@@ -207,6 +244,7 @@ class LeaveRequestController extends Controller
             return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
         }
     }
+
     /**
      * Display a listing of the resource.
      *

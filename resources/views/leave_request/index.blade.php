@@ -42,7 +42,7 @@
                 <td>{{$leave_request->NumberofDays}}</td>
                 <td>
                   @if($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1 && is_null($leave_request->ApproverID) && $leave_request->CompletedFlag == 1 )
-                  <label class="label label-success"> Approved </label>
+                  <label class="label label-success"> Your Leave Request Awaits HR Approval. </label>
                   @else
                     @if($leave_request->NotifyFlag == 0 && $leave_request->RejectionFlag != 1)
                     <label class="label label-default">Leave Request has not been sent for approval.</label>
@@ -66,7 +66,7 @@
               </tr>
               @endforeach
           </tbody>
-        </table>
+        </table> 
 
   	</div>
   	<!-- END PANEL -->

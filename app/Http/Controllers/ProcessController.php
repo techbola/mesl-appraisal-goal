@@ -81,7 +81,7 @@ class ProcessController extends Controller
         $risk        = ProcessRiskControl::where('process_id', $id)->get();
         $multiple    = [
             'step'      => $steps_datas,
-            'attribute' => $attribute,
+            'attribute' => $attribute == null ? collect([]) : $attribute,
             'risk'      => $risk,
         ];
         return response()->json($multiple)->setStatusCode(200);

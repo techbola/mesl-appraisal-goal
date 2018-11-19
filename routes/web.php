@@ -216,6 +216,14 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');
     // Route::resource('customers', 'CustomerController');
 
+    //Approvers
+    Route::get('approvers', 'ApproverController@index')->name('ApproverPage');
+    Route::post('save_new_approver', 'ApproverController@save_new_approver');
+    Route::get('get_pending_leave_request', 'ApproverController@get_pending_leave_request');
+    Route::get('confirm_leave_request/{code}', 'ApproverController@confirm_leave_request');
+    Route::get('get_completed_leave_request', 'ApproverController@get_completed_leave_request');
+    Route::get('get_leave_approvers_details', 'ApproverController@get_leave_approvers_details');
+
     // Merging
     Route::get('merging/data_merging', 'MergingController@get_data_merging')->name('DataMerging');
     Route::post('store_merged_data', 'MergingController@store');

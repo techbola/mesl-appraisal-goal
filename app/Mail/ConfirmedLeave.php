@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class LeaveRequest extends Mailable
+class ConfirmedLeave extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,6 +30,6 @@ class LeaveRequest extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.LeaveRequest');
+        return $this->markdown('emails.ConfirmedRequest');
     }
 }
