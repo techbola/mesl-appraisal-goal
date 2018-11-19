@@ -55,7 +55,10 @@
                   @else
 	                  <a href="{{ route('send_document', ['id' => $doc->DocRef]) }}" class="btn btn-xs disabled m-r-5" data-toggle="tooltip" title="Document details">Sent <i cla></i></a>
                   @endif
-									<a class="btn btn-xs btn-info" data-toggle="modal" data-target="#edit_doc" onclick="edit_doc({{ $doc }}, {{ $doc->assignees->pluck('StaffRef') }})">Edit</a>
+
+									@can ('edit-doc', $doc)
+										<a class="btn btn-xs btn-info" data-toggle="modal" data-target="#edit_doc" onclick="edit_doc({{ $doc }}, {{ $doc->assignees->pluck('StaffRef') }})">Edit</a>
+									@endcan
   							</td>
   						</tr>
   					@endforeach
