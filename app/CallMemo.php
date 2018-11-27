@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,23 +12,23 @@ class CallMemo extends Model
 
   public function discussions()
   {
-    return $this->hasMany('Cavi\CallMemoDiscussion', 'CallMemoID');
+    return $this->hasMany('MESL\CallMemoDiscussion', 'CallMemoID');
   }
 
 
   public function customer()
   {
-    return $this->belongsTo('Cavi\Customer', 'CustomerID');
+    return $this->belongsTo('MESL\Customer', 'CustomerID');
   }
 
   public function meeting_type()
   {
-    return $this->belongsTo('Cavi\CallMemoMeetingType', 'MeetingTypeID');
+    return $this->belongsTo('MESL\CallMemoMeetingType', 'MeetingTypeID');
   }
 
   public function files()
   {
-    return $this->hasMany('Cavi\CallMemoFile', 'CallMemoID');
+    return $this->hasMany('MESL\CallMemoFile', 'CallMemoID');
   }
 
 }

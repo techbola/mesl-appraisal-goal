@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\Document;
-use Cavi\DocType;
-use Cavi\Role;
-use Cavi\Staff;
-use Cavi\Workflow;
-use Cavi\Department;
+use MESL\Document;
+use MESL\DocType;
+use MESL\Role;
+use MESL\Staff;
+use MESL\Workflow;
+use MESL\Department;
 use Auth;
 use DB;
 

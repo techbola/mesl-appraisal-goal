@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\ScoreCard;
-use Cavi\Staff;
+use MESL\ScoreCard;
+use MESL\Staff;
 
 use Auth;
 

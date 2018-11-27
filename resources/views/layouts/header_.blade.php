@@ -603,7 +603,7 @@
       var channel = pusher.subscribe('officemate');
       var audio = new Audio('/assets/sound/chat.mp3'); //Sound
 
-      channel.bind('Cavi\\Events\\NewTaskEvent', function(data) {
+      channel.bind('MESL\\Events\\NewTaskEvent', function(data) {
         if (data['StaffID'] == '{{ auth()->user()->staff->StaffRef }}') {
           // console.log(data);
 
@@ -627,7 +627,7 @@
 
       });
 
-      channel.bind('Cavi\\Events\\NewMessageEvent', function(data) {
+      channel.bind('MESL\\Events\\NewMessageEvent', function(data) {
         console.log($.inArray('{{ auth()->user()->id }}', data['recipients']));
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Message From "+data['from'], {
@@ -643,7 +643,7 @@
 
       });
 
-      channel.bind('Cavi\\Events\\ProjectChatEvent', function(data) {
+      channel.bind('MESL\\Events\\ProjectChatEvent', function(data) {
         if ($.inArray('{{ auth()->user()->id }}', data['recipients']) > -1) {
           Push.create("New Chat In Project: \""+data['project']+"\"", {
               body: data['body'],
@@ -665,7 +665,7 @@
       });
 
       var chat_channel = pusher.subscribe('new-chat');
-      chat_channel.bind('Cavi\\Events\\NewChatMsg', function(data) {
+      chat_channel.bind('MESL\\Events\\NewChatMsg', function(data) {
         // console.log(data);
         if (data.ToID == '{{ auth()->user()->id }}') {
           Push.create("New Chat From "+data.from.first_name+" "+data.from.last_name, {

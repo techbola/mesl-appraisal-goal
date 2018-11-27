@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ class Step extends Model
 
   public function task()
   {
-    return $this->belongsTo('Cavi\ProjectTask', 'TaskID');
+    return $this->belongsTo('MESL\ProjectTask', 'TaskID');
   }
 
   public function getLastUpdateAttribute()
@@ -29,7 +29,7 @@ class Step extends Model
 
   public function payments()
   {
-    return $this->hasMany('Cavi\StepBudgetPayment', 'StepID');
+    return $this->hasMany('MESL\StepBudgetPayment', 'StepID');
   }
 
   public function getPaymentMadeAttribute()

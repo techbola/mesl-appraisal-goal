@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\User;
+use MESL\User;
 
 class UserController extends Controller
 {

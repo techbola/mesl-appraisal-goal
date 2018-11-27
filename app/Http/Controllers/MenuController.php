@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Http\Requests\MenuRequest;
-use Cavi\Menu;
-use Cavi\Role;
+use MESL\Http\Requests\MenuRequest;
+use MESL\Menu;
+use MESL\Role;
 use DB;
 use Event;
 use Illuminate\Http\Request;

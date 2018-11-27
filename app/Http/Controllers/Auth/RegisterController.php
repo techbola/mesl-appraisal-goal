@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavi\Http\Controllers\Auth;
+namespace MESL\Http\Controllers\Auth;
 
-use Cavi\User;
-use Cavi\Http\Controllers\Controller;
+use MESL\User;
+use MESL\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -59,7 +59,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \Cavi\User
+     * @return \MESL\User
      */
     protected function create(array $data)
     {

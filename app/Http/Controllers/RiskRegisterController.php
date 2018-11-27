@@ -1,11 +1,11 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\RiskRegister;
-use Cavi\RiskType;
-use Cavi\ResidualRiskType;
-use Cavi\RiskTreatment;
+use MESL\RiskRegister;
+use MESL\RiskType;
+use MESL\ResidualRiskType;
+use MESL\RiskTreatment;
 use Illuminate\Http\Request;
 
 class RiskRegisterController extends Controller

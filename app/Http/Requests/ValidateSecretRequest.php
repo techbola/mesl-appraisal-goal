@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Requests;
+namespace MESL\Http\Requests;
 
-use Cavi\User;
+use MESL\User;
 use Cache;
 use Crypt;
 use Google2FA;
@@ -13,7 +13,7 @@ class ValidateSecretRequest extends FormRequest
 {
     /**
      *
-     * @var \Cavi\User
+     * @var \MESL\User
      */
     private $user;
 

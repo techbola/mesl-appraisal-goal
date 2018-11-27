@@ -1,17 +1,17 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\User;
-use Cavi\CallMemoAction;
-use Cavi\Todo;
-use Cavi\ProjectTask;
-use Cavi\Bulletin;
-use Cavi\EventSchedule;
-use Cavi\LeaveRequest;
-use Cavi\Memo;
-use Cavi\Staff;
-use Cavi\PolicyStatement;
+use MESL\User;
+use MESL\CallMemoAction;
+use MESL\Todo;
+use MESL\ProjectTask;
+use MESL\Bulletin;
+use MESL\EventSchedule;
+use MESL\LeaveRequest;
+use MESL\Memo;
+use MESL\Staff;
+use MESL\PolicyStatement;
 use Carbon;
 
 class HomeController extends Controller

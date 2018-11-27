@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\AccountType;
-use Cavi\AccountCategory;
-use Cavi\AccountGroup;
+use MESL\AccountType;
+use MESL\AccountCategory;
+use MESL\AccountGroup;
 use Illuminate\Http\Request;
 
 class AccountTypeController extends Controller

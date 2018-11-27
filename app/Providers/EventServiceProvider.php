@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Providers;
+namespace MESL\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Cavi\Events\Event' => [
-            'Cavi\Listeners\EventListener',
+        'MESL\Events\Event' => [
+            'MESL\Listeners\EventListener',
         ],
     ];
 

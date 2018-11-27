@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\PymtPlan;
+use MESL\PymtPlan;
 
 use Illuminate\Http\Request;
 

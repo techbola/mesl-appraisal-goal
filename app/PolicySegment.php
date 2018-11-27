@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,6 @@ class PolicySegment extends Model
 
     public function policy()
     {
-        return $this->belongsTo('Cavi\Policy', 'PolicyID');
+        return $this->belongsTo('MESL\Policy', 'PolicyID');
     }
 }

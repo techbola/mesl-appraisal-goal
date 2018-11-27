@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,27 +13,27 @@ class Customer extends Model
 
     public function projects()
     {
-        return $this->hasMany('Cavi\Project', 'ClientID');
+        return $this->hasMany('MESL\Project', 'ClientID');
     }
 
     public function account_manager()
     {
-        return $this->belongsTo('Cavi\AccountMgr', 'AccountMgrID');
+        return $this->belongsTo('MESL\AccountMgr', 'AccountMgrID');
     }
 
     public function house_type()
     {
-        return $this->belongsTo('Cavi\HouseType', 'HouseTypeID');
+        return $this->belongsTo('MESL\HouseType', 'HouseTypeID');
     }
 
     public function paymentplan()
     {
-        return $this->belongsTo('Cavi\HouseType', 'PaymentPlanID');
+        return $this->belongsTo('MESL\HouseType', 'PaymentPlanID');
     }
 
     public function estate_allocation()
     {
-        return $this->hasOne('Cavi\EstateAllocation', 'CustomerID');
+        return $this->hasOne('MESL\EstateAllocation', 'CustomerID');
     }
 
 }

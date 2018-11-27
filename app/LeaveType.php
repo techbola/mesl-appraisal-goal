@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class LeaveType extends Model
 
     // public function leave_request()
     // {
-    //     return $this->belongsTo('Cavi\LeaveRequest', 'AbsenceTypeID');
+    //     return $this->belongsTo('MESL\LeaveRequest', 'AbsenceTypeID');
     // }
 
 }

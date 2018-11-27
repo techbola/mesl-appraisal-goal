@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Providers;
+namespace MESL\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'Cavi\Model' => 'Cavi\Policies\ModelPolicy',
+        'MESL\Model' => 'MESL\Policies\ModelPolicy',
     ];
 
     /**

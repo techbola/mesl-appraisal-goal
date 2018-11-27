@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\Todo;
-use Cavi\Staff;
+use MESL\Todo;
+use MESL\Staff;
 use Carbon;
 
 use Notification;
-use Cavi\Notifications\TodoAssigned;
+use MESL\Notifications\TodoAssigned;
 
 class TodoController extends Controller
 {

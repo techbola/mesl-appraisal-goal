@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Providers;
+namespace MESL\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;

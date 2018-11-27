@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Providers;
+namespace MESL\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'Cavi\Http\Controllers';
+    protected $namespace = 'MESL\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.

@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\TradeType;
+use MESL\TradeType;
 use Illuminate\Http\Request;
 
 class TransactionTypeController extends Controller

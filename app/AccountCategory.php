@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +11,6 @@ class AccountCategory extends Model
     public $timestamps = false;
 
     public function account_groups(){
-      return $this->hasMany('Cavi\AccountGroup', 'AccountCategoryID', 'AccountCategoryRef');
+      return $this->hasMany('MESL\AccountGroup', 'AccountCategoryID', 'AccountCategoryRef');
     }
 }

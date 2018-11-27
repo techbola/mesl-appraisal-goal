@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Rules;
+namespace MESL\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 

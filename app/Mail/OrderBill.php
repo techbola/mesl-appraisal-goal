@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Mail;
+namespace MESL\Mail;
 
-use Cavi\Customer;
+use MESL\Customer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;

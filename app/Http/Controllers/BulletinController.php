@@ -1,15 +1,15 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\Bulletin;
-use Cavi\User;
+use MESL\Bulletin;
+use MESL\User;
 use Carbon\Carbon;
-use Cavi\Department;
-use Cavi\Staff;
+use MESL\Department;
+use MESL\Staff;
 
-use Cavi\Notifications\NewBulletin;
+use MESL\Notifications\NewBulletin;
 use Notification;
 
 class BulletinController extends Controller

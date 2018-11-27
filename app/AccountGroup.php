@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +11,7 @@ class AccountGroup extends Model
     public $timestamps = false;
 
     public function account_types(){
-      return $this->hasMany('Cavi\AccountType', 'AccountGroupID', 'id');
+      return $this->hasMany('MESL\AccountType', 'AccountGroupID', 'id');
     }
 
     public function totalClearedBalance(){

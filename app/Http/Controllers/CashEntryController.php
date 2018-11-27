@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\CashEntry;
-use Cavi\Config;
-use Cavi\Customer;
-use Cavi\Staff;
-use Cavi\Brand;
-use Cavi\ProductCategory;
+use MESL\CashEntry;
+use MESL\Config;
+use MESL\Customer;
+use MESL\Staff;
+use MESL\Brand;
+use MESL\ProductCategory;
 use Illuminate\Http\Request;
 
 class CashEntryController extends Controller

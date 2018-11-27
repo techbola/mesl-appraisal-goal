@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\PlanOption;
+use MESL\PlanOption;
 use Illuminate\Http\Request;
 
 class PlanOptionController extends Controller

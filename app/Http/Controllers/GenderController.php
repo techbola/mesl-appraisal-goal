@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Gender;
+use MESL\Gender;
 use Illuminate\Http\Request;
 
 class GenderController extends Controller

@@ -1,36 +1,36 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Customer;
-use Cavi\Billing;
-use Cavi\Location;
-use Cavi\CashEntry;
-use Cavi\ProductCategory;
-use Cavi\BuildingProject;
-use Cavi\ProductService;
-use Cavi\Staff;
+use MESL\Customer;
+use MESL\Billing;
+use MESL\Location;
+use MESL\CashEntry;
+use MESL\ProductCategory;
+use MESL\BuildingProject;
+use MESL\ProductService;
+use MESL\Staff;
 use Illuminate\Http\Request;
-use Cavi\ProductDeleted;
-use Cavi\Title;
-use Cavi\Mail\Orderbill;
-use Cavi\Mail\SendReceipt;
-use Cavi\Nationality;
-use Cavi\Gender;
-use Cavi\MaritalStatus;
-use Cavi\BillNarration;
-use Cavi\PaymentPlan;
-use Cavi\PymtPlan;
-use Cavi\HouseType;
-use Cavi\Config;
-use Cavi\PlanOption;
-use Cavi\Brand;
+use MESL\ProductDeleted;
+use MESL\Title;
+use MESL\Mail\Orderbill;
+use MESL\Mail\SendReceipt;
+use MESL\Nationality;
+use MESL\Gender;
+use MESL\MaritalStatus;
+use MESL\BillNarration;
+use MESL\PaymentPlan;
+use MESL\PymtPlan;
+use MESL\HouseType;
+use MESL\Config;
+use MESL\PlanOption;
+use MESL\Brand;
 use Mail;
-use Cavi\GL;
+use MESL\GL;
 use NumberFormatter;
-use Cavi\AccountMgr;
+use MESL\AccountMgr;
 use PDF;
-use Cavi\Vendor;
+use MESL\Vendor;
 
 class BillingController extends Controller
 {

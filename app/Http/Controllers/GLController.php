@@ -1,17 +1,17 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\AccountType;
-use Cavi\Branch;
-use Cavi\Currency;
-use Cavi\Customers;
-// use Cavi\Frequency;
-use Cavi\GL;
-// use Cavi\LoanRePaymentType;
-// use Cavi\LoanStatus;
-use Cavi\Staff;
-// use Cavi\LoanType;
+use MESL\AccountType;
+use MESL\Branch;
+use MESL\Currency;
+use MESL\Customers;
+// use MESL\Frequency;
+use MESL\GL;
+// use MESL\LoanRePaymentType;
+// use MESL\LoanStatus;
+use MESL\Staff;
+// use MESL\LoanType;
 use Illuminate\Http\Request;
 
 use DB;

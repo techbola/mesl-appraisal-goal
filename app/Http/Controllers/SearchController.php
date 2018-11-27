@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\Message;
-use Cavi\EventSchedule;
+use MESL\Message;
+use MESL\EventSchedule;
 
 class SearchController extends Controller
 {

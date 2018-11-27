@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\Contact;
-use Cavi\Country;
-use Cavi\User;
+use MESL\Contact;
+use MESL\Country;
+use MESL\User;
 use Validator;
-use Cavi\BusinessRelationshipType;
+use MESL\BusinessRelationshipType;
 
 class ContactController extends Controller
 {

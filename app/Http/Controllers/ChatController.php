@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\Chat;
-use Cavi\User;
-use Cavi\Staff;
-// use Cavi\Events\NewChatUser;
+use MESL\Chat;
+use MESL\User;
+use MESL\Staff;
+// use MESL\Events\NewChatUser;
 use Event;
-use Cavi\Events\NewChatMsg;
+use MESL\Events\NewChatMsg;
 use Auth;
 use DB;
 use Carbon\Carbon;

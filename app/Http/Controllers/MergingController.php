@@ -1,12 +1,12 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\Address1;
-use Cavi\Address2;
-use Cavi\MergedRecord;
-use Cavi\FileUpload;
+use MESL\Address1;
+use MESL\Address2;
+use MESL\MergedRecord;
+use MESL\FileUpload;
 
 class MergingController extends Controller
 {

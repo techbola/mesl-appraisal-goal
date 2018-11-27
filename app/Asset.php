@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 use QRCode;
@@ -16,17 +16,17 @@ class Asset extends Model
 
   public function category()
   {
-    return $this->belongsTo('Cavi\AssetCategory', 'CategoryID');
+    return $this->belongsTo('MESL\AssetCategory', 'CategoryID');
   }
 
   public function location()
   {
-    return $this->belongsTo('Cavi\Location', 'LocationID');
+    return $this->belongsTo('MESL\Location', 'LocationID');
   }
 
   public function allotee()
   {
-    return $this->belongsTo('Cavi\Staff', 'AlloteeID');
+    return $this->belongsTo('MESL\Staff', 'AlloteeID');
   }
 
   public function getQrcodeAttribute()

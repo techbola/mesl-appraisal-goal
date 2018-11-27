@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavi\Http\ViewComposers;
+namespace MESL\Http\ViewComposers;
 
-// use Cavi\User;
-use Cavi\Menu;
+// use MESL\User;
+use MESL\Menu;
 use Illuminate\View\View;
 use Route;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\MonthlyAmortItem;
-use Cavi\MonthlyAmortisation;
-use Cavi\GL;
+use MESL\MonthlyAmortItem;
+use MESL\MonthlyAmortisation;
+use MESL\GL;
 
 class AmortisationController extends Controller
 {

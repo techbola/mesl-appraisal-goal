@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\Document;
+use MESL\Document;
 class ApprovalController extends Controller
 {
     public function approve(Request $request)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class Client extends Model
 
     public function projects()
     {
-        return $this->hasMany('Cavi\Project', 'ClientID');
+        return $this->hasMany('MESL\Project', 'ClientID');
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
-use Cavi\User;
-// namespace Cavi;
+use MESL\User;
+// namespace MESL;
 
 // appends naira to strings
 if (!function_exists('nairazify')) {

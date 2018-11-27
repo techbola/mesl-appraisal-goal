@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\BankAccount;
-use Cavi\Currency;
-use Cavi\Staff;
+use MESL\BankAccount;
+use MESL\Currency;
+use MESL\Staff;
 use Illuminate\Http\Request;
 
 class BankAccountController extends Controller

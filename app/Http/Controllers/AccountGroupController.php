@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\AccountCategory;
-use Cavi\AccountGroup;
+use MESL\AccountCategory;
+use MESL\AccountGroup;
 use Illuminate\Http\Request;
 
 class AccountGroupController extends Controller

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,23 +17,23 @@ class ProjectTask extends Model
 
   public function project()
   {
-    return $this->belongsTo('Cavi\Project', 'ProjectID', 'ProjectRef');
+    return $this->belongsTo('MESL\Project', 'ProjectID', 'ProjectRef');
   }
   public function staff()
   {
-    return $this->belongsTo('Cavi\Staff', 'StaffID', 'StaffRef');
+    return $this->belongsTo('MESL\Staff', 'StaffID', 'StaffRef');
   }
   public function poster()
   {
-    return $this->belongsTo('Cavi\User', 'CreatedBy');
+    return $this->belongsTo('MESL\User', 'CreatedBy');
   }
   public function steps()
   {
-    return $this->hasMany('Cavi\Step', 'TaskID', 'TaskRef');
+    return $this->hasMany('MESL\Step', 'TaskID', 'TaskRef');
   }
   public function updates()
   {
-    return $this->hasMany('Cavi\TaskUpdate', 'TaskID', 'TaskRef')->orderBy('created_at', 'desc');
+    return $this->hasMany('MESL\TaskUpdate', 'TaskID', 'TaskRef')->orderBy('created_at', 'desc');
   }
 
   public function getProgressAttribute()

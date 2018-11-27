@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator, DB;
-use Cavi\Court;
+use MESL\Court;
 class CourtController extends Controller
 {
     public function index()

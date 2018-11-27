@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +22,7 @@ class EventSchedule extends Model
 
   public function poster()
   {
-    return $this->belongsTo('Cavi\User', 'Initiator');
+    return $this->belongsTo('MESL\User', 'Initiator');
   }
 
   // public function setEndDateAttribute($value)

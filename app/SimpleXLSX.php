@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 /**
  *    SimpleXLSX php class v0.7.13

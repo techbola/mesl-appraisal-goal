@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Role;
+use MESL\Role;
 use Illuminate\Http\Request;
 
 class MenuRoleAssignmentController extends Controller

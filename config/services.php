@@ -30,7 +30,7 @@ return [
     ],
 
     'stripe' => [
-        'model' => Cavi\User::class,
+        'model' => MESL\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],

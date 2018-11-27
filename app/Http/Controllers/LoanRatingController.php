@@ -1,11 +1,11 @@
 <?php
 
-namespace Cavi\Http\Controllers;
-use Cavi\Gender;
-use Cavi\LoanRatingOption;
-use Cavi\LoanRating;
-use Cavi\Country;
-use Cavi\Customer;
+namespace MESL\Http\Controllers;
+use MESL\Gender;
+use MESL\LoanRatingOption;
+use MESL\LoanRating;
+use MESL\Country;
+use MESL\Customer;
 
 use Illuminate\Http\Request;
 

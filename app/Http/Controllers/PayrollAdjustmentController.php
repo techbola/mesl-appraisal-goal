@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\PayrollAdjustmentGroup;
+use MESL\PayrollAdjustmentGroup;
 
 class PayrollAdjustmentController extends Controller
 {

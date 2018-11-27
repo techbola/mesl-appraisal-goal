@@ -1,9 +1,9 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Role;
-use Cavi\Company;
+use MESL\Role;
+use MESL\Company;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller

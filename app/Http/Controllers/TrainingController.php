@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\State;
-use Cavi\Country;
-use Cavi\TrainingAgency;
-use Cavi\TrainingType;
-use Cavi\User;
-use Cavi\Staff;
+use MESL\State;
+use MESL\Country;
+use MESL\TrainingAgency;
+use MESL\TrainingType;
+use MESL\User;
+use MESL\Staff;
 use Illuminate\Http\Request;
 
 class TrainingController extends Controller

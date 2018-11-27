@@ -1,11 +1,11 @@
 <?php
 
-namespace Cavidel\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavidel\Staff;
-use Cavidel\LeaveApprover;
-use Cavidel\Mail\ConfirmedLeave;
-use Cavidel\LeaveRequest;
+use MESL\Staff;
+use MESL\LeaveApprover;
+use MESL\Mail\ConfirmedLeave;
+use MESL\LeaveRequest;
 use Illuminate\Http\Request;
 use Mail;
 

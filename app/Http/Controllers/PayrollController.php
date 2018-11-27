@@ -1,18 +1,18 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Cavi\PayrollMonthly;
-use Cavi\PayrollAdjustmentGroup;
-use Cavi\PayrollLevel;
-use Cavi\SeniorityLevel;
-use Cavi\Deduction;
-use Cavi\DeductionItem;
-use Cavi\Month;
-use Cavi\Year;
-use Cavi\Staff;
+use MESL\PayrollMonthly;
+use MESL\PayrollAdjustmentGroup;
+use MESL\PayrollLevel;
+use MESL\SeniorityLevel;
+use MESL\Deduction;
+use MESL\DeductionItem;
+use MESL\Month;
+use MESL\Year;
+use MESL\Staff;
 
 class PayrollController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;
@@ -12,17 +12,17 @@ class Menu extends Model
 
     public function parent()
     {
-        return $this->hasOne('Cavi\Menu', 'id', 'parent_id');
+        return $this->hasOne('MESL\Menu', 'id', 'parent_id');
     }
 
     public function children()
     {
-        return $this->hasMany('Cavi\Menu', 'parent_id', 'id');
+        return $this->hasMany('MESL\Menu', 'parent_id', 'id');
     }
 
     public function roles()
     {
-        return $this->belongsToMany('Cavi\Role');
+        return $this->belongsToMany('MESL\Role');
     }
 
     public function abbreviation($arr)

@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Country;
+use MESL\Country;
 use Illuminate\Http\Request;
 
 class CountryController extends Controller

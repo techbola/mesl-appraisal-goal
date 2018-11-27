@@ -1,12 +1,12 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\ProductService;
-use Cavi\ProductCategory;
-use Cavi\Product;
-use Cavi\Location;
-use Cavi\Staff;
+use MESL\ProductService;
+use MESL\ProductCategory;
+use MESL\Product;
+use MESL\Location;
+use MESL\Staff;
 use Auth;
 use Illuminate\Http\Request;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Company;
-use Cavi\Department;
-use Cavi\Division;
-use Cavi\Group;
-use Cavi\Subsidiary;
+use MESL\Company;
+use MESL\Department;
+use MESL\Division;
+use MESL\Group;
+use MESL\Subsidiary;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller

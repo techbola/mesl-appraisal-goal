@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Exceptions;
+namespace MESL\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;

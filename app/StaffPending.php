@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,7 +18,7 @@ class StaffPending extends Model
 
   public function user()
   {
-    return $this->belongsTo('Cavi\User', 'UserID');
+    return $this->belongsTo('MESL\User', 'UserID');
   }
 
 }

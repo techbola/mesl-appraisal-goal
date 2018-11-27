@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ class Bulletin extends Model
 
   public function poster()
   {
-    return $this->belongsTo('Cavi\User', 'CreatedBy');
+    return $this->belongsTo('MESL\User', 'CreatedBy');
   }
 
   public function getCreatedDateAttribute($value)

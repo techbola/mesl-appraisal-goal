@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Http\Controllers\Controller;
+use MESL\Http\Controllers\Controller;
 use Crypt;
 use Google2FA;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Cavi\Http\Requests\ValidateSecretRequest;
+use MESL\Http\Requests\ValidateSecretRequest;
 use \ParagonIE\ConstantTime\Base32;
 
 class Google2FAController extends Controller

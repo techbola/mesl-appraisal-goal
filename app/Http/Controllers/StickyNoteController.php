@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\StickyNote;
-use Cavi\StickyNoteChecklist;
+use MESL\StickyNote;
+use MESL\StickyNoteChecklist;
 
 class StickyNoteController extends Controller
 {

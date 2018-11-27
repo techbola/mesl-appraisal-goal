@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\Asset;
-use Cavi\AssetCategory;
-use Cavi\Location;
-use Cavi\Staff;
-use Cavi\User;
+use MESL\Asset;
+use MESL\AssetCategory;
+use MESL\Location;
+use MESL\Staff;
+use MESL\User;
 
 use QRCode;
 

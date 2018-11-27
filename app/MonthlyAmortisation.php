@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,17 +13,17 @@ class MonthlyAmortisation extends Model
 
   public function item()
   {
-    return $this->belongsTo('Cavi\MonthlyAmortItem', 'MonthlyAmortItemID', 'MonthlyAmortItemRef');
+    return $this->belongsTo('MESL\MonthlyAmortItem', 'MonthlyAmortItemID', 'MonthlyAmortItemRef');
   }
 
   public function glcredit()
   {
-    return $this->belongsTo('Cavi\GL', 'GLIDCredit', 'GLRef');
+    return $this->belongsTo('MESL\GL', 'GLIDCredit', 'GLRef');
   }
 
   public function gldebit()
   {
-    return $this->belongsTo('Cavi\GL', 'GLIDDebit', 'GLRef');
+    return $this->belongsTo('MESL\GL', 'GLIDDebit', 'GLRef');
   }
 
 }

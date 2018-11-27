@@ -18,14 +18,14 @@
     <a data-toggle="tab" href="#finance">Finance</span></a>
   </li>
   <li>
-    <a data-toggle="tab" href="#operations">Operation</span></a>
+    <a data-toggle="tab" href="#operations">Operations</span></a>
   </li>
   <li>
     <a data-toggle="tab" href="#legal">Legal</span></a>
   </li>
 </ul>
 
-<div class="tab-content">
+<div class="tab-content" style="min-height: 300px">
 
     <div id="general" class="tab-pane fade in active">
 
@@ -131,6 +131,17 @@
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Requests</div>
                   {{-- - Travel, Procurement, Leave, Loan, Store --}}
                 </div>
+
+                <div class="dropdown pull-right">
+                    <button class="btn btn-xs btn-grey dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" onclick="card_submenus(this)">
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      <li><a href="#">Leave</a></li>
+                      <li><a href="#">Travel</a></li>
+                    </ul>
+                </div>
+
               </div>
             </a>
           </div>
@@ -230,7 +241,7 @@
           </a>
         </div>
       <div class="col-sm-4">
-          <a href="{{ route('staff.index') }}" class="no-color">
+          <a href="{{ route('staff_search') }}" class="no-color">
             <div class="card-box">
               <div class="inline m-r-10 m-t-10">
                 <img class="icon" src="{{ asset('assets/img/icons/searching.png') }}" alt="" width="40px">
@@ -265,18 +276,7 @@
               </div>
             </a>
           </div>
-        <div class="col-sm-4">
-            <a href="javascript:void(0)" class="no-color">
-              <div class="card-box">
-                <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/hierarchy.png') }}" alt="" width="40px">
-                </div>
-                <div class="inline">
-                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">User Profiling</div>
-                </div>
-              </div>
-            </a>
-          </div>
+
         <div class="col-sm-4">
             <a href="{{ route('ScheduleTraining') }}" class="no-color">
               <div class="card-box">
@@ -351,10 +351,22 @@
               </div>
             </a>
           </div>
+          <div class="col-sm-4">
+              <a href="{{ route('staff.index') }}" class="no-color">
+                <div class="card-box">
+                  <div class="inline m-r-10 m-t-10">
+                    <img class="icon" src="{{ asset('assets/img/icons/hierarchy.png') }}" alt="" width="40px">
+                  </div>
+                  <div class="inline">
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">User Profiling</div>
+                  </div>
+                </div>
+              </a>
+          </div>
     </div>
     <div id="finance" class="tab-pane fade">
         <div class="col-sm-4">
-            <a href="javascript:void(0)" class="no-color">
+            <a href="{{ route('showDetails') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/budget.png') }}" alt="" width="40px">
@@ -378,7 +390,7 @@
               </a>
             </div>
           <div class="col-sm-4">
-              <a href="javascript:void(0)" class="no-color">
+              <a href="{{ route('payroll.details') }}" class="no-color">
                 <div class="card-box">
                   <div class="inline m-r-10 m-t-10">
                     <img class="icon" src="{{ asset('assets/img/icons/cheque.png') }}" alt="" width="40px">
@@ -390,7 +402,7 @@
               </a>
             </div>
           <div class="col-sm-4">
-              <a href="javascript:void(0)" class="no-color">
+              <a href="{{ route('SearchClient') }}" class="no-color">
                 <div class="card-box">
                   <div class="inline m-r-10 m-t-10">
                     <img class="icon" src="{{ asset('assets/img/icons/files.png') }}" alt="" width="40px">
@@ -401,8 +413,9 @@
                 </div>
               </a>
             </div>
+
           <div class="col-sm-4">
-              <a href="javascript:void(0)" class="no-color">
+              <a href="{{ route('ars_recon') }}" class="no-color">
                 <div class="card-box">
                   <div class="inline m-r-10 m-t-10">
                     <img class="icon" src="{{ asset('assets/img/icons/budget.png') }}" alt="" width="40px">
@@ -425,6 +438,18 @@
                 </div>
               </a>
             </div>
+            <div class="col-sm-4">
+                <a href="{{ route('SearchVendors') }}" class="no-color">
+                  <div class="card-box">
+                    <div class="inline m-r-10 m-t-10">
+                      <img class="icon" src="{{ asset('assets/img/icons/files.png') }}" alt="" width="40px">
+                    </div>
+                    <div class="inline">
+                      <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Vendor Data</div>
+                    </div>
+                  </div>
+                </a>
+            </div>
 
 
     </div>
@@ -442,16 +467,35 @@
             </a>
           </div>
         <div class="col-sm-4">
-            <a href="javascript:void(0)" class="no-color">
-              <div class="card-box">
-                <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
-                </div>
-                <div class="inline">
-                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">CMMS</div>
-                </div>
-              </div>
-            </a>
+              <a href="" class="no-color">
+                  <div class="card-box">
+                    <div class="inline m-r-10 m-t-10">
+                      <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                    </div>
+                    <div class="inline">
+                      <div class="font-title f16 bold m-b-10 text-uppercase hint-text">CMMS</div>
+
+                      
+
+                    </div>
+
+                    <div class="dropdown pull-right">
+                        <button class="btn btn-xs btn-grey dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" onclick="card_submenus(this)">
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                          <li><a href="#">Work Order</a></li>
+                          <li><a href="#">Asset Tracking</a></li>
+                          <li><a href="#">Maintenance Scheduling</a></li>
+                          <li><a href="#">Inventory Control</a></li>
+                          <li><a href="#">Service History</a></li>
+                        </ul>
+                      </div>
+
+                  </div>
+                </a>
+                
+            
           </div>
         <div class="col-sm-4">
             <a href="javascript:void(0)" class="no-color">
@@ -494,3 +538,10 @@
     </div>
 
 </div>
+
+<script>
+    function card_submenus(e){
+     $(e).closest('.dropdown').find('ul').toggleClass('inline-block');
+     $(e).closest('.dropdown').find('ul').css( 'min-width', '100%' );
+   }
+ </script>

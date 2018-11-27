@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Events;
+namespace MESL\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;

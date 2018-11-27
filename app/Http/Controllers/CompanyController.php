@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Company;
+use MESL\Company;
 use Illuminate\Http\Request;
 use Image;
 use File;

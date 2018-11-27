@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,17 +12,17 @@ class IssueItem extends Model
 
   public function category()
   {
-    return $this->belongsTo('Cavi\IssueCategory', 'CategoryID');
+    return $this->belongsTo('MESL\IssueCategory', 'CategoryID');
   }
 
   public function project()
   {
-    return $this->belongsTo('Cavi\Project', 'ProjectID');
+    return $this->belongsTo('MESL\Project', 'ProjectID');
   }
 
   public function poster()
   {
-    return $this->belongsTo('Cavi\User', 'CreatedBy');
+    return $this->belongsTo('MESL\User', 'CreatedBy');
   }
 
 }

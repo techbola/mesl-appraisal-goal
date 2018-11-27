@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Notifications;
+namespace MESL\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;

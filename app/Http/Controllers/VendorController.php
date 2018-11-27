@@ -1,24 +1,24 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Vendor;
-use Cavi\Currency;
-use Cavi\Staff;
-use Cavi\CashEntry;
-use Cavi\Billing;
-use Cavi\BillingVendor;
+use MESL\Vendor;
+use MESL\Currency;
+use MESL\Staff;
+use MESL\CashEntry;
+use MESL\Billing;
+use MESL\BillingVendor;
 use Illuminate\Http\Request;
-use Cavi\ProductService;
-use Cavi\ProductCategory;
-use Cavi\BillNarration;
-use Cavi\PaymentPlan;
-use Cavi\PymtPlan;
-use Cavi\Config;
-use Cavi\PlanOption;
-use Cavi\Brand;
-use Cavi\Project;
-use Cavi\Location;
+use MESL\ProductService;
+use MESL\ProductCategory;
+use MESL\BillNarration;
+use MESL\PaymentPlan;
+use MESL\PymtPlan;
+use MESL\Config;
+use MESL\PlanOption;
+use MESL\Brand;
+use MESL\Project;
+use MESL\Location;
 use DB;
 
 class VendorController extends Controller

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 // use Codesleeve\Stapler\ORM\EloquentTrait;
 // use Codesleeve\Stapler\ORM\StaplerableInterface;
@@ -21,27 +21,27 @@ class Staff extends Model
 
     public function user()
     {
-        return $this->belongsTo('Cavi\User', 'UserID');
+        return $this->belongsTo('MESL\User', 'UserID');
     }
     public function company()
     {
-        return $this->belongsTo('Cavi\Company', 'CompanyID');
+        return $this->belongsTo('MESL\Company', 'CompanyID');
     }
     public function country()
     {
-        return $this->belongsTo('Cavi\Country', 'CountryID');
+        return $this->belongsTo('MESL\Country', 'CountryID');
     }
     public function state()
     {
-        return $this->belongsTo('Cavi\State', 'StateID');
+        return $this->belongsTo('MESL\State', 'StateID');
     }
     public function location()
     {
-        return $this->belongsTo('Cavi\Location', 'LocationID');
+        return $this->belongsTo('MESL\Location', 'LocationID');
     }
     public function tasks()
     {
-        return $this->hasMany('Cavi\ProjectTask', 'StaffID', 'StaffRef');
+        return $this->hasMany('MESL\ProjectTask', 'StaffID', 'StaffRef');
     }
     public function departments()
     {
@@ -94,12 +94,12 @@ class Staff extends Model
 
     public function scorecards()
     {
-      return $this->hasMany('Cavi\ScoreCard', 'StaffID');
+      return $this->hasMany('MESL\ScoreCard', 'StaffID');
     }
 
     public function subordinates()
     {
-      return $this->hasMany('Cavi\Staff', 'SupervisorID');
+      return $this->hasMany('MESL\Staff', 'SupervisorID');
     }
 
     // public function __construct(array $attributes = array())

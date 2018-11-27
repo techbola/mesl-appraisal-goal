@@ -1,19 +1,19 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\CallMemo;
-use Cavi\CallMemoDiscussion;
-use Cavi\CallMemoAction;
-use Cavi\CallMemoActionStatus;
-use Cavi\CallMemoMeetingType;
-use Cavi\CallMemoFile;
-use Cavi\Contact;
-use Cavi\Staff;
-use Cavi\HelpersOld;
+use MESL\CallMemo;
+use MESL\CallMemoDiscussion;
+use MESL\CallMemoAction;
+use MESL\CallMemoActionStatus;
+use MESL\CallMemoMeetingType;
+use MESL\CallMemoFile;
+use MESL\Contact;
+use MESL\Staff;
+use MESL\HelpersOld;
 use Mail;
-use Cavi\Mail\SendCallMemo;
+use MESL\Mail\SendCallMemo;
 
 use DB;
 use PDF;

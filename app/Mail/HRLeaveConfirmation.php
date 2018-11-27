@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel\Mail;
+namespace MESL\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;

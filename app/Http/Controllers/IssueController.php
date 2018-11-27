@@ -1,11 +1,11 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\IssueItem;
-use Cavi\IssueCategory;
-use Cavi\Project;
+use MESL\IssueItem;
+use MESL\IssueCategory;
+use MESL\Project;
 
 class IssueController extends Controller
 {

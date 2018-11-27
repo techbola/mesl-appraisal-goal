@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Providers;
+namespace MESL\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +13,7 @@ class DashboardServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', "Cavi\Http\ViewComposers\DashboardComposer");
+        view()->composer('*', "MESL\Http\ViewComposers\DashboardComposer");
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\User;
+use MESL\User;
 use DB;
 use Illuminate\Http\Request;
 

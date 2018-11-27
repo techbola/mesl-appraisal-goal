@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,10 +11,10 @@ class Transaction extends Model
     public $timestamps = false;
 
     public function gl(){
-      return $this->belongsTo('Cavi\GL', 'GLID', 'GLRef');
+      return $this->belongsTo('MESL\GL', 'GLID', 'GLRef');
     }
 
     public function currency(){
-      return $this->belongsTo('Cavi\Currency', 'CurrencyID', 'CurrencyRef');
+      return $this->belongsTo('MESL\Currency', 'CurrencyID', 'CurrencyRef');
     }
 }

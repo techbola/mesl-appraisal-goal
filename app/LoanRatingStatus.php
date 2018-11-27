@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class LoanRatingStatus extends Model
 
   public function reviewer()
   {
-    return $this->belongsTo('Cavi\User', 'UserID', 'id');
+    return $this->belongsTo('MESL\User', 'UserID', 'id');
   }
 }

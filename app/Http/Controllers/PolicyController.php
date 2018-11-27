@@ -1,11 +1,11 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\Policy;
-use Cavi\PolicySegment;
-use Cavi\PolicyApprover;
-use Cavi\User;
+use MESL\Policy;
+use MESL\PolicySegment;
+use MESL\PolicyApprover;
+use MESL\User;
 use Illuminate\Http\Request;
 
 class PolicyController extends Controller

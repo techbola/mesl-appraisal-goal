@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\AccountCategory;
+use MESL\AccountCategory;
 use Illuminate\Http\Request;
 
 class AccountCategoryController extends Controller

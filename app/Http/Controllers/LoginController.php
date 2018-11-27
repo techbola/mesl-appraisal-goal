@@ -1,18 +1,18 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\User;
-use Cavi\Company;
-use Cavi\Role;
-use Cavi\UserType;
-use Cavi\Staff;
+use MESL\User;
+use MESL\Company;
+use MESL\Role;
+use MESL\UserType;
+use MESL\Staff;
 use DB;
 use Hash;
 use Notification;
-use Cavi\Http\Requests\ValidateSecretRequest;
-use Cavi\Notifications\EmailActivation;
+use MESL\Http\Requests\ValidateSecretRequest;
+use MESL\Notifications\EmailActivation;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Spatie\Activitylog\Models\Activity;

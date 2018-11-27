@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,17 +12,17 @@ class Message extends Model
 
   public function sender()
   {
-    return $this->belongsTo('Cavi\User', 'FromID');
+    return $this->belongsTo('MESL\User', 'FromID');
   }
 
   public function recipients()
   {
-    return $this->belongsToMany('Cavi\User', 'tblMessageRecipients', 'MessageID', 'UserID')->withPivot('IsRead', 'IsDeleted');
+    return $this->belongsToMany('MESL\User', 'tblMessageRecipients', 'MessageID', 'UserID')->withPivot('IsRead', 'IsDeleted');
   }
 
   public function replies()
   {
-      return $this->hasMany('Cavi\Message', 'ParentID', 'MessageRef')->orderBy('created_at', 'desc');
+      return $this->hasMany('MESL\Message', 'ParentID', 'MessageRef')->orderBy('created_at', 'desc');
   }
 
   public function files()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Providers;
+namespace MESL\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -15,11 +15,11 @@ class ComposerServiceProvider extends ServiceProvider
     {
         view()->composer(
             'layouts.header_',
-            'Cavi\Http\ViewComposers\SidebarComposer'
+            'MESL\Http\ViewComposers\SidebarComposer'
         );
         view()->composer(
             'layouts.uikit',
-            'Cavi\Http\ViewComposers\SidebarComposer'
+            'MESL\Http\ViewComposers\SidebarComposer'
         );
     }
 

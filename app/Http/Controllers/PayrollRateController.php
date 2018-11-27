@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\PayrollRate;
+use MESL\PayrollRate;
 use Illuminate\Http\Request;
 
 class PayrollRateController extends Controller

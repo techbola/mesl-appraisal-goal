@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Http\Middleware;
+namespace MESL\Http\Middleware;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as Middleware;
 

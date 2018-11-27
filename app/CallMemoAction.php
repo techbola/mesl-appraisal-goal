@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,12 +13,12 @@ class CallMemoAction extends Model
 
   public function user()
   {
-    return $this->belongsTo('Cavi\User', 'UserID');
+    return $this->belongsTo('MESL\User', 'UserID');
   }
 
   public function status()
   {
-    return $this->belongsTo('Cavi\CallMemoActionStatus', 'StatusID');
+    return $this->belongsTo('MESL\CallMemoActionStatus', 'StatusID');
   }
 
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\BankTransaction;
-use Cavi\Transaction;
+use MESL\BankTransaction;
+use MESL\Transaction;
 
 class internalPageController extends Controller
 {

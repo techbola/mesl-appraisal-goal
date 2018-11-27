@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,11 +12,11 @@ class Chat extends Model
 
   public function from()
   {
-    return $this->belongsTo('Cavi\User', 'FromID');
+    return $this->belongsTo('MESL\User', 'FromID');
   }
   public function to()
   {
-    return $this->belongsTo('Cavi\User', 'ToID');
+    return $this->belongsTo('MESL\User', 'ToID');
   }
 
 }

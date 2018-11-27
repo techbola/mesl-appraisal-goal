@@ -1,10 +1,10 @@
 <?php
 
-namespace Cavi\Http\Controllers\Auth;
+namespace MESL\Http\Controllers\Auth;
 
-use Cavi\Http\Controllers\Controller;
+use MESL\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Cavi\Http\Requests\ValidateSecretRequest;
+use MESL\Http\Requests\ValidateSecretRequest;
 class LoginController extends Controller
 {
     /*

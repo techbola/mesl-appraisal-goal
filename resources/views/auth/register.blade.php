@@ -2,7 +2,7 @@
 
 @section('content')
   @php
-    $genders = Cavi\Gender::all();
+    $genders = MESL\Gender::all();
   @endphp
 <div class="container">
     <div class="row">

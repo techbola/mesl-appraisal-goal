@@ -1,14 +1,14 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\EventSchedule;
-use Cavi\User;
-use Cavi\Department;
-use Cavi\Staff;
+use MESL\EventSchedule;
+use MESL\User;
+use MESL\Department;
+use MESL\Staff;
 
-use Cavi\Notifications\NewCalendarEvent;
+use MESL\Notifications\NewCalendarEvent;
 use Notification;
 
 class EventScheduleController extends Controller

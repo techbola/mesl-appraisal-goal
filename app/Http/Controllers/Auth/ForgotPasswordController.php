@@ -1,8 +1,8 @@
 <?php
 
-namespace Cavi\Http\Controllers\Auth;
+namespace MESL\Http\Controllers\Auth;
 
-use Cavi\Http\Controllers\Controller;
+use MESL\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller

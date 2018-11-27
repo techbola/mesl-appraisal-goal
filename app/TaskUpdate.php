@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,12 +12,12 @@ class TaskUpdate extends Model
 
   public function staff()
   {
-    return $this->belongsTo('Cavi\Staff', 'StaffID', 'StaffRef');
+    return $this->belongsTo('MESL\Staff', 'StaffID', 'StaffRef');
   }
 
   public function task()
   {
-    return $this->belongsTo('Cavi\ProjectTask', 'TaskID', 'TaskRef');
+    return $this->belongsTo('MESL\ProjectTask', 'TaskID', 'TaskRef');
   }
 
 }

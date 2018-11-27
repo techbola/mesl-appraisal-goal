@@ -52,7 +52,7 @@ s
                     </div>
                   </div>
 
-                  <div class="hide" id="segments" style="margin-top: 20px; padding: 20px; background: #d4e8e9; ">
+                  <div class="hide" id="segments" style="margin-top: 20px; padding: 20px; background: #dedede; ">
                     <h3>Segments</h3><hr>
                     <ol id="segments_list">
                       

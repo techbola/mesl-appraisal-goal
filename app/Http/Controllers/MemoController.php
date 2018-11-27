@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
 
@@ -10,13 +10,13 @@ use Image;
 use ZipArchive;
 use Storage;
 use Notification;
-use Cavi\Notifications\MemoApproval;
-use Cavi\Notifications\MemoReceipient;
-use Cavi\User;
-use Cavi\Staff;
-use Cavi\Memo;
-use Cavi\RequestType;
-use Cavi\MemoAttachment;
+use MESL\Notifications\MemoApproval;
+use MESL\Notifications\MemoReceipient;
+use MESL\User;
+use MESL\Staff;
+use MESL\Memo;
+use MESL\RequestType;
+use MESL\MemoAttachment;
 
 class MemoController extends Controller
 {

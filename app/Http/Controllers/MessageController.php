@@ -1,19 +1,19 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\Message;
-use Cavi\User;
-use Cavi\Staff;
-use Cavi\MessageRecipient;
-use Cavi\MessageFile;
+use MESL\Message;
+use MESL\User;
+use MESL\Staff;
+use MESL\MessageRecipient;
+use MESL\MessageFile;
 
 use Event;
-use Cavi\Events\NewMessageEvent;
+use MESL\Events\NewMessageEvent;
 
 use Notification;
-use Cavi\Notifications\NewMessage;
+use MESL\Notifications\NewMessage;
 
 use DB;
 use Storage;

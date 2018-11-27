@@ -1,13 +1,13 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
-use Cavi\CourseCategory;
-use Cavi\Courses;
-use Cavi\Staff;
-use Cavi\CourseInstructor;
-use Cavi\CourseBatch;
-use Cavi\CourseMaterial;
+use MESL\CourseCategory;
+use MESL\Courses;
+use MESL\Staff;
+use MESL\CourseInstructor;
+use MESL\CourseBatch;
+use MESL\CourseMaterial;
 use Image;
 use Illuminate\Http\Request;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Cavi;
+namespace MESL;
 
 use Zizaco\Entrust\EntrustRole;
 
@@ -18,15 +18,15 @@ class Role extends EntrustRole
     // }
     public function menus()
     {
-        return $this->belongsToMany('Cavi\Menu');
+        return $this->belongsToMany('MESL\Menu');
     }
     public function users()
     {
-        return $this->belongsToMany('Cavi\User');
+        return $this->belongsToMany('MESL\User');
     }
     public function company()
     {
-        return $this->belongsTo('Cavi\Company', 'CompanyID', 'CompanyRef');
+        return $this->belongsTo('MESL\Company', 'CompanyID', 'CompanyRef');
     }
 
 }

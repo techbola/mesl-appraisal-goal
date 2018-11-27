@@ -1,5 +1,5 @@
 <?php
-namespace Cavi;
+namespace MESL;
 
 use Zizaco\Entrust\EntrustPermission;
 

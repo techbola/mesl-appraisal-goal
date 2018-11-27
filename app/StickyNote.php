@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,6 @@ class StickyNote extends Model
 
   public function checklists()
   {
-    return $this->hasMany('Cavi\StickyNoteChecklist', 'NoteID');
+    return $this->hasMany('MESL\StickyNoteChecklist', 'NoteID');
   }
 }
