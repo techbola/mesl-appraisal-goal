@@ -531,13 +531,13 @@ audio, canvas, progress, video {
 }
 .btn-info, .btn-info:focus {
     color: #ffffff;
-    background: #2ea1f8;
-    background: linear-gradient(180deg, #2ea1f8, #1990ea) !important;
-    border-color: #1a91eb !important;
+    background: #fa5d14;
+    background: linear-gradient(180deg, #fa7a3e, #fa5d14) !important;
+    border-color: #fa5d14 !important;
 }
 .btn-info.active, .btn-info:active, .btn-info.active:focus, .btn-info:active:focus, .btn-info:active:hover, .open .dropdown-toggle.btn-info {
-    background-color: #3a8fc8;
-    border-color: #3a8fc8;
+    background-color: #fa5d14;
+    border-color: #fa5d14;
     color: #ffffff;
 }
 .btn-info.hover, .btn-info:hover, .open .dropdown-toggle.btn-info {
@@ -886,11 +886,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 .header {
     /* background-color: #272b35; */
-    background-color: #fb5201;
+    background-color: #fff;
     /* border-bottom: 1px solid #232730; */
     /* color: #eee; */
     /* color: #cad0dd; */
-    color: #fff;
+    color: #333;
+    height: 110px !important;
 }
 @media (max-width: 991px) {
     .header {
@@ -1169,4 +1170,13 @@ a[href$="doc"], a[href$="docx"] {
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
   font-weight: normal !important;
   color: #aaaaaa !important;
+}
+
+
+.page-sidebar .sidebar-menu .menu-items>li ul.sub-menu {
+    padding: 0 0 10px 0 !important;
+}
+
+a {
+    color: #fa5d14;
 }

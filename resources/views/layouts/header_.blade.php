@@ -67,7 +67,7 @@
     @endif
 
     <style>
-      .menu-items li:last-child {
+      .menu-items>li:last-child {
           margin-bottom: 30px;
       }
       .page-sidebar .sidebar-menu .menu-items {
@@ -123,7 +123,7 @@
                     <span class="arrow"></span>
                   @endif
                 </a>
-                <span class="icon-thumbnail">{{ substr($dashboard->name, 0, 2) }}</span>
+                {{-- <span class="icon-thumbnail">{{ substr($dashboard->name, 0, 2) }}</span> --}}
                 {{$dashboard->hasSubmenu($dashboard->id ) }}
               </li>
             @endif
@@ -139,7 +139,7 @@
               <span class="arrow"></span>
               @endif
             </a>
-            <span class="icon-thumbnail">{{ substr($menu->name, 0, 2) }}</span>
+            {{-- <span class="icon-thumbnail">{{ substr($menu->name, 0, 2) }}</span> --}}
             {{ $menu->hasSubmenu($menu->id) }}
           </li>
           @endforeach
@@ -206,7 +206,8 @@
             <!-- END NOTIFICATIONS LIST -->
             @if (Auth::user()->staff)
               <span class="m-l-20 f16 bold">
-                {{ Auth::user()->staff->company->Company }}
+                {{-- {{ Auth::user()->staff->company->Company }} --}}
+                <img src="/images/logos/mesllogo.png" height="70px" style="margin-top: 10px;">
               </span>
             @endif
             {{-- <div class="pull-right hidden-sm hidden-xs col-sm-6">
@@ -232,7 +233,7 @@
         </style>
 
 
-        <div class="pull-right">
+        <div class="pull-right m-t-20">
           <!-- START User Info-->
           <div class="visible-lg visible-md user-info m-t-10">
 
@@ -306,7 +307,7 @@
                 </span>
                 {{-- User Name --}}
                 <div class="pull-right text-left p-l-10 fs-16 font-heading" style="padding-top:7px"> {{--removed p-t-10 --}}
-                  <span style="font-weight:500px">{{ Auth::user()->FullName }}</span> <i class="fa fa-caret-down m-l-5"></i>
+                  <span style="font-weight:500; color:#fb5201">{{ Auth::user()->FullName }}</span> <i class="fa fa-caret-down m-l-5"></i>
                   <br>
                   <div class="text-muted" style="font-size:13px; margin-top:-4px">
                     {!! ucwords(Auth::user()->roles()->first()->name) !!}
@@ -357,7 +358,7 @@
           {{-- @include('layouts.partials.topmenu') --}}
 
           <!-- START JUMBOTRON -->
-          <div class="jumbotron" data-pages="parallax">
+          <div class="jumbotron m-t-50" data-pages="parallax">
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
               <div class="inner">
                 <!-- START BREADCRUMB -->
