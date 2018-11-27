@@ -61,7 +61,7 @@
           </div>
       
           <div class="col-sm-4">
-            <a href="{{ route('todos') }}?date={{ date('Y-m-d') }}" class="no-color">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
@@ -87,7 +87,7 @@
           </div>
       
           <div class="col-sm-4">
-            <a href="" class="no-color">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
@@ -142,7 +142,7 @@
                   <img class="icon" src="{{ asset('assets/img/icons/todos.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
-                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Todo List</div>
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">To-do List</div>
                 </div>
               </div>
             </a>
@@ -254,7 +254,7 @@
             </a>
           </div>
         <div class="col-sm-4">
-            <a href="" class="no-color">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/performance.png') }}" alt="" width="40px">
@@ -266,7 +266,7 @@
             </a>
           </div>
         <div class="col-sm-4">
-            <a href="" class="no-color">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/hierarchy.png') }}" alt="" width="40px">
@@ -328,7 +328,7 @@
             </a>
           </div>
         <div class="col-sm-4">
-            <a href="" class="no-color">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/telemarketer.png') }}" alt="" width="40px">
@@ -340,7 +340,7 @@
             </a>
           </div>
         <div class="col-sm-4">
-            <a href="" class="no-color">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/development.png') }}" alt="" width="40px">
@@ -354,7 +354,7 @@
     </div>
     <div id="finance" class="tab-pane fade">
         <div class="col-sm-4">
-            <a href="" class="no-color">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/budget.png') }}" alt="" width="40px">
@@ -378,7 +378,7 @@
               </a>
             </div>
           <div class="col-sm-4">
-              <a href="" class="no-color">
+              <a href="javascript:void(0)" class="no-color">
                 <div class="card-box">
                   <div class="inline m-r-10 m-t-10">
                     <img class="icon" src="{{ asset('assets/img/icons/cheque.png') }}" alt="" width="40px">
@@ -390,7 +390,7 @@
               </a>
             </div>
           <div class="col-sm-4">
-              <a href="" class="no-color">
+              <a href="javascript:void(0)" class="no-color">
                 <div class="card-box">
                   <div class="inline m-r-10 m-t-10">
                     <img class="icon" src="{{ asset('assets/img/icons/files.png') }}" alt="" width="40px">
@@ -402,7 +402,7 @@
               </a>
             </div>
           <div class="col-sm-4">
-              <a href="" class="no-color">
+              <a href="javascript:void(0)" class="no-color">
                 <div class="card-box">
                   <div class="inline m-r-10 m-t-10">
                     <img class="icon" src="{{ asset('assets/img/icons/budget.png') }}" alt="" width="40px">
@@ -442,7 +442,7 @@
             </a>
           </div>
         <div class="col-sm-4">
-            <a href="" class="no-color">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
@@ -454,7 +454,7 @@
             </a>
           </div>
         <div class="col-sm-4">
-            <a href="" class="no-color">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/development.png') }}" alt="" width="40px">
@@ -468,7 +468,7 @@
     </div>
     <div id="legal" class="tab-pane fade">
         <div class="col-sm-4">
-            <a href="" class="no-color">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/mace.png') }}" alt="" width="40px">

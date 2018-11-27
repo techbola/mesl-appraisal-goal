@@ -2,26 +2,26 @@
 
 namespace Cavi\Http\Controllers;
 
-<<<<<<< HEAD
-use Cavidel\LeaveType;
-// use Cavidel\Mail\Leave;
-use Cavidel\Staff;
-use Cavidel\LeaveRequest;
-use Cavidel\Mail\LeaveRequest as LR;
-use Cavidel\Mail\HRLeaveConfirmation;
-use Carbon\Carbon;
-use Cavidel\RestrictionDates;
-use Cavidel\LeaveTransaction;
-use Cavidel\LeaveApprover;
-=======
+
 use Cavi\LeaveType;
 // use Cavi\Mail\Leave;
 use Cavi\Staff;
 use Cavi\LeaveRequest;
+use Cavi\Mail\LeaveRequest as LR;
+use Cavi\Mail\HRLeaveConfirmation;
 use Carbon\Carbon;
 use Cavi\RestrictionDates;
 use Cavi\LeaveTransaction;
->>>>>>> 3d5dfb86bebc9c8de3b77e76d73915279cae6c5f
+use Cavi\LeaveApprover;
+
+// use Cavi\LeaveType;
+// // use Cavi\Mail\Leave;
+// use Cavi\Staff;
+// use Cavi\LeaveRequest;
+// use Carbon\Carbon;
+// use Cavi\RestrictionDates;
+// use Cavi\LeaveTransaction;
+
 use Illuminate\Http\Request;
 use Mail;
 

@@ -30,7 +30,7 @@
 
     <!-- START PANEL -->
     <div class="card-box">
-        <div class="card-title pull-left">Leave Request Apporoval</div>
+        <div class="card-title pull-left">Leave Request Approval</div>
         <div class="pull-right">
           <div class="col-xs-12">
             <input type="text" class="search-table form-control pull-right" placeholder="Search">

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-  {{-- Task - {{ $task->Task }} --}}
+  To-Do List
 @endsection
 
 @section('page-title')

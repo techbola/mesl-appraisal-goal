@@ -16,7 +16,7 @@
         <div class="invoice padding-50 sm-padding-10">
             <div>
                 <div class="pull-left">
-                    <img style="width: 150px" alt="" class="invoice-logo" data-src-retina="{{ asset('images/LG_Logo.png') }}" data-src="{{ asset('images/LG_Logo.png') }}" src="{{ asset('images/LG_Logo.png') }}">
+                    <img style="width: 150px" alt="" class="invoice-logo" data-src-retina="{{ asset('images/logos/mesllogo.png') }}" data-src="{{ asset('images/logos/mesllogo.png') }}" src="{{ asset('images/logos/mesllogo.png') }}">
                     <address class="m-t-10">
                       {{-- Apple Enterprise Sales --}}
                       {{-- <br>(877) 412-7753. --}}
