@@ -206,7 +206,8 @@
             <!-- END NOTIFICATIONS LIST -->
             @if (Auth::user()->staff)
               <span class="m-l-20 f16 bold">
-                {{ Auth::user()->staff->company->Company }}
+                {{-- {{ Auth::user()->staff->company->Company }} --}}
+                <img src="/images/logos/mesllogo.png" height="70px" style="margin-top: 10px;">
               </span>
             @endif
             {{-- <div class="pull-right hidden-sm hidden-xs col-sm-6">
@@ -232,7 +233,7 @@
         </style>
 
 
-        <div class="pull-right">
+        <div class="pull-right m-t-20">
           <!-- START User Info-->
           <div class="visible-lg visible-md user-info m-t-10">
 

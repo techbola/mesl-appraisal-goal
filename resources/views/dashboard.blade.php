@@ -26,59 +26,7 @@
   </div> --}}
 
 
-  {{-- START TOP BLOCKS --}}
-  <div class="row">
 
-    <div class="col-sm-4">
-      <a href="{{ route('call-memo-actions') }}" class="no-color">
-        <div class="card-box">
-          <div class="inline m-r-10 m-t-10" style="vertical-align:top">
-            <img class="icon" src="{{ asset('assets/img/icons/suitcase.svg') }}" alt="" width="40px" style="filter: sepia(0.3);">
-          </div>
-          <div class="inline">
-            <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Meeting Actions</div>
-            <h3 class="no-margin p-b-5 text-info bold">{{ $pending_meeting_actions }}</h3>
-          </div>
-          {{-- <div class="small">
-            <span>Office</span>
-            <span class=" text-success font-montserrat"><i class="fa fa-caret-up m-l-10"></i> 9%</span>
-            <span class="m-l-20">Mate</span>
-            <span class=" text-danger font-montserrat"><i class="fa fa-caret-up m-l-10"></i> 21%</span>
-          </div> --}}
-        </div>
-      </a>
-    </div>
-
-    <div class="col-sm-4">
-      <a href="{{ route('todos') }}?date={{ date('Y-m-d') }}" class="no-color">
-        <div class="card-box">
-          <div class="inline m-r-10 m-t-10" style="vertical-align:top">
-            <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
-          </div>
-          <div class="inline">
-            <div class="font-title f16 bold m-b-10 text-uppercase hint-text">To-Dos Today</div>
-            <h3 class="no-margin p-b-5 text-info bold">{{ count($todos_today) }}</h3>
-          </div>
-        </div>
-      </a>
-    </div>
-
-    <div class="col-sm-4">
-      <a href="{{ route('projects') }}" class="no-color">
-        <div class="card-box">
-          <div class="inline m-r-10 m-t-10" style="vertical-align:top">
-            <img class="icon" src="{{ asset('assets/img/icons/task.svg') }}" alt="" width="40px" style="filter: brightness(0.92);">
-          </div>
-          <div class="inline">
-            <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Tasks</div>
-            <h3 class="no-margin p-b-5 text-info bold">{{ count($tasks) }}</h3>
-          </div>
-        </div>
-      </a>
-    </div>
-
-  </div>
-  {{-- END TOP BLOCKS --}}
 
   <div class="row grid">
         {{-- Events --}}
@@ -135,7 +83,7 @@
                 @endforeach --}}
 
               @else
-                @emptylist()
+                {{-- @emptylist() --}}
               @endif
 
 
@@ -200,7 +148,7 @@
                   </div>
                 </li>
               @empty
-                @emptylist()
+                {{-- @emptylist() --}}
               @endforelse
             </div>
 
@@ -236,7 +184,7 @@
               </div>
             </li>
           @empty
-            @emptylist()
+            {{-- @emptylist() --}}
           @endforelse
         </div>
 
@@ -273,7 +221,7 @@
 @endforeach
 </div> --}}
 
-@emptylist()
+{{-- @emptylist() --}}
 
 </div>
       </div>
@@ -343,7 +291,7 @@
                 </a>
               </li>
             @empty
-              @emptylist()
+              {{-- @emptylist() --}}
             @endforelse
           </div>
 
@@ -372,7 +320,7 @@
                 </div>
               </li>
             @empty
-              @emptylist()
+              {{-- @emptylist() --}}
             @endforelse
           </div>
 
