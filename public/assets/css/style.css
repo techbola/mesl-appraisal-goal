@@ -509,6 +509,21 @@ audio, canvas, progress, video {
 .sidebar-menu {
     zoom: 95%;
 }
+
+.page-sidebar {
+    background-color: #fff;
+}
+
+.page-sidebar a, .page-sidebar a:visited, .page-sidebar button:visited, .page-sidebar a:focus, .page-sidebar button:focus,.page-sidebar a:hover {
+    color: #fb5201 !important;
+}
+
+.page-sidebar .sub-menu>li> a {
+    color: #777 !important;
+}
+.page-sidebar .sidebar-menu .menu-items>li ul.sub-menu {
+    background-color: #fff !important;
+}
 /* BUTTONS */
 
 .btn {
@@ -871,10 +886,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .header {
     /* background-color: #272b35; */
-    background-color: #36404a;
-    border-bottom: 1px solid #232730;
+    background-color: #fb5201;
+    /* border-bottom: 1px solid #232730; */
     /* color: #eee; */
-    color: #cad0dd;
+    /* color: #cad0dd; */
+    color: #fff;
 }
 @media (max-width: 991px) {
     .header {
