@@ -49,7 +49,7 @@
 </head>
 <body>
 
-  <video autoplay muted loop id="myVideo">
+  <video autoplay muted loop id="myVideo" poster="http://mainstream.com.ng/images/damsite.jpg">
     <source src="{{asset('assets/video/bg.mp4')}}" type="video/mp4">
     Your browser does not support HTML5 video.
   </video>
