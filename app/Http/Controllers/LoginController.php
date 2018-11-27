@@ -22,7 +22,8 @@ class LoginController extends Controller
     use AuthenticatesUsers;
     public function login()
     {
-        return view('auth.login');
+        // return view('auth.login');
+        return view('auth.new-login');
     }
     public function post_login(Request $request)
     {
