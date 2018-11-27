@@ -36,7 +36,7 @@
             <a href="{{ route('bulletin_board') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/suitcase.svg') }}" alt="" width="40px" style="filter: sepia(0.3);">
+                  <img class="icon" src="{{ asset('assets/img/icons/megaphone.png') }}" alt="" width="40px" style="filter: sepia(0.3);">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Bulletin Board</div>
@@ -50,7 +50,7 @@
             <a href="{{ route('events') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/calendar.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Event Scheduling</div>
@@ -64,7 +64,7 @@
             <a href="{{ route('todos') }}?date={{ date('Y-m-d') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Staff Anniversaries</div>
@@ -74,7 +74,20 @@
           </div>
       
           <div class="col-sm-4">
-            <a href="{{ route('todos') }}?date={{ date('Y-m-d') }}" class="no-color">
+            <a href="{{ route('my_documents') }}" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/file.png') }}" alt="" width="40px">
+                </div>
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Document Management</div>
+                </div>
+              </div>
+            </a>
+          </div>
+      
+          <div class="col-sm-4">
+            <a href="" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
@@ -98,7 +111,7 @@
             <a href="{{ route('memos.index') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/suitcase.svg') }}" alt="" width="40px" style="filter: sepia(0.3);">
+                  <img class="icon" src="{{ asset('assets/img/icons/document.png') }}" alt="" width="40px" style="filter: sepia(0.3);">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Internal Memo</div>
@@ -112,7 +125,7 @@
             <a href="{{  route('LeaveRequest') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/contact.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Requests</div>
@@ -126,7 +139,7 @@
             <a href="{{ route('todos') }}?date={{ date('Y-m-d') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/todos.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Todo List</div>
@@ -139,7 +152,7 @@
             <a href="{{ route('business_contacts') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/interview.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Meeting Notes</div>
@@ -152,7 +165,7 @@
             <a href="{{ route('notes') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/notes.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Sticky Notes</div>
@@ -165,7 +178,7 @@
             <a href="{{ route('inbox') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/email.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Messaging</div>
@@ -178,7 +191,7 @@
             <a href="{{ route('individual-payslip') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/cheque.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Payslip</div>
@@ -191,7 +204,7 @@
             <a href="{{ route('business_contacts') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/contacts.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Business Contacts</div>
@@ -220,7 +233,7 @@
           <a href="{{ route('staff.index') }}" class="no-color">
             <div class="card-box">
               <div class="inline m-r-10 m-t-10">
-                <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                <img class="icon" src="{{ asset('assets/img/icons/searching.png') }}" alt="" width="40px">
               </div>
               <div class="inline">
                 <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Employee Search</div>
@@ -232,7 +245,7 @@
             <a href="{{ route('CourseDashboard') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/video-player.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Learning Management System</div>
@@ -244,7 +257,7 @@
             <a href="" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/performance.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Performance Management</div>
@@ -256,7 +269,7 @@
             <a href="" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/hierarchy.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">User Profiling</div>
@@ -268,7 +281,7 @@
             <a href="{{ route('ScheduleTraining') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/presentation2.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Training Schedule</div>
@@ -280,7 +293,7 @@
             <a href="{{ route('Policy') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/policy.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Policies & Procedures</div>
@@ -294,7 +307,7 @@
             <a href="{{ route('company_menus') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/user.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Menu Assignment</div>
@@ -302,8 +315,6 @@
               </div>
             </a>
           </div>
-    </div>
-    <div id="it" class="tab-pane fade">
         <div class="col-sm-4">
             <a href="{{ route('activity_log') }}" class="no-color">
               <div class="card-box">
@@ -320,7 +331,7 @@
             <a href="" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/telemarketer.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Service Desk</div>
@@ -332,7 +343,7 @@
             <a href="" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/development.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Systems Monitoring</div>
@@ -346,7 +357,7 @@
             <a href="" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/budget.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Accounting</div>
@@ -358,7 +369,7 @@
               <a href="{{ route('assets') }}" class="no-color">
                 <div class="card-box">
                   <div class="inline m-r-10 m-t-10">
-                    <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                    <img class="icon" src="{{ asset('assets/img/icons/house.png') }}" alt="" width="40px">
                   </div>
                   <div class="inline">
                     <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Fixed Asset Register</div>
@@ -370,7 +381,7 @@
               <a href="" class="no-color">
                 <div class="card-box">
                   <div class="inline m-r-10 m-t-10">
-                    <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                    <img class="icon" src="{{ asset('assets/img/icons/cheque.png') }}" alt="" width="40px">
                   </div>
                   <div class="inline">
                     <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Payroll Processing</div>
@@ -378,10 +389,108 @@
                 </div>
               </a>
             </div>
+          <div class="col-sm-4">
+              <a href="" class="no-color">
+                <div class="card-box">
+                  <div class="inline m-r-10 m-t-10">
+                    <img class="icon" src="{{ asset('assets/img/icons/files.png') }}" alt="" width="40px">
+                  </div>
+                  <div class="inline">
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Customer Data</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          <div class="col-sm-4">
+              <a href="" class="no-color">
+                <div class="card-box">
+                  <div class="inline m-r-10 m-t-10">
+                    <img class="icon" src="{{ asset('assets/img/icons/budget.png') }}" alt="" width="40px">
+                  </div>
+                  <div class="inline">
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Reconciliation</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          <div class="col-sm-4">
+              <a href="{{ route('trial_balance3') }}" class="no-color">
+                <div class="card-box">
+                  <div class="inline m-r-10 m-t-10">
+                    <img class="icon" src="{{ asset('assets/img/icons/document.png') }}" alt="" width="40px">
+                  </div>
+                  <div class="inline">
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Management Report</div>
+                  </div>
+                </div>
+              </a>
+            </div>
 
 
     </div>
-    <div id="operations" class="tab-pane fade"></div>
-    <div id="legal" class="tab-pane fade"></div>
+    <div id="operations" class="tab-pane fade">
+        <div class="col-sm-4">
+            <a href="{{ route('projects') }}" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/project.png') }}" alt="" width="40px">
+                </div>
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Project Management</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <div class="col-sm-4">
+            <a href="" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/clipboard.svg') }}" alt="" width="40px">
+                </div>
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">CMMS</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <div class="col-sm-4">
+            <a href="" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/development.png') }}" alt="" width="40px">
+                </div>
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Control Systems Management</div>
+                </div>
+              </div>
+            </a>
+          </div>
+    </div>
+    <div id="legal" class="tab-pane fade">
+        <div class="col-sm-4">
+            <a href="" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/mace.png') }}" alt="" width="40px">
+                </div>
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Litigation Schedule</div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-sm-4">
+              <a href="{{ route('litigation.index') }}" class="no-color">
+                <div class="card-box">
+                  <div class="inline m-r-10 m-t-10">
+                    <img class="icon" src="{{ asset('assets/img/icons/diploma.png') }}" alt="" width="40px">
+                  </div>
+                  <div class="inline">
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Contracts</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+    </div>
 
 </div>
