@@ -138,7 +138,10 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                       <li><a href="#">Leave</a></li>
+                      <li><a href="#">Loan</a></li>
                       <li><a href="#">Travel</a></li>
+                      <li><a href="#">Procurement</a></li>
+                      <li><a href="#">Store</a></li>
                     </ul>
                 </div>
 
