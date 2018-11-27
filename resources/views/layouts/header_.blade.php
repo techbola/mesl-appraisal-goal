@@ -67,7 +67,7 @@
     @endif
 
     <style>
-      .menu-items li:last-child {
+      .menu-items>li:last-child {
           margin-bottom: 30px;
       }
       .page-sidebar .sidebar-menu .menu-items {
