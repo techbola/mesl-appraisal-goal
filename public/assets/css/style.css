@@ -1171,3 +1171,8 @@ a[href$="doc"], a[href$="docx"] {
   font-weight: normal !important;
   color: #aaaaaa !important;
 }
+
+
+.page-sidebar .sidebar-menu .menu-items>li ul.sub-menu {
+    padding: 0 0 10px 0 !important;
+}

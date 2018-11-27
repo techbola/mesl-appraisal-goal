@@ -307,7 +307,7 @@
                 </span>
                 {{-- User Name --}}
                 <div class="pull-right text-left p-l-10 fs-16 font-heading" style="padding-top:7px"> {{--removed p-t-10 --}}
-                  <span style="font-weight:500px">{{ Auth::user()->FullName }}</span> <i class="fa fa-caret-down m-l-5"></i>
+                  <span style="font-weight:500; color:#fb5201">{{ Auth::user()->FullName }}</span> <i class="fa fa-caret-down m-l-5"></i>
                   <br>
                   <div class="text-muted" style="font-size:13px; margin-top:-4px">
                     {!! ucwords(Auth::user()->roles()->first()->name) !!}

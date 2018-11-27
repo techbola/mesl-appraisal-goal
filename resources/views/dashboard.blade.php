@@ -17,7 +17,7 @@
       position: absolute;
       right: -30px;
       top: -10px;
-      opacity: 0.05;
+      opacity: 0.3;
       zoom: 2;
     }
   </style>
