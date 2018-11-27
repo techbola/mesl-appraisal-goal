@@ -55,11 +55,11 @@ class Menu extends Model
                 // } else {
                     if ($child->route == null || $child->route == '#') {
                         echo '<li><a href="javascript:;">' . $child->name . '</a>';
-                        echo '<span class="icon-thumbnail">' . $this->abbreviation($child->name) . '</span>';
+                        // echo '<span class="icon-thumbnail">' . $this->abbreviation($child->name) . '</span>';
                     } else {
                         // echo '<li>' . link_to_route($child->route, $title = $child->name, $parameters = array(), $attributes = array());
                         echo '<li><a href="' . route($child->route) . '">' . $child->name . '</a>';
-                        echo '<span class="icon-thumbnail">' . $this->abbreviation($child->name) . '</span>';
+                        // echo '<span class="icon-thumbnail">' . $this->abbreviation($child->name) . '</span>';
                     }
 
                 // }

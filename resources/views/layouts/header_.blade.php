@@ -123,7 +123,7 @@
                     <span class="arrow"></span>
                   @endif
                 </a>
-                <span class="icon-thumbnail">{{ substr($dashboard->name, 0, 2) }}</span>
+                {{-- <span class="icon-thumbnail">{{ substr($dashboard->name, 0, 2) }}</span> --}}
                 {{$dashboard->hasSubmenu($dashboard->id ) }}
               </li>
             @endif
@@ -139,7 +139,7 @@
               <span class="arrow"></span>
               @endif
             </a>
-            <span class="icon-thumbnail">{{ substr($menu->name, 0, 2) }}</span>
+            {{-- <span class="icon-thumbnail">{{ substr($menu->name, 0, 2) }}</span> --}}
             {{ $menu->hasSubmenu($menu->id) }}
           </li>
           @endforeach
