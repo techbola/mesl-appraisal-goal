@@ -360,6 +360,7 @@
           <!-- START JUMBOTRON -->
           <div class="jumbotron m-t-50" data-pages="parallax">
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+              @if(!View::hasSection('no-subnav'))
               <div class="inner">
                 <!-- START BREADCRUMB -->
 
@@ -369,7 +370,7 @@
                     @else
                         @yield('title')
                     @endif
-                </div> --}}
+                </h4> --}}
 
                 <ul class="breadcrumb">
                   {{-- <li>
@@ -426,6 +427,7 @@
                 <div class="clearfix"></div>
                 <!-- END BREADCRUMB -->
               </div>
+              @endif
             </div>
           </div>
           <!-- END JUMBOTRON -->

@@ -1080,7 +1080,7 @@ td>.badge, .modal .badge {
   padding:10px 5px;
   border-radius:7px;
 }
-.no-color {
+.no-color, .no-color:hover, .no-color:focus {
   color: unset;
 }
 .table-cell {
