@@ -19,7 +19,7 @@
 <div class="row">
   <div class="col-md-4">
     <div class="card-box">
-      <h4 class="card-title">Project Tasks <span class="badge badge-info badge-sm m-l-5">{{ count($project->tasks) }}</span></h4>
+      <h4 class="card-title">Project Tasks <span class="badge badge-inverse badge-sm m-l-5">{{ count($project->tasks) }}</span></h4>
 
       {{-- TASK LIST --}}
       <div style="max-height:400px; overflow-y:auto">
@@ -97,7 +97,7 @@
 
   <div class="col-lg-4">
     <div class="card-box">
-      <h4 class="card-title"><b>Assignees</b> <span class="badge badge-info badge-sm m-l-5">{{ count($project->assignees) }}</span></h4>
+      <h4 class="card-title"><b>Assignees</b> <span class="badge badge-inverse badge-sm m-l-5">{{ count($project->assignees) }}</span></h4>
 
       <div class="my-list{{ (count($project->assignees) > 6)? ' nicescroll mx-box':'' }}">
 
