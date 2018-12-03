@@ -37,11 +37,35 @@
           </div>
           <div class="form-group form-group-default">
             <label>Subject</label>
-            <input type="text" class="form-control" name="Subject" required>
+            <input type="text" class="form-control" name="Subject" required value="{{ (!empty($forward))? 'FW: '.$forward->Subject : '' }}">
           </div>
           <div class="form-group form-group-default">
             <label>Message</label>
-            <textarea class="summernote" name="Body" placeholder="Enter your message here."></textarea>
+            <textarea class="summernote" name="Body" placeholder="Enter your message here.">
+              @if (!empty($forward))
+                <br/>
+                <br/>
+                <div style="background-color:#eee;padding:7px;border-radius:5px">
+                  ---------- Forwarded message ---------<br/>
+                  <div class="small">
+                    From: <b>{{ $forward->sender->FullName }}</b><br/>
+                    Date: {{ $forward->created_at->format('jS M, Y') }} at {{ $forward->created_at->format('g:ia') }}<br/>
+                    Subject: <b>{{ $forward->Subject }}</b><br/>
+                    To: {{ implode(', ', $forward->recipients->pluck('FullName')->toArray()) }}<br/>
+                  </div>
+                  <br/>
+                  <div class="f14">{{ $forward->Body }}</div>
+                  @foreach ($forward->replies->sortBy('created_at') as $reply)
+                    ---------------------------------------
+                    <div class="small">
+                      Reply: <b>{{ $reply->sender->FullName }}</b> on {{ $reply->created_at->format('jS M, Y') }} at {{ $reply->created_at->format('g:ia') }}<br/>
+                    </div>
+                    <br/>
+                    <div class="f14">{{ $reply->Body }}</div>
+                  @endforeach
+                </div>
+              @endif
+            </textarea>
           </div>
 
             <div class="form-group form-group-default">

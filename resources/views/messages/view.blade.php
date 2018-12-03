@@ -22,7 +22,10 @@
     <div class="col-sm-8 col-md-9">
 
       <div class="card-box">
-        <h4 class="m-t-0 m-b-20 semi-bold">{{ $message->Subject }}</h4>
+        <div class="clearfix">
+          <h4 class="m-t-0 m-b-20 semi-bold pull-left">{{ $message->Subject }}</h4>
+          <a href="{{ route('compose_message') }}/?forward={{ $message->MessageRef }}" class="btn btn-sm btn-inverse pull-right"><i class="fa fa-share m-r-5"></i>Forward</a>
+        </div>
 
         {{-- START REPLIES --}}
         @foreach ($message->replies as $reply)

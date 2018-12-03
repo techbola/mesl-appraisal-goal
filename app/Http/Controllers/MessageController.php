@@ -46,7 +46,12 @@ class MessageController extends Controller
       $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->where('UserID', '!=', $user->id)->get();
     }
 
-    return view('messages.compose', compact('user', 'staffs'));
+    if (!empty($_GET['forward'])) {
+      $fw = $_GET['forward'];
+      $forward = Message::find($fw);
+    }
+
+    return view('messages.compose', compact('user', 'staffs', 'forward'));
   }
 
   public function send_message(Request $request)
