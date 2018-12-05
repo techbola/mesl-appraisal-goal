@@ -69,6 +69,7 @@
     		  <li class="{{ (isset($_GET['todos']))? 'active':'' }}"><a data-toggle="tab" href="#todos" onclick="load_todos()">To-Dos</a></li>
     		  <li><a data-toggle="tab" href="#scorecard">Score Card</a></li>
     		  <li><a data-toggle="tab" href="#updates">Task Update Reports</a></li>
+          <li><a data-toggle="tab" href="#files">Files <span class="badge">{{ $docs_count }}</span></a> </li>
     		</ul>
 
         <div class="tab-content">
@@ -94,12 +95,67 @@
           <div id="updates" class="tab-pane fade">
             @include('staff.block_updates')
           </div>
+          <div id="files" class="tab-pane fade">
+            <div>
+              <button class="btn btn-info btn-rounded pull-right" data-toggle="modal" data-target="#new_doc">Upload Document</button>
+            </div>
+            {{-- @include('staff.files') --}}
+            <table class="table tableWithSearch table-striped table-bordered">
+              <thead>
+                <th width="20%">Document Name</th>
+                <th width="15%">Type</th>
+                <th width="20%">Upload Date</th>
+                <th width="15%">Uploaded By</th>
+                <th width="15%">Approved By</th>
+                <th width="15%">Download</th>
+
+              </thead>
+              <tbody>
+                @foreach ($docs as $doc)
+                  <tr>
+                    <td><b>{{ $doc->DocName ?? '' }}</b></td>
+                    <td>{{ $doc->doctype->DocType ?? '' }}</td>
+                    <td>{{ date('jS M, Y - g:ia', strtotime($doc->UploadDate)) }}</td>
+                    <td>{{ $doc->initiator->FullName ?? '-' }}</td>
+                    <td>{{ ($doc->approver)? $doc->approver->FullName : '-' }}</td>
+                    {{-- <td><a href="#" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
+                    {{-- <td><a href="{{ $doctype->Path}}" style="color : blue !important">{{ $doctype->Filename}}</a></td> --}}
+                    <td><a href="{{ route('docs', ['file'=>$doc->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $doc->Filename}}<i class="fa fa-download m-l-5"></i></a></td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+
         </div>
 
 
       </div>
     </div>
     {{-- END CARD --}}
+
+    {{--  --}}
+      <!-- Create Modal -->
+    <div class="modal fade slide-up disable-scroll" id="new_doc" role="dialog" aria-hidden="false">
+      <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+          <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+              </button>
+              <h5>Upload New Document</h5>
+            </div>
+            <div class="modal-body">
+              <form action="{{ route('document_store_hr') }}" method="post" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                @include('documents.hr_form')
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{--  --}}
 
 
   @endsection

@@ -25,6 +25,9 @@ use MESL\Unit;
 use MESL\User;
 use MESL\StaffPending;
 use MESL\PayrollAdjustmentGroup;
+use MESL\HrInitiatedDocs;
+use MESL\DocType;
+
 use Illuminate\Http\Request;
 use Carbon;
 

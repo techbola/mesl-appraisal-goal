@@ -98,6 +98,15 @@
     </div>
     <div class="col-sm-3">
         <div class="">
+          {{ Form::label('ConfirmationDate','Confirmation Date', ['class' => 'form-label']) }}
+          <div class="input-group date dp">
+            {{ Form::text('ConfirmationDate', null, ['class' => 'form-control', 'placeholder' => 'Confirmation Date']) }}
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="">
           {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label']) }}
           <div class="input-group date dp">
             {{ Form::text('DateofBirth', null, ['class' => 'form-control', 'placeholder' => 'Date of Birth']) }}
@@ -388,7 +397,7 @@
     </div>
 
     <div class="clearfix"></div>
- 
+
     <div class="card-section p-l-5">PFA Details</div>
     <div class="col-sm-6">
       <div class="form-group">

@@ -9,6 +9,7 @@ use MESL\Role;
 use MESL\Staff;
 use MESL\Workflow;
 use MESL\Department;
+use MESL\HrInitiatedDocs;
 use Auth;
 use DB;
 
@@ -184,6 +185,52 @@ class DocumentController extends Controller
 
     }
 
+
+
+    public function store_hr(Request $request)
+    {
+        // $this->validate($request, [
+        //   'DocName' => 'required',
+        //   'ApproverID' => 'required',
+        // ]);
+
+        $user = auth()->user();
+
+        try {
+            DB::beginTransaction();
+
+            if ($request->hasFile('Filename')) {
+                $filename = $request->Filename->getClientOriginalName();
+                $saved    = $request->Filename->storeAs('documents', $filename);
+
+                if ($saved) {
+                    $document = new HrInitiatedDocs(array(
+                        'DocTypeID'   => $request->DocTypeID,
+                        'DocName'     => $request->DocName,
+                        'Description' => $request->Description,
+                        'StaffID'     => $request->StaffID,
+                        'Initiator'   => Auth::user()->id,
+                        'CompanyID'   => Auth::user()->staff->CompanyID,
+                        'Filename'    => $request->Filename->getClientOriginalName(),
+                        // 'Path' => Storage::url('documents/'.$filename)
+                    ));
+                    $document->save();
+
+                }
+            }
+            DB::commit();
+            // send email
+            // $user->notify(new HID());
+            return redirect('staff/' . $request->StaffID)->with('success', 'Document was added successfully');
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withInput()->with('error', 'Document failed to save');
+
+        }
+
+    }
+
     public function update_document(Request $request, $id)
     {
         $user = auth()->user();
@@ -234,6 +281,13 @@ class DocumentController extends Controller
 
         }
 
+    }
+
+    public function hrdocs()
+    {
+        $hrdocs = HrInitiatedDocs::where('StaffID', auth()->user()->staff->StaffRef)
+            ->get();
+        return view('documents.hrdocs', compact('hrdocs'));
     }
 
     public function approve(Request $request)
