@@ -7,6 +7,8 @@ use Illuminate\Notifications\Notifiable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 // use Illuminate\Database\Eloquent\SoftDeletes;
 
+use MESL\Menu;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -147,6 +149,26 @@ class User extends Authenticatable
     public function sticky_notes()
     {
         return $this->hasMany('MESL\StickyNote', 'UserID')->orderBy('created_at', 'desc');
+    }
+
+
+    public function menus()
+    {
+      $roles = $this->roles()->pluck('role_id')->toArray();
+      // dd($roles);
+      $menus = Menu::whereHas('roles', function($query) use($roles){
+        $query->whereIn('id', $roles);
+      })->get();
+
+      return $menus;
+    }
+
+
+    public function menu_routes()
+    {
+      $routes = $this->menus()->pluck('route')->toArray();
+      $routes = array_diff($routes, ['#']);
+      return $routes;
     }
 
     // relationship for staff payroll details

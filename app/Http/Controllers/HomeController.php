@@ -56,7 +56,7 @@ class HomeController extends Controller
 
         $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
         $events = EventSchedule::whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today)->get();
-        return view('dashboard', compact('bulletins', 'events'));
+        return view('dashboard', compact('bulletins', 'events', 'user'));
     }
 
     public function read_notification($id)
