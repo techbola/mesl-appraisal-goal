@@ -910,6 +910,9 @@
             $('#spinner').hide();
           });
         });
+        $(window).on('beforeunload', function(){
+          $('#spinner').show();
+        });
 
         // $(document).on('click',function(event){
         //   if( ! $(event.target).parents().hasClass('has-subnav') ) {
