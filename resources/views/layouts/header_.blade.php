@@ -107,7 +107,7 @@
       <div class="sidebar-menu">
         <!-- BEGIN SIDEBAR MENU ITEMS-->
 
-        <input type="text" id="search_input" class="form-control" onkeyup="menu_search()" placeholder="Search for menus.." title="Type in a menu name" style="width: 80%; margin: auto; margin-top: 10px;">
+        <input type="text" id="search_input" class="form-control" onkeyup="menu_search(this)" placeholder="Search for menus.." title="Type in a menu name" style="width: 80%; margin: auto; margin-top: 10px;">
 
         <ul class="menu-items" style="margin-top: 30px" id="menu-items">
 
@@ -790,7 +790,9 @@
 
       {{-- Filter Menus --}}
       <script>
-      function menu_search() {
+      function menu_search(e) {
+          $('.subm').remove();
+
           var input, filter, ul, li, a, i;
           input = document.getElementById("search_input");
           filter = input.value.toUpperCase();
@@ -804,6 +806,25 @@
               } else {
                   li[i].style.display = "none";
               }
+          }
+
+          var li2, a2
+          li2 = $("ul#menu-items > li > ul > li");
+          for (i = 0; i < li2.length; i++) {
+              if (li2[i]) {
+                var clone = $(li2[i]).clone().addClass('subm m-b-5');
+                clone.prependTo('#menu-items');
+                a2 = li2[i].getElementsByTagName("a")[0];
+                if (a2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                  clone.show();
+                } else {
+                  clone.hide();
+                }
+              }
+          }
+
+          if (!filter) {
+            $('.subm').remove();
           }
       }
       </script>
@@ -866,6 +887,29 @@
           $('#header_submenus').find('ul').toggleClass('inline-block');
           $('#header_submenus ul').css( 'min-width', $('#header_submenus').width() );
         }
+        $('body').on('click', function(e){
+          if(!$(e.target).hasClass('dropdown-toggle')){
+            if($('#header_submenus').find('ul').hasClass('inline-block')){
+              $('#header_submenus').find('ul').removeClass('inline-block');
+            }
+          }
+        });
+
+        $(document).on('ready',function(){
+          $('#spinner').show();
+          Pace.on('start', function() {
+            $('#spinner').show();
+          });
+          Pace.on('restart', function() {
+            $('#spinner').show();
+          });
+          Pace.on('stop', function() {
+            $('#spinner').hide();
+          });
+          Pace.on('done', function() {
+            $('#spinner').hide();
+          });
+        });
 
         // $(document).on('click',function(event){
         //   if( ! $(event.target).parents().hasClass('has-subnav') ) {
