@@ -328,7 +328,7 @@
                   </li>
                 @endif
                 <li>
-                  <a href="{{ route('help') }}"><i class="fa fa-support"></i> Help</a>
+                  <a href="{{ route('help') }}"><i class="fa fa-support"></i> User Guide</a>
                 </li>
                 {{-- <li><a href="#"><i class="pg-outdent"></i> Feedback</a>
                 </li>
@@ -889,30 +889,30 @@
         }
         $('body').on('click', function(e){
           if(!$(e.target).hasClass('dropdown-toggle')){
-            if($('#header_submenus').find('ul').hasClass('inline-block')){
-              $('#header_submenus').find('ul').removeClass('inline-block');
+            if($('#header_submenus, .dropdown').find('ul').hasClass('inline-block')){
+              $('#header_submenus, .dropdown').find('ul').removeClass('inline-block');
             }
           }
         });
 
-        $(document).on('ready',function(){
-          $('#spinner').show();
-          Pace.on('start', function() {
-            $('#spinner').show();
-          });
-          Pace.on('restart', function() {
-            $('#spinner').show();
-          });
-          Pace.on('stop', function() {
-            $('#spinner').hide();
-          });
-          Pace.on('done', function() {
-            $('#spinner').hide();
-          });
-        });
-        $(window).on('beforeunload', function(){
-          $('#spinner').show();
-        });
+        // $(document).on('ready',function(){
+        //   // $('#spinner').show();
+        //   Pace.on('start', function() {
+        //     $('#spinner').show();
+        //   });
+        //   Pace.on('restart', function() {
+        //     $('#spinner').show();
+        //   });
+        //   Pace.on('stop', function() {
+        //     $('#spinner').hide();
+        //   });
+        //   Pace.on('done', function() {
+        //     $('#spinner').hide();
+        //   });
+        // });
+        // $(window).on('beforeunload', function(){
+        //   $('#spinner').show();
+        // });
 
         // $(document).on('click',function(event){
         //   if( ! $(event.target).parents().hasClass('has-subnav') ) {

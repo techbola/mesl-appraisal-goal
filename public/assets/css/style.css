@@ -1031,6 +1031,10 @@ textarea {
     font-size: 15px;
     padding: 14px 35px;
 }
+.nav-tabs-sm>li>a {
+  font-size: 14px !important;
+  padding: 14px 20px !important;
+}
 .nav-tabs>li>a, .nav-tabs>li>a:hover, .nav-tabs>li>a:focus {
     color: #777;
 }

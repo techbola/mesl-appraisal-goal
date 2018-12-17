@@ -7,7 +7,7 @@
   }
 </style>
 
-<ul class="nav nav-tabs nav-tabs-simple bg-white m-b-20">
+<ul class="nav nav-tabs nav-tabs-sm nav-tabs-simple bg-white m-b-20">
   <li class="active"><a data-toggle="tab" href="#general">General</a></li>
   <li><a data-toggle="tab" href="#personal">Personal</a></li>
   <li><a data-toggle="tab" href="#hr">HR</a></li>
@@ -23,6 +23,18 @@
   <li>
     <a data-toggle="tab" href="#legal">Legal</span></a>
   </li>
+  <li>
+    <a data-toggle="tab" href="#sales">Sales</span></a>
+  </li>
+  <li>
+    <a data-toggle="tab" href="#admin">Admin</span></a>
+  </li>
+  <li>
+    <a data-toggle="tab" href="#risk">Risk Mgt</span></a>
+  </li>
+  {{-- <li>
+    <a data-toggle="tab" href="#business">Business Risk</span></a>
+  </li> --}}
 </ul>
 
 <div class="tab-content" style="min-height: 300px">
@@ -336,6 +348,21 @@
             </a>
           </div>
         @endif
+
+        @if (in_array('payroll.details', $user->menu_routes()) || $user->hasRole('admin'))
+          <div class="col-sm-4">
+            <a href="{{ route('payroll.details') }}" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/cheque.png') }}" alt="" width="40px">
+                </div>
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Payroll Processing</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        @endif
     </div>
     <div id="it" class="tab-pane fade">
 
@@ -402,6 +429,62 @@
                 </div>
                 <div class="inline">
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">User Profiling</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        @endif
+        @if (in_array('roles.create', $user->menu_routes()) || $user->hasRole('admin'))
+          <div class="col-sm-4">
+            <a href="{{ route('roles.create') }}" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/roles.png') }}" alt="" width="40px">
+                </div>
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Create Roles</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        @endif
+        @if (in_array('company_menus', $user->menu_routes()) || $user->hasRole('admin'))
+          <div class="col-sm-4">
+            <a href="{{ route('company_menus') }}" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/key.png') }}" alt="" width="40px">
+                </div>
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Assign Menu</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        @endif
+        @if (in_array('pending_biodata_list', $user->menu_routes()) || $user->hasRole('admin'))
+          <div class="col-sm-4">
+            <a href="{{ route('pending_biodata_list') }}" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/approved.png') }}" alt="" width="40px">
+                </div>
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Approve Biodata</div>
+                </div>
+              </div>
+            </a>
+          </div>
+        @endif
+        @if ($user->hasRole('admin'))
+          <div class="col-sm-4">
+            <a href="{{ route('menus.index') }}" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/menu.png') }}" alt="" width="40px">
+                </div>
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Create Menus</div>
                 </div>
               </div>
             </a>
@@ -601,6 +684,19 @@
               </a>
             </div>
           @endif
+    </div>
+
+    <div id="sales" class="tab-pane fade">
+      <div class="row">
+      </div>
+    </div>
+    <div id="admin" class="tab-pane fade">
+      <div class="row">
+      </div>
+    </div>
+    <div id="risk" class="tab-pane fade">
+      <div class="row">
+      </div>
     </div>
 
 </div>
