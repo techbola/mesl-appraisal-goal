@@ -117,6 +117,21 @@
             </a>
           </div>
 
+          @if (in_array('my_documents', $user->menu_routes()) || $user->hasRole('admin'))
+            <div class="col-sm-4">
+              <a href="{{ route('my_documents') }}" class="no-color">
+                <div class="card-box">
+                  <div class="inline m-r-10 m-t-10">
+                    <img class="icon" src="{{ asset('assets/img/icons/file.png') }}" alt="" width="40px">
+                  </div>
+                  <div class="inline">
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Document Management</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          @endif
+
         </div>
         {{-- END BLOCKS --}}
 
@@ -516,20 +531,6 @@
                   </div>
                   <div class="inline">
                     <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Fixed Asset Register</div>
-                  </div>
-                </div>
-              </a>
-            </div>
-          @endif
-          @if (in_array('payroll.details', $user->menu_routes()) || $user->hasRole('admin'))
-            <div class="col-sm-4">
-              <a href="{{ route('payroll.details') }}" class="no-color">
-                <div class="card-box">
-                  <div class="inline m-r-10 m-t-10">
-                    <img class="icon" src="{{ asset('assets/img/icons/cheque.png') }}" alt="" width="40px">
-                  </div>
-                  <div class="inline">
-                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Payroll Processing</div>
                   </div>
                 </div>
               </a>
