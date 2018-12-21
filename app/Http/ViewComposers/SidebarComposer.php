@@ -41,11 +41,10 @@ class SidebarComposer
           $parent_menus = Menu::where('parent_id', 0)->with('children')->orderBy('name')->get();
           $child_menus = Menu::where('parent_id', '!=', 0)->with('children')->orderBy('name')->get();
         } elseif (auth()->user()->hasRole('admin')) {
-          // dd('HELLO');
-          // $parent_menus = Menu::where('parent_id', 0)->get();
-          // $child_menus = Menu::where('parent_id', '!=', 0)->get();
-          $parent_menus = Menu::where('parent_id', 0)->where('id', '!=', $system->id)->orderBy('name')->get();
-          $child_menus = Menu::where('parent_id', '!=', 0)->where('parent_id', '!=', $system->id)->orderBy('name')->get();
+          // $parent_menus = Menu::where('parent_id', 0)->where('id', '!=', $system->id)->orderBy('name')->get();
+          // $child_menus = Menu::where('parent_id', '!=', 0)->where('parent_id', '!=', $system->id)->orderBy('name')->get();
+          $parent_menus = Menu::where('parent_id', 0)->orderBy('name')->get();
+          $child_menus = Menu::where('parent_id', '!=', 0)->orderBy('name')->get();
         } elseif (count($user->roles) > 0) {
             $parent_menus = $user->roles()->first()->menus()->where('parent_id', 0)->orderBy('name')->get();
             $child_menus = $user->roles()->first()->menus()->where('parent_id', '!=', 0)->orderBy('name')->get();
