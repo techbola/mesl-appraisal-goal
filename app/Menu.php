@@ -38,9 +38,9 @@ class Menu extends Model
         $user   = Auth::user();
 
         if ($user->is_superadmin || $user->hasRole('admin')) {
-            $user_submenus = Menu::where('parent_id', $menu_id)->with('children')->get();
+            $user_submenus = Menu::where('parent_id', $menu_id)->with('children')->orderBy('name')->get();
         } else {
-            $user_submenus = \Auth::user()->roles()->first()->menus->where('parent_id', $menu_id);
+            $user_submenus = \Auth::user()->roles()->first()->menus->where('parent_id', $menu_id)->sortBy('name');
         }
 
         // if ($menu->children->count() > 0) {
@@ -78,9 +78,9 @@ class Menu extends Model
       $user   = Auth::user();
 
       if ($user->is_superadmin || $user->hasRole('admin')) {
-          $subs = Menu::where('parent_id', $this->id)->with('children')->get();
+          $subs = Menu::where('parent_id', $this->id)->with('children')->orderBy('name')->get();
       } else {
-          $subs = \Auth::user()->roles()->first()->menus->where('parent_id', $this->id);
+          $subs = \Auth::user()->roles()->first()->menus->where('parent_id', $this->id)->sortBy('name');
       }
       return $subs;
     }

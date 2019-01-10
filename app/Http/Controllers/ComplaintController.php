@@ -13,6 +13,7 @@ use MESL\Department;
 use MESL\ComplaintComment;
 use MESL\ComplaintAttachment;
 use MESL\Staff;
+use MESL\CompanyOffice;
 
 class ComplaintController extends Controller
 {
@@ -42,7 +43,7 @@ class ComplaintController extends Controller
     public function create()
     {
         $clients   = Customer::all();
-        $locations = BuildingProject::all();
+        $locations = CompanyOffice::all();
         return view('facility_management.complaints.create', compact('locations', 'clients'));
     }
 

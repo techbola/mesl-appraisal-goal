@@ -1078,3 +1078,38 @@ Route::get('expense_management/approvallist', 'ExpenseManagementController@appro
 Route::post('expense_management/approve', 'ExpenseManagementController@approve')->name('approve_expense');
 Route::post('expense_management/process', 'ExpenseManagementController@process')->name('process_expense');
 Route::post('expense_management/reject', 'ExpenseManagementController@reject');
+
+/*
+|------------------------------------------------------------------------------------------
+| CREATE COMPANY OFFICES LOCATION AND BRANCH ROUTES SECTION
+|------------------------------------------------------------------------------------------
+ */
+Route::get('/office-location/index', 'CompanyDepartmentController@index')->name('office_location_module');
+Route::get('/office-location/one', 'CompanyDepartmentController@loadOne');
+Route::post('/office-location/create', 'CompanyDepartmentController@create');
+Route::post('/office-location/edit', 'CompanyDepartmentController@update');
+Route::post('/office-location/delete', 'CompanyDepartmentController@delete');
+
+/*
+|------------------------------------------------------------------------------------------
+| CREATE DEPARTMENT ROUTES SECTION
+|------------------------------------------------------------------------------------------
+ */
+Route::get('/department/index', 'CompanyDepartmentController@index')->name('department_module');
+Route::get('/department/one', 'CompanyDepartmentController@loadOne');
+Route::post('/department/create', 'CompanyDepartmentController@create');
+Route::post('/department/edit', 'CompanyDepartmentController@update');
+Route::post('/department/delete', 'CompanyDepartmentController@delete');
+
+/*
+|------------------------------------------------------------------------------------------
+| CREATE SUPERVISOR ROUTES SECTION
+|------------------------------------------------------------------------------------------
+ */
+Route::get('/supervisor/index', 'CompanySupervisorController@index')->name('supervisor_module');
+Route::get('/supervisor/one', 'CompanySupervisorController@loadOne');
+Route::post('/supervisor/create', 'CompanySupervisorController@create');
+Route::post('/supervisor/edit', 'CompanySupervisorController@update');
+Route::post('/supervisor/delete', 'CompanySupervisorController@delete');
+Route::get('/supervisor/all/users', 'CompanySupervisorController@allStaffs');
+Route::get('/supervisor/all/department', 'CompanySupervisorController@allDepartment');
