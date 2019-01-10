@@ -196,9 +196,9 @@ class CompanySupervisor extends Model
         $all_staffs = User::all();
         $supervisor_box = [];
         foreach ($all_staffs as $staff) {
-            $is_supervisor = CompanySupervisor::where([['staff_id', $staff->id], ['is_deleted', false]])->first();
+            $is_supervisor = CompanySupervisor::where('staff_id', $staff->id)->first();
             if($is_supervisor !== null){
-                $is_department = CompanyDepartment::where([['id', $is_supervisor->department_id], ['is_deleted', false]])->first();
+                $is_department = CompanyDepartment::where('id', $is_supervisor->department_id)->first();
 
                 $data = [
                     'id'            => $is_supervisor->id,
