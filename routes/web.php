@@ -244,7 +244,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('document_store_hr', 'DocumentController@store_hr')->name('document_store_hr');
     Route::patch('update_document/{id}', 'DocumentController@update_document')->name('update_document');
     Route::get('download-document/{file}', function ($file) {
-        return response()->download(storage_path("app/documents/".$file));
+        return response()->download(storage_path("app/documents/" . $file));
     })->name('docs');
 
     Route::resource('doctypes', 'DocTypeController');
@@ -1062,3 +1062,19 @@ Route::get('/recon-data', 'jsonResponseController@export_unposted_ars_ledger');
 
 //modal for double entry
 Route::post('get-transaction-details', 'ReportController@fetchTransactionDetailsForCode');
+
+//Expense Management routes
+
+Route::get('expense_management', 'ExpenseManagementController@index')->name('expense_management.index');
+Route::get('expense_management/create', 'ExpenseManagementController@create')->name('expense_management.create');
+Route::get('expense_management/{id}', 'ExpenseManagementController@show')->name('expense_management.show');
+Route::get('expense_management/edit/{id}', 'ExpenseManagementController@show')->name('expense_management.edit');
+Route::post('expense_management/store', 'ExpenseManagementController@store')->name('expense_management.store');
+
+Route::get('expense_management/authorize_expense', 'ExpenseManagementController@authorize_expense')->name('expense_management.authorize_expense');
+Route::get('expense_management/download/{id}', 'ExpenseManagementController@download_expense_attachments')->name('download-attachment-exp');
+Route::get('expense_management/send/{id}', 'ExpenseManagementController@send')->name('send_expense');
+Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+Route::post('expense_management/approve', 'ExpenseManagementController@approve')->name('approve_expense');
+Route::post('expense_management/process', 'ExpenseManagementController@process')->name('process_expense');
+Route::post('expense_management/reject', 'ExpenseManagementController@reject');
