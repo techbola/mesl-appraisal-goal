@@ -1066,6 +1066,18 @@ Route::post('get-transaction-details', 'ReportController@fetchTransactionDetails
 
 /*
 |------------------------------------------------------------------------------------------
+| CREATE COMPANY OFFICES LOCATION AND BRANCH ROUTES SECTION
+|------------------------------------------------------------------------------------------
+*/
+Route::get('/office-location/index',            'CompanyDepartmentController@index')->name('office_location_module');
+Route::get('/office-location/one',              'CompanyDepartmentController@loadOne');
+Route::post('/office-location/create',          'CompanyDepartmentController@create');
+Route::post('/office-location/edit',            'CompanyDepartmentController@update');
+Route::post('/office-location/delete',          'CompanyDepartmentController@delete');
+
+
+/*
+|------------------------------------------------------------------------------------------
 | CREATE DEPARTMENT ROUTES SECTION
 |------------------------------------------------------------------------------------------
 */
