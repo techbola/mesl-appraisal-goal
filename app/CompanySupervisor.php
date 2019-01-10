@@ -44,23 +44,46 @@ class CompanySupervisor extends Model
     public function add($payload){
 
     	// check if already exist
-    	$already_exist = CompanySupervisor::where("staff_id", $payload->staff_id)->first();
+    	$already_exist = CompanySupervisor::where([["staff_id", $payload->staff_id], ['is_deleted', false]])->first();
     	if($already_exist == null){
-    		// body
-            $this->staff_id         = $payload->staff_id;
-	    	$this->department_id	= $payload->department_id;
-	    	$this->is_deleted 	= false;
-	    	if($this->save()){
-	    		$data = [
-	    			'status' 	=> 'success',
-	    			'message' 	=> 'Supervisor position assigned!'
-	    		];
-	    	}else{
-	    		$data = [
-	    			'status' 	=> 'error',
-	    			'message' 	=> 'Fail to assign a Supervisor!'
-	    		];
-	    	}
+
+            if(empty($payload->department_id) || $payload->department_id == 0){
+                $data = [
+                    'status'    => 'error',
+                    'message'   => 'Select a department'
+                ];
+            }elseif(empty($payload->staff_id) || $payload->staff_id == 0){
+                $data = [
+                    'status'    => 'error',
+                    'message'   => 'Select an employee'
+                ];
+            }else{
+
+                // check department already assigned
+                $already_assign_department = CompanySupervisor::where([["department_id",$payload->department_id], ['is_deleted', false]])->first();
+                if($already_assign_department !== null){
+                    $data = [
+                        'status'    => 'error',
+                        'message'   => 'Supervisor position already assigned'
+                    ];
+                }else{
+                    // body
+                    $this->staff_id         = $payload->staff_id;
+                    $this->department_id    = $payload->department_id;
+                    $this->is_deleted   = false;
+                    if($this->save()){
+                        $data = [
+                            'status'    => 'success',
+                            'message'   => 'Supervisor position assigned!'
+                        ];
+                    }else{
+                        $data = [
+                            'status'    => 'error',
+                            'message'   => 'Fail to assign a Supervisor!'
+                        ];
+                    }
+                }
+            }
     	}else{
     		$data = [
     			'status' 	=> 'error',
@@ -115,15 +138,15 @@ class CompanySupervisor extends Model
     	// body
     	$remove_department 				= CompanySupervisor::find($payload->supervisor_id);
     	$remove_department->is_deleted 	= true;
-    	if($remove_department->update()){
+    	if($remove_department->delete()){
     		$data = [
     			'status' 	=> 'success',
-    			'message' 	=> 'Department deleted!'
+    			'message' 	=> 'Supervisor deleted!'
     		];
     	}else{
     		$data = [
     			'status' 	=> 'error',
-    			'message' 	=> 'Fail to delete department!'
+    			'message' 	=> 'Fail to delete Supervisor!'
     		];
     	}
 
@@ -196,15 +219,17 @@ class CompanySupervisor extends Model
         $all_staffs = User::all();
         $supervisor_box = [];
         foreach ($all_staffs as $staff) {
-            $is_supervisor = CompanySupervisor::where('staff_id', $staff->id)->first();
+            $is_supervisor = CompanySupervisor::where([['staff_id', $staff->id], ['is_deleted', false]])->first();
             if($is_supervisor !== null){
                 $is_department = CompanyDepartment::where('id', $is_supervisor->department_id)->first();
                 if($is_department !== null){
+
                     $data = [
                         'id'            => $is_supervisor->id,
                         'first_name'    => ucfirst($staff->first_name),
                         'last_name'     => ucfirst($staff->last_name),
-                        'department'    => $is_department->name
+                        'department'    => $is_department->name,
+                        'is_deleted'    => $is_department->is_deleted
                     ];
                 }else{
                     $data = [

@@ -44,19 +44,21 @@
                     </thead>
                     <tbody>
                         @foreach($assigned_supervisors as $staff)
-                            <tr>
-                                <td>{{ ucfirst($staff['first_name']) }} {{ ucfirst($staff['last_name']) }}</td>
-                                <td>{{ ucfirst($staff['department']) }}</td>
-                                <td>
-                                    <a class="btn btn-info" href="javascript:void(0);" onclick="showSupervisorEditModal('{{ $staff['id'] }}')">
-                                        <i class="fa fa-edit"></i> Edit
-                                    </a>
+                            @if($staff['is_deleted'] == false)
+                                <tr>
+                                    <td>{{ ucfirst($staff['first_name']) }} {{ ucfirst($staff['last_name']) }}</td>
+                                    <td>{{ ucfirst($staff['department']) }}</td>
+                                    <td>
+                                        <a class="btn btn-info" href="javascript:void(0);" onclick="showSupervisorEditModal('{{ $staff['id'] }}')">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </a>
 
-                                    <a class="btn btn-info" href="javascript:void(0);" onclick="delSupervisor('{{ $staff['id'] }}')">
-                                        <i class="fa fa-trash"></i> Delete
-                                    </a>
-                                </td>
-                            </tr>
+                                        <a class="btn btn-info" href="javascript:void(0);" onclick="delSupervisor('{{ $staff['id'] }}')">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
