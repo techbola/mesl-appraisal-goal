@@ -352,7 +352,13 @@ class StaffController extends Controller
         }
         $gantt = json_encode($gantt);
 
-        return view('staff.show', compact('detail', 'staff', 'gantt'));
+
+        // note that I am saving the StaffRef of the Staff
+        $doctypes   = DocType::all();
+        $docs       = HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get();
+        $docs_count = HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get()->count();
+
+        return view('staff.show', compact('detail', 'staff', 'gantt', 'docs', 'docs_count', 'doctypes'));
     }
 
     public function edit_biodata($id)
