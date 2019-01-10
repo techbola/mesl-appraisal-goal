@@ -199,13 +199,21 @@ class CompanySupervisor extends Model
             $is_supervisor = CompanySupervisor::where('staff_id', $staff->id)->first();
             if($is_supervisor !== null){
                 $is_department = CompanyDepartment::where('id', $is_supervisor->department_id)->first();
-
-                $data = [
-                    'id'            => $is_supervisor->id,
-                    'first_name'    => ucfirst($staff->first_name),
-                    'last_name'     => ucfirst($staff->last_name),
-                    'department'    => $is_department->name
-                ];
+                if($is_department !== null){
+                    $data = [
+                        'id'            => $is_supervisor->id,
+                        'first_name'    => ucfirst($staff->first_name),
+                        'last_name'     => ucfirst($staff->last_name),
+                        'department'    => $is_department->name
+                    ];
+                }else{
+                    $data = [
+                        'id'            => $is_supervisor->id,
+                        'first_name'    => ucfirst($staff->first_name),
+                        'last_name'     => ucfirst($staff->last_name),
+                        'department'    => 'No Department'
+                    ];
+                }
 
                 array_push($supervisor_box, $data);
             }
