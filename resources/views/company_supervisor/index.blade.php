@@ -45,7 +45,7 @@
                     <tbody>
                         @foreach($assigned_supervisors as $staff)
                             <tr>
-                                <td>{{ ucfirst($staff['last_name']) }} {{ ucfirst($staff['last_name']) }}</td>
+                                <td>{{ ucfirst($staff['first_name']) }} {{ ucfirst($staff['last_name']) }}</td>
                                 <td>{{ ucfirst($staff['department']) }}</td>
                                 <td>
                                     <a class="btn btn-info" href="javascript:void(0);" onclick="showSupervisorEditModal('{{ $staff['id'] }}')">
