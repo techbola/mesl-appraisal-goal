@@ -1062,3 +1062,29 @@ Route::get('/recon-data', 'jsonResponseController@export_unposted_ars_ledger');
 
 //modal for double entry
 Route::post('get-transaction-details', 'ReportController@fetchTransactionDetailsForCode');
+
+
+/*
+|------------------------------------------------------------------------------------------
+| CREATE DEPARTMENT ROUTES SECTION
+|------------------------------------------------------------------------------------------
+*/
+Route::get('/department/index',                 'CompanyDepartmentController@index')->name('department_module');
+Route::get('/department/one',                   'CompanyDepartmentController@loadOne');
+Route::post('/department/create',               'CompanyDepartmentController@create');
+Route::post('/department/edit',                 'CompanyDepartmentController@update');
+Route::post('/department/delete',               'CompanyDepartmentController@delete');
+
+
+/*
+|------------------------------------------------------------------------------------------
+| CREATE SUPERVISOR ROUTES SECTION
+|------------------------------------------------------------------------------------------
+*/
+Route::get('/supervisor/index',                 'CompanySupervisorController@index')->name('supervisor_module');
+Route::get('/supervisor/one',                   'CompanySupervisorController@loadOne');
+Route::post('/supervisor/create',               'CompanySupervisorController@create');
+Route::post('/supervisor/edit',                 'CompanySupervisorController@update');
+Route::post('/supervisor/delete',               'CompanySupervisorController@delete');
+Route::get('/supervisor/all/users',             'CompanySupervisorController@allStaffs');
+Route::get('/supervisor/all/department',        'CompanySupervisorController@allDepartment');

@@ -40,10 +40,9 @@
                     <th>Complaints</th>
                     <th>Status</th>
                     <th>Actions</th>
-
                   </thead>
                   <tbody>
-                   @foreach($complaints as $comp)
+                  {{--  @foreach($complaints as $comp)
                    <tr>
                      <td>{{ $comp->client->Name }}</td>
                      <td>{{ $comp->allocation }}</td>
@@ -63,7 +62,7 @@
                         @endif
                      </td>
                    </tr>
-                   @endforeach
+                   @endforeach --}}
                   </tbody>
                 </table>
             </div>

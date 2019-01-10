@@ -6,9 +6,9 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('client_id', 'RESPONSIBLE UNIT') }}
+                    {{ Form::label('client_id', 'Client') }}
                     <select class="remote-select full-width" name="client_id" id="client_id">
-                        <option value="0">-- Select Unit--</option>
+                        <option value="0">-- Select Client--</option>
                     </select>
                 </div>
             </div>
@@ -16,8 +16,8 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('location_id', 'LOCATION') }}
-                    {{ Form::select('location_id',[ '' => 'Select Location'] + $locations->pluck('name','id')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location', 'required']) }}
+                    {{ Form::label('location_id', 'Location') }}
+                    {{ Form::select('location_id',[ '' => 'Select Location'] + $locations->pluck('ProjectName','BuildingProjectRef')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location', 'required']) }}
                 </div>
             </div>
         </div>
@@ -26,8 +26,8 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('allocation', 'REQUEST TYPE') }}
-                    {{ Form::text('allocation', null, ['class' => 'form-control', 'placeholder' => 'e.g Reconnection, Power Supply, Installation etc...', 'required']) }}
+                    {{ Form::label('allocation', 'Allocation') }}
+                    {{ Form::text('allocation', null, ['class' => 'form-control', 'placeholder' => 'e.g C6 Unit 3', 'required']) }}
                 </div>
             </div>
         </div> 
@@ -56,7 +56,7 @@
 			$('.dp').datepicker();
             $('.remote-select').select2({
                 allowClear: true,
-                placeholder: "SELECT UNIT",
+                placeholder: "Select Customer",
                 ajax: { 
                     url: "/customer-list",
                     dataType: 'json',

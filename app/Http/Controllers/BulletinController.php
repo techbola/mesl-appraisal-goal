@@ -22,6 +22,7 @@ class BulletinController extends Controller
 
     if ($user->is_superadmin) {
       $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->paginate(10);
+      $archives = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
     } elseif ($user->hasRole('admin')) {
       $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
       $archives = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
