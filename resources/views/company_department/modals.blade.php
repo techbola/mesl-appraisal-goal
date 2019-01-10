@@ -12,7 +12,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Enter Department Name</label>
-                <input type="text" id="department_name" class="form-control" placeholder="Enter project name.." required>
+                <input type="text" id="department_name" class="form-control" placeholder="Enter department name.." required>
               </div>
             </div>
           </div>

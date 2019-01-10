@@ -35,6 +35,7 @@ use DB;
 use Notification;
 use MESL\Notifications\StaffInvitation;
 use MESL\Company;
+use MESL\CompanyDepartment;
 use File;
 use Image;
 use Auth;
@@ -66,7 +67,7 @@ class StaffController extends Controller
               $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             }
         }
-        $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+        $departments = CompanyDepartment::where('is_deleted', false)->get();
         return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments', 'q'));
     }
 
