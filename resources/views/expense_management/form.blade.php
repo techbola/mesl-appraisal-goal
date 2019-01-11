@@ -32,8 +32,8 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('RequestListID', 'Expense Category') }}
-                    {{ Form::select('RequestListID', ['' => 'Select Request'] + $request_list->pluck('Request','RequestListRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category']) }}
+                    {{ Form::label('ExpenseCategoryID ', 'Expense Category') }}
+                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $request_list->pluck('Request','RequestListRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category']) }}
                 </div>
             </div>
         </div>
