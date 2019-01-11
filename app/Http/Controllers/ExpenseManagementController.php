@@ -92,12 +92,12 @@ class ExpenseManagementController extends Controller
         $lot_descriptions   = LotDescription::all();
         $bank_acct_details  = LotDescription::all();
         $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
-			FROM            tblTransaction
-			INNER JOIN tblTransactionType ON tblTransaction.TransactionTypeID = tblTransactionType.TransactionTypeRef
-			INNER JOIN tblGL on tblTransaction.GLID=tblGL.GLRef
-			inner join tblCurrency on tblGL.CurrencyID=tblCurrency.CurrencyRef
-			CROSS JOIN tblConfig
-			 INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+            FROM            tblTransaction
+            INNER JOIN tblTransactionType ON tblTransaction.TransactionTypeID = tblTransactionType.TransactionTypeRef
+            INNER JOIN tblGL on tblTransaction.GLID=tblGL.GLRef
+            inner join tblCurrency on tblGL.CurrencyID=tblCurrency.CurrencyRef
+            CROSS JOIN tblConfig
+             INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
@@ -223,5 +223,11 @@ class ExpenseManagementController extends Controller
     public function authorize_expense()
     {
         return view('expense_management.authorize_expense');
+    }
+
+    public function fetchRoles(Request $request)
+    {
+        $roles = RequestList::find($request->RequestListID);
+        return $roles->approvers_formatted('<b style="font-size: 1.4rem; color: red">&rarr;</b>');
     }
 }

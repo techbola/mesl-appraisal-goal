@@ -6,11 +6,15 @@
 
         <div class="col-sm-6">
             <div class="form-group">
+                
                 <div class="controls">
                     {{ Form::label('RequestListID', 'Request Type') }}
                     {{ Form::select('RequestListID', ['' => 'Select Request'] + $request_list->pluck('Request','RequestListRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
                 </div>
             </div>
+        </div>  
+        <div class="col-sm-6 expense_process hide">
+            <div class="expense_process_child" style="padding: 2em"></div>
         </div>
         <div class="col-sm-6">
             <div class="form-group">
@@ -20,6 +24,8 @@
                 </div>
             </div>
         </div>
+        <div class="clearfix"></div>
+        
     </div>
 
     <div class="row">
@@ -167,7 +173,18 @@
     <script>
         $(function(){
 			$('.dp').datepicker();
+
+             $("#RequestListID").on('change', function(e) {
+                let val = $(e.target).select2().val();
+                event.preventDefault();
+                $.post('/expense_management/approver_roles', {RequestListID: val}, function(data, textStatus, xhr) {
+                    $(".expense_process_child").html(data);
+                    $(".expense_process").removeClass('hide');
+                });
+            });
 		});   
+
+
     </script>
     @endpush
 </link>

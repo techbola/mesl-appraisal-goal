@@ -1078,6 +1078,7 @@ Route::get('expense_management/approvallist', 'ExpenseManagementController@appro
 Route::post('expense_management/approve', 'ExpenseManagementController@approve')->name('approve_expense');
 Route::post('expense_management/process', 'ExpenseManagementController@process')->name('process_expense');
 Route::post('expense_management/reject', 'ExpenseManagementController@reject');
+Route::post('expense/approver_roles', 'ExpenseManagementController@fetchRoles')->name('fetch-expense-roles');
 
 /*
 |------------------------------------------------------------------------------------------
