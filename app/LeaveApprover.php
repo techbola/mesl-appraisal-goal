@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavidel;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class LeaveApprover extends Model
 
     public function staff()
     {
-        return $this->belongsTo('Cavidel\Staff', 'StaffID');
+        return $this->belongsTo('MESL\Staff', 'StaffID');
     }
     public function getFullNameAttribute()
     {
