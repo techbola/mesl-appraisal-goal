@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('buttons')
-  <a href="{{ route('expense_management.index') }}" class="btn btn-info btn-rounded pull-right" >My Expense Managements</a>
+  <a href="{{ route('expense_management.index') }}" class="btn btn-info btn-rounded pull-right" >My Expense Requests</a>
 @endsection
 @section('content')
 
@@ -10,7 +10,7 @@
   			<div class="clearfix"></div>
   			
   			{{ Form::open(['action' => 'ExpenseManagementController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}
-				@include('expense_management.form', ['buttonText' => 'Create Expense Management'])
+				@include('expense_management.form', ['buttonText' => 'Send Request'])
 			{{ Form::close() }}
 
   	</div>

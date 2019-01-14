@@ -1,19 +1,19 @@
 <?php
 
-namespace Cavi\Http\Controllers;
+namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cavi\User;
-use Cavi\Staff;
-use Cavi\RequestList;
-use Cavi\ApproverRole;
-use Cavi\ExpenseManagement;
-use Cavi\ExpenseManagementFile;
-use Cavi\ExpenseComment;
-use Cavi\LotDescription;
-use Cavi\ExpenseCommentFile;
-use Cavi\Notifications\ExpenseReceipient;
-use Cavi\Notifications\ExpenseApproval;
+use MESL\User;
+use MESL\Staff;
+use MESL\RequestList;
+use MESL\ApproverRole;
+use MESL\ExpenseManagement;
+use MESL\ExpenseManagementFile;
+use MESL\ExpenseComment;
+use MESL\LotDescription;
+use MESL\ExpenseCommentFile;
+use MESL\Notifications\ExpenseReceipient;
+use MESL\Notifications\ExpenseApproval;
 use DB, Storage, Notification;
 
 class ExpenseManagementController extends Controller
@@ -51,7 +51,7 @@ class ExpenseManagementController extends Controller
             });
 
             // if no approvers
-            if ($exp->ApproverID == 0) {
+            if ($exp->ApproverRoleID == 0) {
                 // send meo to recipients
                 $exp->ApprovedFlag = true;
                 $exp->NotifyFlag   = true;
@@ -63,7 +63,7 @@ class ExpenseManagementController extends Controller
                 $exp->NotifyFlag = true;
                 if ($exp->save()) {
                     // TODO: send notification here
-                    $next_approver = $exp->ApproverID != 0 ? Staff::where('UserID', $exp->ApproverID)->first()->user : null;
+                    $next_approver = $exp->ApproverRoleID != 0 ? Staff::where('UserID', $exp->ApproverRoleID)->first()->user : null;
                     if (!is_null($next_approver)) {
                         Notification::send($next_approver, new ExpenseApproval($exp));
                     }
@@ -92,12 +92,12 @@ class ExpenseManagementController extends Controller
         $lot_descriptions   = LotDescription::all();
         $bank_acct_details  = LotDescription::all();
         $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
-			FROM            tblTransaction
-			INNER JOIN tblTransactionType ON tblTransaction.TransactionTypeID = tblTransactionType.TransactionTypeRef
-			INNER JOIN tblGL on tblTransaction.GLID=tblGL.GLRef
-			inner join tblCurrency on tblGL.CurrencyID=tblCurrency.CurrencyRef
-			CROSS JOIN tblConfig
-			 INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+            FROM            tblTransaction
+            INNER JOIN tblTransactionType ON tblTransaction.TransactionTypeID = tblTransactionType.TransactionTypeRef
+            INNER JOIN tblGL on tblTransaction.GLID=tblGL.GLRef
+            inner join tblCurrency on tblGL.CurrencyID=tblCurrency.CurrencyRef
+            CROSS JOIN tblConfig
+             INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
@@ -175,7 +175,7 @@ class ExpenseManagementController extends Controller
 
         // $ApprovedDate = $request->ApprovedDate;
         $SelectedID                           = collect($request->ExpenseManagementRef);
-        $ApproverID                           = auth()->user()->id;
+        $ApproverRoleID                       = auth()->user()->id;
         $Comment                              = $request->Comment;
         $ModuleID                             = $request->RequestListID;
         $ApprovedFlag                         = 1;
@@ -189,7 +189,7 @@ class ExpenseManagementController extends Controller
             foreach ($SelectedID as $value) {
                 array_push($new_array, intval($value));
                 $approve_proc = \DB::statement(
-                    "EXEC procApproveExpenseRequest   '$value', $ModuleID, '$Comment', $ApproverID, $ApprovedFlag"
+                    "EXEC procApproveExpenseRequest   '$value', $ModuleID, '$Comment', $ApproverRoleID, $ApprovedFlag"
                 );
                 // $exp                             = ExpenseManagement::find($value);
                 // $users_approver_roles            = User::where('ApproverRoleIDs', '<>', null);
@@ -223,5 +223,58 @@ class ExpenseManagementController extends Controller
     public function authorize_expense()
     {
         return view('expense_management.authorize_expense');
+    }
+
+    public function approval_list()
+    {
+        // dd("aye");
+        // Get requester's supervisor
+        $supervisors_log = ExpenseManagement::where('ApproverRoleID', '<>', '')->get()
+            ->transform(function ($item, $key) {
+                $supervisor = User::find($item->inputter_id)->staff->SupervisorID;
+                // $item->supervisors = Staff::where('SupervisorID', '<>', '')
+                //     ->where('SupervisorID', $supervisor)
+                //     ->first();
+                $item->requests = ExpenseManagement::where('ApproverRoleID', $supervisor)->get();
+                return $item;
+            });
+        // unapproved reqa
+        $unapproved_requests = $supervisors_log->where('SupervisorApproved', 0);
+        // dd($unapproved_requests);
+        // $my_unsent_requests  = ExpenseManagement::where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 0);
+        // approved docs
+        $approved_requests = $supervisors_log->where('SupervisorApproved', 1);
+
+        return view('expense_management.approvallist', compact('approved_requests', 'unapproved_requests', 'my_unsent_requests'));
+    }
+
+    public function fetchRoles(Request $request)
+    {
+        $roles = RequestList::find($request->RequestListID);
+        return $roles->approvers_formatted('<b style="font-size: 1.4rem; color: red">&rarr;</b>');
+    }
+
+    public function supervisor_approval(Request $request)
+    {
+        $ApprovedDate = $request->ApprovedDate;
+        $SelectedID   = collect($request->SelectedID);
+        $ApproverID   = $request->ApproverID;
+        $Comment      = $request->Comment;
+        $ModuleID     = $request->ModuleID;
+        $ApprovedFlag = $request->ApprovedFlag;
+        $new_array    = array();
+        foreach ($SelectedID as $value) {
+            array_push($new_array, intval($value));
+            $exp                     = ExpenseManagement::find($value);
+            $exp->SupervisorApproved = 1;
+            $exp->save();
+        }
+        // $selected_ids = (implode(',', $new_array));
+
+        // Send Notification to next Approver
+
+        return response()->json([
+            'message' => 'Request was sent for approval successfully',
+        ])->setStatusCode(200);
     }
 }

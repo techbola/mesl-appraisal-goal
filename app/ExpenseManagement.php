@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,8 +32,12 @@ class ExpenseManagement extends Model
     {
         if ($this->NotifyFlag == 0) {
             return 'Not Sent';
+        } elseif ($this->CompletedFlag) {
+            return 'Completed';
+        } elseif (!$this->SupervisorApproved) {
+            return 'Pending';
         } else {
-            return ApproverRole::find($this->ApproverRoleID)->ApproverRole ?? 'Completed';
+            return ApproverRole::find($this->ApproverRoleID)->ApproverRole;
         }
     }
 
