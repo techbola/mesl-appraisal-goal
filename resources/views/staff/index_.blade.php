@@ -133,13 +133,13 @@
 							  </div>
 								<div class="col-md-12">
 									<div class="form-group required">
-										<label>Departments</label>
+										<label class="req">Departments</label>
 										{{-- <span class="help">Type an email, then press enter or comma.</span> --}}
 										{{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
 										<select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple">
 											@foreach ($departments as $dept)
-												<option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
+												<option value="{{ $dept->id }}">{{ $dept->name }}</option>
 											@endforeach
 										</select>
 									</div>
