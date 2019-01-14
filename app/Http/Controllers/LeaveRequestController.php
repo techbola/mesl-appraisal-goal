@@ -330,4 +330,10 @@ class LeaveRequestController extends Controller
     {
         //
     }
+
+    public function create_leave_handover()
+    {
+        $leave_habdover = LeaveRequest::find($id);
+        $leave_request = LeaveRequesr::Where('');
+    }
 }
