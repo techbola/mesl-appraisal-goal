@@ -69,7 +69,7 @@
                         </td>
                         <td>{{ $memo->subject }}</td>
                         <td>{{ $memo->purpose }}</td>
-                        <td>{{ $memo->initiator->Fullname }}</td>
+                        <td>{{ $memo->initiator->Fullname ?? '-'}}</td>
                         <td>
                            <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
                           <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
@@ -105,7 +105,7 @@
                       <tr>
                         <td>{{ $memo->subject }}</td>
                         <td>{{ $memo->purpose }}</td>
-                        <td>{{ $memo->initiator->Fullname }}</td>
+                        <td>{{ $memo->initiator->Fullname ?? '-' }}</td>
                         <td>
                             <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
                           <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>

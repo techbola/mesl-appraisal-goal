@@ -1067,6 +1067,8 @@ Route::post('get-transaction-details', 'ReportController@fetchTransactionDetails
 
 Route::get('expense_management', 'ExpenseManagementController@index')->name('expense_management.index');
 Route::get('expense_management/create', 'ExpenseManagementController@create')->name('expense_management.create');
+Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+Route::post('expense_management/supervisor-approval', 'ExpenseManagementController@supervisor_approval');
 Route::get('expense_management/{id}', 'ExpenseManagementController@show')->name('expense_management.show');
 Route::get('expense_management/edit/{id}', 'ExpenseManagementController@show')->name('expense_management.edit');
 Route::post('expense_management/store', 'ExpenseManagementController@store')->name('expense_management.store');
@@ -1074,7 +1076,7 @@ Route::post('expense_management/store', 'ExpenseManagementController@store')->na
 Route::get('expense_management/authorize_expense', 'ExpenseManagementController@authorize_expense')->name('expense_management.authorize_expense');
 Route::get('expense_management/download/{id}', 'ExpenseManagementController@download_expense_attachments')->name('download-attachment-exp');
 Route::get('expense_management/send/{id}', 'ExpenseManagementController@send')->name('send_expense');
-Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+
 Route::post('expense_management/approve', 'ExpenseManagementController@approve')->name('approve_expense');
 Route::post('expense_management/process', 'ExpenseManagementController@process')->name('process_expense');
 Route::post('expense_management/reject', 'ExpenseManagementController@reject');
