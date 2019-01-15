@@ -1117,3 +1117,20 @@ Route::post('/supervisor/edit', 'CompanySupervisorController@update');
 Route::post('/supervisor/delete', 'CompanySupervisorController@delete');
 Route::get('/supervisor/all/users', 'CompanySupervisorController@allStaffs');
 Route::get('/supervisor/all/department', 'CompanySupervisorController@allDepartment');
+
+
+/*
+|------------------------------------------------------------------------------------------
+| CREATE LEAVE RESUMPTION FORM ROUTES SECTION
+|------------------------------------------------------------------------------------------
+*/
+Route::get('/leave/resumption',                 'LeaveResumptionController@index')->name('leave_resumption_module');
+Route::get('/leave/resumption/one',             'LeaveResumptionController@loadOne');
+Route::post('/leave/resumption/create',         'LeaveResumptionController@create');
+Route::post('/leave/resumption/edit',           'LeaveResumptionController@update');
+Route::post('/leave/resumption/delete',         'LeaveResumptionController@delete');
+Route::get('/leave/resumption/all/users',       'LeaveResumptionController@allStaffs');
+Route::get('/leave/resumption/all/department',  'LeaveResumptionController@allDepartment');
+Route::get('/leave/resumption/calculate/leave', 'LeaveResumptionController@calculateStaffLeave');
+Route::get('/leave/resumption/office/location', 'LeaveResumptionController@officeLocation');
+Route::get('/leave/resumption/department/supervisor', 'LeaveResumptionController@departmentSupervisor');
