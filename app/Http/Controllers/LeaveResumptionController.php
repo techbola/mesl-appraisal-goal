@@ -30,7 +30,10 @@ class LeaveResumptionController extends Controller
             $create_btn = "1";
         }
 
-    	return view('leave_resumption.index', compact('leave_resumptions', 'create_btn'));
+        // check if staff has a pending approval
+        $resumption_approval = LeaveResumption::allMyApprovalRequest();
+
+    	return view('leave_resumption.index', compact('leave_resumptions', 'resumption_approval', 'create_btn'));
     }
 
     /*
@@ -302,5 +305,19 @@ class LeaveResumptionController extends Controller
 
         // return response.
         return response()->json($data, 200);
+    }
+
+    /*
+    |-----------------------------------------
+    | APPROVE LEAVE RESUMPTION
+    |-----------------------------------------
+    */
+    public function approveLeaveResumption($id, $approver_id){
+        // body
+        $leave_resumption   = new LeaveResumption();
+        $data               = $leave_resumption->approveLeaveResumption($id, $approver_id);
+
+        // return response.
+        return response()->json($data);
     }
 }

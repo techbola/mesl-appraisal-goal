@@ -36,6 +36,9 @@
                             Department
                         </th>
                         <th>
+                            No. of Employee's
+                        </th>
+                        <th>
                             Head of Department
                         </th>
                         <th>
@@ -45,19 +48,21 @@
                     <tbody>
                         @foreach($departments as $department)
                             <tr>
-                                <td>{{ ucfirst($department->name) }}</td>
+                                <td>{{ ucfirst($department['name']) }}</td>
                                 <td>
-                                    
-                                    <a href="javascript:void(0);" onclick="showAssignHeadofDepartmentModal('{{ ucfirst($department->name) }}', {{ $department->id }})">
+                                    {{ $department['total_employee'] }}
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="showAssignHeadofDepartmentModal('{{ ucfirst($department['name']) }}', {{ $department['id'] }})">
                                         <i class="fa fa-user"></i> Assign
                                     </a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-info" href="javascript:void(0);" onclick="showEditModel('{{ $department->id }}')">
+                                    <a class="btn btn-info" href="javascript:void(0);" onclick="showEditModel('{{ $department['id'] }}')">
                                         <i class="fa fa-edit"></i> Edit
                                     </a>
 
-                                    <a class="btn btn-info" href="javascript:void(0);" onclick="delDepartment('{{ $department->id }}')">
+                                    <a class="btn btn-info" href="javascript:void(0);" onclick="delDepartment('{{ $department['id'] }}')">
                                         <i class="fa fa-trash"></i> Delete
                                     </a>
                                 </td>

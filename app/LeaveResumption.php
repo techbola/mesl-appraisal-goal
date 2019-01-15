@@ -18,7 +18,7 @@ class LeaveResumption extends Model
     */
     public static function allLeaveResumption(){
     	// body
-    	$all_leave_resumption_request = LeaveResumption::orderBy("id", "ASC")->get();
+    	$all_leave_resumption_request = LeaveResumption::where("staff_id", Auth::user()->id)->orderBy("id", "ASC")->get();
         if(count($all_leave_resumption_request) > 0){
             $lr_box = [];
             foreach ($all_leave_resumption_request as $lr) {
@@ -55,6 +55,65 @@ class LeaveResumption extends Model
 
     	// return.
     	return $lr_box;
+    }
+
+    /*
+    |-----------------------------------------
+    | ALL LEAVE RESUMPTION DATE
+    |-----------------------------------------
+    */
+    public static function allMyApprovalRequest(){
+        // body
+        $all_leave_resumption_request = LeaveResumption::where([
+            ["first_approver_id", Auth::user()->id],
+            ["first_approver_status", false]
+        ])
+        ->orWhere([
+            ["second_approver_id", Auth::user()->id],
+            ["second_approver_status", false]
+        ])
+        ->orWhere([
+            ["third_approver_id", Auth::user()->id],
+            ["third_approver_status", false]
+        ])
+        ->orderBy("id", "ASC")->get();
+
+        if(count($all_leave_resumption_request) > 0){
+            $lr_box = [];
+            foreach ($all_leave_resumption_request as $lr) {
+                $super_data = User::where('id', $lr->supervisor_id)->first();
+                $staff_data = User::where('id', $lr->staff_id)->first();
+                $department = CompanyDepartment::where('id', $lr->department_id)->first();
+
+                $first_approver = User::where('id', $lr->first_approver_id)->first();
+                $second_approver = User::where('id', $lr->second_approver_id)->first();
+                $third_approver = User::where('id', $lr->third_approver_id)->first();
+
+                $data = [
+                    'id'                => $lr->id,
+                    'employee_name'     => ucfirst($staff_data->first_name).' '.ucfirst($staff_data->last_name),
+                    'supervisor_name'   => ucfirst($super_data->first_name).' '.ucfirst($super_data->last_name),
+                    'department_name'   => ucfirst($department->name),
+                    'late_resume_info'  => $lr->reason_for_resumption,
+                    'supervisor_remark' => $lr->supervisor_remark,
+                    'is_final_approved' => $lr->is_approved,
+                    'first_approver'    => ucfirst($first_approver->first_name).' '.ucfirst($first_approver->last_name),
+                    'first_approver_status' => $lr->first_approver_status,
+                    'second_approver'    => ucfirst($second_approver->first_name).' '.ucfirst($second_approver->last_name),
+                    'second_approver_status' => $lr->second_approver_status,
+                    'third_approver'    => ucfirst($third_approver->first_name).' '.ucfirst($third_approver->last_name),
+                    'third_approver_status' => $lr->third_approver_status,
+                    'date'              => $lr->created_at->toDateTimeString()
+                ];
+
+                array_push($lr_box, $data);
+            }
+        }else{
+            $lr_box = [];
+        }
+
+        // return.
+        return $lr_box;
     }
 
     /*

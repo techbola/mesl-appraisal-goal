@@ -3,6 +3,7 @@
 namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
+use MESL\Staff;
 
 class CompanyDepartment extends Model
 {
@@ -19,6 +20,39 @@ class CompanyDepartment extends Model
 		// return
 		return $data;
 	}
+
+    /*
+    |-----------------------------------------
+    | GET ALL DEPARTMENT
+    |-----------------------------------------
+    */
+    public static function getAll(){
+        // body
+        $all_departments = CompanyDepartment::where('is_deleted', false)->orderBy('id', 'ASC')->get();
+        if(count($all_departments) > 0){
+            $department_box = [];
+            foreach ($all_departments as $department) {
+                // get department members id
+
+                $total_employees = Staff::where("DepartmentID", $department->id)->count();
+
+                $data = [
+                    'id'                => $department->id,
+                    'name'              => $department->name,
+                    'total_employee'    => number_format($total_employees)
+                ];
+
+                array_push($department_box, $data);
+            }
+        }else{
+            $department_box = [];
+        }
+
+        // return 
+        return $department_box;
+    }
+
+
     /*
     |-----------------------------------------
     | CREATE DEPARTMENT

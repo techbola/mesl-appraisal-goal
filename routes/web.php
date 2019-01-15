@@ -1135,5 +1135,5 @@ Route::get('/leave/resumption/calculate/leave', 'LeaveResumptionController@calcu
 Route::get('/leave/resumption/office/location', 'LeaveResumptionController@officeLocation');
 Route::get('/leave/resumption/department/supervisor', 'LeaveResumptionController@departmentSupervisor');
 Route::get('/leave/resumption/get/approver',    'LeaveResumptionController@getApprovers');
-
+Route::get('/approve/leave/resumption/{id}/{staff_id}',    'LeaveResumptionController@approveLeaveResumption');
 Route::get('/leave/test/notification/mail',     'LeaveResumptionController@testNotification');

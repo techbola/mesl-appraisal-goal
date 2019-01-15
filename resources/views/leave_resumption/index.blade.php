@@ -51,6 +51,7 @@
                 <div class="tab-content">
                     <div id="resumption-unapproved" class="tab-pane fade in active">
                         <div class="card-box ">
+                            <h2 class="lead">My Leave Resumption Request</h2>
                             <table class="table tableWithSearch">
                               <thead>
                                 <th>Employee's Name</th>
@@ -69,7 +70,7 @@
                                             <td>{{ $lr['supervisor_name'] }}</td>
                                             <td>Pending</td>
                                             <td>
-                                                <a class="btn btn-info btn-sm" href="javascript:void(0);" onclick="viewLeaveResumptionModal('{{ $lr['first_approver'] }}', '{{ $lr['second_approver'] }}', '{{ $lr['third_approver'] }}', '{{ $lr['employee_name'] }}', '{{ $lr['supervisor_name'] }}', '{{ $lr['department_name'] }}', '{{ $lr['first_approver_status'] }}', '{{ $lr['second_approver_status'] }}', '{{ $lr['third_approver_status'] }}')">
+                                                <a class="btn btn-default btn-sm" href="javascript:void(0);" onclick="viewLeaveResumptionModal('{{ $lr['first_approver'] }}', '{{ $lr['second_approver'] }}', '{{ $lr['third_approver'] }}', '{{ $lr['employee_name'] }}', '{{ $lr['supervisor_name'] }}', '{{ $lr['department_name'] }}', '{{ $lr['first_approver_status'] }}', '{{ $lr['second_approver_status'] }}', '{{ $lr['third_approver_status'] }}')">
                                                     <i class="fa fa-file"></i> View
                                                 </a>
                                             </td>
@@ -87,6 +88,43 @@
                                 @endforeach
                               </tbody>
                             </table>
+
+                            @if(count($resumption_approval) > 0)
+                                <hr />
+                                <h2 class="lead">Staff's Leave Resumption Request</h2>
+                                <table class="table tableWithSearch">
+                                  <thead>
+                                    <th>Employee's Name</th>
+                                    <th>Department</th>
+                                    <th>Supervisor</th>
+                                    <th>Status</th>
+                                    <th>Option</th>
+                                    <th>Action</th>
+                                  </thead>
+                                  <tbody>
+                                    @foreach($resumption_approval as $lr)
+                                        @if($lr['is_final_approved'] == "0")
+                                            <tr>
+                                                <td>{{ $lr['employee_name'] }}</td>
+                                                <td>{{ $lr['department_name'] }}</td>
+                                                <td>{{ $lr['supervisor_name'] }}</td>
+                                                <td>Pending</td>
+                                                <td>
+                                                    <a class="btn btn-default btn-sm" href="javascript:void(0);" onclick="viewLeaveResumptionModal('{{ $lr['first_approver'] }}', '{{ $lr['second_approver'] }}', '{{ $lr['third_approver'] }}', '{{ $lr['employee_name'] }}', '{{ $lr['supervisor_name'] }}', '{{ $lr['department_name'] }}', '{{ $lr['first_approver_status'] }}', '{{ $lr['second_approver_status'] }}', '{{ $lr['third_approver_status'] }}')">
+                                                        <i class="fa fa-file"></i> View Approver's List
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-success btn-sm" href="javascript:void(0);" onclick="approveLeaveResumptionRequest('{{ $lr['id'] }}')">
+                                                        <i class="fa fa-check"></i> Approve
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                  </tbody>
+                                </table>
+                            @endif
                         </div>
                     </div>
                     <div id="resumption-approved" class="tab-pane fade">
@@ -126,12 +164,12 @@
 
 @section('scripts')
     <script type="text/javascript">
-        // showLeaveResumptionModal();
-        computeStaffLeave({{ Auth::user()->id }});
-        showDepartmentSupervisor({{ Auth::user()->id }});
-
         // show leave resumption modal
         function showLeaveResumptionModal() {
+            // showLeaveResumptionModal();
+            computeStaffLeave({{ Auth::user()->id }});
+            showDepartmentSupervisor({{ Auth::user()->id }});
+
             $("#create-leave-resumption").modal()
         }
 
@@ -375,6 +413,15 @@
                     );
                 }
             });
+        }
+
+        // approve leave resumption request
+        function approveLeaveResumptionRequest(leave_resumption_id) {
+            swal(
+                "Oops",
+                "Approving LRR is currently not available at the moment",
+                "info"
+            );
         }
     </script>
 @endsection
