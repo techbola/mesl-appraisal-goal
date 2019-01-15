@@ -13,14 +13,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 {{ Form::label('EmployeeName','Employee Name') }}
-                {{ Form::text('EmployeeName', Auth::user()->FullName, ['class' => 'form-control', 'placeholder' => 'Employee Name', 'required', 'readonly']) }}
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                {{ Form::label('ContactNumber','Contact Phone Number') }}
-                {{ Form::text('ContactNumber', null, ['class' => 'form-control', 'placeholder' => 'Mobile Phone Number', 'required']) }}
+                {{ Form::text('EmployeeName', Auth::user()->FullName, ['class' => 'form-control', 'placeholder' => 'Employee Name', 'required', 'readonly' ]) }}
             </div>
         </div>
 
@@ -28,6 +21,13 @@
             <div class="form-group">
                 {{ Form::label('Department','Department') }}
                 {{ Form::text('Department', Auth::user()->DepartmentID, ['class' => 'form-control', 'placeholder' => 'Employee Deprartment', 'required']) }}
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                {{ Form::label('ContactNumber','Contact Phone Number') }}
+                {{ Form::text('ContactNumber', null, ['class' => 'form-control', 'placeholder' => 'Mobile Phone Number', 'required']) }}
             </div>
         </div>
     </div>

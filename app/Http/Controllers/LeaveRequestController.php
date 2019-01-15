@@ -7,6 +7,7 @@ use MESL\LeaveType;
 // use MESL\Mail\Leave;
 use MESL\Staff;
 use MESL\LeaveRequest;
+use MESL\CompanyDepartment;
 use MESL\Mail\LeaveRequest as LR;
 use MESL\Mail\HRLeaveConfirmation;
 use Carbon\Carbon;
@@ -253,6 +254,18 @@ class LeaveRequestController extends Controller
             \DB::rollback();
             return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
         }
+    }
+
+
+    public function leave_handover()
+    {   
+        $leave_type = LeaveType::all();
+        $staff      = Staff::all();
+        // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
+        $user       = \Auth::user();
+        $id         = \Auth::user()->id;
+        $department = CompanyDepartment::all();
+        return view('leave_request.handover', compact('leave_type', 'staff', 'id', 'user', 'department'));
     }
 
     /**

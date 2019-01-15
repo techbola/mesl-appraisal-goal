@@ -27,4 +27,9 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo('MESL\User', 'StaffID');
     }
+
+    public function get_department()
+    {
+        return $this->belongsTo('MESL\CompanyDepartment', 'DepartmentID');
+    }
 }
