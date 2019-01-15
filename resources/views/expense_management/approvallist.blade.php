@@ -130,6 +130,8 @@
                           &nbsp; {!! $exp->expense_comments->count() > 0 ? '<span class="badge">'. $exp->expense_comments->count() .' '. str_plural('comment', $exp->expense_comments->count()).'</span>' : '<span class="badge">No Comments</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $exp->ExpenseManagementRef ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
+
+                        <td></td>
                         
                         <td>
                             @if($exp->status() === true) <!-- approved -->
@@ -138,7 +140,6 @@
                                 <label class="badge badge-default">{{ $exp->status() }}</label>    
                             @endif
                         </td>
-                        <td></td>
                         <td class="actions" width="130">
                           @if(!$exp->sent())
                           <a href="{{ route('expense_management.edit', ['id' => $exp->ExpenseManagementRef ]) }}" class="btn btn-sm btn-info">Edit </a>

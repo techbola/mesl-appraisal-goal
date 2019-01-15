@@ -50,7 +50,7 @@
                     @foreach ( $my_unsent_expense_management as $exp)
                       <tr>
                         <td>{{ $exp->request_type->Request ?? '-' }}</td>
-                        <td>{{ $exp->request_type->Description ?? '-' }}</td>
+                        <td>{{ $exp->Description ?? '-' }}</td>
                         {{-- <td>{{ $exp->Purpose }}</td> --}}
                         <td>
                          <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($exp->Comment), 50, '...') }}</p> <br>
@@ -58,6 +58,7 @@
                           &nbsp; {!! $exp->expense_comments->count() > 0 ? '<span class="badge">'. $exp->expense_comments->count() .' '. str_plural('comment', $exp->expense_comments->count()).'</span>' : '<span class="badge">No Comments</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $exp->ExpenseManagementRef ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
+                        <td></td>
                         <td>
                             @if($exp->status() === true) <!-- approved -->
                                 <label class="badge badge-success">Approved</label>

@@ -45,12 +45,12 @@ class ExpenseReceipient extends Notification
         return (new MailMessage)
             ->subject('Approved Expense Request Needs Your Action')
             ->greeting('Hi, ' . $notifiable->first_name)
-            ->line('**Expense Request Subject: **' . $exp->subject)
+            ->line('**Expense Request Subject: **' . $exp->Description)
             ->line('**Date Created: **' . $exp->created_at)
             ->line('**Created By: **' . $exp->initiator->FullName)
             ->line('Use the button below to visit the approval page and Navigate to your Expense Request Inbox Tab ' . config('app.name') . '.')
             // ->line('**Description: **'.str_limit(strip_tags($doc->Description), 200).'')
-            ->action('Go to Expense Request Inbox', route('expense_approvallist'));
+            ->action('Go to Expense Request Inbox', route('expense_management_approvallist'));
     }
 
     /**
