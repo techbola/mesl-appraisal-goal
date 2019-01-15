@@ -27,6 +27,12 @@ class CreateLeaveResumptionsTable extends Migration
             $table->date('date_resume');
             $table->text('reason_for_resumption')->nullable();
             $table->text('supervisor_remark')->nullable();
+            $table->integer('first_approver_id')->nullable();
+            $table->boolean('first_approver_status', false)->nullable();
+            $table->integer('second_approver_id')->nullable();
+            $table->boolean('second_approver_status', false)->nullable();
+            $table->integer('third_approver_id')->nullable();
+            $table->boolean('third_approver_status', false)->nullable();
             $table->boolean('is_approved', false);
             $table->timestamps();
         });

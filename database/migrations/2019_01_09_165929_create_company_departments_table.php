@@ -16,6 +16,7 @@ class CreateCompanyDepartmentsTable extends Migration
         Schema::create('company_departments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('department_head_id');
             $table->boolean('is_deleted', false);
             $table->timestamps();
         });

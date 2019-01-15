@@ -1,4 +1,4 @@
-<!-- Add Software modal-->
+<!-- Add Supervisor modal-->
 <div class="modal fade" id="add-supervisor" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -49,7 +49,7 @@
   </div>
 </div>
 
-<!-- Add Software modal-->
+<!-- Edit Supervisor modal-->
 <div class="modal fade" id="edit-supervisor" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">

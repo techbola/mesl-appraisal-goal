@@ -36,6 +36,9 @@
                             Department
                         </th>
                         <th>
+                            Head of Department
+                        </th>
+                        <th>
                             Option
                         </th>
                     </thead>
@@ -43,6 +46,12 @@
                         @foreach($departments as $department)
                             <tr>
                                 <td>{{ ucfirst($department->name) }}</td>
+                                <td>
+                                    
+                                    <a href="javascript:void(0);" onclick="showAssignHeadofDepartmentModal('{{ ucfirst($department->name) }}', {{ $department->id }})">
+                                        <i class="fa fa-user"></i> Assign
+                                    </a>
+                                </td>
                                 <td>
                                     <a class="btn btn-info" href="javascript:void(0);" onclick="showEditModel('{{ $department->id }}')">
                                         <i class="fa fa-edit"></i> Edit
@@ -88,6 +97,12 @@
             });
 
             $("#edit-department").modal();
+        }
+
+        // show assign head of department modal
+        function showAssignHeadofDepartmentModal(department_name, department_id) {
+            $(".edit-head-of-department-name").html(department_name);
+            $("#add-head-of-department").modal();
         }
 
         // add department 
@@ -201,6 +216,43 @@
             });
 
             // void form
+            return false;
+        }
+
+        // auto load dropdown helper
+        $(function(){
+            // load all staff
+            $('#edit_head_of_department_name').select2({
+                allowClear: true,
+                placeholder: "Select Employee",
+                ajax: { 
+                    url: "{{ url('supervisor/all/users') }}",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function (params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        })
+
+        // assign head of department
+        function assignHeadOfDepartment() {
+            swal(
+                "oops",
+                "Access Denied!",
+                "error"
+            );
+
+            // return
             return false;
         }
     </script>

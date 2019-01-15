@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>
-      @if(View::hasSection('title')) OfficeMate - @yield('title') @else OfficeMate @endif
+      @if(View::hasSection('title')) {{ env("APP_NAME") }} - @yield('title') @else {{ env("APP_NAME") }} @endif
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
 

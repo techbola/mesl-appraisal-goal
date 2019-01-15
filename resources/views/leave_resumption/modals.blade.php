@@ -1,4 +1,4 @@
-<!-- Add Software modal-->
+<!-- Create leave resumption modal-->
 <div class="modal fade" id="create-leave-resumption" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -8,6 +8,9 @@
       <div class="modal-body">
         <hr />
         <form method="post" id="add-leave-resume-form" onsubmit="return addLeaveResumption()">
+          <input type="hidden" id="riskmgt_id" name="">
+          <input type="hidden" id="hrmgt_id" name="">
+
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -142,7 +145,7 @@
   </div>
 </div>
 
-<!-- Add Software modal-->
+<!-- Edit leave resumption modal-->
 <div class="modal fade" id="edit-leave-resumption" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -171,6 +174,56 @@
             </div>
           </div>
         </form>
+      </div>
+      <div class="modal-footer">
+        <div class="pull-right">
+          <button class="btn btn-flat" type="button" data-dismiss="modal">
+            close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View leave resumption modal -->
+<div class="modal fade" id="view-leave-resumption" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>View Leave Resumption Request</h4>
+      </div>
+      <div class="modal-body">
+        <hr />
+        <div class="show-approvers"></div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><b>Employee Name</b></td>
+              <td>
+                <span class="lr-view-employee-name"></span>
+              </td>
+            </tr>
+            <tr>
+              <td><b>Supervisor Name</b></td>
+              <td>
+                <span class="lr-view-supervisor-name"></span>
+              </td>
+            </tr>
+            <tr>
+              <td><b>Department</b></td>
+              <td>
+                <span class="lr-view-department-name"></span>
+              </td>
+            </tr>
+            <tr>
+              <td><b>Approver's</b></td>
+              <td>
+                <span class="lr-view-approvers-name"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="modal-footer">
         <div class="pull-right">
