@@ -49,11 +49,11 @@
                                     <td>{{ ucfirst($staff['first_name']) }} {{ ucfirst($staff['last_name']) }}</td>
                                     <td>{{ ucfirst($staff['department']) }}</td>
                                     <td>
-                                        <a class="btn btn-info" href="javascript:void(0);" onclick="showSupervisorEditModal('{{ $staff['id'] }}')">
+                                        <a class="btn btn-info btn-sm" href="javascript:void(0);" onclick="showSupervisorEditModal('{{ $staff['id'] }}')">
                                             <i class="fa fa-edit"></i> Edit
                                         </a>
 
-                                        <a class="btn btn-info" href="javascript:void(0);" onclick="delSupervisor('{{ $staff['id'] }}')">
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="delSupervisor('{{ $staff['id'] }}')">
                                             <i class="fa fa-trash"></i> Delete
                                         </a>
                                     </td>
@@ -188,31 +188,43 @@
 
         // delete department
         function delSupervisor(supervisor_id) {
-            var token       = $("#token").val();
-            var params = {
-                _token: token,
-                supervisor_id: supervisor_id
-            };
+            swal({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+              if (result == true) {
+                var token       = $("#token").val();
+                var params = {
+                    _token: token,
+                    supervisor_id: supervisor_id
+                };
 
-            $.post('{{ url("supervisor/delete") }}', params, function(data, textStatus, xhr) {
-                /*optional stuff to do after success */
-                if(data.status == "success"){
-                    swal(
-                        "Ok",
-                        data.message,
-                        data.status
-                    );
+                $.post('{{ url("supervisor/delete") }}', params, function(data, textStatus, xhr) {
+                    /*optional stuff to do after success */
+                    if(data.status == "success"){
+                        swal(
+                            "Ok",
+                            data.message,
+                            data.status
+                        );
 
-                    // reload
-                    window.location.reload();
-                }else{
-                    swal(
-                        "Oops",
-                        data.message,
-                        data.status
-                    );
-                }
-            });
+                        // reload
+                        window.location.reload();
+                    }else{
+                        swal(
+                            "Oops",
+                            data.message,
+                            data.status
+                        );
+                    }
+                });
+              }
+            })
 
             // void form
             return false;
