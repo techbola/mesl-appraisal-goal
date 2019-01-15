@@ -36,6 +36,8 @@ class ExpenseManagement extends Model
             return 'Completed';
         } elseif (!$this->SupervisorApproved) {
             return 'Pending';
+        } elseif (is_null($this->ApproverRoleID)) {
+            return 'Completed';
         } else {
             return ApproverRole::find($this->ApproverRoleID)->ApproverRole;
         }
