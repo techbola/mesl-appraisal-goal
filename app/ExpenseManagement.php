@@ -43,6 +43,11 @@ class ExpenseManagement extends Model
         }
     }
 
+    public function initiator()
+    {
+        return $this->belongsTo(User::class, 'inputter_id');
+    }
+
     public function expense_comments()
     {
         return $this->hasMany(ExpenseComment::class, 'ExpenseManagementID');

@@ -11,6 +11,7 @@ use MESL\ExpenseManagement;
 use MESL\ExpenseManagementFile;
 use MESL\ExpenseComment;
 use MESL\LotDescription;
+use MESL\ExpenseCategory;
 use MESL\ExpenseCommentFile;
 use MESL\Notifications\ExpenseReceipient;
 use MESL\Notifications\ExpenseApproval;
@@ -57,16 +58,15 @@ class ExpenseManagementController extends Controller
                 $exp->NotifyFlag   = true;
                 $exp->save();
                 DB::commit();
-                Notification::send($recipients->all(), new ExpenseReceipient($exp));
+
                 return redirect()->route('expense_management.index')->with('success', 'Expense has been sent to recipients successfully');
             } else {
                 $exp->NotifyFlag = true;
                 if ($exp->save()) {
                     // TODO: send notification here
-                    // $next_approver = $exp->ApproverRoleID != 0 ? Staff::where('UserID', $exp->ApproverRoleID)->first()->user : null;
-                    // if (!is_null($next_approver)) {
-                    //     Notification::send($next_approver, new ExpenseApproval($exp));
-                    // }
+                    //send mail to supervisor
+                    $supervisor = User::find(Staff::find(User::find($exp->inputter_id)->staff->SupervisorID)->UserID);
+                    Notification::send($supervisor, new ExpenseReceipient($exp));
                     DB::commit();
                     return redirect()->route('expense_management.index')->with('success', 'Expense has been sent for approval successfully');
                 } else {
@@ -90,6 +90,7 @@ class ExpenseManagementController extends Controller
         });
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
+        $expense_categories = ExpenseCategory::all();
         $bank_acct_details  = LotDescription::all();
         $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
             FROM            tblTransaction
@@ -101,7 +102,7 @@ class ExpenseManagementController extends Controller
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
-        return view('expense_management.create', compact('request_list', 'employees', 'debit_acct_details', 'lot_descriptions'));
+        return view('expense_management.create', compact('request_list', 'employees', 'expense_categories', 'debit_acct_details', 'lot_descriptions'));
     }
 
     public function show($id)
@@ -148,6 +149,7 @@ class ExpenseManagementController extends Controller
                     ]);
                 }
             }
+
             DB::commit();
             return redirect()->route('expense_management.create')->with('success', 'Expense Saved');
 
@@ -169,6 +171,7 @@ class ExpenseManagementController extends Controller
         });
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
+        $expense_categories = ExpenseCategory::all();
         $bank_acct_details  = LotDescription::all();
         $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
             FROM            tblTransaction
@@ -180,7 +183,7 @@ class ExpenseManagementController extends Controller
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
-        return view('expense_management.edit', compact('expense_management', 'employees', 'lot_descriptions', 'bank_acct_details',
+        return view('expense_management.edit', compact('expense_management', 'employees', 'lot_descriptions', 'expense_categories', 'bank_acct_details',
             'debit_acct_details', 'request_list'));
     }
 
@@ -215,8 +218,16 @@ class ExpenseManagementController extends Controller
                 $approve_proc = \DB::statement(
                     "EXEC procApproveExpenseRequest   '$value', $ModuleID, '$Comment', $ApproverRoleID, $ApprovedFlag"
                 );
-                // $exp                             = ExpenseManagement::find($value);
-                // $users_approver_roles            = User::where('ApproverRoleIDs', '<>', null);
+
+                if (!is_null(ExpenseManagement::find($value)->ApproverRoleID)) {
+                    $users = User::whereRaw("CONCAT(',',ApproverRoleIDs,',') LIKE CONCAT('%,'," . ExpenseManagement::find($value)->ApproverRoleID . ",',%')")->get();
+                    Notification::send($users, new ExpenseReceipient(ExpenseManagement::find($value)));
+                } else {
+                    $exp                = ExpenseManagement::find($value);
+                    $exp->CompletedFlag = 1;
+                    $exp->save();
+                }
+
             }
             $expense_comment->save();
             if ($request->hasFile('attachment')) {
@@ -235,6 +246,7 @@ class ExpenseManagementController extends Controller
                     ]);
                 }
             }
+
             DB::commit();
             return redirect()->route('expense_management.index')->with('success', 'Expense Saved');
 
@@ -242,6 +254,30 @@ class ExpenseManagementController extends Controller
             return back()->withErrors($e->getMessages());
             DB::rollback();
         }
+    }
+
+    public function reject(Request $request)
+    {
+        // return dd($request);
+        // Call rejection procedure
+        $RejectedDate = $request->RejectedDate;
+        $SelectedID   = collect($request->SelectedID);
+        $RejecterID   = $request->RejecterID;
+        $Comment      = $request->Comment;
+        $ModuleID     = $request->ModuleID;
+        $RejectedFlag = $request->RejectedFlag;
+        $new_array    = array();
+        foreach ($SelectedID as $value) {
+            array_push($new_array, intval($value));
+            $approve_proc = \DB::statement(
+                "EXEC procRejectExpenseRequest  '$value', $ModuleID, '$Comment'"
+            );
+
+        }
+
+        return response()->json([
+            'message' => 'Memo was rejected successfully',
+        ])->setStatusCode(200);
     }
 
     public function authorize_expense()
@@ -292,6 +328,13 @@ class ExpenseManagementController extends Controller
             $exp                     = ExpenseManagement::find($value);
             $exp->SupervisorApproved = 1;
             $exp->save();
+            //  send a mail to curent approver
+            $approver_id = $exp->ApproverRoleID;
+            $users       = User::whereRaw("CONCAT(',',ApproverRoleIDs,',') LIKE CONCAT('%,'," . $exp->ApproverRoleID . ",',%')")->get();
+            Notification::send($users, new ExpenseReceipient($exp));
+
+            // response($approver_id);
+
         }
         // $selected_ids = (implode(',', $new_array));
 

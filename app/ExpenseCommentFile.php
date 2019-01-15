@@ -17,4 +17,9 @@ class ExpenseCommentFile extends Model
     {
         return $this->hasMany(ExpenseCommentFile::class, 'ExpenseCommentID');
     }
+
+    public function expense_management()
+    {
+        return $this->belongsTo('ExpenseManagement', 'ExpenseManagementID');
+    }
 }
