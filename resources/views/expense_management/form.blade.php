@@ -35,7 +35,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('ExpenseCategoryID ', 'Expense Category') }}
-                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $request_list->pluck('Request','RequestListRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category']) }}
+                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $expense_categories->pluck('ExpenseCategory','ExpenseCategoryRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category']) }}
                 </div>
             </div>
         </div>
