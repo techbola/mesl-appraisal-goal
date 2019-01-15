@@ -14,7 +14,7 @@ class CompanyDepartmentController extends Controller
     */
     public function index(Request $request){
     	// body
-        $departments = CompanyDepartment::where('is_deleted', false)->orderBy('id', 'ASC')->get();
+        $departments = CompanyDepartment::getAll();
     	return view('company_department.index', compact('departments'));
     }
 

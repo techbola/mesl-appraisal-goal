@@ -36,19 +36,33 @@
                             Department
                         </th>
                         <th>
+                            No. of Employee's
+                        </th>
+                        <th>
+                            Head of Department
+                        </th>
+                        <th>
                             Option
                         </th>
                     </thead>
                     <tbody>
                         @foreach($departments as $department)
                             <tr>
-                                <td>{{ ucfirst($department->name) }}</td>
+                                <td>{{ ucfirst($department['name']) }}</td>
                                 <td>
-                                    <a class="btn btn-info" href="javascript:void(0);" onclick="showEditModel('{{ $department->id }}')">
+                                    {{ $department['total_employee'] }}
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="showAssignHeadofDepartmentModal('{{ ucfirst($department['name']) }}', {{ $department['id'] }})">
+                                        <i class="fa fa-user"></i> Assign
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-info btn-sm" href="javascript:void(0);" onclick="showEditModel('{{ $department['id'] }}')">
                                         <i class="fa fa-edit"></i> Edit
                                     </a>
 
-                                    <a class="btn btn-info" href="javascript:void(0);" onclick="delDepartment('{{ $department->id }}')">
+                                    <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="delDepartment('{{ $department['id'] }}')">
                                         <i class="fa fa-trash"></i> Delete
                                     </a>
                                 </td>
@@ -88,6 +102,12 @@
             });
 
             $("#edit-department").modal();
+        }
+
+        // show assign head of department modal
+        function showAssignHeadofDepartmentModal(department_name, department_id) {
+            $(".edit-head-of-department-name").html(department_name);
+            $("#add-head-of-department").modal();
         }
 
         // add department 
@@ -131,33 +151,46 @@
 
         // delete department
         function delDepartment(department_id) {
-            var token       = $("#token").val();
-            var department  = $("#department_name").val();
-            var params = {
-                _token: token,
-                department_id: department_id
-            };
 
-            $.post('{{ url("department/delete") }}', params, function(data, textStatus, xhr) {
-                /*optional stuff to do after success */
-                if(data.status == "success"){
-                    swal(
-                        "Ok",
-                        data.message,
-                        data.status
-                    );
+            swal({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+              if (result == true) {
+                var token       = $("#token").val();
+                var department  = $("#department_name").val();
+                var params = {
+                    _token: token,
+                    department_id: department_id
+                };
 
-                    // reload
-                    window.location.reload();
-                }else{
-                    swal(
-                        "Oops",
-                        data.message,
-                        data.status
-                    );
-                }
-            });
+                $.post('{{ url("department/delete") }}', params, function(data, textStatus, xhr) {
+                    /*optional stuff to do after success */
+                    if(data.status == "success"){
+                        swal(
+                            "Ok",
+                            data.message,
+                            data.status
+                        );
 
+                        // reload
+                        window.location.reload();
+                    }else{
+                        swal(
+                            "Oops",
+                            data.message,
+                            data.status
+                        );
+                    }
+                });
+              }
+            })
+            
             // void form
             return false;
         }
@@ -201,6 +234,43 @@
             });
 
             // void form
+            return false;
+        }
+
+        // auto load dropdown helper
+        $(function(){
+            // load all staff
+            $('#edit_head_of_department_name').select2({
+                allowClear: true,
+                placeholder: "Select Employee",
+                ajax: { 
+                    url: "{{ url('supervisor/all/users') }}",
+                    dataType: 'json',
+                    delay: 100,
+                    data: function (params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        })
+
+        // assign head of department
+        function assignHeadOfDepartment() {
+            swal(
+                "oops",
+                "Access Denied!",
+                "error"
+            );
+
+            // return
             return false;
         }
     </script>

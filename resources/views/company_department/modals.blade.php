@@ -38,7 +38,7 @@
   </div>
 </div>
 
-<!-- Add Software modal-->
+<!-- Edit Department modal-->
 <div class="modal fade" id="edit-department" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -62,6 +62,49 @@
               <div class="form-group">
                 <button class="btn btn-info">
                   Update Department
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="pull-right">
+          <button class="btn btn-flat" type="button" data-dismiss="modal">
+            close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Assign Head of Department modal-->
+<div class="modal fade" id="add-head-of-department" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4><span class="edit-head-of-department-name"></span></h4>
+      </div>
+      <div class="modal-body">
+        <hr />
+        <form method="post" id="edit-department-form" onsubmit="return assignHeadOfDepartment()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Assign New Head of Department</label>
+                <select class="form-control" id="edit_head_of_department_name">
+                  <option value="0"> -- Select Employee -- </option>
+                </select>
+                <input type="hidden" id="edit_head_of_department_id">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <button class="btn btn-info">
+                  Submit
                 </button>
               </div>
             </div>

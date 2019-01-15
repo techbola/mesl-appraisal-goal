@@ -1,6 +1,6 @@
 <?php
 
-namespace Cavi;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,5 +16,10 @@ class ExpenseCommentFile extends Model
     public function attachments()
     {
         return $this->hasMany(ExpenseCommentFile::class, 'ExpenseCommentID');
+    }
+
+    public function expense_management()
+    {
+        return $this->belongsTo('ExpenseManagement', 'ExpenseManagementID');
     }
 }

@@ -1070,14 +1070,17 @@ Route::post('get-transaction-details', 'ReportController@fetchTransactionDetails
 
 Route::get('expense_management', 'ExpenseManagementController@index')->name('expense_management.index');
 Route::get('expense_management/create', 'ExpenseManagementController@create')->name('expense_management.create');
+Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+Route::post('expense_management/supervisor-approval', 'ExpenseManagementController@supervisor_approval');
 Route::get('expense_management/{id}', 'ExpenseManagementController@show')->name('expense_management.show');
-Route::get('expense_management/edit/{id}', 'ExpenseManagementController@show')->name('expense_management.edit');
+Route::get('expense_management/edit/{id}', 'ExpenseManagementController@edit')->name('expense_management.edit');
 Route::post('expense_management/store', 'ExpenseManagementController@store')->name('expense_management.store');
+Route::patch('expense_management/update/{id}', 'ExpenseManagementController@update')->name('expense_management.update');
 
 Route::get('expense_management/authorize_expense', 'ExpenseManagementController@authorize_expense')->name('expense_management.authorize_expense');
 Route::get('expense_management/download/{id}', 'ExpenseManagementController@download_expense_attachments')->name('download-attachment-exp');
 Route::get('expense_management/send/{id}', 'ExpenseManagementController@send')->name('send_expense');
-Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+
 Route::post('expense_management/approve', 'ExpenseManagementController@approve')->name('approve_expense');
 Route::post('expense_management/process', 'ExpenseManagementController@process')->name('process_expense');
 Route::post('expense_management/reject', 'ExpenseManagementController@reject');
@@ -1119,19 +1122,21 @@ Route::get('/supervisor/all/users', 'CompanySupervisorController@allStaffs');
 Route::get('/supervisor/all/department', 'CompanySupervisorController@allDepartment');
 
 
-//Travel Request form
-Route::get('travel_request/admindashboard', 'TravelRequestController@dash')->name('travel_request.admindashboard');
-Route::get('travel_request/create', 'TravelRequestController@create')->name('travel_request.create');
-Route::post('travel_request/create', 'TravelRequestController@store_travel_request')->name('storerequest');
-
-Route::get('edit_travel_request/{id}', 'TravelRequestController@edit_travel_request')->name('edit_travel_request');
-
-Route::post('submit_travel_request', 'TravelRequestController@submit_travel_request')->name('updatedrequest');
-
-Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->name('delete');
-
-Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
-
-Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
-
-Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
+/*
+|------------------------------------------------------------------------------------------
+| CREATE LEAVE RESUMPTION FORM ROUTES SECTION
+|------------------------------------------------------------------------------------------
+*/
+Route::get('/leave/resumption',                 'LeaveResumptionController@index')->name('leave_resumption_module');
+Route::get('/leave/resumption/one',             'LeaveResumptionController@loadOne');
+Route::post('/leave/resumption/create',         'LeaveResumptionController@create');
+Route::post('/leave/resumption/edit',           'LeaveResumptionController@update');
+Route::post('/leave/resumption/delete',         'LeaveResumptionController@delete');
+Route::get('/leave/resumption/all/users',       'LeaveResumptionController@allStaffs');
+Route::get('/leave/resumption/all/department',  'LeaveResumptionController@allDepartment');
+Route::get('/leave/resumption/calculate/leave', 'LeaveResumptionController@calculateStaffLeave');
+Route::get('/leave/resumption/office/location', 'LeaveResumptionController@officeLocation');
+Route::get('/leave/resumption/department/supervisor', 'LeaveResumptionController@departmentSupervisor');
+Route::get('/leave/resumption/get/approver',    'LeaveResumptionController@getApprovers');
+Route::get('/approve/leave/resumption/{id}/{staff_id}',    'LeaveResumptionController@approveLeaveResumption');
+Route::get('/leave/test/notification/mail',     'LeaveResumptionController@testNotification');

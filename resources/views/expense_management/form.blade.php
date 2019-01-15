@@ -9,13 +9,15 @@
                 
                 <div class="controls">
                     {{ Form::label('RequestListID', 'Request Type') }}
+                    <span class="expense_process hide" style="padding: 0 10px; padding: 0 10px;position: absolute;top: -9px;">
+                        [<span class="expense_process_child" style="padding: 0 10px"></span>]
+                    </span>
+                    
                     {{ Form::select('RequestListID', ['' => 'Select Request'] + $request_list->pluck('Request','RequestListRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
                 </div>
             </div>
         </div>  
-        <div class="col-sm-6 expense_process hide">
-            <div class="expense_process_child" style="padding: 2em"></div>
-        </div>
+        
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
@@ -33,7 +35,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('ExpenseCategoryID ', 'Expense Category') }}
-                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $request_list->pluck('Request','RequestListRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category']) }}
+                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $expense_categories->pluck('ExpenseCategory','ExpenseCategoryRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category']) }}
                 </div>
             </div>
         </div>
