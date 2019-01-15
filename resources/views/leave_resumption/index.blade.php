@@ -388,31 +388,44 @@
 
         // delete leave resume letter
         function deleteLeaveResume(leave_resumption_id) {
-            var token = $("#token").val();
-            var params = {
-                _token: token,
-                leave_resumption_id: leave_resumption_id
-            };
 
-            $.post('{{ url('leave/resumption/delete') }}', params, function(data, textStatus, xhr) {
-                /*optional stuff to do after success */
-                if(data.status == "success"){
-                    swal(
-                        "Ok",
-                        data.message,
-                        data.status
-                    );
+            swal({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+              if (result == true) {
+                var token = $("#token").val();
+                var params = {
+                    _token: token,
+                    leave_resumption_id: leave_resumption_id
+                };
 
-                    // reload
-                    window.location.reload();
-                }else{
-                    swal(
-                        "Oops",
-                        data.message,
-                        data.status
-                    );
-                }
-            });
+                $.post('{{ url('leave/resumption/delete') }}', params, function(data, textStatus, xhr) {
+                    /*optional stuff to do after success */
+                    if(data.status == "success"){
+                        swal(
+                            "Ok",
+                            data.message,
+                            data.status
+                        );
+
+                        // reload
+                        window.location.reload();
+                    }else{
+                        swal(
+                            "Oops",
+                            data.message,
+                            data.status
+                        );
+                    }
+                });  
+              }
+            })
         }
 
         // approve leave resumption request
