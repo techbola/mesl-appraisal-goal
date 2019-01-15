@@ -69,7 +69,7 @@
                             </div>
                         </td>
                         <td>{{ $exp->request_type->Request ?? '-' }}</td>
-                        <td>{{ $exp->request_type->Description ?? '-' }}</td>
+                        <td>{{ $exp->Description ?? '-' }}</td>
                         {{-- <td>{{ $exp->Purpose }}</td> --}}
 
                         <td>
@@ -122,7 +122,7 @@
                       <tr>
                         {{-- <td></td> --}}
                         <td>{{ $exp->request_type->Request ?? '-' }}</td>
-                        <td>{{ $exp->request_type->Description ?? '-' }}</td>
+                        <td>{{ $exp->Description ?? '-' }}</td>
                         {{-- <td>{{ $exp->Purpose }}</td> --}}
                         <td>
                          <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($exp->Comment), 50, '...') }}</p> <br>

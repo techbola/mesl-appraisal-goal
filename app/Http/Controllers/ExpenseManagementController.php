@@ -63,10 +63,10 @@ class ExpenseManagementController extends Controller
                 $exp->NotifyFlag = true;
                 if ($exp->save()) {
                     // TODO: send notification here
-                    $next_approver = $exp->ApproverRoleID != 0 ? Staff::where('UserID', $exp->ApproverRoleID)->first()->user : null;
-                    if (!is_null($next_approver)) {
-                        Notification::send($next_approver, new ExpenseApproval($exp));
-                    }
+                    // $next_approver = $exp->ApproverRoleID != 0 ? Staff::where('UserID', $exp->ApproverRoleID)->first()->user : null;
+                    // if (!is_null($next_approver)) {
+                    //     Notification::send($next_approver, new ExpenseApproval($exp));
+                    // }
                     DB::commit();
                     return redirect()->route('expense_management.index')->with('success', 'Expense has been sent for approval successfully');
                 } else {
@@ -161,13 +161,37 @@ class ExpenseManagementController extends Controller
     public function edit($id)
     {
         $expense_management = ExpenseManagement::find($id);
-        $employees          = User::all();
-        $employees          = $employees->transform(function ($item, $key) {
-            $item->name = $item->Fullname;
+        $employees          = Staff::where('CompanyID', auth()->user()->CompanyID)->get();
+        // dd($employees);
+        $employees = $employees->transform(function ($item, $key) {
+            $item->name = $item->FullName;
             return $item;
         });
-        $request_types = RequestType::all();
-        return view('expense_management.edit', compact('expense_management', 'employees', 'request_types'));
+        $request_list       = RequestList::all();
+        $lot_descriptions   = LotDescription::all();
+        $bank_acct_details  = LotDescription::all();
+        $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
+            FROM            tblTransaction
+            INNER JOIN tblTransactionType ON tblTransaction.TransactionTypeID = tblTransactionType.TransactionTypeRef
+            INNER JOIN tblGL on tblTransaction.GLID=tblGL.GLRef
+            inner join tblCurrency on tblGL.CurrencyID=tblCurrency.CurrencyRef
+            CROSS JOIN tblConfig
+             INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+             Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
+             GROUP BY tblTransaction.GLID,tblGL.Description,Currency
+             Order By tblGL.Description", [11, 12, 27, 39]));
+        return view('expense_management.edit', compact('expense_management', 'employees', 'lot_descriptions', 'bank_acct_details',
+            'debit_acct_details', 'request_list'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $memo = ExpenseManagement::find($id);
+        if ($memo->update($request->except('attachment'))) {
+            return redirect()->route('expense_management.create')->with('success', 'Expense Request has been updated successfully');
+        } else {
+            return back()->withInput()->with('error', 'Expense Request failed to updated');
+        }
     }
 
     public function approve(Request $request)
