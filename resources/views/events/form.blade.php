@@ -13,7 +13,12 @@
     <div class="form-group">
       {{ Form::label('DepartmentID', 'Select Recipient Department') }}
       {{-- <a class="pull-right toggle_loc toggle_icon" onclick="new_loc()"> <i class="fa fa-plus-circle text-success"></i> </a> --}}
-      {{ Form::select('DepartmentID', $departments->pluck('Department', 'DepartmentRef')->toArray(),null, ['data-init-plugin'=>'select2', 'class' => 'full-width select_loc']) }}
+      <select class="form-control select2" name="DepartmentID" data-init-plugin="select2" required>
+        <option value=""> -- Select Department --</option>
+        @foreach($departments as $department)
+          <option value="{{ $department->id }}">{{ $department->name }}</option>
+        @endforeach
+      </select>
     </div>
   </div>
 

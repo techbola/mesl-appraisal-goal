@@ -5,7 +5,7 @@ namespace MESL\Http\Controllers;
 use Illuminate\Http\Request;
 use MESL\EventSchedule;
 use MESL\User;
-use MESL\Department;
+use MESL\CompanyDepartment;
 use MESL\Staff;
 
 use MESL\Notifications\NewCalendarEvent;
@@ -20,7 +20,7 @@ class EventScheduleController extends Controller
     $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
     $events_array = $events->toArray();
     // dd($events_array);
-    $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+    $departments = CompanyDepartment::where('is_deleted', false)->get();
 
     return view('events.index', compact('events', 'events_array', 'departments'));
   }
