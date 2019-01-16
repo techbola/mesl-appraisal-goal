@@ -104,6 +104,7 @@ class IdentityCard extends Model
     	$new_passport_name = "";
 
     	$passport_store_path = public_path('images/passport_images/');
+        $
 
     	// return new passport name
     	return $new_passport_name;
