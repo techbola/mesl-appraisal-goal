@@ -10,6 +10,8 @@ use MESL\ApproverRole;
 use MESL\ExpenseManagement;
 use MESL\ExpenseManagementFile;
 use MESL\ExpenseComment;
+use MESL\Department;
+use MESL\Bank;
 use MESL\LotDescription;
 use MESL\ExpenseCategory;
 use MESL\ExpenseCommentFile;
@@ -31,9 +33,6 @@ class ExpenseManagementController extends Controller
         $exp_inbox = $expense_management->where('NotifyFlag', 1)
         // ->where('ApprovedFlag', 1)
             ->whereIn('ApproverRoleID', explode(',', auth()->user()->ApproverRoleIDs));
-
-        // dd($exp_inbox->toArray());
-        // return response()->json($exp_inbox->toArray(), 200);
 
         return view('expense_management.index', compact('expense_management', 'my_expense_management', 'my_unsent_expense_management', 'ma', 'exp_inbox', 'unapproved_expense_management'));
     }
@@ -90,6 +89,8 @@ class ExpenseManagementController extends Controller
         });
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
+        $departments        = Department::all();
+        $banks              = Bank::all();
         $expense_categories = ExpenseCategory::all();
         $bank_acct_details  = LotDescription::all();
         $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
@@ -102,7 +103,7 @@ class ExpenseManagementController extends Controller
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
-        return view('expense_management.create', compact('request_list', 'employees', 'expense_categories', 'debit_acct_details', 'lot_descriptions'));
+        return view('expense_management.create', compact('request_list', 'employees', 'banks', 'departments', 'expense_categories', 'debit_acct_details', 'lot_descriptions'));
     }
 
     public function show($id)
@@ -171,6 +172,8 @@ class ExpenseManagementController extends Controller
         });
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
+        $departments        = Department::all();
+        $banks              = Bank::all();
         $expense_categories = ExpenseCategory::all();
         $bank_acct_details  = LotDescription::all();
         $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
@@ -183,7 +186,7 @@ class ExpenseManagementController extends Controller
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
-        return view('expense_management.edit', compact('expense_management', 'employees', 'lot_descriptions', 'expense_categories', 'bank_acct_details',
+        return view('expense_management.edit', compact('expense_management', 'employees', 'departments', 'banks', 'lot_descriptions', 'expense_categories', 'bank_acct_details',
             'debit_acct_details', 'request_list'));
     }
 
