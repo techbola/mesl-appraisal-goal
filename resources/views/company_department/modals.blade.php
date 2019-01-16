@@ -1,4 +1,4 @@
-<!-- Add Software modal-->
+<!-- Add Deparment modal-->
 <div class="modal fade" id="add-department" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">

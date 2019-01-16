@@ -128,18 +128,14 @@ class MenuController extends Controller
 
   public function destroy($id)
   {
-      $menu = Menu::find($id);
-      if ($menu) {
-
-          if (\DB::table('menus')->where('id', $id)->delete()) {
-
-              return redirect('menus/create')->with('success', 'Menu was deleted successfully');
-          } else {
-              return redirect('menus/create')->with('danger', 'Menu was not deleted');
-          }
-
+    $menu = Menu::find($id);
+    if ($menu) {
+      if (\DB::table('menus')->where('id', $id)->delete()) {
+        return redirect()->back()->with('success', 'Menu was deleted successfully');
+      } else {
+        return redirect()->back()->with('danger', 'Menu was not deleted');
       }
-
+    }
   }
 
 

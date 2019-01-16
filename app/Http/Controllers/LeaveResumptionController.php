@@ -219,14 +219,14 @@ class LeaveResumptionController extends Controller
                 $data = [
                     'id'    => $supervisor->staff_id,
                     'text'  => ucfirst($user->first_name).' '.ucfirst($user->last_name),
-                    'deparment_id'      => $department->id,
+                    'department_id'      => $department->id,
                     'department_name'   => $department->name,
                 ];
             }else{
                 $data = [
                     'id'                => 0,
                     'text'              => 'No Supervisor Found!',
-                    'deparment_id'      => $department->id,
+                    'department_id'      => $department->id,
                     'department_name'   => $department->name,
                 ];
             }

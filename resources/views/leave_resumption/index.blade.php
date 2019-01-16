@@ -305,7 +305,7 @@
                     `)
 
                     $("#department_name").html(`
-                        <option value="${data.deparment_id}">${data.department_name}</option>
+                        <option value="${data.department_id}">${data.department_name}</option>
                     `);
                 }
             });
