@@ -37,6 +37,21 @@ class ComplaintController extends Controller
         $complaint_sent_to_dept = Complaint::whereIn('current_queue', $depts)->get();
         $complaint_discussions  = Complaint::whereIn('current_queue', $depts)->get();
 
+        $locations = collect([
+            [
+                "id" => 1,
+                "text" => "Abuja HQT Office",
+            ],
+            [
+                "id" => 2,
+                "text" => "Jebba Office",
+            ],
+            [
+                "id" => 3,
+                "text" => "Kanji Office",
+            ]
+        ]);
+
         return view('facility_management.complaints.index', compact('locations', 'clients', '_depts', 'depts', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept'));
     }
 

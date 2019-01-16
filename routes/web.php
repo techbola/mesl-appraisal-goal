@@ -1137,3 +1137,18 @@ Route::get('/leave/resumption/department/supervisor', 'LeaveResumptionController
 Route::get('/leave/resumption/get/approver',    'LeaveResumptionController@getApprovers');
 Route::get('/approve/leave/resumption/{id}/{staff_id}',    'LeaveResumptionController@approveLeaveResumption');
 Route::get('/leave/test/notification/mail',     'LeaveResumptionController@testNotification');
+
+
+/*
+|------------------------------------------------------------------------------------------
+| IDENTITY CARD REQUEST ROUTES SECTIION
+|------------------------------------------------------------------------------------------
+*/
+Route::get('/identity/card/request',            'IdentityCardController@index')->name('identity_card_module');
+Route::get('/identity/card/load/one',           'IdentityCardController@loadOne');
+Route::get('/identity/card/load/all',           'IdentityCardController@loadAll');
+Route::post('/identity/card/create',            'IdentityCardController@create');
+Route::post('/identity/card/update',            'IdentityCardController@update');
+Route::post('/identity/card/delete',            'IdentityCardController@delete');
+Route::get('/indentity/department/info',        'IdentityCardController@departmentInfo');
+Route::get('/indentity/employee/info',          'IdentityCardController@staffInfo');
