@@ -19,9 +19,7 @@ class IdentityCard extends Model
     | CREATE NEW CARD REQUEST
     |-----------------------------------------
     */
-    public function addNewCardRequest($payload){
-    	// body
-    	$passport_image = $request->file("card_passport");
+    public function createNewCardRequest($request, $new_name){
     	$department_id 	= $request->department_id;
     	$staff_id 		= $request->staff_id;
     	$idcard_number  = $request->staff_id_number;
@@ -46,16 +44,14 @@ class IdentityCard extends Model
     			'message' 	=> 'ID Card Request Already Sent, Contact the HR & IT Department for any delay!'
     		];
     	}else{
-    		// add new request
-    		$passport_path = $this->uploadCardPassport($passport_image, $staff_id);
-
     		// get approver's office
-    		$department = CompanyDepartment::where("name", "LIKE", "%HR%")->orWhere("name", "LIKE", "%Human Resources%")->first();
+    		$department = CompanyDepartment::where("name", "LIKE", "%HR%")
+                        ->orWhere("name", "LIKE", "%Human Resources%")->first();
     		$approver = CompanySupervisor::where("department_id", $department->id)->first();
 
     		$this->staff_id 				= $staff_id;
     		$this->department_id 			= $department_id;
-    		$this->passport_path 			= $passport_path;
+    		$this->passport_path 			= $new_name;
     		$this->expected_request_date 	= $expected_date;
     		$this->first_approver_id 		= $approver->staff_id;
     		$this->first_approver_status 	= false;
@@ -74,7 +70,6 @@ class IdentityCard extends Model
 
     	// return 
     	return $data;
-
     }
 
     /*
@@ -90,23 +85,5 @@ class IdentityCard extends Model
     	}else{
     		return true;
     	}
-    }
-
-    /*
-    |-----------------------------------------
-    | HANDLE PASSPORT UPLOAD
-    |-----------------------------------------
-    */
-    public function uploadCardPassport($staff_id, $passport_image){
-    	// body
-
-
-    	$new_passport_name = "";
-
-    	$passport_store_path = public_path('images/passport_images/');
-        $
-
-    	// return new passport name
-    	return $new_passport_name;
     }
 }

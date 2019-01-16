@@ -47,9 +47,22 @@ class IdentityCardController extends Controller
     |-----------------------------------------
     */
     public function create(Request $request){
-    	
-    	$identity_card 	= new IdentityCard();
-    	$data 			= $identity_card->createNewCardRequest($request);
+        $passport_image = $request->file("card_passport");
+        $ext = $passport_image->getClientOriginalExtension();
+        if($ext !== "jpg" || $ext !== "png"){
+            $data = [
+                'status'    => 'error',
+                'message'   => 'Invalid image, Select a valid image file type!'
+            ];
+        }else{
+            $staff_data = User::where("id", $request->staff_id)->first();
+            $store_path = public_path('images/passport_images/');
+            $new_name   = strtolower($staff_data->first_name).'-'.time().'.'.$passport_image->getClientOriginalExtension();
+            $passport_image->move($store_path, $new_name);
+
+            $identity_card  = new IdentityCard();
+            $data           = $identity_card->createNewCardRequest($request, $new_name);
+        }
 
     	// return response.
     	return redirect()->back()->with($data["status"], $data["message"]);

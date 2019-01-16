@@ -65,6 +65,27 @@
 @endsection
 
 @section('scripts')
+    {{-- Alert for Redirect Post --}}
+    @if(session('success'))
+         <script type="text/javascript">
+            swal(
+                "Ok",
+                {{ session('success') }},
+                "success"
+            );
+        </script>
+    @endif
+
+    @if(session('error'))
+        <script type="text/javascript">
+            swal(
+                "Oops",
+                {{ session('error') }},
+                "error"
+            );
+        </script>
+    @endif
+
     <script type="text/javascript">
         // show department form
         function showCreateIdentityCardModal() {
