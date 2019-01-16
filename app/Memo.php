@@ -67,15 +67,15 @@ class Memo extends Model
     {
         $approvers_array = [];
         if (!is_null($this->ApproverID1) && $this->ApproverID1 != 0) {
-            array_push($approvers_array, Staff::where('UserID', $this->ApproverID1)->first()->Fullname);
+            array_push($approvers_array, Staff::where('UserID', $this->ApproverID1)->first()->Fullname ?? '');
         }
 
         if (!is_null($this->ApproverID2) && $this->ApproverID2 != 0) {
-            array_push($approvers_array, Staff::where('UserID', $this->ApproverID2)->first()->Fullname);
+            array_push($approvers_array, Staff::where('UserID', $this->ApproverID2)->first()->Fullname ?? '');
         }
 
         if (!is_null($this->ApproverID3) && $this->ApproverID3 != 0) {
-            array_push($approvers_array, Staff::where('UserID', $this->ApproverID3)->first()->Fullname);
+            array_push($approvers_array, Staff::where('UserID', $this->ApproverID3)->first()->Fullname ?? '');
         }
 
         if (!is_null($this->ApproverID4) && $this->ApproverID4 != 0) {

@@ -336,8 +336,8 @@ body.rtl [class^="col-"], body.rtl [class*="col-"] {
     display: block;
     height: 60px;
     line-height: 60px;
-    background-color: #272b35;
-    border-bottom: 1px solid #232730;
+    background-color: #fffff;
+    border-bottom: 1px solid #fffff;
     color: #ffffff;
     width: 100%;
     padding: 0 20px;

@@ -25,7 +25,7 @@
 
       <ul class="nav nav-tabs outside">
         <li class="active"><a data-toggle="tab" href="#unapproved">Unsent Complaints &nbsp; <span class="badge badge-warning"></span></a></li>
-        <li><a data-toggle="tab" href="#approved">Recieved Complaints &nbsp; <span class="badge badge-success">{{ $complaint_sent_to_dept->count() }}</span></a></li>
+        <li><a data-toggle="tab" href="#approved">Received Complaints &nbsp; <span class="badge badge-success">{{ $complaint_sent_to_dept->count() }}</span></a></li>
         <li><a data-toggle="tab" href="#inbox">Complaints Inbox &nbsp; <span class="badge badge-danger"></span></a></li>
       </ul>
       <div class="tab-content">
@@ -40,10 +40,9 @@
                     <th>Complaints</th>
                     <th>Status</th>
                     <th>Actions</th>
-
                   </thead>
                   <tbody>
-                   @foreach($complaints as $comp)
+                  {{--  @foreach($complaints as $comp)
                    <tr>
                      <td>{{ $comp->client->Name }}</td>
                      <td>{{ $comp->allocation }}</td>
@@ -63,7 +62,7 @@
                         @endif
                      </td>
                    </tr>
-                   @endforeach
+                   @endforeach --}}
                   </tbody>
                 </table>
             </div>

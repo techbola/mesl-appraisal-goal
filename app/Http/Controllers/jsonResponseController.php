@@ -5,6 +5,7 @@ namespace MESL\Http\Controllers;
 use Illuminate\Http\Request;
 use MESL\ArsLedger;
 use MESL\ArsBank;
+use MESL\CompanyDepartment;
 use Excel;
 use DB;
 use MESL\Exports\ReconExport;
@@ -589,33 +590,22 @@ class jsonResponseController extends Controller
 
     public function customer_list(Request $request)
     {
-        if (isset($_GET['searchTerm'])) {
-            $string    = '%' . $_GET['searchTerm'] . '%';
-            $customers = collect(DB::select(DB::raw("SELECT *
-                FROM (
-                SELECT  CustomerRef,
-                        Customer,
-                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
-                FROM tblCustomer
-                            ) a
-                WHERE rn = 1 AND Customer like '$string'")));
-        } else {
-            $customers = collect(DB::select(DB::raw("SELECT *
-                FROM (
-                SELECT  CustomerRef,
-                        Customer,
-                        ROW_NUMBER() OVER(PARTITION BY Customer ORDER BY CustomerRef DESC) rn
-                FROM tblCustomer
-                            ) a
-                WHERE rn = 1")));
+        $company_department = CompanyDepartment::where('is_deleted', false)->get();
+        if(count($company_department) > 0){
+            $department_box = [];
+            foreach ($company_department as $department) {
+                $data = [
+                    'id'    => $department->id,
+                    'text'  => $department->name
+                ];
+
+                array_push($department_box, $data);
+            }
+        }else{
+            $department_box = [];
         }
 
-        $customers = $customers->transform(function ($item, $key) {
-            $item->id   = $item->CustomerRef;
-            $item->text = $item->Customer;
-            return $item;
-        });
-        return response()->json($customers);
+        return response()->json($department_box);
     }
 
     // export unposeted ars ledger

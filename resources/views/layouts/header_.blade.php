@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>
-      @if(View::hasSection('title')) OfficeMate - @yield('title') @else OfficeMate @endif
+      @if(View::hasSection('title')) {{ env("APP_NAME") }} - @yield('title') @else {{ env("APP_NAME") }} @endif
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
 
@@ -62,6 +62,7 @@
     <![endif]-->
   </head>
   <body class="fixed-header horizontal-menu sidebar-visible menu-pin">
+    <input type="hidden" id="token" value="{{ csrf_token() }}">
     @if (auth()->check())
       <?php $user = auth()->user(); ?>
     @endif
@@ -90,7 +91,7 @@
       <!-- BEGIN SIDEBAR MENU HEADER-->
       <div class="sidebar-header">
         {{-- <a href="{{ route('home') }}"> --}}
-          <img src="{{ asset('images/officemate.png') }}" alt="logo" class="brand" data-src="{{ asset('images/officemate.png') }}" data-src-retina="{{ asset('images/officemate.png') }}" width="120">
+          <img src="{{ asset('images/officemate.png') }}" alt="logo" class="brand" data-src="{{ asset('images/officemate.png') }}" data-src-retina="{{ asset('images/officemate.png') }}" width="90%">
         {{-- </a> --}}
         {{-- <h4 class="white semi-bold font-montserrat" style="
     color: #fff; display: inline-block;
@@ -921,6 +922,6 @@
         // });
       </script>
 
-
+      @yield('scripts')
   </body>
 </html>

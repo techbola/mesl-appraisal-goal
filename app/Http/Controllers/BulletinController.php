@@ -8,6 +8,7 @@ use MESL\User;
 use Carbon\Carbon;
 use MESL\Department;
 use MESL\Staff;
+use MESL\CompanyDepartment;
 
 use MESL\Notifications\NewBulletin;
 use Notification;
@@ -22,6 +23,7 @@ class BulletinController extends Controller
 
     if ($user->is_superadmin) {
       $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->paginate(10);
+      $archives = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
     } elseif ($user->hasRole('admin')) {
       $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
       $archives = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
@@ -29,7 +31,8 @@ class BulletinController extends Controller
       $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
       $archives = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
     }
-    $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+    // $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+    $departments = CompanyDepartment::where('is_deleted', false)->get();
 
     return view('bulletins.index', compact('user', 'bulletins', 'archives', 'departments'));
   }

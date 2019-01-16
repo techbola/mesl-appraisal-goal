@@ -13,9 +13,10 @@ use Carbon\Carbon;
 use MESL\RestrictionDates;
 use MESL\LeaveTransaction;
 use MESL\LeaveApprover;
+// use MESL\LeaveApprover;
 
 // use MESL\LeaveType;
-// // use MESL\Mail\Leave;
+// use MESL\Mail\Leave;
 // use MESL\Staff;
 // use MESL\LeaveRequest;
 // use Carbon\Carbon;
@@ -124,7 +125,7 @@ class LeaveRequestController extends Controller
         }
     }
 
-    public function approve_leave_request(Request $request)
+    public function approve_leave_request(Request $request, LeaveApprover $get_approvers)
     {
         if ($request->input('approve')) {
             try {

@@ -35,6 +35,7 @@ use DB;
 use Notification;
 use MESL\Notifications\StaffInvitation;
 use MESL\Company;
+use MESL\CompanyDepartment;
 use File;
 use Image;
 use Auth;
@@ -66,7 +67,7 @@ class StaffController extends Controller
               $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             }
         }
-        $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+        $departments = CompanyDepartment::where('is_deleted', false)->get();
         return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments', 'q'));
     }
 
@@ -351,7 +352,13 @@ class StaffController extends Controller
         }
         $gantt = json_encode($gantt);
 
-        return view('staff.show', compact('detail', 'staff', 'gantt'));
+
+        // note that I am saving the StaffRef of the Staff
+        $doctypes   = DocType::all();
+        $docs       = HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get();
+        $docs_count = HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get()->count();
+
+        return view('staff.show', compact('detail', 'staff', 'gantt', 'docs', 'docs_count', 'doctypes'));
     }
 
     public function edit_biodata($id)

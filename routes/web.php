@@ -244,7 +244,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('document_store_hr', 'DocumentController@store_hr')->name('document_store_hr');
     Route::patch('update_document/{id}', 'DocumentController@update_document')->name('update_document');
     Route::get('download-document/{file}', function ($file) {
-        return response()->download(storage_path("app/documents/".$file));
+        return response()->download(storage_path("app/documents/" . $file));
     })->name('docs');
 
     Route::resource('doctypes', 'DocTypeController');
@@ -1062,3 +1062,93 @@ Route::get('/recon-data', 'jsonResponseController@export_unposted_ars_ledger');
 
 //modal for double entry
 Route::post('get-transaction-details', 'ReportController@fetchTransactionDetailsForCode');
+
+//Expense Management routes
+
+Route::get('expense_management', 'ExpenseManagementController@index')->name('expense_management.index');
+Route::get('expense_management/create', 'ExpenseManagementController@create')->name('expense_management.create');
+Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+Route::post('expense_management/supervisor-approval', 'ExpenseManagementController@supervisor_approval');
+Route::get('expense_management/{id}', 'ExpenseManagementController@show')->name('expense_management.show');
+Route::get('expense_management/edit/{id}', 'ExpenseManagementController@edit')->name('expense_management.edit');
+Route::post('expense_management/store', 'ExpenseManagementController@store')->name('expense_management.store');
+Route::patch('expense_management/update/{id}', 'ExpenseManagementController@update')->name('expense_management.update');
+
+Route::get('expense_management/authorize_expense', 'ExpenseManagementController@authorize_expense')->name('expense_management.authorize_expense');
+Route::get('expense_management/download/{id}', 'ExpenseManagementController@download_expense_attachments')->name('download-attachment-exp');
+Route::get('expense_management/send/{id}', 'ExpenseManagementController@send')->name('send_expense');
+
+Route::post('expense_management/approve', 'ExpenseManagementController@approve')->name('approve_expense');
+Route::post('expense_management/process', 'ExpenseManagementController@process')->name('process_expense');
+Route::post('expense_management/reject', 'ExpenseManagementController@reject');
+Route::post('expense_management/approver_roles', 'ExpenseManagementController@fetchRoles')->name('fetch-expense-roles');
+
+/*
+|------------------------------------------------------------------------------------------
+| CREATE COMPANY OFFICES LOCATION AND BRANCH ROUTES SECTION
+|------------------------------------------------------------------------------------------
+ */
+Route::get('/office-location/index', 'CompanyDepartmentController@index')->name('office_location_module');
+Route::get('/office-location/one', 'CompanyDepartmentController@loadOne');
+Route::post('/office-location/create', 'CompanyDepartmentController@create');
+Route::post('/office-location/edit', 'CompanyDepartmentController@update');
+Route::post('/office-location/delete', 'CompanyDepartmentController@delete');
+
+/*
+|------------------------------------------------------------------------------------------
+| CREATE DEPARTMENT ROUTES SECTION
+|------------------------------------------------------------------------------------------
+ */
+Route::get('/department/index', 'CompanyDepartmentController@index')->name('department_module');
+Route::get('/department/one', 'CompanyDepartmentController@loadOne');
+Route::post('/department/create', 'CompanyDepartmentController@create');
+Route::post('/department/edit', 'CompanyDepartmentController@update');
+Route::post('/department/delete', 'CompanyDepartmentController@delete');
+
+/*
+|------------------------------------------------------------------------------------------
+| CREATE SUPERVISOR ROUTES SECTION
+|------------------------------------------------------------------------------------------
+ */
+Route::get('/supervisor/index', 'CompanySupervisorController@index')->name('supervisor_module');
+Route::get('/supervisor/one', 'CompanySupervisorController@loadOne');
+Route::post('/supervisor/create', 'CompanySupervisorController@create');
+Route::post('/supervisor/edit', 'CompanySupervisorController@update');
+Route::post('/supervisor/delete', 'CompanySupervisorController@delete');
+Route::get('/supervisor/all/users', 'CompanySupervisorController@allStaffs');
+Route::get('/supervisor/all/department', 'CompanySupervisorController@allDepartment');
+
+
+/*
+|------------------------------------------------------------------------------------------
+| CREATE LEAVE RESUMPTION FORM ROUTES SECTION
+|------------------------------------------------------------------------------------------
+*/
+Route::get('/leave/resumption',                 'LeaveResumptionController@index')->name('leave_resumption_module');
+Route::get('/leave/resumption/one',             'LeaveResumptionController@loadOne');
+Route::post('/leave/resumption/create',         'LeaveResumptionController@create');
+Route::post('/leave/resumption/edit',           'LeaveResumptionController@update');
+Route::post('/leave/resumption/delete',         'LeaveResumptionController@delete');
+Route::get('/leave/resumption/all/users',       'LeaveResumptionController@allStaffs');
+Route::get('/leave/resumption/all/department',  'LeaveResumptionController@allDepartment');
+Route::get('/leave/resumption/calculate/leave', 'LeaveResumptionController@calculateStaffLeave');
+Route::get('/leave/resumption/office/location', 'LeaveResumptionController@officeLocation');
+Route::get('/leave/resumption/department/supervisor', 'LeaveResumptionController@departmentSupervisor');
+Route::get('/leave/resumption/get/approver',    'LeaveResumptionController@getApprovers');
+Route::get('/approve/leave/resumption/{id}/{staff_id}',    'LeaveResumptionController@approveLeaveResumption');
+Route::get('/leave/test/notification/mail',     'LeaveResumptionController@testNotification');
+
+
+/*
+|------------------------------------------------------------------------------------------
+| IDENTITY CARD REQUEST ROUTES SECTIION
+|------------------------------------------------------------------------------------------
+*/
+Route::get('/identity/card/request',            'IdentityCardController@index')->name('identity_card_module');
+Route::get('/identity/card/load/one',           'IdentityCardController@loadOne');
+Route::get('/identity/card/load/all',           'IdentityCardController@loadAll');
+Route::post('/identity/card/create',            'IdentityCardController@create');
+Route::post('/identity/card/update',            'IdentityCardController@update');
+Route::post('/identity/card/delete',            'IdentityCardController@delete');
+Route::get('/indentity/department/info',        'IdentityCardController@departmentInfo');
+Route::get('/indentity/employee/info',          'IdentityCardController@staffInfo');
