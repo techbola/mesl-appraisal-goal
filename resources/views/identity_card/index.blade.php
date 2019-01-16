@@ -10,6 +10,15 @@
     </style>
     <div class="panel panel-transparent" style="padding: 0px;">
         <div class="panel-body" style="padding: 0px;">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
 @endsection
@@ -46,14 +55,35 @@
                             ID Card No
                         </th>
                         <th>
+                            ID Request Date
+                        </th>
+                        <th>
                             Department
+                        </th>
+                        <th>
+                            Status
                         </th>
                         <th>
                             Option
                         </th>
                     </thead>
                     <tbody>
-                        
+                        <tr>
+                            <td>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }} </td>
+                            <td>{{ $all_idcard_request['staff_id_number'] }}</td>
+                            <td>{{ $all_idcard_request['card_request_date'] }}</td>
+                            <td>{{ $all_idcard_request['department_name'] }}</td>
+                            <td>Pending</td>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="javascript:void(0);" onclick="editCardRequest('{{ $all_idcard_request['id'] }}')">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+
+                                <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="delCardRequest('{{ $all_idcard_request['id'] }}')">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
