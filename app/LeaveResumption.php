@@ -294,4 +294,50 @@ class LeaveResumption extends Model
         // send mail notification
         \Mail::to($email)->send(new NotifyLeaveResumption($data));
     }
+
+    /*
+    |-----------------------------------------
+    | APPROVE LEAVE RESUMPTION
+    |-----------------------------------------
+    */
+    public function approveLeaveResumption($lrr_id, $approver_id){
+        // body
+        // check and approve
+        $leave_resumption = LeaveResumption::where([["id", $lrr_id], ["first_approver_id", $approver_id]])->first();
+        if($leave_resumption !== null){
+            // approve and send to next approver
+            $approve_leave_resumption                           = LeaveResumption::find($leave_resumption->id);
+            $approve_leave_resumption->first_approver_status    = true;
+            if($approve_leave_resumption->update()){
+                $data = [
+                    'status'    => 'success',
+                    'message'   => 'Leave Resumption Approved!'
+                ];
+
+                $employee_data      = User::where("id", $leave_resumption->staff_id)->first();
+                $second_approver    = User::where("id", $leave_resumption->supervisor_id)->first();
+
+                $mail_data = [
+                    'employee_name' => ucfirst($employee_data->first_name).' '.ucfirst($employee_data->last_name),
+                    'approver_name' => ucfirst($second_approver->first_name).' '.ucfirst($second_approver->last_name),
+                    'approve_link'  => env("APP_URL").'/approve/leave/resumption/'.$leave_resumption->id.'/'.$second_approver->id
+                ];
+
+                // send to approvals
+                $this->sendApprovalsMail($mail_data, $first_approver->email);
+                $data = [
+                    'status'    => 'error',
+                    'message'   => 'Unable to approve leave resumption, Try again!'
+                ];
+            }
+        }else{
+            $data = [
+                'status'    => 'error',
+                'message'   => 'Could not find Leave Resumption, Try again!'
+            ];
+        }
+
+        // return
+        return $data;
+    }
 }
