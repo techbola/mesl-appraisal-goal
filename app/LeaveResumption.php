@@ -3,6 +3,7 @@
 namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
+use MESL\Mail\NotifyLeaveResumption;
 use MESL\User;
 use MESL\Staff;
 use MESL\DB;
@@ -17,7 +18,7 @@ class LeaveResumption extends Model
     */
     public static function allLeaveResumption(){
     	// body
-    	$all_leave_resumption_request = LeaveResumption::orderBy("id", "ASC")->get();
+    	$all_leave_resumption_request = LeaveResumption::where("staff_id", Auth::user()->id)->orderBy("id", "ASC")->get();
         if(count($all_leave_resumption_request) > 0){
             $lr_box = [];
             foreach ($all_leave_resumption_request as $lr) {
@@ -25,14 +26,24 @@ class LeaveResumption extends Model
                 $staff_data = User::where('id', $lr->staff_id)->first();
                 $department = CompanyDepartment::where('id', $lr->department_id)->first();
 
+                $first_approver = User::where('id', $lr->first_approver_id)->first();
+                $second_approver = User::where('id', $lr->second_approver_id)->first();
+                $third_approver = User::where('id', $lr->third_approver_id)->first();
+
                 $data = [
                     'id'                => $lr->id,
                     'employee_name'     => ucfirst($staff_data->first_name).' '.ucfirst($staff_data->last_name),
                     'supervisor_name'   => ucfirst($super_data->first_name).' '.ucfirst($super_data->last_name),
                     'department_name'   => ucfirst($department->name),
-                    'late_resume_info'  => $lr->reason_for_resumption || "None",
-                    'supervisor_remark' => $lr->supervisor_remark || "None",
-                    'is_approved'       => $lr->is_approved,
+                    'late_resume_info'  => $lr->reason_for_resumption,
+                    'supervisor_remark' => $lr->supervisor_remark,
+                    'is_final_approved' => $lr->is_approved,
+                    'first_approver'    => ucfirst($first_approver->first_name).' '.ucfirst($first_approver->last_name),
+                    'first_approver_status' => $lr->first_approver_status,
+                    'second_approver'    => ucfirst($second_approver->first_name).' '.ucfirst($second_approver->last_name),
+                    'second_approver_status' => $lr->second_approver_status,
+                    'third_approver'    => ucfirst($third_approver->first_name).' '.ucfirst($third_approver->last_name),
+                    'third_approver_status' => $lr->third_approver_status,
                     'date'              => $lr->created_at->toDateTimeString()
                 ];
 
@@ -44,6 +55,65 @@ class LeaveResumption extends Model
 
     	// return.
     	return $lr_box;
+    }
+
+    /*
+    |-----------------------------------------
+    | ALL LEAVE RESUMPTION DATE
+    |-----------------------------------------
+    */
+    public static function allMyApprovalRequest(){
+        // body
+        $all_leave_resumption_request = LeaveResumption::where([
+            ["first_approver_id", Auth::user()->id],
+            ["first_approver_status", false]
+        ])
+        ->orWhere([
+            ["second_approver_id", Auth::user()->id],
+            ["second_approver_status", false]
+        ])
+        ->orWhere([
+            ["third_approver_id", Auth::user()->id],
+            ["third_approver_status", false]
+        ])
+        ->orderBy("id", "ASC")->get();
+
+        if(count($all_leave_resumption_request) > 0){
+            $lr_box = [];
+            foreach ($all_leave_resumption_request as $lr) {
+                $super_data = User::where('id', $lr->supervisor_id)->first();
+                $staff_data = User::where('id', $lr->staff_id)->first();
+                $department = CompanyDepartment::where('id', $lr->department_id)->first();
+
+                $first_approver = User::where('id', $lr->first_approver_id)->first();
+                $second_approver = User::where('id', $lr->second_approver_id)->first();
+                $third_approver = User::where('id', $lr->third_approver_id)->first();
+
+                $data = [
+                    'id'                => $lr->id,
+                    'employee_name'     => ucfirst($staff_data->first_name).' '.ucfirst($staff_data->last_name),
+                    'supervisor_name'   => ucfirst($super_data->first_name).' '.ucfirst($super_data->last_name),
+                    'department_name'   => ucfirst($department->name),
+                    'late_resume_info'  => $lr->reason_for_resumption,
+                    'supervisor_remark' => $lr->supervisor_remark,
+                    'is_final_approved' => $lr->is_approved,
+                    'first_approver'    => ucfirst($first_approver->first_name).' '.ucfirst($first_approver->last_name),
+                    'first_approver_status' => $lr->first_approver_status,
+                    'second_approver'    => ucfirst($second_approver->first_name).' '.ucfirst($second_approver->last_name),
+                    'second_approver_status' => $lr->second_approver_status,
+                    'third_approver'    => ucfirst($third_approver->first_name).' '.ucfirst($third_approver->last_name),
+                    'third_approver_status' => $lr->third_approver_status,
+                    'date'              => $lr->created_at->toDateTimeString()
+                ];
+
+                array_push($lr_box, $data);
+            }
+        }else{
+            $lr_box = [];
+        }
+
+        // return.
+        return $lr_box;
     }
 
     /*
@@ -103,13 +173,31 @@ class LeaveResumption extends Model
     	$this->leave_days_left 		= $payload->leave_days_left;
     	$this->date_resume 			= $payload->date_resume;
     	$this->reason_for_resumption = $payload->reason_for_resumption;
-    	$this->supervisor_remark 	= $payload->supervisor_remark;
-    	$this->is_approved 			= false;
+    	$this->supervisor_remark 	 = $payload->supervisor_remark;
+        $this->first_approver_id        = $payload->supervisor_id;
+        $this->first_approver_status    = false; // Supervisor 
+        $this->second_approver_id       = $payload->riskmgt_id;
+        $this->second_approver_status   = false; // Risk Management
+        $this->third_approver_id        = $payload->hrmgt_id;
+        $this->third_approver_status    = false; // HR Operations
+    	$this->is_approved 			    = false;
     	if($this->save()){
     		$data = [
     			'status' 	=> 'success',
     			'message' 	=> 'Leave Resumption Sent!'
     		];
+
+            $employee_data      = User::where("id", $payload->staff_id)->first();
+            $first_approver     = User::where("id", $payload->supervisor_id)->first();
+
+            $mail_data = [
+                'employee_name' => ucfirst($employee_data->first_name).' '.ucfirst($employee_data->last_name),
+                'approver_name' => ucfirst($first_approver->first_name).' '.ucfirst($first_approver->last_name),
+                'approve_link'  => env("APP_URL").'/approve/leave/resumption/'.$this->id.'/'.$payload->supervisor_id
+            ];
+
+            // send to approvals
+            $this->sendApprovalsMail($mail_data, $first_approver->email);
     	}else{
     		$data = [
     			'status' 	=> 'error',
@@ -195,5 +283,15 @@ class LeaveResumption extends Model
 
     	// return 
     	return $data;
+    }
+
+    /*
+    |-----------------------------------------
+    | SEND APPROVERS MAIL
+    |-----------------------------------------
+    */
+    public function sendApprovalsMail($data, $email){
+        // send mail notification
+        \Mail::to($email)->send(new NotifyLeaveResumption($data));
     }
 }
