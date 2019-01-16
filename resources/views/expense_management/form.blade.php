@@ -43,11 +43,23 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
+                    {{ Form::label('DepartmentID', 'Department') }}
+                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="controls">
                     {{ Form::label('LotDescriptionID', 'Lot Description') }}
                     {{ Form::select('LotDescriptionID', ['' => 'Select Request'] + $lot_descriptions->pluck('LotDescription','LotDescriptionRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
                 </div>
             </div>
         </div>
+        <div class="clearfix"></div>
     </div>
 
     <hr>
@@ -114,8 +126,8 @@
 
     <div class="row">
          <div class="col-sm-6 form-group">
-            {{ Form::label('BankAccountID', 'Select Bank') }}
-            {{ Form::select('BankAccountID', [ '' =>  'Select Bank Account'] + $debit_acct_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
+            {{ Form::label('BankID', 'Select Bank') }}
+            {{ Form::select('BankID', [ '' =>  'Select Bank Account'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
         </div>
         <div class="col-sm-6 form-group">
             {{ Form::label('GLID', 'Select Expense Account') }}
@@ -123,8 +135,7 @@
         </div>
     </div>
 
-
-        <div class="clearfix"></div>
+    <div class="clearfix"></div>
     
     <div class="row">
         <div class="col-sm-12">
