@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use MESL\RestrictionDates;
 use MESL\LeaveTransaction;
 use MESL\LeaveApprover;
+use MESL\HandoverTask;
 // use MESL\LeaveApprover;
 
 // use MESL\LeaveType;
@@ -266,7 +267,44 @@ class LeaveRequestController extends Controller
         $user       = \Auth::user();
         $id         = \Auth::user()->id;
         $department = CompanyDepartment::all();
-        return view('leave_request.handover', compact('leave_type', 'staff', 'id', 'user', 'department'));
+        $handover_tasks = HandoverTask::orderBy('HandoverTaskRef', 'DESC')->get();
+        return view('leave_request.handover', compact('leave_type', 'staff', 'id', 'user', 'department', 'handover_tasks'));
+    }
+
+
+    //Leave handover task method, IN PROGRESS!!!!!!
+    public function handover_task(Request $request)
+    {
+        $handover_tasks = HandoverTask::orderBy('HandoverTaskRef', 'DESC');
+
+        $leave_type = LeaveType::all();
+
+        $staff = Staff::all();
+
+        return view('leave_request.handover_task', compact('leave_type', 'staff', 'handover_tasks'));
+
+    }
+
+    //store handover task
+    public function store_task(Request $request)
+    {
+        $handover_task = new HandoverTask($request->all());
+
+        $handover_task->StaffID = auth()->user()->id;
+
+        if($handover_task->save()){
+            return response()->json($handover_task);
+        }
+    }
+
+    //Delete travel request function
+    public function destroy_task($id)
+    {
+        $handover_task = Handovertask::find($id);
+
+        $handover_task->delete();
+        
+        return redirect()->route('leave_request.handover')->with('success', 'Task Deleted successfully');
     }
 
     /**

@@ -213,6 +213,10 @@ Route::middleware(['auth'])->group(function () {
 
     //leave handover
     Route::get('leave_request/handover', 'LeaveRequestController@leave_handover')->name('LeaveHandover');
+    Route::get('leave_request/handover_task', 'LeaveRequestController@handover_task')->name('HandoverTask');
+    Route::post('store_task', 'LeaveRequestController@store_task');
+
+    Route::get('leave_request/handover/{id}', 'LeaveRequestController@destroy_task')->name('delete');
 
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
 
@@ -1140,3 +1144,22 @@ Route::get('/leave/resumption/department/supervisor', 'LeaveResumptionController
 Route::get('/leave/resumption/get/approver',    'LeaveResumptionController@getApprovers');
 Route::get('/approve/leave/resumption/{id}/{staff_id}',    'LeaveResumptionController@approveLeaveResumption');
 Route::get('/leave/test/notification/mail',     'LeaveResumptionController@testNotification');
+
+
+//Travel Request form
+// Route::get('');
+Route::get('travel_request/admindashboard', 'TravelRequestController@dash')->name('travel_request.admindashboard');
+Route::get('travel_request/create', 'TravelRequestController@create')->name('travel_request.create');
+Route::post('travel_request/create', 'TravelRequestController@store_travel_request')->name('storerequest');
+
+Route::get('edit_travel_request/{id}', 'TravelRequestController@edit_travel_request')->name('edit_travel_request');
+
+Route::post('submit_travel_request', 'TravelRequestController@submit_travel_request')->name('updatedrequest');
+
+Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->name('delete');
+
+Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
+
+Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
+
+Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
