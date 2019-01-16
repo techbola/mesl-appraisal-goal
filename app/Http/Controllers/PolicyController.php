@@ -13,7 +13,7 @@ class PolicyController extends Controller
     public function index()
     {
         $id       = \Auth()->user()->id;
-        $check    = PolicyApprover::where('UserID', $id)->first();
+        $check    = count(PolicyApprover::where('UserID', $id)->get()) > 0 ? PolicyApprover::where('UserID', $id)->get() : [];
         $policies = Policy::orderBy('Policy', 'asc')->get();
         return view('policies.index', compact('policies', 'check'));
     }
@@ -21,7 +21,7 @@ class PolicyController extends Controller
     public function create()
     {
         $id       = \Auth()->user()->id;
-        $check    = PolicyApprover::where('UserID', $id)->first();
+        $check    = count(PolicyApprover::where('UserID', $id)->get()) > 0 ? PolicyApprover::where('UserID', $id)->get() : [];
         $policies = \DB::table('tblPolicy')
             ->join('users', 'tblPolicy.EnteredBy', '=', 'users.id')
             ->orderBy('PolicyRef', 'desc')

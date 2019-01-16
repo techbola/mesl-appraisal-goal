@@ -13,7 +13,7 @@ class PolicySegmentController extends Controller
     public function create()
     {
         $id       = \Auth()->user()->id;
-        $check    = PolicyApprover::where('UserID', $id)->first();
+        $check    = count(PolicyApprover::where('UserID', $id)->get()) > 0 ? PolicyApprover::where('UserID', $id)->get() : [];
         $policies = Policy::orderBy('Policy', 'asc')->get();
         $segments = \DB::table('tblPolicySegment')
             ->join('users', 'tblPolicySegment.EnteredBy', '=', 'users.id')
