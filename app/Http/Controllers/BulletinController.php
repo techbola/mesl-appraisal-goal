@@ -30,7 +30,8 @@ class BulletinController extends Controller
       $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
       $archives = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
     }
-    $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+    // $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+    $departments = CompanyDepartment::where('is_deleted', false)->get();
 
     return view('bulletins.index', compact('user', 'bulletins', 'archives', 'departments'));
   }
