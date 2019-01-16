@@ -8,6 +8,7 @@ use MESL\User;
 use Carbon\Carbon;
 use MESL\Department;
 use MESL\Staff;
+use MESL\CompanyDepartment;
 
 use MESL\Notifications\NewBulletin;
 use Notification;
