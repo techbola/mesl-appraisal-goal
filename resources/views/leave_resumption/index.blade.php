@@ -115,7 +115,7 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-success btn-sm" href="javascript:void(0);" onclick="approveLeaveResumptionRequest('{{ $lr['id'] }}')">
+                                                    <a class="btn btn-success btn-sm" id="approve-lrr-btn" href="javascript:void(0);" onclick="approveLeaveResumptionRequest('{{ $lr['id'] }}', '{{ Auth::user()->id }}')">
                                                         <i class="fa fa-check"></i> Approve
                                                     </a>
                                                 </td>
@@ -429,12 +429,33 @@
         }
 
         // approve leave resumption request
-        function approveLeaveResumptionRequest(leave_resumption_id) {
-            swal(
-                "Oops",
-                "Approving LRR is currently not available at the moment",
-                "info"
-            );
+        function approveLeaveResumptionRequest(leave_resumption_id, staff_id) {
+            $("#approve-lrr-btn").prop('disabled', true);
+            $("#approve-lrr-btn").html(`<i class="fa fa-check"></i> Approving...`);
+            $.get('{{ url("approve/leave/resumption")}}/'+leave_resumption_id+'/'+staff_id, function(data) {
+                if(data.status == "success"){
+                    swal(
+                        "Ok",
+                        data.message,
+                        data.status
+                    );
+
+                    $("#approve-lrr-btn").prop('disabled', false);
+                    $("#approve-lrr-btn").html(`<i class="fa fa-check"></i> Approve`);
+
+                    // refresh page
+                    window.location.reload();
+                }else{
+                    swal(
+                        "Oops",
+                        data.message,
+                        data.status
+                    );
+
+                    $("#approve-lrr-btn").prop('disabled', false);
+                    $("#approve-lrr-btn").html(`<i class="fa fa-check"></i> Approve`);
+                }
+            });
         }
     </script>
 @endsection

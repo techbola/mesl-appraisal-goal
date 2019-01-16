@@ -43,11 +43,10 @@
                                     <td class="content-cell" style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; padding: 35px;">
                                         <h1 style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #2F3133; font-size: 19px; font-weight: bold; margin-top: 0; text-align: left;">
 
-                                            Hi, {{ $data['approver_name'] }}
+                                            Hello, {{ $data['employee_name'] }}
                                         </h1>
                                         <p style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #74787E; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">
-                                                You have a new leave resumption approval request from 
-                                                <b>{{ $data['employee_name'] }}</b>. Use the button below to approve request. 
+                                            Your leave resumption request has been approved! 
                                         </p>
    
                                         <table class="action" align="center" width="100%" cellpadding="0" cellspacing="0" style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; margin: 30px auto; padding: 0; text-align: center; width: 100%; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%;">
@@ -59,7 +58,7 @@
                                                                 <table border="0" cellpadding="0" cellspacing="0" style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box;">
                                                                     <tr>
                                                                         <td style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box;">
-                                                                            <a href="{{ $data['approve_link'] }}" class="button button-blue" target="_blank" style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; border-radius: 3px; box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16); color: #FFF; display: inline-block; text-decoration: none; -webkit-text-size-adjust: none; background-color: #3097D1; border-top: 10px solid #3097D1; border-right: 18px solid #3097D1; border-bottom: 10px solid #3097D1; border-left: 18px solid #3097D1;">Login and Approve Request</a>
+                                                                            <a href="{{ env("APP_URL") }}" class="button button-blue" target="_blank" style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; border-radius: 3px; box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16); color: #FFF; display: inline-block; text-decoration: none; -webkit-text-size-adjust: none; background-color: #3097D1; border-top: 10px solid #3097D1; border-right: 18px solid #3097D1; border-bottom: 10px solid #3097D1; border-left: 18px solid #3097D1;">Login</a>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -76,7 +75,7 @@
                                             <tr>
                                                 <td style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box;">
                                                     <p style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #74787E; line-height: 1.5em; margin-top: 0; text-align: left; font-size: 12px;">
-                                                        If you’re having trouble clicking the "Login and Approve Request" button, copy and paste the URL below into your web browser: 
+                                                        If you’re having trouble clicking the "Login" button, copy and paste the URL below into your web browser: 
                                                         <a href="{{ env("APP_URL") }}" style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #3869D4;">
                                                         {{ env("APP_URL") }}
                                                         </a>

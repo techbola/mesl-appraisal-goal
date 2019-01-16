@@ -3,6 +3,7 @@
 namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
+use MESL\Mail\NotifyLeaveResumptionReply;
 use MESL\Mail\NotifyLeaveResumption;
 use MESL\User;
 use MESL\Staff;
@@ -297,16 +298,42 @@ class LeaveResumption extends Model
 
     /*
     |-----------------------------------------
+    | SEND APPROVERS MAIL
+    |-----------------------------------------
+    */
+    public function sendReplyApprovalsMail($data, $email){
+        // send mail notification
+        \Mail::to($email)->send(new NotifyLeaveResumptionReply($data));
+    }
+
+    /*
+    |-----------------------------------------
     | APPROVE LEAVE RESUMPTION
     |-----------------------------------------
     */
     public function approveLeaveResumption($lrr_id, $approver_id){
         // body
-        // check and approve
-        $leave_resumption = LeaveResumption::where([["id", $lrr_id], ["first_approver_id", $approver_id]])->first();
-        if($leave_resumption !== null){
+        // check and unapprove leave resumption request
+        $first_approver  = LeaveResumption::where([
+            ["id", $lrr_id], 
+            ["first_approver_id", $approver_id],
+            ["first_approver_status", false]
+        ])->first();
+        $second_approver = LeaveResumption::where([
+            ["id", $lrr_id], 
+            ["second_approver_id", $approver_id],
+            ["second_approver_status", false]
+        ])->first();
+        $third_approver  = LeaveResumption::where([
+            ["id", $lrr_id], 
+            ["third_approver_id", $approver_id],
+            ["third_approver_status", false],
+        ])->first();
+
+        // All 3 Approvers
+        if($first_approver !== null){
             // approve and send to next approver
-            $approve_leave_resumption                           = LeaveResumption::find($leave_resumption->id);
+            $approve_leave_resumption                           = LeaveResumption::find($first_approver->id);
             $approve_leave_resumption->first_approver_status    = true;
             if($approve_leave_resumption->update()){
                 $data = [
@@ -314,26 +341,63 @@ class LeaveResumption extends Model
                     'message'   => 'Leave Resumption Approved!'
                 ];
 
-                $employee_data      = User::where("id", $leave_resumption->staff_id)->first();
-                $second_approver    = User::where("id", $leave_resumption->supervisor_id)->first();
+                $employee_data  = User::where("id", $first_approver->staff_id)->first();
+                $approver_data  = User::where("id", $first_approver->second_approver_id)->first();
 
                 $mail_data = [
                     'employee_name' => ucfirst($employee_data->first_name).' '.ucfirst($employee_data->last_name),
-                    'approver_name' => ucfirst($second_approver->first_name).' '.ucfirst($second_approver->last_name),
-                    'approve_link'  => env("APP_URL").'/approve/leave/resumption/'.$leave_resumption->id.'/'.$second_approver->id
+                    'approver_name' => ucfirst($approver_data->first_name).' '.ucfirst($approver_data->last_name),
+                    'approve_link'  => env("APP_URL").'/approve/leave/resumption/'.$lrr_id.'/'.$approver_data->id
                 ];
 
                 // send to approvals
-                $this->sendApprovalsMail($mail_data, $first_approver->email);
+                $this->sendApprovalsMail($mail_data, $approver_data->email);
+            }
+        }elseif($second_approver !== null){
+            // approve and send to next approver
+            $approve_leave_resumption                           = LeaveResumption::find($second_approver->id);
+            $approve_leave_resumption->second_approver_status    = true;
+            if($approve_leave_resumption->update()){
                 $data = [
-                    'status'    => 'error',
-                    'message'   => 'Unable to approve leave resumption, Try again!'
+                    'status'    => 'success',
+                    'message'   => 'Leave Resumption Approved!'
                 ];
+
+                $employee_data  = User::where("id", $second_approver->staff_id)->first();
+                $approver_data  = User::where("id", $second_approver->third_approver_id)->first();
+
+                $mail_data = [
+                    'employee_name' => ucfirst($employee_data->first_name).' '.ucfirst($employee_data->last_name),
+                    'approver_name' => ucfirst($approver_data->first_name).' '.ucfirst($approver_data->last_name),
+                    'approve_link'  => env("APP_URL").'/approve/leave/resumption/'.$lrr_id.'/'.$approver_data->id
+                ];
+
+                // send to approvals
+                $this->sendApprovalsMail($mail_data, $approver_data->email);
+            }
+        }elseif($third_approver !== null){
+            // approve and send to next approver
+            $approve_leave_resumption                           = LeaveResumption::find($third_approver->id);
+            $approve_leave_resumption->third_approver_status    = true;
+            $approve_leave_resumption->is_approved              = true;
+            if($approve_leave_resumption->update()){
+                $data = [
+                    'status'    => 'success',
+                    'message'   => 'Leave Resumption Approved!'
+                ];
+
+                $employee_data  = User::where("id", $third_approver->staff_id)->first();
+                $mail_data = [
+                    'employee_name' => ucfirst($employee_data->first_name).' '.ucfirst($employee_data->last_name)
+                ];
+
+                // send to approvals
+                $this->sendReplyApprovalsMail($mail_data, $employee_data->email);
             }
         }else{
             $data = [
                 'status'    => 'error',
-                'message'   => 'Could not find Leave Resumption, Try again!'
+                'message'   => 'Could not find Leave Resumption and Approvers, Try again!'
             ];
         }
 
