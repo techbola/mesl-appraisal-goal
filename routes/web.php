@@ -1118,37 +1118,52 @@ Route::post('/supervisor/delete', 'CompanySupervisorController@delete');
 Route::get('/supervisor/all/users', 'CompanySupervisorController@allStaffs');
 Route::get('/supervisor/all/department', 'CompanySupervisorController@allDepartment');
 
-
 /*
 |------------------------------------------------------------------------------------------
 | CREATE LEAVE RESUMPTION FORM ROUTES SECTION
 |------------------------------------------------------------------------------------------
-*/
-Route::get('/leave/resumption',                 'LeaveResumptionController@index')->name('leave_resumption_module');
-Route::get('/leave/resumption/one',             'LeaveResumptionController@loadOne');
-Route::post('/leave/resumption/create',         'LeaveResumptionController@create');
-Route::post('/leave/resumption/edit',           'LeaveResumptionController@update');
-Route::post('/leave/resumption/delete',         'LeaveResumptionController@delete');
-Route::get('/leave/resumption/all/users',       'LeaveResumptionController@allStaffs');
-Route::get('/leave/resumption/all/department',  'LeaveResumptionController@allDepartment');
+ */
+Route::get('/leave/resumption', 'LeaveResumptionController@index')->name('leave_resumption_module');
+Route::get('/leave/resumption/one', 'LeaveResumptionController@loadOne');
+Route::post('/leave/resumption/create', 'LeaveResumptionController@create');
+Route::post('/leave/resumption/edit', 'LeaveResumptionController@update');
+Route::post('/leave/resumption/delete', 'LeaveResumptionController@delete');
+Route::get('/leave/resumption/all/users', 'LeaveResumptionController@allStaffs');
+Route::get('/leave/resumption/all/department', 'LeaveResumptionController@allDepartment');
 Route::get('/leave/resumption/calculate/leave', 'LeaveResumptionController@calculateStaffLeave');
 Route::get('/leave/resumption/office/location', 'LeaveResumptionController@officeLocation');
 Route::get('/leave/resumption/department/supervisor', 'LeaveResumptionController@departmentSupervisor');
-Route::get('/leave/resumption/get/approver',    'LeaveResumptionController@getApprovers');
-Route::get('/approve/leave/resumption/{id}/{staff_id}',    'LeaveResumptionController@approveLeaveResumption');
-Route::get('/leave/test/notification/mail',     'LeaveResumptionController@testNotification');
-
+Route::get('/leave/resumption/get/approver', 'LeaveResumptionController@getApprovers');
+Route::get('/approve/leave/resumption/{id}/{staff_id}', 'LeaveResumptionController@approveLeaveResumption');
+Route::get('/leave/test/notification/mail', 'LeaveResumptionController@testNotification');
 
 /*
 |------------------------------------------------------------------------------------------
 | IDENTITY CARD REQUEST ROUTES SECTIION
 |------------------------------------------------------------------------------------------
-*/
-Route::get('/identity/card/request',            'IdentityCardController@index')->name('identity_card_module');
-Route::get('/identity/card/load/one',           'IdentityCardController@loadOne');
-Route::get('/identity/card/load/all',           'IdentityCardController@loadAll');
-Route::post('/identity/card/create',            'IdentityCardController@create');
-Route::post('/identity/card/update',            'IdentityCardController@update');
-Route::post('/identity/card/delete',            'IdentityCardController@delete');
-Route::get('/indentity/department/info',        'IdentityCardController@departmentInfo');
-Route::get('/indentity/employee/info',          'IdentityCardController@staffInfo');
+ */
+Route::get('/identity/card/request', 'IdentityCardController@index')->name('identity_card_module');
+Route::get('/identity/card/load/one', 'IdentityCardController@loadOne');
+Route::get('/identity/card/load/all', 'IdentityCardController@loadAll');
+Route::post('/identity/card/create', 'IdentityCardController@create');
+Route::post('/identity/card/update', 'IdentityCardController@update');
+Route::post('/identity/card/delete', 'IdentityCardController@delete');
+Route::get('/indentity/department/info', 'IdentityCardController@departmentInfo');
+Route::get('/indentity/employee/info', 'IdentityCardController@staffInfo');
+
+//Travel Request form
+Route::get('travel_request/admindashboard', 'TravelRequestController@dash')->name('travel_request.admindashboard');
+Route::get('travel_request/create', 'TravelRequestController@create')->name('travel_request.create');
+Route::post('travel_request/create', 'TravelRequestController@store_travel_request')->name('storerequest');
+
+Route::get('edit_travel_request/{id}', 'TravelRequestController@edit_travel_request')->name('edit_travel_request');
+
+Route::post('submit_travel_request', 'TravelRequestController@submit_travel_request')->name('updatedrequest');
+
+Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->name('delete');
+
+Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
+
+Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
+
+Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
