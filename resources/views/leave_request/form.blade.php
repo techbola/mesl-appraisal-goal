@@ -8,6 +8,7 @@
     </style>
     @endpush
 @include('errors.list')
+
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -15,12 +16,14 @@
                 {{ Form::text('EmployeeName', Auth::user()->FullName, ['class' => 'form-control', 'placeholder' => 'Employee Name', 'required', 'readonly' ]) }}
             </div>
         </div>
+
         <div class="col-md-4">
             <div class="form-group">
                 {{ Form::label('Department','Department') }}
-                {{ Form::text('Department', Auth::user()->DepartmentID, ['class' => 'form-control', 'placeholder' => 'Employee Deprartment', 'required']) }}
+                {{ Form::text('Department', Auth::user()->staff->company_department->name, ['class' => 'form-control', 'placeholder' => 'Employee Deprartment', 'required']) }}
             </div>
         </div>
+
         <div class="col-md-4">
             <div class="form-group">
                 {{ Form::label('ContactNumber','Contact Phone Number') }}
@@ -29,6 +32,7 @@
         </div>
     </div>
     <br>
+
     <div class="row">
         <div class="col-sm-3">
             <div class="form-group">
@@ -39,12 +43,14 @@
             </div>
             </div>
         </div>
+
         <div class="col-md-3">
             <div class="form-group">
             {{ Form::label('Number_of_Leavedays', 'Number of leave days' ) }}
             {{ Form::text('NumberofDays', null, ['class' => 'form-control', 'placeholder' => 'Number of Leave Days', 'required', 'id'=>'numberdays', 'onblur'=>'check_leave_days()', ]) }}
             </div>
         </div>
+
         <div class="col-sm-3">
             <div class="form-group">
             {{ Form::label('ReturnDate', 'End Date' ) }}
@@ -56,6 +62,7 @@
         </div>
     </div>
     <br>
+
     <div class="row">
         <div class="col-sm-5">
             <div class="form-group">
@@ -77,6 +84,7 @@
                 </div>
         </div>
     </div>
+
     <br>
   
     <div class="row">
@@ -86,12 +94,14 @@
                     {{ Form::select('ReliefOfficerID', [ '' =>  'Releif Officer'] + $staff->pluck('FullName', 'UserID')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Absence Type", 'data-init-plugin' => "select2"]) }}
                 </div>
         </div>
+
         <div class="col-sm-4">
                 <div class="form-group">
                     {{ Form::label('PhoneContact','Contact Mobile Number') }}
                     {{ Form::text('PhoneContact', null, ['class' => 'form-control', 'placeholder' => 'Mobile Phone Number', 'required']) }}
                 </div>
         </div>
+
         <div class="col-sm-4">
                 <div class="form-group">
                     {{ Form::label('EmailContact','Contact Email') }}
@@ -99,6 +109,7 @@
                 </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-sm-8">
             <div class="form-group">
@@ -106,6 +117,7 @@
                 {{ Form::textarea('AddressContact', null, ['class' => 'form-control','required']) }}
             </div>
         </div>
+
         <div class="col-sm-4">
             <div class="form-group">
                 {{ Form::label('HandOverNote','Upload Document') }}
@@ -113,6 +125,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -121,7 +134,9 @@
             </div>
         </div>
     </div>
+
     <hr>
+
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
@@ -151,6 +166,7 @@
     <input type="hidden" name="StaffID" value="{{ $id }}">
     <input type="hidden" name="ModuleID" value="3">
     <input type="hidden" name="ApproverID" id='approver_id'>
+
     <!-- action buttons -->
     <div class=" pull-right">
         <div class="form-group">
@@ -173,6 +189,7 @@
         };
         $('.dp').datepicker(options);
     });
+
     $('.timepicker').timepicker().on('show.timepicker', function(e) {
         var widget = $('.bootstrap-timepicker-widget');
         widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
@@ -180,6 +197,7 @@
         widget.attr("style", "z-index: 9999999 !important; box-shadow: 0 6px 12px rgba(0,0,0,.175); border: 1px solid #ccc");
     });
   </script>
+
     <script>
         function getValue()
         {   
@@ -188,6 +206,7 @@
             $('#approver_id').val(id);
         }
     </script>
+
     <script>
            function check_leave_days()
             {
@@ -208,9 +227,11 @@
                 
             } 
     </script> 
+
     <script>
         function verifyleave()
         {
+
             var numberdays = parseInt($('#numberdays').val());
             var leave_left = parseInt($('#leave_left').text());
             if(numberdays > leave_left)

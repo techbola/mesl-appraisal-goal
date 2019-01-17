@@ -7,12 +7,14 @@ use MESL\LeaveType;
 // use MESL\Mail\Leave;
 use MESL\Staff;
 use MESL\LeaveRequest;
+use MESL\CompanyDepartment;
 use MESL\Mail\LeaveRequest as LR;
 use MESL\Mail\HRLeaveConfirmation;
 use Carbon\Carbon;
 use MESL\RestrictionDates;
 use MESL\LeaveTransaction;
 use MESL\LeaveApprover;
+use MESL\HandoverTask;
 // use MESL\LeaveApprover;
 
 // use MESL\LeaveType;
@@ -41,13 +43,14 @@ class LeaveRequestController extends Controller
         $leave_type = LeaveType::all();
         $user       = \Auth::user();
         $id         = \Auth::user()->id;
+        $department = CompanyDepartment::all();
         $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
         $leavedays  = Staff::where('UserID', $id)->first();
         $leave_used = \DB::table('tblLeaveTransaction')
             ->where('StaffID', $id)
             ->sum('DaysRequested');
         $remaining_days = $leavedays->LeaveDays - $leave_used;
-        return view('leave_request.create', compact('leave_type', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days'));
+        return view('leave_request.create', compact('leave_type', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department'));
     }
 
     public function leave_approval()
@@ -256,6 +259,58 @@ class LeaveRequestController extends Controller
         }
     }
 
+
+    public function leave_handover()
+    {   
+        $leave_type = LeaveType::all();
+        $staff      = Staff::all();
+        // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
+        $user       = \Auth::user();
+        $id         = \Auth::user()->id;
+        $department = CompanyDepartment::all();
+        $handover_tasks = HandoverTask::orderBy('HandoverTaskRef', 'DESC')->get();
+        return view('leave_request.handover', compact('leave_type', 'staff', 'id', 'user', 'department', 'handover_tasks'));
+    }
+
+
+    //Leave handover task method, IN PROGRESS!!!!!!
+    public function handover_task(Request $request)
+    {
+        $handover_tasks = HandoverTask::orderBy('HandoverTaskRef', 'DESC');
+
+        $leave_type = LeaveType::all();
+
+        $staff = Staff::all();
+
+        return view('leave_request.handover_task', compact('leave_type', 'staff', 'handover_tasks'));
+
+    }
+
+    //store handover task
+    public function store_task(Request $request)
+    {
+        $handover_task = new HandoverTask($request->all());
+
+        $handover_task->StaffID = auth()->user()->id;
+
+        if($handover_task->save()){
+            return response()->json($handover_task);
+        }
+    }
+
+    //Delete travel request function
+    public function destroy_task($id)
+    {
+        // $handover_task = Handovertask::find($id);
+
+        $handover_task =Handovertask::where('HandoverTaskRef',$id)->firstOrFail();
+        // dd($handover_task);
+
+        $handover_task->delete();
+        
+        return redirect()->back()->with('success', 'Task Deleted successfully');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -330,5 +385,11 @@ class LeaveRequestController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function create_leave_handover()
+    {
+        $leave_habdover = LeaveRequest::find($id);
+        $leave_request = LeaveRequesr::Where('');
     }
 }
