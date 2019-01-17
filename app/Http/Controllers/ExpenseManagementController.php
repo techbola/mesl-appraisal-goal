@@ -12,6 +12,7 @@ use MESL\ExpenseManagementFile;
 use MESL\ExpenseComment;
 use MESL\Department;
 use MESL\Bank;
+use MESL\Location;
 use MESL\LotDescription;
 use MESL\ExpenseCategory;
 use MESL\ExpenseCommentFile;
@@ -89,6 +90,7 @@ class ExpenseManagementController extends Controller
         });
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
+        $locations          = Location::all();
         $departments        = Department::all();
         $banks              = Bank::all();
         $expense_categories = ExpenseCategory::all();
@@ -103,7 +105,7 @@ class ExpenseManagementController extends Controller
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
-        return view('expense_management.create', compact('request_list', 'employees', 'banks', 'departments', 'expense_categories', 'debit_acct_details', 'lot_descriptions'));
+        return view('expense_management.create', compact('request_list', 'employees', 'locations', 'banks', 'departments', 'expense_categories', 'debit_acct_details', 'lot_descriptions'));
     }
 
     public function show($id)
@@ -174,6 +176,7 @@ class ExpenseManagementController extends Controller
         $lot_descriptions   = LotDescription::all();
         $departments        = Department::all();
         $banks              = Bank::all();
+        $locations          = Location::all();
         $expense_categories = ExpenseCategory::all();
         $bank_acct_details  = LotDescription::all();
         $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
@@ -186,7 +189,7 @@ class ExpenseManagementController extends Controller
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
-        return view('expense_management.edit', compact('expense_management', 'employees', 'departments', 'banks', 'lot_descriptions', 'expense_categories', 'bank_acct_details',
+        return view('expense_management.edit', compact('expense_management', 'locations', 'employees', 'departments', 'banks', 'lot_descriptions', 'expense_categories', 'bank_acct_details',
             'debit_acct_details', 'request_list'));
     }
 
