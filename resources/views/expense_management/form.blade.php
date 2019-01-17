@@ -63,7 +63,7 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('LocationID', 'Lot Description') }}
+                    {{ Form::label('LocationID', 'Location') }}
                     {{ Form::select('LocationID', ['' => 'Select Request'] + $locations->pluck('Location','LocationRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location']) }}
                 </div>
             </div>
