@@ -46,7 +46,7 @@ class StaffController extends Controller
 
     public function index()
     {
-      $this->authorize('hr-admin');
+        $this->authorize('hr-admin');
         // $staffs = \DB::table('tblStaff')
         //     ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
         //     ->get();
@@ -57,43 +57,41 @@ class StaffController extends Controller
             $companies = Company::all();
             $roles     = Role::all();
         } else {
-            $roles  = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
+            $roles = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
             if (!empty($_GET['q'])) {
-              $q = $_GET['q'];
-              $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function($query) use($q){
-                $query->where('first_name', 'LIKE', '%'.$q.'%')->orWhere('last_name', 'LIKE', '%'.$q.'%')->orWhere('email', 'LIKE', '%'.$q.'%');
-              })->orWhere('MobilePhone', 'LIKE', '%'.$q.'%')->with('user')->get();
+                $q      = $_GET['q'];
+                $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function ($query) use ($q) {
+                    $query->where('first_name', 'LIKE', '%' . $q . '%')->orWhere('last_name', 'LIKE', '%' . $q . '%')->orWhere('email', 'LIKE', '%' . $q . '%');
+                })->orWhere('MobilePhone', 'LIKE', '%' . $q . '%')->with('user')->get();
             } else {
-              $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
+                $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             }
         }
         $departments = CompanyDepartment::where('is_deleted', false)->get();
         return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments', 'q'));
     }
 
-
     public function get_staff_list()
     {
-      $user = auth()->user();
-      $staff = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
+        $user  = auth()->user();
+        $staff = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
 
-      return $staff;
+        return $staff;
     }
 
     public function staff_search()
     {
-      $user = auth()->user();
-      if (!empty($_GET['q'])) {
-        $q = $_GET['q'];
-        $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function($query) use($q){
-          $query->where('first_name', 'LIKE', '%'.$q.'%')->orWhere('last_name', 'LIKE', '%'.$q.'%')->orWhere('email', 'LIKE', '%'.$q.'%');
-        })->orWhere('MobilePhone', 'LIKE', '%'.$q.'%')->with('user')->paginate(20);
-      } else {
-        $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->paginate(20);
-      }
+        $user = auth()->user();
+        if (!empty($_GET['q'])) {
+            $q      = $_GET['q'];
+            $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function ($query) use ($q) {
+                $query->where('first_name', 'LIKE', '%' . $q . '%')->orWhere('last_name', 'LIKE', '%' . $q . '%')->orWhere('email', 'LIKE', '%' . $q . '%');
+            })->orWhere('MobilePhone', 'LIKE', '%' . $q . '%')->with('user')->paginate(20);
+        } else {
+            $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->paginate(20);
+        }
 
-
-      return view('staff.staff_search', compact('staffs', 'q'));
+        return view('staff.staff_search', compact('staffs', 'q'));
     }
 
     public function post_invite(Request $request)
@@ -103,7 +101,7 @@ class StaffController extends Controller
             'first_name' => 'required',
             'last_name'  => 'required',
             'email'      => 'required|unique:users',
-            'roles'       => 'required',
+            'roles'      => 'required',
         ]);
 
         try {
@@ -118,16 +116,16 @@ class StaffController extends Controller
             $user->changed_password = '0';
             $user->save();
 
-            $staff               = new Staff;
-            $staff->UserID       = $user->id;
+            $staff         = new Staff;
+            $staff->UserID = $user->id;
             if (!empty($request->DepartmentID)) {
-              $staff_departments   = implode(',', $request->DepartmentID);
-              $staff->DepartmentID = $staff_departments;
+                $staff_departments   = implode(',', $request->DepartmentID);
+                $staff->DepartmentID = $staff_departments;
             } else {
-              $staff->DepartmentID = '1';
+                $staff->DepartmentID = '1';
             }
             if (!empty($request->SupervisorID)) {
-              $staff->SupervisorID = $request->SupervisorID;
+                $staff->SupervisorID = $request->SupervisorID;
             }
             if (auth()->user()->is_superadmin) {
                 $staff->CompanyID = $request->CompanyID;
@@ -145,7 +143,7 @@ class StaffController extends Controller
 
             // Role is now compulsory
             foreach ($request->roles as $role_id) {
-              $user->roles()->attach($role_id);
+                $user->roles()->attach($role_id);
             }
             // $role = Role::where('id', $request->role)->first();
             // $user->roles()->attach($role->id);
@@ -163,19 +161,19 @@ class StaffController extends Controller
 
     public function reinvite_staff(Request $request, $id)
     {
-      $user = User::find($id);
-      Notification::send($user, new StaffInvitation());
-      return redirect()->back()->with('success', $user->FullName . ' was re-invited successfully. Ask them to check their mail -- '.$user->email);
+        $user = User::find($id);
+        Notification::send($user, new StaffInvitation());
+        return redirect()->back()->with('success', $user->FullName . ' was re-invited successfully. Ask them to check their mail -- ' . $user->email);
     }
 
     public function update_staff_admin(Request $request, $id)
     {
-      $staff = Staff::find($id);
-      $staff->user->first_name = $request->first_name;
-      $staff->user->last_name = $request->last_name;
-      $staff->user->email = $request->email;
-      $staff->user->update();
-      return redirect()->back()->with('success', 'Staff was updated successfully');
+        $staff                   = Staff::find($id);
+        $staff->user->first_name = $request->first_name;
+        $staff->user->last_name  = $request->last_name;
+        $staff->user->email      = $request->email;
+        $staff->user->update();
+        return redirect()->back()->with('success', 'Staff was updated successfully');
     }
 
     public function pending_biodata_list()
@@ -352,7 +350,6 @@ class StaffController extends Controller
         }
         $gantt = json_encode($gantt);
 
-
         // note that I am saving the StaffRef of the Staff
         $doctypes   = DocType::all();
         $docs       = HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get();
@@ -363,7 +360,7 @@ class StaffController extends Controller
 
     public function edit_biodata($id)
     {
-        $staff  = Staff::where('StaffRef', $id)->first();
+        $staff = Staff::where('StaffRef', $id)->first();
         $this->authorize('edit-profile', $staff->user);
 
         $user = auth()->user();
@@ -384,12 +381,12 @@ class StaffController extends Controller
         $locations      = Location::all();
         $lgas           = LGA::all();
 
-        $departments       = Department::where('CompanyID', $user->staff->CompanyID)->get();
-        $staff_departments = explode(',', $staff->DepartmentID);
+        $departments       = CompanyDepartment::all();
+        $staff_departments = $staff->DepartmentID;
         $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas','pfa'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
     }
 
     public function editFinanceDetails($id)
@@ -513,10 +510,10 @@ class StaffController extends Controller
                 // END PHOTO
 
             } else {
-              if (!empty($request->DepartmentID)) {
-                $staff_departments = implode(',', $request->DepartmentID);
-                $staff->DepartmentID = $staff_departments;
-              }
+                if (!empty($request->DepartmentID)) {
+                    $staff_departments   = implode(',', $request->DepartmentID);
+                    $staff->DepartmentID = $staff_departments;
+                }
 
                 $user_staff->first_name  = $request->FirstName;
                 $user_staff->middle_name = $request->MiddleName;
@@ -551,32 +548,31 @@ class StaffController extends Controller
 
             DB::commit();
             if ($user->hasRole('admin')) {
-              return redirect()->route('staff.index')->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
+                return redirect()->route('staff.index')->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
             } else {
-              return redirect()->route('staff.show', $staff->StaffRef)->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
+                return redirect()->route('staff.show', $staff->StaffRef)->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
             }
 
-            } catch (Exception $e) {
-                DB::rollback();
-                return back()->withInput()->with('error', 'Failed to update please try again.');
-            }
+        } catch (Exception $e) {
+            DB::rollback();
+            return back()->withInput()->with('error', 'Failed to update please try again.');
+        }
 
-            // if ($staff->update($request->except(['_token', '_method']))) {
-            //     return redirect()->route('staff.showfulldetails', $id)->with('success', $staff->FullName.'\'s biodata was updated successfully');
-            // } else {
-            //     return back()->withInput()->with('error', 'Failed to update please try again.');
-            // }
+        // if ($staff->update($request->except(['_token', '_method']))) {
+        //     return redirect()->route('staff.showfulldetails', $id)->with('success', $staff->FullName.'\'s biodata was updated successfully');
+        // } else {
+        //     return back()->withInput()->with('error', 'Failed to update please try again.');
+        // }
 
     }
 
     public function subordinates()
     {
-      $user = auth()->user();
-      $staffs = $user->staff->subordinates;
-      // $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
+        $user   = auth()->user();
+        $staffs = $user->staff->subordinates;
+        // $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
 
-      return view('staff.subordinates', compact('staffs', 'companies', 'roles'));
+        return view('staff.subordinates', compact('staffs', 'companies', 'roles'));
     }
-
 
 }

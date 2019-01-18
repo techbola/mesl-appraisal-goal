@@ -57,9 +57,9 @@
           {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
           {{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
-          <select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple">
+          <select class="form-control select2" name="DepartmentID" data-init-plugin="select2">
             @foreach ($departments as $dept)
-              <option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
+              <option value="{{ $dept->id }}" @if($dept->id === $staff->DepartmentID) selected @endif>{{ $dept->name }}</option>
             @endforeach
           </select>
         </div>
