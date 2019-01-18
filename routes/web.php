@@ -1167,3 +1167,6 @@ Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval'
 Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
+
+// admin dashboard
+Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-home');
