@@ -212,17 +212,17 @@
 							      <input type="text" class="form-control" name="email" placeholder="Email Address" required v-model="staff.user.email">
 							    </div>
 							  </div>
-							  <div class="col-md-6">
+							 {{--  <div class="col-md-6">
 							    <div class="form-group">
 							      <label class="req">Department</label>
-										 <select name="DepartmentID" id="DepartmentID" v-model="staff.DepartmentID" class="form-control" data-init-plugin="select2">
+										 <select name="DepartmentID" id="DepartmentID" v-model="staff.DepartmentID" class="form-control full-width" data-init-plugin = "select2">
 										 	<option value="">Select Department</option>
 										  	@foreach($departments as $dept)
 										  		<option value="{{ $dept->id }}" >{{ $dept->name }}</option>
 										  	@endforeach
 										  </select>
 							    </div>
-							  </div>
+							  </div> --}}
 
 								{{-- <div class="col-md-12">
 									<div class="form-group required">
@@ -264,6 +264,7 @@
 					console.log(staff);
 					var form_action = "{{ url('/') }}"+"/update_staff_admin/"+staff.StaffRef;
 					$('#edit_staff').find('form').attr('action', form_action);
+					// $("#DepartmentID").select2();
 				}
 			},
 		})
