@@ -118,7 +118,7 @@
    <div class="row">
 
     <div class="col-sm-4">
-      <a href="#" class="no-color">
+      <a href="{{ route('payroll.details') }}" class="no-color">
         <div class="card-box text-center style2">
           <div class="card-img">
             <img src="{{ asset('images/dash-hr.png') }}" alt="">
