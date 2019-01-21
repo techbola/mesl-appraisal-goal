@@ -7,6 +7,7 @@ use MESL\Menu;
 use MESL\Role;
 use DB;
 use Event;
+use Artisan;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -59,6 +60,7 @@ class MenuController extends Controller
               $menu->roles()->attach(array_diff($request->roles, $menu_roles->toArray()));
 
               DB::commit();
+              Artisan::call('cache:clear');
 
               return redirect()->back()->with('success', 'Menu Added successfully');
           } else {
@@ -115,6 +117,7 @@ class MenuController extends Controller
         // $menu->roles()->attach(array_diff($request->roles, $menu_roles->toArray()));
 
         DB::commit();
+        Artisan::call('cache:clear');
         return redirect()->route('menus.index')->with('success', 'Menu has been updated successfully');
 
 

@@ -171,6 +171,12 @@ class User extends Authenticatable
       return $routes;
     }
 
-    // relationship for staff payroll details
+    // Stan: Override Entrust's hasRole with this faster one
+    public function hasRole($checkrole){
+      foreach ($this->roles as $role) {
+        $roles[] = $role->name;
+      }
+      return array_intersect((array)$checkrole, $roles);
+    }
 
 }

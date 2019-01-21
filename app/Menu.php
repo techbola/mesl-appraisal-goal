@@ -40,7 +40,11 @@ class Menu extends Model
         if ($user->is_superadmin || $user->hasRole('admin')) {
             $user_submenus = Menu::where('parent_id', $menu_id)->with('children')->orderBy('name')->get();
         } else {
-            $user_submenus = \Auth::user()->roles()->first()->menus->where('parent_id', $menu_id)->sortBy('name');
+            // $user_submenus = \Auth::user()->roles()->first()->menus->where('parent_id', $menu_id)->sortBy('name');
+            $roles = \Auth::user()->roles()->pluck('role_id')->toArray();
+            $user_submenus = Menu::whereHas('roles', function($query) use($roles){
+              $query->whereIn('id', $roles);
+            })->where('parent_id', $menu_id)->get();
         }
 
         // if ($menu->children->count() > 0) {
