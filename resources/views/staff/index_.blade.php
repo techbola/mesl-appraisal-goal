@@ -212,13 +212,19 @@
 							      <input type="text" class="form-control" name="email" placeholder="Email Address" required v-model="staff.user.email">
 							    </div>
 							  </div>
-							  {{-- <div class="col-md-6">
+							 {{--  <div class="col-md-6">
 							    <div class="form-group">
-							      <label class="req">Role</label>
-										{{ Form::select('role', [ '' =>  'Select Role'] + $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+							      <label class="req">Department</label>
+										 <select name="DepartmentID" id="DepartmentID" v-model="staff.DepartmentID" class="form-control full-width" data-init-plugin = "select2">
+										 	<option value="">Select Department</option>
+										  	@foreach($departments as $dept)
+										  		<option value="{{ $dept->id }}" >{{ $dept->name }}</option>
+										  	@endforeach
+										  </select>
 							    </div>
-							  </div>
-								<div class="col-md-12">
+							  </div> --}}
+
+								{{-- <div class="col-md-12">
 									<div class="form-group required">
 										<label>Departments</label>
 										<select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple">
@@ -227,9 +233,9 @@
 											@endforeach
 										</select>
 									</div>
-								</div> --}}
+								</div> 
 
-							</div>
+							</div>--}}
 							<button type="submit" class="btn btn-info btn-form">Submit</button>
 						</form>
 
@@ -258,6 +264,7 @@
 					console.log(staff);
 					var form_action = "{{ url('/') }}"+"/update_staff_admin/"+staff.StaffRef;
 					$('#edit_staff').find('form').attr('action', form_action);
+					// $("#DepartmentID").select2();
 				}
 			},
 		})

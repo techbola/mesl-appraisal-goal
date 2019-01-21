@@ -18,6 +18,7 @@ class CreateIdentityCardsTable extends Migration
             $table->integer('staff_id');
             $table->integer('department_id');
             $table->string('passport_path');
+            $table->string('staff_id_number');
             $table->string('expected_request_date');
             $table->integer('first_approver_id');
             $table->boolean('first_approver_status', false);

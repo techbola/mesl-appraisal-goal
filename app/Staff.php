@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Staff extends Model
 {
 
-  // implements StaplerableInterface
-  // use EloquentTrait;
+    // implements StaplerableInterface
+    // use EloquentTrait;
 
     protected $table   = 'tblStaff';
     protected $guarded = ['StaffRef'];
@@ -46,6 +46,11 @@ class Staff extends Model
     public function departments()
     {
         return $this->hasMany(Department::class, 'DepartmentRef', 'DepartmentID');
+    }
+
+    public function company_department()
+    {
+        return $this->belongsTo(CompanyDepartment::class, 'DepartmentID', 'id');
     }
     public function getProjectsAttribute()
     {
@@ -94,12 +99,12 @@ class Staff extends Model
 
     public function scorecards()
     {
-      return $this->hasMany('MESL\ScoreCard', 'StaffID');
+        return $this->hasMany('MESL\ScoreCard', 'StaffID');
     }
 
     public function subordinates()
     {
-      return $this->hasMany('MESL\Staff', 'SupervisorID');
+        return $this->hasMany('MESL\Staff', 'SupervisorID');
     }
 
     // public function __construct(array $attributes = array())

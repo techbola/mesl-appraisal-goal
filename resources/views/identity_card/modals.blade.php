@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <hr />
-        <form method="post" action="{{ url('identity/card/create') }}" enctype="multi-part/form-data">
+        <form method="post" action="{{ url('identity/card/create') }}" enctype="multipart/form-data">
         	{{ csrf_field() }}
         	<div class="row">
 	            <div class="col-md-6">
