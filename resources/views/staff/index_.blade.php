@@ -156,7 +156,7 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											{{ Form::label('CompanyID', 'Company') }}
-			                {{ Form::select('CompanyID', [ '' =>  'Select Company'] + $companies->pluck('Company', 'CompanyRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
+			                {{ Form::select('CompanyID', [ '' =>  'Select Company'] + $companies->pluck('Company', 'CompanyRef')->toArray(),null, ['class'=> "full-width select2", 'data-init-plugin' => "select2", 'required']) }}
 										</div>
 									</div>
 								@endif
@@ -258,13 +258,17 @@
 					user: {},
 				},
 			},
+			mounted() {
+				$(".select2").select2();
+				// alert('aye')
+			},
 			methods: {
 				edit_staff(staff){
 					this.staff = staff;
 					console.log(staff);
 					var form_action = "{{ url('/') }}"+"/update_staff_admin/"+staff.StaffRef;
 					$('#edit_staff').find('form').attr('action', form_action);
-					// $("#DepartmentID").select2();
+					// $(".select2").select2();
 				}
 			},
 		})
@@ -275,6 +279,7 @@
 @push('scripts')
 	<script>
 		$('#staff_table').DataTable();
+		$(".select2").select2();
 	</script>
 	{{-- <script>
     $(document).ready(function() {
