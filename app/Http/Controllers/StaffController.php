@@ -212,10 +212,10 @@ class StaffController extends Controller
             $pending->ApprovedBy = $user->id;
             $pending->save();
             // Fetch only the attributes
-            $staff_arr = $staff_data->getattributes();
+            $staff_arr = $staff_data->except(['YearsOfService'])->getattributes();
             // Copy & save to FCYTrade
             // $staff = Staff::create($staff_arr);
-            $staff = Staff::find($pending->StaffRef)->except(['YearsOfService']);
+            $staff = Staff::find($pending->StaffRef);
             // dd($staff_arr);
             $staff->update($staff_arr);
             // Soft delete from Pending
