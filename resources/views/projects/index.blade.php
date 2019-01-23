@@ -17,6 +17,28 @@
     .progress {
       border-radius: 3px !important;
     }
+
+    .progress {
+      border-radius: 3px !important;
+    }
+
+    .modal {
+      padding-left: 0 !important
+    }
+
+    #new_customer .modal-content, #new_customer .modal-content {
+      box-shadow: 0 0 50px #000;
+    }
+
+    .form-add-more{
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      border-radius: 50%;
+      text-align: center;
+      padding: 0 !important;
+      cursor: pointer;
+    }
   </style>
 
   {{-- <div class="clearfix m-b-20">
@@ -76,6 +98,40 @@
 
 
   {{-- MODALS --}}
+
+      <!-- Modal -->
+  <div class="modal fade stick-up" id="new_customer" role="dialog" aria-hidden="false" style="padding-left: 0 !important; z-index: 9999;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header clearfix text-left">
+            <button type="button" class="close" onclick="$('#new_customer').hide()"  aria-hidden="true"><i class="pg-close fs-14"></i>
+            </button>
+            <h5>New Customer</h5>
+            {{-- <p class="p-b-10">We need payment information inorder to process your order</p> --}}
+          </div>
+          <div class="modal-body">
+
+            <form action="{{ route('clients.store') }}" id="customer-form" method="post">
+              {{ csrf_field() }}
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="req">Client Name / Title</label>
+                    <input type="text" class="form-control" name="Customer" placeholder="Eg. Microsoft Limited" required>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-info btn-form">Submit</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+
+    <!---->
+
   <!-- Modal -->
   <div class="modal fade slide-up" id="new_project" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
@@ -89,7 +145,7 @@
           </div>
           <div class="modal-body">
 
-            <form action="{{ route('store_project') }}" method="post">
+            <form action="#" method="post">
               {{ csrf_field() }}
               <div class="row">
                 <div class="col-md-6">
@@ -101,7 +157,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     {{ Form::label('Supervisor') }}
-          					{{ Form::select('SupervisorID', [''=>'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Supervisor", 'data-init-plugin' => "select2", 'required']) }}
+          					{{ Form::select('SupervisorID', [''=>'Select Supervisor'] + $supervisors->pluck('fullname', 'id')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Supervisor", 'data-init-plugin' => "select2", 'required']) }}
                   </div>
                 </div>
 
@@ -133,7 +189,7 @@
                 </div> --}}
                 <div class="col-md-12">
                   <div class="form-group">
-                    {{ Form::label('Customer') }}
+                    {{ Form::label('Customer') }}  <span style="padding: 0 !important" class="form-add-more add-more-customers badge badge-success"><i class="fa fa-plus"></i></span>
           					{{ Form::select('CustomerID', [''=>'Select Customer'] + $customers->pluck('Customer', 'CustomerRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Customer", 'data-init-plugin' => "select2"]) }}
                   </div>
                 </div>
@@ -199,6 +255,36 @@
             autoclose: true,
         };
         $('.dp').datepicker(options);
+
+        $('.add-more-customers').click(function(e){
+          e.preventDefault();
+          $('#new_customer').show();
+          $('#new_customer').modal('show');
+          
+        });
+
+        var form1 = $("#customer-form");
+          form1.submit(function(e) {
+            e.preventDefault();
+            $.post('{{ route('customers.store_ajax') }}', {
+              Customer: $('[name=Customer]').val(),
+              // Location: $('#Location').val()
+            }, function(data, textStatus, xhr) {
+              // console.log(data)
+              if(data.success === true){
+                $('[name = CustomerID]').append('<option selected value="'+ data.data.CustomerRef +'">' +  data.data.Customer + '</option>');
+                 $('#new_customer').hide();
+                 $('#new_customer').modal('hide');
+              }
+            });
+          });
+
+        $('.add-more-customer').click(function(e){
+          e.preventDefault();
+          $('#new_customer').show();
+          $('#new_customer').modal('show');
+         
+        });
     });
   </script>
 @endpush
