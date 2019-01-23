@@ -134,7 +134,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     {{ Form::label('Customer') }}
-          					{{ Form::select('CustomerID', [''=>'Select Customer'] + $customers->pluck('Customer', 'CustomerRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Customer", 'data-init-plugin' => "select2", 'required']) }}
+          					{{ Form::select('CustomerID', [''=>'Select Customer'] + $customers->pluck('Customer', 'CustomerRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Customer", 'data-init-plugin' => "select2"]) }}
                   </div>
                 </div>
 

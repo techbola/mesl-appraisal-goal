@@ -27,6 +27,7 @@ use MESL\StaffPending;
 use MESL\PayrollAdjustmentGroup;
 use MESL\HrInitiatedDocs;
 use MESL\DocType;
+use MESL\CompanySupervisor;
 
 use Illuminate\Http\Request;
 use Carbon;
@@ -383,7 +384,8 @@ class StaffController extends Controller
 
         $departments       = CompanyDepartment::all();
         $staff_departments = $staff->DepartmentID;
-        $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
+        // $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
+        $supervisors = CompanySupervisor::allSupervisors();
 
         // dd($role->pluck('id', 'name'));
         return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
