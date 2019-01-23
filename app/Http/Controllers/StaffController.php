@@ -212,7 +212,7 @@ class StaffController extends Controller
             $pending->ApprovedBy = $user->id;
             $pending->save();
             // Fetch only the attributes
-            $staff_arr = $staff_data->except(['YearsOfService'])->getattributes();
+            $staff_arr = $staff_data->getattributes();
             // Copy & save to FCYTrade
             // $staff = Staff::create($staff_arr);
             $staff = Staff::find($pending->StaffRef);
