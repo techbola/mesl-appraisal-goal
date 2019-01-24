@@ -135,14 +135,14 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('StateOfBirth','State Of Birth') }}
-            {{ Form::select('StateOfBirth', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your State", 'data-init-plugin' => "select2"]) }}
+            {{ Form::select('StateOfBirth', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your State", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
 
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('CountryOfBirth','Country Of Birth') }}
-            {{ Form::select('CountryOfBirth', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2"]) }}
+            {{ Form::select('CountryOfBirth', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
 
@@ -170,7 +170,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('NationalityOfOrigin','Nationality of Origin') }}
-            {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control', 'placeholder' => 'Enter Mobile PhoneNumber']) }}
+            {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Mobile PhoneNumber', 'required']) }}
         </div>
     </div>
 
@@ -178,7 +178,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('MobilePhone','Mobile Phone') }}
-            {{ Form::text('MobilePhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Mobile PhoneNumber']) }}
+            {{ Form::text('MobilePhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Mobile PhoneNumber', 'required']) }}
         </div>
     </div>
 </div>
@@ -275,14 +275,14 @@
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group">
-            {{ Form::label('AddressLine1','Address1') }}
-            {{ Form::textarea('AddressLine1', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Address1']) }}
+            {{ Form::label('AddressLine1','Residential Address') }}
+            {{ Form::textarea('AddressLine1', null,  ['class' => 'form-control required', 'rows'=>'2', 'placeholder' => 'Enter Address1', 'required']) }}
         </div>
     </div>
     <div class="col-sm-6">
         <div class="form-group">
             {{ Form::label('AddressLine2','Address2') }}
-            {{ Form::textarea('AddressLine2', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Address2']) }}
+            {{ Form::textarea('AddressLine2', null,  ['class' => 'form-control ', 'rows'=>'2', 'placeholder' => 'Enter Address2']) }}
         </div>
     </div>
 </div>
@@ -320,7 +320,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('NextofKIN','Next of KIN') }}
-            {{ Form::text('NextofKIN', null,  ['class' => 'form-control', 'placeholder' => 'Enter Name of Next of KIN']) }}
+            {{ Form::text('NextofKIN', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Name of Next of KIN', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -350,13 +350,13 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('BeneficiaryRelationship','Beneficiary Relationship') }}
-            {{ Form::text('BeneficiaryRelationship', null,  ['class' => 'form-control', 'placeholder' => 'Enter Beneficiary Relationship']) }}
+            {{ Form::text('BeneficiaryRelationship', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Beneficiary Relationship', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('Beneficiary_Phone','Beneficiary Phone Number') }}
-            {{ Form::text('Beneficiary_Phone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Beneficiary Phone Number']) }}
+            {{ Form::text('Beneficiary_Phone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Beneficiary Phone Number', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -457,14 +457,14 @@
     <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('BankID','Choose Bank') }}
-        {{ Form::select('BankID', [ 0 =>  'Select a Bank'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Bank", 'data-init-plugin' => "select2"]) }}
+        {{ Form::select('BankID', [ 0 =>  'Select a Bank'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Bank", 'data-init-plugin' => "select2", 'required']) }}
       </div>
     </div>
 
     <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('BankAcctNumber','Bank Account Number') }}
-        {{ Form::text('BankAcctNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter Bank Account Number']) }}
+        {{ Form::text('BankAcctNumber', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Bank Account Number', 'required']) }}
       </div>
     </div>
 
@@ -474,7 +474,7 @@
     <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('PFAID','Choose PFA') }}
-        {{ Form::select('PFAID', [ 0 =>  'Select a PFA'] + $pfa->pluck('PFA', 'PFARef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose PFA", 'data-init-plugin' => "select2"]) }}
+        {{ Form::select('PFAID', [ 0 =>  'Select a PFA'] + $pfa->pluck('PFA', 'PFARef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose PFA", 'data-init-plugin' => "select2", 'required']) }}
       </div>
     </div>
 
@@ -484,6 +484,8 @@
         {{ Form::text('PensionRSANumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter PFA RSA Number']) }}
       </div>
     </div>
+
+    
 
     <div class="clearfix"></div>
 
