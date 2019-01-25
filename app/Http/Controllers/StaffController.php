@@ -577,4 +577,49 @@ class StaffController extends Controller
         return view('staff.subordinates', compact('staffs', 'companies', 'roles'));
     }
 
+    public function store_staff_onboard(Request $request)
+    {
+        $user  = auth()->user();
+        $staff = Staff::all();
+
+        $staff_onboard = new StaffOnboarding($request->all());
+
+        if ($staff_onboard->save()) {
+            return redirect()->route('StoreStaff')->with('success', 'Staff Rquest was Made successfully');
+        }
+    }
+
+    public function send_staff_onboarding($id)
+    {
+        $user  = auth()->user();
+        $staff = Staff::all();
+
+        $staff_onboard = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->get();
+
+        $user = User::all();
+
+        $staff_onboard = User::all();
+        $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)
+            ->where('SentForApproval', '0')
+            ->first();
+        $staff_onboard->SentForApproval = '1';
+        $staff_onboard->update();
+
+        $email = Staff::find($staff_onboard->Staff)->first()->user->email;
+
+        Mail::to($email)->send(new StaffOnboard());
+
+        return redirect()->route('StaffOnboarding')->with('success', 'Request was Sent successfully');
+    }
+
+    //Delete Staff Onboarding queue function
+    public function delete_onboarding($id)
+    {
+        $staff_onboard = StaffOnboarding::find($id);
+
+        $staff_onboard->delete();
+
+        return redirect()->route('StaffOnboarding')->with('success', 'Process was Deleted successfully');
+    }
+
 }
