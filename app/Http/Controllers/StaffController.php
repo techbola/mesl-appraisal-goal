@@ -2,6 +2,7 @@
 
 namespace MESL\Http\Controllers;
 
+use Illuminate\Http\Request;
 use MESL\Bank;
 use MESL\Country;
 use MESL\Department;
@@ -29,7 +30,6 @@ use MESL\HrInitiatedDocs;
 use MESL\DocType;
 use MESL\CompanySupervisor;
 
-use Illuminate\Http\Request;
 use Carbon;
 
 use DB;
@@ -368,21 +368,21 @@ class StaffController extends Controller
 
         $staffs = Staff::all();
 
-        $religions      = Religion::all();
+        $religions      = Religion::all()->sortBy('Religion');
         $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');
-        $status         = MaritalStatus::all();
-        $states         = State::all();
-        $countries      = Country::all();
+        $status         = MaritalStatus::all()->sortBy('MaritalStatus');
+        $states         = State::all()->sortBy('State');
+        $countries      = Country::all()->sortBy('Country');
         $hmos           = HMO::all();
         $hmoplans       = HMOPlan::all();
         $roles          = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
         $role           = User::find($staff->UserID)->roles;
-        $banks          = Bank::all();
-        $pfa            = PFA::all();
-        $locations      = Location::all();
+        $banks          = Bank::all()->sortBy('BankName');
+        $pfa            = PFA::all()->sortBy('PFA');
+        $locations      = Location::all()->sortBy('Location');
         $lgas           = LGA::all();
 
-        $departments       = CompanyDepartment::all();
+        $departments       = CompanyDepartment::all()->sortBy('name');
         $staff_departments = $staff->DepartmentID;
         // $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
         $supervisors = CompanySupervisor::allSupervisors();

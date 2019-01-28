@@ -35,6 +35,22 @@ class Staff extends Model
     {
         return $this->belongsTo('MESL\State', 'StateID');
     }
+
+    public function state_of_origin()
+    {
+        return $this->belongsTo('MESL\State', 'StateofOrigin');
+    }
+
+    public function country_of_origin()
+    {
+        return $this->belongsTo('MESL\Country', 'CountryOfOrigin');
+    }
+
+    public function country_of_birth()
+    {
+        return $this->belongsTo('MESL\Country', 'CountryOfBirth');
+    }
+
     public function location()
     {
         return $this->belongsTo('MESL\Location', 'LocationID');
@@ -46,6 +62,11 @@ class Staff extends Model
     public function departments()
     {
         return $this->hasMany(Department::class, 'DepartmentRef', 'DepartmentID');
+    }
+
+    public function religion()
+    {
+        return $this->belongsTo('MESL\Religion', 'ReligionID');
     }
 
     public function company_department()

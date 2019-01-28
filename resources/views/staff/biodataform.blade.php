@@ -149,14 +149,14 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('CityOfOrigin','City Of Origin') }}
-            {{ Form::text('CityOfOrigin', null,  ['class' => 'form-control required', 'placeholder' => 'Enter City of Birth', 'required']) }}
+            {{ Form::text('CityOfOrigin', null,  ['class' => 'form-control required', 'placeholder' => 'Enter City of Origin', 'required']) }}
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="col-sm-3">
         <div class="form-group">
-            {{ Form::label('StateOfOrigin','State Of Origin') }}
-            {{ Form::select('StateOfOrigin', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your State", 'data-init-plugin' => "select2", 'required']) }}
+            {{ Form::label('StateofOrigin','State Of Origin') }}
+            {{ Form::select('StateofOrigin', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your State", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
 
@@ -170,7 +170,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('NationalityOfOrigin','Nationality of Origin') }}
-            {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Mobile PhoneNumber', 'required']) }}
+            {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control ', 'placeholder' => 'Enter Nationality', '']) }}
         </div>
     </div>
 
@@ -214,8 +214,8 @@
     </div>
     <div class="col-sm-4">
         <div class="">
-            {{ Form::label('MaritalStatusID','Marital Status', ['class' => 'form-label required']) }}
-            {{ Form::select('MaritalStatusID', [ 0 =>  'Marital Status'] + $status->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Marital Status", 'data-init-plugin' => "select2", 'required']) }}
+            {{ Form::label('MaritalStatusID','Marital Status', ['class' => 'form-label ']) }}
+            {{ Form::select('MaritalStatusID', [ 0 =>  'Marital Status'] + $status->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Marital Status", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
 </div>

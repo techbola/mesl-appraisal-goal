@@ -58,14 +58,33 @@
         </tr>
         <tr>
           <td>State of Origin</td>
-          <td>{{ $staff->StateofOrigin ?? '-' }}</td>
-          <td>{!! ($pending->StateofOrigin != $staff->StateofOrigin)? $pending->StateofOrigin : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{{ $staff->state_of_origin->State ?? '-' }}</td>
+          <td>{!! ($pending->StateofOrigin != $staff->StateofOrigin)? $pending->state_of_origin->State : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>City of Birth</td>
+          <td>{{ $staff->CityOfBirth ?? '-' }}</td>
+          <td>{!! ($pending->CityOfBirth != $staff->CityOfBirth)? $pending->CityOfBirth : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Country of Birth</td>
+          <td>{{ $staff->country_of_birth->Country ?? '-' }}</td>
+          <td>{!! ($pending->CountryOfBirth != $staff->CountryOfBirth)? $pending->country_of_birth->Country : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Country of Origin</td>
+          <td>{{ $staff->country_origin->Country ?? '-' }}</td>
+          <td>{!! ($pending->CountryOfOrigin != $staff->CountryOfOrigin)? $pending->country_origin->Country : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
           <td>Religion</td>
-          <td>{{ $staff->ReligionID ?? '-' }}</td>
-          <td>{!! ($pending->ReligionID != $staff->ReligionID)? $pending->ReligionID : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{{ $staff->religion->Religion ?? '-' }}</td>
+          <td>{!! ($pending->ReligionID != $staff->ReligionID)? $pending->religion->Religion : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -90,6 +109,18 @@
           <td>Marital Status</td>
           <td>{{ $staff->MaritalStatus ?? '-' }}</td>
           <td>{!! ($pending->MaritalStatus != $staff->MaritalStatus)? $pending->MaritalStatus : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Spouse Surname</td>
+          <td>{{ $staff->SpouseSurname ?? '-' }}</td>
+          <td>{!! ($pending->SpouseSurname != $staff->SpouseSurname)? $pending->SpouseSurname : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Spouse Othername</td>
+          <td>{{ $staff->SpouseOthername ?? '-' }}</td>
+          <td>{!! ($pending->SpouseOthername != $staff->SpouseOthername)? $pending->SpouseOthername : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
