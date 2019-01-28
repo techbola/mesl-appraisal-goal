@@ -213,8 +213,8 @@
         </div>
     </div>
     <div class="col-sm-4">
-        <div class="">
-            {{ Form::label('MaritalStatusID','Marital Status', ['class' => 'form-label ']) }}
+        <div class="form-group">
+            {{ Form::label('MaritalStatusID','Marital Status') }}
             {{ Form::select('MaritalStatusID', [ 0 =>  'Marital Status'] + $status->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Marital Status", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
@@ -275,7 +275,7 @@
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group">
-            {{ Form::label('AddressLine1','Residential Address') }}
+            {{ Form::label('AddressLine1','Residential Address', ['class' => 'req']) }}
             {{ Form::textarea('AddressLine1', null,  ['class' => 'form-control required', 'rows'=>'2', 'placeholder' => 'Enter Address1', 'required']) }}
         </div>
     </div>

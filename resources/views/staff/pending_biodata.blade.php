@@ -107,8 +107,8 @@
         </tr>
         <tr>
           <td>Marital Status</td>
-          <td>{{ $staff->MaritalStatus ?? '-' }}</td>
-          <td>{!! ($pending->MaritalStatus != $staff->MaritalStatus)? $pending->MaritalStatus : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{{ $staff->marital_status->MaritalStatus ?? '-' }}</td>
+          <td>{!! ($pending->MaritalStatusID != $staff->MaritalStatusID)? $pending->marital_status->MaritalStatus : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
