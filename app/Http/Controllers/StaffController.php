@@ -70,7 +70,7 @@ class StaffController extends Controller
                 $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             }
         }
-        $departments = compact([]);//CompanyDepartment::where('is_deleted', false)->get();
+        $departments = compact([]); //CompanyDepartment::where('is_deleted', false)->get();
         return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments', 'q'));
     }
 
@@ -339,8 +339,8 @@ class StaffController extends Controller
 
         // note that I am saving the StaffRef of the Staff
         $doctypes   = DocType::all();
-        $docs       = compact([]);//HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get();
-        $docs_count = 0;//HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get()->count();
+        $docs       = compact([]); //HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get();
+        $docs_count = 0; //HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get()->count();
 
         return view('staff.show', compact('detail', 'staff', 'gantt', 'docs', 'docs_count', 'doctypes'));
     }
@@ -476,13 +476,16 @@ class StaffController extends Controller
             $staff      = Staff::where('StaffRef', $id)->first();
             $user_staff = User::find($staff->UserID);
 
+            // dd($request->has('Declaration'));
+            $staff->Declaration = $request->has('Declaration') ? 1 : 0;
             if (Gate::denies('hr-admin')) {
                 // Non Admins
-                $staff            = new StaffPending;
-                $ref              = new Reference;
-                $staff->UserID    = $user->id;
-                $staff->StaffRef  = $user->staff->StaffRef;
-                $staff->CompanyID = $user->staff->CompanyID;
+                $staff              = new StaffPending;
+                $ref                = new Reference;
+                $staff->UserID      = $user->id;
+                $staff->StaffRef    = $user->staff->StaffRef;
+                $staff->CompanyID   = $user->staff->CompanyID;
+                $staff->Declaration = $request->has('Declaration') ? 1 : 0;
 
                 // saave references
                 foreach ($request->RefName as $key => $value) {
@@ -515,6 +518,7 @@ class StaffController extends Controller
                 // END PHOTO
 
             } else {
+
                 if (!empty($request->DepartmentID)) {
                     $staff_departments   = $request->DepartmentID;
                     $staff->DepartmentID = $staff_departments;
@@ -549,6 +553,7 @@ class StaffController extends Controller
             }
 
             $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar', 'roles', 'DepartmentID']));
+            $staff->Declaration = $request->has('Declaration') ? 1 : 0;
             $staff->save();
 
             DB::commit();

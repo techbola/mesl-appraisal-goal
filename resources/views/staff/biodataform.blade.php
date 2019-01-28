@@ -549,6 +549,21 @@
         </div>
     </div> --}}
 
+    <div class="clearfix"></div>
+
+    <div class="card-section p-l-5">Declaration</div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+             <label for="Declaration" class="">
+              {{ Form::checkbox('Declaration', null , $staff->Declaration, ['class' => 'checkbox']) }}
+              I {{ $staff->FullName }} hereby certify that all the information supplied by me in this form are correct and true
+             </label>
+            </div>
+        </div>
+    </div>
+
+
     @if($user->hasRole('admin'))
 
     </div>
