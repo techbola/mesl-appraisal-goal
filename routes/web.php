@@ -183,7 +183,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('staff/{id}/Staff_Finance_Details', 'StaffController@updateFinanceDetails');
     Route::get('staff/{id}/edit_biodata', 'StaffController@edit_biodata')->name('staff.edit_biodata');
     Route::get('staff/showfulldetails', 'StaffController@showfulldetails')->name('staff.showfulldetails');
-    Route::patch('staff/{id}/bio_data_details', 'StaffController@updatebiodata');
+    Route::patch('staff/{id}/bio_data_details', 'StaffController@updatebiodata')->name('updatebiodata');
     Route::get('account', 'StaffController@manage_account')->name('manage_account');
     Route::get('edit-profile', 'UserController@edit_profile')->name('edit_profile');
     Route::patch('disengage/{id}', 'UserController@disengage')->name('disengage');

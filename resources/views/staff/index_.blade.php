@@ -233,9 +233,9 @@
 											@endforeach
 										</select>
 									</div>
-								</div> 
+								</div>--}} 
 
-							</div>--}}
+							</div>
 							<button type="submit" class="btn btn-info btn-form">Submit</button>
 						</form>
 
