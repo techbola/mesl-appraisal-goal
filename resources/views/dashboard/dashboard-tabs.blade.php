@@ -122,30 +122,26 @@
                         </li>
                       @endforeach
                     @endif
+                  </div>
                   {{-- End List --}}
                 </div>
               </a>
             </div>
 
-          </div>
+            <div class="col-sm-12">
+              <a href="javascript:void(0)" class="no-color">
+                <div class="card-box">
+                  <div class="inline m-r-10 m-t-10">
+                    <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
+                  </div>
+                  <div class="inline">
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Birthdays Today</div>
+                  </div>
 
 
-
-
-          <div class="col-sm-12">
-            <a href="javascript:void(0)" class="no-color">
-              <div class="card-box">
-                <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
-                </div>
-                <div class="inline">
-                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Birthdays Today</div>
-                </div>
-
-
-                <div class="my-list m-t-15">
-                  @foreach ($birthdays as $item)
-                    {{-- @if (Carbon::parse($item->DateofBirth)->isBirthday()) --}}
+                  <div class="my-list m-t-15">
+                    @foreach ($birthdays as $item)
+                      {{-- @if (Carbon::parse($item->DateofBirth)->isBirthday()) --}}
                       <li>
                         <div class="thumbnail-wrapper d24 circular">
                           <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->user->avatar()) }}">
@@ -159,26 +155,32 @@
                           </div>
                         </div>
                       </li>
-                    {{-- @endif --}}
-                  @endforeach
-                </div>
+                      {{-- @endif --}}
+                    @endforeach
+                  </div>
 
-              </div>
-            </a>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-sm-12">
+              <a href="javascript:void(0)" class="no-color">
+                <div class="card-box">
+                  <div class="inline m-r-10 m-t-10">
+                    <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
+                  </div>
+                  <div class="inline">
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Staff Anniversaries</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
           </div>
 
-          <div class="col-sm-12">
-            <a href="javascript:void(0)" class="no-color">
-              <div class="card-box">
-                <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
-                </div>
-                <div class="inline">
-                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Staff Anniversaries</div>
-                </div>
-              </div>
-            </a>
-          </div>
+
+
+
 
 
 
