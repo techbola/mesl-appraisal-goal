@@ -8,5 +8,7 @@ class Religion extends Model
 {
     protected $table   = 'tblReligion';
     protected $guarded = ['ReligionRef'];
-    public $timestamps = false;
+
+    protected $primaryKey = 'ReligionRef';
+    public $timestamps    = false;
 }

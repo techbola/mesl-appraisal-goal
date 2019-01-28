@@ -164,9 +164,9 @@ class TravelRequestController extends Controller
         $travel_request               = TravelRequest::where('TravelRef', $ref)
             ->get()
             ->first();
-        //  dd($travel_request);
 
-        $email = Staff::find($travel_request->RequesterID)->first()->user->email;
+        $email = User::find($travel_request->RequesterID)->first()->email;
+        // dd($travel_request);
         // dd($email);
 
         Mail::to($email)->send(new RequestApproved());

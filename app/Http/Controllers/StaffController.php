@@ -2,11 +2,13 @@
 
 namespace MESL\Http\Controllers;
 
+use Illuminate\Http\Request;
 use MESL\Bank;
 use MESL\Country;
 use MESL\Department;
 use MESL\EmploymentStatus;
 use MESL\GradeLevel;
+use MESL\Gender;
 use MESL\HMO;
 use MESL\HMOPlan;
 use MESL\Location;
@@ -27,8 +29,8 @@ use MESL\StaffPending;
 use MESL\PayrollAdjustmentGroup;
 use MESL\HrInitiatedDocs;
 use MESL\DocType;
+use MESL\CompanySupervisor;
 
-use Illuminate\Http\Request;
 use Carbon;
 
 use DB;
@@ -351,26 +353,28 @@ class StaffController extends Controller
 
         $staffs = Staff::all();
 
-        $religions      = Religion::all();
+        $religions      = Religion::all()->sortBy('Religion');
+        $genders        = Gender::all()->sortBy('Gender');
         $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');
-        $status         = MaritalStatus::all();
-        $states         = State::all();
-        $countries      = Country::all();
+        $status         = MaritalStatus::all()->sortBy('MaritalStatus');
+        $states         = State::all()->sortBy('State');
+        $countries      = Country::all()->sortBy('Country');
         $hmos           = HMO::all();
         $hmoplans       = HMOPlan::all();
         $roles          = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
         $role           = User::find($staff->UserID)->roles;
-        $banks          = Bank::all();
-        $pfa            = PFA::all();
-        $locations      = Location::all();
+        $banks          = Bank::all()->sortBy('BankName');
+        $pfa            = PFA::all()->sortBy('PFA');
+        $locations      = Location::all()->sortBy('Location');
         $lgas           = LGA::all();
 
-        $departments       = CompanyDepartment::all();
+        $departments       = CompanyDepartment::all()->sortBy('name');
         $staff_departments = $staff->DepartmentID;
-        $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
+        // $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
+        $supervisors = CompanySupervisor::allSupervisors();
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
     }
 
     // public function editFinanceDetails($id)
@@ -495,7 +499,7 @@ class StaffController extends Controller
 
             } else {
                 if (!empty($request->DepartmentID)) {
-                    $staff_departments   = implode(',', $request->DepartmentID);
+                    $staff_departments   = $request->DepartmentID;
                     $staff->DepartmentID = $staff_departments;
                 }
 
@@ -557,6 +561,51 @@ class StaffController extends Controller
         // $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
 
         return view('staff.subordinates', compact('staffs', 'companies', 'roles'));
+    }
+
+    public function store_staff_onboard(Request $request)
+    {
+        $user  = auth()->user();
+        $staff = Staff::all();
+
+        $staff_onboard = new StaffOnboarding($request->all());
+
+        if ($staff_onboard->save()) {
+            return redirect()->route('StoreStaff')->with('success', 'Staff Rquest was Made successfully');
+        }
+    }
+
+    public function send_staff_onboarding($id)
+    {
+        $user  = auth()->user();
+        $staff = Staff::all();
+
+        $staff_onboard = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->get();
+
+        $user = User::all();
+
+        $staff_onboard = User::all();
+        $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)
+            ->where('SentForApproval', '0')
+            ->first();
+        $staff_onboard->SentForApproval = '1';
+        $staff_onboard->update();
+
+        $email = Staff::find($staff_onboard->Staff)->first()->user->email;
+
+        Mail::to($email)->send(new StaffOnboard());
+
+        return redirect()->route('StaffOnboarding')->with('success', 'Request was Sent successfully');
+    }
+
+    //Delete Staff Onboarding queue function
+    public function delete_onboarding($id)
+    {
+        $staff_onboard = StaffOnboarding::find($id);
+
+        $staff_onboard->delete();
+
+        return redirect()->route('StaffOnboarding')->with('success', 'Process was Deleted successfully');
     }
 
 }

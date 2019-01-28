@@ -215,6 +215,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');
     // Route::resource('customers', 'CustomerController');
+    Route::post('customer/ajax_store', 'CustomerController@ajax_store')->name('customers.store_ajax');
 
     //Approvers
     Route::get('approvers', 'ApproverController@index')->name('ApproverPage');
