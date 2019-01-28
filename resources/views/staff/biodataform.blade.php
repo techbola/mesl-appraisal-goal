@@ -294,6 +294,91 @@
     </div>
 </div>
 
+<div class="card-section p-l-5">References</div>
+    @foreach($refs as $key=>$value)
+        <div class="row ref-row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('Name','Ref. Name') }}
+            {{ Form::text('RefName[]', $value->Name,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Name', 'disabled']) }}
+          </div>
+        </div>
+
+         <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefRelationship','Relationship') }}
+            {{ Form::text('RefRelationship[]', $value->Relationship,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Relationship', 'disabled']) }}
+          </div>
+        </div>
+
+         <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefOccupation','Occupation') }}
+            {{ Form::text('RefOccupation[]', $value->Occupation,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Occupation', 'disabled']) }}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefPhone','Phone') }}
+            {{ Form::text('RefPhone[]', $value->Phone,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone', 'disabled']) }}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefEmail','Email') }}
+            {{ Form::email('RefEmail[]', $value->Email,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Email', 'disabled']) }}
+          </div>
+        </div>
+
+
+    </div> <hr>
+    @endforeach
+    <div class="row ref-row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('Name','Ref. Name') }}
+            {{ Form::text('RefName[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Name']) }}
+          </div>
+        </div>
+
+         <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefRelationship','Relationship') }}
+            {{ Form::text('RefRelationship[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Relationship']) }}
+          </div>
+        </div>
+
+         <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefOccupation','Occupation') }}
+            {{ Form::text('RefOccupation[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Occupation']) }}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefPhone','Phone') }}
+            {{ Form::text('RefPhone[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone']) }}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefEmail','Email') }}
+            {{ Form::email('RefEmail[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Email']) }}
+          </div>
+        </div>
+
+
+    </div>
+
+    <div class="form-group" style="margin-left: 7px">
+        <button id="add-more-refs" type="button" class="btn btn-complete">&plus; Add More</button>
+        {{-- <button id="add-more-refs" type="button" class="btn btn-danger">&minus; Remove</button> --}}
+    </div>
+
   <div class="row">
 
 @if ($user->hasRole('admin'))
@@ -455,6 +540,15 @@
         </div>
     </div>
 
+    <div class="clearfix"></div>
+    
+    {{-- declaration --}}
+    {{-- <div class="col-sm-12">
+        <div class="form-group">
+            {{ Form::label('') }}
+        </div>
+    </div> --}}
+
     @if($user->hasRole('admin'))
 
     </div>
@@ -552,6 +646,13 @@
     $(document).ready(function(){
 
       $('select[name="DepartmentID[]"]').val('{{$staff->DepartmentID}}'.split(",")).trigger('change');
+
+      // refs
+      var ref_html = $(".ref-row")[0].innerHTML;
+      $("#add-more-refs").click(function(e) {
+          e.preventDefault();
+          $('.ref-row').append('<div class="clearfix"></div><hr>').append(ref_html);
+      });
 
     });
   </script>
