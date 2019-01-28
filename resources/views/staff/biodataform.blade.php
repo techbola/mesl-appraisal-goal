@@ -540,6 +540,14 @@
         </div>
     </div>
 
+    <div class="clearfix"></div>
+    
+    {{-- declaration --}}
+    {{-- <div class="col-sm-12">
+        <div class="form-group">
+            {{ Form::label('') }}
+        </div>
+    </div> --}}
 
     @if($user->hasRole('admin'))
 
