@@ -207,8 +207,8 @@
             <!-- END NOTIFICATIONS LIST -->
             @if (Auth::user()->staff)
               <span class="m-l-20 f16 bold">
-                {{-- {{ Auth::user()->staff->company->Company }} --}}
-                <img src="/images/logos/mesllogo.png" height="70px" style="margin-top: 10px;">
+                {{ Auth::user()->staff->company->Company ?? '' }}
+                {{-- <img src="/images/logos/mesllogo.png" height="70px" style="margin-top: 10px;"> --}}
               </span>
             @endif
             {{-- <div class="pull-right hidden-sm hidden-xs col-sm-6">
@@ -234,9 +234,10 @@
         </style>
 
 
-        <div class="pull-right m-t-20">
+        {{-- <div class="pull-right m-t-20"> --}}
+        <div class="pull-right">
           <!-- START User Info-->
-          <div class="visible-lg visible-md user-info m-t-10">
+          <div class="visible-lg visible-md user-info">
 
             <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20" data-toggle="tooltip" title="Dashboard"></a>
             <a href="{{ route('todos_calendar') }}" class="fa fa-calculator m-r-15 m-t-15 f18" data-toggle="tooltip" title="To-Dos"></a>
@@ -308,9 +309,9 @@
                 </span>
                 {{-- User Name --}}
                 <div class="pull-right text-left p-l-10 fs-16 font-heading" style="padding-top:7px"> {{--removed p-t-10 --}}
-                  <span style="font-weight:500; color:#fb5201">{{ Auth::user()->FullName }}</span> <i class="fa fa-caret-down m-l-5"></i>
+                  <span style="font-weight:500; color:#FFF">{{ Auth::user()->FullName }}</span> <i class="fa fa-caret-down m-l-5"></i>
                   <br>
-                  <div class="text-muted" style="font-size:13px; margin-top:-4px">
+                  <div class="text-white" style="font-size:13px; margin-top:-4px">
                     {!! ucwords(Auth::user()->roles()->first()->name) !!}
                   </div>
                   {{-- <span class="m-l-5">
@@ -335,7 +336,7 @@
                 </li>
                 <li><a href="#"><i class="pg-signals"></i> Help</a>
                 </li> --}}
-                <li><a href="{{ url('/settings') }}"><i class="fa fa-user"></i>2 Factor Authentication</a>
+                <li><a href="{{ url('/settings') }}"><i class="fa fa-user"></i>2 Factor Auth.</a>
                   </li>
                 <li class="bg-master-lighter">
                   <a href="/logout" class="clearfix">
@@ -359,7 +360,7 @@
           {{-- @include('layouts.partials.topmenu') --}}
 
           <!-- START JUMBOTRON -->
-          <div class="jumbotron m-t-50" data-pages="parallax">
+          <div class="jumbotron" data-pages="parallax">
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
               @if(!View::hasSection('no-subnav'))
               <div class="inner">
@@ -449,7 +450,8 @@
         <!-- START COPYRIGHT -->
         <!-- START CONTAINER FLUID -->
         <div class="container-fluid container-fixed-lg footer">
-          <div class="copyright sm-text-center">
+          <div class="copyright sm-text-center p-t-5">
+            <div class="m-b-10"><img src="/images/logos/mesllogo.png" height="50px" style="margin-top: 10px;"></div>
             <p class="small no-margin pull-left sm-pull-reset">
               <span class="hint-text">Copyright &copy; {{ date('Y') }} </span>
               <span class="font-montserrat">OfficeMate</span>.
@@ -457,7 +459,7 @@
               <span class="sm-block"><a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
             </p>
             <p class="small no-margin pull-right sm-pull-reset">
-              <span class="hint-text">Designed and Developed by </span><a href="www.cavidel.com">Cavidel Limited</a>
+              <span class="hint-text">Designed and Developed by </span><a href="http://www.cavidel.com">Cavidel Limited</a>
             </p>
             <div class="clearfix"></div>
           </div>

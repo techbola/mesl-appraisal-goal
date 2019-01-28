@@ -9,7 +9,9 @@
 @endsection
 
 @section('buttons')
-  <div class="btn btn-sm btn-info pull-right m-b-10" data-toggle="modal" data-target="#new_bulletin">New Bulletin</div>
+  @can ('manage-bulletins')
+    <div class="btn btn-sm btn-info pull-right m-b-10" data-toggle="modal" data-target="#new_bulletin">New Bulletin</div>
+  @endcan
 @endsection
 
 @section('content')

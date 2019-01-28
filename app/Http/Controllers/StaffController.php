@@ -70,7 +70,7 @@ class StaffController extends Controller
                 $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             }
         }
-        $departments = CompanyDepartment::where('is_deleted', false)->get();
+        $departments = compact([]);//CompanyDepartment::where('is_deleted', false)->get();
         return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments', 'q'));
     }
 
@@ -244,26 +244,26 @@ class StaffController extends Controller
 
     }
 
-    public function showfulldetails()
-    {
-        $email   = \Auth::user()->email;
-        $details = \DB::table('tblStaff')
-            ->leftJoin('tblReligion', 'tblStaff.ReligionID', '=', 'tblReligion.ReligionRef')
-            ->leftJoin('tblState', 'tblStaff.StateID', '=', 'tblState.StateRef')
-            ->leftJoin('tblCountry', 'tblStaff.CountryID', '=', 'tblCountry.CountryRef')
-            ->leftJoin('tblMaritalStatus', 'tblStaff.MaritalStatusID', '=', 'tblMaritalStatus.MaritalStatusRef')
-            ->leftJoin('tblHMO', 'tblStaff.HMOID', '=', 'tblHMO.HMORef')
-            ->leftJoin('tblHMOPlan', 'tblStaff.HMOPlanID', '=', 'tblHMOPlan.HMOPlanRef')
-            ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
-            ->leftJoin('tblDepartment', 'tblStaff.DepartmentID', '=', 'tblDepartment.DepartmentRef')
-            ->leftJoin('tblUnit', 'tblStaff.UnitID', '=', 'tblUnit.UnitRef')
-            ->leftJoin('roles', 'tblStaff.RoleID', '=', 'roles.id')
-            ->leftJoin('tblPosition', 'tblStaff.PositionID', '=', 'tblPosition.PositionRef')
-            ->leftJoin('tblGradeLevel', 'tblStaff.GradeLevelID', '=', 'tblGradeLevel.GradeLevelRef')
-            ->leftJoin('tblPFA', 'tblStaff.PFAID', '=', 'tblPFA.PFARef')
-            ->where('email', $email)->get();
-        return view('staff.showfulldetails', compact('details'));
-    }
+    // public function showfulldetails()
+    // {
+    //     $email   = \Auth::user()->email;
+    //     $details = \DB::table('tblStaff')
+    //         ->leftJoin('tblReligion', 'tblStaff.ReligionID', '=', 'tblReligion.ReligionRef')
+    //         ->leftJoin('tblState', 'tblStaff.StateID', '=', 'tblState.StateRef')
+    //         ->leftJoin('tblCountry', 'tblStaff.CountryID', '=', 'tblCountry.CountryRef')
+    //         ->leftJoin('tblMaritalStatus', 'tblStaff.MaritalStatusID', '=', 'tblMaritalStatus.MaritalStatusRef')
+    //         ->leftJoin('tblHMO', 'tblStaff.HMOID', '=', 'tblHMO.HMORef')
+    //         ->leftJoin('tblHMOPlan', 'tblStaff.HMOPlanID', '=', 'tblHMOPlan.HMOPlanRef')
+    //         ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
+    //         ->leftJoin('tblDepartment', 'tblStaff.DepartmentID', '=', 'tblDepartment.DepartmentRef')
+    //         ->leftJoin('tblUnit', 'tblStaff.UnitID', '=', 'tblUnit.UnitRef')
+    //         ->leftJoin('roles', 'tblStaff.RoleID', '=', 'roles.id')
+    //         ->leftJoin('tblPosition', 'tblStaff.PositionID', '=', 'tblPosition.PositionRef')
+    //         ->leftJoin('tblGradeLevel', 'tblStaff.GradeLevelID', '=', 'tblGradeLevel.GradeLevelRef')
+    //         ->leftJoin('tblPFA', 'tblStaff.PFAID', '=', 'tblPFA.PFARef')
+    //         ->where('email', $email)->get();
+    //     return view('staff.showfulldetails', compact('details'));
+    // }
 
     public function create()
     {
@@ -314,22 +314,6 @@ class StaffController extends Controller
 
     public function show($id)
     {
-        // $detail = \DB::table('tblStaff')
-        //     ->leftJoin('tblReligion', 'tblStaff.ReligionID', '=', 'tblReligion.ReligionRef')
-        //     ->leftJoin('tblState', 'tblStaff.StateID', '=', 'tblState.StateRef')
-        //     ->leftJoin('tblCountry', 'tblStaff.CountryID', '=', 'tblCountry.CountryRef')
-        //     ->leftJoin('tblMaritalStatus', 'tblStaff.MaritalStatusID', '=', 'tblMaritalStatus.MaritalStatusRef')
-        //     ->leftJoin('tblHMO', 'tblStaff.HMOID', '=', 'tblHMO.HMORef')
-        //     ->leftJoin('tblHMOPlan', 'tblStaff.HMOPlanID', '=', 'tblHMOPlan.HMOPlanRef')
-        //     ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
-        //     ->leftJoin('tblDepartment', 'tblStaff.DepartmentID', '=', 'tblDepartment.DepartmentRef')
-        //     ->leftJoin('tblUnit', 'tblStaff.UnitID', '=', 'tblUnit.UnitRef')
-        //     ->leftJoin('roles', 'tblStaff.RoleID', '=', 'roles.id')
-        //     ->leftJoin('tblPosition', 'tblStaff.PositionID', '=', 'tblPosition.PositionRef')
-        //     ->leftJoin('tblGradeLevel', 'tblStaff.GradeLevelID', '=', 'tblGradeLevel.GradeLevelRef')
-        //     ->leftJoin('tblPFA', 'tblStaff.PFAID', '=', 'tblPFA.PFARef')
-        //     ->where('StaffRef', $id)
-        //     ->first();
 
         $staff = Staff::find($id);
 
@@ -355,8 +339,8 @@ class StaffController extends Controller
 
         // note that I am saving the StaffRef of the Staff
         $doctypes   = DocType::all();
-        $docs       = HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get();
-        $docs_count = HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get()->count();
+        $docs       = compact([]);//HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get();
+        $docs_count = 0;//HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get()->count();
 
         return view('staff.show', compact('detail', 'staff', 'gantt', 'docs', 'docs_count', 'doctypes'));
     }
@@ -395,42 +379,42 @@ class StaffController extends Controller
         return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
     }
 
-    public function editFinanceDetails($id)
-    {
-        $grades = GradeLevel::all();
-        $banks  = Bank::all();
-        $pfa    = PFA::all();
-        $taxes  = TaxableBase::all();
-        $staff  = Staff::where('StaffRef', $id)->first();
-        $staffs = Staff::all();
-        return view('staff.Staff_Finance_Details', compact('grades', 'staff', 'staffs', 'taxes', 'banks', 'pfa', 'taxs'));
-    }
+    // public function editFinanceDetails($id)
+    // {
+    //     $grades = GradeLevel::all();
+    //     $banks  = Bank::all();
+    //     $pfa    = PFA::all();
+    //     $taxes  = TaxableBase::all();
+    //     $staff  = Staff::where('StaffRef', $id)->first();
+    //     $staffs = Staff::all();
+    //     return view('staff.Staff_Finance_Details', compact('grades', 'staff', 'staffs', 'taxes', 'banks', 'pfa', 'taxs'));
+    // }
 
-    public function edit($id)
-    {
-        $grades = GradeLevel::all();
-        $banks  = Bank::all();
-        $pfa    = PFA::all();
-        $taxes  = TaxableBase::all();
-        $staff  = Staff::where('StaffRef', $id)->first();
-        $staffs = Staff::all();
-        return view('staff.edit', compact('grades', 'staff', 'staffs', 'taxes', 'banks', 'pfa', 'taxs'));
-    }
+    // public function edit($id)
+    // {
+    //     $grades = GradeLevel::all();
+    //     $banks  = Bank::all();
+    //     $pfa    = PFA::all();
+    //     $taxes  = TaxableBase::all();
+    //     $staff  = Staff::where('StaffRef', $id)->first();
+    //     $staffs = Staff::all();
+    //     return view('staff.edit', compact('grades', 'staff', 'staffs', 'taxes', 'banks', 'pfa', 'taxs'));
+    // }
 
-    public function editofficedetails($id)
-    {
-        $titles      = Title::all();
-        $locations   = Location::all();
-        $departments = Department::all();
-        $status      = EmploymentStatus::all();
-        $sexs        = Sex::all();
-        $roles       = Role::all();
-        $positions   = Position::all();
-        $units       = Unit::all();
-        $staff       = Staff::where('StaffRef', $id)->first();
-        $staffs      = Staff::all();
-        return view('staff.form', compact('titles', 'locations', 'positions', 'roles', 'sexs', 'units', 'staff', 'staffs', 'departments', 'status'));
-    }
+    // public function editofficedetails($id)
+    // {
+    //     $titles      = Title::all();
+    //     $locations   = Location::all();
+    //     $departments = Department::all();
+    //     $status      = EmploymentStatus::all();
+    //     $sexs        = Sex::all();
+    //     $roles       = Role::all();
+    //     $positions   = Position::all();
+    //     $units       = Unit::all();
+    //     $staff       = Staff::where('StaffRef', $id)->first();
+    //     $staffs      = Staff::all();
+    //     return view('staff.form', compact('titles', 'locations', 'positions', 'roles', 'sexs', 'units', 'staff', 'staffs', 'departments', 'status'));
+    // }
 
     public function updateFinanceDetails(Request $request, $id)
     {
@@ -446,30 +430,30 @@ class StaffController extends Controller
         }
     }
 
-    public function updateOfficeDetails(Request $request, $id)
-    {
-        $staff = \DB::table('tblStaff')->where('StaffRef', $id);
-        $this->validate($request, [
-            'EmployeeNumber'     => 'bail|required|unique:tblStaff',
-            'TitleID'            => 'required',
-            'name'               => 'required',
-            'FirstName'          => 'required',
-            'LocationID'         => 'required',
-            'email'              => 'bail|required|unique:tblStaff',
-            'DepartmentID'       => 'required',
-            'ConfirmationDate'   => 'required',
-            'EmploymentDate'     => 'required',
-            'EmploymentStatusID' => 'required',
-            'SexID'              => 'required',
-            'LeaveDays'          => 'required',
-            'SupervisorID'       => 'required',
-        ]);
-        if ($staff->update($request->except(['_token', '_method']))) {
-            return redirect()->route('staff.create')->with('success', 'Financial Details was updated successfully');
-        } else {
-            return back()->withInput()->with('error', 'Financial Details failed to update');
-        }
-    }
+    // public function updateOfficeDetails(Request $request, $id)
+    // {
+    //     $staff = \DB::table('tblStaff')->where('StaffRef', $id);
+    //     $this->validate($request, [
+    //         'EmployeeNumber'     => 'bail|required|unique:tblStaff',
+    //         'TitleID'            => 'required',
+    //         'name'               => 'required',
+    //         'FirstName'          => 'required',
+    //         'LocationID'         => 'required',
+    //         'email'              => 'bail|required|unique:tblStaff',
+    //         'DepartmentID'       => 'required',
+    //         'ConfirmationDate'   => 'required',
+    //         'EmploymentDate'     => 'required',
+    //         'EmploymentStatusID' => 'required',
+    //         'SexID'              => 'required',
+    //         'LeaveDays'          => 'required',
+    //         'SupervisorID'       => 'required',
+    //     ]);
+    //     if ($staff->update($request->except(['_token', '_method']))) {
+    //         return redirect()->route('staff.create')->with('success', 'Financial Details was updated successfully');
+    //     } else {
+    //         return back()->withInput()->with('error', 'Financial Details failed to update');
+    //     }
+    // }
 
     public function updatebiodata(Request $request, $id)
     {
