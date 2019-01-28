@@ -886,13 +886,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 .header {
     /* background-color: #272b35; */
-    background-color: #fff;
+    background-color: #fb5201;
     /* border-bottom: 1px solid #232730; */
     /* color: #eee; */
     /* color: #cad0dd; */
-    color: #333;
+    color: #fff;
     /* height: 110px !important; */
 }
+.footer {
+  /* background: #555; */
+  background: linear-gradient(to bottom right, #ccc, #222);
+  bottom: -80px !important; /* +50px for space taken up by logo*/
+  color: #fff;
+}
+.footer a {
+  color: #ff7e42;
+}
+
 @media (max-width: 991px) {
     .header {
         background-color: #36404a !important;
