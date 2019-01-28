@@ -89,4 +89,11 @@ class BulletinController extends Controller
     return $this->index();
   }
 
+  public function delete(Request $request, $id)
+  {
+    $bulletin = Bulletin::find($id);
+    $bulletin->delete();
+    return redirect()->back()->with('success', 'Bulletin item deleted successfully');
+  }
+
 }

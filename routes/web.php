@@ -153,6 +153,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('bulletins/department', 'BulletinController@department_bulletins')->name('department_bulletins');
     Route::post('save_bulletin', 'BulletinController@save_bulletin')->name('save_bulletin');
     Route::get('bulletin/{id}', 'BulletinController@view_bulletin')->name('view_bulletin');
+    Route::delete('delete_bulletin/{id}', 'BulletinController@delete')->name('delete_bulletin');
 
     Route::get('bank_txn/create_import', 'BankTransactionController@create_import')->name('create_import');
     Route::post('bank_txn/store_import', 'BankTransactionController@store_import')->name('store_import');
