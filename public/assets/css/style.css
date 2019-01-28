@@ -891,7 +891,7 @@ h1, h2, h3, h4, h5, h6 {
     /* color: #eee; */
     /* color: #cad0dd; */
     color: #333;
-    height: 110px !important;
+    /* height: 110px !important; */
 }
 @media (max-width: 991px) {
     .header {

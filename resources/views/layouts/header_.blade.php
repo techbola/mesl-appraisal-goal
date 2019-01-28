@@ -208,7 +208,7 @@
             @if (Auth::user()->staff)
               <span class="m-l-20 f16 bold">
                 {{-- {{ Auth::user()->staff->company->Company }} --}}
-                <img src="/images/logos/mesllogo.png" height="70px" style="margin-top: 10px;">
+                {{-- <img src="/images/logos/mesllogo.png" height="70px" style="margin-top: 10px;"> --}}
               </span>
             @endif
             {{-- <div class="pull-right hidden-sm hidden-xs col-sm-6">
@@ -234,9 +234,10 @@
         </style>
 
 
-        <div class="pull-right m-t-20">
+        {{-- <div class="pull-right m-t-20"> --}}
+        <div class="pull-right">
           <!-- START User Info-->
-          <div class="visible-lg visible-md user-info m-t-10">
+          <div class="visible-lg visible-md user-info">
 
             <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20" data-toggle="tooltip" title="Dashboard"></a>
             <a href="{{ route('todos_calendar') }}" class="fa fa-calculator m-r-15 m-t-15 f18" data-toggle="tooltip" title="To-Dos"></a>
@@ -359,7 +360,7 @@
           {{-- @include('layouts.partials.topmenu') --}}
 
           <!-- START JUMBOTRON -->
-          <div class="jumbotron m-t-50" data-pages="parallax">
+          <div class="jumbotron" data-pages="parallax">
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
               @if(!View::hasSection('no-subnav'))
               <div class="inner">
