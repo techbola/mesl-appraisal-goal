@@ -53,9 +53,9 @@
       {{-- START BLOCKS --}}
       <div class="row">
 
-          <div class="col-sm-4">
+          <div class="col-sm-6">
             <a href="{{ route('bulletin_board') }}" class="no-color">
-              <div class="card-box">
+              <div class="card-box" style="min-height:400px">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/megaphone.png') }}" alt="" width="40px" style="filter: sepia(0.3);">
                 </div>
@@ -63,26 +63,111 @@
                   <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Bulletin Board</div>
                   {{-- <h3 class="no-margin p-b-5 text-info bold">{{ count($bulletins) }}</h3> --}}
                 </div>
+                {{-- Start List --}}
+                <div class="my-list m-t-15">
+                  @foreach ($bulletins->take('3') as $item)
+                    <li>
+                      <div class="thumbnail-wrapper d24 circular">
+                        <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar()) }}">
+                      </div>
+
+                      <div class="table-cell p-l-10" style="width:500px">
+                        <div class="" style="margin-top:0 !important">{{ $item->Title ?? '—' }}</div>
+                        <div class="no-margin text-muted small">
+                          <span>{{ ($item->poster)? $item->poster->FullName : ''}}</span> — @if(!empty($item->CreatedDate)){{ ($item->CreatedDate->isToday())? 'Today' : ''.$item->CreatedDate->format('jS M, Y') }} at {{ $item->CreatedDate->format('g:ia') }}@endif
+                        </div>
+                        <div class="small bg-light">
+                          {!! str_limit(strip_tags($item->Body), 30) !!}
+                        </div>
+                      </div>
+                    </li>
+                  @endforeach
+                </div>
+                {{-- End List --}}
               </div>
             </a>
           </div>
 
 
-          <div class="col-sm-4">
-            <a href="{{ route('events') }}" class="no-color">
+          <div class="col-sm-6">
+
+
+            <div class="col-sm-12">
+              <a href="{{ route('events') }}" class="no-color">
+                <div class="card-box">
+                  <div class="inline m-r-10 m-t-10">
+                    <img class="icon" src="{{ asset('assets/img/icons/calendar.png') }}" alt="" width="40px">
+                  </div>
+                  <div class="inline">
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Upcoming Events</div>
+                  </div>
+
+                  {{-- Start List --}}
+                  <div class="my-list m-t-15">
+                    @if (count($events) > 0) {{-- || count($birthdays) > 0 --}}
+
+                      @foreach ($events->take('3') as $item)
+                        <li>
+                          <div class="thumbnail-wrapper d24 circular">
+                            {{-- <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->poster->avatar()) }}"> --}}
+                            <i class="fa fa-calendar"></i>
+                          </div>
+
+                          <div class="table-cell p-l-10">
+                            <div class="" style="margin-top:0 !important">{{ $item->Event }}</div>
+                            <div class="no-margin text-muted small">
+                              {{ (Carbon::parse($item->StartDate)->isToday())? 'Today' : ''.Carbon::parse($item->StartDate)->format('jS M, Y') }} — {{ (Carbon::parse($item->EndDate)->isToday())? 'Today' : ''.Carbon::parse($item->EndDate)->format('jS M, Y') }}
+                            </div>
+                          </div>
+                        </li>
+                      @endforeach
+                    @endif
+                  {{-- End List --}}
+                </div>
+              </a>
+            </div>
+
+          </div>
+
+
+
+
+          <div class="col-sm-12">
+            <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/calendar.png') }}" alt="" width="40px">
+                  <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
                 </div>
                 <div class="inline">
-                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Upcoming Events</div>
-                  {{-- <h3 class="no-margin p-b-5 text-info bold">{{ count($events) }}</h3> --}}
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Birthdays Today</div>
                 </div>
+
+
+                <div class="my-list m-t-15">
+                  @foreach ($birthdays as $item)
+                    {{-- @if (Carbon::parse($item->DateofBirth)->isBirthday()) --}}
+                      <li>
+                        <div class="thumbnail-wrapper d24 circular">
+                          <img width="40" height="40" alt="" src="{{ asset('images/avatars/'.$item->user->avatar()) }}">
+                          {{-- <i class="fa fa-birthday-cake"></i> --}}
+                        </div>
+
+                        <div class="table-cell p-l-10">
+                          <div class="" style="margin-top:0 !important">{{ $item->FullName }} <i class="fa fa-birthday-cake m-l-5"></i></div>
+                          <div class="no-margin text-muted small">
+                            {{ (Carbon::parse($item->DateofBirth)->isBirthday(Carbon::now()))? 'Today' : ''.Carbon::parse($item->DateofBirth)->format('jS M') }}
+                          </div>
+                        </div>
+                      </li>
+                    {{-- @endif --}}
+                  @endforeach
+                </div>
+
               </div>
             </a>
           </div>
 
-          <div class="col-sm-4">
+          <div class="col-sm-12">
             <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
@@ -96,7 +181,8 @@
           </div>
 
 
-          <div class="col-sm-4">
+
+          {{-- <div class="col-sm-4">
             <a href="{{ route('my_documents') }}" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
@@ -107,9 +193,9 @@
                 </div>
               </div>
             </a>
-          </div>
+          </div> --}}
 
-          <div class="col-sm-4">
+          {{-- <div class="col-sm-4">
             <a href="javascript:void(0)" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
@@ -120,21 +206,9 @@
                 </div>
               </div>
             </a>
-          </div>
+          </div> --}}
 
 
-          <div class="col-sm-4">
-            <a href="javascript:void(0)" class="no-color">
-              <div class="card-box">
-                <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
-                </div>
-                <div class="inline">
-                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Birthdays Today</div>
-                </div>
-              </div>
-            </a>
-          </div>
 
         </div>
         {{-- END BLOCKS --}}

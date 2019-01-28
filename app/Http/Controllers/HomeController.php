@@ -45,13 +45,13 @@ class HomeController extends Controller
         // $leave_requests    = LeaveRequest::where('ApproverID', $user->id)->where('CompletedFlag', '0')->get();
         // $bulletins         = Bulletin::where('CompanyID', $user->CompanyID)->whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
         // $events            = EventSchedule::where('CompanyID', $user->CompanyID)->whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today)->get();
-        // $birthday_users         = Staff::where('CompanyID', $user->CompanyID)->where('DateofBirth', '!=', '')->where('DateofBirth', '!=', null)->get();
-        // $birthdays = [];
-        // foreach ($birthday_users as $b_user) {
-        //   if (Carbon::parse($b_user->DateofBirth)->isBirthday()) {
-        //     $birthdays[] = $b_user;
-        //   }
-        // }
+        $birthday_users         = Staff::where('CompanyID', $user->CompanyID)->where('DateofBirth', '!=', '')->where('DateofBirth', '!=', null)->get();
+        $birthdays = [];
+        foreach ($birthday_users as $b_user) {
+          if (Carbon::parse($b_user->DateofBirth)->isBirthday()) {
+            $birthdays[] = $b_user;
+          }
+        }
         // $unapproved_memos  = Memo::where('ApproverID', $user->id)->where('NotifyFlag', 1)->get();
         // $policy_statements = PolicyStatement::whereDate('EntryDate', '>=', $past7days)->whereDate('EntryDate', '<=', $next7days)->get();
         // // dd($tasks);
@@ -71,7 +71,7 @@ class HomeController extends Controller
         ];
         $my_dept = $user->staff->DepartmentID ?? '0';
 
-        return view('dashboard', compact('bulletins', 'events', 'user', 'depts', 'my_dept'));
+        return view('dashboard', compact('bulletins', 'events', 'birthdays', 'user', 'depts', 'my_dept'));
     }
 
     public function read_notification($id)
