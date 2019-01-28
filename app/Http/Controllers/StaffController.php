@@ -25,6 +25,7 @@ use MESL\TaxableBase;
 use MESL\Title;
 use MESL\Unit;
 use MESL\User;
+use MESL\Reference;
 use MESL\StaffPending;
 use MESL\PayrollAdjustmentGroup;
 use MESL\HrInitiatedDocs;
@@ -370,6 +371,7 @@ class StaffController extends Controller
         $staffs = Staff::all();
 
         $religions      = Religion::all()->sortBy('Religion');
+        $refs           = Reference::where('StaffID', auth()->user()->staff->StaffRef)->get();
         $genders        = Gender::all()->sortBy('Gender');
         $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');
         $status         = MaritalStatus::all()->sortBy('MaritalStatus');
@@ -390,7 +392,7 @@ class StaffController extends Controller
         $supervisors = CompanySupervisor::allSupervisors();
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
     }
 
     public function editFinanceDetails($id)
@@ -493,9 +495,24 @@ class StaffController extends Controller
             if (Gate::denies('hr-admin')) {
                 // Non Admins
                 $staff            = new StaffPending;
+                $ref              = new Reference;
                 $staff->UserID    = $user->id;
                 $staff->StaffRef  = $user->staff->StaffRef;
                 $staff->CompanyID = $user->staff->CompanyID;
+
+                // saave references
+                foreach ($request->RefName as $key => $value) {
+                    $ref               = new Reference;
+                    $ref->Name         = $request['RefName'][$key];
+                    $ref->Relationship = $request['RefRelationship'][$key];
+                    $ref->Occupation   = $request['RefOccupation'][$key];
+                    $ref->Phone        = $request['RefPhone'][$key];
+                    $ref->Email        = $request['RefEmail'][$key];
+                    $ref->Address      = $request['RefAddress'][$key];
+                    $ref->StaffID      = auth()->user()->staff->StaffRef;
+                    $ref->save();
+                }
+                // end saving refs
 
                 // START PHOTO
                 if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {

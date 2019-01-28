@@ -13,7 +13,7 @@ class Staff extends Model
     // use EloquentTrait;
 
     protected $table   = 'tblStaff';
-    protected $guarded = ['StaffRef', 'YearsOfService'];
+    protected $guarded = ['StaffRef', 'YearsOfService', 'RefName', 'RefRelationship', 'RefOccupation', 'RefPhone', 'RefEmail', 'RefAddress'];
     public $timestamps = false;
     public $primaryKey = 'StaffRef';
 
@@ -136,6 +136,11 @@ class Staff extends Model
     public function subordinates()
     {
         return $this->hasMany('MESL\Staff', 'SupervisorID');
+    }
+
+    public function references()
+    {
+        return $this->hasMany(Reference::class, 'ReferenceID');
     }
 
     // public function __construct(array $attributes = array())
