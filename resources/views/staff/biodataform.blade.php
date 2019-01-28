@@ -86,6 +86,13 @@
             {{ Form::email('IDNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter ID Number']) }}
         </div>
     </div>
+
+    <div class="col-sm-4">
+        <div class="form-group">
+            {{ Form::label('GenderID','Gender') }}
+            {{ Form::select('GenderID', [ '' =>  'Choose Gender'] + $genders->pluck('Gender', 'GenderRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Gender", 'data-init-plugin' => "select2", 'required']) }}
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-sm-3">

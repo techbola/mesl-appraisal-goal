@@ -51,6 +51,12 @@
           <td></td>
         </tr>
         <tr>
+          <td>Gender</td>
+          <td>{{ $staff->gender->Gender ?? '-' }}</td>
+          <td>{!! ($pending->Gender != $staff->Gender)? $pending->gender->Gender : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
           <td>Personal Email</td>
           <td>{{ $staff->PersonalEmail ?? '-' }}</td>
           <td>{!! ($pending->PersonalEmail != $staff->PersonalEmail)? $pending->PersonalEmail : '<em class="text-muted">Unchanged</em>' !!}</td>

@@ -8,6 +8,7 @@ use MESL\Country;
 use MESL\Department;
 use MESL\EmploymentStatus;
 use MESL\GradeLevel;
+use MESL\Gender;
 use MESL\HMO;
 use MESL\HMOPlan;
 use MESL\Location;
@@ -369,6 +370,7 @@ class StaffController extends Controller
         $staffs = Staff::all();
 
         $religions      = Religion::all()->sortBy('Religion');
+        $genders        = Gender::all()->sortBy('Gender');
         $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');
         $status         = MaritalStatus::all()->sortBy('MaritalStatus');
         $states         = State::all()->sortBy('State');
@@ -388,7 +390,7 @@ class StaffController extends Controller
         $supervisors = CompanySupervisor::allSupervisors();
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
     }
 
     public function editFinanceDetails($id)

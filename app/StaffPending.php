@@ -29,6 +29,11 @@ class StaffPending extends Model
         return $this->belongsTo('MESL\State', 'StateofOrigin');
     }
 
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class, 'GenderID');
+    }
+
     public function marital_status()
     {
         return $this->belongsTo(MaritalStatus::class, 'MaritalStatusID');
