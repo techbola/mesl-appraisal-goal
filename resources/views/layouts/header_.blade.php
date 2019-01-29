@@ -239,9 +239,9 @@
           <!-- START User Info-->
           <div class="visible-lg visible-md user-info">
 
-            <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20" data-toggle="tooltip" title="Dashboard"></a>
-            <a href="{{ route('todos_calendar') }}" class="fa fa-calculator m-r-15 m-t-15 f18" data-toggle="tooltip" title="To-Dos"></a>
-            <a href="{{ route('chat') }}" class="pg-comment m-r-15 m-t-15 f18" data-toggle="tooltip" title="Chat" style="position:relative">
+            <a href="{{ route('home') }}" class="fa fa-home m-r-15 m-t-15 f20" data-toggle="tooltip" data-placement="bottom" title="Dashboard"></a>
+            <a href="{{ route('todos_calendar') }}" class="fa fa-calculator m-r-15 m-t-15 f18" data-toggle="tooltip" data-placement="bottom" title="To-Dos"></a>
+            <a href="{{ route('chat') }}" class="pg-comment m-r-15 m-t-15 f18" data-toggle="tooltip" data-placement="bottom" title="Chat" style="position:relative">
               <span id="new_chats" class="badge badge-danger badge-notif" {{ (count(auth()->user()->unread_chats) > 0)? '' : 'style=display:none' }}>{{ count(auth()->user()->unread_chats) }}</span>
             </a>
 

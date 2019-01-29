@@ -102,7 +102,7 @@ class EventScheduleController extends Controller
   {
     $user = auth()->user();
     $event = EventSchedule::find($id);
-    $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
+    $departments = CompanyDepartment::all();
 
     return view('events.view', compact('event', 'departments'));
   }

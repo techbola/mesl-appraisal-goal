@@ -55,7 +55,7 @@
 
           <div class="col-sm-6">
             <a href="{{ route('bulletin_board') }}" class="no-color">
-              <div class="card-box" style="min-height:400px">
+              <div class="card-box" style="min-height:420px">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/megaphone.png') }}" alt="" width="40px" style="filter: sepia(0.3);">
                 </div>
@@ -94,7 +94,7 @@
 
             <div class="col-sm-12">
               <a href="{{ route('events') }}" class="no-color">
-                <div class="card-box">
+                <div class="card-box" style="min-height:130px">
                   <div class="inline m-r-10 m-t-10">
                     <img class="icon" src="{{ asset('assets/img/icons/calendar.png') }}" alt="" width="40px">
                   </div>
@@ -130,7 +130,7 @@
 
             <div class="col-sm-12">
               <a href="javascript:void(0)" class="no-color">
-                <div class="card-box">
+                <div class="card-box" style="min-height:130px">
                   <div class="inline m-r-10 m-t-10">
                     <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
                   </div>
@@ -165,7 +165,7 @@
 
             <div class="col-sm-12">
               <a href="javascript:void(0)" class="no-color">
-                <div class="card-box">
+                <div class="card-box" style="min-height:120px">
                   <div class="inline m-r-10 m-t-10">
                     <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
                   </div>
