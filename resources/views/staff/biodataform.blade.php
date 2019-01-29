@@ -70,7 +70,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <label>Supervisor</label>
-          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('fullname', 'id')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('fullname', 'staff_id')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
       </div>
     @endif

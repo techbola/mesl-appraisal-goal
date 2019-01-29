@@ -63,9 +63,11 @@ class ExpenseManagementController extends Controller
             } else {
                 $exp->NotifyFlag = true;
                 if ($exp->save()) {
-                    // TODO: send notification here
-                    //send mail to supervisor
+                    $supervisor_id = Staff::where('UserID', $exp->inputter_id)->first();
+                    // dd($supervisor_id);
+                    // dd(User::find($exp->inputter_id)->staff->SupervisorID);
                     $supervisor = User::find(Staff::find(User::find($exp->inputter_id)->staff->SupervisorID)->UserID);
+
                     Notification::send($supervisor, new ExpenseReceipient($exp));
                     DB::commit();
                     return redirect()->route('expense_management.index')->with('success', 'Expense has been sent for approval successfully');

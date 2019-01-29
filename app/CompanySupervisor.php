@@ -233,6 +233,7 @@ class CompanySupervisor extends Model
 
                     $data = [
                         'id'         => $is_supervisor->id,
+                        'staff_id'   => $is_supervisor->staff_id,
                         'first_name' => ucfirst($staff->first_name),
                         'last_name'  => ucfirst($staff->last_name),
                         'fullname'   => ucfirst($staff->first_name) . ' ' . ucfirst($staff->last_name),
@@ -242,6 +243,7 @@ class CompanySupervisor extends Model
                 } else {
                     $data = [
                         'id'         => $is_supervisor->id,
+                        'staff_id'   => $is_supervisor->staff_id,
                         'first_name' => ucfirst($staff->first_name),
                         'last_name'  => ucfirst($staff->last_name),
                         'fullname'   => ucfirst($staff->first_name) . ' ' . ucfirst($staff->last_name),
