@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('manage-bulletins', function ($user) {
-          return ( $user->hasRole('Corporate Communications Officer') || $user->staff->DepartmentID == '16' );
+          return ( $user->hasRole('Corporate Communications Officer') || $user->staff->DepartmentID == '16' || $user->hasRole('admin') );
         });
 
         // Only Creator and Admin
