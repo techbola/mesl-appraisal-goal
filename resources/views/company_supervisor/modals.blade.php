@@ -13,7 +13,6 @@
               <div class="form-group">
                 <label>Select Staff</label>
                 <select id="staff_name" class="form-control">
-                  <option value="0">-- Select Staff --</option>
                 </select>
               </div>
             </div>
@@ -21,8 +20,6 @@
               <div class="form-group">
                 <label>Select Department</label>
                 <select id="department_name" class="form-control">
-                  <option value="0">-- Select Department --</option>
-
                 </select>
               </div>
             </div>

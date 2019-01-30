@@ -89,17 +89,10 @@ class EventScheduleController extends Controller
 
     $depts = CompanyDepartment::all()->pluck('id')->toArray();
 
-    // All Depaprtments
-    if ($request->DepartmentID == '29') {
-      $all = User::whereHas('staff', function($query) use($user, $request, $depts) {
-        $query->whereIn('DepartmentID', $depts);
-      })->get();
-    }
-    else {
+
       $all = User::whereHas('staff', function($query) use($user, $request) {
         $query->where('DepartmentID', $request->DepartmentID);
       })->get();
-    }
 
 
     Notification::send($all, new NewCalendarEvent($event));
