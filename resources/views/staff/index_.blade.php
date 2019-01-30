@@ -62,10 +62,10 @@
 						<td>{{ $staff->MobilePhone ?? '—' }}</td>
 						<td>
 
-							@if ($staff->user->is_activated)
+							@if ($staff->user->is_activated && !$staff->user->is_disengaged)
 								<span class="label label-success">Active</span>
 							@elseif ($staff->user->is_disengaged)
-								{{-- <span class="label label-danger">Disengaged</span> --}}
+								<span class="label label-danger">Disengaged</span>
 							@else
 								<span class="label label-warning">Inactive</span>
 								<a class="btn btn-xs btn-inverse m-l-5" onclick="confirm2('Re-invite {{ $staff->user->first_name }}?', '', 'invite_{{ $staff->user->id }}')"><i class="fa fa-refresh"></i> ReInvite</a>
