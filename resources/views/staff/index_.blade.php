@@ -128,7 +128,7 @@
 							  <div class="col-md-6">
 									<div class="form-group">
 							      <label class="req">Supervisor</label>
-										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2"]) }}
+										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2"]) }}
 							    </div>
 							  </div>
 								<div class="col-md-12">
@@ -156,7 +156,7 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											{{ Form::label('CompanyID', 'Company') }}
-			                {{ Form::select('CompanyID', [ '' =>  'Select Company'] + $companies->pluck('Company', 'CompanyRef')->toArray(),null, ['class'=> "full-width select2", 'data-init-plugin' => "select2", 'required']) }}
+			                {{ Form::select('CompanyID', [ '' =>  'Select Company'] + $companies2->pluck('Company', 'CompanyRef')->toArray(),null, ['class'=> "full-width select2", 'data-init-plugin' => "select2", 'required']) }}
 										</div>
 									</div>
 								@endif
@@ -233,7 +233,7 @@
 											@endforeach
 										</select>
 									</div>
-								</div>--}} 
+								</div>--}}
 
 							</div>
 							<button type="submit" class="btn btn-info btn-form">Submit</button>

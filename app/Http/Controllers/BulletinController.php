@@ -74,9 +74,17 @@ class BulletinController extends Controller
 
     $bulletin->save();
 
-    $staff = User::whereHas('staff', function($q) use($request){
-      $q->whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',".$request->DepartmentID.",',%')");
-    })->get();
+    $depts = CompanyDepartment::all()->pluck('id')->toArray();
+
+    if ($request->DepartmentID == '29') {
+      $staff = User::whereHas('staff', function($query) use($request, $depts) {
+        $query->whereIn('DepartmentID', $depts);
+      })->get();
+    } else {
+      $staff = User::whereHas('staff', function($q) use($request){
+        $q->whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',".$request->DepartmentID.",',%')");
+      })->get();
+    }
 
 
     Notification::send($staff, new NewBulletin($bulletin));

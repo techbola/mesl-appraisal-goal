@@ -83,6 +83,10 @@ class Staff extends Model
     {
         return $this->belongsTo(CompanyDepartment::class, 'DepartmentID', 'id');
     }
+    public function supervisor()
+    {
+        return $this->hasOne(CompanySupervisor::class, 'staff_id', 'StaffRef');
+    }
     public function getProjectsAttribute()
     {
         $staff_id = $this->StaffRef;

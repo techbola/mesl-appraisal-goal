@@ -8,6 +8,11 @@ use MESL\User;
 
 class CompanySupervisor extends Model
 {
+
+  public function staff()
+  {
+    return $this->belongsTo(Staff::class, 'staff_id', 'StaffRef');
+  }
     /*
     |-----------------------------------------
     | LOAD ONE DEPARMENT

@@ -87,15 +87,24 @@ class EventScheduleController extends Controller
     $event->DepartmentID = $request->DepartmentID;
     $event->save();
 
-    $all = User::whereHas('staff', function($query) use($user) {
-      $query->where('CompanyID', $user->staff->CompanyID);
-    })->get();
+    $depts = CompanyDepartment::all()->pluck('id')->toArray();
 
-    $one = User::first();
+    // All Depaprtments
+    if ($request->DepartmentID == '29') {
+      $all = User::whereHas('staff', function($query) use($user, $request, $depts) {
+        $query->whereIn('DepartmentID', $depts);
+      })->get();
+    }
+    else {
+      $all = User::whereHas('staff', function($query) use($user, $request) {
+        $query->where('DepartmentID', $request->DepartmentID);
+      })->get();
+    }
+
 
     Notification::send($all, new NewCalendarEvent($event));
 
-    return redirect()->route('events')->with('success', 'Event was added successfully');
+    return redirect()->route('events')->with('success', 'Event was created successfully');
   }
 
   public function view_event($id)

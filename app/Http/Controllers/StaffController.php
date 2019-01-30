@@ -57,7 +57,7 @@ class StaffController extends Controller
         $user = auth()->user();
         if ($user->is_superadmin) {
             $staffs    = Staff::with('user')->get();
-            $companies = Company::all();
+            $companies2 = Company::where('CompanyRef', '17')->first();
             $roles     = Role::all();
         } else {
             $roles = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
@@ -70,8 +70,9 @@ class StaffController extends Controller
                 $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             }
         }
-        $departments = compact([]); //CompanyDepartment::where('is_deleted', false)->get();
-        return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments', 'q'));
+        $departments = CompanyDepartment::where('is_deleted', false)->get();
+        $supervisors = Staff::whereHas('supervisor')->get();
+        return view('staff.index_', compact('staffs', 'companies2', 'roles', 'departments', 'q', 'supervisors'));
     }
 
     public function get_staff_list()
