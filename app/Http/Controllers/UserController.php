@@ -19,7 +19,7 @@ class UserController extends Controller
 
 public function disengage($id)
 {
-  $this->authorize('company-admin');
+  // $this->authorize('company-admin');
   $user = User::find($id);
   if ($user->hasRole('admin')) {
     return redirect()->back()->with('error', 'Cannot disengage an admin.');
