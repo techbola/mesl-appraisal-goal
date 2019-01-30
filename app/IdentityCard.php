@@ -17,7 +17,7 @@ class IdentityCard extends Model
 
     /*
     |-----------------------------------------
-    | ALL CARD REQUST
+    | ALL CARD REQUEST
     |-----------------------------------------
     */
     public static function allCardRequest(){
@@ -31,6 +31,7 @@ class IdentityCard extends Model
             $data = [
                 'id'                    => $all_request->id,
                 'staff_id'              => $all_request->staff_id,
+                'employee_name'         => ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name),
                 'department_id'         => $all_request->department_id,
                 'department_name'       => $department->name,
                 'passport_path'         => $all_request->passport_path,
@@ -42,11 +43,51 @@ class IdentityCard extends Model
                 'card_request_date'     => $all_request->created_at->toDateString()
             ];
         }else{
-            $data = [];
+            $data = null;
         }
 
         // return 
-        return collect($data);
+        return $data;
+    }
+
+    /*
+    |-----------------------------------------
+    | ALL PENDING CARD REQUEST
+    |-----------------------------------------
+    */
+    public static function allPendingRequest(){
+        // body
+        $all_pendings = IdentityCard::orderBy("id", "ASC")->get();
+        if(count($all_pendings) > 0){
+            $idcard_box = [];
+            foreach ($all_pendings as $all_request) {
+                // department name
+                $department = CompanyDepartment::where("id", $all_request->department_id)->first();
+                $approver = User::where("id", $all_request->first_approver_id)->first();
+
+                $data = [
+                    'id'                    => $all_request->id,
+                    'staff_id'              => $all_request->staff_id,
+                    'employee_name'         => ucfirst(Auth::user()->first_name).' '.ucfirst(Auth::user()->last_name),
+                    'department_id'         => $all_request->department_id,
+                    'department_name'       => $department->name,
+                    'passport_path'         => $all_request->passport_path,
+                    'expected_request_date' => $all_request->expected_request_date,
+                    'staff_id_number'       => $all_request->staff_id_number,
+                    'first_approver_id'     => $all_request->first_approver_id,
+                    'first_approver_name'   => $approver->first_name.' '.$approver->last_name,
+                    'first_approver_status' => $all_request->first_approver_status,
+                    'card_request_date'     => $all_request->created_at->toDateString()
+                ];
+
+                array_push($idcard_box, $data);
+            }
+        }else{
+            $idcard_box = [];
+        }
+
+        // return 
+        return $idcard_box;
     }
 
     /*
@@ -122,5 +163,31 @@ class IdentityCard extends Model
     	}else{
     		return true;
     	}
+    }
+
+    /*
+    |-----------------------------------------
+    | DELETE ID CARD REQUEST
+    |-----------------------------------------
+    */
+    public function deleteCardRequest($payload){
+        // body
+        $check_card_request = IdentityCard::find($payload->card_request_id);
+        if($check_card_request !== null){
+            if($check_card_request->delete()){
+                $data = [
+                    'status'    => 'success',
+                    'message'   => 'Deleted!'
+                ];
+            }
+        }else{
+            $data = [
+                'status'    => 'error',
+                'message'   => 'ID card request record not found, Try again!'
+            ];
+        }
+
+        // return
+        return $data;
     }
 }

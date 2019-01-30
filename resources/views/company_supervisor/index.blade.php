@@ -277,11 +277,10 @@
 
         // auto load dropdown helper
         $(function(){
-
             // load all staff
             $('#staff_name').select2({
                 allowClear: true,
-                placeholder: "SELECT UNIT",
+                placeholder: "Select Supervisor",
                 ajax: { 
                     url: "{{ url('supervisor/all/users') }}",
                     dataType: 'json',
@@ -303,7 +302,7 @@
             // load all department
             $('#department_name').select2({
                 allowClear: true,
-                placeholder: "SELECT UNIT",
+                placeholder: "Select Supervisor",
                 ajax: { 
                     url: "{{ url('supervisor/all/department') }}",
                     dataType: 'json',
