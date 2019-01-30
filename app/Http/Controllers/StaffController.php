@@ -56,9 +56,9 @@ class StaffController extends Controller
         // return view('staff.index', compact('staffs'));
         $user = auth()->user();
         if ($user->is_superadmin) {
-            $staffs    = Staff::with('user')->get();
+            $staffs     = Staff::with('user')->get();
             $companies2 = Company::where('CompanyRef', '17')->first();
-            $roles     = Role::all();
+            $roles      = Role::all();
         } else {
             $roles = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
             if (!empty($_GET['q'])) {
