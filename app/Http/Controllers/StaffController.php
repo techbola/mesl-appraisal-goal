@@ -30,6 +30,8 @@ use MESL\StaffPending;
 use MESL\PayrollAdjustmentGroup;
 use MESL\HrInitiatedDocs;
 use MESL\DocType;
+use MESL\StaffOnboarding;
+use MESL\Mail\StaffOnboard;
 use MESL\CompanySupervisor;
 
 use Carbon;
@@ -629,5 +631,17 @@ class StaffController extends Controller
 
         return redirect()->route('StaffOnboarding')->with('success', 'Process was Deleted successfully');
     }
-
+    public function staff_onboarding()
+    {
+        $user       = \Auth::user();
+        $id         = \Auth::user()->id;
+        $department = CompanyDepartment::all();
+        // dd($department);
+        // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
+        $staff          = Staff::all();
+        $staff_onboards = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
+            ->where('SendForApproval', '0')
+            ->get();
+        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'department'));
+    }
 }
