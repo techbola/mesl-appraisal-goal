@@ -118,3 +118,60 @@
     </div>
   </div>
 </div>
+
+<!-- VIEW CARD REQUEST MODAL -->
+<div class="modal fade" id="view-card-request-modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>
+        	<span class="view-card-holder-name"></span>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <hr />
+        <table class="table">
+        	<tbody>
+        		<tr>
+        			<td><div class="view-card-passport-image"></div></td>
+        			<td>
+        				
+        			</td>
+        		</tr>
+        		<tr>
+        			<td>Employee's Name</td>
+        			<td><span class="view-card-holder-name"></span></td>
+        		</tr>
+        		<tr>
+        			<td>Employee's Department</td>
+        			<td><span class="view-card-holder-department"></span></td>
+        		</tr>
+        		<tr>
+        			<td>ID Card Number</td>
+        			<td><span class="view-card-holder-number"></span></td>
+        		</tr>
+        		<tr>
+        			<td>Date Requested</td>
+        			<td><span class="view-card-date-requested"></span></td>
+        		</tr>
+        		<tr>
+        			<td>Date Expected</td>
+        			<td><span class="view-card-date-expected"></span></td>
+        		</tr>
+        		<tr>
+        			<td>Approvers </td>
+        			<td><span class="view-card-approvers-name"></span></td>
+        		</tr>
+        	</tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <div class="pull-right">
+          <button class="btn btn-flat" type="button" data-dismiss="modal">
+            close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
