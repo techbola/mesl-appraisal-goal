@@ -72,7 +72,7 @@ class StaffController extends Controller
                 $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             }
         }
-        $departments = compact([]); //CompanyDepartment::where('is_deleted', false)->get();
+        $departments = CompanyDepartment::where('is_deleted', false)->get();
         return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments', 'q'));
     }
 
@@ -610,14 +610,18 @@ class StaffController extends Controller
 
         $staff_onboard = User::all();
         $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)
-            ->where('SentForApproval', '0')
+            ->where('SendForApproval', '0')
             ->first();
-        $staff_onboard->SentForApproval = '1';
+        $staff_onboard->SendForApproval = '1';
         $staff_onboard->update();
 
-        $email = Staff::find($staff_onboard->Staff)->first()->user->email;
+        // $email = Staff::where('DepartmentID', '2')->get();
 
-        Mail::to($email)->send(new StaffOnboard());
+        $users = User::whereHas('staff', function ($query) {
+            $query->whereIn('DepartmentID', [7, 14]);
+        })->get(); // ->toArray();
+
+        Mail::to($users)->send(new StaffOnboard());
 
         return redirect()->route('StaffOnboarding')->with('success', 'Request was Sent successfully');
     }
