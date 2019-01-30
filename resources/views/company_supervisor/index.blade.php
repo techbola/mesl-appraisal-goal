@@ -277,49 +277,38 @@
 
         // auto load dropdown helper
         $(function(){
-            // load all staff
-            $('#staff_name').select2({
-                allowClear: true,
-                placeholder: "Select Supervisor",
-                ajax: { 
-                    url: "{{ url('supervisor/all/users') }}",
-                    dataType: 'json',
-                    delay: 100,
-                    data: function (params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function (response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
-
-            // load all department
-            $('#department_name').select2({
-                allowClear: true,
-                placeholder: "Select Supervisor",
-                ajax: { 
-                    url: "{{ url('supervisor/all/department') }}",
-                    dataType: 'json',
-                    delay: 100,
-                    data: function (params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function (response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
+            allStaffs();
+            allDepartments();
         })
+
+        // get all unassign staffs
+        function allStaffs() {
+            $.get('{{ url("supervisor/all/users") }}', function(data) {
+                $("#staff_name").html("");
+                $.each(data, function(index, val) {
+                    $("#staff_name").append(`
+                        <option value="${val.id}">${val.text}</option>
+                    `);
+                });
+
+                // prepare select 2
+                $('#staff_name').select2();
+            });
+        }
+
+        // get all unassign staffs
+        function allDepartments() {
+            $.get('{{ url("supervisor/all/department") }}', function(data) {
+                $("#department_name").html("");
+                $.each(data, function(index, val) {
+                    $("#department_name").append(`
+                        <option value="${val.id}">${val.text}</option>
+                    `);
+                });
+
+                // prepare select 2
+                $('#department_name').select2();
+            });
+        }
     </script>
 @endsection
