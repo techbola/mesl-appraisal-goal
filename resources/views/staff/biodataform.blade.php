@@ -83,7 +83,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('IDNumber','ID Number') }}
-            {{ Form::email('IDNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter ID Number']) }}
+            {{ Form::number('IDNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter ID Number']) }}
         </div>
     </div>
 
