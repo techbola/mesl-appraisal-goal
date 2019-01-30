@@ -346,6 +346,21 @@
             </a>
           </div>
 
+          {{-- @if (in_array('staff_search', $user->menu_routes()) || $user->hasRole('admin')) --}}
+            <div class="col-sm-4">
+              <a href="{{ route('staff_search') }}" class="no-color">
+                <div class="card-box">
+                  <div class="inline m-r-10 m-t-10">
+                    <img class="icon" src="{{ asset('assets/img/icons/searching.png') }}" alt="" width="40px">
+                  </div>
+                  <div class="inline">
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Employee Search</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          {{-- @endif --}}
+
         </div>
         {{-- END BLOCKS --}}
     </div>
@@ -368,20 +383,7 @@
           </div>
         @endif
 
-        @if (in_array('staff_search', $user->menu_routes()) || $user->hasRole('admin'))
-          <div class="col-sm-4">
-            <a href="{{ route('staff_search') }}" class="no-color">
-              <div class="card-box">
-                <div class="inline m-r-10 m-t-10">
-                  <img class="icon" src="{{ asset('assets/img/icons/searching.png') }}" alt="" width="40px">
-                </div>
-                <div class="inline">
-                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Employee Search</div>
-                </div>
-              </div>
-            </a>
-          </div>
-        @endif
+
         @if (in_array('CourseDashboard', $user->menu_routes()) || $user->hasRole('admin'))
           <div class="col-sm-4">
             <a href="{{ route('CourseDashboard') }}" class="no-color">
