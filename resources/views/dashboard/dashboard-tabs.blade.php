@@ -237,7 +237,7 @@
 
 
           <div class="col-sm-4">
-            <a href="{{  route('LeaveRequest') }}" class="no-color">
+            <a href="#" class="no-color">
               <div class="card-box">
                 <div class="inline m-r-10 m-t-10">
                   <img class="icon" src="{{ asset('assets/img/icons/contact.png') }}" alt="" width="40px">
@@ -252,9 +252,9 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                      <li><a href="#">Leave</a></li>
+                      <li><a href="{{ route('LeaveRequest') }}">Leave</a></li>
                       <li><a href="#">Loan</a></li>
-                      <li><a href="#">Travel</a></li>
+                      <li><a href="{{ route('travel_request.create') }}">Travel</a></li>
                       <li><a href="#">Procurement</a></li>
                       <li><a href="#">Store</a></li>
                     </ul>
