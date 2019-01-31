@@ -35,7 +35,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('ExpenseCategoryID ', 'Expense Category') }}
-                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $expense_categories->pluck('ExpenseCategory','ExpenseCategoryRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category']) }}
+                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $expense_categories->pluck('ExpenseCategory','ExpenseCategoryRef')->toArray() ,null, ['class' => 'full-width ExpenseCategoryID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category']) }}
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('DepartmentID', 'Department') }}
-                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
+                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('name','id')->toArray() ,null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('LotDescriptionID', 'Lot Description') }}
-                    {{ Form::select('LotDescriptionID', ['' => 'Select Request'] + $lot_descriptions->pluck('LotDescription','LotDescriptionRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
+                    {{ Form::select('LotDescriptionID', ['' => 'Select Request'] + $lot_descriptions->pluck('LotDescription','LotDescriptionRef')->toArray() ,null, ['class' => 'full-width LotDescriptionID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
                 </div>
             </div>
         </div>
@@ -73,7 +73,10 @@
 
     <hr>
 
+    
+    <div class="card-section p-l-5">Finance</div>
     <div class="row">
+
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
@@ -133,6 +136,23 @@
         </div>
     </div>  <hr>
 
+<div class="clearfix"></div>
+<div class="card-section p-l-5">Payment Details</div>
+    <div class="row">
+         <div class="form-group">
+            <div class="controls">
+                {{ Form::label('AmountForApproval', 'Amount For Approval') }}
+                {{ Form::text('AmountForApproval', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+            </div>
+        </div>
+        <div class="col-sm-6 form-group">
+            {{ Form::label('GLID', 'Select Expense Account') }}
+            {{ Form::select('GLID', [ '' =>  'Select Customer Account'] + $debit_acct_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="card-section p-l-5">Procurement Sections</div>
     <div class="row">
          <div class="col-sm-6 form-group">
             {{ Form::label('BankID', 'Select Bank') }}
@@ -144,8 +164,6 @@
         </div>
     </div>
 
-    <div class="clearfix"></div>
-    
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
@@ -196,7 +214,10 @@
         $(function(){
 			$('.dp').datepicker();
 
+
+
              $("#RequestListID").on('change', function(e) {
+                console.log(e)
                 let val = $(e.target).select2().val();
                 event.preventDefault();
                 $.post('/expense_management/approver_roles', {RequestListID: val}, function(data, textStatus, xhr) {
@@ -204,8 +225,38 @@
                     $(".expense_process").removeClass('hide');
                 });
             });
-		});   
 
+             $(".ExpenseCategoryID").on('change', function(e) {
+                // console.log('stuff')
+                 e.preventDefault();
+                 let val = $(e.target).select2().val();
+                 $('#DepartmentID').empty();
+                  $.get('/expense_management/fetch-departments/'+val, function(data) {
+                    $('#DepartmentID').append(`<option value="">Select Department</option>`);
+                    $.each(data, function(index, val) {
+                         $('#DepartmentID').append(`<option value="${val.id}">${val.name}</option>`);
+                    });
+                     
+                });
+             });
+
+
+             $(".DepartmentID").on('change', function(e) {
+                // console.log('stuff')
+                 e.preventDefault();
+                 let val = $(e.target).select2().val();
+                 $('.LotDescriptionID').empty();
+                  $.get('/expense_management/fetch-lots/'+val, function(data) {
+                    $('.LotDescriptionID').append(`<option value="">Select Lot Description</option>`);
+                    $.each(data, function(index, val) {
+                         $('.LotDescriptionID').append(`<option value="${val.id}">${val.LotDescription}</option>`);
+                    });
+                     
+                });
+             });
+
+
+		}); 
 
     </script>
     @endpush
