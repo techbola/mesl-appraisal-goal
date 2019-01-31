@@ -222,7 +222,7 @@
 							  </div>
 
 							  <div class="col-md-6">
-							  	<label for="">Departments</label>
+							  	<label for="" class="req">Departments</label>
 							    <select class="form-control select2 required" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required >
 							    	<option value="">Select Department</option>
 											@foreach ($departments as $dept)
