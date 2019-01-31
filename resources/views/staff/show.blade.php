@@ -46,14 +46,25 @@
               <i class="fa fa-plus"></i>
               Edit Details
             </a>
-            @if (!$staff->is_disengaged && !$staff->user->hasRole('admin') && Gate::allows('hr-admin'))
-              <a class="btn btn-danger" onclick="confirm2('Disengage this staff?', '', 'disengage_form')">
-                <i class="fa fa-times"></i> Disengage
-              </a>
-              <form class="hidden" id="disengage_form" action="{{ route('disengage', $staff->UserID) }}" method="post">
-                {{ csrf_field() }}
-                {{ method_field('PATCH') }}
-              </form>
+            @if (!$staff->user->hasRole('admin') && Gate::allows('hr-admin'))
+              @if($staff->is_disengaged == '0')
+                <a class="btn btn-danger" onclick="confirm2('Disengage this staff?', '', 'disengage_form')">
+                  <i class="fa fa-times"></i> Disengage
+                </a>
+                <form class="hidden" id="disengage_form" action="{{ route('disengage', $staff->UserID) }}" method="post">
+                  {{ csrf_field() }}
+                  {{ method_field('PATCH') }}
+                </form>
+              @elseif($staff->is_disengaged == '1')
+                <a class="btn btn-success" onclick="confirm2('Re-engage this staff?', '', 'reengage_form')">
+                  Re-engage
+                </a>
+                <form class="hidden" id="reengage_form" action="{{ route('reengage', $staff->UserID) }}" method="post">
+                  {{ csrf_field() }}
+                  {{ method_field('PATCH') }}
+                </form>
+              @endif
+
             @endif
           </div>
         @endcan
