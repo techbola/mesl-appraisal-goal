@@ -66,6 +66,13 @@
 								<span class="label label-success">Active</span>
 							@elseif ($staff->user->is_disengaged)
 								<span class="label label-danger">Disengaged</span>
+								<a class="btn btn-xs btn-success m-l-5 m-t-5" onclick="confirm2('Re-engage {{ $staff->user->first_name }}?', '', 'reengage_{{ $staff->user->id }}')">
+									Re-engage
+								</a>
+								<form class="hidden" id="reengage_form" action="{{ route('reengage', $staff->UserID) }}" method="post">
+									{{ csrf_field() }}
+									{{ method_field('PATCH') }}
+								</form>
 							@else
 								<span class="label label-warning">Inactive</span>
 								<a class="btn btn-xs btn-inverse m-l-5" onclick="confirm2('Re-invite {{ $staff->user->first_name }}?', '', 'invite_{{ $staff->user->id }}')"><i class="fa fa-refresh"></i> ReInvite</a>
