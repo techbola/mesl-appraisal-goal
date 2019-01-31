@@ -87,6 +87,9 @@
         </div>
     </div>
 
+  </div>
+  <div class="row">
+
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('GenderID','Gender') }}
@@ -135,16 +138,16 @@
       <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('CityOfBirth','Town/City') }}
-            {{ Form::text('CityOfBirth', null,  ['class' => 'form-control required', 'placeholder' => 'Enter City of Birth', 'required']) }}
+            {{ Form::text('CityOfBirth', null,  ['class' => 'form-control required', 'placeholder' => 'Enter City', 'required']) }}
         </div>
     </div>
 
-    <div class="col-sm-3">
+    {{-- <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('StateOfBirth','State Of Birth') }}
             {{ Form::select('StateOfBirth', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your State", 'data-init-plugin' => "select2", 'required']) }}
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-sm-3">
         <div class="form-group">
@@ -153,13 +156,15 @@
         </div>
     </div>
 
-    <div class="col-sm-3">
+    {{-- <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('CityOfOrigin','City Of Origin') }}
             {{ Form::text('CityOfOrigin', null,  ['class' => 'form-control required', 'placeholder' => 'Enter City of Origin', 'required']) }}
         </div>
-    </div>
-    <div class="clearfix"></div>
+    </div> --}}
+
+    {{-- <div class="clearfix"></div> --}}
+
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('StateofOrigin','State Of Origin') }}
@@ -167,20 +172,21 @@
         </div>
     </div>
 
-    <div class="col-sm-3">
+    {{-- <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('CountryOfOrigin','Country Of Origin') }}
             {{ Form::select('CountryOfOrigin', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2", 'required']) }}
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-sm-3">
         <div class="form-group">
-            {{ Form::label('NationalityOfOrigin','Nationality of Origin') }}
+            {{ Form::label('NationalityOfOrigin','Nationality') }}
             {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control ', 'placeholder' => 'Enter Nationality', '']) }}
         </div>
     </div>
 
+<div class="clearfix"></div>
 
     <div class="col-sm-3">
         <div class="form-group">
@@ -194,7 +200,7 @@
     <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('SpouseSurname','Spouse Surname') }}
-        {{ Form::text('SpouseSurname', $staff->SpouseSurname,  ['class' => 'form-control', 'placeholder' => 'First name','required']) }}
+        {{ Form::text('SpouseSurname', $staff->SpouseSurname,  ['class' => 'form-control', 'placeholder' => 'First name']) }}
         {{-- <input type="text" value="{{ $staff->FullName }}" class="form-control" readonly> --}}
       </div>
     </div>
@@ -259,11 +265,11 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('StateID','State') }}
-            {{ Form::select('StateID', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your State", 'data-init-plugin' => "select2"]) }}
+            {{ Form::label('StateOfMarriage','State of Marriage') }}
+            {{ Form::select('StateOfMarriage', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose State of Marriage", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
-    <div class="col-sm-4">
+    {{-- <div class="col-sm-4">
         <div class="form-group">
           {{ Form::label('LGAID','Local Government') }}
           {{ Form::select('LGAID', [ '' =>  'Select State'] + $lgas->pluck('LGA', 'LGARef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Local Government", 'data-init-plugin' => "select2"]) }}
@@ -274,7 +280,7 @@
             {{ Form::label('CountryID','Country') }}
             {{ Form::select('CountryID', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2"]) }}
         </div>
-    </div>
+    </div> --}}
 </div>
 
     {{-- <div class="clearfix"></div> --}}
@@ -541,7 +547,7 @@
     </div>
 
     <div class="clearfix"></div>
-    
+
     {{-- declaration --}}
     {{-- <div class="col-sm-12">
         <div class="form-group">
@@ -601,7 +607,7 @@
       </div>
     </div>
 
-    
+
 
     <div class="clearfix"></div>
 
