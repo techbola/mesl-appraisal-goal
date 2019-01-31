@@ -174,12 +174,12 @@
         </div>
     </div>
 
-    {{-- <div class="col-sm-3">
+    <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('NationalityOfOrigin','Nationality of Origin') }}
             {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control ', 'placeholder' => 'Enter Nationality', '']) }}
         </div>
-    </div> --}}
+    </div>
 
 
     <div class="col-sm-3">
