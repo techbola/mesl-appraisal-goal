@@ -31,6 +31,8 @@ use MESL\PayrollAdjustmentGroup;
 use MESL\HrInitiatedDocs;
 use MESL\DocType;
 use MESL\CompanySupervisor;
+use MESL\StaffOnboarding;
+use MESL\Mail\StaffOnboard;
 
 use Carbon;
 
@@ -609,14 +611,18 @@ class StaffController extends Controller
 
         $staff_onboard = User::all();
         $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)
-            ->where('SentForApproval', '0')
+            ->where('SendForApproval', '0')
             ->first();
-        $staff_onboard->SentForApproval = '1';
+        $staff_onboard->SendForApproval = '1';
         $staff_onboard->update();
 
-        $email = Staff::find($staff_onboard->Staff)->first()->user->email;
+        // $email = Staff::where('DepartmentID', '2')->get();
 
-        Mail::to($email)->send(new StaffOnboard());
+        $users = User::whereHas('staff', function ($query) {
+            $query->whereIn('DepartmentID', [7, 14]);
+        })->get(); // ->toArray();
+
+        Mail::to($users)->send(new StaffOnboard());
 
         return redirect()->route('StaffOnboarding')->with('success', 'Request was Sent successfully');
     }
@@ -629,6 +635,20 @@ class StaffController extends Controller
         $staff_onboard->delete();
 
         return redirect()->route('StaffOnboarding')->with('success', 'Process was Deleted successfully');
+    }
+
+    public function staff_onboarding()
+    {
+        $user       = \Auth::user();
+        $id         = \Auth::user()->id;
+        $department = CompanyDepartment::all();
+        // dd($department);
+        // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
+        $staff          = Staff::all();
+        $staff_onboards = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
+            ->where('SendForApproval', '0')
+            ->get();
+        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'department'));
     }
 
 }
