@@ -220,6 +220,26 @@
 							      <input type="text" class="form-control" name="email" placeholder="Email Address" required v-model="staff.user.email">
 							    </div>
 							  </div>
+
+							  <div class="col-md-6">
+							  	<label for="">Departments</label>
+							    <select class="form-control select2 required" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required >
+							    	<option value="">Select Department</option>
+											@foreach ($departments as $dept)
+											
+												<option value="{{ $dept->id }}">{{ $dept->name }}</option>
+											@endforeach
+										</select>
+							  </div>
+
+							  <div class="clearfix"></div>
+
+							  <div class="col-md-6">
+									<div class="form-group">
+									 <label class="req">Roles</label>
+									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+								 </div>
+							  </div>
 							 {{--  <div class="col-md-6">
 							    <div class="form-group">
 							      <label class="req">Department</label>
