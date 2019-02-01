@@ -592,7 +592,12 @@ class StaffController extends Controller
         $staff_onboards = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
                                             ->where('SendForApproval', '0')
                                             ->get();
-        return  view('staff.staff_onboard', compact('staff','staff_onboards', 'department'));
+        
+        $staff_onboarding_sent = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
+        ->where('SendForApproval', '1')
+        ->get();
+
+        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department'));
     }
 
     public function store_staff_onboard(Request $request)
@@ -645,13 +650,20 @@ class StaffController extends Controller
         return redirect()->route('StaffOnboarding')->with('success', 'Process was Deleted successfully');
     }
 
+    public function approval_status()
+    {
+        $staff_onboards = Staffonboarding::orderBy('StaffOnboardRef', 'DESC')->where('ApprovalStatus', 0);
+    }
+
+    /*
+    |-----------------------------------------
+    | SHOW ON-BOARDING REQUEST DASHBOARD
+    |-----------------------------------------
+    */
     public function approve_onboard()
     {
-        $staff_onboards = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
-                                            ->where('SendForApproval', '1')
-                                            ->get();
-
-        return view('staff/onboard_dashboard', compact('staff_onboards'));
+        $staff_onboards = StaffOnboarding::gellPendingOnboarding();
+        return view('staff.onboard_dashboard', compact('staff_onboards'));
     }
 
 
