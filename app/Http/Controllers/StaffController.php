@@ -33,7 +33,7 @@ use MESL\DocType;
 use MESL\CompanySupervisor;
 use MESL\StaffOnboarding;
 use MESL\Mail\StaffOnboard;
-use MESL\Mail\ApprovailIT;
+use MESL\Mail\ApprovalIT;
 
 use Carbon;
 
@@ -663,7 +663,7 @@ class StaffController extends Controller
     | SHOW ON-BOARDING REQUEST DASHBOARD
     |-----------------------------------------
     */
-    public function approve_onboardIT(){
+    public function approve_onboardIT($id){
 
         $staff_onboards = StaffOnboarding::gellPendingOnboarding();
 
@@ -674,20 +674,25 @@ class StaffController extends Controller
 
         $staff_onboard = User::all();
 
-        $staff_onboard = StaffOnboarding::where('ApprovalStatus1', $id)
-            ->where('ApprovalStatus1', '0')
-            ->first();
-        $staff_onboard->ApprovalStatus1 = '1';
-        $staff_onboard->update();
+        $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)->where('ApprovalStatus1', '0')->first();
+        if($staff_onboard !== null){
+            $staff_onboard->ApprovalStatus1 = '1';
+            $staff_onboard->update();
 
-        $users = User::whereHas('staff', function ($query) {
-            $query->whereIn('DepartmentID', [3]);
-        })->get();
+            $users = User::whereHas('staff', function ($query) {
+                $query->whereIn('DepartmentID', [3]);
+            })->get();
 
-        Mail::to($users)->send(new ApprovalIT());
+            \Mail::to($users)->send(new ApprovalIT());
 
+            $status = "success";
+            $message = "Request has been treated successfully";
+        }else{
+            $status = "error";
+            $message = "Can not complete this request at the moment!";
+        }
 
-        return redirect()->back()->with('success', 'Request has been treated successfully');
+        return redirect()->back()->with($status, $message);
     }
     
     /*
@@ -698,6 +703,17 @@ class StaffController extends Controller
     public function approve_onboard(){
 
         $staff_onboards = StaffOnboarding::gellPendingOnboarding();
-        return view('staff.onboard_dashboard_admin', compact('staff_onboards'));
+        return view('staff.onboard_dashboard', compact('staff_onboards'));
+    }
+
+    /*
+    |-----------------------------------------
+    | SHOW ON-BOARDING REQUEST DASHBOARD
+    |-----------------------------------------
+    */
+    public function approve_onboard_admin(){
+
+        $staff_onboards = StaffOnboarding::gellPendingOnboarding();
+        return view('staff.onboard_dashboard', compact('staff_onboards'));
     }
 }

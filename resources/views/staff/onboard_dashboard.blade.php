@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @push('styles')
-
 	<style>
 		.modal.fade.fill-in.in {
     background-color: rgba(107, 101, 101, 0.73);
@@ -11,19 +10,18 @@
       font-weight: bold;
       color: #000;
     }
-
 	</style>
 @endpush
 
 @section('content')
-<div class="card-box">
-        {{-- <div class="card-title pull-left">Staff Onboarding Requests</div>
-        <div class="pull-right">
-            <div class="col-xs-12">
-                <input type="text" class="search-table form-control pull-right" placeholder="Search">
-            </div>
+  <div class="card-box">
+    <div class="card-title pull-left">Staff Onboarding Requests</div>
+      <div class="pull-right">
+        <div class="col-xs-12">
+          <input type="text" class="search-table form-control pull-right" placeholder="Search">
         </div>
-        <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
             
       <table class="table tableWithSearch table-bordered">
         <thead>
@@ -35,40 +33,39 @@
           <th width="15%">Action</th>
         </thead>
         <tbody>
-
           @foreach($staff_onboards as $staff_onboard)
-            <tr>
-              <td>{{$staff_onboard->StaffName}}</td>
-                <td>{{$staff_onboard->staff_department->name}}</td>
-                <td>{{$staff_onboard->StaffType}}</td>
-                <td>{{$staff_onboard->ResumptionDate}}</td>
+            @if($staff_onboard->ApprovalStatus1 !== "1")
+              <tr>
+                <td>{{$staff_onboard->StaffName}}</td>
+                  <td>{{$staff_onboard->staff_department->name}}</td>
+                  <td>{{$staff_onboard->StaffType}}</td>
+                  <td>{{$staff_onboard->ResumptionDate}}</td>
+                  <td>
+                      {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
+                  </td>
                 <td>
-                    {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
+                    
+                <a href="{{ url('approve_onboardIT')}}/{{$staff_onboard->StaffOnboardRef}}" class="btn btn-xs btn-success">
+                      <i class="fa fa-share-square"></i> Mark as Done
+                    </a>
                 </td>
-              <td>
-                  
-                  <a href="{{ url('approve_onboard_it/{{$staff_onboard->StaffOnboardRef}}')}}" class="btn btn-xs btn-success">
-                    <i class="fa fa-share-square"></i> Mark as Done hhh
-                  </a>
-              </td>
-            </tr>
+              </tr>
+            @endif
             @endforeach
         </tbody>
-      </table>  --}}
-</div>
-
+      </table>
+  </div>
 @endsection
 
 @push('scripts')
 <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
 </script>
-
 <script>
-    $(document).ready(function() {
-        $('#travelTable').DataTable( {
-            "scrollX": true
-        } );
-    } );
+  $(document).ready(function() {
+    $('#travelTable').DataTable( {
+      "scrollX": true
+    });
+  });
 </script>
 
 @endpush

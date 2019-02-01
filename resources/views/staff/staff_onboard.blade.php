@@ -221,15 +221,22 @@
                                 <td>
                                     {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
                                 </td>
+                                
                                 <td>
                                     <a href="javascript:void(0);" class="btn btn-xs btn-info">
                                         <i class="fa fa-share-square"></i> Pending Approval
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0);" class="btn btn-xs btn-info">
-                                        <i class="fa fa-share-square"></i> Pending Approval
-                                    </a>
+                                    @if($staff_onboard->ApprovalStatus1 == "1")
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-info">
+                                            <i class="fa fa-share-square"></i> Pending Approval
+                                        </a>
+                                    @else
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-success">
+                                            <i class="fa fa-check-o"></i> Approved
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
