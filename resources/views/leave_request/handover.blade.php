@@ -117,7 +117,7 @@
                     <td>{{ $handover_task->HandoverTaskTitle }}</td>
                     <td>{{ $handover_task->HandoverTaskDescription }}</td>
                     <td>{{ $handover_task->HandoverDeadline }}</td>
-                    <td><a href="{{ route('delete', $handover_task->HandoverTaskRef) }}" type="delete" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a></td>
+                    <td><a href="{{ route('deletetask', $handover_task->HandoverTaskRef) }}" type="delete" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a></td>
                     </tr>
                 @endforeach
             </tbody>
@@ -212,19 +212,27 @@
                 $('.error-messages').html(' ').addClass('hide');
             },
             success: function (data, status) {
-                if(data.success === true){
-                    console.log('show data',data);
-                    $('.error-messages').html(' ').hide();
-                    $('.success-messages').html(data.data.message).show();
-                    $("#form-task")[0].reset();
-                    $("#tast_title, #task_description, #task_deadline").select2().val(" ");
+                if(data.status == "success"){
+                    swal(
+                        "Ok",
+                        data.message,
+                        data.status
+                    );
+                    $("#exampleModal").modal('toggle');
                 } else {
-                    $('.error-messages').html(data.data.message).show();
-                    $('.success-messages').html(data.data.message).hide();
+                    swal(
+                        "Oops",
+                        data.message,
+                        data.status
+                    );
                 }
             }
         });
+
+        // return 
+        return false;
     }
+
 
 
     // $(document).ready(function() {

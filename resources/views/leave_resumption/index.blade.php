@@ -115,7 +115,7 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-success btn-sm" href="javascript:void(0);" onclick="approveLeaveResumptionRequest('{{ $lr['id'] }}')">
+                                                    <a class="btn btn-success btn-sm" id="approve-lrr-btn" href="javascript:void(0);" onclick="approveLeaveResumptionRequest('{{ $lr['id'] }}', '{{ Auth::user()->id }}')">
                                                         <i class="fa fa-check"></i> Approve
                                                     </a>
                                                 </td>
@@ -305,7 +305,7 @@
                     `)
 
                     $("#department_name").html(`
-                        <option value="${data.deparment_id}">${data.department_name}</option>
+                        <option value="${data.department_id}">${data.department_name}</option>
                     `);
                 }
             });
@@ -388,14 +388,51 @@
 
         // delete leave resume letter
         function deleteLeaveResume(leave_resumption_id) {
-            var token = $("#token").val();
-            var params = {
-                _token: token,
-                leave_resumption_id: leave_resumption_id
-            };
 
-            $.post('{{ url('leave/resumption/delete') }}', params, function(data, textStatus, xhr) {
-                /*optional stuff to do after success */
+            swal({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+              if (result == true) {
+                var token = $("#token").val();
+                var params = {
+                    _token: token,
+                    leave_resumption_id: leave_resumption_id
+                };
+
+                $.post('{{ url('leave/resumption/delete') }}', params, function(data, textStatus, xhr) {
+                    /*optional stuff to do after success */
+                    if(data.status == "success"){
+                        swal(
+                            "Ok",
+                            data.message,
+                            data.status
+                        );
+
+                        // reload
+                        window.location.reload();
+                    }else{
+                        swal(
+                            "Oops",
+                            data.message,
+                            data.status
+                        );
+                    }
+                });  
+              }
+            })
+        }
+
+        // approve leave resumption request
+        function approveLeaveResumptionRequest(leave_resumption_id, staff_id) {
+            $("#approve-lrr-btn").prop('disabled', true);
+            $("#approve-lrr-btn").html(`<i class="fa fa-check"></i> Approving...`);
+            $.get('{{ url("approve/leave/resumption")}}/'+leave_resumption_id+'/'+staff_id, function(data) {
                 if(data.status == "success"){
                     swal(
                         "Ok",
@@ -403,7 +440,10 @@
                         data.status
                     );
 
-                    // reload
+                    $("#approve-lrr-btn").prop('disabled', false);
+                    $("#approve-lrr-btn").html(`<i class="fa fa-check"></i> Approve`);
+
+                    // refresh page
                     window.location.reload();
                 }else{
                     swal(
@@ -411,17 +451,11 @@
                         data.message,
                         data.status
                     );
+
+                    $("#approve-lrr-btn").prop('disabled', false);
+                    $("#approve-lrr-btn").html(`<i class="fa fa-check"></i> Approve`);
                 }
             });
-        }
-
-        // approve leave resumption request
-        function approveLeaveResumptionRequest(leave_resumption_id) {
-            swal(
-                "Oops",
-                "Approving LRR is currently not available at the moment",
-                "info"
-            );
         }
     </script>
 @endsection

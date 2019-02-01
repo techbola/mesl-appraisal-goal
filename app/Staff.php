@@ -47,6 +47,11 @@ class Staff extends Model
     {
         return $this->hasMany(Department::class, 'DepartmentRef', 'DepartmentID');
     }
+
+    public function company_department()
+    {
+        return $this->belongsTo(CompanyDepartment::class, 'DepartmentID', 'id');
+    }
     public function getProjectsAttribute()
     {
         $staff_id = $this->StaffRef;

@@ -199,5 +199,11 @@ class CompanyDepartment extends Model
 
     	// return 
     	return $data;
-    }
+	}
+
+	public function staff_department()
+	{
+		return $this->belongsTo('MESL\Staff', 'DepartmentID');
+	}
+	
 }

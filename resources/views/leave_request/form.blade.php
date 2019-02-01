@@ -19,8 +19,14 @@
 
         <div class="col-md-4">
             <div class="form-group">
-                {{ Form::label('Department','Department') }}
-                {{ Form::text('Department', Auth::user()->DepartmentID, ['class' => 'form-control', 'placeholder' => 'Employee Deprartment', 'required']) }}
+                {{ Form::label('DepartmentID','Department') }}
+                {{-- {{ Form::text('DepartmentID', Auth::user()->staff->company_department->name, ['class' => 'form-control', 'placeholder' => 'Employee Deprartment', 'required']) }} --}}
+            <select name="DepartmentID" id="DepartmentID" class= "full-width",data-placeholder = "Choose your Leave Type", data-init-plugin = "select2" >
+                <option value="">Select Department</option>
+                @foreach ($department as $item)
+            <option value="{{$item->id}}" @if($item->id == Auth::user()->staff->company_department->id)  selected @endif>{{$item->name}}</option>
+                @endforeach
+            </select>
             </div>
         </div>
 
@@ -77,8 +83,8 @@
                             {{ Form::label('LeaveAllowance', 'Leave Allowance' ) }}
                                 <select name="LeaveAllowance" class="full-width" data-init-plugin="select2" id="leave_allowance" onchange="">
                                     <option value=" ">Select Allowance Type</option>
-                                    <option value="1">With Pay</option>
-                                    <option value="2">Without Pay</option>
+                                    <option value="With Pay">With Pay</option>
+                                    <option value="Without Pay">Without Pay</option>
                                 </select>
                         </div>
                 </div>

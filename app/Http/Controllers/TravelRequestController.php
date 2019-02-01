@@ -33,9 +33,11 @@ class TravelRequestController extends Controller
         $transports = TravelTransport::all();
 
 
-        $travel_requests = TravelRequest::orderBy('TravelRef', 'DESC')->get()
-                                                                      ->Where('SentForApproval', '0')
-                                                                      ->Where('RequesterID', Auth::user());
+        $travel_requests = TravelRequest::orderBy('TravelRef', 'DESC')
+                                            ->Where('SentForApproval', '0')
+                                            ->Where('RequesterID', Auth::user()->id)
+                                            ->get();
+                                                                     
         $lodges = TravelLodge::all();
         $travelmodes = TravelMode::all();
 
@@ -77,7 +79,7 @@ class TravelRequestController extends Controller
     }
 
 
-    //submit update travel request function 
+    //submit Edited(update) travel request function 
     public function submit_travel_request(Request $request)
     {
         $travel_request = TravelRequest::find($request->TravelRef);
@@ -127,6 +129,7 @@ class TravelRequestController extends Controller
         $user = User::all();
 
         $travel_request = User::all();
+
         $travel_request = TravelRequest::where('TravelRef', $ref)
                                         ->where('SentForApproval', '0')
                                         ->first();
@@ -148,6 +151,11 @@ class TravelRequestController extends Controller
         $travel_requests = TravelRequest::where('SentForApproval', '1')->get();
 
         $travel_request = TravelRequest::find($request->TravelRef);
+        
+        //remove approved travel request.
+        // $travel_request->update([
+        //     'RequestApprovedd' => 1
+        // ]);
 
         $user = User::all();
 
@@ -164,16 +172,18 @@ class TravelRequestController extends Controller
 
         $user = User::all();
 
-        $travel_request = User::all();
+        // $travel_request = User::all();
 
         $travel_request = TravelRequest::find($ref);
+        dd($travel_request);
         $travel_request->ApprovalDate = date('Y-m-d');
-        $travel_request = TravelRequest::where('TravelRef', $ref)
-                                        ->get()
-                                         ->first();
                                         //  dd($travel_request);
+        // $travel_request-> = 1;
+        $travel_request->update([
+            'RequestApprovedd' => 1
+        ]);
 
-        $email = Staff::find($travel_request->RequesterID)->first()->user->email;
+        $email = User::find($travel_request->RequesterID)->first()->email;
         // dd($email);
 
         Mail::to($email)->send(new RequestApproved());

@@ -68,7 +68,7 @@
                     <img class="icon" src="{{ asset('assets/img/icons/calendar.png') }}" alt="" width="40px">
                   </div>
                   <div class="inline">
-                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Event Scheduling</div>
+                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Upcoming Events</div>
                     {{-- <h3 class="no-margin p-b-5 text-info bold">{{ count($events) }}</h3> --}}
                   </div>
                 </div>
@@ -117,20 +117,19 @@
             </a>
           </div>
 
-          @if (in_array('my_documents', $user->menu_routes()) || $user->hasRole('admin'))
-            <div class="col-sm-4">
-              <a href="{{ route('my_documents') }}" class="no-color">
-                <div class="card-box">
-                  <div class="inline m-r-10 m-t-10">
-                    <img class="icon" src="{{ asset('assets/img/icons/file.png') }}" alt="" width="40px">
-                  </div>
-                  <div class="inline">
-                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Document Management</div>
-                  </div>
+
+          <div class="col-sm-4">
+            <a href="javascript:void(0)" class="no-color">
+              <div class="card-box">
+                <div class="inline m-r-10 m-t-10">
+                  <img class="icon" src="{{ asset('assets/img/icons/gift.png') }}" alt="" width="40px">
                 </div>
-              </a>
-            </div>
-          @endif
+                <div class="inline">
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Birthdays Today</div>
+                </div>
+              </div>
+            </a>
+          </div>
 
         </div>
         {{-- END BLOCKS --}}

@@ -16,7 +16,6 @@ use MESL\LeaveTransaction;
 use MESL\LeaveApprover;
 use MESL\HandoverTask;
 // use MESL\LeaveApprover;
-
 // use MESL\LeaveType;
 // use MESL\Mail\Leave;
 // use MESL\Staff;
@@ -43,13 +42,15 @@ class LeaveRequestController extends Controller
         $leave_type = LeaveType::all();
         $user       = \Auth::user();
         $id         = \Auth::user()->id;
+        $department = CompanyDepartment::all();
         $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
         $leavedays  = Staff::where('UserID', $id)->first();
         $leave_used = \DB::table('tblLeaveTransaction')
             ->where('StaffID', $id)
             ->sum('DaysRequested');
         $remaining_days = $leavedays->LeaveDays - $leave_used;
-        return view('leave_request.create', compact('leave_type', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days'));
+        // dd($department);
+        return view('leave_request.create', compact('leave_type', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department'));
     }
 
     public function leave_approval()
@@ -231,6 +232,7 @@ class LeaveRequestController extends Controller
             if ($request->hasFile('HandOverNote')) {
                 $start_date                  = $request->StartDate;
                 $converted_date              = (int) $request->NumberofDays;
+                // $drpartment                  = (int) $request->
                 $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
                 $leave_request               = new LeaveRequest($request->all());
                 $leave_request->ReturnDate   = $completion_Date;
@@ -293,19 +295,38 @@ class LeaveRequestController extends Controller
         $handover_task->StaffID = auth()->user()->id;
 
         if($handover_task->save()){
-            return response()->json($handover_task);
+            $data = [
+                'status' => 'success',
+                'message' => '1 new task added!'
+            ];
+        }else{
+            $data = [
+                'status' => 'error',
+                'message' => 'Failed to add new task!'
+            ];
         }
+
+        return response()->json($data);
     }
 
     //Delete travel request function
     public function destroy_task($id)
     {
-        $handover_task = Handovertask::find($id);
+        // $handover_task = Handovertask::find($id);
+
+        $handover_task = Handovertask::where('HandoverTaskRef',$id)->firstOrFail();
 
         $handover_task->delete();
         
-        return redirect()->route('leave_request.handover')->with('success', 'Task Deleted successfully');
+        return redirect()->back()->with('success', 'Task Deleted successfully');
     }
+
+    // // public function handover_table(Request $request, $id)
+    // // {
+    // //     $handover_task = HandoverTask::where('HandoverTaskRef', $id)->get()
+                                        
+
+    // }
 
     /**
      * Display a listing of the resource.

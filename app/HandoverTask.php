@@ -8,6 +8,7 @@ class HandoverTask extends Model
 {
     protected $table   = 'tblHandoverTask';
     protected $guarded = ['HandoverTaskRef'];
+    public $primaryKey = 'HandoverTaskRef';
     public $timestamps = false;
 
     public function releief_officer()

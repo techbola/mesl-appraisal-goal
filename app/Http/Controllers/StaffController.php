@@ -27,6 +27,9 @@ use MESL\StaffPending;
 use MESL\PayrollAdjustmentGroup;
 use MESL\HrInitiatedDocs;
 use MESL\DocType;
+use MESL\StaffOnboarding;
+use MESL\Mail\StaffOnboard;
+use Mail;
 
 use Illuminate\Http\Request;
 use Carbon;
@@ -576,6 +579,79 @@ class StaffController extends Controller
       // $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
 
       return view('staff.subordinates', compact('staffs', 'companies', 'roles'));
+    }
+
+    public function staff_onboarding()
+    {
+        $user       = \Auth::user();
+        $id         = \Auth::user()->id;
+        $department = CompanyDepartment::all();
+        // dd($department);
+        // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
+        $staff = Staff::all();
+        $staff_onboards = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
+                                            ->where('SendForApproval', '0')
+                                            ->get();
+        return  view('staff.staff_onboard', compact('staff','staff_onboards', 'department'));
+    }
+
+    public function store_staff_onboard(Request $request)
+    {   
+        $user = auth()->user();
+        $staff = Staff::all();
+
+        $staff_onboard = new StaffOnboarding($request->all());
+
+        if($staff_onboard->save()){
+            return redirect()->route('StoreStaff')->with('success', 'Staff Rquest was Made successfully');
+        }
+    }
+
+    public function send_staff_onboarding($id)
+    {
+        $user = auth()->user();
+        $staff = Staff::all();
+
+        $staff_onboard = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->get();
+
+
+        $user = User::all();
+
+        $staff_onboard = User::all();
+        $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)
+                                        ->where('SendForApproval', '0')
+                                        ->first();
+        $staff_onboard->SendForApproval = '1';
+        $staff_onboard->update();
+        
+        // $email = Staff::where('DepartmentID', '2')->get();
+
+        $users = User::whereHas('staff', function($query){
+            $query->where('DepartmentID', '2');
+        })->get(); // ->toArray();
+
+        Mail::to($users)->send(new StaffOnboard());
+
+        return redirect()->route('StaffOnboarding')->with('success', 'Request was Sent successfully');
+    }
+
+    //Delete Staff Onboarding queue function
+    public function delete_onboarding($id)
+    {
+        $staff_onboard = StaffOnboarding::find($id);
+
+        $staff_onboard->delete();
+        
+        return redirect()->route('StaffOnboarding')->with('success', 'Process was Deleted successfully');
+    }
+
+    public function approve_onboard()
+    {
+        $staff_onboards = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
+                                            ->where('SendForApproval', '1')
+                                            ->get();
+
+        return view('staff/onboard_dashboard', compact('staff_onboards'));
     }
 
 

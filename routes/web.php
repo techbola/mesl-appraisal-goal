@@ -71,6 +71,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('assign-menu/{id}', 'MenuController@edit_company_menu')->name('edit_company_menu');
     Route::patch('assign-menu/{id}', 'MenuController@update_company_menu')->name('update_company_menu');
 
+    //New staff Onboarding form
+    Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
+    Route::post('staff/staff_onboard', 'StaffController@store_staff_onboard')->name('StoreStaff');
+    Route::post('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
+    Route::get('staff/staff_onboard/{id}', 'StaffController@delete_onboarding')->name('deleteOnboard');
+    Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
+
     Route::get('staff', 'StaffController@index')->name('staff');
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
@@ -215,8 +222,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('leave_request/handover', 'LeaveRequestController@leave_handover')->name('LeaveHandover');
     Route::get('leave_request/handover_task', 'LeaveRequestController@handover_task')->name('HandoverTask');
     Route::post('store_task', 'LeaveRequestController@store_task');
+    Route::get('leave_request/handover/{id}', 'LeaveRequestController@destroy_task')->name('deletetask');
 
-    Route::get('leave_request/handover/{id}', 'LeaveRequestController@destroy_task')->name('delete');
+    //IdCard request
+    Route::get('idcard_request/create', 'IdcardController@create')->name('IdcardRequest');
+    Route::get('idcard_request/id_requestdashboard', 'IdcardController@idcard_dashboard')->name('IdcardDash');
+    Route::post('store_idcard', 'IdcardController@store_idcard')->name('StoreIDcard');
+    Route::post('send_idcard_request/{id}', 'IdcardController@send_idcard_request')->name('SendIDReq');
+    Route::get('idcard_request/create/{id}', 'IdcardController@delete_card_request')->name('deleteCardRequest');
 
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
 
@@ -1147,7 +1160,6 @@ Route::get('/leave/test/notification/mail',     'LeaveResumptionController@testN
 
 
 //Travel Request form
-// Route::get('');
 Route::get('travel_request/admindashboard', 'TravelRequestController@dash')->name('travel_request.admindashboard');
 Route::get('travel_request/create', 'TravelRequestController@create')->name('travel_request.create');
 Route::post('travel_request/create', 'TravelRequestController@store_travel_request')->name('storerequest');
@@ -1163,3 +1175,19 @@ Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval'
 Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
+/*
+|------------------------------------------------------------------------------------------
+| IDENTITY CARD REQUEST ROUTES SECTIION
+|------------------------------------------------------------------------------------------
+*/
+Route::get('/identity/card/request',            'IdentityCardController@index')->name('identity_card_module');
+Route::get('/identity/card/load/one',           'IdentityCardController@loadOne');
+Route::get('/identity/card/load/all',           'IdentityCardController@loadAll');
+Route::post('/identity/card/create',            'IdentityCardController@create');
+Route::post('/identity/card/update',            'IdentityCardController@update');
+Route::post('/identity/card/delete',            'IdentityCardController@delete');
+Route::get('/indentity/department/info',        'IdentityCardController@departmentInfo');
+Route::get('/indentity/employee/info',          'IdentityCardController@staffInfo');
+
+
+
