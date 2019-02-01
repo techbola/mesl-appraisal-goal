@@ -73,6 +73,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('approve_onboardIT/{id}', 'StaffController@approve_onboardIT');
+    Route::get('admin_onboard_mail/{id}', 'StaffController@admin_onboard_mail');
     Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
     Route::post('staff/staff_onboard', 'StaffController@store_staff_onboard')->name('StoreStaff');
     Route::get('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');

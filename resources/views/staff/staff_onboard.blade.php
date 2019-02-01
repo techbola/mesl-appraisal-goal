@@ -223,12 +223,18 @@
                                 </td>
                                 
                                 <td>
-                                    <a href="javascript:void(0);" class="btn btn-xs btn-info">
-                                        <i class="fa fa-share-square"></i> Pending Approval
-                                    </a>
+                                    @if($staff_onboard->ApprovalStatus2 == "0")
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-info">
+                                            <i class="fa fa-share-square"></i> Pending Approval
+                                        </a>
+                                    @else
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-success">
+                                            <i class="fa fa-check-o"></i> Approved
+                                        </a>
+                                    @endif
                                 </td>
                                 <td>
-                                    @if($staff_onboard->ApprovalStatus1 == "1")
+                                    @if($staff_onboard->ApprovalStatus1 == "0")
                                         <a href="javascript:void(0);" class="btn btn-xs btn-info">
                                             <i class="fa fa-share-square"></i> Pending Approval
                                         </a>

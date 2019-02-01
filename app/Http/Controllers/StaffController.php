@@ -716,4 +716,37 @@ class StaffController extends Controller
         $staff_onboards = StaffOnboarding::gellPendingOnboarding();
         return view('staff.onboard_dashboard', compact('staff_onboards'));
     }
+
+
+    public function admin_onboard_mail($id){
+
+        $staff_onboards = StaffOnboarding::gellPendingOnboarding();
+
+        $user  = auth()->user();
+        $staff = Staff::all();
+
+        // $staff_onboard = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->get();
+
+        $staff_onboard = User::all();
+
+        $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)->where('ApprovalStatus2', '0')->first();
+        if($staff_onboard !== null){
+            $staff_onboard->ApprovalStatus1 = '1';
+            $staff_onboard->update();
+
+            $users = User::whereHas('staff', function ($query) {
+                $query->whereIn('DepartmentID', [3]);
+            })->get();
+
+            \Mail::to($users)->send(new AdminOnboardApproval());
+
+            $status = "success";
+            $message = "Request has been treated successfully";
+        }else{
+            $status = "error";
+            $message = "Can not complete this request at the moment!";
+        }
+
+        return redirect()->back()->with($status, $message);
+    }
 }
