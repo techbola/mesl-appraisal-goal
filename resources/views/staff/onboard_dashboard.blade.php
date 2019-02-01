@@ -17,7 +17,7 @@
 
 @section('content')
 <div class="card-box">
-        <div class="card-title pull-left">Staff Onboarding Requests</div>
+        {{-- <div class="card-title pull-left">Staff Onboarding Requests</div>
         <div class="pull-right">
             <div class="col-xs-12">
                 <input type="text" class="search-table form-control pull-right" placeholder="Search">
@@ -54,7 +54,7 @@
             </tr>
             @endforeach
         </tbody>
-      </table> 
+      </table>  --}}
 </div>
 
 @endsection

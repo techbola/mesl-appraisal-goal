@@ -16,7 +16,7 @@
 @endpush
 
 @section('content')
-<form action="{{ route('StoreStaff') }}" method="POST" class="form">
+<form action="" method="POST" class="form">
 {{ csrf_field() }}
     <div class="card-box">
         <div class="card-title">New Staff Onboarding form</div>
