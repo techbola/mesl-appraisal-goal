@@ -1176,3 +1176,11 @@ Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->nam
 
 // admin dashboard
 Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-home');
+
+
+/*
+|------------------------------------------------------------------------------------------
+| IT HELP DESK 
+|------------------------------------------------------------------------------------------
+ */
+Route::get('help/desk/complaints',      'HelpDeskController@index')->name('helpdesk_module');
