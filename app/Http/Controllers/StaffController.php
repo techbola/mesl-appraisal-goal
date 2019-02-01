@@ -648,7 +648,13 @@ class StaffController extends Controller
         $staff_onboards = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
             ->where('SendForApproval', '0')
             ->get();
-        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'department'));
+
+        $staff_onboarding_sent = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
+            ->where('SendForApproval', '1')
+            ->get();
+
+
+        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department'));
     }
 
 }
