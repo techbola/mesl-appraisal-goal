@@ -11,6 +11,7 @@ use MESL\ExpenseManagement;
 use MESL\ExpenseManagementFile;
 use MESL\ExpenseComment;
 use MESL\Department;
+use MESL\CompanyDepartment;
 use MESL\Bank;
 use MESL\Location;
 use MESL\LotDescription;
@@ -93,7 +94,7 @@ class ExpenseManagementController extends Controller
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
         $locations          = Location::all();
-        $departments        = Department::all();
+        $departments        = CompanyDepartment::all();
         $banks              = Bank::all();
         $expense_categories = ExpenseCategory::all();
         $bank_acct_details  = LotDescription::all();
@@ -176,7 +177,7 @@ class ExpenseManagementController extends Controller
         });
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
-        $departments        = Department::all();
+        $departments        = CompanyDepartment::all();
         $banks              = Bank::all();
         $locations          = Location::all();
         $expense_categories = ExpenseCategory::all();
@@ -351,5 +352,17 @@ class ExpenseManagementController extends Controller
         return response()->json([
             'message' => 'Request was sent for approval successfully',
         ])->setStatusCode(200);
+    }
+
+    public function fetch_departments($exp_id)
+    {
+        $departments = CompanyDepartment::where('expense_category_id', $exp_id)->get();
+        return $departments;
+    }
+
+    public function fetch_lots($dept_id)
+    {
+        $lots = LotDescription::where('DescriptionID', $dept_id)->get();
+        return $lots;
     }
 }
