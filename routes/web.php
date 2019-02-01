@@ -76,6 +76,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
     Route::get('staff/staff_onboard/{id}', 'StaffController@delete_onboarding')->name('deleteOnboard');
     Route::get('staff', 'StaffController@index')->name('staff');
+    Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
+
+
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
     Route::post('reinvite_staff/{id}', 'StaffController@reinvite_staff')->name('reinvite_staff');
