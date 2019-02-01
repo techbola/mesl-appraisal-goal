@@ -76,6 +76,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
     Route::get('staff/staff_onboard/{id}', 'StaffController@delete_onboarding')->name('deleteOnboard');
     Route::get('staff', 'StaffController@index')->name('staff');
+    Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
+    Route::get('staff/onboard_dashboard_admin', 'StaffController@approve_onboard_admin')->name('ApproveOnboardAdmin');
+
+
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
     Route::post('reinvite_staff/{id}', 'StaffController@reinvite_staff')->name('reinvite_staff');
@@ -1178,3 +1182,11 @@ Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->nam
 
 // admin dashboard
 Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-home');
+
+
+/*
+|------------------------------------------------------------------------------------------
+| IT HELP DESK 
+|------------------------------------------------------------------------------------------
+ */
+Route::get('help/desk/complaints',      'HelpDeskController@index')->name('helpdesk_module');
