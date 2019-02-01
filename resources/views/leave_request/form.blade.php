@@ -77,8 +77,8 @@
                             {{ Form::label('LeaveAllowance', 'Leave Allowance' ) }}
                                 <select name="LeaveAllowance" class="full-width" data-init-plugin="select2" id="leave_allowance" onchange="">
                                     <option value=" ">Select Allowance Type</option>
-                                    <option value="1">With Pay</option>
-                                    <option value="2">Without Pay</option>
+                                    <option value="With Pay">With Pay</option>
+                                    <option value="Without Pay">Without Pay</option>
                                 </select>
                         </div>
                 </div>

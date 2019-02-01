@@ -71,14 +71,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('assign-menu/{id}', 'MenuController@edit_company_menu')->name('edit_company_menu');
     Route::patch('assign-menu/{id}', 'MenuController@update_company_menu')->name('update_company_menu');
 
+
+    Route::get('approve_onboardIT/{id}', 'StaffController@approve_onboardIT');
+    Route::get('admin_onboard_mail/{id}', 'StaffController@admin_onboard_mail');
     Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
     Route::post('staff/staff_onboard', 'StaffController@store_staff_onboard')->name('StoreStaff');
-    Route::post('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
+    Route::get('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
     Route::get('staff/staff_onboard/{id}', 'StaffController@delete_onboarding')->name('deleteOnboard');
     Route::get('staff', 'StaffController@index')->name('staff');
     Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
     Route::get('staff/onboard_dashboard_admin', 'StaffController@approve_onboard_admin')->name('ApproveOnboardAdmin');
-
+    
 
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
@@ -219,6 +222,19 @@ Route::middleware(['auth'])->group(function () {
     Route::post('approve_leave_request', 'LeaveRequestController@approve_leave_request');
     Route::get('leave_notification/{elem_value}', 'LeaveRequestController@leave_notification');
     Route::get('request_date/{start_date}/{numberdays}', 'LeaveRequestController@retrieve_details');
+
+    //leave handover
+    Route::get('leave_request/handover', 'LeaveRequestController@leave_handover')->name('LeaveHandover');
+    Route::get('leave_request/handover_task', 'LeaveRequestController@handover_task')->name('HandoverTask');
+    Route::post('store_task', 'LeaveRequestController@store_task');
+    Route::get('leave_request/handover/{id}', 'LeaveRequestController@destroy_task')->name('deletetask');
+
+    //IdCard request
+    Route::get('idcard_request/create', 'IdcardController@create')->name('IdcardRequest');
+    Route::get('idcard_request/id_requestdashboard', 'IdcardController@idcard_dashboard')->name('IdcardDash');
+    Route::post('store_idcard', 'IdcardController@store_idcard')->name('StoreIDcard');
+    Route::post('send_idcard_request/{id}', 'IdcardController@send_idcard_request')->name('SendIDReq');
+    Route::get('idcard_request/create/{id}', 'IdcardController@delete_card_request')->name('deleteCardRequest');
 
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
 
@@ -1149,6 +1165,22 @@ Route::get('/leave/resumption/get/approver', 'LeaveResumptionController@getAppro
 Route::get('/approve/leave/resumption/{id}/{staff_id}', 'LeaveResumptionController@approveLeaveResumption');
 Route::get('/leave/test/notification/mail', 'LeaveResumptionController@testNotification');
 
+//Travel Request form
+Route::get('travel_request/admindashboard', 'TravelRequestController@dash')->name('travel_request.admindashboard');
+Route::get('travel_request/create', 'TravelRequestController@create')->name('travel_request.create');
+Route::post('travel_request/create', 'TravelRequestController@store_travel_request')->name('storerequest');
+
+Route::get('edit_travel_request/{id}', 'TravelRequestController@edit_travel_request')->name('edit_travel_request');
+
+Route::post('submit_travel_request', 'TravelRequestController@submit_travel_request')->name('updatedrequest');
+
+Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->name('delete');
+
+Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
+
+Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
+
+Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
 /*
 |------------------------------------------------------------------------------------------
 | IDENTITY CARD REQUEST ROUTES SECTIION

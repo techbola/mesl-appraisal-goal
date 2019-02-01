@@ -178,10 +178,10 @@
                               <td>{{$staff_onboard->StaffType}}</td>
                               <td>{{$staff_onboard->ResumptionDate}}</td>
                               <td>
-                                    {{$staff_onboard->OfficeSpace}}, {{$staff_onboard->OfficeTable}}, {{$staff_onboard->BusinessCard}}
+                                    {{$staff_onboard->OfficeSpace}} {{$staff_onboard->OfficeTable}} {{$staff_onboard->BusinessCard}}
                                 </td>
                                 <td>
-                                    {{$staff_onboard->System}}, {{$staff_onboard->IDcreation}}, {{$staff_onboard->OfficemateProfile}}
+                                    {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
                                 </td>
                               <td>
                                   {{-- <button type="submit" class="btn btn-xs btn-success">Onboard Staff</button> {{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }} --}}
@@ -216,20 +216,33 @@
                                 <td>{{$staff_onboard->StaffType}}</td>
                                 <td>{{$staff_onboard->ResumptionDate}}</td>
                                 <td>
-                                    {{$staff_onboard->OfficeSpace}}, {{$staff_onboard->OfficeTable}}, {{$staff_onboard->BusinessCard}}
+                                    {{$staff_onboard->OfficeSpace}} {{$staff_onboard->OfficeTable}} {{$staff_onboard->BusinessCard}}
                                 </td>
                                 <td>
-                                    {{$staff_onboard->System}}, {{$staff_onboard->IDcreation}}, {{$staff_onboard->OfficemateProfile}}
+                                    {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
+                                </td>
+                                
+                                <td>
+                                    @if($staff_onboard->ApprovalStatus2 == "0")
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-info">
+                                            <i class="fa fa-share-square"></i> Pending Approval
+                                        </a>
+                                    @else
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-success">
+                                            <i class="fa fa-check-o"></i> Approved
+                                        </a>
+                                    @endif
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0);" class="btn btn-xs btn-info">
-                                        <i class="fa fa-share-square"></i> Pending Approval
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="javascript:void(0);" class="btn btn-xs btn-info">
-                                        <i class="fa fa-share-square"></i> Pending Approval
-                                    </a>
+                                    @if($staff_onboard->ApprovalStatus1 == "0")
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-info">
+                                            <i class="fa fa-share-square"></i> Pending Approval
+                                        </a>
+                                    @else
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-success">
+                                            <i class="fa fa-check-o"></i> Approved
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
