@@ -1,6 +1,30 @@
 @push('styles')
 <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css') }}" media="screen" rel="stylesheet" type="text/css">
     @endpush
+
+
+    {{-- MODALS --}}
+        <!-- Create Modal -->
+        <div class="modal fade slide-up disable-scroll" id="new_doc" role="dialog" aria-hidden="false">
+            <div class="modal-dialog ">
+                <div class="modal-content-wrapper">
+                    <div class="modal-content">
+                        <div class="modal-header clearfix text-left">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+                            </button>
+                            <h5>Upload New Document</h5>
+                        </div>
+                        <div class="modal-body">
+                            {{-- <form action="{{ route('document_store') }}" method="post" enctype="multipart/form-data"> --}}
+                                {{ csrf_field() }}
+                                @include('documents.form_for_expense')
+                            {{-- </form> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     @include('errors.list')
     <div class="row">
 
@@ -74,6 +98,8 @@
     <hr>
 
     
+    @if(auth()->user()->staff->company_department->name == 'Finance & Account')
+
     <div class="card-section p-l-5">Finance</div>
     <div class="row">
 
@@ -168,8 +194,11 @@
 
     </div>
 
+    @endif
+
     <div class="clearfix"></div> <hr>
    
+    @if(auth()->user()->staff->company_department->name == 'Procurement')
     <div class="card-section p-l-5">Procurement Sections</div>
     <div class="row">
          <div class="col-sm-4 form-group">
@@ -207,10 +236,12 @@
             </div>
         </div>
     </div>
-
     <hr>
+    @endif
 
-    <div class="row">
+    
+
+    <div class="">
         {{-- <div class="col-sm-12">
             <div class="form-group">
                 <div class="controls">
@@ -219,16 +250,16 @@
                 </div>
             </div>
         </div> --}} 
-        <button class="btn btn-complete" type="button">Upload Files</button>
-    </div>
+        <button class="btn btn-info" data-toggle="modal" data-target="#new_doc" type="button">Upload Documents</button>
+    </div> <br>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="form-group col-sm-12">
             <label>
             {{ Form::checkbox('Conformity') }} By selecting this checkbox, you confirm that the product/service has been delivered to standards and specification.
         </label>
         </div>
-    </div>
+    </div> --}}
 
     <div class="row">    
         <div class="col-sm-12">
