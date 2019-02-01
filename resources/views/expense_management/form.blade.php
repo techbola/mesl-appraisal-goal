@@ -138,41 +138,88 @@
 
 <div class="clearfix"></div>
 <div class="card-section p-l-5">Payment Details</div>
-    <div class="row">
-         <div class="form-group">
-            <div class="controls">
-                {{ Form::label('AmountForApproval', 'Amount For Approval') }}
-                {{ Form::text('AmountForApproval', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
-            </div>
-        </div>
-        <div class="col-sm-6 form-group">
-            {{ Form::label('GLID', 'Select Expense Account') }}
-            {{ Form::select('GLID', [ '' =>  'Select Customer Account'] + $debit_acct_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
-        </div>
-    </div>
-
-    <div class="clearfix"></div>
-    <div class="card-section p-l-5">Procurement Sections</div>
-    <div class="row">
-         <div class="col-sm-6 form-group">
+    <div class="row"> 
+         <div class="col-sm-4 form-group">
             {{ Form::label('BankID', 'Select Bank') }}
             {{ Form::select('BankID', [ '' =>  'Select Bank Account'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
         </div>
+
+
+        <div class="form-group col-sm-4">
+            <div class="controls">
+                {{ Form::label('AccountNo', 'Account Number') }}
+                {{ Form::text('AccountNo', 0, ['class' => 'form-control', 'placeholder' => '']) }}
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('AmountPaid', 'Amount Paid') }}
+                    {{ Form::text('AmountPaid', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                </div>
+            </div>
+        </div> <div class="clearfix"></div>
+
         <div class="col-sm-6 form-group">
             {{ Form::label('GLID', 'Select Expense Account') }}
             {{ Form::select('GLID', [ '' =>  'Select Customer Account'] + $debit_acct_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
         </div>
+
     </div>
 
+    <div class="clearfix"></div> <hr>
+   
+    <div class="card-section p-l-5">Procurement Sections</div>
     <div class="row">
+         <div class="col-sm-4 form-group">
+            {{ Form::label('AmountForApproval', 'Amount For Approval') }}
+             {{ Form::text('AmountForApproval', null, ['class' => 'form-control smartinput']) }}
+        </div>
+
+        <div class="col-sm-4 form-group">
+            {{ Form::label('VendorName', 'Vendor\'s Name') }}
+             {{ Form::text('VendorName', null, ['class' => 'form-control', 'placeholder' => 'Enter Vendor Name']) }}
+        </div>
+
+        <div class="col-sm-4 form-group">
+            {{ Form::label('VendorBankID', 'Vendor Bank') }}
+            {{ Form::select('VendorBankID', [ '' =>  'Select Bank Account'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
+        </div>
+
+        <div class="col-sm-4">
+            <div class="">
+              {{ Form::label('DeliveryDate','Delivery Date', ['class' => 'form-label']) }}
+              <div class="input-group date dp">
+                {{ Form::text('DeliveryDate', null, ['class' => 'form-control', 'placeholder' => 'Delivery Date']) }}
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+              </div>
+            </div>
+        </div> <div class="clearfix"></div>
+
+        <br>
         <div class="col-sm-12">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('ContractSummary', 'Contract Summary (Fixed Struc. SLA, Exit Clause etc)') }}
+                    {{ Form::textarea('ContractSummary', null, ['class' => 'summernote form-control','rows' => 2, 'placeholder' => 'Description']) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        {{-- <div class="col-sm-12">
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('attachment[]', 'Attach Files') }}
                     {{ Form::file('attachment[]',  ['class' => '','multiple' => 'multiple']) }}
                 </div>
             </div>
-        </div> 
+        </div> --}} 
+        <button class="btn btn-complete" type="button">Upload Files</button>
     </div>
 
     <div class="row">
@@ -209,7 +256,9 @@
     @push('scripts')
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
     </script>
+
     {{-- <select class="js-data-example-ajax"></select> --}}
+
     <script>
         $(function(){
 			$('.dp').datepicker();
@@ -249,7 +298,7 @@
                   $.get('/expense_management/fetch-lots/'+val, function(data) {
                     $('.LotDescriptionID').append(`<option value="">Select Lot Description</option>`);
                     $.each(data, function(index, val) {
-                         $('.LotDescriptionID').append(`<option value="${val.id}">${val.LotDescription}</option>`);
+                         $('.LotDescriptionID').append(`<option value="${val.LotDescriptionRef}">${val.LotDescription}</option>`);
                     });
                      
                 });
