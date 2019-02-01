@@ -43,7 +43,7 @@
                 <td>{{$staff_onboard->StaffType}}</td>
                 <td>{{$staff_onboard->ResumptionDate}}</td>
                 <td>
-                    {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
+                  {{$staff_onboard->OfficeSpace}}, {{$staff_onboard->OfficeTable}}, {{$staff_onboard->BusinessCard}}
                 </td>
               <td>
                   {{-- <button type="submit" class="btn btn-xs btn-success">Onboard Staff</button> {{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }} --}}

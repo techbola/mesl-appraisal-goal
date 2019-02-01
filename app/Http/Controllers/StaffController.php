@@ -667,5 +667,15 @@ class StaffController extends Controller
         $staff_onboards = StaffOnboarding::gellPendingOnboarding();
         return view('staff.onboard_dashboard', compact('staff_onboards'));
     }
+    
+    /*
+    |-----------------------------------------
+    | SHOW ON-BOARDING REQUEST DASHBOARD
+    |-----------------------------------------
+    */
+    public function approve_onboard_admin(){
 
+        $staff_onboards = StaffOnboarding::gellPendingOnboarding();
+        return view('staff.onboard_dashboard_admin', compact('staff_onboards'));
+    }
 }
