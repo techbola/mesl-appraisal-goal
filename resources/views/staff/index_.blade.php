@@ -62,10 +62,17 @@
 						<td>{{ $staff->MobilePhone ?? '—' }}</td>
 						<td>
 
-							@if ($staff->user->is_activated)
+							@if ($staff->user->is_activated && !$staff->user->is_disengaged)
 								<span class="label label-success">Active</span>
 							@elseif ($staff->user->is_disengaged)
-								{{-- <span class="label label-danger">Disengaged</span> --}}
+								<span class="label label-danger">Disengaged</span>
+								<a class="btn btn-xs btn-success m-l-5 m-t-5" onclick="confirm2('Re-engage {{ $staff->user->first_name }}?', '', 'reengage_{{ $staff->user->id }}')">
+									Re-engage
+								</a>
+								<form class="hidden" id="reengage_{{ $staff->user->id }}" action="{{ route('reengage', $staff->UserID) }}" method="post">
+									{{ csrf_field() }}
+									{{ method_field('PATCH') }}
+								</form>
 							@else
 								<span class="label label-warning">Inactive</span>
 								<a class="btn btn-xs btn-inverse m-l-5" onclick="confirm2('Re-invite {{ $staff->user->first_name }}?', '', 'invite_{{ $staff->user->id }}')"><i class="fa fa-refresh"></i> ReInvite</a>
@@ -128,7 +135,7 @@
 							  <div class="col-md-6">
 									<div class="form-group">
 							      <label class="req">Supervisor</label>
-										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $staffs->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2"]) }}
+										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('fullname', 'staff_id')->toArray(),null, ['class'=> "form-control select2 required", 'data-init-plugin' => "select2", 'required']) }}
 							    </div>
 							  </div>
 								<div class="col-md-12">
@@ -137,8 +144,9 @@
 										{{-- <span class="help">Type an email, then press enter or comma.</span> --}}
 										{{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
-										<select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple">
+										<select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required>
 											@foreach ($departments as $dept)
+											<option value="">Select Department</option>
 												<option value="{{ $dept->id }}">{{ $dept->name }}</option>
 											@endforeach
 										</select>
@@ -156,7 +164,7 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											{{ Form::label('CompanyID', 'Company') }}
-			                {{ Form::select('CompanyID', [ '' =>  'Select Company'] + $companies->pluck('Company', 'CompanyRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'required']) }}
+			                {{ Form::select('CompanyID', [ '' =>  'Select Company'] + $companies2->pluck('Company', 'CompanyRef')->toArray(),null, ['class'=> "full-width select2", 'data-init-plugin' => "select2", 'required']) }}
 										</div>
 									</div>
 								@endif
@@ -212,13 +220,39 @@
 							      <input type="text" class="form-control" name="email" placeholder="Email Address" required v-model="staff.user.email">
 							    </div>
 							  </div>
-							  {{-- <div class="col-md-6">
-							    <div class="form-group">
-							      <label class="req">Role</label>
-										{{ Form::select('role', [ '' =>  'Select Role'] + $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
-							    </div>
+
+							  <div class="col-md-6">
+							  	<label for="" class="req">Departments</label>
+							    <select class="form-control select2 required" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required >
+							    	<option value="">Select Department</option>
+											@foreach ($departments as $dept)
+											
+												<option value="{{ $dept->id }}">{{ $dept->name }}</option>
+											@endforeach
+										</select>
 							  </div>
-								<div class="col-md-12">
+
+							  <div class="clearfix"></div>
+
+							  <div class="col-md-6">
+									<div class="form-group">
+									 <label class="req">Roles</label>
+									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+								 </div>
+							  </div>
+							 {{--  <div class="col-md-6">
+							    <div class="form-group">
+							      <label class="req">Department</label>
+										 <select name="DepartmentID" id="DepartmentID" v-model="staff.DepartmentID" class="form-control full-width" data-init-plugin = "select2">
+										 	<option value="">Select Department</option>
+										  	@foreach($departments as $dept)
+										  		<option value="{{ $dept->id }}" >{{ $dept->name }}</option>
+										  	@endforeach
+										  </select>
+							    </div>
+							  </div> --}}
+
+								{{-- <div class="col-md-12">
 									<div class="form-group required">
 										<label>Departments</label>
 										<select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple">
@@ -227,7 +261,7 @@
 											@endforeach
 										</select>
 									</div>
-								</div> --}}
+								</div>--}}
 
 							</div>
 							<button type="submit" class="btn btn-info btn-form">Submit</button>
@@ -252,12 +286,17 @@
 					user: {},
 				},
 			},
+			mounted() {
+				$(".select2").select2();
+				// alert('aye')
+			},
 			methods: {
 				edit_staff(staff){
 					this.staff = staff;
 					console.log(staff);
 					var form_action = "{{ url('/') }}"+"/update_staff_admin/"+staff.StaffRef;
 					$('#edit_staff').find('form').attr('action', form_action);
+					// $(".select2").select2();
 				}
 			},
 		})
@@ -268,6 +307,7 @@
 @push('scripts')
 	<script>
 		$('#staff_table').DataTable();
+		$(".select2").select2();
 	</script>
 	{{-- <script>
     $(document).ready(function() {

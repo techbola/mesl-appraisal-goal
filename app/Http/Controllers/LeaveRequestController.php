@@ -49,7 +49,10 @@ class LeaveRequestController extends Controller
             ->where('StaffID', $id)
             ->sum('DaysRequested');
         $remaining_days = $leavedays->LeaveDays - $leave_used;
+<<<<<<< HEAD
         // dd($department);
+=======
+>>>>>>> f2e2ccf64c6d024f0c212aa5b03158f0ae20dea8
         return view('leave_request.create', compact('leave_type', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department'));
     }
 
@@ -295,6 +298,7 @@ class LeaveRequestController extends Controller
         $handover_task->StaffID = auth()->user()->id;
 
         if($handover_task->save()){
+<<<<<<< HEAD
             $data = [
                 'status' => 'success',
                 'message' => '1 new task added!'
@@ -307,6 +311,10 @@ class LeaveRequestController extends Controller
         }
 
         return response()->json($data);
+=======
+            return response()->json($handover_task);
+        }
+>>>>>>> f2e2ccf64c6d024f0c212aa5b03158f0ae20dea8
     }
 
     //Delete travel request function
@@ -314,13 +322,19 @@ class LeaveRequestController extends Controller
     {
         // $handover_task = Handovertask::find($id);
 
+<<<<<<< HEAD
         $handover_task = Handovertask::where('HandoverTaskRef',$id)->firstOrFail();
+=======
+        $handover_task =Handovertask::where('HandoverTaskRef',$id)->firstOrFail();
+        // dd($handover_task);
+>>>>>>> f2e2ccf64c6d024f0c212aa5b03158f0ae20dea8
 
         $handover_task->delete();
         
         return redirect()->back()->with('success', 'Task Deleted successfully');
     }
 
+<<<<<<< HEAD
     // // public function handover_table(Request $request, $id)
     // // {
     // //     $handover_task = HandoverTask::where('HandoverTaskRef', $id)->get()
@@ -328,6 +342,8 @@ class LeaveRequestController extends Controller
 
     // }
 
+=======
+>>>>>>> f2e2ccf64c6d024f0c212aa5b03158f0ae20dea8
     /**
      * Display a listing of the resource.
      *

@@ -49,8 +49,8 @@
 </head>
 <body>
 
-  <video autoplay muted loop id="myVideo" poster="http://mainstream.com.ng/images/damsite.jpg">
-    <source src="{{asset('assets/video/bg.mp4')}}" type="video/mp4">
+  <video autoplay muted loop id="myVideo" poster="{{ asset('images/mesl_login_bg.jpg') }}">
+    {{-- <source src="{{asset('assets/video/bg.mp4')}}" type="video/mp4"> --}}
     Your browser does not support HTML5 video.
   </video>
 
@@ -59,7 +59,7 @@
     <img src="{{asset('assets/img/mesllogo.png')}}">
   </div>
 
-  <div class="container-login100" style="background-image: url('');">
+  <div class="container-login100" style="background-image: url('{{ asset('images/mesl_login_bg.jpg') }}');">
     <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30" style="background-color: rgba(255,255,255,0.80);">
       <form class="login100-form validate-form" method="POST" action="{{ route('login') }}">
         {{ csrf_field() }}

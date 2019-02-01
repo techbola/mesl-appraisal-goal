@@ -10,6 +10,15 @@
     </style>
     <div class="panel panel-transparent" style="padding: 0px;">
         <div class="panel-body" style="padding: 0px;">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
 @endsection
@@ -46,14 +55,45 @@
                             ID Card No
                         </th>
                         <th>
+                            ID Request Date
+                        </th>
+                        <th>
                             Department
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            More
                         </th>
                         <th>
                             Option
                         </th>
                     </thead>
                     <tbody>
-                        
+                        @if($all_idcard_request !== null)
+                            <tr>
+                                <td>{{ $all_idcard_request['employee_name'] }}</td>
+                                <td>{{ $all_idcard_request['staff_id_number'] }}</td>
+                                <td>{{ $all_idcard_request['card_request_date'] }}</td>
+                                <td>{{ $all_idcard_request['department_name'] }}</td>
+                                <td>Pending</td>
+                                <td>
+                                    <a href="javascript:void(0);" class="btn btn-default btn-sm" onclick="viewCardRequest('{{json_encode($all_idcard_request)}}')">
+                                        <i class="fa fa-user"></i> view 
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-info btn-sm" href="javascript:void(0);" onclick="editCardRequest('{{ $all_idcard_request['id'] }}')">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
+
+                                    <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="delCardRequest('{{ $all_idcard_request['id'] }}')">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -65,6 +105,27 @@
 @endsection
 
 @section('scripts')
+    {{-- Alert for Redirect Post --}}
+    @if(session('success'))
+         <script type="text/javascript">
+            swal(
+                "Ok",
+                {{ session('success') }},
+                "success"
+            );
+        </script>
+    @endif
+
+    @if(session('error'))
+        <script type="text/javascript">
+            swal(
+                "Oops",
+                {{ session('error') }},
+                "error"
+            );
+        </script>
+    @endif
+
     <script type="text/javascript">
         // show department form
         function showCreateIdentityCardModal() {
@@ -115,7 +176,7 @@
             });
         }
 
-        // update department
+        // update card request
         function showEditModel(department_id) {
             // body...
             var params = {
@@ -134,54 +195,8 @@
             $("#edit-department").modal();
         }
 
-        // show assign head of department modal
-        function showAssignHeadofDepartmentModal(department_name, department_id) {
-            $(".edit-head-of-department-name").html(department_name);
-            $("#add-head-of-department").modal();
-        }
-
-        // add department 
-        function addDepartment() {
-            $("#add-department-btn").prop('disabled', true);
-            var token       = $("#token").val();
-            var department  = $("#department_name").val();
-            var params = {
-                _token: token,
-                department: department
-            };
-
-            $.post('{{ url("department/create") }}', params, function(data, textStatus, xhr) {
-                /*optional stuff to do after success */
-                if(data.status == "success"){
-                    swal(
-                        "Ok",
-                        data.message,
-                        data.status
-                    );
-                    $("#add-department").modal('hide');
-                    $("#add-department-form")[0].reset();
-
-                    // reload
-                    window.location.reload();
-                }else{
-                    swal(
-                        "Oops",
-                        data.message,
-                        data.status
-                    );
-                }
-
-                // release btn
-                $("#add-department-btn").prop('disabled', false);
-            });
-
-            // void form
-            return false;
-        }
-
         // delete department
-        function delDepartment(department_id) {
-
+        function delCardRequest(card_request_id) {
             swal({
               title: 'Are you sure?',
               text: "You won't be able to revert this!",
@@ -193,13 +208,12 @@
             }).then((result) => {
               if (result == true) {
                 var token       = $("#token").val();
-                var department  = $("#department_name").val();
                 var params = {
                     _token: token,
-                    department_id: department_id
+                    card_request_id: card_request_id
                 };
 
-                $.post('{{ url("department/delete") }}', params, function(data, textStatus, xhr) {
+                $.post('{{ url("identity/card/delete") }}', params, function(data, textStatus, xhr) {
                     /*optional stuff to do after success */
                     if(data.status == "success"){
                         swal(
@@ -225,46 +239,36 @@
             return false;
         }
 
-        // get one department
-        function updateDepartment() {
-            $("#edit-department-btn").prop('disabled', true);
-            var token       = $("#token").val();
-            // form
-            var department_name = $("#edit_department_name").val();
-            var department_id   = $("#edit_department_id").val();
-            var params = {
-                _token: token,
-                department_name: department_name,
-                department_id: department_id
-            };
+        // view card request
+        function viewCardRequest(payload) {
+            // console.log(payload);
+            var payload = JSON.parse(payload);
 
-            $.post('{{ url("department/edit") }}', params, function(data, textStatus, xhr) {
-                /*optional stuff to do after success */
-                if(data.status == "success"){
-                    swal(
-                        "Ok",
-                        data.message,
-                        data.status
-                    );
-                    $("#edit-department").modal('hide');
-                    $("#edit-department-form")[0].reset();
+            var approved;
+            var status;
+            if(payload.first_approver_status == "1"){
+                approved = "success";
+                status = "Approved!";
+            }else{
+                approved = "danger";
+                status = "Pending!"
+            }
 
-                    // reload
-                    window.location.reload();
-                }else{
-                    swal(
-                        "Oops",
-                        data.message,
-                        data.status
-                    );
-                }
-
-                // release btn
-                $("#edit-department-btn").prop('disabled', false);
-            });
-
-            // void form
-            return false;
+            $(".view-card-passport-image").html(`
+                <img class="format-passport" src="{{asset('images/passport_images')}}/${payload.passport_path}" width="150" height="180" />
+                <br />
+            `);
+            $(".view-card-holder-name").html(payload.employee_name);
+            $(".view-card-holder-department").html(payload.department_name);
+            $(".view-card-holder-number").html(payload.staff_id_number);
+            $(".view-card-date-requested").html(payload.card_request_date);
+            $(".view-card-date-expected").html(payload.expected_request_date);
+            $(".view-card-approvers-name").html(`
+                <a href="#" class="btn btn-${approved} btn-sm">
+                    <i class="fa fa-user"></i> ${payload.first_approver_name} -- ${status}
+                </a> 
+            `);
+            $("#view-card-request-modal").modal();
         }
 
         // auto load dropdown helper

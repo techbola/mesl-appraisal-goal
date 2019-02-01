@@ -57,9 +57,10 @@
           {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
           {{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
-          <select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple">
+          <select class="form-control select2" name="DepartmentID" data-init-plugin="select2">
+            <option value="">Select Department</option>
             @foreach ($departments as $dept)
-              <option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
+              <option value="{{ $dept->id }}" @if($dept->id == $staff->DepartmentID) selected @endif>{{ $dept->name }}</option>
             @endforeach
           </select>
         </div>
@@ -69,7 +70,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <label>Supervisor</label>
-          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('fullname', 'staff_id')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
       </div>
     @endif
@@ -82,7 +83,17 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('IDNumber','ID Number') }}
-            {{ Form::email('IDNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter ID Number']) }}
+            {{ Form::number('IDNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter ID Number']) }}
+        </div>
+    </div>
+
+  </div>
+  <div class="row">
+
+    <div class="col-sm-4">
+        <div class="form-group">
+            {{ Form::label('GenderID','Gender') }}
+            {{ Form::select('GenderID', [ '' =>  'Choose Gender'] + $genders->pluck('Gender', 'GenderRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Gender", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
 </div>
@@ -107,26 +118,100 @@
     </div>
     <div class="col-sm-3">
         <div class="">
-          {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label']) }}
+          {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label required']) }}
           <div class="input-group date dp">
-            {{ Form::text('DateofBirth', null, ['class' => 'form-control', 'placeholder' => 'Date of Birth']) }}
+            {{ Form::text('DateofBirth', null, ['class' => 'form-control required', 'placeholder' => 'Date of Birth', 'required']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
         </div>
     </div>
+
+
+
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('HomePhone','Home Phone Number') }}
             {{ Form::text('HomePhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Home Phone Number']) }}
         </div>
     </div>
+
+      <div class="col-sm-3">
+        <div class="form-group">
+            {{ Form::label('CityOfBirth','Town/City') }}
+            {{ Form::text('CityOfBirth', null,  ['class' => 'form-control required', 'placeholder' => 'Enter City', 'required']) }}
+        </div>
+    </div>
+
+    {{-- <div class="col-sm-3">
+        <div class="form-group">
+            {{ Form::label('StateOfBirth','State Of Birth') }}
+            {{ Form::select('StateOfBirth', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your State", 'data-init-plugin' => "select2", 'required']) }}
+        </div>
+    </div> --}}
+
+    <div class="col-sm-3">
+        <div class="form-group">
+            {{ Form::label('CountryOfBirth','Country Of Birth') }}
+            {{ Form::select('CountryOfBirth', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2", 'required']) }}
+        </div>
+    </div>
+
+    {{-- <div class="col-sm-3">
+        <div class="form-group">
+            {{ Form::label('CityOfOrigin','City Of Origin') }}
+            {{ Form::text('CityOfOrigin', null,  ['class' => 'form-control required', 'placeholder' => 'Enter City of Origin', 'required']) }}
+        </div>
+    </div> --}}
+
+    {{-- <div class="clearfix"></div> --}}
+
+    <div class="col-sm-3">
+        <div class="form-group">
+            {{ Form::label('StateofOrigin','State Of Origin') }}
+            {{ Form::select('StateofOrigin', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your State", 'data-init-plugin' => "select2", 'required']) }}
+        </div>
+    </div>
+
+    {{-- <div class="col-sm-3">
+        <div class="form-group">
+            {{ Form::label('CountryOfOrigin','Country Of Origin') }}
+            {{ Form::select('CountryOfOrigin', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2", 'required']) }}
+        </div>
+    </div> --}}
+
+    <div class="col-sm-3">
+        <div class="form-group">
+            {{ Form::label('NationalityOfOrigin','Nationality') }}
+            {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control ', 'placeholder' => 'Enter Nationality', '']) }}
+        </div>
+    </div>
+
+<div class="clearfix"></div>
+
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('MobilePhone','Mobile Phone') }}
-            {{ Form::text('MobilePhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Mobile PhoneNumber']) }}
+            {{ Form::text('MobilePhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Mobile PhoneNumber', 'required']) }}
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        {{ Form::label('SpouseSurname','Spouse Surname') }}
+        {{ Form::text('SpouseSurname', $staff->SpouseSurname,  ['class' => 'form-control', 'placeholder' => 'First name']) }}
+        {{-- <input type="text" value="{{ $staff->FullName }}" class="form-control" readonly> --}}
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        {{ Form::label('SpouseOthername','Spouse Othername') }}
+        {{ Form::text('SpouseOthername', $staff->SpouseOthername,  ['class' => 'form-control', 'placeholder' => 'Middle name']) }}
+      </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
@@ -137,13 +222,13 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('ReligionID','Religion') }}
-             {{ Form::select('ReligionID', [ 0 =>  'Select your religion'] + $religions->pluck('Religion', 'ReligionRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
+             {{ Form::select('ReligionID', [ 0 =>  'Select your religion'] + $religions->pluck('Religion', 'ReligionRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
-        <div class="">
-            {{ Form::label('MaritalStatusID','Marital Status', ['class' => 'form-label']) }}
-            {{ Form::select('MaritalStatusID', [ 0 =>  'Marital Status'] + $status->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Marital Status", 'data-init-plugin' => "select2"]) }}
+        <div class="form-group">
+            {{ Form::label('MaritalStatusID','Marital Status') }}
+            {{ Form::select('MaritalStatusID', [ 0 =>  'Marital Status'] + $status->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Marital Status", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
 </div>
@@ -180,11 +265,11 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('StateID','State') }}
-            {{ Form::select('StateID', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your State", 'data-init-plugin' => "select2"]) }}
+            {{ Form::label('StateOfMarriage','State of Marriage') }}
+            {{ Form::select('StateOfMarriage', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose State of Marriage", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
-    <div class="col-sm-4">
+    {{-- <div class="col-sm-4">
         <div class="form-group">
           {{ Form::label('LGAID','Local Government') }}
           {{ Form::select('LGAID', [ '' =>  'Select State'] + $lgas->pluck('LGA', 'LGARef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Local Government", 'data-init-plugin' => "select2"]) }}
@@ -195,7 +280,7 @@
             {{ Form::label('CountryID','Country') }}
             {{ Form::select('CountryID', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2"]) }}
         </div>
-    </div>
+    </div> --}}
 </div>
 
     {{-- <div class="clearfix"></div> --}}
@@ -203,17 +288,102 @@
 <div class="row">
     <div class="col-sm-6">
         <div class="form-group">
-            {{ Form::label('AddressLine1','Address1') }}
-            {{ Form::textarea('AddressLine1', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Address1']) }}
+            {{ Form::label('AddressLine1','Residential Address', ['class' => 'req']) }}
+            {{ Form::textarea('AddressLine1', null,  ['class' => 'form-control required', 'rows'=>'2', 'placeholder' => 'Enter Address1', 'required']) }}
         </div>
     </div>
     <div class="col-sm-6">
         <div class="form-group">
             {{ Form::label('AddressLine2','Address2') }}
-            {{ Form::textarea('AddressLine2', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Address2']) }}
+            {{ Form::textarea('AddressLine2', null,  ['class' => 'form-control ', 'rows'=>'2', 'placeholder' => 'Enter Address2']) }}
         </div>
     </div>
 </div>
+
+<div class="card-section p-l-5">References</div>
+    @foreach($refs as $key=>$value)
+        <div class="row ref-row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('Name','Ref. Name') }}
+            {{ Form::text('RefName[]', $value->Name,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Name', 'disabled']) }}
+          </div>
+        </div>
+
+         <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefRelationship','Relationship') }}
+            {{ Form::text('RefRelationship[]', $value->Relationship,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Relationship', 'disabled']) }}
+          </div>
+        </div>
+
+         <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefOccupation','Occupation') }}
+            {{ Form::text('RefOccupation[]', $value->Occupation,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Occupation', 'disabled']) }}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefPhone','Phone') }}
+            {{ Form::text('RefPhone[]', $value->Phone,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone', 'disabled']) }}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefEmail','Email') }}
+            {{ Form::email('RefEmail[]', $value->Email,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Email', 'disabled']) }}
+          </div>
+        </div>
+
+
+    </div> <hr>
+    @endforeach
+    <div class="row ref-row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('Name','Ref. Name') }}
+            {{ Form::text('RefName[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Name']) }}
+          </div>
+        </div>
+
+         <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefRelationship','Relationship') }}
+            {{ Form::text('RefRelationship[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Relationship']) }}
+          </div>
+        </div>
+
+         <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefOccupation','Occupation') }}
+            {{ Form::text('RefOccupation[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Occupation']) }}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefPhone','Phone') }}
+            {{ Form::text('RefPhone[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone']) }}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefEmail','Email') }}
+            {{ Form::email('RefEmail[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Email']) }}
+          </div>
+        </div>
+
+
+    </div>
+
+    <div class="form-group" style="margin-left: 7px">
+        <button id="add-more-refs" type="button" class="btn btn-complete">&plus; Add More</button>
+        {{-- <button id="add-more-refs" type="button" class="btn btn-danger">&minus; Remove</button> --}}
+    </div>
 
   <div class="row">
 
@@ -248,7 +418,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('NextofKIN','Next of KIN') }}
-            {{ Form::text('NextofKIN', null,  ['class' => 'form-control', 'placeholder' => 'Enter Name of Next of KIN']) }}
+            {{ Form::text('NextofKIN', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Name of Next of KIN', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -278,13 +448,13 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('BeneficiaryRelationship','Beneficiary Relationship') }}
-            {{ Form::text('BeneficiaryRelationship', null,  ['class' => 'form-control', 'placeholder' => 'Enter Beneficiary Relationship']) }}
+            {{ Form::text('BeneficiaryRelationship', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Beneficiary Relationship', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('Beneficiary_Phone','Beneficiary Phone Number') }}
-            {{ Form::text('Beneficiary_Phone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Beneficiary Phone Number']) }}
+            {{ Form::text('Beneficiary_Phone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Beneficiary Phone Number', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -376,6 +546,30 @@
         </div>
     </div>
 
+    <div class="clearfix"></div>
+
+    {{-- declaration --}}
+    {{-- <div class="col-sm-12">
+        <div class="form-group">
+            {{ Form::label('') }}
+        </div>
+    </div> --}}
+
+    <div class="clearfix"></div>
+
+    <div class="card-section p-l-5">Declaration</div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+             <label for="Declaration" class="">
+              {{ Form::checkbox('Declaration', null , $staff->Declaration, ['class' => 'checkbox']) }}
+              I {{ $staff->FullName }} hereby certify that all the information supplied by me in this form are correct and true
+             </label>
+            </div>
+        </div>
+    </div>
+
+
     @if($user->hasRole('admin'))
 
     </div>
@@ -385,14 +579,14 @@
     <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('BankID','Choose Bank') }}
-        {{ Form::select('BankID', [ 0 =>  'Select a Bank'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Bank", 'data-init-plugin' => "select2"]) }}
+        {{ Form::select('BankID', [ 0 =>  'Select a Bank'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Bank", 'data-init-plugin' => "select2", 'required']) }}
       </div>
     </div>
 
     <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('BankAcctNumber','Bank Account Number') }}
-        {{ Form::text('BankAcctNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter Bank Account Number']) }}
+        {{ Form::text('BankAcctNumber', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Bank Account Number', 'required']) }}
       </div>
     </div>
 
@@ -402,7 +596,7 @@
     <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('PFAID','Choose PFA') }}
-        {{ Form::select('PFAID', [ 0 =>  'Select a PFA'] + $pfa->pluck('PFA', 'PFARef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose PFA", 'data-init-plugin' => "select2"]) }}
+        {{ Form::select('PFAID', [ 0 =>  'Select a PFA'] + $pfa->pluck('PFA', 'PFARef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose PFA", 'data-init-plugin' => "select2", 'required']) }}
       </div>
     </div>
 
@@ -412,6 +606,8 @@
         {{ Form::text('PensionRSANumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter PFA RSA Number']) }}
       </div>
     </div>
+
+
 
     <div class="clearfix"></div>
 
@@ -471,6 +667,13 @@
     $(document).ready(function(){
 
       $('select[name="DepartmentID[]"]').val('{{$staff->DepartmentID}}'.split(",")).trigger('change');
+
+      // refs
+      var ref_html = $(".ref-row")[0].innerHTML;
+      $("#add-more-refs").click(function(e) {
+          e.preventDefault();
+          $('.ref-row').append('<div class="clearfix"></div><hr>').append(ref_html);
+      });
 
     });
   </script>

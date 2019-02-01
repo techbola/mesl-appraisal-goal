@@ -46,8 +46,17 @@ class SidebarComposer
           $parent_menus = Menu::where('parent_id', 0)->orderBy('name')->get();
           $child_menus = Menu::where('parent_id', '!=', 0)->orderBy('name')->get();
         } elseif (count($user->roles) > 0) {
-            $parent_menus = $user->roles()->first()->menus()->where('parent_id', 0)->orderBy('name')->get();
-            $child_menus = $user->roles()->first()->menus()->where('parent_id', '!=', 0)->orderBy('name')->get();
+            $roles = \Auth::user()->roles()->pluck('role_id')->toArray();
+
+            $parent_menus = Menu::whereHas('roles', function($query) use($roles){
+              $query->whereIn('id', $roles);
+            })->where('parent_id', 0)->orderBy('name')->get();
+            $child_menus = Menu::whereHas('roles', function($query) use($roles){
+              $query->whereIn('id', $roles);
+            })->where('parent_id','!=', 0)->orderBy('name')->get();
+
+            // $parent_menus = $user->roles()->first()->menus()->where('parent_id', 0)->orderBy('name')->get();
+            // $child_menus = $user->roles()->first()->menus()->where('parent_id', '!=', 0)->orderBy('name')->get();
         } else {
 
             $parent_menus = Menu::where('parent_id', 0)->with('children')->orderBy('name')->get();

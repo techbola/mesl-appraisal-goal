@@ -19,7 +19,7 @@ class UserController extends Controller
 
 public function disengage($id)
 {
-  $this->authorize('company-admin');
+  // $this->authorize('company-admin');
   $user = User::find($id);
   if ($user->hasRole('admin')) {
     return redirect()->back()->with('error', 'Cannot disengage an admin.');
@@ -30,9 +30,9 @@ public function disengage($id)
   return redirect()->route('staff.index')->with('success', $user->FullName.' was disengaged successfully');
 }
 
-public function restore($id)
+public function reengage($id)
 {
-  $this->authorize('company-admin');
+  // $this->authorize('company-admin');
   // $user = User::withTrashed()->where('id', $id)->first();
   // $user->restore_user();
   // $user->staff->restore_user();
@@ -40,7 +40,7 @@ public function restore($id)
   $user->is_disengaged = '0';
   $user->update();
 
-  return redirect()->back()->with('success', $user->FullName.' was re-engaged successfully');
+  return redirect()->route('staff.index')->with('success', $user->FullName.' was re-engaged successfully');
 }
 
 }

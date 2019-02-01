@@ -74,9 +74,17 @@ class BulletinController extends Controller
 
     $bulletin->save();
 
-    $staff = User::whereHas('staff', function($q) use($request){
-      $q->whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',".$request->DepartmentID.",',%')");
-    })->get();
+    // $depts = CompanyDepartment::all()->pluck('id')->toArray();
+    //
+    // if ($request->DepartmentID == '29') {
+    //   $staff = User::whereHas('staff', function($query) use($request, $depts) {
+    //     $query->whereIn('DepartmentID', $depts);
+    //   })->get();
+    // } else {
+      $staff = User::whereHas('staff', function($q) use($request){
+        $q->whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,',".$request->DepartmentID.",',%')");
+      })->get();
+    // }
 
 
     Notification::send($staff, new NewBulletin($bulletin));
@@ -87,6 +95,13 @@ class BulletinController extends Controller
   public function view_bulletin($id)
   {
     return $this->index();
+  }
+
+  public function delete(Request $request, $id)
+  {
+    $bulletin = Bulletin::find($id);
+    $bulletin->delete();
+    return redirect()->back()->with('success', 'Bulletin item deleted successfully');
   }
 
 }

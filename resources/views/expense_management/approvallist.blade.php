@@ -336,8 +336,11 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      console.log(checked_requests_array)
    var ApprovedDate = "{{ \Carbon\Carbon::now() }}";
    var ApproverID = {{ auth()->user()->id }};
-     alert('Are You sure you want to approve this memo ?');
-     var Comment = prompt("Enter Approval Comment");
+
+     var confirm = confirm('Are You sure you want to approve this memo ?');
+     // alert('Are You sure you want to approve this memo ?');
+     if(confirm){
+      var Comment = prompt("Enter Approval Comment");
      
      $.ajax({
          url: '/expense_management/supervisor-approval',
@@ -352,6 +355,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
         },
         beforeSend: function(){
             // show button animation
+            that.attr('disabled', 'disabled');
             that.text('Approving ...');
         }
      })
@@ -367,6 +371,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      .fail(function() {
          console.log("error");
      });
+     }
      
  });
 

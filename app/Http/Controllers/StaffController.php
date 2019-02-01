@@ -2,11 +2,13 @@
 
 namespace MESL\Http\Controllers;
 
+use Illuminate\Http\Request;
 use MESL\Bank;
 use MESL\Country;
 use MESL\Department;
 use MESL\EmploymentStatus;
 use MESL\GradeLevel;
+use MESL\Gender;
 use MESL\HMO;
 use MESL\HMOPlan;
 use MESL\Location;
@@ -23,15 +25,16 @@ use MESL\TaxableBase;
 use MESL\Title;
 use MESL\Unit;
 use MESL\User;
+use MESL\Reference;
 use MESL\StaffPending;
 use MESL\PayrollAdjustmentGroup;
 use MESL\HrInitiatedDocs;
 use MESL\DocType;
+use MESL\CompanySupervisor;
 use MESL\StaffOnboarding;
 use MESL\Mail\StaffOnboard;
-use Mail;
+use MESL\Mail\ApprovailIT;
 
-use Illuminate\Http\Request;
 use Carbon;
 
 use DB;
@@ -43,60 +46,60 @@ use File;
 use Image;
 use Auth;
 use Gate;
+use Mail;
 
 class StaffController extends Controller
 {
 
     public function index()
     {
-      $this->authorize('hr-admin');
+        $this->authorize('hr-admin');
         // $staffs = \DB::table('tblStaff')
         //     ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
         //     ->get();
         // return view('staff.index', compact('staffs'));
         $user = auth()->user();
         if ($user->is_superadmin) {
-            $staffs    = Staff::with('user')->get();
-            $companies = Company::all();
-            $roles     = Role::all();
+            $staffs     = Staff::with('user')->get();
+            $companies2 = Company::where('CompanyRef', '17')->first();
+            $roles      = Role::all();
         } else {
-            $roles  = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
+            $roles = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
             if (!empty($_GET['q'])) {
-              $q = $_GET['q'];
-              $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function($query) use($q){
-                $query->where('first_name', 'LIKE', '%'.$q.'%')->orWhere('last_name', 'LIKE', '%'.$q.'%')->orWhere('email', 'LIKE', '%'.$q.'%');
-              })->orWhere('MobilePhone', 'LIKE', '%'.$q.'%')->with('user')->get();
+                $q      = $_GET['q'];
+                $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function ($query) use ($q) {
+                    $query->where('first_name', 'LIKE', '%' . $q . '%')->orWhere('last_name', 'LIKE', '%' . $q . '%')->orWhere('email', 'LIKE', '%' . $q . '%');
+                })->orWhere('MobilePhone', 'LIKE', '%' . $q . '%')->with('user')->get();
             } else {
-              $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
+                $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             }
         }
         $departments = CompanyDepartment::where('is_deleted', false)->get();
-        return view('staff.index_', compact('staffs', 'companies', 'roles', 'departments', 'q'));
+        $supervisors = CompanySupervisor::allSupervisors();
+        return view('staff.index_', compact('staffs', 'companies2', 'roles', 'departments', 'q', 'supervisors'));
     }
-
 
     public function get_staff_list()
     {
-      $user = auth()->user();
-      $staff = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
+        $user  = auth()->user();
+        $staff = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
 
-      return $staff;
+        return $staff;
     }
 
     public function staff_search()
     {
-      $user = auth()->user();
-      if (!empty($_GET['q'])) {
-        $q = $_GET['q'];
-        $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function($query) use($q){
-          $query->where('first_name', 'LIKE', '%'.$q.'%')->orWhere('last_name', 'LIKE', '%'.$q.'%')->orWhere('email', 'LIKE', '%'.$q.'%');
-        })->orWhere('MobilePhone', 'LIKE', '%'.$q.'%')->with('user')->paginate(20);
-      } else {
-        $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->paginate(20);
-      }
+        $user = auth()->user();
+        if (!empty($_GET['q'])) {
+            $q      = $_GET['q'];
+            $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function ($query) use ($q) {
+                $query->where('first_name', 'LIKE', '%' . $q . '%')->orWhere('last_name', 'LIKE', '%' . $q . '%')->orWhere('email', 'LIKE', '%' . $q . '%');
+            })->orWhere('MobilePhone', 'LIKE', '%' . $q . '%')->with('user')->paginate(20);
+        } else {
+            $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->paginate(20);
+        }
 
-
-      return view('staff.staff_search', compact('staffs', 'q'));
+        return view('staff.staff_search', compact('staffs', 'q'));
     }
 
     public function post_invite(Request $request)
@@ -106,7 +109,7 @@ class StaffController extends Controller
             'first_name' => 'required',
             'last_name'  => 'required',
             'email'      => 'required|unique:users',
-            'roles'       => 'required',
+            'roles'      => 'required',
         ]);
 
         try {
@@ -121,16 +124,16 @@ class StaffController extends Controller
             $user->changed_password = '0';
             $user->save();
 
-            $staff               = new Staff;
-            $staff->UserID       = $user->id;
+            $staff         = new Staff;
+            $staff->UserID = $user->id;
             if (!empty($request->DepartmentID)) {
-              $staff_departments   = implode(',', $request->DepartmentID);
-              $staff->DepartmentID = $staff_departments;
+                $staff_departments   = implode(',', $request->DepartmentID);
+                $staff->DepartmentID = $staff_departments;
             } else {
-              $staff->DepartmentID = '1';
+                $staff->DepartmentID = '1';
             }
             if (!empty($request->SupervisorID)) {
-              $staff->SupervisorID = $request->SupervisorID;
+                $staff->SupervisorID = $request->SupervisorID;
             }
             if (auth()->user()->is_superadmin) {
                 $staff->CompanyID = $request->CompanyID;
@@ -148,7 +151,7 @@ class StaffController extends Controller
 
             // Role is now compulsory
             foreach ($request->roles as $role_id) {
-              $user->roles()->attach($role_id);
+                $user->roles()->attach($role_id);
             }
             // $role = Role::where('id', $request->role)->first();
             // $user->roles()->attach($role->id);
@@ -166,19 +169,19 @@ class StaffController extends Controller
 
     public function reinvite_staff(Request $request, $id)
     {
-      $user = User::find($id);
-      Notification::send($user, new StaffInvitation());
-      return redirect()->back()->with('success', $user->FullName . ' was re-invited successfully. Ask them to check their mail -- '.$user->email);
+        $user = User::find($id);
+        Notification::send($user, new StaffInvitation());
+        return redirect()->back()->with('success', $user->FullName . ' was re-invited successfully. Ask them to check their mail -- ' . $user->email);
     }
 
     public function update_staff_admin(Request $request, $id)
     {
-      $staff = Staff::find($id);
-      $staff->user->first_name = $request->first_name;
-      $staff->user->last_name = $request->last_name;
-      $staff->user->email = $request->email;
-      $staff->user->update();
-      return redirect()->back()->with('success', 'Staff was updated successfully');
+        $staff                   = Staff::find($id);
+        $staff->user->first_name = $request->first_name;
+        $staff->user->last_name  = $request->last_name;
+        $staff->user->email      = $request->email;
+        $staff->user->update();
+        return redirect()->back()->with('success', 'Staff was updated successfully');
     }
 
     public function pending_biodata_list()
@@ -246,26 +249,26 @@ class StaffController extends Controller
 
     }
 
-    public function showfulldetails()
-    {
-        $email   = \Auth::user()->email;
-        $details = \DB::table('tblStaff')
-            ->leftJoin('tblReligion', 'tblStaff.ReligionID', '=', 'tblReligion.ReligionRef')
-            ->leftJoin('tblState', 'tblStaff.StateID', '=', 'tblState.StateRef')
-            ->leftJoin('tblCountry', 'tblStaff.CountryID', '=', 'tblCountry.CountryRef')
-            ->leftJoin('tblMaritalStatus', 'tblStaff.MaritalStatusID', '=', 'tblMaritalStatus.MaritalStatusRef')
-            ->leftJoin('tblHMO', 'tblStaff.HMOID', '=', 'tblHMO.HMORef')
-            ->leftJoin('tblHMOPlan', 'tblStaff.HMOPlanID', '=', 'tblHMOPlan.HMOPlanRef')
-            ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
-            ->leftJoin('tblDepartment', 'tblStaff.DepartmentID', '=', 'tblDepartment.DepartmentRef')
-            ->leftJoin('tblUnit', 'tblStaff.UnitID', '=', 'tblUnit.UnitRef')
-            ->leftJoin('roles', 'tblStaff.RoleID', '=', 'roles.id')
-            ->leftJoin('tblPosition', 'tblStaff.PositionID', '=', 'tblPosition.PositionRef')
-            ->leftJoin('tblGradeLevel', 'tblStaff.GradeLevelID', '=', 'tblGradeLevel.GradeLevelRef')
-            ->leftJoin('tblPFA', 'tblStaff.PFAID', '=', 'tblPFA.PFARef')
-            ->where('email', $email)->get();
-        return view('staff.showfulldetails', compact('details'));
-    }
+    // public function showfulldetails()
+    // {
+    //     $email   = \Auth::user()->email;
+    //     $details = \DB::table('tblStaff')
+    //         ->leftJoin('tblReligion', 'tblStaff.ReligionID', '=', 'tblReligion.ReligionRef')
+    //         ->leftJoin('tblState', 'tblStaff.StateID', '=', 'tblState.StateRef')
+    //         ->leftJoin('tblCountry', 'tblStaff.CountryID', '=', 'tblCountry.CountryRef')
+    //         ->leftJoin('tblMaritalStatus', 'tblStaff.MaritalStatusID', '=', 'tblMaritalStatus.MaritalStatusRef')
+    //         ->leftJoin('tblHMO', 'tblStaff.HMOID', '=', 'tblHMO.HMORef')
+    //         ->leftJoin('tblHMOPlan', 'tblStaff.HMOPlanID', '=', 'tblHMOPlan.HMOPlanRef')
+    //         ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
+    //         ->leftJoin('tblDepartment', 'tblStaff.DepartmentID', '=', 'tblDepartment.DepartmentRef')
+    //         ->leftJoin('tblUnit', 'tblStaff.UnitID', '=', 'tblUnit.UnitRef')
+    //         ->leftJoin('roles', 'tblStaff.RoleID', '=', 'roles.id')
+    //         ->leftJoin('tblPosition', 'tblStaff.PositionID', '=', 'tblPosition.PositionRef')
+    //         ->leftJoin('tblGradeLevel', 'tblStaff.GradeLevelID', '=', 'tblGradeLevel.GradeLevelRef')
+    //         ->leftJoin('tblPFA', 'tblStaff.PFAID', '=', 'tblPFA.PFARef')
+    //         ->where('email', $email)->get();
+    //     return view('staff.showfulldetails', compact('details'));
+    // }
 
     public function create()
     {
@@ -316,22 +319,6 @@ class StaffController extends Controller
 
     public function show($id)
     {
-        // $detail = \DB::table('tblStaff')
-        //     ->leftJoin('tblReligion', 'tblStaff.ReligionID', '=', 'tblReligion.ReligionRef')
-        //     ->leftJoin('tblState', 'tblStaff.StateID', '=', 'tblState.StateRef')
-        //     ->leftJoin('tblCountry', 'tblStaff.CountryID', '=', 'tblCountry.CountryRef')
-        //     ->leftJoin('tblMaritalStatus', 'tblStaff.MaritalStatusID', '=', 'tblMaritalStatus.MaritalStatusRef')
-        //     ->leftJoin('tblHMO', 'tblStaff.HMOID', '=', 'tblHMO.HMORef')
-        //     ->leftJoin('tblHMOPlan', 'tblStaff.HMOPlanID', '=', 'tblHMOPlan.HMOPlanRef')
-        //     ->leftJoin('tblEmploymentStatus', 'tblStaff.EmploymentStatusID', '=', 'tblEmploymentStatus.StatusRef')
-        //     ->leftJoin('tblDepartment', 'tblStaff.DepartmentID', '=', 'tblDepartment.DepartmentRef')
-        //     ->leftJoin('tblUnit', 'tblStaff.UnitID', '=', 'tblUnit.UnitRef')
-        //     ->leftJoin('roles', 'tblStaff.RoleID', '=', 'roles.id')
-        //     ->leftJoin('tblPosition', 'tblStaff.PositionID', '=', 'tblPosition.PositionRef')
-        //     ->leftJoin('tblGradeLevel', 'tblStaff.GradeLevelID', '=', 'tblGradeLevel.GradeLevelRef')
-        //     ->leftJoin('tblPFA', 'tblStaff.PFAID', '=', 'tblPFA.PFARef')
-        //     ->where('StaffRef', $id)
-        //     ->first();
 
         $staff = Staff::find($id);
 
@@ -355,82 +342,84 @@ class StaffController extends Controller
         }
         $gantt = json_encode($gantt);
 
-
         // note that I am saving the StaffRef of the Staff
         $doctypes   = DocType::all();
-        $docs       = HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get();
-        $docs_count = HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get()->count();
+        $docs       = compact([]); //HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get();
+        $docs_count = 0; //HrInitiatedDocs::where('StaffID', $staff->StaffRef)->get()->count();
 
         return view('staff.show', compact('detail', 'staff', 'gantt', 'docs', 'docs_count', 'doctypes'));
     }
 
     public function edit_biodata($id)
     {
-        $staff  = Staff::where('StaffRef', $id)->first();
+        $staff = Staff::where('StaffRef', $id)->first();
         $this->authorize('edit-profile', $staff->user);
 
         $user = auth()->user();
 
         $staffs = Staff::all();
 
-        $religions      = Religion::all();
+        $religions      = Religion::all()->sortBy('Religion');
+        $refs           = Reference::where('StaffID', auth()->user()->staff->StaffRef)->get();
+        $genders        = Gender::all()->sortBy('Gender');
         $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');
-        $status         = MaritalStatus::all();
-        $states         = State::all();
-        $countries      = Country::all();
+        $status         = MaritalStatus::all()->sortBy('MaritalStatus');
+        $states         = State::all()->sortBy('State');
+        $countries      = Country::all()->sortBy('Country');
         $hmos           = HMO::all();
         $hmoplans       = HMOPlan::all();
         $roles          = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
         $role           = User::find($staff->UserID)->roles;
-        $banks          = Bank::all();
-        $pfa            = PFA::all();
-        $locations      = Location::all();
+        $banks          = Bank::all()->sortBy('BankName');
+        $pfa            = PFA::all()->sortBy('PFA');
+        $locations      = Location::all()->sortBy('Location');
         $lgas           = LGA::all();
 
-        $departments       = Department::where('CompanyID', $user->staff->CompanyID)->get();
-        $staff_departments = explode(',', $staff->DepartmentID);
-        $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
+        $departments       = CompanyDepartment::all()->sortBy('name');
+        $staff_departments = $staff->DepartmentID;
+        // $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
+        $supervisors = CompanySupervisor::allSupervisors();
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas','pfa'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
     }
 
-    public function editFinanceDetails($id)
-    {
-        $grades = GradeLevel::all();
-        $banks  = Bank::all();
-        $pfa    = PFA::all();
-        $taxes  = TaxableBase::all();
-        $staff  = Staff::where('StaffRef', $id)->first();
-        $staffs = Staff::all();
-        return view('staff.Staff_Finance_Details', compact('grades', 'staff', 'staffs', 'taxes', 'banks', 'pfa', 'taxs'));
-    }
+    // public function editFinanceDetails($id)
+    // {
+    //     $grades = GradeLevel::all();
+    //     $banks  = Bank::all();
+    //     $pfa    = PFA::all();
+    //     $taxes  = TaxableBase::all();
+    //     $staff  = Staff::where('StaffRef', $id)->first();
+    //     $staffs = Staff::all();
+    //     return view('staff.Staff_Finance_Details', compact('grades', 'staff', 'staffs', 'taxes', 'banks', 'pfa', 'taxs'));
+    // }
 
-    public function edit($id)
-    {
-        $grades = GradeLevel::all();
-        $banks  = Bank::all();
-        $pfa    = PFA::all();
-        $taxes  = TaxableBase::all();
-        $staff  = Staff::where('StaffRef', $id)->first();
-        $staffs = Staff::all();
-        return view('staff.edit', compact('grades', 'staff', 'staffs', 'taxes', 'banks', 'pfa', 'taxs'));
-    }
+    // public function edit($id)
+    // {
+    //     $grades = GradeLevel::all();
+    //     $banks  = Bank::all();
+    //     $pfa    = PFA::all();
+    //     $taxes  = TaxableBase::all();
+    //     $staff  = Staff::where('StaffRef', $id)->first();
+    //     $staffs = Staff::all();
+    //     return view('staff.edit', compact('grades', 'staff', 'staffs', 'taxes', 'banks', 'pfa', 'taxs'));
+    // }
 
-    public function editofficedetails($id)
-    {
-        $titles      = Title::all();
-        $locations   = Location::all();
-        $departments = Department::all();
-        $status      = EmploymentStatus::all();
-        $sexs        = Sex::all();
-        $roles       = Role::all();
-        $positions   = Position::all();
-        $units       = Unit::all();
-        $staff       = Staff::where('StaffRef', $id)->first();
-        $staffs      = Staff::all();
-        return view('staff.form', compact('titles', 'locations', 'positions', 'roles', 'sexs', 'units', 'staff', 'staffs', 'departments', 'status'));
-    }
+    // public function editofficedetails($id)
+    // {
+    //     $titles      = Title::all();
+    //     $locations   = Location::all();
+    //     $departments = Department::all();
+    //     $status      = EmploymentStatus::all();
+    //     $sexs        = Sex::all();
+    //     $roles       = Role::all();
+    //     $positions   = Position::all();
+    //     $units       = Unit::all();
+    //     $staff       = Staff::where('StaffRef', $id)->first();
+    //     $staffs      = Staff::all();
+    //     return view('staff.form', compact('titles', 'locations', 'positions', 'roles', 'sexs', 'units', 'staff', 'staffs', 'departments', 'status'));
+    // }
 
     public function updateFinanceDetails(Request $request, $id)
     {
@@ -446,30 +435,30 @@ class StaffController extends Controller
         }
     }
 
-    public function updateOfficeDetails(Request $request, $id)
-    {
-        $staff = \DB::table('tblStaff')->where('StaffRef', $id);
-        $this->validate($request, [
-            'EmployeeNumber'     => 'bail|required|unique:tblStaff',
-            'TitleID'            => 'required',
-            'name'               => 'required',
-            'FirstName'          => 'required',
-            'LocationID'         => 'required',
-            'email'              => 'bail|required|unique:tblStaff',
-            'DepartmentID'       => 'required',
-            'ConfirmationDate'   => 'required',
-            'EmploymentDate'     => 'required',
-            'EmploymentStatusID' => 'required',
-            'SexID'              => 'required',
-            'LeaveDays'          => 'required',
-            'SupervisorID'       => 'required',
-        ]);
-        if ($staff->update($request->except(['_token', '_method']))) {
-            return redirect()->route('staff.create')->with('success', 'Financial Details was updated successfully');
-        } else {
-            return back()->withInput()->with('error', 'Financial Details failed to update');
-        }
-    }
+    // public function updateOfficeDetails(Request $request, $id)
+    // {
+    //     $staff = \DB::table('tblStaff')->where('StaffRef', $id);
+    //     $this->validate($request, [
+    //         'EmployeeNumber'     => 'bail|required|unique:tblStaff',
+    //         'TitleID'            => 'required',
+    //         'name'               => 'required',
+    //         'FirstName'          => 'required',
+    //         'LocationID'         => 'required',
+    //         'email'              => 'bail|required|unique:tblStaff',
+    //         'DepartmentID'       => 'required',
+    //         'ConfirmationDate'   => 'required',
+    //         'EmploymentDate'     => 'required',
+    //         'EmploymentStatusID' => 'required',
+    //         'SexID'              => 'required',
+    //         'LeaveDays'          => 'required',
+    //         'SupervisorID'       => 'required',
+    //     ]);
+    //     if ($staff->update($request->except(['_token', '_method']))) {
+    //         return redirect()->route('staff.create')->with('success', 'Financial Details was updated successfully');
+    //     } else {
+    //         return back()->withInput()->with('error', 'Financial Details failed to update');
+    //     }
+    // }
 
     public function updatebiodata(Request $request, $id)
     {
@@ -492,12 +481,30 @@ class StaffController extends Controller
             $staff      = Staff::where('StaffRef', $id)->first();
             $user_staff = User::find($staff->UserID);
 
+            // dd($request->has('Declaration'));
+            $staff->Declaration = $request->has('Declaration') ? 1 : 0;
             if (Gate::denies('hr-admin')) {
                 // Non Admins
-                $staff            = new StaffPending;
-                $staff->UserID    = $user->id;
-                $staff->StaffRef  = $user->staff->StaffRef;
-                $staff->CompanyID = $user->staff->CompanyID;
+                $staff              = new StaffPending;
+                $ref                = new Reference;
+                $staff->UserID      = $user->id;
+                $staff->StaffRef    = $user->staff->StaffRef;
+                $staff->CompanyID   = $user->staff->CompanyID;
+                $staff->Declaration = $request->has('Declaration') ? 1 : 0;
+
+                // saave references
+                foreach ($request->RefName as $key => $value) {
+                    $ref               = new Reference;
+                    $ref->Name         = $request['RefName'][$key];
+                    $ref->Relationship = $request['RefRelationship'][$key];
+                    $ref->Occupation   = $request['RefOccupation'][$key];
+                    $ref->Phone        = $request['RefPhone'][$key];
+                    $ref->Email        = $request['RefEmail'][$key];
+                    $ref->Address      = $request['RefAddress'][$key];
+                    $ref->StaffID      = auth()->user()->staff->StaffRef;
+                    $ref->save();
+                }
+                // end saving refs
 
                 // START PHOTO
                 if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
@@ -516,10 +523,11 @@ class StaffController extends Controller
                 // END PHOTO
 
             } else {
-              if (!empty($request->DepartmentID)) {
-                $staff_departments = implode(',', $request->DepartmentID);
-                $staff->DepartmentID = $staff_departments;
-              }
+
+                if (!empty($request->DepartmentID)) {
+                    $staff_departments   = $request->DepartmentID;
+                    $staff->DepartmentID = $staff_departments;
+                }
 
                 $user_staff->first_name  = $request->FirstName;
                 $user_staff->middle_name = $request->MiddleName;
@@ -550,89 +558,69 @@ class StaffController extends Controller
             }
 
             $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar', 'roles', 'DepartmentID']));
+            $staff->Declaration = $request->has('Declaration') ? 1 : 0;
             $staff->save();
 
             DB::commit();
             if ($user->hasRole('admin')) {
-              return redirect()->route('staff.index')->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
+                return redirect()->route('staff.index')->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
             } else {
-              return redirect()->route('staff.show', $staff->StaffRef)->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
+                return redirect()->route('staff.show', $staff->StaffRef)->with('success', $user_staff->FullName . '\'s biodata was updated successfully');
             }
 
-            } catch (Exception $e) {
-                DB::rollback();
-                return back()->withInput()->with('error', 'Failed to update please try again.');
-            }
+        } catch (Exception $e) {
+            DB::rollback();
+            return back()->withInput()->with('error', 'Failed to update please try again.');
+        }
 
-            // if ($staff->update($request->except(['_token', '_method']))) {
-            //     return redirect()->route('staff.showfulldetails', $id)->with('success', $staff->FullName.'\'s biodata was updated successfully');
-            // } else {
-            //     return back()->withInput()->with('error', 'Failed to update please try again.');
-            // }
+        // if ($staff->update($request->except(['_token', '_method']))) {
+        //     return redirect()->route('staff.showfulldetails', $id)->with('success', $staff->FullName.'\'s biodata was updated successfully');
+        // } else {
+        //     return back()->withInput()->with('error', 'Failed to update please try again.');
+        // }
 
     }
 
     public function subordinates()
     {
-      $user = auth()->user();
-      $staffs = $user->staff->subordinates;
-      // $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
+        $user   = auth()->user();
+        $staffs = $user->staff->subordinates;
+        // $roles  = Role::where('CompanyID', $user->staff->CompanyID)->get();
 
-      return view('staff.subordinates', compact('staffs', 'companies', 'roles'));
-    }
-
-    public function staff_onboarding()
-    {
-        $user       = \Auth::user();
-        $id         = \Auth::user()->id;
-        $department = CompanyDepartment::all();
-        // dd($department);
-        // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
-        $staff = Staff::all();
-        $staff_onboards = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
-                                            ->where('SendForApproval', '0')
-                                            ->get();
-        
-        $staff_onboarding_sent = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
-        ->where('SendForApproval', '1')
-        ->get();
-
-        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department'));
+        return view('staff.subordinates', compact('staffs', 'companies', 'roles'));
     }
 
     public function store_staff_onboard(Request $request)
-    {   
-        $user = auth()->user();
+    {
+        $user  = auth()->user();
         $staff = Staff::all();
 
         $staff_onboard = new StaffOnboarding($request->all());
 
-        if($staff_onboard->save()){
+        if ($staff_onboard->save()) {
             return redirect()->route('StoreStaff')->with('success', 'Staff Rquest was Made successfully');
         }
     }
 
+    //Send mail to IT and Admin for Onboarding notification
     public function send_staff_onboarding($id)
     {
-        $user = auth()->user();
+        $user  = auth()->user();
         $staff = Staff::all();
 
         $staff_onboard = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->get();
-
-
-        $user = User::all();
+        // $user = User::all();
 
         $staff_onboard = User::all();
+
         $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)
-                                        ->where('SendForApproval', '0')
-                                        ->first();
+            ->where('SendForApproval', '0')
+            ->first();
         $staff_onboard->SendForApproval = '1';
         $staff_onboard->update();
-        
-        // $email = Staff::where('DepartmentID', '2')->get();
 
-        $users = User::whereHas('staff', function($query){
-            $query->where('DepartmentID', '2');
+        $users = User::whereHas('staff', function ($query) {
+            $query->whereIn('DepartmentID', [2]);
         })->get(); // ->toArray();
 
         Mail::to($users)->send(new StaffOnboard());
@@ -646,13 +634,28 @@ class StaffController extends Controller
         $staff_onboard = StaffOnboarding::find($id);
 
         $staff_onboard->delete();
-        
+
         return redirect()->route('StaffOnboarding')->with('success', 'Process was Deleted successfully');
     }
 
-    public function approval_status()
+    public function staff_onboarding()
     {
-        $staff_onboards = Staffonboarding::orderBy('StaffOnboardRef', 'DESC')->where('ApprovalStatus', 0);
+        $user       = \Auth::user();
+        $id         = \Auth::user()->id;
+        $department = CompanyDepartment::all();
+        // dd($department);
+        // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
+        $staff          = Staff::all();
+        $staff_onboards = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
+            ->where('SendForApproval', '0')
+            ->get();
+
+        $staff_onboarding_sent = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')
+            ->where('SendForApproval', '1')
+            ->get();
+
+
+        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department'));
     }
 
     /*
@@ -660,11 +663,41 @@ class StaffController extends Controller
     | SHOW ON-BOARDING REQUEST DASHBOARD
     |-----------------------------------------
     */
-    public function approve_onboard()
-    {
+    public function approve_onboardIT(){
+
         $staff_onboards = StaffOnboarding::gellPendingOnboarding();
-        return view('staff.onboard_dashboard', compact('staff_onboards'));
+
+        $user  = auth()->user();
+        $staff = Staff::all();
+
+        // $staff_onboard = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->get();
+
+        $staff_onboard = User::all();
+
+        $staff_onboard = StaffOnboarding::where('ApprovalStatus1', $id)
+            ->where('ApprovalStatus1', '0')
+            ->first();
+        $staff_onboard->ApprovalStatus1 = '1';
+        $staff_onboard->update();
+
+        $users = User::whereHas('staff', function ($query) {
+            $query->whereIn('DepartmentID', [3]);
+        })->get();
+
+        Mail::to($users)->send(new ApprovalIT());
+
+
+        return redirect()->back()->with('success', 'Request has been treated successfully');
     }
+    
+    /*
+    |-----------------------------------------
+    | SHOW ON-BOARDING REQUEST DASHBOARD
+    |-----------------------------------------
+    */
+    public function approve_onboard(){
 
-
+        $staff_onboards = StaffOnboarding::gellPendingOnboarding();
+        return view('staff.onboard_dashboard_admin', compact('staff_onboards'));
+    }
 }

@@ -40,15 +40,15 @@ class NewBulletin extends Notification
      */
     public function toMail($notifiable)
     {
-      $bulletin = $this->bulletin;
+        $bulletin = $this->bulletin;
         return (new MailMessage)
-                    ->subject('New Bulletin Board Announcement')
-                    ->greeting('Hi '.$notifiable->first_name)
-                    ->line($bulletin->poster->FullName.' has posted a new bulletin board announcement. Here\'s a preview and a button to read the full thing.')
-                    ->line('**Title: **'.$bulletin->Title)
-                    ->line('**Body: **'.str_limit(strip_tags($bulletin->Body), 200).'')
-                    ->action('Read Full Content', route('view_bulletin', $bulletin->BulletinRef));
-                    // ->line('Thank you for using our application!');
+            ->subject('New Bulletin Board Announcement')
+            ->greeting('Hi ' . $notifiable->first_name)
+            ->line($bulletin->poster->FullName . ' has posted a new bulletin board announcement. Here\'s a preview and a button to read the full thing.')
+            ->line('**Title: **' . $bulletin->Title)
+            ->line('**Body: **' . strip_tags($bulletin->Body) . '')
+            ->action('Read Full Content', route('view_bulletin', $bulletin->BulletinRef));
+        // ->line('Thank you for using our application!');
     }
 
     /**

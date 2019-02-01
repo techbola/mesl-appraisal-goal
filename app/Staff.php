@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class Staff extends Model
 {
 
-  // implements StaplerableInterface
-  // use EloquentTrait;
+    // implements StaplerableInterface
+    // use EloquentTrait;
 
     protected $table   = 'tblStaff';
-    protected $guarded = ['StaffRef'];
+    protected $guarded = ['StaffRef', 'YearsOfService', 'RefName', 'RefRelationship', 'RefOccupation', 'RefPhone', 'RefEmail', 'RefAddress'];
     public $timestamps = false;
     public $primaryKey = 'StaffRef';
 
@@ -35,6 +35,32 @@ class Staff extends Model
     {
         return $this->belongsTo('MESL\State', 'StateID');
     }
+
+    public function state_of_origin()
+    {
+        return $this->belongsTo('MESL\State', 'StateofOrigin');
+    }
+
+    public function country_of_origin()
+    {
+        return $this->belongsTo('MESL\Country', 'CountryOfOrigin');
+    }
+
+    public function country_of_birth()
+    {
+        return $this->belongsTo('MESL\Country', 'CountryOfBirth');
+    }
+
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class, 'GenderID');
+    }
+
+    public function marital_status()
+    {
+        return $this->belongsTo(MaritalStatus::class, 'MaritalStatusID');
+    }
+
     public function location()
     {
         return $this->belongsTo('MESL\Location', 'LocationID');
@@ -48,9 +74,18 @@ class Staff extends Model
         return $this->hasMany(Department::class, 'DepartmentRef', 'DepartmentID');
     }
 
+    public function religion()
+    {
+        return $this->belongsTo('MESL\Religion', 'ReligionID');
+    }
+
     public function company_department()
     {
         return $this->belongsTo(CompanyDepartment::class, 'DepartmentID', 'id');
+    }
+    public function supervisor()
+    {
+        return $this->hasOne(CompanySupervisor::class, 'staff_id', 'StaffRef');
     }
     public function getProjectsAttribute()
     {
@@ -99,12 +134,17 @@ class Staff extends Model
 
     public function scorecards()
     {
-      return $this->hasMany('MESL\ScoreCard', 'StaffID');
+        return $this->hasMany('MESL\ScoreCard', 'StaffID');
     }
 
     public function subordinates()
     {
-      return $this->hasMany('MESL\Staff', 'SupervisorID');
+        return $this->hasMany('MESL\Staff', 'SupervisorID');
+    }
+
+    public function references()
+    {
+        return $this->hasMany(Reference::class, 'ReferenceID');
     }
 
     // public function __construct(array $attributes = array())

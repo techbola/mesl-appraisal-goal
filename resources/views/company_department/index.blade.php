@@ -186,8 +186,7 @@
                             data.message,
                             data.status
                         );
-                    }
-                });
+                }});
               }
             })
             

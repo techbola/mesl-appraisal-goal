@@ -20,7 +20,10 @@ class IdentityCardController extends Controller
     */
     public function index(){
     	// body
-    	return view('identity_card.index');
+        $all_idcard_request = IdentityCard::allCardRequest();
+        $all_pending_request = IdentityCard::allPendingRequest(); // Approvers Roles only
+
+    	return view('identity_card.index', compact('all_idcard_request', 'all_pending_request'));
     }
     
     /*
@@ -47,9 +50,19 @@ class IdentityCardController extends Controller
     |-----------------------------------------
     */
     public function create(Request $request){
-    	
-    	$identity_card 	= new IdentityCard();
-    	$data 			= $identity_card->createNewCardRequest($request);
+        $passport_image = $request->file("card_passport");
+        $this->validate($request, [
+            'card_passport' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        $staff_data = User::where("id", $request->staff_id)->first();
+        $store_path = public_path('images/passport_images/');
+        $new_name   = strtolower($staff_data->first_name).'-'.time().'.'.$passport_image->getClientOriginalExtension();
+        $passport_image->move($store_path, $new_name);
+
+        $identity_card  = new IdentityCard();
+        $data           = $identity_card->createNewCardRequest($request, $new_name);
+    
 
     	// return response.
     	return redirect()->back()->with($data["status"], $data["message"]);
@@ -69,8 +82,13 @@ class IdentityCardController extends Controller
     | DELETE DATA
     |-----------------------------------------
     */
-    public function delete(){
+    public function delete(Request $request){
     	// body
+        $identity_card  = new IdentityCard();
+        $data           = $identity_card->deleteCardRequest($request);
+
+        // return response.
+        return response()->json($data);
     }
 
     /*

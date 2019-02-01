@@ -4,6 +4,7 @@ namespace MESL\Http\Controllers;
 
 use MESL\Process;
 use MESL\ProcessApprover;
+use MESL\PolicyApprover;
 use MESL\ProcessAttribute;
 use MESL\ProcessRiskControl;
 use MESL\ProcessSteps;
@@ -17,7 +18,7 @@ class ProcessController extends Controller
     public function index()
     {
         $id        = \Auth()->user()->id;
-        $check     = ProcessApprover::where('UserID', $id)->where('Status', 1)->first();
+        $check     = count(PolicyApprover::where('UserID', $id)->get()) > 0 ? PolicyApprover::where('UserID', $id)->get() : [];
         $depts     = ProcessDept::all();
         $processes = Process::all();
 
@@ -27,7 +28,7 @@ class ProcessController extends Controller
     public function create()
     {
         $id        = \Auth()->user()->id;
-        $check     = ProcessApprover::where('UserID', $id)->where('Status', 1)->first();
+        $check     = count(PolicyApprover::where('UserID', $id)->get()) > 0 ? PolicyApprover::where('UserID', $id)->get() : [];
         $processes = \DB::table('tblProcesses')
             ->join('users', 'tblProcesses.EnteredBy', '=', 'users.id')
             ->join('tblProcessDept', 'tblProcesses.process_dept_id', '=', 'tblProcessDept.DeptRef')
@@ -67,7 +68,7 @@ class ProcessController extends Controller
     public function create_process_steps()
     {
         $id        = \Auth()->user()->id;
-        $check     = ProcessApprover::where('UserID', $id)->where('Status', 1)->first();
+        $check     = count(PolicyApprover::where('UserID', $id)->get()) > 0 ? PolicyApprover::where('UserID', $id)->get() : [];
         $depts     = ProcessDept::all();
         $processes = Process::all();
         return view('processes.create_process_steps', compact('processes', 'check', 'depts'));

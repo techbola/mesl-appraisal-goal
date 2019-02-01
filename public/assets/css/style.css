@@ -247,7 +247,7 @@ th {
     text-transform: capitalize !important;
 }
 .table-bordered tbody tr td {
-    font-size: 14px;
+    font-size: 12px;
 }
 audio, canvas, progress, video {
     display: inline-block;
@@ -511,7 +511,18 @@ audio, canvas, progress, video {
 }
 
 .page-sidebar {
-    background-color: #fff;
+    /* background-color: #ccc; */
+    /* background: linear-gradient(to right, #ccc, #999); */
+    background: linear-gradient(to right, #ccc, #f7f7f7);
+    /* background: radial-gradient(circle at top left, #eee, #555); */
+}
+.scroll-wrapper>.scroll-element.scroll-y .scroll-bar {
+  background: #fb5201 !important;
+  width: 10px;
+}
+
+.scroll-wrapper>.scroll-element .scroll-element_outer {
+  opacity: 0.6;
 }
 
 .page-sidebar a, .page-sidebar a:visited, .page-sidebar button:visited, .page-sidebar a:focus, .page-sidebar button:focus,.page-sidebar a:hover {
@@ -522,7 +533,7 @@ audio, canvas, progress, video {
     color: #777 !important;
 }
 .page-sidebar .sidebar-menu .menu-items>li ul.sub-menu {
-    background-color: #fff !important;
+    background-color: #eee !important;
 }
 /* BUTTONS */
 
@@ -670,6 +681,7 @@ audio, canvas, progress, video {
     margin-bottom: 20px;
     background-color: #ffffff;
     box-shadow: 0px 3px 20px 0 rgba(0, 0, 0, .14);
+    position: relative;
 }
 .widget-inline .widget-inline-box {
     border-right: 1px solid #e3e8f1;
@@ -886,13 +898,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 .header {
     /* background-color: #272b35; */
-    background-color: #fff;
+    background-color: #fb5201;
     /* border-bottom: 1px solid #232730; */
     /* color: #eee; */
     /* color: #cad0dd; */
-    color: #333;
-    height: 110px !important;
+    color: #fff;
+    /* height: 110px !important; */
 }
+.footer {
+  /* background: #555; */
+  background: linear-gradient(to bottom right, #ccc, #222);
+  bottom: -80px !important; /* +50px for space taken up by logo*/
+  color: #fff;
+}
+.footer a {
+  color: #ff7e42;
+}
+
 @media (max-width: 991px) {
     .header {
         background-color: #36404a !important;

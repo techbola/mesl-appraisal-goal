@@ -9,7 +9,9 @@
 @endsection
 
 @section('buttons')
-  <div class="btn btn-sm btn-info pull-right m-b-10" data-toggle="modal" data-target="#new_bulletin">New Bulletin</div>
+  @can ('manage-bulletins')
+    <div class="btn btn-sm btn-info pull-right m-b-10" data-toggle="modal" data-target="#new_bulletin">New Bulletin</div>
+  @endcan
 @endsection
 
 @section('content')
@@ -50,7 +52,7 @@
 
   {{-- MODALS --}}
   <!-- Modal -->
-  <div class="modal fade slide-up disable-scroll" id="new_bulletin" role="dialog" aria-hidden="false">
+  <div class="modal fade slide-up " id="new_bulletin" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
         <div class="modal-content">

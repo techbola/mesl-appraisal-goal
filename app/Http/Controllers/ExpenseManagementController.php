@@ -11,9 +11,13 @@ use MESL\ExpenseManagement;
 use MESL\ExpenseManagementFile;
 use MESL\ExpenseComment;
 use MESL\Department;
+use MESL\CompanyDepartment;
 use MESL\Bank;
+use MESL\Location;
 use MESL\LotDescription;
 use MESL\ExpenseCategory;
+use MESL\Document;
+use MESL\DocType;
 use MESL\ExpenseCommentFile;
 use MESL\Notifications\ExpenseReceipient;
 use MESL\Notifications\ExpenseApproval;
@@ -62,9 +66,11 @@ class ExpenseManagementController extends Controller
             } else {
                 $exp->NotifyFlag = true;
                 if ($exp->save()) {
-                    // TODO: send notification here
-                    //send mail to supervisor
+                    $supervisor_id = Staff::where('UserID', $exp->inputter_id)->first();
+                    // dd($supervisor_id);
+                    // dd(User::find($exp->inputter_id)->staff->SupervisorID);
                     $supervisor = User::find(Staff::find(User::find($exp->inputter_id)->staff->SupervisorID)->UserID);
+
                     Notification::send($supervisor, new ExpenseReceipient($exp));
                     DB::commit();
                     return redirect()->route('expense_management.index')->with('success', 'Expense has been sent for approval successfully');
@@ -81,15 +87,25 @@ class ExpenseManagementController extends Controller
 
     public function create()
     {
+        $user      = \Auth::user();
         $employees = Staff::where('CompanyID', auth()->user()->CompanyID)->get();
         // dd($employees);
         $employees = $employees->transform(function ($item, $key) {
             $item->name = $item->FullName;
             return $item;
         });
+        $docs = Document::where('CompanyID', $user->staff->CompanyID)->where('ApprovedFlag', '1')->where('NotifyFlag', '1')->where(function ($query1) use ($user) {
+            $query1->whereHas('assignees', function ($query) use ($user) {
+                $query->where('StaffID', $user->staff->StaffRef);
+            });
+        })->orWhere('Initiator', $user->id)->orderBy('DocRef', 'desc')->get();
+        $staff = Staff::all();
+
+        $doctypes           = DocType::where('CompanyID', $user->staff->CompanyID)->get();
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
-        $departments        = Department::all();
+        $locations          = Location::all();
+        $departments        = CompanyDepartment::all();
         $banks              = Bank::all();
         $expense_categories = ExpenseCategory::all();
         $bank_acct_details  = LotDescription::all();
@@ -103,7 +119,10 @@ class ExpenseManagementController extends Controller
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
-        return view('expense_management.create', compact('request_list', 'employees', 'banks', 'departments', 'expense_categories', 'debit_acct_details', 'lot_descriptions'));
+        // roles for visibility
+        $finance = ApproverRole::find(1);
+
+        return view('expense_management.create', compact('request_list', 'doctypes', 'staff', 'employees', 'locations', 'banks', 'departments', 'expense_categories', 'debit_acct_details', 'lot_descriptions'));
     }
 
     public function show($id)
@@ -126,38 +145,79 @@ class ExpenseManagementController extends Controller
 
     public function store(Request $request)
     {
-        $expense_management              = new ExpenseManagement($request->except(['attachment']));
+        $expense_management = new ExpenseManagement($request->except(['attachment', 'Filename', 'DocTypeID', 'DocName',
+            'Description', 'Initiator', 'CompanyID']));
         $expense_management->inputter_id = auth()->user()->id;
 
         // dd($debit_acct_details);
+        $user = auth()->user();
+
         try {
-
             DB::beginTransaction();
-            $expense_management->save();
-            if ($request->hasFile('attachment')) {
-                $e_id = $expense_management->ExpenseManagementRef;
-                // dd($expense_management);
-                foreach ($request->attachment as $key => $value) {
-                    $file = $request->file('attachment')[$key];
-                    // $filename = uniqid() . '-' . $file->getClientOriginalName();
-                    // $value->storeAs('attachments', $filename);
-                    Storage::disk('public')->put('expense_management_files', $file);
-                    // $attachment = new ExpenseManagementFile
+            $doc_ids = [];
+            if ($request->hasFile('Filename')) {
 
-                    ExpenseManagementFile::create([
-                        'ExpenseManagementID' => $e_id,
-                        'FileName'            => $file->hashName(),
-                    ]);
+                foreach ($request->Filename as $key => $value) {
+                    $filename = $request->Filename[$key]->getClientOriginalName();
+                    $saved    = $request->Filename[$key]->storeAs('documents', $filename);
+
+                    if ($saved) {
+                        $document = new Document(array(
+                            'DocTypeID'   => $request->DocTypeID,
+                            'DocName'     => $request->DocName,
+                            'Description' => $request->Description,
+                            'Initiator'   => \Auth::user()->id,
+                            'CompanyID'   => \Auth::user()->staff->CompanyID,
+                            'Filename'    => $request->Filename[$key]->getClientOriginalName(),
+                            // 'Path' => Storage::url('documents/'.$filename)
+                        ));
+                        // if (!empty($request->ApproverID)) {
+                        // $document->ApproverID = $request->ApproverID;
+                        // $document->NotifyFlag = '1';
+                        // }
+                        $document->save();
+                        array_push($doc_ids, $document->DocRef);
+                    }
                 }
-            }
 
+            }
+            $expense_management->DocumentIDs = implode(',', $doc_ids);
+            $expense_management->save();
             DB::commit();
             return redirect()->route('expense_management.create')->with('success', 'Expense Saved');
 
         } catch (Exception $e) {
-            return back()->withErrors($e->getMessages());
             DB::rollback();
+            return redirect()->back()->withInput()->with('error', 'Expense failed to save');
         }
+        // try {
+
+        //     DB::beginTransaction();
+        //     $expense_management->save();
+        //     if ($request->hasFile('attachment')) {
+        //         $e_id = $expense_management->ExpenseManagementRef;
+        //         // dd($expense_management);
+        //         foreach ($request->attachment as $key => $value) {
+        //             $file = $request->file('attachment')[$key];
+        //             // $filename = uniqid() . '-' . $file->getClientOriginalName();
+        //             // $value->storeAs('attachments', $filename);
+        //             Storage::disk('public')->put('expense_management_files', $file);
+        //             // $attachment = new ExpenseManagementFile
+
+        //             ExpenseManagementFile::create([
+        //                 'ExpenseManagementID' => $e_id,
+        //                 'FileName'            => $file->hashName(),
+        //             ]);
+        //         }
+        //     }
+
+        //     DB::commit();
+        //     return redirect()->route('expense_management.create')->with('success', 'Expense Saved');
+
+        // } catch (Exception $e) {
+        //     return back()->withErrors($e->getMessages());
+        //     DB::rollback();
+        // }
 
     }
 
@@ -172,8 +232,9 @@ class ExpenseManagementController extends Controller
         });
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
-        $departments        = Department::all();
+        $departments        = CompanyDepartment::all();
         $banks              = Bank::all();
+        $locations          = Location::all();
         $expense_categories = ExpenseCategory::all();
         $bank_acct_details  = LotDescription::all();
         $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
@@ -186,7 +247,7 @@ class ExpenseManagementController extends Controller
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
-        return view('expense_management.edit', compact('expense_management', 'employees', 'departments', 'banks', 'lot_descriptions', 'expense_categories', 'bank_acct_details',
+        return view('expense_management.edit', compact('expense_management', 'locations', 'employees', 'departments', 'banks', 'lot_descriptions', 'expense_categories', 'bank_acct_details',
             'debit_acct_details', 'request_list'));
     }
 
@@ -346,5 +407,17 @@ class ExpenseManagementController extends Controller
         return response()->json([
             'message' => 'Request was sent for approval successfully',
         ])->setStatusCode(200);
+    }
+
+    public function fetch_departments($exp_id)
+    {
+        $departments = CompanyDepartment::where('expense_category_id', $exp_id)->get();
+        return $departments;
+    }
+
+    public function fetch_lots($dept_id)
+    {
+        $lots = LotDescription::where('DescriptionID', $dept_id)->get();
+        return $lots;
     }
 }

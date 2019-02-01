@@ -12,9 +12,9 @@
       color: #000;
     } */
 
-    /* table th, table td {
+    table th, table td {
         width: 150px  !important;
-    } */
+    }
 
     .table {
       overflow: scroll;
@@ -31,27 +31,29 @@
     <div class="request-table table-responsive">
         <table class="table table-bordered" id="requestTable">
                 <thead>
-                    <th width="5px">S/N</th>
-                    <th width="40%">Staff Name</th>
-                    <th width="10%">Travel Type</th>
-                    <th width="10%">From</th>
-                    <th width="40%">To</th>
-                    <th width="10%">Departure Date</th>
-                    <th width="10%">Departure Time</th>
-                    <th width="10%">Arrival Date</th>
-                    <th width="10%">Arrival time</th>
-                    <th width="10%">Travel Purpose</th>
-                    <th width="10%">Travel Lodge</th>
-                    <th width="10%">Travel Transporter</th>
-                    <th width="10%">Approver Comment</th>
-                    <th width="10%">Action</th>
+                    <tr>
+                    <th style="width: 10px; word-break:break-all;">S/N</th>
+                    <th>Staff Name</th>
+                    <th>Travel Type</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Departure Date</th>
+                    <th>Departure Time</th>
+                    <th>Arrival Date</th>
+                    <th>Arrival time</th>
+                    <th>Travel Purpose</th>
+                    <th>Travel Lodge</th>
+                    <th>Travel Transporter</th>
+                    <th>Approver Comment</th>
+                    <th>Action</th>
+                    </tr>
                 </thead>
                 <tbody>
                 <?php $count = 0; ?>
                     @foreach($travel_requests as $travel_request)
                     <?php $count = $count + 1; ?>
                     <tr>
-                    <th>{{ $count }}</th>
+                    <th style="width: 10px;">{{ $count }}</th>
                     <td>{{ $travel_request->requester_name->FullName ?? '-'  }}</th>
                     <td>{{ $travel_request->Travel_type->TravelType ?? '-' }}</td>
                     <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_from_state->State : $travel_request->travel_from_state->State ?? '-' }}</td>
@@ -89,13 +91,12 @@
 
 <script>
 
-//       $(document).ready(function() {
-//     $('#requestTable').DataTable( {
-//         "scrollX": true
-//     } );
-// } );
+      $(document).ready(function() {
+    $('#requestTable').DataTable( {
+        "scrollX": true
+    } );
+} );
 
 </script>
 
 @endpush
-

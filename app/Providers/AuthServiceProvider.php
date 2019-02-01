@@ -35,6 +35,10 @@ class AuthServiceProvider extends ServiceProvider
           return ( $user->id == $message->FromID || in_array($user->id, $message->recipients->pluck('id')->toArray()) );
         });
 
+        Gate::define('manage-bulletins', function ($user) {
+          return ( $user->hasRole('Corporate Communications Officer') || $user->staff->DepartmentID == '16' || $user->hasRole('admin') );
+        });
+
         // Only Creator and Admin
         Gate::define('edit-event', function ($user, $event) {
           return ( $user->id == $event->Initiator || ($user->staff->CompanyID == $event->CompanyID && in_array('admin', $user->roles->pluck('name')->toArray())) );

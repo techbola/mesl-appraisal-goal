@@ -27,26 +27,29 @@
             
       <table class="table tableWithSearch table-bordered">
         <thead>
-          <th width="10%">Staff Name</th>
-          <th width="7%">Staff Department</th>
-          <th width="7%">Staff Type</th>
-          <th width="5%">Resumption Date</th>
-          <th width="12%">Status</th>
+          <th width="10%">Employee</th>
+          <th width="7%">Department</th>
+          <th width="7%">Employment</th>
+          <th width="5%">Resumption</th>
+          <th width="12%">Office Assets</th>
           <th width="15%">Action</th>
         </thead>
         <tbody>
 
           @foreach($staff_onboards as $staff_onboard)
-              <tr>
+            <tr>
               <td>{{$staff_onboard->StaffName}}</td>
-              <td>{{$staff_onboard->staff_department->name}}</td>
-              <td>{{$staff_onboard->StaffType}}</td>
-              <td>{{$staff_onboard->ResumptionDate}}</td>
-              <td>{{$staff_onboard->System}}, {{$staff_onboard->IDcreation}}, {{$staff_onboard->OfficemateProfile}}</td>
+                <td>{{$staff_onboard->staff_department->name}}</td>
+                <td>{{$staff_onboard->StaffType}}</td>
+                <td>{{$staff_onboard->ResumptionDate}}</td>
+                <td>
+                    {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
+                </td>
               <td>
-                  {{-- <button type="submit" class="btn btn-xs btn-success">Onboard Staff</button> {{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }} --}}
-                  <a href="{{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }}" class="btn btn-xs btn-success"><i class="fa fa-share-square"></i>Done</a>
-                  <a href="/staff/staff_onboard/{{$staff_onboard->StaffOnboardRef}}" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                  
+                  <a href="{{ url('approve_onboard_it/{{$staff_onboard->StaffOnboardRef}}')}}" class="btn btn-xs btn-success">
+                    <i class="fa fa-share-square"></i> Mark as Done hhh
+                  </a>
               </td>
             </tr>
             @endforeach
@@ -54,27 +57,18 @@
       </table> 
 </div>
 
-
-
-
-
 @endsection
-
 
 @push('scripts')
 <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
 </script>
 
 <script>
-    
-
-     $(document).ready(function() {
-    $('#travelTable').DataTable( {
-        "scrollX": true
+    $(document).ready(function() {
+        $('#travelTable').DataTable( {
+            "scrollX": true
+        } );
     } );
-} );
-
-
 </script>
 
 @endpush
