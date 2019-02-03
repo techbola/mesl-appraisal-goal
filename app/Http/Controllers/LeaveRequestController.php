@@ -188,14 +188,14 @@ class LeaveRequestController extends Controller
 
                         if (is_null($new_approver_id) || $new_approver_id == 0) {
 
-                            if ($details->AbsenceTypeID == 1) {
+                           // if ($details->AbsenceTypeID == 1) {
                                 $record                = new LeaveTransaction;
                                 $record->StaffID       = $staff_id;
                                 $record->DaysRequested = $leavedays;
                                 $record->LeaveID       = $leave_id;
                                 $record->LeaveTypeID   = $leave_type_id;
                                 $record->save();
-                            }
+                           // }
 
                             $update_leave = \DB::table('tblLeaveRequest')
                                 ->where('leaveReqRef', $Ref)
