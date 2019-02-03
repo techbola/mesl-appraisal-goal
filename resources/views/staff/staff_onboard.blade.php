@@ -166,7 +166,8 @@
                         <th width="7%">Department</th>
                         <th width="7%">Employment</th>
                         <th width="5%">Resumption</th>
-                        <th width="12%">Items</th>
+                        <th width="12%">Workspace</th>
+                        <th width="12%">Office Assets</th>
                         <th width="15%">Action</th>
                     </thead>
                     <tbody>
@@ -176,7 +177,12 @@
                               <td>{{$staff_onboard->staff_department->name}}</td>
                               <td>{{$staff_onboard->StaffType}}</td>
                               <td>{{$staff_onboard->ResumptionDate}}</td>
-                              <td>{{$staff_onboard->System}}, {{$staff_onboard->IDcreation}}, {{$staff_onboard->OfficemateProfile}}</td>
+                              <td>
+                                    {{$staff_onboard->OfficeSpace}} {{$staff_onboard->OfficeTable}} {{$staff_onboard->BusinessCard}}
+                                </td>
+                                <td>
+                                    {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
+                                </td>
                               <td>
                                   {{-- <button type="submit" class="btn btn-xs btn-success">Onboard Staff</button> {{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }} --}}
                                   <a href="{{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }}" class="btn btn-xs btn-success"><i class="fa fa-share-square"></i> Onboard Staff</a>
@@ -197,9 +203,10 @@
                         <th width="7%">Department</th>
                         <th width="7%">Employment</th>
                         <th width="5%">Resumption</th>
-                        <th width="12%">Items</th>
+                        <th width="12%">Workspace</th>
+                        <th width="12%">Office Assets</th>
                         <th width="15%">Admin</th>
-                        <th width="15%">HR</th>
+                        <th width="15%">IT</th>
                     </thead>
                     <tbody>
                         @foreach($staff_onboarding_sent as $staff_onboard)
@@ -209,17 +216,33 @@
                                 <td>{{$staff_onboard->StaffType}}</td>
                                 <td>{{$staff_onboard->ResumptionDate}}</td>
                                 <td>
-                                    {{$staff_onboard->System}}, {{$staff_onboard->IDcreation}}, {{$staff_onboard->OfficemateProfile}}
+                                    {{$staff_onboard->OfficeSpace}} {{$staff_onboard->OfficeTable}} {{$staff_onboard->BusinessCard}}
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0);" class="btn btn-xs btn-info">
-                                        <i class="fa fa-share-square"></i> Pending Approval
-                                    </a>
+                                    {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
+                                </td>
+                                
+                                <td>
+                                    @if($staff_onboard->ApprovalStatus2 == "0")
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-info">
+                                            <i class="fa fa-share-square"></i> Pending Approval
+                                        </a>
+                                    @else
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-success">
+                                            <i class="fa fa-check-o"></i> Approved
+                                        </a>
+                                    @endif
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0);" class="btn btn-xs btn-info">
-                                        <i class="fa fa-share-square"></i> Pending Approval
-                                    </a>
+                                    @if($staff_onboard->ApprovalStatus1 == "0")
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-info">
+                                            <i class="fa fa-share-square"></i> Pending Approval
+                                        </a>
+                                    @else
+                                        <a href="javascript:void(0);" class="btn btn-xs btn-success">
+                                            <i class="fa fa-check-o"></i> Approved
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

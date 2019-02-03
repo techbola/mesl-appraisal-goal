@@ -16,7 +16,6 @@ use MESL\LeaveTransaction;
 use MESL\LeaveApprover;
 use MESL\HandoverTask;
 // use MESL\LeaveApprover;
-
 // use MESL\LeaveType;
 // use MESL\Mail\Leave;
 // use MESL\Staff;
@@ -269,6 +268,7 @@ class LeaveRequestController extends Controller
             if ($request->hasFile('HandOverNote')) {
                 $start_date                  = $request->StartDate;
                 $converted_date              = (int) $request->NumberofDays;
+                // $drpartment                  = (int) $request->
                 $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
                 $leave_request               = new LeaveRequest($request->all());
                 $leave_request->ReturnDate   = $completion_Date;

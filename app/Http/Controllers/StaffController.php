@@ -33,6 +33,7 @@ use MESL\DocType;
 use MESL\CompanySupervisor;
 use MESL\StaffOnboarding;
 use MESL\Mail\StaffOnboard;
+use MESL\Mail\ApprovalIT;
 
 use Carbon;
 
@@ -45,6 +46,7 @@ use File;
 use Image;
 use Auth;
 use Gate;
+use Mail;
 
 class StaffController extends Controller
 {
@@ -600,26 +602,25 @@ class StaffController extends Controller
         }
     }
 
+    //Send mail to IT and Admin for Onboarding notification
     public function send_staff_onboarding($id)
     {
         $user  = auth()->user();
         $staff = Staff::all();
 
         $staff_onboard = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->get();
-
-        $user = User::all();
+        // $user = User::all();
 
         $staff_onboard = User::all();
+
         $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)
             ->where('SendForApproval', '0')
             ->first();
         $staff_onboard->SendForApproval = '1';
         $staff_onboard->update();
 
-        // $email = Staff::where('DepartmentID', '2')->get();
-
         $users = User::whereHas('staff', function ($query) {
-            $query->whereIn('DepartmentID', [7, 14]);
+            $query->whereIn('DepartmentID', [2]);
         })->get(); // ->toArray();
 
         Mail::to($users)->send(new StaffOnboard());
@@ -657,4 +658,95 @@ class StaffController extends Controller
         return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department'));
     }
 
+    /*
+    |-----------------------------------------
+    | SHOW ON-BOARDING REQUEST DASHBOARD
+    |-----------------------------------------
+    */
+    public function approve_onboardIT($id){
+
+        $staff_onboards = StaffOnboarding::gellPendingOnboarding();
+
+        $user  = auth()->user();
+        $staff = Staff::all();
+
+        // $staff_onboard = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->get();
+
+        $staff_onboard = User::all();
+
+        $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)->where('ApprovalStatus1', '0')->first();
+        if($staff_onboard !== null){
+            $staff_onboard->ApprovalStatus1 = '1';
+            $staff_onboard->update();
+
+            $users = User::whereHas('staff', function ($query) {
+                $query->whereIn('DepartmentID', [3]);
+            })->get();
+
+            \Mail::to($users)->send(new ApprovalIT());
+
+            $status = "success";
+            $message = "Request has been treated successfully";
+        }else{
+            $status = "error";
+            $message = "Can not complete this request at the moment!";
+        }
+
+        return redirect()->back()->with($status, $message);
+    }
+    
+    /*
+    |-----------------------------------------
+    | SHOW ON-BOARDING REQUEST DASHBOARD
+    |-----------------------------------------
+    */
+    public function approve_onboard(){
+
+        $staff_onboards = StaffOnboarding::gellPendingOnboarding();
+        return view('staff.onboard_dashboard', compact('staff_onboards'));
+    }
+
+    /*
+    |-----------------------------------------
+    | SHOW ON-BOARDING REQUEST DASHBOARD
+    |-----------------------------------------
+    */
+    public function approve_onboard_admin(){
+
+        $staff_onboards = StaffOnboarding::gellPendingOnboarding();
+        return view('staff.onboard_dashboard', compact('staff_onboards'));
+    }
+
+
+    public function admin_onboard_mail($id){
+
+        $staff_onboards = StaffOnboarding::gellPendingOnboarding();
+
+        $user  = auth()->user();
+        $staff = Staff::all();
+
+        // $staff_onboard = StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->get();
+
+        $staff_onboard = User::all();
+
+        $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)->where('ApprovalStatus2', '0')->first();
+        if($staff_onboard !== null){
+            $staff_onboard->ApprovalStatus1 = '1';
+            $staff_onboard->update();
+
+            $users = User::whereHas('staff', function ($query) {
+                $query->whereIn('DepartmentID', [3]);
+            })->get();
+
+            \Mail::to($users)->send(new AdminOnboardApproval());
+
+            $status = "success";
+            $message = "Request has been treated successfully";
+        }else{
+            $status = "error";
+            $message = "Can not complete this request at the moment!";
+        }
+
+        return redirect()->back()->with($status, $message);
+    }
 }

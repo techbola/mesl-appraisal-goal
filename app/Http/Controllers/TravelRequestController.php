@@ -100,7 +100,6 @@ class TravelRequestController extends Controller
         $travel_request = TravelRequest::find($id);
 
         $travel_request->delete();
-
         return redirect()->route('travel_request.create')->with('success', 'Request Deleted successfully');
     }
 

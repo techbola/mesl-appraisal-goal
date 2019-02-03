@@ -78,8 +78,8 @@
                             {{ Form::label('LeaveAllowance', 'Leave Allowance' ) }}
                                 <select name="LeaveAllowance" class="full-width" data-init-plugin="select2" id="leave_allowance" onchange="">
                                     <option value=" ">Select Allowance Type</option>
-                                    <option value="1">With Pay</option>
-                                    <option value="2">Without Pay</option>
+                                    <option value="With Pay">With Pay</option>
+                                    <option value="Without Pay">Without Pay</option>
                                 </select>
                         </div>
                 </div>
@@ -139,25 +139,25 @@
     <hr>
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="form-group">
                 {{ Form::label('ApproverID1','First Approver') }}
                 {{ Form::select('ApproverID1', [ '' =>  'select Approver'] + $staff->pluck('FullName', 'UserID')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "select Approver", 'data-init-plugin' => "select2", 'required', 'id'=>'approver', 'onchange' => 'getValue()']) }}
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="form-group">
                 {{ Form::label('ApproverID2','Second Approver') }}
                 {{ Form::select('ApproverID2', [ '' =>  'select Approver'] + $staff->pluck('FullName', 'UserID')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "select Approver", 'data-init-plugin' => "select2"]) }}
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="form-group">
                 {{ Form::label('ApproverID3','Third Approver ') }}
                 {{ Form::select('ApproverID3', [ '' =>  'select Approver'] + $staff->pluck('FullName', 'UserID')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "select Approver", 'data-init-plugin' => "select2"]) }}
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="form-group">
                 {{ Form::label('ApproverID4','Fourth Approver ') }}
                 {{ Form::select('ApproverID4', [ '' =>  'select Approver'] + $staff->pluck('FullName', 'UserID')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "select Approver", 'data-init-plugin' => "select2"]) }}
