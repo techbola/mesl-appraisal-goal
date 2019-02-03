@@ -33,7 +33,7 @@
                             <div class="row">
                               <div class="col-sm-12">
                                 <div class="p-l-20"  style="margin-left: 50px">
-                                  <h1 class="no-margin text-white" id="leavedays">{{ $leavedays->LeaveDays }}</h1>
+                                  <h1 class="no-margin text-white" id="leavedays">{{$leave_days ??''}}</h1>
                                 </div>
                               </div>
                             </div>
@@ -60,7 +60,7 @@
                             <div class="row">
                               <div class="col-sm-12">
                                 <div class="p-l-20"  style="margin-left: 50px">
-                                  <h2 class="no-margin text-white" id="leave_left">{{ $remaining_days }}</h2>
+                                  <h2 class="no-margin text-white" id="leaveremainingdays">{{ $leave_remaining_days ?? ''}}</h2>
                                 </div>
                               </div>
                             </div>

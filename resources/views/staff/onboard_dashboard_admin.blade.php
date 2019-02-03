@@ -37,21 +37,23 @@
         <tbody>
 
           @foreach($staff_onboards as $staff_onboard)
-            <tr>
-              <td>{{$staff_onboard->StaffName}}</td>
-                <td>{{$staff_onboard->staff_department->name}}</td>
-                <td>{{$staff_onboard->StaffType}}</td>
-                <td>{{$staff_onboard->ResumptionDate}}</td>
+            @if($staff_onboard->ApprovalStatus2 !== "0")  
+              <tr>
+                <td>{{$staff_onboard->StaffName}}</td>
+                  <td>{{$staff_onboard->staff_department->name}}</td>
+                  <td>{{$staff_onboard->StaffType}}</td>
+                  <td>{{$staff_onboard->ResumptionDate}}</td>
+                  <td>
+                    {{$staff_onboard->OfficeSpace}}, {{$staff_onboard->OfficeTable}}, {{$staff_onboard->BusinessCard}}
+                  </td>
                 <td>
-                  {{$staff_onboard->OfficeSpace}}, {{$staff_onboard->OfficeTable}}, {{$staff_onboard->BusinessCard}}
+                    {{-- <button type="submit" class="btn btn-xs btn-success">Onboard Staff</button> {{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }} --}}
+                    <a href="{{ url('admin_onboard_mail')}}/ {{$staff_onboard->StaffOnboardRef }}" class="btn btn-xs btn-success">
+                      <i class="fa fa-share-square"></i> Mark as Done
+                    </a>
                 </td>
-              <td>
-                  {{-- <button type="submit" class="btn btn-xs btn-success">Onboard Staff</button> {{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }} --}}
-                  <a href="{{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }}" class="btn btn-xs btn-success">
-                    <i class="fa fa-share-square"></i> Mark as Done
-                  </a>
-              </td>
-            </tr>
+              </tr>
+            @endif
             @endforeach
         </tbody>
       </table> 

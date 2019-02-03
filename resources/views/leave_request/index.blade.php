@@ -108,7 +108,7 @@
             $.get('/leave_notification/'+elem_value, function(data, status) {
               if(status == 'success')
               {
-                window.location.href = data[0].data.link
+                document.location.href = '/leave_request/index'
               }
             });
 
