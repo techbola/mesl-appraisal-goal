@@ -221,7 +221,7 @@
                   <p class=""><b>Description: </b>
                   <h5><span class="exp-purpose"></span></h5>
                   </p>
-                <p class=""><b>Approvers: </b> <b><span class="exp-approvers" style="color: #000; margin-left: 10px"></span></b></p>
+                <p class=""><b>Approvers: </b> <b><span class="exp-approvers" style="color: #000; margin-left: 0px"></span></b></p>
                 </div>
                 <div class=""><h5><b>Comments</b>: </h5>  
                   <div class="exp-comment"></div>

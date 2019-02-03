@@ -120,7 +120,6 @@ class ExpenseManagementController extends Controller
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
         // roles for visibility
-        $finance = ApproverRole::find(1);
 
         return view('expense_management.create', compact('request_list', 'doctypes', 'staff', 'employees', 'locations', 'banks', 'departments', 'expense_categories', 'debit_acct_details', 'lot_descriptions'));
     }
@@ -368,6 +367,7 @@ class ExpenseManagementController extends Controller
         // $my_unsent_requests  = ExpenseManagement::where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 0);
         // approved docs
         $approved_requests = $supervisors_log->where('SupervisorApproved', 1);
+        $files             = ExpenseManagement
 
         return view('expense_management.approvallist', compact('approved_requests', 'unapproved_requests', 'my_unsent_requests'));
     }
