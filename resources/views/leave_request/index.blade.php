@@ -14,8 +14,8 @@
 @section('content')
 
     <!-- Modal - Invite Staff -->
-  <div class="modal fade slide-up disable-scroll" id="edit_leave_request" role="dialog" aria-hidden="false">
-    <div class="modal-dialog ">
+  <div class="modal fade slide-up  " id="edit_leave_request" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content-wrapper">
         <div class="modal-content">
           <div class="modal-header clearfix text-left">
@@ -28,7 +28,7 @@
 
             <form action="{{ route('invite_staff') }}" method="post">
               {{ csrf_field() }}
-              @include('leave_request.form')
+              @include('leave_request.form', ['buttonText' => 'Save'])
               <button type="submit" class="btn btn-info btn-form">Submit</button>
             </form>
 
@@ -82,7 +82,7 @@
                 </td>
                 <td>
                   @if($leave_request->NotifyFlag == 0)
-                  <a href="#" class="btn btn-xs btn-complete" data-toggle="modal" data-target="#edit_leave_request">Edit Request</a> 
+                  <a href="/leave_request/{{ $leave_request->LeaveReqRef }}/edit" class="btn btn-xs btn-complete " data-request_ref = "{{ $leave_request->LeaveReqRef }}" >Edit Request</a> 
                   | <a href="#" class="btn btn-xs btn-success" data-id="{{$leave_request->LeaveReqRef}}" onclick="send_notification()">Send for Approval</a>
                   @elseif($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1 && is_null($leave_request->ApproverID) && $leave_request->CompletedFlag == 1)
                     <p><i style="font-size: 12px; color: green">Completed</i></p>
@@ -108,7 +108,7 @@
             $.get('/leave_notification/'+elem_value, function(data, status) {
               if(status == 'success')
               {
-                document.location.href = '/leave_request/index'
+                window.location.href = data[0].data.link
               }
             });
 

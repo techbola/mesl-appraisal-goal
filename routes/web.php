@@ -71,7 +71,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('assign-menu/{id}', 'MenuController@edit_company_menu')->name('edit_company_menu');
     Route::patch('assign-menu/{id}', 'MenuController@update_company_menu')->name('update_company_menu');
 
-
     Route::get('approve_onboardIT/{id}', 'StaffController@approve_onboardIT');
     Route::get('admin_onboard_mail/{id}', 'StaffController@admin_onboard_mail');
     Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
@@ -81,7 +80,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff', 'StaffController@index')->name('staff');
     Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
     Route::get('staff/onboard_dashboard_admin', 'StaffController@approve_onboard_admin')->name('ApproveOnboardAdmin');
-    
 
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
@@ -218,11 +216,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('leave_request/create', 'LeaveRequestController@leave_request')->name('LeaveRequest');
     Route::post('store_leave_request', 'LeaveRequestController@store_leave_request');
     Route::get('leave_request/index', 'LeaveRequestController@dashboard')->name('LeaveDashBoard');
+    Route::get('leave_request/{id}/edit', 'LeaveRequestController@edit')->name('leave_request.edit');
+    Route::patch('leave_request/{id}/update', 'LeaveRequestController@update')->name('leave_request.update');
     Route::get('leave_request/leave_approval', 'LeaveRequestController@leave_approval')->name('LeaveApproval');
     Route::post('approve_leave_request', 'LeaveRequestController@approve_leave_request');
     Route::get('leave_notification/{elem_value}', 'LeaveRequestController@leave_notification');
     Route::get('request_date/{start_date}/{numberdays}', 'LeaveRequestController@retrieve_details');
-
 
     Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
     Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');
@@ -239,7 +238,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('store_idcard', 'IdcardController@store_idcard')->name('StoreIDcard');
     Route::post('send_idcard_request/{id}', 'IdcardController@send_idcard_request')->name('SendIDReq');
     Route::get('idcard_request/create/{id}', 'IdcardController@delete_card_request')->name('deleteCardRequest');
-
 
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
 
@@ -1220,10 +1218,9 @@ Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->nam
 // admin dashboard
 Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-home');
 
-
 /*
 |------------------------------------------------------------------------------------------
-| IT HELP DESK 
+| IT HELP DESK
 |------------------------------------------------------------------------------------------
  */
-Route::get('help/desk/complaints',      'HelpDeskController@index')->name('helpdesk_module');
+Route::get('help/desk/complaints', 'HelpDeskController@index')->name('helpdesk_module');

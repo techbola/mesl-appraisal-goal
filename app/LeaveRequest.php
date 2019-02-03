@@ -9,7 +9,8 @@ class LeaveRequest extends Model
     protected $table   = 'tblLeaveRequest';
     protected $guarded = ['LeaveRequestRef'];
 
-    public $primaryKey   = 'CompanyRef';
+    // public $primaryKey   = 'CompanyRef';
+    public $primaryKey = 'LeaveReqRef';
     public $timestamps = false;
 
     public function user()
@@ -21,7 +22,6 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo('MESL\LeaveType', 'AbsenceTypeID');
     }
-
 
     public function requester()
     {

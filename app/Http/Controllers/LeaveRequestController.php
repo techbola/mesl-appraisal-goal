@@ -2,7 +2,6 @@
 
 namespace MESL\Http\Controllers;
 
-
 use MESL\LeaveType;
 // use MESL\Mail\Leave;
 use MESL\Staff;
@@ -34,41 +33,45 @@ class LeaveRequestController extends Controller
         $id             = \Auth::user()->id;
         $leave_requests = LeaveRequest::where('StaffID', $id)->get();
         $leavedays      = Staff::where('UserID', $id)->first();
-        return view('leave_request.index', compact('leave_requests', 'leavedays'));
+        $leave_type     = LeaveType::all();
+        $department     = CompanyDepartment::all();
+
+        $user  = \Auth::user();
+        $id    = \Auth::user()->id;
+        $staff = Staff::where('CompanyID', $user->CompanyID)->get();
+        return view('leave_request.index', compact('leave_requests', 'leave_type', 'staff', 'user', 'id', 'department', 'user', 'leavedays'));
     }
 
     public function get_leave_days($leave_type_id)
     {
 
-        $id         = \Auth::user()->id;
-       
-        $leavedays  = Staff::where('UserID', $id)->first();
+        $id = \Auth::user()->id;
 
-        if ($leave_type_id=='1'){
-            $leave_days=$leavedays->LeaveDays;
-        } elseif ($leave_type_id=='2'){
-            $leave_days=$leavedays->CasualLeaveDays;
-        } elseif ($leave_type_id=='3'){
-            $leave_days=$leavedays->ExamLeaveDays;
-        } elseif ($leave_type_id=='4'){
-            $leave_days=$leavedays->MaternityLeaveDays;
-        } elseif ($leave_type_id=='5'){
-            $leave_days=$leavedays->SickLeaveDays;
-        } elseif ($leave_type_id=='6'){
-            $leave_days=$leavedays->CompasionateLeaveDays;
-        } 
+        $leavedays = Staff::where('UserID', $id)->first();
 
-           $leave_used = collect(\DB::table('tblLeaveTransaction')
-            ->where('StaffID', $id)->where('LeaveTypeID',$leave_type_id)->get())
+        if ($leave_type_id == '1') {
+            $leave_days = $leavedays->LeaveDays;
+        } elseif ($leave_type_id == '2') {
+            $leave_days = $leavedays->CasualLeaveDays;
+        } elseif ($leave_type_id == '3') {
+            $leave_days = $leavedays->ExamLeaveDays;
+        } elseif ($leave_type_id == '4') {
+            $leave_days = $leavedays->MaternityLeaveDays;
+        } elseif ($leave_type_id == '5') {
+            $leave_days = $leavedays->SickLeaveDays;
+        } elseif ($leave_type_id == '6') {
+            $leave_days = $leavedays->CompasionateLeaveDays;
+        }
+
+        $leave_used = collect(\DB::table('tblLeaveTransaction')
+                ->where('StaffID', $id)->where('LeaveTypeID', $leave_type_id)->get())
             ->sum('DaysRequested');
-            $leave_remaining_days = $leave_days - $leave_used;
+        $leave_remaining_days = $leave_days - $leave_used;
         //return $leave_used;
-        return response()->json(['data'=>['leavedays'=>$leave_days,'leaveremainingdays'=>$leave_remaining_days]]) ;
-
+        return response()->json(['data' => ['leavedays' => $leave_days, 'leaveremainingdays' => $leave_remaining_days]]);
 
     }
 
-    
     public function leave_request()
     {
         $leave_type = LeaveType::all();
@@ -76,15 +79,15 @@ class LeaveRequestController extends Controller
         $id         = \Auth::user()->id;
         $department = CompanyDepartment::all();
         $leavedays  = Staff::where('UserID', $id)->first();
-        $staff  = Staff::where('CompanyID', $user->CompanyID)->get();
+        $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
 
         //$leave_days=$leavedays->SickLeaveDays;
-        
+
         $leave_used = \DB::table('tblLeaveTransaction')
             ->where('StaffID', $id)
             ->sum('DaysRequested');
         $remaining_days = $leavedays->LeaveDays - $leave_used;
-        return view('leave_request.create', compact('leave_type', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department','leave_days'));
+        return view('leave_request.create', compact('leave_type', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department', 'leave_days'));
     }
 
     public function leave_approval()
@@ -188,14 +191,14 @@ class LeaveRequestController extends Controller
 
                         if (is_null($new_approver_id) || $new_approver_id == 0) {
 
-                           // if ($details->AbsenceTypeID == 1) {
-                                $record                = new LeaveTransaction;
-                                $record->StaffID       = $staff_id;
-                                $record->DaysRequested = $leavedays;
-                                $record->LeaveID       = $leave_id;
-                                $record->LeaveTypeID   = $leave_type_id;
-                                $record->save();
-                           // }
+                            // if ($details->AbsenceTypeID == 1) {
+                            $record                = new LeaveTransaction;
+                            $record->StaffID       = $staff_id;
+                            $record->DaysRequested = $leavedays;
+                            $record->LeaveID       = $leave_id;
+                            $record->LeaveTypeID   = $leave_type_id;
+                            $record->save();
+                            // }
 
                             $update_leave = \DB::table('tblLeaveRequest')
                                 ->where('leaveReqRef', $Ref)
@@ -266,8 +269,8 @@ class LeaveRequestController extends Controller
             \DB::beginTransaction();
 
             if ($request->hasFile('HandOverNote')) {
-                $start_date                  = $request->StartDate;
-                $converted_date              = (int) $request->NumberofDays;
+                $start_date     = $request->StartDate;
+                $converted_date = (int) $request->NumberofDays;
                 // $drpartment                  = (int) $request->
                 $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
                 $leave_request               = new LeaveRequest($request->all());
@@ -296,19 +299,17 @@ class LeaveRequestController extends Controller
         }
     }
 
-
     public function leave_handover()
-    {   
+    {
         $leave_type = LeaveType::all();
         $staff      = Staff::all();
         // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
-        $user       = \Auth::user();
-        $id         = \Auth::user()->id;
-        $department = CompanyDepartment::all();
+        $user           = \Auth::user();
+        $id             = \Auth::user()->id;
+        $department     = CompanyDepartment::all();
         $handover_tasks = HandoverTask::orderBy('HandoverTaskRef', 'DESC')->get();
         return view('leave_request.handover', compact('leave_type', 'staff', 'id', 'user', 'department', 'handover_tasks'));
     }
-
 
     //Leave handover task method, IN PROGRESS!!!!!!
     public function handover_task(Request $request)
@@ -330,7 +331,7 @@ class LeaveRequestController extends Controller
 
         $handover_task->StaffID = auth()->user()->id;
 
-        if($handover_task->save()){
+        if ($handover_task->save()) {
             return response()->json($handover_task);
         }
     }
@@ -340,11 +341,11 @@ class LeaveRequestController extends Controller
     {
         // $handover_task = Handovertask::find($id);
 
-        $handover_task =Handovertask::where('HandoverTaskRef',$id)->firstOrFail();
+        $handover_task = Handovertask::where('HandoverTaskRef', $id)->firstOrFail();
         // dd($handover_task);
 
         $handover_task->delete();
-        
+
         return redirect()->back()->with('success', 'Task Deleted successfully');
     }
 
@@ -398,7 +399,16 @@ class LeaveRequestController extends Controller
      */
     public function edit($id)
     {
-        //
+        $leave_request = LeaveRequest::where('LeaveReqRef', $id)->first();
+        // dd($leave_request);
+        $id         = \Auth::user()->id;
+        $leave_type = LeaveType::all();
+        $department = CompanyDepartment::all();
+
+        $user  = \Auth::user();
+        $id    = \Auth::user()->id;
+        $staff = Staff::where('CompanyID', $user->CompanyID)->get();
+        return view('leave_request.edit', compact('leave_request', 'staff', 'id', 'user', 'department', 'leave_type'));
     }
 
     /**
@@ -410,7 +420,12 @@ class LeaveRequestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $leave_request = LeaveRequest::where('LeaveReqRef', $id)->first();
+        if ($leave_request->update($request->all())) {
+            return redirect()->route('LeaveDashBoard')->with('success' . 'Update was successful');
+        } else {
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -427,6 +442,6 @@ class LeaveRequestController extends Controller
     public function create_leave_handover()
     {
         $leave_habdover = LeaveRequest::find($id);
-        $leave_request = LeaveRequesr::Where('');
+        $leave_request  = LeaveRequesr::Where('');
     }
 }
