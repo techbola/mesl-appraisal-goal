@@ -278,14 +278,14 @@ class LeaveRequestController extends Controller
                 $filenametostore             = str_slug($filename) . time() . '.' . $extension;
                 $saveFile                    = $request->file('HandOverNote')->storeAs('public/leave_document', $filenametostore);
                 $leave_request->HandOverNote = $filenametostore;
-                $leave_request->ReturnDate   = $completion_Date;
+                $leave_request->ReturnDate   = $request->ReturnDate;
                 $leave_request->save();
             } else {
                 $start_date                = $request->StartDate;
                 $converted_date            = (int) $request->NumberofDays;
                 $completion_Date           = Carbon::parse($start_date)->addDays($converted_date);
                 $leave_request             = new LeaveRequest($request->all());
-                $leave_request->ReturnDate = $completion_Date;
+                $leave_request->ReturnDate = $request->ReturnDate;
                 $leave_request->save();
             }
             \DB::commit();
