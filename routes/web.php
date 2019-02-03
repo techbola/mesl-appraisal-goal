@@ -216,6 +216,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('leave_notification/{elem_value}', 'LeaveRequestController@leave_notification');
     Route::get('request_date/{start_date}/{numberdays}', 'LeaveRequestController@retrieve_details');
 
+    Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
+    Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');
+
     // Route::get('/images/avatars/{company}/{file}')->name('avatar');
 
     // Route::get('customers/editList', 'CustomerController@customerEditList')->name('CustomerUpdate');

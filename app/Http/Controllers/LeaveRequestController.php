@@ -38,19 +38,54 @@ class LeaveRequestController extends Controller
         return view('leave_request.index', compact('leave_requests', 'leavedays'));
     }
 
+    public function get_leave_days($leave_type_id)
+    {
+
+        $id         = \Auth::user()->id;
+       
+        $leavedays  = Staff::where('UserID', $id)->first();
+
+        if ($leave_type_id=='1'){
+            $leave_days=$leavedays->LeaveDays;
+        } elseif ($leave_type_id=='2'){
+            $leave_days=$leavedays->CasualLeaveDays;
+        } elseif ($leave_type_id=='3'){
+            $leave_days=$leavedays->ExamLeaveDays;
+        } elseif ($leave_type_id=='4'){
+            $leave_days=$leavedays->MaternityLeaveDays;
+        } elseif ($leave_type_id=='5'){
+            $leave_days=$leavedays->SickLeaveDays;
+        } elseif ($leave_type_id=='6'){
+            $leave_days=$leavedays->CompasionateLeaveDays;
+        } 
+
+           $leave_used = collect(\DB::table('tblLeaveTransaction')
+            ->where('StaffID', $id)->where('LeaveTypeID',$leave_type_id)->get())
+            ->sum('DaysRequested');
+            $leave_remaining_days = $leave_days - $leave_used;
+        //return $leave_used;
+        return response()->json(['data'=>['leavedays'=>$leave_days,'leaveremainingdays'=>$leave_remaining_days]]) ;
+
+
+    }
+
+    
     public function leave_request()
     {
         $leave_type = LeaveType::all();
         $user       = \Auth::user();
         $id         = \Auth::user()->id;
         $department = CompanyDepartment::all();
-        $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
         $leavedays  = Staff::where('UserID', $id)->first();
+        $staff  = Staff::where('CompanyID', $user->CompanyID)->get();
+
+        //$leave_days=$leavedays->SickLeaveDays;
+        
         $leave_used = \DB::table('tblLeaveTransaction')
             ->where('StaffID', $id)
             ->sum('DaysRequested');
         $remaining_days = $leavedays->LeaveDays - $leave_used;
-        return view('leave_request.create', compact('leave_type', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department'));
+        return view('leave_request.create', compact('leave_type', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department','leave_days'));
     }
 
     public function leave_approval()
@@ -149,6 +184,7 @@ class LeaveRequestController extends Controller
                         $leavedays       = $trans->NumberofDays;
                         $leave_id        = $trans->LeaveReqRef;
                         $staff_id        = $trans->StaffID;
+                        $leave_type_id   = $trans->AbsenceTypeID;
                         $id              = \Auth::user()->id;
 
                         if (is_null($new_approver_id) || $new_approver_id == 0) {
@@ -158,6 +194,7 @@ class LeaveRequestController extends Controller
                                 $record->StaffID       = $staff_id;
                                 $record->DaysRequested = $leavedays;
                                 $record->LeaveID       = $leave_id;
+                                $record->LeaveTypeID   = $leave_type_id;
                                 $record->save();
                             }
 

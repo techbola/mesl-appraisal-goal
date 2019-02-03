@@ -36,6 +36,12 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="form-group">
+                {{ Form::label('AbsenceTypeID','Leave Type') }}
+                {{ Form::select('AbsenceTypeID', [ '' =>  'Absence Type'] + $leave_type->pluck('LeaveType', 'LeaveTypeRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Leave Type", 'data-init-plugin' => "select2", 'required']) }}
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
             {{ Form::label('StartDate', 'Start Date' ) }}
             <div class="input-group date dp">
                 {{ Form::text('StartDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Start Date', 'required', 'id' => 'start_Date']) }}
@@ -54,7 +60,7 @@
         <div class="col-sm-3">
             <div class="form-group">
             {{ Form::label('ReturnDate', 'End Date' ) }}
-            <div class="input-group date dp">
+            <div class="input-group">
                 {{ Form::text('ReturnDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'End Date', 'required', 'id'=>'return_date']) }}
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
@@ -64,12 +70,7 @@
     <br>
 
     <div class="row">
-        <div class="col-sm-5">
-            <div class="form-group">
-                {{ Form::label('AbsenceTypeID','Leave Type') }}
-                {{ Form::select('AbsenceTypeID', [ '' =>  'Absence Type'] + $leave_type->pluck('LeaveType', 'LeaveTypeRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose your Leave Type", 'data-init-plugin' => "select2", 'required']) }}
-            </div>
-        </div>
+        
         
         <div class="col-sm-5">
                 <div class="form-group">
@@ -198,6 +199,22 @@
     });
   </script>
 
+  <script>
+
+    $(function(){
+        $('#AbsenceTypeID').change(function(e) {
+            e.preventDefault();
+           let val= $(this).val()
+            $.get('/leave_request/'+val, function(data) {
+               $('#leavedays').html(data.data.leavedays)
+               $('#leaveremainingdays').html(data.data.leaveremainingdays)
+
+            });
+        });
+    });
+  </script>
+
+  
     <script>
         function getValue()
         {   
