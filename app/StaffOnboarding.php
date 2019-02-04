@@ -20,4 +20,14 @@ class StaffOnboarding extends Model
     {
         return $this->belongsTO('MESL\CompanyDepartment', 'Department');
     }
+
+    /*
+    |-----------------------------------------
+    | GET ON-BOARDING REQUEST
+    |-----------------------------------------
+    */
+    public static function gellPendingOnboarding(){
+        // body
+        return StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->where('SendForApproval', '1')->get();
+    }
 }

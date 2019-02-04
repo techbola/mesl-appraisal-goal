@@ -20,3 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/employees', function (Request $request) {
     return \Cavi\Staff::all();
 });
+
+
+Route::get('/dev-clean',    function (){
+    Artisan::call('clear:config');
+    Artisan::call('route:config');
+    Artisan::call('view:config');
+    Artisan::call('cache:config');
+});
