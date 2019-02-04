@@ -59,11 +59,12 @@
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $exp->ExpenseManagementRef ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
                         <td>
-                          @foreach($exp->files as $file)
-                            <p>
+                          {{-- @foreach($exp->files as $file) --}}
+                            {{-- <p>
                               <a href="{{ route('docs', ['file'=>$file->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $file->Filename}}<i class="fa fa-download m-l-5"></i></a>
-                            </p>
-                          @endforeach
+                            </p> --}}
+                          {{-- @endforeach --}}
+                          <button type="button" class="btn btn-info exp-files" data-exp_ref="{{ $exp->DocumentIDs }}">View Files</button>
                         </td>
                         <td>
                             @if($exp->status() === true) <!-- approved -->
@@ -114,11 +115,12 @@
                       &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $exp->ExpenseManagementRef ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></a> --}}
                     </td>
                     <td>
-                      @foreach($exp->files as $file)
-                        <p>
+                      {{-- @foreach($exp->files as $file) --}}
+                        {{-- <p>
                           <a href="{{ route('docs', ['file'=>$file->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $file->Filename}}<i class="fa fa-download m-l-5"></i></a>
-                        </p>
-                      @endforeach
+                        </p> --}}
+                        <button type="button" class="btn btn-info exp-files" data-exp_ref="{{ $exp->DocumentIDs }}">View Files</button>
+                      {{-- @endforeach --}}
                     </td>
                     <td>
                         @if($exp->status() === true ) <!-- approved -->
@@ -221,7 +223,6 @@
 
   	</div>
   	<!-- END PANEL -->
-
 
     <!-- Modal -->
   <div class="modal fade slide-up" id="show-exp" role="dialog" aria-hidden="false">
@@ -326,6 +327,36 @@
   </div>
   <!-- /.modal-dialog -->
 
+   <div class="modal fade slide-up" id="show-expense-files" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+      <div class="modal-content-wrapper" id="exp_files_modal">
+        <div class="modal-header"></div>
+        <div class="modal-content">
+          <div class="modal-body exp-body">
+          <table class="table tableWithSearch table-bordered">
+          <thead>
+            <th width="20%">Document Name</th>
+            <th width="15%">Type</th>
+            <th width="20%">Upload Date</th>
+            <th width="10%">Initiator</th>
+            <th width="15%">Download</th>
+            <th width="20%">Actions</th>
+
+          </thead>
+          <tbody>
+           
+          </tbody>
+        </table>
+      </div>
+        </div>
+      </div>
+   
+      <!-- /.modal-content -->
+    </div>
+  </div>
+  <!-- /.modal-dialog -->
+
+
 
 
 @endsection
@@ -340,12 +371,25 @@
 // trigger approve modal
 $("table").on('click', '#approval', function(e) {
 
-        e.preventDefault();
-        $("[name=ExpenseManagementRef]").val($(this).data("eref"));
-        $("[name=RequestListID]").val($(this).data("rlid"));
-        $("[name=ApproverRoleID]").val($(this).data("approverid"));
-        $('#show-expense').modal();
-      });
+  e.preventDefault();
+  $("[name=ExpenseManagementRef]").val($(this).data("eref"));
+  $("[name=RequestListID]").val($(this).data("rlid"));
+  $("[name=ApproverRoleID]").val($(this).data("approverid"));
+  $('#show-expense').modal();
+
+});
+
+$('.exp-files').click(function(e){
+  e.preventDefault();
+  let exp_ref = $(this).data('exp_ref');
+  $.get('/expense_management/'+exp_ref, function(data) {
+    // console.log(data);
+    $("#show-expense-files").modal('show');
+    
+
+  });
+
+});
 
       $('.preview_exp').click(function(e) {
         e.preventDefault();
@@ -363,7 +407,7 @@ $("table").on('click', '#approval', function(e) {
           $("#show-exp").find('.exp-approvers').html(data.approvers);
           $.each(data.expense_comments, function(index, val) {
              $("#show-exp").find('.exp-comment').append(`
-              <div> <i>${val.approved_by} said: </i>${val.Comment}<div> 
+              <div> <i>${val.approved_by} &nbsp; <span class=""> (Approved by: ${val.approver} @ ${val.approved_at})</span>: </i>${val.Comment}<div> 
               <div><i><b>FILES : &nbsp;</b></i> 
                ${val.files}
               <div> 
@@ -383,7 +427,7 @@ $("table").on('click', '#approval', function(e) {
           if(data.attachments.length > 0 ){
             $.each(data.attachments, function(index, val) {
                $('#show-exp .modal-footer .files').append(`
-                <a target="_blank" href="${ exp_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
+                <a target="_blank" href="${ exp_path+val.attachment_location}">${val.Filename}</a>&nbsp;
               `);
             });
           }

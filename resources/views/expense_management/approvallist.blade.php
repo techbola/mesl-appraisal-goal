@@ -498,7 +498,7 @@ $("table").on('click', '#approval', function(e) {
           $("#show-exp").find('.exp-approvers').html(data.approvers);
           $.each(data.expense_comments, function(index, val) {
              $("#show-exp").find('.exp-comment').append(`
-              <div> <i>${val.approved_by} said: </i>${val.Comment}<div> 
+              <div> <i>${val.approved_by} : </i>${val.Comment}<div> 
               <div><i><b>FILES : &nbsp;</b></i> 
                ${val.files}
               <div> 
@@ -518,7 +518,7 @@ $("table").on('click', '#approval', function(e) {
           if(data.attachments.length > 0 ){
             $.each(data.attachments, function(index, val) {
                $('#show-exp .modal-footer .files').append(`
-                <a target="_blank" href="${ exp_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
+                <a target="_blank" href="${ exp_path+val.attachment_location}">${val.Filename}</a>&nbsp;
               `);
             });
           }

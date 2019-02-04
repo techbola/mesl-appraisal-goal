@@ -21,7 +21,7 @@ use MESL\DocType;
 use MESL\ExpenseCommentFile;
 use MESL\Notifications\ExpenseReceipient;
 use MESL\Notifications\ExpenseApproval;
-use DB, Storage, Notification;
+use DB, Storage, Notification, Carbon\Carbon;
 
 class ExpenseManagementController extends Controller
 {
@@ -31,6 +31,7 @@ class ExpenseManagementController extends Controller
         $expense_management    = ExpenseManagement::all();
         $my_expense_management = $expense_management->where('inputter_id', auth()->user()->id)->where('NotifyFlag', 1)->transform(function ($item, $key) {
             $item->files = Document::whereIn('DocRef', explode(',', $item->DocumentIDs))->get();
+            // $item->updated_at;
             return $item;
         });
         // dd($my_expense_management);
@@ -141,9 +142,11 @@ class ExpenseManagementController extends Controller
             $item->approvers     = $item->request_type->approvers_formatted('<b style="font-size: 1.4rem; color: red">&rarr;</b>');
             $item->comment_files = $item->expense_comments->transform(function ($item, $key) {
                 $item->files = $item->attachments->transform(function ($item, $key) {
-                    return '<b><a href="' . asset('storage/expense_management_files') . '/' . $item->FileName . '" target="_blank">file#' . ++$key . '</a></b> ';
+                    return '&nbsp;<a href="' . asset('storage/expense_management_files') . '/' . $item->FileName . '" target="_blank">' . $item->FileName . '</a><br>';
                 });
                 $item->approved_by = ApproverRole::find($item->ApproverRoleID)->ApproverRole;
+                $item->approver    = User::find($item->inputter_id)->fullname;
+                $item->approved_at = Carbon::parse($item->updated_at)->toDayDateTimeString();
                 return $item;
             });
             return $item;
@@ -313,12 +316,14 @@ class ExpenseManagementController extends Controller
                     $file = $request->file('attachment')[$key];
                     // $filename = uniqid() . '-' . $file->getClientOriginalName();
                     // $value->storeAs('attachments', $filename);
-                    Storage::disk('public')->put('expense_management_files', $file);
+                    $filename = $file->getClientOriginalName();
+                    $saved    = $file->storeAs('public/expense_management_files', $filename);
+                    // Storage::disk('public')->put('expense_management_files', $file);
                     // $attachment = new ExpenseManagementFile
 
                     ExpenseCommentFile::create([
                         'ExpenseCommentID' => $e_id,
-                        'FileName'         => $file->hashName(),
+                        'FileName'         => $filename,
                     ]);
                 }
             }
@@ -346,13 +351,13 @@ class ExpenseManagementController extends Controller
         foreach ($SelectedID as $value) {
             array_push($new_array, intval($value));
             $approve_proc = \DB::statement(
-                "EXEC procRejectExpenseRequest  '$value', $ModuleID, '$Comment'"
+                "EXEC procRejectExpenseRequest  '$value', '$Comment'"
             );
 
         }
 
         return response()->json([
-            'message' => 'Memo was rejected successfully',
+            'message' => 'Expense Management was rejected successfully',
         ])->setStatusCode(200);
     }
 
@@ -432,5 +437,12 @@ class ExpenseManagementController extends Controller
     {
         $lots = LotDescription::where('DescriptionID', $dept_id)->get();
         return $lots;
+    }
+
+    public function fetch_exp_files($exp_ref)
+    {
+        // return $exp_ref;
+        $docs = Document::whereIn('DocRef', explode(',', $exp_ref))->get();
+        return $docs;
     }
 }

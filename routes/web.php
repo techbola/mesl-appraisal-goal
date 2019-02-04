@@ -1097,6 +1097,7 @@ Route::post('get-transaction-details', 'ReportController@fetchTransactionDetails
 Route::get('expense_management', 'ExpenseManagementController@index')->name('expense_management.index');
 Route::get('expense_management/create', 'ExpenseManagementController@create')->name('expense_management.create');
 Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+Route::get('/expense_management/{files}', 'ExpenseManagementController@fetch_exp_files');
 Route::get('expense_management/fetch-departments/{exp_id}', 'ExpenseManagementController@fetch_departments');
 Route::get('expense_management/fetch-lots/{dept_id}', 'ExpenseManagementController@fetch_lots');
 Route::post('expense_management/supervisor-approval', 'ExpenseManagementController@supervisor_approval');
