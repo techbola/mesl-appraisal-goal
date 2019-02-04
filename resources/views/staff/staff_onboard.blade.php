@@ -184,8 +184,14 @@
                                     {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
                                 </td>
                               <td>
-                                  {{-- <button type="submit" class="btn btn-xs btn-success">Onboard Staff</button> {{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }} --}}
+
                                   <a href="{{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }}" class="btn btn-xs btn-success"><i class="fa fa-share-square"></i> Onboard Staff</a>
+                                  <br>
+                                  <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#exampleModal"  onclick="edit_staff_onboarding( {{$staff_onboard->StaffOnboardRef}})">
+                                        Edit Request
+                                    </button>
+                                    <br>
                                   <a href="/staff/staff_onboard/{{$staff_onboard->StaffOnboardRef}}" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                               </td>
                             </tr>
@@ -194,6 +200,11 @@
                 </table> 
             </div>
         </div>
+
+        {{-- Modal --}}
+
+
+
         <div id="onboarding-status" class="tab-pane fade">        
             <div class="clearfix"></div>
             <div class="card-box">
@@ -251,6 +262,125 @@
             </div>
         </div>
     </div>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Staff Onbaording</h5>
+          {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> --}}
+        </div>
+        <form action="" class="form-edit">
+            {{ csrf_field() }}
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ Form::label('StaffName','Staff Name') }}
+                                    {{ Form::text('StaffName', null, ['class' => 'form-control', 'id' => 'staff_name', 'placeholder' => 'Staff Name', 'required' ]) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                {{ Form::label('Department','Department') }}
+                                {{-- {{ Form::text('Department', null, ['class' => 'form-control', 'placeholder' => 'Staff Department', 'required' ]) }} --}}
+                                <select name="Department" id="Staff Department" class= "full-width",data-placeholder = "Choose your Leave Type", data-init-plugin = "select2", id="staff_department" >
+                                    <option value="">Select Department</option>
+                                    @foreach ($department as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+            
+                        <br>
+                        {{-- row2 --}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="controls">
+                                        {{ Form::label('StaffType', 'Staff Type' ) }}
+                                        <select name="StaffType" class="full-width" data-init-plugin="select2", id="staff_type">
+                                            <option value="">Select Staff Type</option>
+                                            <option value="Full Staff">Full Staff</option>
+                                            <option value="Contract Staff">Contract Staff</option>
+                                            <option value="Intern">Intern</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ Form::label('ResumptionDate', 'Resumption Date' ) }}
+                                    <div class="input-group date dp">
+                                        {{ Form::text('ResumptionDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Resumption Date', 'required', 'id' => 'resumption_Date']) }}
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <br>
+            
+                        {{-- row3 --}}
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="card-title">Admin</div>
+                                <hr>
+                                {{-- <p>create the staff under the following:</p> --}}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="OfficeSpace" value="Office Space" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        Office Space
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="OfficeTable" value="Table" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        Table
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="BusinessCard" value="Business Card" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        Business Card
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card-title">IT</div>
+                                <hr>
+                                {{-- <p>create the staff under the following:</p> --}}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="System" value="System(Laptop/ Desktop)" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        System(Laptop/ Desktop)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="IDcreation" value="ID Card/Email Creation" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        ID Card, Email Creation
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="OfficemateProfile" value="Officemate Profile" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        User Account creation on Officemate
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+        </form>
+    </div>
+  </div>
 @endsection
 
 @push('scripts')
@@ -262,5 +392,24 @@
                 "scrollX": true
             } );
         });
+
+        function edit_staff_onboarding(id)
+        {
+        
+            $.get('/edit_staff_onboarding/'+id, function(data, status) {
+
+                $('#staff_name').val(data.StaffName);
+
+                $('#staff_department').val(data.StaffDepartment).trigger('change');
+
+                $('#staff_type').val(data.StaffType).trigger('change');
+
+                $('#resumption_date').val(data.ResumptionDate);
+
+                $('#StaffOnboardRef').val(data.StaffOnboardRef);
+
+                // $('#form-edit').prop('action', '/submit_travel_request');
+            });
+         }
     </script>
 @endpush

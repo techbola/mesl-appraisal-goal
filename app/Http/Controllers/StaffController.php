@@ -749,4 +749,10 @@ class StaffController extends Controller
 
         return redirect()->back()->with($status, $message);
     }
+
+    public function edit_staff_onboarding($id)
+    {
+        $staff_onboard = StaffOnboarding::find($id);
+        return response()->json($staff_onboard);
+    }
 }
