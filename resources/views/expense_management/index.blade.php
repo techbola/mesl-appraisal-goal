@@ -330,10 +330,15 @@
    <div class="modal fade slide-up" id="show-expense-files" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper" id="exp_files_modal">
-        <div class="modal-header"></div>
         <div class="modal-content">
+          <div class="modal-header clearfix text-left">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+            </button>
+            <h4 class="semi-bold pull-left">Request Files</h4>
+            
+          </div> <hr>
           <div class="modal-body exp-body">
-          <table class="table  table-bordered">
+            <table class="table tableWithSearch table-bordered">
           <thead>
             <th width="20%">Document Name</th>
             <th width="15%">Type</th>
@@ -346,7 +351,11 @@
            
           </tbody>
         </table>
-      </div>
+          </div>
+          <div class="modal-footer">
+            <span class="files"></span>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
    
@@ -381,7 +390,7 @@ $("table").on('click', '#approval', function(e) {
 $('.exp-files').click(function(e){
   e.preventDefault();
   let exp_ref = $(this).data('exp_ref');
-  $.get('/expense_management/'+exp_ref, function(data) {
+  $.get('/expense_management/'+exp_ref+'/files', function(data) {
     // console.log(data);
     $("#show-expense-files tbody").html(' ');
     $.each(data, function(index, val) {
@@ -413,7 +422,7 @@ $('.exp-files').click(function(e){
            $('#show-exp .modal-footer .files').html(' ');
           $("#show-exp").find('.exp-approved').html(' ');
         $.get(url, function(data) {
-          console.log(data);
+          console.log('data',data);
           $("#show-exp").find('.exp-purpose').html(data.Description);
           $("#show-exp").find('.exp-approvers').html(data.approvers);
           $.each(data.expense_comments, function(index, val) {
