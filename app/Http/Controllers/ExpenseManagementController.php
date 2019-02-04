@@ -367,7 +367,7 @@ class ExpenseManagementController extends Controller
         // $my_unsent_requests  = ExpenseManagement::where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 0);
         // approved docs
         $approved_requests = $supervisors_log->where('SupervisorApproved', 1);
-        $files             = ExpenseManagement
+        // $files             = ExpenseManagement::
 
         return view('expense_management.approvallist', compact('approved_requests', 'unapproved_requests', 'my_unsent_requests'));
     }
