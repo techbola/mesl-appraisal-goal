@@ -333,14 +333,13 @@
         <div class="modal-header"></div>
         <div class="modal-content">
           <div class="modal-body exp-body">
-          <table class="table tableWithSearch table-bordered">
+          <table class="table  table-bordered">
           <thead>
             <th width="20%">Document Name</th>
             <th width="15%">Type</th>
             <th width="20%">Upload Date</th>
             <th width="10%">Initiator</th>
             <th width="15%">Download</th>
-            <th width="20%">Actions</th>
 
           </thead>
           <tbody>
@@ -384,8 +383,20 @@ $('.exp-files').click(function(e){
   let exp_ref = $(this).data('exp_ref');
   $.get('/expense_management/'+exp_ref, function(data) {
     // console.log(data);
-    $("#show-expense-files").modal('show');
+    $("#show-expense-files tbody").html(' ');
+    $.each(data, function(index, val) {
+       $("#show-expense-files tbody").append(`
+        <tr>
+          <td>${val.DocName}</td>
+          <td>${val.type}</td>
+          <td>${val.upload_date}</td>
+          <td>${val.initiator.first_name}</td>
+          <td><a href="/download-document/${val.Filename}" class="small text-complete" data-toggle="tooltip" title="Download document">${val.Filename}<i class="fa fa-download m-l-5"></i></a</td>
+        </tr>
+      `);
+    });
     
+    $("#show-expense-files").modal('show');
 
   });
 

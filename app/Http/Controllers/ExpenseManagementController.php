@@ -442,7 +442,14 @@ class ExpenseManagementController extends Controller
     public function fetch_exp_files($exp_ref)
     {
         // return $exp_ref;
-        $docs = Document::whereIn('DocRef', explode(',', $exp_ref))->get();
+        $docs = Document::whereIn('DocRef', explode(',', $exp_ref))
+            ->get()
+            ->transform(function ($item, $key) {
+                $item->type        = $item->doctype->DocType;
+                $item->upload_date = date('jS M, Y - g:ia', strtotime($item->UploadDate));
+                $item->initiator   = $item->initiator->name;
+                return $item;
+            });
         return $docs;
     }
 }
