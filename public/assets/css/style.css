@@ -513,8 +513,8 @@ audio, canvas, progress, video {
 .page-sidebar {
     /* background-color: #ccc; */
     /* background: linear-gradient(to right, #ccc, #999); */
-    background: linear-gradient(to right, #ccc, #f7f7f7);
-    /* background: radial-gradient(circle at top left, #eee, #555); */
+    /* background: linear-gradient(to right, #ccc, #f7f7f7); */
+    background: radial-gradient(circle at top left, #eee, #555);
 }
 .scroll-wrapper>.scroll-element.scroll-y .scroll-bar {
   background: #fb5201 !important;
