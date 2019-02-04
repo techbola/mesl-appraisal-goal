@@ -28,15 +28,24 @@ class ExpenseManagementController extends Controller
 
     public function index()
     {
-        $expense_management            = ExpenseManagement::all();
-        $my_expense_management         = $expense_management->where('inputter_id', auth()->user()->id)->where('NotifyFlag', 1);
-        $my_unsent_expense_management  = $expense_management->where('inputter_id', auth()->user()->id)->where('NotifyFlag', 0);
-        $unapproved_expense_management = ExpenseManagement::whereIn('ApproverRoleID', explode(',', auth()->user()->ApproverRoleIDs))
-            ->where('NotifyFlag', 1)
-            ->get();
-        $exp_inbox = $expense_management->where('NotifyFlag', 1)
-        // ->where('ApprovedFlag', 1)
-            ->whereIn('ApproverRoleID', explode(',', auth()->user()->ApproverRoleIDs));
+        $expense_management    = ExpenseManagement::all();
+        $my_expense_management = $expense_management->where('inputter_id', auth()->user()->id)->where('NotifyFlag', 1)->transform(function ($item, $key) {
+            $item->files = Document::whereIn('DocRef', explode(',', $item->DocumentIDs))->get();
+            return $item;
+        });
+        // dd($my_expense_management);
+        $my_unsent_expense_management = $expense_management->where('inputter_id', auth()->user()->id)->where('NotifyFlag', 0)->transform(function ($item, $key) {
+            $item->files = Document::whereIn('DocRef', explode(',', $item->DocumentIDs))->get();
+            return $item;
+        });
+        $unapproved_expense_management = ExpenseManagement::whereIn('ApproverRoleID', explode(',', auth()->user()->ApproverRoleIDs))->where('NotifyFlag', 1)->get()->transform(function ($item, $key) {
+            $item->files = Document::whereIn('DocRef', explode(',', $item->DocumentIDs))->get();
+            return $item;
+        });
+        $exp_inbox = $expense_management->where('NotifyFlag', 1)->whereIn('ApproverRoleID', explode(',', auth()->user()->ApproverRoleIDs))->transform(function ($item, $key) {
+            $item->files = Document::whereIn('DocRef', explode(',', $item->DocumentIDs))->get();
+            return $item;
+        });
 
         return view('expense_management.index', compact('expense_management', 'my_expense_management', 'my_unsent_expense_management', 'ma', 'exp_inbox', 'unapproved_expense_management'));
     }
@@ -145,7 +154,7 @@ class ExpenseManagementController extends Controller
     public function store(Request $request)
     {
         $expense_management = new ExpenseManagement($request->except(['attachment', 'Filename', 'DocTypeID', 'DocName',
-            'Description', 'Initiator', 'CompanyID']));
+            'Initiator', 'CompanyID']));
         $expense_management->inputter_id = auth()->user()->id;
 
         // dd($debit_acct_details);
@@ -231,6 +240,9 @@ class ExpenseManagementController extends Controller
         });
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
+        $user               = \Auth::user();
+        $staff              = Staff::all();
+        $doctypes           = DocType::where('CompanyID', $user->staff->CompanyID)->get();
         $departments        = CompanyDepartment::all();
         $banks              = Bank::all();
         $locations          = Location::all();
@@ -246,14 +258,15 @@ class ExpenseManagementController extends Controller
              Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
              GROUP BY tblTransaction.GLID,tblGL.Description,Currency
              Order By tblGL.Description", [11, 12, 27, 39]));
-        return view('expense_management.edit', compact('expense_management', 'locations', 'employees', 'departments', 'banks', 'lot_descriptions', 'expense_categories', 'bank_acct_details',
+        return view('expense_management.edit', compact('expense_management', 'locations', 'employees', 'departments', 'banks', 'lot_descriptions', 'expense_categories', 'bank_acct_details', 'doctypes',
             'debit_acct_details', 'request_list'));
     }
 
     public function update(Request $request, $id)
     {
-        $memo = ExpenseManagement::find($id);
-        if ($memo->update($request->except('attachment'))) {
+        $exp = ExpenseManagement::find($id);
+        if ($exp->update($request->except(['attachment', 'Filename', 'DocTypeID', 'DocName',
+            'Initiator', 'CompanyID']))) {
             return redirect()->route('expense_management.create')->with('success', 'Expense Request has been updated successfully');
         } else {
             return back()->withInput()->with('error', 'Expense Request failed to updated');
@@ -354,19 +367,19 @@ class ExpenseManagementController extends Controller
         // Get requester's supervisor
         $supervisors_log = ExpenseManagement::where('ApproverRoleID', '<>', '')->get()
             ->transform(function ($item, $key) {
-                $supervisor = User::find($item->inputter_id)->staff->SupervisorID;
-                // $item->supervisors = Staff::where('SupervisorID', '<>', '')
-                //     ->where('SupervisorID', $supervisor)
-                //     ->first();
+                $supervisor     = User::find($item->inputter_id)->staff->SupervisorID;
                 $item->requests = ExpenseManagement::where('ApproverRoleID', $supervisor)->get();
+
                 return $item;
             });
-        // unapproved reqa
-        $unapproved_requests = $supervisors_log->where('SupervisorApproved', 0);
-        // dd($unapproved_requests);
-        // $my_unsent_requests  = ExpenseManagement::where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 0);
-        // approved docs
-        $approved_requests = $supervisors_log->where('SupervisorApproved', 1);
+        // unapproved req
+        $unapproved_requests = $supervisors_log
+            ->where('SupervisorApproved', 0)
+            ->where('NotifyFlag', 1);
+        // approved
+        $approved_requests = $supervisors_log
+            ->where('SupervisorApproved', 1)
+            ->where('NotifyFlag', 1);
         // $files             = ExpenseManagement::
 
         return view('expense_management.approvallist', compact('approved_requests', 'unapproved_requests', 'my_unsent_requests'));

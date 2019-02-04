@@ -58,7 +58,13 @@
                           &nbsp; {!! $exp->expense_comments->count() > 0 ? '<span class="badge">'. $exp->expense_comments->count() .' '. str_plural('comment', $exp->expense_comments->count()).'</span>' : '<span class="badge">No Comments</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $exp->ExpenseManagementRef ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
-                        <td></td>
+                        <td>
+                          @foreach($exp->files as $file)
+                            <p>
+                              <a href="{{ route('docs', ['file'=>$file->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $file->Filename}}<i class="fa fa-download m-l-5"></i></a>
+                            </p>
+                          @endforeach
+                        </td>
                         <td>
                             @if($exp->status() === true) <!-- approved -->
                                 <label class="badge badge-success">Approved</label>
@@ -91,6 +97,7 @@
                 <th >Request Type</th>
                 <th >Description</th>
                 <th>Comments</th>
+                <th>files</th>
                 <th>Status</th>
                 <th>Actions</th>
 
@@ -105,6 +112,13 @@
                       <a href="{{ route('expense_management.show', ['id' => $exp->ExpenseManagementRef]) }}" class="text-info preview_exp"><small>More Details</small></a>
                       &nbsp; {!! $exp->expense_comments->count() > 0 ? '<span class="badge">'. $exp->expense_comments->count() .' '. str_plural('comment', $exp->expense_comments->count()).'</span>' : '<span class="badge">No Comment</span>'  !!}
                       &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $exp->ExpenseManagementRef ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></a> --}}
+                    </td>
+                    <td>
+                      @foreach($exp->files as $file)
+                        <p>
+                          <a href="{{ route('docs', ['file'=>$file->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $file->Filename}}<i class="fa fa-download m-l-5"></i></a>
+                        </p>
+                      @endforeach
                     </td>
                     <td>
                         @if($exp->status() === true ) <!-- approved -->
@@ -139,6 +153,7 @@
                 <th >Request Type</th>
                 <th >Description</th>
                 <th>Comment</th>
+                <th>Files</th>
                 <th>Status</th>
                 <th>Actions</th>
 
@@ -153,6 +168,13 @@
                       <a href="{{ route('expense_management.show', ['id' => $exp->ExpenseManagementRef]) }}" class="text-info preview_exp"><small>More Details</small></a>
                       &nbsp; {!! $exp->expense_comments->count() > 0 ? '<span class="badge">'. $exp->expense_comments->count() .' '. str_plural('comment', $exp->expense_comments->count()).'</span>' : '<span class="badge">No Comment</span>'  !!}
                       &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $exp->ExpenseManagementRef ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></a> --}}
+                    </td>
+                    <td>
+                      @foreach($exp->files as $file)
+                        <p>
+                          <a href="{{ route('docs', ['file'=>$file->Filename]) }}" class="small text-complete" data-toggle="tooltip" title="Download document">{{ $file->Filename}}<i class="fa fa-download m-l-5"></i></a>
+                        </p>
+                      @endforeach
                     </td>
                     <td>
                         @if($exp->status() === true ) <!-- approved -->

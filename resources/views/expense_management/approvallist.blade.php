@@ -339,7 +339,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
    var ApprovedDate = "{{ \Carbon\Carbon::now() }}";
    var ApproverID = {{ auth()->user()->id }};
 
-     var confirm = confirm('Are You sure you want to approve this memo ?');
+     var confirm = window.confirm('Are You sure you want to approve this memo ?');
      // alert('Are You sure you want to approve this memo ?');
      if(confirm){
       var Comment = prompt("Enter Approval Comment");
