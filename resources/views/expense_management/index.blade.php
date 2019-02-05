@@ -13,6 +13,14 @@
 @endsection
 @push('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/scroller/1.5.1/css/scroller.dataTables.min.css">
+<style>
+  .flags {
+        float: right;
+    position: absolute;
+    right: -20%;
+    top: 0;
+  }
+</style>
 @endpush
 
 @section('content')
@@ -191,6 +199,8 @@
                         {{-- {{ csrf_field() }} --}}
                         <input type="hidden" name="ExpenseManagementRef" value="{{ $exp->ExpenseManagementRef }}">
                         <button type="submit" class="btn btn-sm btn-success m-r-5 " data-eref="{{ $exp->ExpenseManagementRef }}" data-rlid="{{ $exp->RequestListID }}" data-approverid = "{{ $exp->ApproverRoleID }}" id="approval" data-toggle="tooltip" title="">Approve</button>
+
+                        <button type="submit" class="btn btn-sm btn-danger m-r-5 " data-eref="{{ $exp->ExpenseManagementRef }}" data-rlid="{{ $exp->RequestListID }}" data-approverid = "{{ $exp->ApproverRoleID }}" id="rejection" data-toggle="tooltip" title="">Decline</button>
                       {{-- </form> --}}
                       @else
                       <a href="#" class="btn btn-sm btn-success disabled m-r-5" data-toggle="tooltip" title="">Completed</a>
@@ -252,7 +262,12 @@
                 <label class="badge exp-status"></label>
               </div>
               <div class="col-sm-2">
-                <div class="exp-approved text-right"></div>
+                <div class="exp-approved text-right">
+                  {{-- <div class="badge badge success">Approved</div> --}}
+                </div>
+                <div class="exp-declined text-right">
+                  {{-- <div class="badge badge-danger">Declined</div> --}}
+                </div>
               </div>
             </div>
           </div> <hr>
@@ -327,6 +342,66 @@
   </div>
   <!-- /.modal-dialog -->
 
+
+  <!-- rejection -->
+    <!-- Modal -->
+  <div class="modal fade slide-up" id="show-expense" role="dialog" aria-hidden="false">
+    <div class="modal-dialog ">
+      <div class="modal-content-wrapper">
+ <form action="/expense_management/reject" method="post" enctype="multipart/form-data">
+        <div class="modal-content">
+
+          <div class="modal-header clearfix text-left">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+            </button>
+            <h4 class="semi-bold pull-left">Expense Management</h4>
+            
+          </div> <hr>
+          <div class="modal-body exp-body">
+           
+              {{ csrf_field() }}
+              <div>
+                <div class="col-sm-12">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('Comment', 'Comment') }}
+                    {{ Form::textarea('Comment', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Purpose of this memo']) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('attachment[]', 'Attach Files') }}
+                    {{ Form::file('attachment[]',  ['class' => '','multiple' => 'multiple']) }}
+                </div>
+            </div>
+        </div> 
+    </div>
+    <input type="hidden" name="ExpenseManagementRef" value="">
+    <input type="hidden" name="RequestListID" value="">
+    <input type="hidden" name="ApproverRoleID" value="">
+            {{-- </form> --}}
+          </div>
+          <div class="modal-footer">
+            <span class="files"></span>
+            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+         </form>
+      </div>
+   
+      <!-- /.modal-content -->
+    </div>
+  </div>
+  <!-- /.modal-dialog -->
+  <!--/ end-->
+
    <div class="modal fade slide-up" id="show-expense-files" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper" id="exp_files_modal">
@@ -387,6 +462,16 @@ $("table").on('click', '#approval', function(e) {
 
 });
 
+$("table").on('click', '#rejection', function(e) {
+
+  e.preventDefault();
+  $("[name=ExpenseManagementRef]").val($(this).data("eref"));
+  $("[name=RequestListID]").val($(this).data("rlid"));
+  $("[name=ApproverRoleID]").val($(this).data("approverid"));
+  $('#show-expense').modal();
+
+});
+
 $('.exp-files').click(function(e){
   e.preventDefault();
   let exp_ref = $(this).data('exp_ref');
@@ -423,24 +508,32 @@ $('.exp-files').click(function(e){
           $("#show-exp").find('.exp-approved').html(' ');
         $.get(url, function(data) {
           console.log('data',data);
+          
           $("#show-exp").find('.exp-purpose').html(data.Description);
           $("#show-exp").find('.exp-approvers').html(data.approvers);
+
           $.each(data.expense_comments, function(index, val) {
              $("#show-exp").find('.exp-comment').append(`
-              <div> <i>${val.approved_by} &nbsp; <span class=""> (Approved by: ${val.approver} @ ${val.approved_at})</span>: </i>${val.Comment}<div> 
+              <div style="position: relative"> <i>${val.approved_by} &nbsp; <span class=""> (${val.ApprovedFlag == 1 ? `Approved` : `Rejected`} by: ${val.approver} @ ${val.approved_at})</span>: </i>${val.Comment}<div> 
               <div><i><b>FILES : &nbsp;</b></i> 
                ${val.files}
+               ${val.ApprovedFlag == 1 ? `<div class="badge badge-success flags">Approved</div>` : `<div class="flags badge badge-danger">Declined</div>` }
               <div> 
               ${data.expense_comments.length != index + 1 ? '<hr>' : '' }
+              
+              
               `);
+             
           });
           // activate modal
            if(data.approved === true){
               $("#show-exp").find('.exp-status').html('approved');
               $("#show-exp").find('.exp-status').addClass('badge-success');
+              
               $("#show-exp").find('.exp-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="30">');
             } else {
               $("#show-exp").find('.exp-status').html(data.status);
+              
             }
           $("#show-exp").modal('show');
           // list attachements

@@ -101,8 +101,8 @@
     <div class="col-sm-3">
         <div class="">
           {{ Form::label('EmploymentDate','Employment Date', ['class' => 'form-label']) }}
-          <div class="input-group date dp">
-            {{ Form::text('EmploymentDate', null, ['class' => 'form-control', 'placeholder' => 'Employment Date']) }}
+          <div class="input-group date dp required req">
+            {{ Form::text('EmploymentDate', null, ['class' => 'form-control', 'placeholder' => 'Employment Date', 'required']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
         </div>
@@ -118,8 +118,8 @@
     </div>
     <div class="col-sm-3">
         <div class="">
-          {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label required']) }}
-          <div class="input-group date dp">
+          {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label']) }}
+          <div class="input-group date dp required req">
             {{ Form::text('DateofBirth', null, ['class' => 'form-control required', 'placeholder' => 'Date of Birth', 'required']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>

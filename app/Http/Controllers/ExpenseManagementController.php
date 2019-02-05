@@ -290,6 +290,7 @@ class ExpenseManagementController extends Controller
         $expense_comment->inputter_id         = auth()->user()->id;
         $expense_comment->ApproverRoleID      = $request->ApproverRoleID;
         $expense_comment->ExpenseManagementID = $request->ExpenseManagementRef;
+        $expense_comment->ApprovedFlag        = 1;
         try {
             DB::beginTransaction();
             foreach ($SelectedID as $value) {
@@ -339,26 +340,62 @@ class ExpenseManagementController extends Controller
 
     public function reject(Request $request)
     {
-        // return dd($request);
-        // Call rejection procedure
-        $RejectedDate = $request->RejectedDate;
-        $SelectedID   = collect($request->SelectedID);
-        $RejecterID   = $request->RejecterID;
-        $Comment      = $request->Comment;
-        $ModuleID     = $request->ModuleID;
-        $RejectedFlag = $request->RejectedFlag;
-        $new_array    = array();
-        foreach ($SelectedID as $value) {
-            array_push($new_array, intval($value));
-            $approve_proc = \DB::statement(
-                "EXEC procRejectExpenseRequest  '$value', '$Comment'"
-            );
+        // $ApprovedDate = $request->ApprovedDate;
+        $SelectedID                           = collect($request->ExpenseManagementRef);
+        $ApproverRoleID                       = auth()->user()->id;
+        $Comment                              = $request->Comment;
+        $ModuleID                             = $request->RequestListID;
+        $new_array                            = array();
+        $expense_comment                      = new ExpenseComment($request->except(['attachment', 'ExpenseManagementRef', 'RequestListID']));
+        $expense_comment->inputter_id         = auth()->user()->id;
+        $expense_comment->ApproverRoleID      = $request->ApproverRoleID;
+        $expense_comment->ExpenseManagementID = $request->ExpenseManagementRef;
+        $expense_comment->RejectedFlag        = 1;
+        try {
+            DB::beginTransaction();
+            foreach ($SelectedID as $value) {
+                array_push($new_array, intval($value));
+                $approve_proc = \DB::statement(
+                    "EXEC procRejectExpenseRequest   '$value', '$Comment'"
+                );
 
+                if (!is_null(ExpenseManagement::find($value)->ApproverRoleID)) {
+                    $users = User::whereRaw("CONCAT(',',ApproverRoleIDs,',') LIKE CONCAT('%,'," . ExpenseManagement::find($value)->ApproverRoleID . ",',%')")->get();
+                    Notification::send($users, new ExpenseReceipient(ExpenseManagement::find($value)));
+                } else {
+                    $exp                = ExpenseManagement::find($value);
+                    $exp->CompletedFlag = 0;
+                    $exp->save();
+                }
+
+            }
+            $expense_comment->save();
+            if ($request->hasFile('attachment')) {
+                $e_id = $expense_comment->ExpenseCommentRef;
+                // dd($expense_management);
+                foreach ($request->attachment as $key => $value) {
+                    $file = $request->file('attachment')[$key];
+                    // $filename = uniqid() . '-' . $file->getClientOriginalName();
+                    // $value->storeAs('attachments', $filename);
+                    $filename = $file->getClientOriginalName();
+                    $saved    = $file->storeAs('public/expense_management_files', $filename);
+                    // Storage::disk('public')->put('expense_management_files', $file);
+                    // $attachment = new ExpenseManagementFile
+
+                    ExpenseCommentFile::create([
+                        'ExpenseCommentID' => $e_id,
+                        'FileName'         => $filename,
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return redirect()->route('expense_management.index')->with('success', 'Expense Saved');
+
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessages());
+            DB::rollback();
         }
-
-        return response()->json([
-            'message' => 'Expense Management was rejected successfully',
-        ])->setStatusCode(200);
     }
 
     public function authorize_expense()
