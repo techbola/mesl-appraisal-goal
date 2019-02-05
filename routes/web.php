@@ -81,6 +81,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
     Route::get('staff/onboard_dashboard_admin', 'StaffController@approve_onboard_admin')->name('ApproveOnboardAdmin');
 
+    Route::get('edit_staff_onboarding/{id}', 'StaffController@edit_staff_onboarding')->name('edit_staff_onboarding');
+    Route::post('submit_staff_onboarding', 'StaffController@submit_staff_onboarding')->name('updateOnboarding');
+
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
     Route::post('reinvite_staff/{id}', 'StaffController@reinvite_staff')->name('reinvite_staff');
