@@ -350,6 +350,7 @@ class ExpenseManagementController extends Controller
         $expense_comment->inputter_id         = auth()->user()->id;
         $expense_comment->ApproverRoleID      = $request->ApproverRoleID;
         $expense_comment->ExpenseManagementID = $request->ExpenseManagementRef;
+        $expense_comment->ApprovedFlag        = 0;
         $expense_comment->RejectedFlag        = 1;
         try {
             DB::beginTransaction();
