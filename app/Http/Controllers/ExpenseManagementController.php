@@ -201,34 +201,6 @@ class ExpenseManagementController extends Controller
             DB::rollback();
             return redirect()->back()->withInput()->with('error', 'Expense failed to save');
         }
-        // try {
-
-        //     DB::beginTransaction();
-        //     $expense_management->save();
-        //     if ($request->hasFile('attachment')) {
-        //         $e_id = $expense_management->ExpenseManagementRef;
-        //         // dd($expense_management);
-        //         foreach ($request->attachment as $key => $value) {
-        //             $file = $request->file('attachment')[$key];
-        //             // $filename = uniqid() . '-' . $file->getClientOriginalName();
-        //             // $value->storeAs('attachments', $filename);
-        //             Storage::disk('public')->put('expense_management_files', $file);
-        //             // $attachment = new ExpenseManagementFile
-
-        //             ExpenseManagementFile::create([
-        //                 'ExpenseManagementID' => $e_id,
-        //                 'FileName'            => $file->hashName(),
-        //             ]);
-        //         }
-        //     }
-
-        //     DB::commit();
-        //     return redirect()->route('expense_management.create')->with('success', 'Expense Saved');
-
-        // } catch (Exception $e) {
-        //     return back()->withErrors($e->getMessages());
-        //     DB::rollback();
-        // }
 
     }
 
@@ -305,6 +277,7 @@ class ExpenseManagementController extends Controller
                 } else {
                     $exp                = ExpenseManagement::find($value);
                     $exp->CompletedFlag = 1;
+                    $exp->Comment       = $exp->Comment;
                     $exp->save();
                 }
 
