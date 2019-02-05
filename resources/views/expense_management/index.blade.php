@@ -345,7 +345,7 @@
 
   <!-- rejection -->
     <!-- Modal -->
-  <div class="modal fade slide-up" id="show-expense" role="dialog" aria-hidden="false">
+  <div class="modal fade slide-up" id="show-expense-reject" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
  <form action="/expense_management/reject" method="post" enctype="multipart/form-data">
@@ -468,7 +468,7 @@ $("table").on('click', '#rejection', function(e) {
   $("[name=ExpenseManagementRef]").val($(this).data("eref"));
   $("[name=RequestListID]").val($(this).data("rlid"));
   $("[name=ApproverRoleID]").val($(this).data("approverid"));
-  $('#show-expense').modal();
+  $('#show-expense-reject').modal();
 
 });
 
