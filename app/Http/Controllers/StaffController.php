@@ -34,6 +34,7 @@ use MESL\CompanySupervisor;
 use MESL\StaffOnboarding;
 use MESL\Mail\StaffOnboard;
 use MESL\Mail\ApprovalIT;
+use MESL\Mail\AdminOnboardApproval;
 
 use Carbon;
 
@@ -714,7 +715,7 @@ class StaffController extends Controller
     public function approve_onboard_admin(){
 
         $staff_onboards = StaffOnboarding::gellPendingOnboarding();
-        return view('staff.onboard_dashboard', compact('staff_onboards'));
+        return view('staff.onboard_dashboard_admin', compact('staff_onboards'));
     }
 
 
@@ -729,9 +730,9 @@ class StaffController extends Controller
 
         $staff_onboard = User::all();
 
-        $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)->where('ApprovalStatus2', '0')->first();
+        $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)->where('ApprovalStatus2', 0)->first();
         if($staff_onboard !== null){
-            $staff_onboard->ApprovalStatus1 = '1';
+            $staff_onboard->ApprovalStatus2 = 1;
             $staff_onboard->update();
 
             $users = User::whereHas('staff', function ($query) {
@@ -748,5 +749,22 @@ class StaffController extends Controller
         }
 
         return redirect()->back()->with($status, $message);
+    }
+
+    public function edit_staff_onboarding($id)
+    {
+        $staff_onboard = StaffOnboarding::find($id);
+        return response()->json($staff_onboard);
+    }
+
+    public function submit_staff_onboarding(Request $request)
+    {
+        $staff_onboard = StaffOnboarding::find($request->StaffOnboardRef);
+
+        if($staff_onboard->update($request->except(['_token']))){
+            return redirect()->back()->with('success', 'Request was updated successfully');
+        }else{
+            return redirect()->back()->with('error', 'Please check the credentials well');
+        }
     }
 }
