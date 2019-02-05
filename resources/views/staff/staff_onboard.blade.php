@@ -103,13 +103,13 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="OfficeTable" value="Table" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="OfficeTable" value="Table" id="defaultCheck2">
                                     <label class="form-check-label" for="defaultCheck1">
                                         Table
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="BusinessCard" value="Business Card" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="BusinessCard" value="Business Card" id="defaultCheck3">
                                     <label class="form-check-label" for="defaultCheck1">
                                         Business Card
                                     </label>
@@ -120,19 +120,19 @@
                                 <hr>
                                 {{-- <p>create the staff under the following:</p> --}}
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="System" value="System(Laptop/ Desktop)" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="System" value="System(Laptop/ Desktop)" id="defaultCheck4">
                                     <label class="form-check-label" for="defaultCheck1">
                                         System(Laptop/ Desktop)
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="IDcreation" value="ID Card/Email Creation" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="IDcreation" value="ID Card/Email Creation" id="defaultCheck5">
                                     <label class="form-check-label" for="defaultCheck1">
                                         ID Card, Email Creation
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="OfficemateProfile" value="Officemate Profile" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="OfficemateProfile" value="Officemate Profile" id="defaultCheck6">
                                     <label class="form-check-label" for="defaultCheck1">
                                         User Account creation on Officemate
                                     </label>
@@ -168,7 +168,7 @@
                         <th width="5%">Resumption</th>
                         <th width="12%">Workspace</th>
                         <th width="12%">Office Assets</th>
-                        <th width="15%">Action</th>
+                        <th width="24%">Action</th>
                     </thead>
                     <tbody>
                         @foreach($staff_onboards as $staff_onboard)
@@ -185,13 +185,11 @@
                                 </td>
                               <td>
 
-                                  <a href="{{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }}" class="btn btn-xs btn-success"><i class="fa fa-share-square"></i> Onboard Staff</a>
-                                  <br>
+                                  <a style="margin-right: 10px; display: inline-block" href="{{ route('SendOnboarding', $staff_onboard->StaffOnboardRef) }}" class="btn btn-xs btn-success"><i class="fa fa-share-square"></i> Onboard Staff</a>
                                   <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#exampleModal"  onclick="edit_staff_onboarding( {{$staff_onboard->StaffOnboardRef}})">
+                                    <button style="margin-right: 10px; display: inline-block" type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#exampleModal"  onclick="edit_staff_onboarding( {{$staff_onboard->StaffOnboardRef}})">
                                         Edit Request
                                     </button>
-                                    <br>
                                   <a href="/staff/staff_onboard/{{$staff_onboard->StaffOnboardRef}}" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                               </td>
                             </tr>
@@ -218,6 +216,7 @@
                         <th width="12%">Office Assets</th>
                         <th width="15%">Admin</th>
                         <th width="15%">IT</th>
+                        <th width="15%">Action</th>
                     </thead>
                     <tbody>
                         @foreach($staff_onboarding_sent as $staff_onboard)
@@ -255,6 +254,7 @@
                                         </a>
                                     @endif
                                 </td>
+                                <td><a href="/staff/staff_onboard/{{$staff_onboard->StaffOnboardRef}}" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -272,8 +272,9 @@
             <span aria-hidden="true">&times;</span>
           </button> --}}
         </div>
-        <form action="" class="form-edit">
+    <form action="{{ url('submit_staff_onboarding') }}" class="form-edit" method="POST">
             {{ csrf_field() }}
+            <input type="hidden" id="StaffOnboardRef" name="StaffOnboardRef" value="">
                 <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -336,13 +337,13 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="OfficeTable" value="Table" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="OfficeTable" value="Table" id="defaultCheck2">
                                     <label class="form-check-label" for="defaultCheck1">
                                         Table
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="BusinessCard" value="Business Card" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="BusinessCard" value="Business Card" id="defaultCheck3">
                                     <label class="form-check-label" for="defaultCheck1">
                                         Business Card
                                     </label>
@@ -353,19 +354,19 @@
                                 <hr>
                                 {{-- <p>create the staff under the following:</p> --}}
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="System" value="System(Laptop/ Desktop)" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="System" value="System(Laptop/ Desktop)" id="defaultCheck4">
                                     <label class="form-check-label" for="defaultCheck1">
                                         System(Laptop/ Desktop)
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="IDcreation" value="ID Card/Email Creation" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="IDcreation" value="ID Card/Email Creation" id="defaultCheck5">
                                     <label class="form-check-label" for="defaultCheck1">
                                         ID Card, Email Creation
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="OfficemateProfile" value="Officemate Profile" id="defaultCheck1">
+                                    <input class="form-check-input" type="checkbox" name="OfficemateProfile" value="Officemate Profile" id="defaultCheck6">
                                     <label class="form-check-label" for="defaultCheck1">
                                         User Account creation on Officemate
                                     </label>
@@ -373,11 +374,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                  </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="submit-edit" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
         </form>
     </div>
   </div>
@@ -397,6 +398,7 @@
         {
         
             $.get('/edit_staff_onboarding/'+id, function(data, status) {
+                console.log('data',data)
 
                 $('#staff_name').val(data.StaffName);
 
@@ -406,10 +408,64 @@
 
                 $('#resumption_date').val(data.ResumptionDate);
 
+                $('#defaultCheck1').val(data.OfficeSpace);
+
+                $('#defaultCheck2').val(data.OfficeTable);
+
+                $('#defaultCheck3').val(data.BusinessCard);
+
+                $('#defaultCheck4').val(data.System);
+
+                $('#defaultCheck5').val(data.IDcreation);
+
+                $('#defaultCheck6').val(data.OfficemateProfile);
+
+                if (data.OfficeSpace != null)
+                {
+                    $('[name=OfficeSpace]').prop('checked', 'checked');
+                }
+
+                if (data.OfficeTable != null)
+                {
+                    $('[name=OfficeTable]').prop('checked', 'checked');
+                }
+
+                if (data.BusinessCard != null)
+                {
+                    $('[name=BusinessCard]').prop('checked', 'checked');
+                }
+
+                if (data.System != null)
+                {
+                    $('[name=System]').prop('checked', 'checked');
+                }
+
+                if (data.IDcreation != null)
+                {
+                    $('[name=IDcreation]').prop('checked', 'checked');
+                }
+
+                if (data.OfficemateProfile != null)
+                {
+                    $('[name=OfficemateProfile]').prop('checked', 'checked');
+                }
+
                 $('#StaffOnboardRef').val(data.StaffOnboardRef);
 
-                // $('#form-edit').prop('action', '/submit_travel_request');
+                $('#form-edit').prop('action', '/submit_staff_onboarding');
             });
          }
+
+
+        //  $('#submit-edit').click(function(e) {
+        //      e.preventDefault();
+        //      $.post('/submit_staff_onboarding', $('#form-edit').serialize(), function(data, status) {
+        //     if(status === 'success'){
+        //     //   $('').html(data);
+        //       swal('Ok', data, 'success');
+        //     }
+        // });
+
+    //   });
     </script>
 @endpush
