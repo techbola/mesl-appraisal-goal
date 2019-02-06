@@ -441,7 +441,7 @@ class ExpenseManagementController extends Controller
 
     public function supervisor_reject(Request $request)
     {
-         $ApprovedDate = $request->ApprovedDate;
+        $ApprovedDate = $request->ApprovedDate;
         $SelectedID   = collect($request->SelectedID);
         $ApproverID   = $request->ApproverID;
         $Comment      = $request->Comment;
@@ -450,12 +450,11 @@ class ExpenseManagementController extends Controller
         $new_array    = array();
         foreach ($SelectedID as $value) {
             array_push($new_array, intval($value));
-            $exp                     = ExpenseManagement::find($value);
-            $exp->SupervisorApproved = 1;
+            $exp = ExpenseManagement::find($value);
+            // $exp->SupervisorApproved = 1;
             $approve_proc = \DB::statement(
-                    "EXEC procRejectExpenseRequest   '$value', '$Comment'"
-                );
-
+                "EXEC procRejectExpenseRequest   '$value', '$Comment'"
+            );
 
         }
         // $selected_ids = (implode(',', $new_array));
@@ -464,7 +463,7 @@ class ExpenseManagementController extends Controller
 
         return response()->json([
             'message' => 'Request was rejected successfully',
-        ])->setStatusCode(200);    }
+        ])->setStatusCode(200);}
 
     public function fetch_departments($exp_id)
     {
