@@ -32,6 +32,7 @@ class LeaveRequestController extends Controller
     {
         $id             = \Auth::user()->id;
         $leave_requests = LeaveRequest::where('StaffID', $id)->get();
+        $unsent_request = LeaveRequest::where('StaffID', $id)->where('NotifyFlag', 1)->get();
         $leavedays      = Staff::where('UserID', $id)->first();
         $leave_type     = LeaveType::all();
         $department     = CompanyDepartment::all();
@@ -39,7 +40,7 @@ class LeaveRequestController extends Controller
         $user  = \Auth::user();
         $id    = \Auth::user()->id;
         $staff = Staff::where('CompanyID', $user->CompanyID)->get();
-        return view('leave_request.index', compact('leave_requests', 'leave_type', 'staff', 'user', 'id', 'department', 'user', 'leavedays'));
+        return view('leave_request.index', compact('leave_requests', 'unsent_request', 'leave_type', 'staff', 'user', 'id', 'department', 'user', 'leavedays'));
     }
 
     public function get_leave_days($leave_type_id)
@@ -74,12 +75,17 @@ class LeaveRequestController extends Controller
 
     public function leave_request()
     {
-        $leave_type = LeaveType::all();
-        $user       = \Auth::user();
-        $id         = \Auth::user()->id;
-        $department = CompanyDepartment::all();
-        $leavedays  = Staff::where('UserID', $id)->first();
-        $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
+        $leave_type     = LeaveType::all()->sortBy('LeaveType');
+        $unsent_request = LeaveRequest::where('StaffID', auth()->user()->id)->where('NotifyFlag', 1)->get();
+        $user           = \Auth::user();
+        $id             = \Auth::user()->id;
+        $department     = CompanyDepartment::all()->sortBy('name');
+        $leavedays      = Staff::where('UserID', $id)->first();
+        $staff          = Staff::where('CompanyID', $user->CompanyID)
+            ->whereIn('DepartmentID', explode(',', $user->staff->DepartmentID))
+
+            ->get()
+            ->sortBy('FullName');
 
         //$leave_days=$leavedays->SickLeaveDays;
 
@@ -87,7 +93,7 @@ class LeaveRequestController extends Controller
             ->where('StaffID', $id)
             ->sum('DaysRequested');
         $remaining_days = $leavedays->LeaveDays - $leave_used;
-        return view('leave_request.create', compact('leave_type', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department', 'leave_days'));
+        return view('leave_request.create', compact('leave_type', 'unsent_request', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department', 'leave_days'));
     }
 
     public function leave_approval()
@@ -289,6 +295,7 @@ class LeaveRequestController extends Controller
                 $completion_Date           = Carbon::parse($start_date)->addDays($converted_date);
                 $leave_request             = new LeaveRequest($request->all());
                 $leave_request->ReturnDate = $request->ReturnDate;
+
                 $leave_request->save();
             }
             \DB::commit();

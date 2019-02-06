@@ -27,7 +27,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 {{ Form::label('ContactNumber','Contact Phone Number') }}
-                {{ Form::number('ContactNumber', null, ['class' => 'form-control', 'placeholder' => 'Mobile Phone Number', 'required']) }}
+                {{ Form::number('ContactNumber', null, ['class' => 'form-control','minlenth' => "1", 'max' => "99999999999",'placeholder' => 'Mobile Phone Number', 'required']) }}
             </div>
         </div>
     </div>
@@ -258,5 +258,19 @@
                 }
                     
         }
+
+        $("#AbsenceTypeID").change(function(e) {
+            e.preventDefault();
+            let val = $(this).val();
+            console.log(val)
+            let leave_allowance_warrper = $("#leave_allowance").parents(".form-group");
+            if(val == 1){
+                $("#leave_allowance").val('');
+                leave_allowance_warrper.removeClass('hide');
+            } else {
+                leave_allowance_warrper.addClass('hide');
+                $("#leave_allowance").val('');
+            }
+        });
     </script>
     @endpush

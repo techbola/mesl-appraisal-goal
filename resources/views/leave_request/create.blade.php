@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+
+@section('buttons')
+<a href="{{ route('LeaveDashBoard') }}" class="btn btn-info btn-rounded pull-right" >View Requests ({{ $unsent_request->count() }})</a>
+@endsection
 @section('content')
 <div class="panel panel-white">
 	<div class="panel-heading">
