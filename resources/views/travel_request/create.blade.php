@@ -29,7 +29,6 @@
         <li>
             <a data-toggle="tab" href="#onboarding-status">
                 Travel table &nbsp; <span class="badge badge-success">
-                    {{-- {{ count($staff_onboarding_sent) }} --}}
                 </span>
             </a>
         </li>
