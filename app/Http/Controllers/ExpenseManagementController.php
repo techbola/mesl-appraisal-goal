@@ -43,7 +43,9 @@ class ExpenseManagementController extends Controller
             $item->files = Document::whereIn('DocRef', explode(',', $item->DocumentIDs))->get();
             return $item;
         });
-        $exp_inbox = $expense_management->where('NotifyFlag', 1)->whereIn('ApproverRoleID', explode(',', auth()->user()->ApproverRoleIDs))->transform(function ($item, $key) {
+        $exp_inbox = $expense_management->where('NotifyFlag', 1)
+            ->where('ApprovedFlag', 1)
+            ->whereIn('ApproverRoleID', explode(',', auth()->user()->ApproverRoleIDs))->transform(function ($item, $key) {
             $item->files = Document::whereIn('DocRef', explode(',', $item->DocumentIDs))->get();
             return $item;
         });
