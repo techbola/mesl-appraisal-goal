@@ -26,16 +26,18 @@
         </div>
 
     @include('errors.list')
-    <div class="row">
 
+    <div class="row">
+        <div class="form-group">
+            <span class="expense_process hide" style="padding: 0 10px">
+                [<span class="expense_process_child" style="padding: 0 10px"></span>]
+            </span>
+        </div>
         <div class="col-sm-6">
             <div class="form-group">
-                
                 <div class="controls">
                     {{ Form::label('RequestListID', 'Request Type') }}
-                    <span class="expense_process hide" style="padding: 0 10px; padding: 0 10px;position: absolute;top: -9px;">
-                        [<span class="expense_process_child" style="padding: 0 10px"></span>]
-                    </span>
+                   
                     
                     {{ Form::select('RequestListID', ['' => 'Select Request'] + $request_list->pluck('Request','RequestListRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
                 </div>

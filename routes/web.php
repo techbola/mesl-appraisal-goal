@@ -71,7 +71,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('assign-menu/{id}', 'MenuController@edit_company_menu')->name('edit_company_menu');
     Route::patch('assign-menu/{id}', 'MenuController@update_company_menu')->name('update_company_menu');
 
-
     Route::get('approve_onboardIT/{id}', 'StaffController@approve_onboardIT');
     Route::get('admin_onboard_mail/{id}', 'StaffController@admin_onboard_mail');
     Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
@@ -81,9 +80,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff', 'StaffController@index')->name('staff');
     Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
     Route::get('staff/onboard_dashboard_admin', 'StaffController@approve_onboard_admin')->name('ApproveOnboardAdmin');
+
     Route::get('edit_staff_onboarding/{id}', 'StaffController@edit_staff_onboarding')->name('edit_staff_onboarding');
     Route::post('submit_staff_onboarding', 'StaffController@submit_staff_onboarding')->name('updateOnboarding');
-    
 
     // Route::get('staff', 'StaffController@invite')->name('invite_staff');
     Route::post('invite_staff', 'StaffController@post_invite')->name('invite_staff');
@@ -220,10 +219,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('leave_request/create', 'LeaveRequestController@leave_request')->name('LeaveRequest');
     Route::post('store_leave_request', 'LeaveRequestController@store_leave_request');
     Route::get('leave_request/index', 'LeaveRequestController@dashboard')->name('LeaveDashBoard');
+    Route::get('leave_request/{id}/edit', 'LeaveRequestController@edit')->name('leave_request.edit');
+    Route::patch('leave_request/{id}/update', 'LeaveRequestController@update')->name('leave_request.update');
     Route::get('leave_request/leave_approval', 'LeaveRequestController@leave_approval')->name('LeaveApproval');
     Route::post('approve_leave_request', 'LeaveRequestController@approve_leave_request');
     Route::get('leave_notification/{elem_value}', 'LeaveRequestController@leave_notification');
     Route::get('request_date/{start_date}/{numberdays}', 'LeaveRequestController@retrieve_details');
+
+    Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
+    Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');
 
     //leave handover
     Route::get('leave_request/handover', 'LeaveRequestController@leave_handover')->name('LeaveHandover');
@@ -1096,9 +1100,11 @@ Route::post('get-transaction-details', 'ReportController@fetchTransactionDetails
 Route::get('expense_management', 'ExpenseManagementController@index')->name('expense_management.index');
 Route::get('expense_management/create', 'ExpenseManagementController@create')->name('expense_management.create');
 Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+Route::get('/expense_management/{files}/files', 'ExpenseManagementController@fetch_exp_files');
 Route::get('expense_management/fetch-departments/{exp_id}', 'ExpenseManagementController@fetch_departments');
 Route::get('expense_management/fetch-lots/{dept_id}', 'ExpenseManagementController@fetch_lots');
 Route::post('expense_management/supervisor-approval', 'ExpenseManagementController@supervisor_approval');
+Route::post('expense_management/supervisor-reject', 'ExpenseManagementController@supervisor_reject');
 Route::get('expense_management/{id}', 'ExpenseManagementController@show')->name('expense_management.show');
 Route::get('expense_management/edit/{id}', 'ExpenseManagementController@edit')->name('expense_management.edit');
 Route::post('expense_management/store', 'ExpenseManagementController@store')->name('expense_management.store');
@@ -1217,10 +1223,9 @@ Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->nam
 // admin dashboard
 Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-home');
 
-
 /*
 |------------------------------------------------------------------------------------------
-| IT HELP DESK 
+| IT HELP DESK
 |------------------------------------------------------------------------------------------
  */
-Route::get('help/desk/complaints',      'HelpDeskController@index')->name('helpdesk_module');
+Route::get('help/desk/complaints', 'HelpDeskController@index')->name('helpdesk_module');

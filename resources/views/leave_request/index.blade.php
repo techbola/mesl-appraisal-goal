@@ -13,6 +13,33 @@
 
 @section('content')
 
+    <!-- Modal - Invite Staff -->
+  <div class="modal fade slide-up  " id="edit_leave_request" role="dialog" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content-wrapper">
+        <div class="modal-content">
+          <div class="modal-header clearfix text-left">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+            </button>
+            <h5>Modify Leave Request</h5>
+            {{-- <p class="p-b-10">We need payment information inorder to process your order</p> --}}
+          </div>
+          <div class="modal-body">
+
+            <form action="{{ route('invite_staff') }}" method="post">
+              {{ csrf_field() }}
+              @include('leave_request.form', ['buttonText' => 'Save'])
+              <button type="submit" class="btn btn-info btn-form">Submit</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+  </div>
+  <!-- /.modal-dialog -->
+
   	<!-- START PANEL -->
   	<div class="card-box">
   			<div class="card-title pull-left">Leave Status</div>
@@ -55,7 +82,7 @@
                 </td>
                 <td>
                   @if($leave_request->NotifyFlag == 0)
-                  <a href="#" class="btn btn-xs btn-complete">Edit Request</a> 
+                  <a href="/leave_request/{{ $leave_request->LeaveReqRef }}/edit" class="btn btn-xs btn-complete " data-request_ref = "{{ $leave_request->LeaveReqRef }}" >Edit Request</a> 
                   | <a href="#" class="btn btn-xs btn-success" data-id="{{$leave_request->LeaveReqRef}}" onclick="send_notification()">Send for Approval</a>
                   @elseif($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1 && is_null($leave_request->ApproverID) && $leave_request->CompletedFlag == 1)
                     <p><i style="font-size: 12px; color: green">Completed</i></p>

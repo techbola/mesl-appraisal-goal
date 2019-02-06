@@ -78,7 +78,9 @@
                           &nbsp; {!! $exp->expense_comments->count() > 0 ? '<span class="badge">'. $exp->expense_comments->count() .' '. str_plural('comment', $exp->expense_comments->count()).'</span>' : '<span class="badge">No Comments</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $exp->ExpenseManagementRef ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
-                        <td></td>
+                        <td>
+                          
+                        </td>
                         <td>
                             @if($exp->status() === true) <!-- approved -->
                                 <label class="badge badge-success">Approved</label>
@@ -337,7 +339,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
    var ApprovedDate = "{{ \Carbon\Carbon::now() }}";
    var ApproverID = {{ auth()->user()->id }};
 
-     var confirm = confirm('Are You sure you want to approve this memo ?');
+     var confirm = window.confirm('Are You sure you want to approve this memo ?');
      // alert('Are You sure you want to approve this memo ?');
      if(confirm){
       var Comment = prompt("Enter Approval Comment");
@@ -390,7 +392,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      var Comment = prompt("Enter Rejection Comment");
      
      $.ajax({
-         url: '/memos/reject',
+         url: '/expense_management/supervisor-reject',
          type: 'POST',
          data: {
             RejecterID: {{ auth()->user()->id }},
@@ -496,7 +498,7 @@ $("table").on('click', '#approval', function(e) {
           $("#show-exp").find('.exp-approvers').html(data.approvers);
           $.each(data.expense_comments, function(index, val) {
              $("#show-exp").find('.exp-comment').append(`
-              <div> <i>${val.approved_by} said: </i>${val.Comment}<div> 
+              <div> <i>${val.approved_by} : </i>${val.Comment}<div> 
               <div><i><b>FILES : &nbsp;</b></i> 
                ${val.files}
               <div> 
@@ -516,7 +518,7 @@ $("table").on('click', '#approval', function(e) {
           if(data.attachments.length > 0 ){
             $.each(data.attachments, function(index, val) {
                $('#show-exp .modal-footer .files').append(`
-                <a target="_blank" href="${ exp_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
+                <a target="_blank" href="${ exp_path+val.attachment_location}">${val.Filename}</a>&nbsp;
               `);
             });
           }
