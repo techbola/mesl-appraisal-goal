@@ -14,7 +14,7 @@ use MESL\TravelMode;
 use MESL\User;
 use MESL\Mail\SendforApproval;
 use MESL\Mail\RequestApproved;
-use MESL\Mail\RequestedRejected;
+use MESL\Mail\RequestRejected;
 use Mail;
 
 class TravelRequestController extends Controller
@@ -160,9 +160,6 @@ class TravelRequestController extends Controller
 
         $travel_request               = TravelRequest::find($ref);
         $travel_request->ApprovalDate = date('Y-m-d');
-        // $travel_request               = TravelRequest::where('TravelRef', $ref)
-        //                                 ->get()
-        //                                 ->first();
         $travel_request = TravelRequest::where('TravelRef', $ref)
                                     ->where('RequestApprovedd', '0')
                                     ->first();
@@ -187,13 +184,17 @@ class TravelRequestController extends Controller
 
         $travel_request = User::all();
 
-        $travel_request                  = TravelRequest::find($ref);
+        $travel_request             = TravelRequest::where('TravelRef', $ref)
+                                    ->where('SentForApproval', 1)
+                                    ->first();
         $travel_request->SentForApproval = 0;
-        $travel_request->save();
+        $travel_request->update();
+        // $travel_request->save();
 
         $email = Staff::find($travel_request->RequesterID)->first()->user->email;
 
-        Mail::to($email)->send(new RequestedRejected());
+        Mail::to($email)->send(new RequestRejected());
+
         return redirect()->route('travel_request.admindashboard')->with('success', 'Request Rejected successfully');
     }
 }
