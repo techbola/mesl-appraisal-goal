@@ -160,9 +160,14 @@ class TravelRequestController extends Controller
 
         $travel_request               = TravelRequest::find($ref);
         $travel_request->ApprovalDate = date('Y-m-d');
-        $travel_request               = TravelRequest::where('TravelRef', $ref)
-            ->get()
-            ->first();
+        // $travel_request               = TravelRequest::where('TravelRef', $ref)
+        //                                 ->get()
+        //                                 ->first();
+        $travel_request = TravelRequest::where('TravelRef', $ref)
+                                    ->where('RequestApprovedd', '0')
+                                    ->first();
+        $travel_request->RequestApprovedd = '1';
+        $travel_request->update();
 
         $email = User::find($travel_request->RequesterID)->first()->email;
         // dd($travel_request);
