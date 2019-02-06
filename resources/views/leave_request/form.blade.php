@@ -61,7 +61,7 @@
             <div class="form-group">
             {{ Form::label('ReturnDate', 'End Date' ) }}
             <div class="input-group">
-                {{ Form::text('ReturnDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'End Date', 'required', 'id'=>'return_date']) }}
+                {{ Form::text('ReturnDate', date('Y-m-d'), ['class' => 'form-control ', 'placeholder' => 'End Date', 'required', 'readonly', 'id'=>'return_date']) }}
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
             </div>
@@ -138,32 +138,6 @@
 
     <hr>
 
-    <div class="row">
-        <div class="col-sm-3">
-            <div class="form-group">
-                {{ Form::label('ApproverID1','First Approver') }}
-                {{ Form::select('ApproverID1', [ '' =>  'select Approver'] + $staff->pluck('FullName', 'UserID')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "select Approver", 'data-init-plugin' => "select2", 'required', 'id'=>'approver', 'onchange' => 'getValue()']) }}
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="form-group">
-                {{ Form::label('ApproverID2','Second Approver') }}
-                {{ Form::select('ApproverID2', [ '' =>  'select Approver'] + $staff->pluck('FullName', 'UserID')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "select Approver", 'data-init-plugin' => "select2"]) }}
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="form-group">
-                {{ Form::label('ApproverID3','Third Approver ') }}
-                {{ Form::select('ApproverID3', [ '' =>  'select Approver'] + $staff->pluck('FullName', 'UserID')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "select Approver", 'data-init-plugin' => "select2"]) }}
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="form-group">
-                {{ Form::label('ApproverID4','Fourth Approver ') }}
-                {{ Form::select('ApproverID4', [ '' =>  'select Approver'] + $staff->pluck('FullName', 'UserID')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "select Approver", 'data-init-plugin' => "select2"]) }}
-            </div>
-        </div>
-    </div>
     <input type="hidden" name="StaffID" value="{{ $id }}">
     <input type="hidden" name="ModuleID" value="3">
     <input type="hidden" name="ApproverID" id='approver_id'>
@@ -186,6 +160,7 @@
         var options = {
             todayHighlight: true,
             format: 'yyyy-mm-dd',
+            startDate: '{{ date('Y-m-d') }}',
             autoclose: true,
         };
         $('.dp').datepicker(options);

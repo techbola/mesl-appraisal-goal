@@ -142,9 +142,14 @@ class LeaveRequestController extends Controller
     public function leave_notification($elem_value)
     {
         if (!is_null($elem_value)) {
-            $trans = \DB::table('tblLeaveRequest')
+            $leave_request = LeaveRequest::find($elem_value);
+            $trans         = \DB::table('tblLeaveRequest')
                 ->where('leaveReqRef', $elem_value)
-                ->update(['NotifyFlag' => 1, 'RejectionFlag' => '0']);
+                ->update([
+                    'NotifyFlag'    => 1,
+                    'ApproverID'    => $leave_request->SupervisorID,
+                    'RejectionFlag' => '0',
+                ]);
 
             if ($trans) {
                 $details = \DB::table('tblLeaveRequest')
@@ -154,12 +159,12 @@ class LeaveRequestController extends Controller
                 if (!is_null($details->ApproverID) || $details->ApproverID > 0) {
                     $email = \DB::table('users')
                         ->select('email')
-                        ->where('id', $details->ApproverID)
+                        ->where('id', Staff::find($details->ApproverID)->user->id)
                         ->first();
 
                     $name = \DB::table('users')
                         ->select('first_name')
-                        ->where('id', $details->ApproverID)
+                        ->where('id', Staff::find($details->ApproverID)->user->id)
                         ->first();
 
                     Mail::to($email)->send(new LR($name));
@@ -288,13 +293,15 @@ class LeaveRequestController extends Controller
                 $saveFile                    = $request->file('HandOverNote')->storeAs('public/leave_document', $filenametostore);
                 $leave_request->HandOverNote = $filenametostore;
                 $leave_request->ReturnDate   = $request->ReturnDate;
+                $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
                 $leave_request->save();
             } else {
-                $start_date                = $request->StartDate;
-                $converted_date            = (int) $request->NumberofDays;
-                $completion_Date           = Carbon::parse($start_date)->addDays($converted_date);
-                $leave_request             = new LeaveRequest($request->all());
-                $leave_request->ReturnDate = $request->ReturnDate;
+                $start_date                  = $request->StartDate;
+                $converted_date              = (int) $request->NumberofDays;
+                $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
+                $leave_request               = new LeaveRequest($request->all());
+                $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
+                $leave_request->ReturnDate   = $request->ReturnDate;
 
                 $leave_request->save();
             }

@@ -379,7 +379,8 @@ class StaffController extends Controller
         $departments       = CompanyDepartment::all()->sortBy('name');
         $staff_departments = $staff->DepartmentID;
         // $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
-        $supervisors = CompanySupervisor::allSupervisors();
+        $supervisors = Staff::where('SupervisorFlag', 1)->get()->sortBy('FullName');
+        // dd($supervisors);
 
         // dd($role->pluck('id', 'name'));
         return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
@@ -655,7 +656,6 @@ class StaffController extends Controller
             ->where('SendForApproval', '1')
             ->get();
 
-
         return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department'));
     }
 
@@ -663,8 +663,9 @@ class StaffController extends Controller
     |-----------------------------------------
     | SHOW ON-BOARDING REQUEST DASHBOARD
     |-----------------------------------------
-    */
-    public function approve_onboardIT($id){
+     */
+    public function approve_onboardIT($id)
+    {
 
         $staff_onboards = StaffOnboarding::gellPendingOnboarding();
 
@@ -676,7 +677,7 @@ class StaffController extends Controller
         $staff_onboard = User::all();
 
         $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)->where('ApprovalStatus1', '0')->first();
-        if($staff_onboard !== null){
+        if ($staff_onboard !== null) {
             $staff_onboard->ApprovalStatus1 = '1';
             $staff_onboard->update();
 
@@ -686,22 +687,23 @@ class StaffController extends Controller
 
             \Mail::to($users)->send(new ApprovalIT());
 
-            $status = "success";
+            $status  = "success";
             $message = "Request has been treated successfully";
-        }else{
-            $status = "error";
+        } else {
+            $status  = "error";
             $message = "Can not complete this request at the moment!";
         }
 
         return redirect()->back()->with($status, $message);
     }
-    
+
     /*
     |-----------------------------------------
     | SHOW ON-BOARDING REQUEST DASHBOARD
     |-----------------------------------------
-    */
-    public function approve_onboard(){
+     */
+    public function approve_onboard()
+    {
 
         $staff_onboards = StaffOnboarding::gellPendingOnboarding();
         return view('staff.onboard_dashboard', compact('staff_onboards'));
@@ -711,15 +713,16 @@ class StaffController extends Controller
     |-----------------------------------------
     | SHOW ON-BOARDING REQUEST DASHBOARD
     |-----------------------------------------
-    */
-    public function approve_onboard_admin(){
+     */
+    public function approve_onboard_admin()
+    {
 
         $staff_onboards = StaffOnboarding::gellPendingOnboarding();
         return view('staff.onboard_dashboard_admin', compact('staff_onboards'));
     }
 
-
-    public function admin_onboard_mail($id){
+    public function admin_onboard_mail($id)
+    {
 
         $staff_onboards = StaffOnboarding::gellPendingOnboarding();
 
@@ -731,7 +734,7 @@ class StaffController extends Controller
         $staff_onboard = User::all();
 
         $staff_onboard = StaffOnboarding::where('StaffOnboardRef', $id)->where('ApprovalStatus2', 0)->first();
-        if($staff_onboard !== null){
+        if ($staff_onboard !== null) {
             $staff_onboard->ApprovalStatus2 = 1;
             $staff_onboard->update();
 
@@ -741,10 +744,10 @@ class StaffController extends Controller
 
             \Mail::to($users)->send(new AdminOnboardApproval());
 
-            $status = "success";
+            $status  = "success";
             $message = "Request has been treated successfully";
-        }else{
-            $status = "error";
+        } else {
+            $status  = "error";
             $message = "Can not complete this request at the moment!";
         }
 
@@ -761,9 +764,9 @@ class StaffController extends Controller
     {
         $staff_onboard = StaffOnboarding::find($request->StaffOnboardRef);
 
-        if($staff_onboard->update($request->except(['_token']))){
+        if ($staff_onboard->update($request->except(['_token']))) {
             return redirect()->back()->with('success', 'Request was updated successfully');
-        }else{
+        } else {
             return redirect()->back()->with('error', 'Please check the credentials well');
         }
     }

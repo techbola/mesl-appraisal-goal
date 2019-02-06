@@ -5,7 +5,7 @@ Dear {{$name->first_name}}
 
  A Leave Request awaits your approval. Click button to view request.
 
-@component('mail::button', ['url' => 'http://cavidel.officemate.ng/leave_request/index'])
+@component('mail::button', ['url' => url('/leave_request/index')])
 Visit Officemate
 @endcomponent
 

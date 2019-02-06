@@ -5,7 +5,7 @@ Dear {{$name->first_name}}
 
  A Leave Request awaits your confirmation. Click button to view your leave dashboard.
 
-@component('mail::button', ['url' => 'http://cavidel.officemate.ng/approvers'])
+@component('mail::button', ['url' => url('/approvers')])
 Visit Officemate
 @endcomponent
 
