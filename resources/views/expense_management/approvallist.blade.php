@@ -392,7 +392,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      var Comment = prompt("Enter Rejection Comment");
      
      $.ajax({
-         url: '/memos/reject',
+         url: '/expense_management/supervisor-reject',
          type: 'POST',
          data: {
             RejecterID: {{ auth()->user()->id }},

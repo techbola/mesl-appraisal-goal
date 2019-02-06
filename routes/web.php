@@ -1104,6 +1104,7 @@ Route::get('/expense_management/{files}/files', 'ExpenseManagementController@fet
 Route::get('expense_management/fetch-departments/{exp_id}', 'ExpenseManagementController@fetch_departments');
 Route::get('expense_management/fetch-lots/{dept_id}', 'ExpenseManagementController@fetch_lots');
 Route::post('expense_management/supervisor-approval', 'ExpenseManagementController@supervisor_approval');
+Route::post('expense_management/supervisor-reject', 'ExpenseManagementController@supervisor_reject');
 Route::get('expense_management/{id}', 'ExpenseManagementController@show')->name('expense_management.show');
 Route::get('expense_management/edit/{id}', 'ExpenseManagementController@edit')->name('expense_management.edit');
 Route::post('expense_management/store', 'ExpenseManagementController@store')->name('expense_management.store');
