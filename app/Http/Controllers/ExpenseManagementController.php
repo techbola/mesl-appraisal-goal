@@ -423,6 +423,7 @@ class ExpenseManagementController extends Controller
             array_push($new_array, intval($value));
             $exp                     = ExpenseManagement::find($value);
             $exp->SupervisorApproved = 1;
+            $exp->ApprovedFlag       = 1;
             $exp->save();
             //  send a mail to curent approver
             $approver_id = $exp->ApproverRoleID;
