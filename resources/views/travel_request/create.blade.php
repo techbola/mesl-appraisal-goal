@@ -23,12 +23,15 @@
     <ul class="nav nav-tabs outside">
         <li class="active">
             <a data-toggle="tab" href="#onboarding-request">
-                    Travel Request &nbsp; <span class="badge badge-warning"></span>
+                    Travel Request Form &nbsp; <span class="badge badge-warning"></span>
             </a>
         </li>
         <li>
             <a data-toggle="tab" href="#onboarding-status">
-                Travel table &nbsp; <span class="badge badge-success">
+                Travel Requests &nbsp; <span class="badge badge-success">
+                        <?php $count = 0; ?>
+                            <?php $count = $count + 1; ?>
+                            {{ $count }}
                 </span>
             </a>
         </li>
@@ -382,13 +385,12 @@
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         <div class="travel_from_state hide">
-                                                                <label for="TravelFromState">Travel From</label>
-                                                                <select name="TravelFromState" class="full-width travel_from_state" style="display: none" data-init-plugin="select2" id="travel_from1" onchange="">
-                                                                    @foreach($states as $state)
-                                                                        <option value="{{ $state->StateRef }}">{{ $state->State }}</option>
-                                                                    @endforeach
-                                    
-                                                                </select>
+                                                            <label for="TravelFromState">Travel From</label>
+                                                            <select name="TravelFromState" class="full-width travel_from_state" style="display: none" data-init-plugin="select2" id="travel_from1" onchange="">
+                                                                @foreach($states as $state)
+                                                                    <option value="{{ $state->StateRef }}">{{ $state->State }}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
     
                                                         <div class="travel_from_country hide">
