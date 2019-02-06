@@ -59,6 +59,7 @@
                 <tbody>
                     <?php $count = 0; ?>
                     @foreach($travel_requests as $travel_request)
+                    @if($travel_request->RequestApprovedd !== "1")
                     <?php $count = $count + 1; ?>
                     <tr>
                         <td>{{ $count }}</td>
@@ -87,6 +88,7 @@
                             <a style="margin-right: 10px; display: inline-block" href="{{ route('rejected', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-Danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
                         </td>
                     </tr>
+                    @endif
                     @endforeach
                 </tbody>
         </table>
