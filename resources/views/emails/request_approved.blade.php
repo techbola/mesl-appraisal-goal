@@ -1,7 +1,7 @@
 @component('mail::message')
 Title : Travel Request.
 
-Dear Approver
+Dear Staff
 
  Your Travel Request has been approved. Click the button to view.
 
