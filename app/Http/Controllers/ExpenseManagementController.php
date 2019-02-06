@@ -263,6 +263,7 @@ class ExpenseManagementController extends Controller
         $expense_comment->ApproverRoleID      = $request->ApproverRoleID;
         $expense_comment->ExpenseManagementID = $request->ExpenseManagementRef;
         $expense_comment->ApprovedFlag        = 1;
+        $expense_comment->RejectedFlag        = 0;
         try {
             DB::beginTransaction();
             foreach ($SelectedID as $value) {

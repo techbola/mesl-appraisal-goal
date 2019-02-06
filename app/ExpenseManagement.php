@@ -32,11 +32,13 @@ class ExpenseManagement extends Model
     {
         if ($this->NotifyFlag == 0) {
             return 'Not Sent';
-        } elseif ($this->CompletedFlag) {
-            return 'Completed';
         } elseif (!$this->SupervisorApproved) {
             return 'Pending';
-        } elseif (is_null($this->ApproverRoleID) || $this->ApproverRoleID == 0) {
+        } elseif (!$this->SupervisorApproved) {
+            return 'Pending';
+        } elseif ($this->CompletedFlag == 0 && $this->RejectedFlag = 1) {
+            return 'Rejected';
+        } elseif ($this->CompletedFlag || is_null($this->ApproverRoleID) || $this->ApproverRoleID == 0) {
             return 'Completed';
         } else {
             return ApproverRole::find($this->ApproverRoleID)->ApproverRole;
