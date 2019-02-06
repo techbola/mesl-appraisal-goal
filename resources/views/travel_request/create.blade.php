@@ -302,7 +302,6 @@
                 <div class="request-table table-responsive">
                     <table class="table tableWithSearch table-bordered" id="travelTable">
                         <thead>
-                            <tr>
                             <th width="5px">S/N</th>
                             <th style="width: 120px; word-break:break-all;">Travel Type</th>
                             <th style="width: 80px; word-break:break-all;">From</th>
@@ -315,7 +314,6 @@
                             <th style="width: 80px; ">Travel Lodge</th>
                             <th style="width: 80px; word-break:break-all;">Travel Transporter</th>
                             <th style="width: 80px; word-break:break-all;">Action</th>
-                            </tr>
                         </thead>
                         <tbody>
                             <?php $count = 0; ?>
