@@ -28,11 +28,7 @@
         </li>
         <li>
             <a data-toggle="tab" href="#onboarding-status">
-                Travel Requests &nbsp; <span class="badge badge-success">
-                        <?php $count = 0; ?>
-                            <?php $count = $count + 1; ?>
-                            {{ $count }}
-                </span>
+                Travel Requests &nbsp; <span class="badge badge-success"> {{ count($travel_requests) }}</span>
             </a>
         </li>
     </ul>
