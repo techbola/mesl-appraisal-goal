@@ -132,7 +132,7 @@ class TravelRequestController extends Controller
 
         Mail::to($email)->send(new SendforApproval());
 
-        return redirect()->route('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'transports', 'lodges', 'travelmodes'))->with('success', 'Request was Sent successfully');
+        return redirect()->route('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'transports', 'lodges', 'travelmodes'))->with('success', 'Request was sent successfully');
 
     }
 
