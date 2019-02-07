@@ -6,7 +6,7 @@
 <div class="row">
 
   {{-- {{ dd($staff->PhotographLocation->default_url) }} --}}
-    <div class="col-sm-12">
+    <div class="col-sm-6">
       <div class="inline-block">
 
         <img src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" alt="" class="inline-block avatar2" style="height:100px; width:100px; padding:2px; border:1px solid #ccc">
@@ -18,6 +18,18 @@
           {{-- <input type="file" class="filestyle" name="Photo" data-placeholder="Upload Photo" data-buttonname="btn-info" data-buttonBefore="true"> --}}
       </div>
     </div>
+
+    @if ($user->hasRole('admin'))
+    <div class="col-sm-6">
+        <div class="form-group">
+          <label for="SupervisorFlag">
+            <input type="checkbox" value="" @if($staff->SupervisorFlag) checked @endif name="SupervisorFlag">
+            Mark Staff as Supervisor 
+
+          </label>
+        </div>
+      </div>
+    @endif
 </div>
 <div class="clearfix"></div>
 <br>
@@ -73,6 +85,7 @@
           {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
       </div>
+      
     @endif
     <div class="col-sm-4">
         <div class="form-group">
@@ -96,6 +109,8 @@
             {{ Form::select('GenderID', [ '' =>  'Choose Gender'] + $genders->pluck('Gender', 'GenderRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Gender", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
+
+   
 </div>
 <div class="row">
     <div class="col-sm-3">

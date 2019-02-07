@@ -478,6 +478,8 @@ class StaffController extends Controller
 
         $user = Auth::user();
 
+        $request->SupervisorFlag = $request->SupervisorFlag ? 1 : 0;
+
         try {
             DB::beginTransaction();
             $staff      = Staff::where('StaffRef', $id)->first();
