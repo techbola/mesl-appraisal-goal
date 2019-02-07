@@ -135,7 +135,7 @@
 							  <div class="col-md-6">
 									<div class="form-group">
 							      <label class="req">Supervisor</label>
-										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('fullname', 'staff_id')->toArray(),null, ['class'=> "form-control select2 required", 'data-init-plugin' => "select2", 'required']) }}
+										{{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(),null, ['class'=> "form-control select2 required", 'data-init-plugin' => "select2", 'required']) }}
 							    </div>
 							  </div>
 								<div class="col-md-12">

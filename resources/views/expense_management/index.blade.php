@@ -82,6 +82,7 @@
                             @endif
                         </td>
                         <td class="actions" width="130">
+                          <a href="{{ route('expense_management.approver.show', ['id' => $exp->ExpenseManagementRef ]) }}" class="btn btn-sm btn-info">Show Request.</a>
                           @if(!$exp->sent())
                           <a href="{{ route('expense_management.edit', ['id' => $exp->ExpenseManagementRef ]) }}" class="btn btn-sm btn-info">Edit </a>
                           <a href="{{ route('send_expense', ['id' => $exp->ExpenseManagementRef]) }}" class="btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send</a>

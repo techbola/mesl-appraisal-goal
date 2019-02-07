@@ -156,6 +156,53 @@ class ExpenseManagementController extends Controller
         return $exp->first();
     }
 
+    public function approver_show($id)
+    {
+        $expense = ExpenseManagement::where('ExpenseManagementRef', $id)->with('expense_comments')->get();
+        $expense = $expense->transform(function ($item, $key) {
+            $item->approvers     = $item->request_type->approvers_formatted('<b style="font-size: 1.4rem; color: red">&rarr;</b>');
+            $item->comment_files = $item->expense_comments->transform(function ($item, $key) {
+                $item->files       = $item->attachments;
+                $item->approved_by = ApproverRole::find($item->ApproverRoleID)->ApproverRole;
+                $item->approver    = User::find($item->inputter_id)->fullname;
+                $item->approved_at = Carbon::parse($item->updated_at)->toDayDateTimeString();
+                return $item;
+            });
+            return $item;
+        })->first();
+        // dd($expense->expense_comments[0]->files);
+        $employees = Staff::where('CompanyID', auth()->user()->CompanyID)->get();
+        // dd($employees);
+        $employees = $employees->transform(function ($item, $key) {
+            $item->name = $item->FullName;
+            return $item;
+        });
+        $request_list       = RequestList::all();
+        $lot_descriptions   = LotDescription::all();
+        $user               = \Auth::user();
+        $staff              = Staff::all();
+        $doctypes           = DocType::where('CompanyID', $user->staff->CompanyID)->get();
+        $departments        = CompanyDepartment::all();
+        $banks              = Bank::all();
+        $locations          = Location::all();
+        $expense_categories = ExpenseCategory::all();
+        $bank_acct_details  = LotDescription::all();
+        $debit_acct_details = collect(\DB::select("SELECT        tblTransaction.GLID as GLRef, tblGL.Description  + ' - ' +  tblCurrency.Currency + CONVERT(varchar, format((SUM(tblTransaction.Amount * tblTransactionType.TradeSign)),'#,##0.00'))  AS CUST_ACCT
+            FROM            tblTransaction
+            INNER JOIN tblTransactionType ON tblTransaction.TransactionTypeID = tblTransactionType.TransactionTypeRef
+            INNER JOIN tblGL on tblTransaction.GLID=tblGL.GLRef
+            inner join tblCurrency on tblGL.CurrencyID=tblCurrency.CurrencyRef
+            CROSS JOIN tblConfig
+             INNER JOIN tblBranch ON tblGL.BranchID = tblBranch.BranchRef
+             Where tblGL.AccountTypeID between ? and ? OR tblGL.AccountTypeID between ? and ?
+             GROUP BY tblTransaction.GLID,tblGL.Description,Currency
+             Order By tblGL.Description", [11, 12, 27, 39]));
+
+        return view('expense_management.approver_show', compact('expense', 'locations', 'employees', 'departments', 'banks', 'lot_descriptions', 'expense_categories', 'bank_acct_details', 'doctypes',
+            'debit_acct_details', 'request_list'));
+        return $exp;
+    }
+
     public function store(Request $request)
     {
         $expense_management = new ExpenseManagement($request->except(['attachment', 'Filename', 'DocTypeID', 'DocName',

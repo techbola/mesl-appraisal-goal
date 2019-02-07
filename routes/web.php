@@ -1105,6 +1105,7 @@ Route::get('expense_management/fetch-departments/{exp_id}', 'ExpenseManagementCo
 Route::get('expense_management/fetch-lots/{dept_id}', 'ExpenseManagementController@fetch_lots');
 Route::post('expense_management/supervisor-approval', 'ExpenseManagementController@supervisor_approval');
 Route::post('expense_management/supervisor-reject', 'ExpenseManagementController@supervisor_reject');
+Route::get('expense_management/approver-show/{id}', 'ExpenseManagementController@approver_show')->name('expense_management.approver.show');
 Route::get('expense_management/{id}', 'ExpenseManagementController@show')->name('expense_management.show');
 Route::get('expense_management/edit/{id}', 'ExpenseManagementController@edit')->name('expense_management.edit');
 Route::post('expense_management/store', 'ExpenseManagementController@store')->name('expense_management.store');
@@ -1116,7 +1117,7 @@ Route::get('expense_management/send/{id}', 'ExpenseManagementController@send')->
 
 Route::post('expense_management/approve', 'ExpenseManagementController@approve')->name('approve_expense');
 Route::post('expense_management/process', 'ExpenseManagementController@process')->name('process_expense');
-Route::post('expense_management/reject', 'ExpenseManagementController@reject');
+Route::post('expense_management/reject', 'ExpenseManagementController@reject')->name('reject_expense');
 Route::post('expense_management/approver_roles', 'ExpenseManagementController@fetchRoles')->name('fetch-expense-roles');
 
 /*

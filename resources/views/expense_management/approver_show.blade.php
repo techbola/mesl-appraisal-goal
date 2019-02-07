@@ -1,33 +1,35 @@
+@extends('layouts.master')
+
+@section('title')
+
+@endsection
+
 @push('styles')
-<link href="{{ asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css') }}" media="screen" rel="stylesheet" type="text/css">
-    @endpush
+<style>
+.comment{
+padding: 10px;
+background: #eee;
+border-radius: 3px;
+ clear: both;
+ margin-bottom: 10px;
+}
+  .comment *{
+    font-family: inherit !important;
+    font-size: 13px !important;
+  }
+</style>
+@endpush
 
+@section('content')
+  <div class="card-box">
+    <div class="card-title">Review Expense Request - <span class="text-primary"></span></div>
+     
+     <div class="row">
+       <div class="col-sm-6">
+          {{ Form::model($expense, ['action' => ['ExpenseManagementController@update', $expense->ExpenseManagementRef ], 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+        {{ method_field('PATCH') }}
 
-    {{-- MODALS --}}
-        <!-- Create Modal -->
-        <div class="modal fade slide-up disable-scroll" id="new_doc" role="dialog" aria-hidden="false">
-            <div class="modal-dialog ">
-                <div class="modal-content-wrapper">
-                    <div class="modal-content">
-                        <div class="modal-header clearfix text-left">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
-                            </button>
-                            <h5>Upload New Document</h5>
-                        </div>
-                        <div class="modal-body">
-                            {{-- <form action="{{ route('document_store') }}" method="post" enctype="multipart/form-data"> --}}
-                                {{ csrf_field() }}
-                                @include('documents.form_for_expense')
-                            {{-- </form> --}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    @include('errors.list')
-
-    <div class="row">
+        <div class="row">
         <div class="form-group">
             <span class="expense_process hide" style="padding: 0 10px">
                 [<span class="expense_process_child" style="padding: 0 10px"></span>]
@@ -39,7 +41,7 @@
                     {{ Form::label('RequestListID', 'Request Type') }}
                    
                     
-                    {{ Form::select('RequestListID', ['' => 'Select Request'] + $request_list->pluck('Request','RequestListRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
+                    {{ Form::select('RequestListID', ['' => 'Select Request'] + $request_list->pluck('Request','RequestListRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request', 'disabled']) }}
                 </div>
             </div>
         </div>  
@@ -48,7 +50,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('Description', 'Description') }}
-                    {{ Form::text('Description', null, ['class' => 'form-control', 'placeholder' => 'e.g Finance Project']) }}
+                    {{ Form::text('Description', null, ['class' => 'form-control', 'placeholder' => 'e.g Finance Project', 'disabled']) }}
                 </div>
             </div>
         </div>
@@ -61,7 +63,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('ExpenseCategoryID ', 'Expense Category') }}
-                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $expense_categories->pluck('ExpenseCategory','ExpenseCategoryRef')->toArray() ,null, ['class' => 'full-width ExpenseCategoryID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category']) }}
+                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $expense_categories->pluck('ExpenseCategory','ExpenseCategoryRef')->toArray() ,null, ['class' => 'full-width ExpenseCategoryID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category', 'disabled']) }}
                 </div>
             </div>
         </div>
@@ -70,7 +72,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('DepartmentID', 'Department') }}
-                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('name','id')->toArray() ,null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
+                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('name','id')->toArray() ,null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request', 'disabled']) }}
                 </div>
             </div>
         </div>
@@ -81,7 +83,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('LotDescriptionID', 'Lot Description') }}
-                    {{ Form::select('LotDescriptionID', ['' => 'Select Request'] + $lot_descriptions->pluck('LotDescription','LotDescriptionRef')->toArray() ,null, ['class' => 'full-width LotDescriptionID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
+                    {{ Form::select('LotDescriptionID', ['' => 'Select Request'] + $lot_descriptions->pluck('LotDescription','LotDescriptionRef')->toArray() ,null, ['class' => 'full-width LotDescriptionID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request', 'disabled']) }}
                 </div>
             </div>
         </div>
@@ -90,7 +92,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('LocationID', 'Location') }}
-                    {{ Form::select('LocationID', ['' => 'Select Request'] + $locations->pluck('Location','LocationRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location']) }}
+                    {{ Form::select('LocationID', ['' => 'Select Request'] + $locations->pluck('Location','LocationRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location', 'disabled']) }}
                 </div>
             </div>
         </div>
@@ -274,74 +276,76 @@
         </div>
     </div>
 
-    
+      {{ Form::close() }}
+       </div>
 
-{{-- <hr> --}}
+       <div class="col-sm-6" style="border-left: 1px solid #d9d9d9">
 
+         Approvers: <b>{!! $expense->approvers !!}</b> <br> <br>
+         @foreach($expense->expense_comments as $exp)
+         <div style="position: relative"> <i>{{ $exp->approved_by}} &nbsp; <span class=""> {{ $exp->ApprovedFlag == 1 ? 'Approved' : 'Rejected'}} by: {{ $exp->approver}} @ {{ $exp->approved_at}}</span>: </i>
+          <div style="margin: 10px 0">
+             {!! $exp->ApprovedFlag == 1 ? '<div class="badge badge-success flags">Approved</div>' : '<div class="flags badge badge-danger">Declined</div>' !!}
+           </div>
+          <div class="comment">{!! $exp->Comment!!}</div>
+         </div> 
+              <div><i><b>FILES : &nbsp;</b></i> </div>
+              @foreach($exp->files as $file)
+                <div class="badge badge-primary">
+                  <a href="{{  asset('storage/expense_management_files/'.$file->FileName ) }}" target="_blank"> 
+                    {{ $file->FileName }}
+                  </a>
+                </div>
+              @endforeach
+              <hr>
+              
+         @endforeach
 
-    <!-- action buttons -->
-    <div class="row">
-        <div class="pull-right">
-            @if(!isset($show_button))
-            {{ Form::submit( $buttonText, [ 'class' => 'btn btn-complete ' ]) }}
-            @endif
-				{{-- {{ Form::reset('reset fields',[ 'class' => 'btn btn-transparent ' ]) }} --}}
+        
+<form id="form_approve" class="" action="{{ route('approve_expense') }}" method="post">
+
+        {{ csrf_field() }}
+         <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('Comment', 'Comment') }}
+                    {{ Form::textarea('Comment', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Purpose of this memo']) }}
+                </div>
+            </div>
         </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('attachment[]', 'Attach Files') }}
+                    {{ Form::file('attachment[]',  ['class' => '','multiple' => 'multiple']) }}
+                </div>
+            </div>
+        </div> 
+        <input type="hidden" name="ExpenseManagementRef" value="{{ $expense->ExpenseManagementRef }}">
+        <input type="hidden" name="RequestListID" value="{{ $expense->RequestListID }}">
+        <input type="hidden" name="ApproverRoleID" value="{{ $expense->ApproverRoleID }}">
+        {{-- {{ method_field('PATCH') }} --}}
+      </form>
+      <form id="form_reject" class="" action="{{ route('reject_expense') }}" method="post">
+        {{ csrf_field() }}
+        <input type="hidden" name="ExpenseManagementRef" value="{{ $expense->ExpenseManagementRef }}">
+        <input type="hidden" name="RequestListID" value="{{ $expense->RequestListID }}">
+        <input type="hidden" name="ApproverRoleID" value="{{ $expense->ApproverRoleID }}">
+        {{-- {{ method_field('PATCH') }} --}}
+      </form>
+         <div class="text-center" style="margin: auto">
+      <a class="btn btn-success btn-cons btn-lg m-r-20" onclick="confirm2('Approve Changes?', '', 'form_approve')">Approve</a>
+      <a class="btn btn-danger btn-cons btn-lg" onclick="confirm2('Reject Changes?', '', 'form_reject')">Reject</a>
+
+      
     </div>
-    @push('scripts')
-    <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
-    </script>
 
-    {{-- <select class="js-data-example-ajax"></select> --}}
+       </div>
 
-    <script>
-        $(function(){
-			$('.dp').datepicker();
+     </div>
 
-
-
-             $("#RequestListID").on('change', function(e) {
-                console.log(e)
-                let val = $(e.target).select2().val();
-                event.preventDefault();
-                $.post('/expense_management/approver_roles', {RequestListID: val}, function(data, textStatus, xhr) {
-                    $(".expense_process_child").html(data);
-                    $(".expense_process").removeClass('hide');
-                });
-            });
-
-             $(".ExpenseCategoryID").on('change', function(e) {
-                // console.log('stuff')
-                 e.preventDefault();
-                 let val = $(e.target).select2().val();
-                 $('#DepartmentID').empty();
-                  $.get('/expense_management/fetch-departments/'+val, function(data) {
-                    $('#DepartmentID').append(`<option value="">Select Department</option>`);
-                    $.each(data, function(index, val) {
-                         $('#DepartmentID').append(`<option value="${val.id}">${val.name}</option>`);
-                    });
-                     
-                });
-             });
-
-
-             $(".DepartmentID").on('change', function(e) {
-                // console.log('stuff')
-                 e.preventDefault();
-                 let val = $(e.target).select2().val();
-                 $('.LotDescriptionID').empty();
-                  $.get('/expense_management/fetch-lots/'+val, function(data) {
-                    $('.LotDescriptionID').append(`<option value="">Select Lot Description</option>`);
-                    $.each(data, function(index, val) {
-                         $('.LotDescriptionID').append(`<option value="${val.LotDescriptionRef}">${val.LotDescription}</option>`);
-                    });
-                     
-                });
-             });
-
-
-		}); 
-
-    </script>
-    @endpush
-</link>
+  </div>
+@endsection
