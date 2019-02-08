@@ -5,10 +5,12 @@ namespace MESL\Http\Controllers;
 use MESL\LeaveType;
 // use MESL\Mail\Leave;
 use MESL\Staff;
+use MESL\User;
 use MESL\LeaveRequest;
 use MESL\CompanyDepartment;
 use MESL\Mail\LeaveRequest as LR;
 use MESL\Mail\HRLeaveConfirmation;
+use MESL\Mail\FinalHRLeaveConfirmation;
 use Carbon\Carbon;
 use MESL\RestrictionDates;
 use MESL\LeaveTransaction;
@@ -133,6 +135,44 @@ class LeaveRequestController extends Controller
         return view('leave_request.leave_approval', compact('leave_requests', 'leave_check'));
     }
 
+    public function hr_leave_approval()
+    {
+        $id             = \Auth::user()->id;
+        $leave_requests = \DB::table('tblLeaveRequest')
+            ->join('tblLeaveType', 'tblLeaveRequest.AbsenceTypeID', '=', 'tblLeaveType.LeaveTypeRef')
+            ->join('users', 'tblLeaveRequest.StaffID', '=', 'users.id')
+            ->where('NotifyFlag', 1)
+            ->where('ApprovedFlag', 1)
+            ->whereIn('tblLeaveRequest.RoleID', [16])
+            ->get();
+
+        $leave_check = $leave_requests->transform(function ($item, $key) {
+            $start = $item->StartDate;
+            $end   = $item->ReturnDate;
+
+            $events = RestrictionDates::where(function ($query) use ($start, $end) {
+                $query->where(function ($query) use ($start, $end) {
+                    $query->where('StartDate', '>=', $start)
+                        ->where('EndDate', '>=', $start);
+                })
+                    ->orWhere(function ($query) use ($start, $end) {
+                        $query->where('EndDate', '>=', $end)
+                            ->where('EndDate', '<=', $end);
+                    })
+
+                    ->orWhere(function ($query) use ($start, $end) {
+                        $query->where('StartDate', '>=', $start)
+                            ->where('EndDate', '>=', $end);
+                    })
+
+                ;
+            });
+            $item->status = $events->count();
+            return $item;
+        });
+        return view('leave_request.hr_leave_approval', compact('leave_requests', 'leave_check'));
+    }
+
     public function retrieve_details($start_date, $numberdays)
     {
         $trans = collect(\DB::select("EXEC procLeaveEndDate '$start_date', $numberdays"));
@@ -211,10 +251,6 @@ class LeaveRequestController extends Controller
                             $record->save();
                             // }
 
-                            $update_leave = \DB::table('tblLeaveRequest')
-                                ->where('leaveReqRef', $Ref)
-                                ->update(['CompletedDate' => $current_time, 'CompletedFlag' => '1']);
-
                             $get_approvers = LeaveApprover::where('ModuleID', 3)->get();
 
                             foreach ($get_approvers as $ref) {
@@ -249,6 +285,89 @@ class LeaveRequestController extends Controller
                 }
                 \DB::commit();
                 return redirect()->route('LeaveApproval')->with('success', 'Leave Request was added successfully');
+            } catch (Exception $e) {
+                \DB::rollback();
+                return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
+            }
+        } elseif ($request->input('reject')) {
+            try {
+                \DB::beginTransaction();
+                foreach ($request->LeaveRef as $Ref) {
+                    $details      = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $approver_id1 = $details->ApproverID1;
+                    $current_time = Carbon::now();
+                    $comment      = "You Can't Leave Now work Still To be done";
+                    $reject_trans = \DB::table('tblLeaveRequest')
+                        ->where('leaveReqRef', $Ref)
+                        ->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
+                }
+                \DB::commit();
+                return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
+            } catch (Exception $e) {
+                \DB::rollback();
+                return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
+            }
+        }
+    }
+
+    public function approve_leave_request_hr(Request $request, LeaveApprover $get_approvers)
+    {
+        if ($request->input('approve')) {
+            try {
+                \DB::beginTransaction();
+                foreach ($request->LeaveRef as $Ref) {
+                    $details      = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $current_time = Carbon::now();
+
+                    $module_id   = 3;
+                    $comment     = "Approved";
+                    $approver_id = auth()->user()->id;
+                    $flag        = 1;
+                    $approve     = \DB::statement("EXEC procApproveRequest '$current_time', '$Ref', $module_id, '$comment', $approver_id, $flag");
+
+                    if ($approve) {
+                        $trans           = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                        $new_approver_id = $trans->ApproverID;
+                        $leavedays       = $trans->NumberofDays;
+                        $leave_id        = $trans->LeaveReqRef;
+                        $staff_id        = $trans->StaffID;
+                        $leave_type_id   = $trans->AbsenceTypeID;
+                        $id              = \Auth::user()->id;
+
+                        if (is_null($new_approver_id) || $new_approver_id == 0) {
+
+                            // if ($details->AbsenceTypeID == 1) {
+                            $record                = new LeaveTransaction;
+                            $record->StaffID       = $staff_id;
+                            $record->DaysRequested = $leavedays;
+                            $record->LeaveID       = $leave_id;
+                            $record->LeaveTypeID   = $leave_type_id;
+                            $record->save();
+                            // }
+
+                            $update_leave = \DB::table('tblLeaveRequest')
+                                ->where('leaveReqRef', $Ref)
+                                ->update([
+                                    'CompletedDate' => $current_time,
+                                    'CompletedFlag' => 1,
+                                    'HRStaffID'     => auth()->user()->id,
+                                ]);
+
+                            $leave_req_ref   = LeaveRequest::find($Ref);
+                            $leave_requester = User::find($leave_req_ref->StaffID)->first();
+                            // dd($leave_requester->first()->email);
+
+                            $name  = $leave_requester;
+                            $email = $leave_requester->email;
+
+                            Mail::to($email)->send(new FinalHRLeaveConfirmation($name));
+
+                        }
+
+                    }
+                }
+                \DB::commit();
+                return redirect()->route('HrLeaveApproval')->with('success', 'Leave Request was added successfully');
             } catch (Exception $e) {
                 \DB::rollback();
                 return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');

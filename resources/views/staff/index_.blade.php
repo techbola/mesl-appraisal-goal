@@ -293,14 +293,19 @@
 			methods: {
 				edit_staff(staff){
 					this.staff = staff;
+					this.staff.roles = staff.user.roles;
+					let role_ids = [];
+					this.staff.user.roles.map(function(elem, i) {
+						return role_ids.push(elem.id);
+					});
 					console.log(staff);
 					var form_action = "{{ url('/') }}"+"/update_staff_admin/"+staff.StaffRef;
 					$('#edit_staff').find('form').attr('action', form_action);
 					// $(".select2").select2();
-					$('#edit_staff').find('form select[name="DepartmentID[]"]').val('{{$staff->DepartmentID}}'.split(",")).trigger('change');
-					$('#edit_staff').find('form select[name="roles[]"]').val('{{$staff->user->roles->pluck('id')}}').trigger('change');
-					this.staff.roles = '{{ $staff->user->roles->pluck('id') }}';
-					console.log('{{$staff->user->roles->pluck(['id'])}}');
+					$('#edit_staff').find('form select[name="DepartmentID[]"]').val(staff.DepartmentID.split(",")).trigger('change');
+					
+					$('#edit_staff').find('form select[name="roles[]"]').val(role_ids).trigger('change');
+					console.log(role_ids)
 				}
 			},
 		})

@@ -70,9 +70,9 @@ class StaffController extends Controller
                 $q      = $_GET['q'];
                 $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function ($query) use ($q) {
                     $query->where('first_name', 'LIKE', '%' . $q . '%')->orWhere('last_name', 'LIKE', '%' . $q . '%')->orWhere('email', 'LIKE', '%' . $q . '%');
-                })->orWhere('MobilePhone', 'LIKE', '%' . $q . '%')->with('user')->get();
+                })->orWhere('MobilePhone', 'LIKE', '%' . $q . '%')->with('user.roles')->get();
             } else {
-                $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
+                $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user.roles')->get();
             }
         }
         $departments = CompanyDepartment::where('is_deleted', false)->get();
