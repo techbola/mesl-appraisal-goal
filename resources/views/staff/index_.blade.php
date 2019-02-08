@@ -236,7 +236,7 @@
 							  <div class="col-md-6">
 									<div class="form-group">
 									 <label class="req">Roles</label>
-									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple", 'v-model' => 'staff.roles']) }}
 								 </div>
 							  </div>
 							 {{--  <div class="col-md-6">
@@ -299,6 +299,7 @@
 					// $(".select2").select2();
 					$('#edit_staff').find('form select[name="DepartmentID[]"]').val('{{$staff->DepartmentID}}'.split(",")).trigger('change');
 					$('#edit_staff').find('form select[name="roles[]"]').val('{{$staff->user->roles->pluck('id')}}').trigger('change');
+					this.staff.roles = '{{ $staff->user->roles->pluck('id') }}';
 					console.log('{{$staff->user->roles->pluck(['id'])}}');
 				}
 			},
