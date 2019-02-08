@@ -63,13 +63,52 @@
           {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
         </div>
       </div>
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="req">Departments</label>
+          {{ Form::select('DepartmentID[]', $departments->pluck('name', 'id')->toArray(), $departments->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+        </div>
+      </div>
+      {{-- <div class="col-md-6">
+        <div class="form-group required">
+          <label>Departments</label> --}}
+          {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
+          {{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
+
+          {{-- <select class="form-control select2" name="DepartmentID" data-init-plugin="select2">
+            <option value="">Select Department</option> --}}
+            {{-- @foreach ($departments as $dept)
+              <option value="{{ $dept->id }}" @if($dept->id == $staff->DepartmentID) selected @endif>{{ $dept->name }}</option>
+            @endforeach --}}
+          {{-- </select>
+        </div>
+      </div> --}}
+</div>
+<div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Supervisor</label>
+          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+        </div>
+      </div>
+      
+    @endif
+
+    @if (!auth()->user()->hasRole('admin'))
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="req">Roles</label>
+          {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple", "disabled"]) }}
+        </div>
+      </div>
       <div class="col-md-6">
         <div class="form-group required">
           <label>Departments</label>
           {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
           {{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
-          <select class="form-control select2" name="DepartmentID" data-init-plugin="select2">
+          <select class="form-control select2" name="DepartmentID" data-init-plugin="select2" disabled>
             <option value="">Select Department</option>
             @foreach ($departments as $dept)
               <option value="{{ $dept->id }}" @if($dept->id == $staff->DepartmentID) selected @endif>{{ $dept->name }}</option>
@@ -82,7 +121,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <label>Supervisor</label>
-          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "disabled"]) }}
         </div>
       </div>
       
