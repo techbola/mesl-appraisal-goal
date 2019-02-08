@@ -283,6 +283,7 @@
 			data: {
 				staff: {
 					user: {},
+					roles: {}
 				},
 			},
 			mounted() {
@@ -296,9 +297,9 @@
 					var form_action = "{{ url('/') }}"+"/update_staff_admin/"+staff.StaffRef;
 					$('#edit_staff').find('form').attr('action', form_action);
 					// $(".select2").select2();
-					$('#edit_staff').find('form select[name="DepartmentID[]"]').val('{{$staff->DepartmentID}}').trigger('change');
-					$('#edit_staff').find('form select[name="roles[]"]').val('{{ $staff->user->roles->pluck('id') }}').trigger('change');
-					console.log('{{$staff->user->roles->pluck('id')}}');
+					$('#edit_staff').find('form select[name="DepartmentID[]"]').val('{{$staff->DepartmentID}}'.split(",")).trigger('change');
+					$('#edit_staff').find('form select[name="roles[]"]').val('{{$staff->user->roles->pluck('id')}}').trigger('change');
+					console.log('{{$staff->user->roles->pluck(['id'])}}');
 				}
 			},
 		})
