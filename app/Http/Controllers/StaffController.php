@@ -75,7 +75,7 @@ class StaffController extends Controller
                 $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
             }
         }
-        $departments = CompanyDepartment::where('is_deleted', false)->get();
+        $departments = CompanyDepartment::get();
         $supervisors = Staff::where('SupervisorFlag', 1)->get()->sortBy('FullName');
         return view('staff.index_', compact('staffs', 'companies2', 'roles', 'departments', 'q', 'supervisors'));
     }
