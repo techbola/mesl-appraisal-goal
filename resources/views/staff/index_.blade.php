@@ -223,11 +223,10 @@
 
 							  <div class="col-md-6">
 							  	<label for="" class="req">Departments</label>
-							    <select class="form-control select2 required" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required >
-							    	<option value="">Select Department</option>
+							    <select class="form-control select2 required" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required>
+							    	<option value="" >Select Department</option>
 											@foreach ($departments as $dept)
-											
-												<option value="{{ $dept->id }}">{{ $dept->name }}</option>
+												<option value="{{ $dept->id }}" >{{ $dept->name }}</option>
 											@endforeach
 										</select>
 							  </div>
@@ -237,7 +236,7 @@
 							  <div class="col-md-6">
 									<div class="form-group">
 									 <label class="req">Roles</label>
-									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple", 'v-model' => 'staff.roles']) }}
 								 </div>
 							  </div>
 							 {{--  <div class="col-md-6">
@@ -284,6 +283,7 @@
 			data: {
 				staff: {
 					user: {},
+					roles: {}
 				},
 			},
 			mounted() {
@@ -297,6 +297,10 @@
 					var form_action = "{{ url('/') }}"+"/update_staff_admin/"+staff.StaffRef;
 					$('#edit_staff').find('form').attr('action', form_action);
 					// $(".select2").select2();
+					$('#edit_staff').find('form select[name="DepartmentID[]"]').val('{{$staff->DepartmentID}}'.split(",")).trigger('change');
+					$('#edit_staff').find('form select[name="roles[]"]').val('{{$staff->user->roles->pluck('id')}}').trigger('change');
+					this.staff.roles = '{{ $staff->user->roles->pluck('id') }}';
+					console.log('{{$staff->user->roles->pluck(['id'])}}');
 				}
 			},
 		})
