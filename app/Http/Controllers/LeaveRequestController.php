@@ -102,7 +102,7 @@ class LeaveRequestController extends Controller
         $leave_requests = \DB::table('tblLeaveRequest')
             ->join('tblLeaveType', 'tblLeaveRequest.AbsenceTypeID', '=', 'tblLeaveType.LeaveTypeRef')
             ->join('users', 'tblLeaveRequest.StaffID', '=', 'users.id')
-            ->where('ApproverID', $id)
+            ->where('ApproverID', auth()->user()->staff->StaffRef)
             ->where('NotifyFlag', 1)
             ->get();
 
