@@ -94,11 +94,11 @@
 
             $.get('{{ url("department/one") }}', params, function(data) {
                 /*optional stuff to do after success */
-                $(".edit-department-name").html(data.name);
+                $(".edit-department-name").html(data.Department);
 
                 // form
-                $("#edit_department_name").val(data.name);
-                $("#edit_department_id").val(data.id);
+                $("#edit_department_name").val(data.Department);
+                $("#edit_department_id").val(data.DepartmentRef);
             });
 
             $("#edit-department").modal();

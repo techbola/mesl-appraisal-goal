@@ -39,7 +39,6 @@ class CompanyDepartmentController extends Controller
     */
     public function update(Request $request){
     	// body
-    	// body
         $department = new CompanyDepartment();
         $data       = $department->updateOne($request);
 
