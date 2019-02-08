@@ -63,13 +63,52 @@
           {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
         </div>
       </div>
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="req">Departments</label>
+          {{ Form::select('DepartmentID[]', $departments->pluck('name', 'id')->toArray(), $departments->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+        </div>
+      </div>
+      {{-- <div class="col-md-6">
+        <div class="form-group required">
+          <label>Departments</label> --}}
+          {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
+          {{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
+
+          {{-- <select class="form-control select2" name="DepartmentID" data-init-plugin="select2">
+            <option value="">Select Department</option> --}}
+            {{-- @foreach ($departments as $dept)
+              <option value="{{ $dept->id }}" @if($dept->id == $staff->DepartmentID) selected @endif>{{ $dept->name }}</option>
+            @endforeach --}}
+          {{-- </select>
+        </div>
+      </div> --}}
+</div>
+<div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Supervisor</label>
+          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+        </div>
+      </div>
+      
+    @endif
+
+    @if (!auth()->user()->hasRole('admin'))
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label class="req">Roles</label>
+          {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple", "disabled"]) }}
+        </div>
+      </div>
       <div class="col-md-6">
         <div class="form-group required">
           <label>Departments</label>
           {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
           {{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
-          <select class="form-control select2" name="DepartmentID" data-init-plugin="select2">
+          <select class="form-control select2" name="DepartmentID" data-init-plugin="select2" disabled>
             <option value="">Select Department</option>
             @foreach ($departments as $dept)
               <option value="{{ $dept->id }}" @if($dept->id == $staff->DepartmentID) selected @endif>{{ $dept->name }}</option>
@@ -82,7 +121,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <label>Supervisor</label>
-          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "disabled"]) }}
         </div>
       </div>
       
@@ -146,7 +185,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('HomePhone','Home Phone Number') }}
-            {{ Form::text('HomePhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Home Phone Number']) }}
+            {{ Form::number('HomePhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Home Phone Number', 'maxLength' => '11']) }}
         </div>
     </div>
 
@@ -206,7 +245,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('MobilePhone','Mobile Phone') }}
-            {{ Form::text('MobilePhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Mobile PhoneNumber', 'required']) }}
+            {{ Form::number('MobilePhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Mobile PhoneNumber', 'required', 'maxLength' => '11']) }}
         </div>
     </div>
 </div>
@@ -231,7 +270,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('WorkPhone','Work Phone Number') }}
-            {{ Form::text('WorkPhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Work Phone Number']) }}
+            {{ Form::number('WorkPhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Work Phone Number', 'maxLength' => '11']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -342,7 +381,7 @@
         <div class="col-sm-4">
           <div class="form-group">
             {{ Form::label('RefPhone','Phone') }}
-            {{ Form::text('RefPhone[]', $value->Phone,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone', 'disabled']) }}
+            {{ Form::number('RefPhone[]', $value->Phone,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone', 'disabled', 'maxLength' => '11']) }}
           </div>
         </div>
 
@@ -381,7 +420,7 @@
         <div class="col-sm-4">
           <div class="form-group">
             {{ Form::label('RefPhone','Phone') }}
-            {{ Form::text('RefPhone[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone']) }}
+            {{ Form::number('RefPhone[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone', 'maxLength' => '11']) }}
           </div>
         </div>
 
@@ -439,7 +478,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('NextofKIN_Phone','Next of Kin Phone Number') }}
-            {{ Form::text('NextofKIN_Phone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Next of Kin Phone Number']) }}
+            {{ Form::number('NextofKIN_Phone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Next of Kin Phone Number', 'maxLength' => '11']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -469,7 +508,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('Beneficiary_Phone','Beneficiary Phone Number') }}
-            {{ Form::text('Beneficiary_Phone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Beneficiary Phone Number', 'required']) }}
+            {{ Form::number('Beneficiary_Phone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Beneficiary Phone Number', 'required', 'maxLength' => '11']) }}
         </div>
     </div>
     <div class="col-sm-4">
