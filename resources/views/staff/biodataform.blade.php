@@ -146,7 +146,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('HomePhone','Home Phone Number') }}
-            {{ Form::text('HomePhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Home Phone Number']) }}
+            {{ Form::number('HomePhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Home Phone Number', 'maxLength' => '11']) }}
         </div>
     </div>
 
@@ -206,7 +206,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('MobilePhone','Mobile Phone') }}
-            {{ Form::text('MobilePhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Mobile PhoneNumber', 'required']) }}
+            {{ Form::number('MobilePhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Mobile PhoneNumber', 'required', 'maxLength' => '11']) }}
         </div>
     </div>
 </div>
@@ -231,7 +231,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('WorkPhone','Work Phone Number') }}
-            {{ Form::text('WorkPhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Work Phone Number']) }}
+            {{ Form::number('WorkPhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Work Phone Number', 'maxLength' => '11']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -342,7 +342,7 @@
         <div class="col-sm-4">
           <div class="form-group">
             {{ Form::label('RefPhone','Phone') }}
-            {{ Form::text('RefPhone[]', $value->Phone,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone', 'disabled']) }}
+            {{ Form::number('RefPhone[]', $value->Phone,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone', 'disabled', 'maxLength' => '11']) }}
           </div>
         </div>
 
@@ -381,7 +381,7 @@
         <div class="col-sm-4">
           <div class="form-group">
             {{ Form::label('RefPhone','Phone') }}
-            {{ Form::text('RefPhone[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone']) }}
+            {{ Form::number('RefPhone[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone', 'maxLength' => '11']) }}
           </div>
         </div>
 
@@ -439,7 +439,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('NextofKIN_Phone','Next of Kin Phone Number') }}
-            {{ Form::text('NextofKIN_Phone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Next of Kin Phone Number']) }}
+            {{ Form::number('NextofKIN_Phone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Next of Kin Phone Number', 'maxLength' => '11']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -469,7 +469,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('Beneficiary_Phone','Beneficiary Phone Number') }}
-            {{ Form::text('Beneficiary_Phone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Beneficiary Phone Number', 'required']) }}
+            {{ Form::number('Beneficiary_Phone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Beneficiary Phone Number', 'required', 'maxLength' => '11']) }}
         </div>
     </div>
     <div class="col-sm-4">
