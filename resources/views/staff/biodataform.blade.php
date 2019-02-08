@@ -108,12 +108,7 @@
           {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
           {{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
-          <select class="form-control select2" name="DepartmentID" data-init-plugin="select2" disabled>
-            <option value="">Select Department</option>
-            @foreach ($departments as $dept)
-              <option value="{{ $dept->id }}" @if($dept->id == $staff->DepartmentID) selected @endif>{{ $dept->name }}</option>
-            @endforeach
-          </select>
+          {{ Form::select('DepartmentID[]', $departments->pluck('Department', 'DepartmentRef')->toArray(), $departments->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "multiple", 'disabled']) }}
         </div>
       </div>
 </div>
