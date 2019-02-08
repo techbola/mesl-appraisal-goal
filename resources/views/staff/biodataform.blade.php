@@ -67,7 +67,7 @@
       <div class="col-sm-6">
         <div class="form-group">
           <label class="req">Departments</label>
-          {{ Form::select('DepartmentID[]', $departments->pluck('name', 'id')->toArray(), $departments->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+          {{ Form::select('DepartmentID[]', $departments->pluck('Department', 'DepartmentRef')->toArray(), $departments->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
         </div>
       </div>
       {{-- <div class="col-md-6">

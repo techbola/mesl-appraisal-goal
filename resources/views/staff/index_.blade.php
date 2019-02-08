@@ -147,7 +147,7 @@
 										<select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required>
 											@foreach ($departments as $dept)
 											<option value="">Select Department</option>
-												<option value="{{ $dept->id }}">{{ $dept->name }}</option>
+												<option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
 											@endforeach
 										</select>
 									</div>
@@ -223,12 +223,7 @@
 
 							  <div class="col-md-6">
 							  	<label for="" class="req">Departments</label>
-							    <select class="form-control select2 required" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required>
-							    	<option value="" >Select Department</option>
-											@foreach ($departments as $dept)
-												<option value="{{ $dept->id }}" >{{ $dept->name }}</option>
-											@endforeach
-										</select>
+							    {{ Form::select('DepartmentID[]', $departments->pluck('Department', 'DepartmentRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
 							  </div>
 
 							  <div class="clearfix"></div>
@@ -236,7 +231,7 @@
 							  <div class="col-md-6">
 									<div class="form-group">
 									 <label class="req">Roles</label>
-									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple", 'v-model' => 'staff.roles']) }}
+									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
 								 </div>
 							  </div>
 							 {{--  <div class="col-md-6">
@@ -305,7 +300,7 @@
 					$('#edit_staff').find('form select[name="DepartmentID[]"]').val(staff.DepartmentID.split(",")).trigger('change');
 					
 					$('#edit_staff').find('form select[name="roles[]"]').val(role_ids).trigger('change');
-					console.log(role_ids)
+					console.log(staff.DepartmentID.split(","))
 				}
 			},
 		})

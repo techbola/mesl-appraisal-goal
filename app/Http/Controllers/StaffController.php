@@ -177,11 +177,14 @@ class StaffController extends Controller
 
     public function update_staff_admin(Request $request, $id)
     {
-        $staff                    = Staff::find($id);
-        $staff->user->first_name  = $request->first_name;
-        $staff->user->last_name   = $request->last_name;
-        $staff->user->email       = $request->email;
-        $staff->user->departments = Department::whereIn('DepartmentRef', explode(',', $staff->DepartmentID));
+        $staff                   = Staff::find($id);
+        $staff->user->first_name = $request->first_name;
+        $staff->user->last_name  = $request->last_name;
+        $staff->user->email      = $request->email;
+        // dd(implode(',', $request->DepartmentID));
+        $staff->DepartmentID = implode(',', $request->DepartmentID);
+        $staff->update();
+        // $staff->user->departments = Department::whereIn('DepartmentRef', explode(',', $staff->DepartmentID));
 
         $staff->user->update();
         return redirect()->back()->with('success', 'Staff was updated successfully');
@@ -225,7 +228,8 @@ class StaffController extends Controller
             $staff_arr = $staff_data->getattributes();
             // Copy & save to FCYTrade
             // $staff = Staff::create($staff_arr);
-            $staff = Staff::find($pending->StaffRef);
+            $staff               = Staff::find($pending->StaffRef);
+            $staff->DepartmentID = implode(',', $request->DepartmentID);
             // dd($staff_arr);
             $staff->update($staff_arr);
             // Soft delete from Pending
@@ -531,7 +535,7 @@ class StaffController extends Controller
             } else {
 
                 if (!empty($request->DepartmentID)) {
-                    $staff_departments   = $request->DepartmentID;
+                    $staff_departments   = implode(',', $request->DepartmentID);
                     $staff->DepartmentID = $staff_departments;
                 }
 
