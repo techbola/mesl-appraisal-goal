@@ -41,4 +41,14 @@ class LotDescription extends Model
     {
         return $this->hasMany(ExpenseComment::class, 'LotDescriptionID');
     }
+
+    public function department()
+    {
+        return $this->belongsTo(CompanyDepartment::class, 'DepartmentID');
+    }
+
+    public function expense_category()
+    {
+        return $this->belongsTo(ExpenseCategory::class, 'ExpenseCategoryID');
+    }
 }

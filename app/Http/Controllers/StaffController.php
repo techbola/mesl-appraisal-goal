@@ -177,10 +177,12 @@ class StaffController extends Controller
 
     public function update_staff_admin(Request $request, $id)
     {
-        $staff                   = Staff::find($id);
-        $staff->user->first_name = $request->first_name;
-        $staff->user->last_name  = $request->last_name;
-        $staff->user->email      = $request->email;
+        $staff                    = Staff::find($id);
+        $staff->user->first_name  = $request->first_name;
+        $staff->user->last_name   = $request->last_name;
+        $staff->user->email       = $request->email;
+        $staff->user->departments = Department::whereIn('DepartmentRef', explode(',', $staff->DepartmentID));
+
         $staff->user->update();
         return redirect()->back()->with('success', 'Staff was updated successfully');
     }

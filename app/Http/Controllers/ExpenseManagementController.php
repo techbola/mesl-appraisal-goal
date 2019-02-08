@@ -163,7 +163,7 @@ class ExpenseManagementController extends Controller
             $item->approvers     = $item->request_type->approvers_formatted('<b style="font-size: 1.4rem; color: red">&rarr;</b>');
             $item->comment_files = $item->expense_comments->transform(function ($item, $key) {
                 $item->files       = $item->attachments;
-                $item->approved_by = ApproverRole::find($item->ApproverRoleID)->ApproverRole;
+                $item->approved_by = ApproverRole::find($item->ApproverRoleID)->ApproverRole ?? '-';
                 $item->approver    = User::find($item->inputter_id)->fullname;
                 $item->approved_at = Carbon::parse($item->updated_at)->toDayDateTimeString();
                 return $item;
@@ -317,6 +317,11 @@ class ExpenseManagementController extends Controller
             DB::beginTransaction();
             foreach ($SelectedID as $value) {
                 array_push($new_array, intval($value));
+
+                $exp          = ExpenseManagement::find($value);
+                $exp->Comment = $exp->Comment;
+                $exp->save();
+
                 $approve_proc = \DB::statement(
                     "EXEC procApproveExpenseRequest   '$value', $ModuleID, '$Comment', $ApproverRoleID, $ApprovedFlag"
                 );
@@ -523,7 +528,7 @@ class ExpenseManagementController extends Controller
 
     public function fetch_lots($dept_id)
     {
-        $lots = LotDescription::where('DescriptionID', $dept_id)->get();
+        $lots = LotDescription::where('DepartmentID', $dept_id)->get();
         return $lots;
     }
 
@@ -539,5 +544,46 @@ class ExpenseManagementController extends Controller
                 return $item;
             });
         return $docs;
+    }
+
+    public function lot_description()
+    {
+        $lot_descriptions = LotDescription::all()->sortBy('LotDescription');
+        return view('expense_management.lot_description.index', compact('lot_descriptions'));
+    }
+
+    public function lot_description_create()
+    {
+        $expense_categories = ExpenseCategory::all()->sortBy('ExpenseCategory');
+        $departments        = CompanyDepartment::all()->sortBy('name');
+        return view('expense_management.lot_description.create', compact('expense_categories', 'departments'));
+    }
+
+    public function lot_description_store(Request $request)
+    {
+        $lot_desc = new LotDescription($request->all());
+        if ($lot_desc->save()) {
+            return redirect()->route('lot_description.create')->with('success', 'Lot Description saved successfully');
+        } else {
+            return back()->withInput()->with('danger', 'Lot Description failed to save');
+        }
+    }
+
+    public function lot_description_edit($id)
+    {
+        $lot_desc           = LotDescription::find($id);
+        $expense_categories = ExpenseCategory::all()->sortBy('ExpenseCategory');
+        $departments        = CompanyDepartment::all()->sortBy('name');
+        return view('expense_management.lot_description.edit', compact('lot_desc', 'expense_categories', 'departments'));
+    }
+
+    public function lot_description_update(Request $request, $id)
+    {
+        $lot_desc = LotDescription::find($id);
+        if ($lot_desc->update($request->all())) {
+            return redirect()->route('lot_description.index')->with('success', 'Lot Description updated successfully');
+        } else {
+            return back()->withInput()->with('danger', 'Lot Description failed to update');
+        }
     }
 }

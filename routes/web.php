@@ -1100,6 +1100,13 @@ Route::post('get-transaction-details', 'ReportController@fetchTransactionDetails
 Route::get('expense_management', 'ExpenseManagementController@index')->name('expense_management.index');
 Route::get('expense_management/create', 'ExpenseManagementController@create')->name('expense_management.create');
 Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+Route::get('expense_management/lot_description', 'ExpenseManagementController@lot_description')->name('lot_description.index');
+Route::get('expense_management/lot_description/create', 'ExpenseManagementController@lot_description_create')->name('lot_description.create');
+Route::post('expense_management/lot_description/create', 'ExpenseManagementController@lot_description_store')->name('lot_description.store');
+Route::get('expense_management/lot_description/{id}', 'ExpenseManagementController@lot_description_edit')->name('lot_description.edit');
+
+Route::patch('expense_management/lot_description/{id}', 'ExpenseManagementController@lot_description_update')->name('lot_description.update');
+
 Route::get('/expense_management/{files}/files', 'ExpenseManagementController@fetch_exp_files');
 Route::get('expense_management/fetch-departments/{exp_id}', 'ExpenseManagementController@fetch_departments');
 Route::get('expense_management/fetch-lots/{dept_id}', 'ExpenseManagementController@fetch_lots');
