@@ -23,7 +23,7 @@
     <div class="col-sm-6">
         <div class="form-group">
           <label for="SupervisorFlag">
-            <input type="checkbox" value="" @if($staff->SupervisorFlag) checked @endif name="SupervisorFlag">
+            <input type="checkbox" value="" @if($staff->SupervisorFlag == 1) checked @endif name="SupervisorFlag">
             Mark Staff as Supervisor 
 
           </label>

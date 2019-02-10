@@ -297,10 +297,19 @@
 					var form_action = "{{ url('/') }}"+"/update_staff_admin/"+staff.StaffRef;
 					$('#edit_staff').find('form').attr('action', form_action);
 					// $(".select2").select2();
-					$('#edit_staff').find('form select[name="DepartmentID[]"]').val(staff.DepartmentID.split(",")).trigger('change');
+					if(staff.DepartmentID != null) {
+						$('#edit_staff').find('form select[name="DepartmentID[]"]').val(staff.DepartmentID.split(",")).trigger('change');
+					} else {
+						$('#edit_staff').find('form select[name="DepartmentID[]"]').val([]).trigger('change');
+					}
+					// console.log(staff.DepartmentID.split(","))
 					
-					$('#edit_staff').find('form select[name="roles[]"]').val(role_ids).trigger('change');
-					console.log(staff.DepartmentID.split(","))
+					if(role_ids.length > 0) {
+						$('#edit_staff').find('form select[name="roles[]"]').val(role_ids).trigger('change');
+					} else {
+						$('#edit_staff').find('form select[name="roles[]"]').val([]).trigger('change');
+					}
+					console.log('staff',staff)
 				}
 			},
 		})
