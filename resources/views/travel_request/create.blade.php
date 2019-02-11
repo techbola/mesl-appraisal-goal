@@ -410,13 +410,13 @@
 
                                         @if($tr->StaffID != NULL)
                                         <span class="badge">
-                                            MESL STAFF: {{ $tr->internel_traveller->FullName }}
+                                            <b>MESL STAFF:</b> {{ $tr->internel_traveller->FullName }}
                                         </span>
                                         @endif
 
                                         @if($tr->FullName != NULL)
                                         <span class="badge">
-                                            {{ $tr->FullName }}
+                                            <b>Visitor: </b>{{ $tr->FullName }}
                                         </span>
                                         @endif
                                         @endforeach
