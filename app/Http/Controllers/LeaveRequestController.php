@@ -81,11 +81,11 @@ class LeaveRequestController extends Controller
         $unsent_request = LeaveRequest::where('StaffID', auth()->user()->id)->where('NotifyFlag', 1)->get();
         $user           = \Auth::user();
         $id             = \Auth::user()->id;
-        $department     = Department::all()->sortBy('Department')->sortBy('name');
+        $department     = Department::all()->sortBy('Department');
         $leavedays      = Staff::where('UserID', $id)->first();
         $staff          = Staff::where('CompanyID', $user->CompanyID)
-            ->whereIn('DepartmentID', explode(',', $user->staff->DepartmentID))
-
+            ->where('DepartmentID', $user->staff->DepartmentID)
+            ->where('UserID', '<>', $user->id)
             ->get()
             ->sortBy('FullName');
 
