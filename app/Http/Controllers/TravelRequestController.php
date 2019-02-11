@@ -33,9 +33,9 @@ class TravelRequestController extends Controller
         $transports = TravelTransport::all();
 
         $travel_requests = TravelRequest::orderBy('TravelRef', 'DESC')
-            ->Where('SentForApproval', '0')
-            ->Where('RequesterID', Auth::user()->id)
-            ->get();
+                                        ->Where('SentForApproval', '0')
+                                        ->Where('RequesterID', Auth::user()->id)
+                                        ->get();
         $lodges      = TravelLodge::all();
         $travelmodes = TravelMode::all();
 
@@ -188,12 +188,12 @@ class TravelRequestController extends Controller
                                     ->where('SentForApproval', 1)
                                     ->first();
         $travel_request->SentForApproval = 0;
+
         $travel_request->update();
-        // $travel_request->save();
 
-        $email = Staff::find($travel_request->RequesterID)->first()->user->email;
+        $Requester = User::where("id", $travel_request->RequesterID)->first();
 
-        Mail::to($email)->send(new RequestRejected());
+        Mail::to($Requester->email)->send(new RequestRejected());
 
         return redirect()->route('travel_request.admindashboard')->with('success', 'Request Rejected successfully');
     }
