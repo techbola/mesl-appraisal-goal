@@ -18,6 +18,11 @@ class LeaveRequest extends Model
         return $this->belongsTo('MESL\User', 'ApproverID');
     }
 
+    public function staff()
+    {
+        return $this->belongsTo('MESL\Staff', 'SupervisorID');
+    }
+
     public function leave_type()
     {
         return $this->belongsTo('MESL\LeaveType', 'AbsenceTypeID');

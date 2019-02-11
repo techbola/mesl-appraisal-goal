@@ -74,9 +74,9 @@
                     @if($leave_request->NotifyFlag == 0 && $leave_request->RejectionFlag != 1)
                     <label class="label label-default">Leave Request has not been sent for approval.</label>
                   @elseif($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1)
-                    <label class="label label-default"> pending with {{$leave_request->user->first_name ?? ''}} {{$leave_request->user->last_name ?? ''}}</label>
+                    <label class="label label-default"> pending with {{$leave_request->staff->user->first_name ?? ''}} {{$leave_request->user->last_name ?? ''}}</label>
                   @else
-                  <label class="label label-danger"> Rejected by {{$leave_request->user->first_name ?? ''}} {{$leave_request->user->last_name ?? ''}}</label>
+                  <label class="label label-danger"> Rejected by {{$leave_request->staff->user->first_name ?? ''}} {{$leave_request->staff->user->last_name ?? ''}}</label>
                   @endif
                   @endif
                 </td>

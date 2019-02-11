@@ -282,6 +282,86 @@
                 
                 
                         </div>
+
+                        <div class="card-section p-l-5">List Of Travellers</div>
+                        <div class="">
+                            <div class="btn-group" data-toggle="buttons">
+                              <label class="btn btn-complete active">
+                                <input type="radio" name="staff_options" id="staff_option" checked> Staff
+                              </label>
+                              <label class="btn btn-complete">
+                                <input type="radio" name="staff_options" id="non_staff_option"> Non Staff
+                              </label>
+                            </div> <br> <br>
+
+                            <div class="travellers-wrapper">
+                                <div class="staff_option_template">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                 <label for="TravellerStaffID">Select Staff</label>
+                                                {{ Form::select('TravellerStaffID[]', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'StaffRef')->toArray(), null, ['class'=> "form-control full-width select2", 'data-init-plugin' => "select2"]) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                           
+                                            <div class="form-group">
+                                                 <label for="TravellerCompany">Company</label>
+                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3 ">
+                                            <div class="form-group">
+                                                 <label for="TravellerPhone">Phone</label>
+                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number']) }}
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>  <div class="form-group">
+                                                <button type="button" style="margin-left: 7px"  class="add_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
+                                            </div>
+
+                                <div class="non_staff_option_template hide">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                           
+                                            <div class="form-group">
+                                                 <label for="TravellerFullName">FullName</label>
+                                                {{ Form::text('TravellerFullName[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                           
+                                            <div class="form-group">
+                                                 <label for="TravellerCompany">Company</label>
+                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3 ">
+                                            <div class="form-group">
+                                                 <label for="TravellerPhone">Phone</label>
+                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number']) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <button type="button" style="margin-top: 30px"  class="add_non_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                 
                         <br>
                 
@@ -603,6 +683,8 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        
     
                                             <br>
                                     
@@ -721,6 +803,72 @@
 //         "scrollX": true
 //     } );
 // } );
+// toggle forms with radios
+$("[name=staff_options]").parents('.btn-group').click(function(e) {
+    e.preventDefault();
+    if($('#staff_option:checked').length > 0){
+    // alert($('#staff_option:checked').val()) 
+       // $(".non_staff_option_template").addClass('hide');
+        // $(".staff_option_template").removeClass('hide');
+        console.log('staff');
+        $(".staff_option_template").show();
+        $(".non_staff_option_template").hide();
+    } 
+    if($('#non_staff_option:checked').length > 0) {
+        // $(".non_staff_option_template").removeClass('hide');
+        // $(".staff_option_template").addClass('hide');
+        console.log('non staff');
+        $(".non_staff_option_template").show();
+        $(".staff_option_template").hide();
+    }
+
+});
+
+
+var staff_option_temp = `
+<div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                 <label for="TravellerStaffID">Select Staff</label>
+                                                {{ Form::select('TravellerStaffID[]', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'StaffRef')->toArray(), null, ['class'=> "form-control full-width select2", 'data-init-plugin' => "select2"]) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                           
+                                            <div class="form-group">
+                                                 <label for="TravellerCompany">Company</label>
+                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3 ">
+                                            <div class="form-group">
+                                                 <label for="TravellerPhone">Phone</label>
+                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number']) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <button type="button" style="margin-top: 30px"  class="remove_staff_node btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>`;
+$(".add_staff_node").click(function(e) {
+    e.preventDefault();
+    $('.staff_option_template').append(staff_option_temp);
+    $('.staff_option_template').find('select').select2();
+});
+
+$('body').on('click', '.remove_staff_node', function(e) {
+    e.preventDefault();
+    console.log('delete me')
+    $(this).closest('.row').remove();
+});
+
 
 
     

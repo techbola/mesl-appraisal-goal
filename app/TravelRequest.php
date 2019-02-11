@@ -26,7 +26,6 @@ class TravelRequest extends Model
         return $this->belongsTo('MESL\State', 'TravelToState');
     }
 
-
     public function travel_from_country()
     {
         return $this->belongsTo('MESL\Country', 'TravelFromCountry');
@@ -49,7 +48,7 @@ class TravelRequest extends Model
 
     public function travel_transporter()
     {
-        return $this->belongsTo('MESL\TravelTransport', 'PreferredTransporter');   
+        return $this->belongsTo('MESL\TravelTransport', 'PreferredTransporter');
     }
 
     public function requester_name()
@@ -57,6 +56,4 @@ class TravelRequest extends Model
         return $this->belongsTo('MESL\User', 'RequesterID');
     }
 
-   
 }
-

@@ -11,6 +11,7 @@ use MESL\TravelRequest;
 use MESL\TravelTransport;
 use MESL\TravelLodge;
 use MESL\TravelMode;
+use MESL\Traveller;
 use MESL\User;
 use MESL\Mail\SendforApproval;
 use MESL\Mail\RequestApproved;
@@ -45,7 +46,7 @@ class TravelRequestController extends Controller
     //Store travel request function
     public function store_travel_request(Request $request)
     {
-        $travel_request = new TravelRequest($request->all());
+        $travel_request = new TravelRequest($request->except(['TravellerPhone', 'TravellerFullName', 'TravellerCompany', 'TravellerStaffID', 'staff_options']));
 
         $travel_request->RequesterID  = auth()->user()->id;
         $travel_request->SupervisorID = auth()->user()->staff->SupervisorID;
@@ -66,6 +67,20 @@ class TravelRequestController extends Controller
         }
 
         if ($travel_request->save()) {
+            foreach ($request->TravellerStaffID as $key => $value) {
+
+                // if ($saved) {
+                $traveller = new Traveller([
+                    'TravelRef' => $travel_request->TravelRef,
+                    'StaffID'   => $request->TravellerStaffID[$key],
+                    'Phone'     => $request->TravellerPhone[$key],
+                    'Company'   => $request->TravellerCompany[$key],
+                    'FullName'  => $request->TravellerFullName[$key] ?? null,
+                    // 'Path' => Storage::url('documents/'.$filename)
+                ]);
+                $traveller->save();
+                // }
+            }
             return redirect()->route('travel_request.create')->with('success', 'Request was added successfully');
         }
     }
