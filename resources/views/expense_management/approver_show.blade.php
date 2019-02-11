@@ -50,7 +50,7 @@ border-radius: 3px;
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('Description', 'Description') }}
-                    {{ Form::text('Description', null, ['class' => 'form-control', 'placeholder' => 'e.g Finance Project', 'disabled']) }}
+                    {{ Form::text('Description',null, ['class' => 'form-control', 'placeholder' => 'e.g Finance Project', 'disabled']) }}
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@ border-radius: 3px;
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('ExpenseCategoryID ', 'Expense Category') }}
-                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $expense_categories->pluck('ExpenseCategory','ExpenseCategoryRef')->toArray() ,null, ['class' => 'full-width ExpenseCategoryID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category', 'disabled']) }}
+                    {{ Form::select('ExpenseCategoryID', ['' => 'Select Request'] + $expense_categories->pluck('ExpenseCategory','ExpenseCategoryRef')->toArray() ,$expense->lot_description->expense_category->ExpenseCategoryRef ?? null, ['class' => 'full-width ExpenseCategoryID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Category', 'disabled']) }}
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@ border-radius: 3px;
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('DepartmentID', 'Department') }}
-                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('name','id')->toArray() ,null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request', 'disabled']) }}
+                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray() , $expense->lot_description->department->DepartmentRef ?? null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request', 'disabled']) }}
                 </div>
             </div>
         </div>
