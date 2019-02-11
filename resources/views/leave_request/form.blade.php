@@ -19,8 +19,8 @@
 
         <!-- <div class="col-md-4">
             <div class="form-group">
-                {{ Form::label('Department','Department') }}
-                {{ Form::text('DepartmentID', Auth::user()->staff->departments->DepartmentRef, ['class' => 'form-control', 'placeholder' => 'Employee Department', 'required', 'readonly']) }}
+                {{-- {{ Form::label('Department','Department') }} --}}
+                {{-- {{ Form::text('DepartmentID', Auth::user()->staff->departments->DepartmentRef, ['class' => 'form-control', 'placeholder' => 'Employee Department', 'required', 'readonly']) }} --}}
             </div>
         </div> -->
 
