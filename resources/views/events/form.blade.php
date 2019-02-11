@@ -16,7 +16,7 @@
       <select class="form-control select2" name="DepartmentID" data-init-plugin="select2" required>
         <option value=""> -- Select Department --</option>
         @foreach($departments as $department)
-          <option value="{{ $department->id }}">{{ $department->name }}</option>
+          <option value="{{ $department->DepartmentRef }}">{{ $department->Department }}</option>
         @endforeach
       </select>
     </div>
