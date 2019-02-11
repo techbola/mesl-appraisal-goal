@@ -70,7 +70,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('DepartmentID', 'Department') }}
-                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('name','id')->toArray() ,null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
+                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray() ,null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
                 </div>
             </div>
         </div>
@@ -318,7 +318,7 @@
                   $.get('/expense_management/fetch-departments/'+val, function(data) {
                     $('#DepartmentID').append(`<option value="">Select Department</option>`);
                     $.each(data, function(index, val) {
-                         $('#DepartmentID').append(`<option value="${val.id}">${val.name}</option>`);
+                         $('#DepartmentID').append(`<option value="${val.DepartmentRef}">${val.Department}</option>`);
                     });
                      
                 });

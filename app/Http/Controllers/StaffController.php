@@ -183,7 +183,10 @@ class StaffController extends Controller
         $staff->user->email      = $request->email;
         // dd(implode(',', $request->DepartmentID));
         $staff->DepartmentID = implode(',', $request->DepartmentID);
+        $staff->SupervisorID = $request->SupervisorID;
         $staff->update();
+        $staff->user->roles()->detach();
+        $staff->user->roles()->attach($request->roles);
         // $staff->user->departments = Department::whereIn('DepartmentRef', explode(',', $staff->DepartmentID));
 
         $staff->user->update();
@@ -376,13 +379,14 @@ class StaffController extends Controller
         $hmos           = HMO::all();
         $hmoplans       = HMOPlan::all();
         $roles          = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
-        $role           = User::find($staff->UserID)->roles;
-        $banks          = Bank::all()->sortBy('BankName');
-        $pfa            = PFA::all()->sortBy('PFA');
-        $locations      = Location::all()->sortBy('Location');
-        $lgas           = LGA::all();
+        $role           = $staff->user->roles;
+        // dd($role);
+        $banks     = Bank::all()->sortBy('BankName');
+        $pfa       = PFA::all()->sortBy('PFA');
+        $locations = Location::all()->sortBy('Location');
+        $lgas      = LGA::all();
 
-        $departments       = CompanyDepartment::all()->sortBy('name');
+        $departments       = CompanyDepartment::all()->sortBy('Department');
         $staff_departments = $staff->DepartmentID;
         // $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
         $supervisors = Staff::where('SupervisorFlag', 1)->get()->sortBy('FullName');

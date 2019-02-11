@@ -234,6 +234,13 @@
 									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
 								 </div>
 							  </div>
+
+							  <div class="col-md-4">
+						        <div class="form-group">
+						          <label>Supervisor</label>
+						          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "full-width form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+						        </div>
+						      </div>
 							 {{--  <div class="col-md-6">
 							    <div class="form-group">
 							      <label class="req">Department</label>
@@ -309,7 +316,14 @@
 					} else {
 						$('#edit_staff').find('form select[name="roles[]"]').val([]).trigger('change');
 					}
-					console.log('staff',staff)
+
+					if(staff.SupervisorID != null){
+						$('#edit_staff').find('form select[name="SupervisorID"]').val(staff.SupervisorID).trigger('change');
+					}
+					else{
+						$('#edit_staff').find('form select[name="SupervisorID"]').val(staff.SupervisorID).trigger('change');
+					}
+					// console.log('staff',staff)
 				}
 			},
 		})

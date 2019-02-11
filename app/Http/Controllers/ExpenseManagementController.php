@@ -555,7 +555,7 @@ class ExpenseManagementController extends Controller
     public function lot_description_create()
     {
         $expense_categories = ExpenseCategory::all()->sortBy('ExpenseCategory');
-        $departments        = CompanyDepartment::all()->sortBy('name');
+        $departments        = CompanyDepartment::all()->sortBy('Department');
         return view('expense_management.lot_description.create', compact('expense_categories', 'departments'));
     }
 
@@ -573,7 +573,7 @@ class ExpenseManagementController extends Controller
     {
         $lot_desc           = LotDescription::find($id);
         $expense_categories = ExpenseCategory::all()->sortBy('ExpenseCategory');
-        $departments        = CompanyDepartment::all()->sortBy('name');
+        $departments        = CompanyDepartment::all()->sortBy('Department');
         return view('expense_management.lot_description.edit', compact('lot_desc', 'expense_categories', 'departments'));
     }
 
