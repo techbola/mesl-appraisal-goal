@@ -355,12 +355,13 @@
                             <div class="modal-header">
                                 <h3 class="modal-title" id="exampleModalCenterTitle"><strong>Edit Travel Request</strong></h3>
                             </div>
+                            <br>
                             <div class="modal-body">
                             <form action="" method="POST" id="form-edit">
                                     {{ csrf_field() }}
                                     <input type="hidden" id="TravelRef" name="TravelRef" value="">
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         {{ Form::label('TravelType', 'Travel Type' ) }}
@@ -372,10 +373,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         <div class="travel_from_state hide">
@@ -398,10 +397,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         <div class="travel_to_state hide">
@@ -423,13 +420,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div> 
-                                        </div> 
+                                            </div>
+                                        </div>
                                     
                                             <br>
                                     
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         {{ Form::label('DepartureDate', 'Departure Date') }}
@@ -443,10 +440,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         {{ Form::label('DepartureTime', 'Departure Time' ) }}
@@ -454,10 +449,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         {{ Form::label('ArrivalDate', 'Arrival Date') }}
@@ -471,10 +464,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         {{ Form::label('ArrivalTime', 'Arrival Time' ) }}
@@ -483,12 +474,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                            
                                             <br>
                                     
                                         <div class="row">
                                 
-                                            <div class="col-md-8">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         {{ Form::label('Purpose', 'Travel Purpose' ) }}
@@ -510,10 +500,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-6">
                                                 <div class="controls">
                                                     <div class="form-group">
                                                         {{ Form::label('PurposeDescription', 'Purpose Description' ) }}
@@ -522,10 +510,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                            <br>
-                                    
+
+                                        <br>
+    
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-4">
                                                 <div class="controls">
                                                     <div class="form-group">
                                                         {{ Form::label('TravelMode', 'Travel mode' ) }}
@@ -538,10 +527,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-4">
                                                 <div class="controls">
                                                     <div class="form-group">
                                                         {{ Form::label('PreferredTransporter', 'Preffered Transporter' ) }}
@@ -554,10 +541,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-4">
                                                 <div class="controls">
                                                     <div class="form-group">
                                                         {{ Form::label('OtherTransporter', 'Other Transporter' ) }}
@@ -566,11 +551,13 @@
                                                 </div>
                                             </div>
                                         </div>
+
+
+                                        <br>
                                     
-                                            <br>
-                                    
+    
                                         <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-3">
                                                 <div class="controls">
                                                     <div class="form-group">
                                                         {{ Form::label('Lodging', 'Lodging' ) }}
@@ -583,21 +570,17 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         {{ Form::label('DestinationAddress', 'Destination Address' ) }}
-                                                        {{ Form::text('DestinationAddress', null, ['class' => 'form-control', 'id' => 'destination_address', 'placeholder' => 'Destination Address']) }}
+                                                        {{ Form::textarea('DestinationAddress', null, ['class' => 'form-control', 'id' => 'destination_address', 'placeholder' => 'Destination Address', 'rows'=> '2']) }}
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-3">
                                                 <div class="controls">
                                                     <div class="form-group">
                                                         {{ Form::label('Approver', 'Approver' ) }}
@@ -610,10 +593,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-    
-                                        <div class="row">
-                                            <div class="col-md-8">
+
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         {{ Form::label('ReferenceLetter', 'Reference Letter' ) }}
@@ -622,7 +603,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    
+    
                                             <br>
                                     
                                         <div class="row">

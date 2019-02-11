@@ -167,11 +167,10 @@ class TravelRequestController extends Controller
             ->where('RequestApprovedd', '0')
             ->first();
         $travel_request->RequestApprovedd = '1';
+        
         $travel_request->update();
 
         $email = User::find($travel_request->RequesterID)->first()->email;
-        // dd($travel_request);
-        // dd($email);
 
         Mail::to($email)->send(new RequestApproved());
 
