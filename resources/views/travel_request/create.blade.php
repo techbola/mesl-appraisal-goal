@@ -407,9 +407,18 @@
                                     <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_to_state->State : $travel_request->travel_to_country->Country ?? '-' }}</td>
                                     <td>
                                         @foreach($travel_request->travellers as $tr)
-                                        {!! !is_null($tr->StaffID) ? '<span class="badge">MESL STAFF: '.$tr->internel_traveller->FullName . '</span>' : ''!!}
 
-                                        {!! is_null($tr->StaffID) && !is_null($tr->FullName) ?  '<span class="badge">Visitor : '.$tr->FullName . '</span>' : ''!!}
+                                        @if($tr->StaffID != NULL)
+                                        <span class="badge">
+                                            MESL STAFF: {{ $tr->internel_traveller->FullName }}
+                                        </span>
+                                        @endif
+
+                                        @if($tr->FullName != NULL)
+                                        <span class="badge">
+                                            {{ $tr->FullName }}
+                                        </span>
+                                        @endif
                                         @endforeach
                                     </td>
                                     <td>{{ $travel_request->DepartureDate }}</td>
