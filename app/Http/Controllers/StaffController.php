@@ -634,7 +634,7 @@ class StaffController extends Controller
         $staff_onboard->update();
 
         $users = User::whereHas('staff', function ($query) {
-            $query->whereIn('DepartmentID', [2]);
+            $query->whereIn('DepartmentID', [7, 14]);
         })->get(); // ->toArray();
 
         Mail::to($users)->send(new StaffOnboard());
@@ -693,9 +693,12 @@ class StaffController extends Controller
             $staff_onboard->ApprovalStatus1 = '1';
             $staff_onboard->update();
 
+            
+
             $users = User::whereHas('staff', function ($query) {
                 $query->whereIn('DepartmentID', [3]);
             })->get();
+            dd($users);
 
             \Mail::to($users)->send(new ApprovalIT());
 

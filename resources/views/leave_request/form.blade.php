@@ -19,15 +19,15 @@
 
         <!-- <div class="col-md-4">
             <div class="form-group">
-                {{-- {{ Form::label('Department','Department') }} --}}
-                {{-- {{ Form::text('DepartmentID', Auth::user()->staff->departments->DepartmentRef, ['class' => 'form-control', 'placeholder' => 'Employee Department', 'required', 'readonly']) }} --}}
+                {{ Form::label('Department','Department') }}
+                {{ Form::text('Department', Auth::user()->staff->company_department->name, ['class' => 'form-control', 'placeholder' => 'Employee Deprartment', 'required', 'readonly']) }}
             </div>
         </div> -->
 
         <div class="col-md-4">
             <div class="form-group">
                 {{ Form::label('ContactNumber','Contact Phone Number') }}
-                {{ Form::number('ContactNumber', null, ['class' => 'form-control','minlenth' => "1", 'max' => "99999999999",'placeholder' => 'Mobile Phone Number', 'required']) }}
+                {{ Form::number('ContactNumber', null, ['class' => 'form-control', 'placeholder' => 'Mobile Phone Number', 'max' => '11', 'required']) }}
             </div>
         </div>
     </div>

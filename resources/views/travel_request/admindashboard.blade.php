@@ -43,15 +43,11 @@
                 <thead>
                     <th>S/N</th>
                     <th>Staff Name</th>
-                    
                     <th>From</th>
                     <th>To</th>
                     <th>Departure Date</th>
-                    
                     <th>Arrival Date</th>
-                    
                     <th>Travel Purpose</th>
-                    
                     <th>Approver Comment</th>
                     <th>Action</th>
                 </thead>
@@ -63,15 +59,11 @@
                     <tr>
                         <td>{{ $count }}</td>
                         <td>{{ $travel_request->requester_name->FullName ?? '-'  }}</td>
-                        
                         <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_from_state->State : $travel_request->travel_from_state->State ?? '-' }}</td>
                         <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_to_state->State : $travel_request->travel_to_country->Country ?? '-' }}</td>
                         <td>{{ $travel_request->DepartureDate }}</td>
-                        
                         <td>{{ $travel_request->ArrivalDate }}</td>
-                        
                         <td>{{ $travel_request->travel_purpose->TravelPurpose ?? '-' }}</td>
-                        
                         <td>
                             <div class="form-group">
                                 <div class="controls">
@@ -83,7 +75,7 @@
                         <td>
                             <a style="margin-right: 10px; display: inline-block" href="{{ route('approved', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-success toggler" data-toggle="tooltip" data-placement="top" title="Approve"><i class="fa fa-send"></i></a>
 
-                            <a style="margin-right: 10px; display: inline-block" href="{{ route('rejected', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-Danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
+                            <a style="margin-right: 10px; display: inline-block" href="{{ route('rejected', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
                         </td>
                     </tr>
                     @endif
