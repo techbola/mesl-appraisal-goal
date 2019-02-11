@@ -69,6 +69,14 @@ class Staff extends Model
     {
         return $this->hasMany('MESL\ProjectTask', 'StaffID', 'StaffRef');
     }
+    // singular
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'DepartmentID');
+        // return Department::whereIn('DepartmentRef', explode(',', $this->DepartmentID))->get();
+    }
+
+    // plural
     public function departments()
     {
         return $this->hasMany(Department::class, 'DepartmentRef', 'DepartmentID');

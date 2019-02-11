@@ -37,7 +37,7 @@ class LeaveRequestController extends Controller
         $unsent_request = LeaveRequest::where('StaffID', $id)->where('NotifyFlag', 1)->get();
         $leavedays      = Staff::where('UserID', $id)->first();
         $leave_type     = LeaveType::all();
-        $department     = Department::all();
+        $department     = Department::all()->sortBy('Department');
 
         $user  = \Auth::user();
         $id    = \Auth::user()->id;
@@ -81,7 +81,7 @@ class LeaveRequestController extends Controller
         $unsent_request = LeaveRequest::where('StaffID', auth()->user()->id)->where('NotifyFlag', 1)->get();
         $user           = \Auth::user();
         $id             = \Auth::user()->id;
-        $department     = Department::all()->sortBy('name');
+        $department     = Department::all()->sortBy('Department')->sortBy('name');
         $leavedays      = Staff::where('UserID', $id)->first();
         $staff          = Staff::where('CompanyID', $user->CompanyID)
             ->whereIn('DepartmentID', explode(',', $user->staff->DepartmentID))
@@ -439,7 +439,7 @@ class LeaveRequestController extends Controller
         // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
         $user           = \Auth::user();
         $id             = \Auth::user()->id;
-        $department     = Department::all();
+        $department     = Department::all()->sortBy('Department');
         $handover_tasks = HandoverTask::orderBy('HandoverTaskRef', 'DESC')->get();
         return view('leave_request.handover', compact('leave_type', 'staff', 'id', 'user', 'department', 'handover_tasks'));
     }
@@ -536,7 +536,7 @@ class LeaveRequestController extends Controller
         // dd($leave_request);
         $id         = \Auth::user()->id;
         $leave_type = LeaveType::all();
-        $department = Department::all();
+        $department = Department::all()->sortBy('Department');
 
         $user  = \Auth::user();
         $id    = \Auth::user()->id;

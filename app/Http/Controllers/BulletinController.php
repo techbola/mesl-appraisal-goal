@@ -82,7 +82,7 @@ class BulletinController extends Controller
         //   })->get();
         // } else {
         $staff = User::whereHas('staff', function ($q) use ($request) {
-            $q->whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,'," . $request->DepartmentID . ",',%')");
+            $q->whereRaw("DepartmentID IN ($request->DepartmentID)");
         })->get();
         // }
 
