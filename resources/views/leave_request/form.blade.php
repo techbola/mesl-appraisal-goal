@@ -27,7 +27,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 {{ Form::label('ContactNumber','Contact Phone Number') }}
-                {{ Form::number('ContactNumber', null, ['class' => 'form-control', 'placeholder' => 'Mobile Phone Number', 'max' => '11', 'required']) }}
+                {{ Form::text('ContactNumber', null, ['class' => 'form-control', 'placeholder' => 'Mobile Phone Number', 'minlength' => 11, 'maxlength' => 11, 'required', 'pattern'=> "\d+"]) }}
             </div>
         </div>
     </div>
@@ -104,7 +104,7 @@
         <div class="col-sm-4">
                 <div class="form-group">
                     {{ Form::label('PhoneContact','Contact Mobile Number') }}
-                    {{ Form::text('PhoneContact', null, ['class' => 'form-control', 'placeholder' => 'Mobile Phone Number', 'required']) }}
+                    {{ Form::text('PhoneContact', null, ['class' => 'form-control', 'placeholder' => 'Mobile Phone Number', 'required', 'minlength' => 11, 'maxlength' => 11, 'pattern'=> "\d+"]) }}
                 </div>
         </div>
 

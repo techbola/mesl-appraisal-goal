@@ -33,9 +33,9 @@ class TravelRequestController extends Controller
         $transports = TravelTransport::all();
 
         $travel_requests = TravelRequest::orderBy('TravelRef', 'DESC')
-                                        ->Where('SentForApproval', '0')
-                                        ->Where('RequesterID', Auth::user()->id)
-                                        ->get();
+            ->Where('SentForApproval', '0')
+            ->Where('RequesterID', Auth::user()->id)
+            ->get();
         $lodges      = TravelLodge::all();
         $travelmodes = TravelMode::all();
 
@@ -60,6 +60,7 @@ class TravelRequestController extends Controller
             $travel_request                  = new TravelRequest;
             $travel_request->ReferenceLetter = $filenametostore;
             $travel_request->entered_by      = $user_id;
+            $travel_request->SupervisorID    = auth()->user()->staff->SupervisorID;
             $travel_request->save();
         }
 
@@ -72,6 +73,7 @@ class TravelRequestController extends Controller
     public function edit_travel_request($id)
     {
         $travel_request = TravelRequest::find($id);
+
         return response()->json($travel_request);
     }
 
@@ -88,6 +90,7 @@ class TravelRequestController extends Controller
             $request->file('ReferenceLetter')->storeAs('public/reference_letter', $filenametostore);
             $travel_request->ReferenceLetter = $filenametostore;
             $travel_request->entered_by      = $user_id;
+            // $travel_request->SupervisorID    = auth()->user()->staff->SupervisorID;
         }
         $travel_request->update($request->except(['_token']));
 
@@ -160,9 +163,9 @@ class TravelRequestController extends Controller
 
         $travel_request               = TravelRequest::find($ref);
         $travel_request->ApprovalDate = date('Y-m-d');
-        $travel_request = TravelRequest::where('TravelRef', $ref)
-                                    ->where('RequestApprovedd', '0')
-                                    ->first();
+        $travel_request               = TravelRequest::where('TravelRef', $ref)
+            ->where('RequestApprovedd', '0')
+            ->first();
         $travel_request->RequestApprovedd = '1';
         $travel_request->update();
 
@@ -184,9 +187,9 @@ class TravelRequestController extends Controller
 
         $travel_request = User::all();
 
-        $travel_request             = TravelRequest::where('TravelRef', $ref)
-                                    ->where('SentForApproval', 1)
-                                    ->first();
+        $travel_request = TravelRequest::where('TravelRef', $ref)
+            ->where('SentForApproval', 1)
+            ->first();
         $travel_request->SentForApproval = 0;
 
         $travel_request->update();
