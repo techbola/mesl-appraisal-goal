@@ -56,4 +56,9 @@ class TravelRequest extends Model
         return $this->belongsTo('MESL\User', 'RequesterID');
     }
 
+    public function travellers()
+    {
+        return $this->hasMany(Traveller::class, 'TravelRef', 'TravelRef');
+    }
+
 }

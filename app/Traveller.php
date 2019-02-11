@@ -10,4 +10,9 @@ class Traveller extends Model
     protected $guarded = ['TravellerRef'];
     public $primaryKey = 'TravellerRef';
     // public $timestamps = false;
+
+    public function internel_traveller()
+    {
+        return $this->belongsTo(Staff::class, 'StaffID');
+    }
 }

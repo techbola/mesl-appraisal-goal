@@ -46,42 +46,52 @@ class TravelRequestController extends Controller
     //Store travel request function
     public function store_travel_request(Request $request)
     {
-        $travel_request = new TravelRequest($request->except(['TravellerPhone', 'TravellerFullName', 'TravellerCompany', 'TravellerStaffID', 'staff_options']));
+        try {
+            \DB::beginTransaction();
+            $travel_request = new TravelRequest($request->except(['TravellerPhone', 'TravellerFullName', 'TravellerCompany', 'TravellerStaffID', 'staff_options']));
 
-        $travel_request->RequesterID  = auth()->user()->id;
-        $travel_request->SupervisorID = auth()->user()->staff->SupervisorID;
+            $travel_request->RequesterID  = auth()->user()->id;
+            $travel_request->SupervisorID = auth()->user()->staff->SupervisorID;
 
-        //Upload function
-        if ($request->hasFile('ReferenceLetter')) {
-            $filenamewithextension = $request->file('ReferenceLetter')->getClientOriginalName();
-            $filename              = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-            $extension             = $request->file('ReferenceLetter')->getClientOriginalExtension();
-            $filenametostore       = $filename . '_' . time() . '.' . $extension;
-            $request->file('ReferenceLetter')->storeAs('public/reference_letter', $filenametostore);
+            //Upload function
+            if ($request->hasFile('ReferenceLetter')) {
+                $filenamewithextension = $request->file('ReferenceLetter')->getClientOriginalName();
+                $filename              = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+                $extension             = $request->file('ReferenceLetter')->getClientOriginalExtension();
+                $filenametostore       = $filename . '_' . time() . '.' . $extension;
+                $request->file('ReferenceLetter')->storeAs('public/reference_letter', $filenametostore);
 
-            $travel_request                  = new TravelRequest;
-            $travel_request->ReferenceLetter = $filenametostore;
-            $travel_request->entered_by      = $user_id;
+                $travel_request                  = new TravelRequest;
+                $travel_request->ReferenceLetter = $filenametostore;
+                $travel_request->entered_by      = $user_id;
 
-            $travel_request->save();
-        }
-
-        if ($travel_request->save()) {
-            foreach ($request->TravellerStaffID as $key => $value) {
-
-                // if ($saved) {
-                $traveller = new Traveller([
-                    'TravelRef' => $travel_request->TravelRef,
-                    'StaffID'   => $request->TravellerStaffID[$key],
-                    'Phone'     => $request->TravellerPhone[$key],
-                    'Company'   => $request->TravellerCompany[$key],
-                    'FullName'  => $request->TravellerFullName[$key] ?? null,
-                    // 'Path' => Storage::url('documents/'.$filename)
-                ]);
-                $traveller->save();
-                // }
+                $travel_request->save();
             }
-            return redirect()->route('travel_request.create')->with('success', 'Request was added successfully');
+
+            if ($travel_request->save()) {
+                if ($request->staff_options) {
+                    foreach ($request->TravellerCompany as $key => $value) {
+
+                        // if ($saved) {
+                        $traveller = new Traveller([
+                            'TravelRef' => $travel_request->TravelRef,
+                            'StaffID'   => $request->TravellerStaffID[$key] ?? null,
+                            'Phone'     => $request->TravellerPhone[$key] ?? null,
+                            'Company'   => $request->TravellerCompany[$key] ?? null,
+                            'FullName'  => $request->TravellerFullName[$key] ?? null,
+                            // 'Path' => Storage::url('documents/'.$filename)
+                        ]);
+                        $traveller->save();
+                        // }
+                    }
+                }
+                \DB::commit();
+                return redirect()->route('travel_request.create')->with('success', 'Request was added successfully');
+            }
+
+        } catch (Exception $e) {
+            \DB::rollback();
+            return back()->withInput()->with('error', 'Something went wrong');
         }
     }
 

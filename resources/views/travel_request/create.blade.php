@@ -285,11 +285,11 @@
 
                         <div class="card-section p-l-5">List Of Travellers</div>
                         <div class="">
-                            <div class="btn-group" data-toggle="buttons">
-                              <label class="btn btn-complete active">
+                            <div class="btn-group" data-toggle="buttons" style="position: relative;">
+                              <label class="btn staff_option_label btn-complete active">
                                 <input type="radio" name="staff_options" id="staff_option" checked> Staff
                               </label>
-                              <label class="btn btn-complete">
+                              <label class="btn staff_option_label btn-complete">
                                 <input type="radio" name="staff_options" id="non_staff_option"> Non Staff
                               </label>
                             </div> <br> <br>
@@ -322,11 +322,13 @@
 
 
                                     </div>
-                                </div>  <div class="form-group">
+                                    <div class="to-be-inserted"></div>
+                                    <div class="form-group">
                                                 <button type="button" style="margin-left: 7px"  class="add_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
                                             </div>
+                                </div>  
 
-                                <div class="non_staff_option_template hide">
+                                <div class="non_staff_option_template">
                                     <div class="row">
                                         <div class="col-sm-3">
                                            
@@ -351,15 +353,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <button type="button" style="margin-top: 30px"  class="add_non_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </div>
-
                                     </div>
-
+                                    <div class="to-be-inserted"></div>
+                                    <div class="form-group">
+                                                <button type="button" style="margin-left: 7px"  class="add_non_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
+                                            </div>
                                 </div>
+                                 
                             </div>
                         </div>
                 
@@ -386,6 +386,7 @@
                             <th style="width: 120px; word-break:break-all;">Travel Type</th>
                             <th style="width: 80px; word-break:break-all;">From</th>
                             <th style="width: 80px; word-break:break-all;">To</th>
+                            <th>Travellers</th>
                             <th style="width: 120px; word-break:break-all;">Departure Date</th>
                             <th style="width: 80px; word-break:break-all;">Departure Time</th>
                             <th style="width: 80px; word-break:break-all;">Arrival Date</th>
@@ -404,6 +405,13 @@
                                     <td>{{ $travel_request->Travel_type->TravelType ?? '-' }}</td>
                                     <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_from_state->State : $travel_request->travel_from_state->State ?? '-' }}</td>
                                     <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_to_state->State : $travel_request->travel_to_country->Country ?? '-' }}</td>
+                                    <td>
+                                        @foreach($travel_request->travellers as $tr)
+                                        {!! !is_null($tr->StaffID) ? '<span class="badge">MESL STAFF: '.$tr->internel_traveller->FullName . '</span>' : ''!!}
+
+                                        {!! is_null($tr->StaffID) && !is_null($tr->FullName) ?  '<span class="badge">Visitor : '.$tr->FullName . '</span>' : ''!!}
+                                        @endforeach
+                                    </td>
                                     <td>{{ $travel_request->DepartureDate }}</td>
                                     <td>{{ $travel_request->DepartureTime }}</td>
                                     <td>{{ $travel_request->ArrivalDate }}</td>
@@ -798,28 +806,18 @@
 });
 }
 
-//      $(document).ready(function() {
-//     $('#travelTable').DataTable( {
-//         "scrollX": true
-//     } );
-// } );
-// toggle forms with radios
-$("[name=staff_options]").parents('.btn-group').click(function(e) {
-    e.preventDefault();
-    if($('#staff_option:checked').length > 0){
-    // alert($('#staff_option:checked').val()) 
-       // $(".non_staff_option_template").addClass('hide');
-        // $(".staff_option_template").removeClass('hide');
-        console.log('staff');
-        $(".staff_option_template").show();
-        $(".non_staff_option_template").hide();
-    } 
-    if($('#non_staff_option:checked').length > 0) {
-        // $(".non_staff_option_template").removeClass('hide');
-        // $(".staff_option_template").addClass('hide');
-        console.log('non staff');
-        $(".non_staff_option_template").show();
+$(".non_staff_option_template").hide();
+$('.staff_option_label').click(function(e) {
+    // e.preventDefault();
+    if($('#staff_option:checked').length > 0 || $('#staff_option').is(':checked')) {
+    
         $(".staff_option_template").hide();
+        $(".non_staff_option_template").show();
+    } 
+    if($('#non_staff_option:checked').length > 0 || $('#non_staff_option').is(':checked')) {
+       
+        $(".non_staff_option_template").hide();
+        $(".staff_option_template").show();
     }
 
 });
@@ -831,6 +829,39 @@ var staff_option_temp = `
                                             <div class="form-group">
                                                  <label for="TravellerStaffID">Select Staff</label>
                                                 {{ Form::select('TravellerStaffID[]', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'StaffRef')->toArray(), null, ['class'=> "form-control full-width select2", 'data-init-plugin' => "select2"]) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                           
+                                            <div class="form-group">
+                                                 <label for="TravellerCompany">Company</label>
+                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter  Staff\'s Company' ]) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3 ">
+                                            <div class="form-group">
+                                                 <label for="TravellerPhone">Phone</label>
+                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number']) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <button type="button" style="margin-top: 30px"  class="remove_staff_node btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>`;
+
+ var non_staff_option_temp = `
+<div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                 <label for="TravellerStaffID">Select Staff</label>
+                                                 {{ Form::text('TravellerFullName[]', null, ['class'=> "form-control", "required", 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
                                             </div>
                                         </div>
 
@@ -856,11 +887,17 @@ var staff_option_temp = `
                                         </div>
 
 
-                                    </div>`;
+                                    </div>`;                                   
 $(".add_staff_node").click(function(e) {
     e.preventDefault();
-    $('.staff_option_template').append(staff_option_temp);
+    $('.staff_option_template').find('.to-be-inserted').append(staff_option_temp);
     $('.staff_option_template').find('select').select2();
+});
+
+$(".add_non_staff_node").click(function(e) {
+    e.preventDefault();
+    $('.non_staff_option_template').find('.to-be-inserted').append(non_staff_option_temp);
+    $('.non_staff_option_template').find('select').select2();
 });
 
 $('body').on('click', '.remove_staff_node', function(e) {
