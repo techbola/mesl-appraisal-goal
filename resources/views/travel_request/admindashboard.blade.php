@@ -41,19 +41,19 @@
     <div class="request-table">
         <table class="table datatable table-bordered" id="requestTable">
                 <thead>
-                    <th width="10%">S/N</th>
-                    <th width="24%">Staff Name</th>
+                    <th>S/N</th>
+                    <th>Staff Name</th>
                     
-                    <th width="24%">From</th>
-                    <th width="24%">To</th>
-                    <th width="24%">Departure Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Departure Date</th>
                     
-                    <th width="24%">Arrival Date</th>
+                    <th>Arrival Date</th>
                     
                     <th>Travel Purpose</th>
                     
                     <th>Approver Comment</th>
-                    <th width="24%">Action</th>
+                    <th>Action</th>
                 </thead>
                 <tbody>
                     <?php $count = 0; ?>
