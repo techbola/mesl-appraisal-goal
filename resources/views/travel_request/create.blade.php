@@ -257,7 +257,7 @@
                                     </div>
                             </div>
                 
-                            <div class="col-md-3">
+                            {{-- <div class="col-md-3">
                                 <div class="controls">
                                     <div class="form-group">
                                         {{ Form::label('Approver', 'Approver' ) }}
@@ -269,7 +269,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                 
                             <div class="col-md-3">
                                     <div class="form-group">
@@ -580,7 +580,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
+                                            {{-- <div class="col-md-3">
                                                 <div class="controls">
                                                     <div class="form-group">
                                                         {{ Form::label('Approver', 'Approver' ) }}
@@ -592,7 +592,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
                                             <div class="col-md-3">
                                                 <div class="form-group">

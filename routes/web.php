@@ -75,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('admin_onboard_mail/{id}', 'StaffController@admin_onboard_mail');
     Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
     Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
-   
+
     Route::post('staff/staff_onboard', 'StaffController@store_staff_onboard')->name('StoreStaff');
     Route::get('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
     Route::get('staff/staff_onboard/{id}', 'StaffController@delete_onboarding')->name('deleteOnboard');
@@ -1216,6 +1216,8 @@ Route::get('/indentity/employee/info', 'IdentityCardController@staffInfo');
 
 //Travel Request form
 Route::get('travel_request/admindashboard', 'TravelRequestController@dash')->name('travel_request.admindashboard');
+Route::get('travel_request/final-admindashboard', 'TravelRequestController@admindash')->name('travel_request.final-admindashboard');
+
 Route::get('travel_request/create', 'TravelRequestController@create')->name('travel_request.create');
 Route::post('travel_request/create', 'TravelRequestController@store_travel_request')->name('storerequest');
 
@@ -1228,8 +1230,10 @@ Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->nam
 Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
 
 Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
+Route::get('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
+Route::get('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
 
 // admin dashboard
 Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-home');
