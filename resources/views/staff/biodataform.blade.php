@@ -60,14 +60,14 @@
       <div class="col-sm-6">
         <div class="form-group">
           <label class="req">Roles</label>
-          {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+          {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(), $role->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", 'multiple']) }}
         </div>
       </div>
 
       <div class="col-sm-6">
         <div class="form-group">
           <label class="req">Departments</label>
-          {{ Form::select('DepartmentID[]', $departments->pluck('Department', 'DepartmentRef')->toArray(), explode(',', $staff_departments), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+          {{ Form::select('DepartmentID', $departments->pluck('Department', 'DepartmentRef')->toArray(), $staff_departments, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
       </div>
       {{-- <div class="col-md-6">
@@ -108,7 +108,7 @@
           {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
           {{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
-          {{ Form::select('DepartmentID[]', $departments->pluck('Department', 'DepartmentRef')->toArray(), $departments->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "multiple", 'disabled']) }}
+          {{ Form::select('DepartmentID', $departments->pluck('Department', 'DepartmentRef')->toArray(), $staff_departments, ['class'=> "form-control select2", 'data-init-plugin' => "select2", 'disabled']) }}
         </div>
       </div>
 </div>
@@ -715,7 +715,7 @@
   <script>
     $(document).ready(function(){
 
-      $('select[name="DepartmentID[]"]').val('{{$staff->DepartmentID}}'.split(",")).trigger('change');
+      $('select[name="DepartmentID"]').val('{{$staff->DepartmentID}}').trigger('change');
 
       // refs
       var ref_html = $(".ref-row")[0].innerHTML;

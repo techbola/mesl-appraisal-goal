@@ -72,6 +72,7 @@ class Staff extends Model
     public function departments()
     {
         return $this->hasMany(Department::class, 'DepartmentRef', 'DepartmentID');
+        // return Department::whereIn('DepartmentRef', explode(',', $this->DepartmentID))->get();
     }
 
     public function religion()

@@ -144,7 +144,7 @@
 										{{-- <span class="help">Type an email, then press enter or comma.</span> --}}
 										{{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
-										<select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required>
+										<select class="form-control select2" name="DepartmentID" data-init-plugin="select2" required>
 											@foreach ($departments as $dept)
 											<option value="">Select Department</option>
 												<option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
@@ -223,7 +223,7 @@
 
 							  <div class="col-md-6">
 							  	<label for="" class="req">Departments</label>
-							    {{ Form::select('DepartmentID[]', $departments->pluck('Department', 'DepartmentRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+							    {{ Form::select('DepartmentID', $departments->pluck('Department', 'DepartmentRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
 							  </div>
 
 							  <div class="clearfix"></div>
@@ -305,11 +305,11 @@
 					$('#edit_staff').find('form').attr('action', form_action);
 					// $(".select2").select2();
 					if(staff.DepartmentID != null) {
-						$('#edit_staff').find('form select[name="DepartmentID[]"]').val(staff.DepartmentID.split(",")).trigger('change');
+						$('#edit_staff').find('form select[name="DepartmentID"]').val(staff.DepartmentID).trigger('change');
 					} else {
-						$('#edit_staff').find('form select[name="DepartmentID[]"]').val([]).trigger('change');
+						$('#edit_staff').find('form select[name="DepartmentID"]').val([]).trigger('change');
 					}
-					// console.log(staff.DepartmentID.split(","))
+					// console.log(staff.DepartmentID)
 					
 					if(role_ids.length > 0) {
 						$('#edit_staff').find('form select[name="roles[]"]').val(role_ids).trigger('change');
