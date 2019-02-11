@@ -7,7 +7,7 @@ use MESL\LeaveType;
 use MESL\Staff;
 use MESL\User;
 use MESL\LeaveRequest;
-use MESL\CompanyDepartment;
+use MESL\Department;
 use MESL\Mail\LeaveRequest as LR;
 use MESL\Mail\HRLeaveConfirmation;
 use MESL\Mail\FinalHRLeaveConfirmation;
