@@ -17,12 +17,12 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div class="form-group">
                 {{ Form::label('Department','Department') }}
-                {{ Form::text('Department', Auth::user()->staff->department->Department, ['class' => 'form-control', 'placeholder' => 'Employee Department', 'required', 'readonly']) }}
+                {{ Form::text('DepartmentID', Auth::user()->staff->departments->DepartmentRef, ['class' => 'form-control', 'placeholder' => 'Employee Department', 'required', 'readonly']) }}
             </div>
-        </div>
+        </div> -->
 
         <div class="col-md-4">
             <div class="form-group">
