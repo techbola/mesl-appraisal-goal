@@ -26,7 +26,7 @@ border-radius: 3px;
      
      <div class="row">
        <div class="col-sm-6">
-          {{ Form::model($expense, ['action' => ['ExpenseManagementController@update', $expense->ExpenseManagementRef ], 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form']) }}
+          {{ Form::model($expense, ['action' => ['ExpenseManagementController@update', $expense->ExpenseManagementRef ], 'autocomplete' => 'off', 'novalidate' => 'novalidate', 'role' => 'form', 'files' => true]) }}
         {{ method_field('PATCH') }}
 
         <div class="row">
@@ -97,12 +97,27 @@ border-radius: 3px;
             </div>
         </div>
         <div class="clearfix"></div>
+
+    </div>
+
+     <div class="row">    
+        <div class="col-sm-12">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('Comment', 'Comments') }}
+                    {{-- {!! Form::textarea('Comment', null, ['class' => ' form-control','rows' => 1null, 'placeholder' => 'Description', 'disabled']) !!} --}}
+                    <div class="comment">
+                      {!! $expense->Comment !!}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <hr>
 
     
-    @if(auth()->user()->staff->company_department->name == 'Finance & Account')
+    {{-- @if(auth()->user()->staff->company_department->name == 'Finance & Account') --}}
 
     <div class="card-section p-l-5">Finance</div>
     <div class="row">
@@ -111,7 +126,7 @@ border-radius: 3px;
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('AnnualBudget', 'Annual Budget') }}
-                    {{ Form::text('AnnualBudget', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('AnnualBudget', null, ['class' => 'form-control smartinput', 'placeholder' => '', 'disabled']) }}
                 </div>
             </div>
         </div> 
@@ -120,7 +135,7 @@ border-radius: 3px;
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('MonthlyPlan', 'Monthly Plan') }}
-                    {{ Form::text('MonthlyPlan', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('MonthlyPlan', null, ['class' => 'form-control smartinput', 'placeholder' => '', 'disabled']) }}
                 </div>
             </div>
         </div>
@@ -131,7 +146,7 @@ border-radius: 3px;
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('AmountSpent', 'Amount Spent') }}
-                    {{ Form::text('AmountSpent', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('AmountSpent', null, ['class' => 'form-control smartinput', 'placeholder' => '', 'disabled']) }}
                 </div>
             </div>
         </div> 
@@ -140,7 +155,7 @@ border-radius: 3px;
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('YTDPlan', 'YTD Plan') }}
-                    {{ Form::text('YTDPlan', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('YTDPlan', null, ['class' => 'form-control smartinput', 'placeholder' => '', 'disabled']) }}
                 </div>
             </div>
         </div>
@@ -151,7 +166,7 @@ border-radius: 3px;
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('Balance') }}
-                    {{ Form::text('Balance', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('Balance', null, ['class' => 'form-control smartinput', 'placeholder' => '', 'disabled']) }}
                 </div>
             </div>
         </div> 
@@ -160,71 +175,71 @@ border-radius: 3px;
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('MonthlyActual', 'Monthly Actual') }}
-                    {{ Form::text('MonthlyActual', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('MonthlyActual', null, ['class' => 'form-control smartinput', 'placeholder' => '', 'disabled']) }}
                 </div>
             </div>
         </div>
-    </div>  <hr>
+    {{-- </div>  <hr> --}}
 
 <div class="clearfix"></div>
 <div class="card-section p-l-5">Payment Details</div>
     <div class="row"> 
-         <div class="col-sm-4 form-group">
+         <div class="col-sm-6 form-group">
             {{ Form::label('BankID', 'Select Bank') }}
-            {{ Form::select('BankID', [ '' =>  'Select Bank Account'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
+            {{ Form::select('BankID', [ '' =>  'Select Bank Account'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required', 'disabled']) }}
         </div>
 
 
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-6">
             <div class="controls">
                 {{ Form::label('AccountNo', 'Account Number') }}
-                {{ Form::text('AccountNo', 0, ['class' => 'form-control', 'placeholder' => '']) }}
+                {{ Form::text('AccountNo', null, ['class' => 'form-control', 'placeholder' => '', 'disabled']) }}
             </div>
         </div>
-
-        <div class="col-sm-4">
+        <div class="clearfix"></div>
+        <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('AmountPaid', 'Amount Paid') }}
-                    {{ Form::text('AmountPaid', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('AmountPaid', null, ['class' => 'form-control smartinput', 'placeholder' => '', 'disabled']) }}
                 </div>
             </div>
-        </div> <div class="clearfix"></div>
+        </div>
 
         <div class="col-sm-6 form-group">
             {{ Form::label('GLID', 'Select Expense Account') }}
-            {{ Form::select('GLID', [ '' =>  'Select Customer Account'] + $debit_acct_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
+            {{ Form::select('GLID', [ '' =>  'Select Customer Account'] + $debit_acct_details->pluck('CUST_ACCT', 'GLRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required', 'disabled']) }}
         </div>
 
     </div>
 
-    @endif
+    {{-- @endif --}}
 
     <div class="clearfix"></div> <hr>
    
-    @if(auth()->user()->staff->company_department->name == 'Procurement')
+    {{-- @if(auth()->user()->staff->company_department->name == 'Procurement') --}}
     <div class="card-section p-l-5">Procurement Sections</div>
     <div class="row">
-         <div class="col-sm-4 form-group">
+         <div class="col-sm-6 form-group">
             {{ Form::label('AmountForApproval', 'Amount For Approval') }}
-             {{ Form::text('AmountForApproval', null, ['class' => 'form-control smartinput']) }}
+             {{ Form::text('AmountForApproval', null, ['class' => 'form-control smartinput', 'disabled']) }}
         </div>
 
-        <div class="col-sm-4 form-group">
+        <div class="col-sm-6 form-group">
             {{ Form::label('VendorName', 'Vendor\'s Name') }}
-             {{ Form::text('VendorName', null, ['class' => 'form-control', 'placeholder' => 'Enter Vendor Name']) }}
+             {{ Form::text('VendorName', null, ['class' => 'form-control', 'placeholder' => 'Enter Vendor Name', 'disabled']) }}
         </div>
-
-        <div class="col-sm-4 form-group">
+        <div class="clearfix"></div>
+        <div class="col-sm-6 form-group">
             {{ Form::label('VendorBankID', 'Vendor Bank') }}
-            {{ Form::select('VendorBankID', [ '' =>  'Select Bank Account'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
+            {{ Form::select('VendorBankID', [ '' =>  'Select Bank Account'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required', 'disabled']) }}
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="">
               {{ Form::label('DeliveryDate','Delivery Date', ['class' => 'form-label']) }}
               <div class="input-group date dp">
-                {{ Form::text('DeliveryDate', null, ['class' => 'form-control', 'placeholder' => 'Delivery Date']) }}
+                {{ Form::text('DeliveryDate', null, ['class' => 'form-control', 'placeholder' => 'Delivery Date', 'disabled']) }}
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
               </div>
             </div>
@@ -235,13 +250,16 @@ border-radius: 3px;
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('ContractSummary', 'Contract Summary (Fixed Struc. SLA, Exit Clause etc)') }}
-                    {{ Form::textarea('ContractSummary', null, ['class' => 'summernote form-control','rows' => 2, 'placeholder' => 'Description']) }}
+                    {{-- {!! Form::textarea('ContractSummary',null, ['class' => ' form-control','rows' => 1null, 'placeholder' => 'Contract Summary', 'disabled']) !!} --}}
+                    <div class="comment">
+                      {!! $expense->ContractSummary ?? 'No Comment' !!}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <hr>
-    @endif
+    {{-- @endif --}}
 
     
 
@@ -265,19 +283,13 @@ border-radius: 3px;
         </div>
     </div> --}}
 
-    <div class="row">    
-        <div class="col-sm-12">
-            <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('Comment', 'Comments') }}
-                    {{ Form::textarea('Comment', null, ['class' => 'summernote form-control','rows' => 2, 'placeholder' => 'Description']) }}
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
       {{ Form::close() }}
        </div>
+     </div>
+
+
 
        <div class="col-sm-6" style="border-left: 1px solid #d9d9d9">
 
@@ -302,7 +314,7 @@ border-radius: 3px;
          @endforeach
 
         
-<form id="form_approve" class="" action="{{ route('approve_expense') }}" method="post">
+<form id="form_approve" class="" action="{{ route('approve_expense') }}" method="post" enctype="multipart/form-data">
 
         {{ csrf_field() }}
          <div class="row">
@@ -311,6 +323,7 @@ border-radius: 3px;
                 <div class="controls">
                     {{ Form::label('Comment', 'Comment') }}
                     {{ Form::textarea('Comment', null, ['class' => 'summernote form-control','rows' => 3, 'placeholder' => 'Purpose of this memo']) }}
+
                 </div>
             </div>
         </div>

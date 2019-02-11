@@ -3,20 +3,45 @@
 namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use MESL\Staff;
+use DB;
 
 class CompanyDepartment extends Model
 {
+    /*
+    |-----------------------------------------
+    | CONVERT DEPT MODEL TO EXISTING TABLE
+    |-----------------------------------------
+    */
+    protected $table      = 'tblDepartment';
+    protected $guarded    = ['DepartmentRef'];
+    protected $primaryKey = 'DepartmentRef';
+    public $timestamps    = false;
+
+    /*
+    |-----------------------------------------
+    | BOOT MODEL TO DB TABLE
+    |-----------------------------------------
+    */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('Department', function (Builder $builder) {
+            $builder->orderBy('Department');
+        });
+    }
 
     /*
     |-----------------------------------------
     | LOAD ONE DEPARMENT
     |-----------------------------------------
-     */
+    */
     public function loadOneDepartment($payload)
     {
         // body
-        $data = CompanyDepartment::where("id", $payload->department_id)->first();
+        $data = CompanyDepartment::where("DepartmentRef", $payload->department_id)->first();
 
         // return
         return $data;
@@ -26,11 +51,11 @@ class CompanyDepartment extends Model
     |-----------------------------------------
     | GET ALL DEPARTMENT
     |-----------------------------------------
-     */
+    */
     public static function getAll()
     {
         // body
-        $all_departments = CompanyDepartment::where('is_deleted', false)->orderBy('id', 'ASC')->get();
+        $all_departments = CompanyDepartment::orderBy('DepartmentRef', 'ASC')->get();
         if (count($all_departments) > 0) {
             $department_box = [];
             foreach ($all_departments as $department) {
@@ -38,11 +63,11 @@ class CompanyDepartment extends Model
 
                 // $total_employees = Staff::whereIn("DepartmentID", $department->id)->count();
 
-                $total_employees = Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,'," . $department->id . ",',%')")->count();
+                $total_employees = Staff::whereRaw("CONCAT(',',DepartmentID,',') LIKE CONCAT('%,'," . $department->DepartmentRef . ",',%')")->count();
 
                 $data = [
-                    'id'             => $department->id,
-                    'name'           => $department->name,
+                    'id'             => $department->DepartmentRef,
+                    'name'           => $department->Department,
                     'total_employee' => number_format($total_employees),
                 ];
 
@@ -60,16 +85,15 @@ class CompanyDepartment extends Model
     |-----------------------------------------
     | CREATE DEPARTMENT
     |-----------------------------------------
-     */
+    */
     public function add($payload)
     {
 
         // check if already exist
-        $already_exist = CompanyDepartment::where("name", $payload->department)->first();
+        $already_exist = CompanyDepartment::where("Department", $payload->department)->first();
         if ($already_exist == null) {
             // body
-            $this->name       = $payload->department;
-            $this->is_deleted = false;
+            $this->Department = $payload->department;
             if ($this->save()) {
                 $data = [
                     'status'  => 'success',
@@ -96,14 +120,13 @@ class CompanyDepartment extends Model
     |-----------------------------------------
     | UPDATE DEPARTMENT
     |-----------------------------------------
-     */
+    */
     public function updateOne($payload)
     {
         // body
         $update_department = CompanyDepartment::find($payload->department_id);
         if ($update_department !== null) {
-            $update_department->name       = $payload->department_name;
-            $update_department->is_deleted = false;
+            $update_department->Department = $payload->department_name;
             if ($update_department->update()) {
                 $data = [
                     'status'  => 'success',
@@ -130,13 +153,12 @@ class CompanyDepartment extends Model
     |-----------------------------------------
     | DELETE DEPARTMENT
     |-----------------------------------------
-     */
+    */
     public function removeOne($payload)
     {
         // body
         $remove_department             = CompanyDepartment::find($payload->department_id);
-        $remove_department->is_deleted = true;
-        if ($remove_department->update()) {
+        if ($remove_department->delete()) {
             $data = [
                 'status'  => 'success',
                 'message' => 'Department deleted!',
@@ -156,56 +178,19 @@ class CompanyDepartment extends Model
     |-----------------------------------------
     | RESTORE ALL DEPARTMENT
     |-----------------------------------------
-     */
+    */
     public function restoreAll($payload)
     {
-        // body
-        $restore_all = CompanyDepartment::where('is_deleted', true)->get();
-        if (count($restore_all) > 0) {
-            $total_no = 0;
-            foreach ($restore_all as $department) {
-                # code...
-                $this->restoreOne($department);
-                $total_no++;
-            }
-            $data = [
-                'status'  => 'success',
-                'message' => $total_no . ' data was restored',
-            ];
-        } else {
-            $data = [
-                'status'  => 'success',
-                'message' => 'No data was restored',
-            ];
-        }
-
-        // return
-        return $data;
+        
     }
 
     /*
     |-----------------------------------------
     | RESTORE ONE DEPARTMENT
     |-----------------------------------------
-     */
+    */
     public function restoreOne($payload)
     {
-        // body
-        $restore_one             = CompanyDepartment::find($payload->id);
-        $restore_one->is_deleted = false;
-        if ($restore_one->update()) {
-            $data = [
-                'status'  => 'success',
-                'message' => 'Data restored!',
-            ];
-        } else {
-            $data = [
-                'status'  => 'error',
-                'message' => 'Fail to restore data!',
-            ];
-        }
-
-        // return
-        return $data;
+        
     }
 }

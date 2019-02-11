@@ -23,7 +23,7 @@
     <div class="col-sm-6">
         <div class="form-group">
           <label for="SupervisorFlag">
-            <input type="checkbox" value="" @if($staff->SupervisorFlag) checked @endif name="SupervisorFlag">
+            <input type="checkbox" value="" @if($staff->SupervisorFlag == 1) checked @endif name="SupervisorFlag">
             Mark Staff as Supervisor 
 
           </label>
@@ -67,7 +67,7 @@
       <div class="col-sm-6">
         <div class="form-group">
           <label class="req">Departments</label>
-          {{ Form::select('DepartmentID[]', $departments->pluck('name', 'id')->toArray(), $departments->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+          {{ Form::select('DepartmentID[]', $departments->pluck('Department', 'DepartmentRef')->toArray(), explode(',', $staff_departments), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
         </div>
       </div>
       {{-- <div class="col-md-6">
@@ -108,12 +108,7 @@
           {{-- <span class="help">Type an email, then press enter or comma.</span> --}}
           {{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
-          <select class="form-control select2" name="DepartmentID" data-init-plugin="select2" disabled>
-            <option value="">Select Department</option>
-            @foreach ($departments as $dept)
-              <option value="{{ $dept->id }}" @if($dept->id == $staff->DepartmentID) selected @endif>{{ $dept->name }}</option>
-            @endforeach
-          </select>
+          {{ Form::select('DepartmentID[]', $departments->pluck('Department', 'DepartmentRef')->toArray(), $departments->pluck('id'), ['class'=> "form-control select2", 'data-init-plugin' => "select2", "multiple", 'disabled']) }}
         </div>
       </div>
 </div>

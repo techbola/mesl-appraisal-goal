@@ -18,6 +18,7 @@ class User extends Authenticatable
     // use SoftDeletes { SoftDeletes::restore insteadof EntrustUserTrait; }
 
     // protected $dates = ['deleted_at'];
+    protected $with = ['roles'];
 
     /**
      * The attributes that are mass assignable.
@@ -151,32 +152,31 @@ class User extends Authenticatable
         return $this->hasMany('MESL\StickyNote', 'UserID')->orderBy('created_at', 'desc');
     }
 
-
     public function menus()
     {
-      $roles = $this->roles()->pluck('role_id')->toArray();
-      // dd($roles);
-      $menus = Menu::whereHas('roles', function($query) use($roles){
-        $query->whereIn('id', $roles);
-      })->get();
+        $roles = $this->roles()->pluck('role_id')->toArray();
+        // dd($roles);
+        $menus = Menu::whereHas('roles', function ($query) use ($roles) {
+            $query->whereIn('id', $roles);
+        })->get();
 
-      return $menus;
+        return $menus;
     }
-
 
     public function menu_routes()
     {
-      $routes = $this->menus()->pluck('route')->toArray();
-      $routes = array_diff($routes, ['#']);
-      return $routes;
+        $routes = $this->menus()->pluck('route')->toArray();
+        $routes = array_diff($routes, ['#']);
+        return $routes;
     }
 
     // Stan: Override Entrust's hasRole with this faster one
-    public function hasRole($checkrole){
-      foreach ($this->roles as $role) {
-        $roles[] = $role->name;
-      }
-      return array_intersect((array)$checkrole, $roles);
+    public function hasRole($checkrole)
+    {
+        foreach ($this->roles as $role) {
+            $roles[] = $role->name;
+        }
+        return array_intersect((array) $checkrole, $roles);
     }
 
 }

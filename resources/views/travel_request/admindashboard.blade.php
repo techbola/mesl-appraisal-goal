@@ -43,16 +43,15 @@
                 <thead>
                     <th width="10%">S/N</th>
                     <th width="24%">Staff Name</th>
-                    <th>Travel Type</th>
+                    
                     <th width="24%">From</th>
                     <th width="24%">To</th>
                     <th width="24%">Departure Date</th>
-                    <th>Departure Time</th>
+                    
                     <th width="24%">Arrival Date</th>
-                    <th>Arrival time</th>
+                    
                     <th>Travel Purpose</th>
-                    <th>Travel Lodge</th>
-                    <th>Travel Transporter</th>
+                    
                     <th>Approver Comment</th>
                     <th width="24%">Action</th>
                 </thead>
@@ -64,16 +63,15 @@
                     <tr>
                         <td>{{ $count }}</td>
                         <td>{{ $travel_request->requester_name->FullName ?? '-'  }}</td>
-                        <td>{{ $travel_request->Travel_type->TravelType ?? '-' }}</td>
+                        
                         <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_from_state->State : $travel_request->travel_from_state->State ?? '-' }}</td>
                         <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_to_state->State : $travel_request->travel_to_country->Country ?? '-' }}</td>
                         <td>{{ $travel_request->DepartureDate }}</td>
-                        <td>{{ $travel_request->DepartureTime }}</td>
+                        
                         <td>{{ $travel_request->ArrivalDate }}</td>
-                        <td>{{ $travel_request->ArrivalTime }}</td>
+                        
                         <td>{{ $travel_request->travel_purpose->TravelPurpose ?? '-' }}</td>
-                        <td>{{ $travel_request->travel_lodge->TravelLodge ?? '-' }}</td>
-                        <td>{{ $travel_request->travel_transporter->Transporter ?? '-' }}</td>
+                        
                         <td>
                             <div class="form-group">
                                 <div class="controls">

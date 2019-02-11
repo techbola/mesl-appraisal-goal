@@ -222,7 +222,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('leave_request/{id}/edit', 'LeaveRequestController@edit')->name('leave_request.edit');
     Route::patch('leave_request/{id}/update', 'LeaveRequestController@update')->name('leave_request.update');
     Route::get('leave_request/leave_approval', 'LeaveRequestController@leave_approval')->name('LeaveApproval');
+    Route::get('leave_request/hr_leave_approval', 'LeaveRequestController@hr_leave_approval')->name('HrLeaveApproval');
     Route::post('approve_leave_request', 'LeaveRequestController@approve_leave_request');
+    Route::post('approve_leave_request_hr', 'LeaveRequestController@approve_leave_request_hr');
     Route::get('leave_notification/{elem_value}', 'LeaveRequestController@leave_notification');
     Route::get('request_date/{start_date}/{numberdays}', 'LeaveRequestController@retrieve_details');
 
@@ -1100,6 +1102,13 @@ Route::post('get-transaction-details', 'ReportController@fetchTransactionDetails
 Route::get('expense_management', 'ExpenseManagementController@index')->name('expense_management.index');
 Route::get('expense_management/create', 'ExpenseManagementController@create')->name('expense_management.create');
 Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+Route::get('expense_management/lot_description', 'ExpenseManagementController@lot_description')->name('lot_description.index');
+Route::get('expense_management/lot_description/create', 'ExpenseManagementController@lot_description_create')->name('lot_description.create');
+Route::post('expense_management/lot_description/create', 'ExpenseManagementController@lot_description_store')->name('lot_description.store');
+Route::get('expense_management/lot_description/{id}', 'ExpenseManagementController@lot_description_edit')->name('lot_description.edit');
+
+Route::patch('expense_management/lot_description/{id}', 'ExpenseManagementController@lot_description_update')->name('lot_description.update');
+
 Route::get('/expense_management/{files}/files', 'ExpenseManagementController@fetch_exp_files');
 Route::get('expense_management/fetch-departments/{exp_id}', 'ExpenseManagementController@fetch_departments');
 Route::get('expense_management/fetch-lots/{dept_id}', 'ExpenseManagementController@fetch_lots');

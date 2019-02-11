@@ -70,7 +70,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('DepartmentID', 'Department') }}
-                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('name','id')->toArray() ,null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
+                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray() ,null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
                 </div>
             </div>
         </div>
@@ -102,14 +102,14 @@
     
     @if(auth()->user()->staff->company_department->name == 'Finance & Account')
 
-    <div class="card-section p-l-5">Finance</div>
+   {{--  <div class="card-section p-l-5">Finance</div>
     <div class="row">
 
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('AnnualBudget', 'Annual Budget') }}
-                    {{ Form::text('AnnualBudget', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('AnnualBudget', null, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
                 </div>
             </div>
         </div> 
@@ -118,7 +118,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('MonthlyPlan', 'Monthly Plan') }}
-                    {{ Form::text('MonthlyPlan', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('MonthlyPlan', null, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
                 </div>
             </div>
         </div>
@@ -129,7 +129,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('AmountSpent', 'Amount Spent') }}
-                    {{ Form::text('AmountSpent', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('AmountSpent', null, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
                 </div>
             </div>
         </div> 
@@ -138,7 +138,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('YTDPlan', 'YTD Plan') }}
-                    {{ Form::text('YTDPlan', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('YTDPlan', null, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
                 </div>
             </div>
         </div>
@@ -149,7 +149,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('Balance') }}
-                    {{ Form::text('Balance', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('Balance', null, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
                 </div>
             </div>
         </div> 
@@ -158,11 +158,11 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('MonthlyActual', 'Monthly Actual') }}
-                    {{ Form::text('MonthlyActual', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('MonthlyActual', null, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
                 </div>
             </div>
         </div>
-    </div>  <hr>
+    </div>  <hr> --}}
 
 <div class="clearfix"></div>
 <div class="card-section p-l-5">Payment Details</div>
@@ -176,7 +176,7 @@
         <div class="form-group col-sm-4">
             <div class="controls">
                 {{ Form::label('AccountNo', 'Account Number') }}
-                {{ Form::text('AccountNo', 0, ['class' => 'form-control', 'placeholder' => '']) }}
+                {{ Form::text('AccountNo', null, ['class' => 'form-control', 'placeholder' => '']) }}
             </div>
         </div>
 
@@ -184,7 +184,7 @@
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('AmountPaid', 'Amount Paid') }}
-                    {{ Form::text('AmountPaid', 0, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
+                    {{ Form::text('AmountPaid', null, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
                 </div>
             </div>
         </div> <div class="clearfix"></div>
@@ -318,7 +318,7 @@
                   $.get('/expense_management/fetch-departments/'+val, function(data) {
                     $('#DepartmentID').append(`<option value="">Select Department</option>`);
                     $.each(data, function(index, val) {
-                         $('#DepartmentID').append(`<option value="${val.id}">${val.name}</option>`);
+                         $('#DepartmentID').append(`<option value="${val.DepartmentRef}">${val.Department}</option>`);
                     });
                      
                 });

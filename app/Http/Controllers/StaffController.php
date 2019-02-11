@@ -70,12 +70,12 @@ class StaffController extends Controller
                 $q      = $_GET['q'];
                 $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->whereHas('user', function ($query) use ($q) {
                     $query->where('first_name', 'LIKE', '%' . $q . '%')->orWhere('last_name', 'LIKE', '%' . $q . '%')->orWhere('email', 'LIKE', '%' . $q . '%');
-                })->orWhere('MobilePhone', 'LIKE', '%' . $q . '%')->with('user')->get();
+                })->orWhere('MobilePhone', 'LIKE', '%' . $q . '%')->with('user.roles')->get();
             } else {
-                $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user')->get();
+                $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user.roles')->get();
             }
         }
-        $departments = CompanyDepartment::where('is_deleted', false)->get();
+        $departments = CompanyDepartment::get();
         $supervisors = Staff::where('SupervisorFlag', 1)->get()->sortBy('FullName');
         return view('staff.index_', compact('staffs', 'companies2', 'roles', 'departments', 'q', 'supervisors'));
     }
@@ -181,6 +181,14 @@ class StaffController extends Controller
         $staff->user->first_name = $request->first_name;
         $staff->user->last_name  = $request->last_name;
         $staff->user->email      = $request->email;
+        // dd(implode(',', $request->DepartmentID));
+        $staff->DepartmentID = implode(',', $request->DepartmentID);
+        $staff->SupervisorID = $request->SupervisorID;
+        $staff->update();
+        $staff->user->roles()->detach();
+        $staff->user->roles()->attach($request->roles);
+        // $staff->user->departments = Department::whereIn('DepartmentRef', explode(',', $staff->DepartmentID));
+
         $staff->user->update();
         return redirect()->back()->with('success', 'Staff was updated successfully');
     }
@@ -223,7 +231,8 @@ class StaffController extends Controller
             $staff_arr = $staff_data->getattributes();
             // Copy & save to FCYTrade
             // $staff = Staff::create($staff_arr);
-            $staff = Staff::find($pending->StaffRef);
+            $staff               = Staff::find($pending->StaffRef);
+            $staff->DepartmentID = implode(',', $request->DepartmentID);
             // dd($staff_arr);
             $staff->update($staff_arr);
             // Soft delete from Pending
@@ -370,13 +379,14 @@ class StaffController extends Controller
         $hmos           = HMO::all();
         $hmoplans       = HMOPlan::all();
         $roles          = Role::where('CompanyID', $user->staff->CompanyID)->orWhere('name', 'admin')->get();
-        $role           = User::find($staff->UserID)->roles;
-        $banks          = Bank::all()->sortBy('BankName');
-        $pfa            = PFA::all()->sortBy('PFA');
-        $locations      = Location::all()->sortBy('Location');
-        $lgas           = LGA::all();
+        $role           = $staff->user->roles;
+        // dd($role);
+        $banks     = Bank::all()->sortBy('BankName');
+        $pfa       = PFA::all()->sortBy('PFA');
+        $locations = Location::all()->sortBy('Location');
+        $lgas      = LGA::all();
 
-        $departments       = CompanyDepartment::all()->sortBy('name');
+        $departments       = CompanyDepartment::all()->sortBy('Department');
         $staff_departments = $staff->DepartmentID;
         // $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
         $supervisors = Staff::where('SupervisorFlag', 1)->get()->sortBy('FullName');
@@ -529,7 +539,7 @@ class StaffController extends Controller
             } else {
 
                 if (!empty($request->DepartmentID)) {
-                    $staff_departments   = $request->DepartmentID;
+                    $staff_departments   = implode(',', $request->DepartmentID);
                     $staff->DepartmentID = $staff_departments;
                 }
 

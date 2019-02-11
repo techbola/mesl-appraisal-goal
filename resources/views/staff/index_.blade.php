@@ -147,7 +147,7 @@
 										<select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required>
 											@foreach ($departments as $dept)
 											<option value="">Select Department</option>
-												<option value="{{ $dept->id }}">{{ $dept->name }}</option>
+												<option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
 											@endforeach
 										</select>
 									</div>
@@ -223,13 +223,7 @@
 
 							  <div class="col-md-6">
 							  	<label for="" class="req">Departments</label>
-							    <select class="form-control select2 required" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required >
-							    	<option value="">Select Department</option>
-											@foreach ($departments as $dept)
-											
-												<option value="{{ $dept->id }}">{{ $dept->name }}</option>
-											@endforeach
-										</select>
+							    {{ Form::select('DepartmentID[]', $departments->pluck('Department', 'DepartmentRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
 							  </div>
 
 							  <div class="clearfix"></div>
@@ -240,6 +234,13 @@
 									 {{ Form::select('roles[]', $roles->pluck('name', 'id')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
 								 </div>
 							  </div>
+
+							  <div class="col-md-4">
+						        <div class="form-group">
+						          <label>Supervisor</label>
+						          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "full-width form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+						        </div>
+						      </div>
 							 {{--  <div class="col-md-6">
 							    <div class="form-group">
 							      <label class="req">Department</label>
@@ -284,6 +285,7 @@
 			data: {
 				staff: {
 					user: {},
+					roles: {}
 				},
 			},
 			mounted() {
@@ -293,10 +295,35 @@
 			methods: {
 				edit_staff(staff){
 					this.staff = staff;
+					this.staff.roles = staff.user.roles;
+					let role_ids = [];
+					this.staff.user.roles.map(function(elem, i) {
+						return role_ids.push(elem.id);
+					});
 					console.log(staff);
 					var form_action = "{{ url('/') }}"+"/update_staff_admin/"+staff.StaffRef;
 					$('#edit_staff').find('form').attr('action', form_action);
 					// $(".select2").select2();
+					if(staff.DepartmentID != null) {
+						$('#edit_staff').find('form select[name="DepartmentID[]"]').val(staff.DepartmentID.split(",")).trigger('change');
+					} else {
+						$('#edit_staff').find('form select[name="DepartmentID[]"]').val([]).trigger('change');
+					}
+					// console.log(staff.DepartmentID.split(","))
+					
+					if(role_ids.length > 0) {
+						$('#edit_staff').find('form select[name="roles[]"]').val(role_ids).trigger('change');
+					} else {
+						$('#edit_staff').find('form select[name="roles[]"]').val([]).trigger('change');
+					}
+
+					if(staff.SupervisorID != null){
+						$('#edit_staff').find('form select[name="SupervisorID"]').val(staff.SupervisorID).trigger('change');
+					}
+					else{
+						$('#edit_staff').find('form select[name="SupervisorID"]').val(staff.SupervisorID).trigger('change');
+					}
+					// console.log('staff',staff)
 				}
 			},
 		})

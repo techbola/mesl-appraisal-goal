@@ -71,8 +71,11 @@
 
     <div class="row">
         
+
+        @if(isset($leave_request) && $leave_request->AbsenceTypeID != 1)
         
-        <div class="col-sm-5">
+        @else
+        <div class="col-sm-5" >
                 <div class="form-group">
                         <div class="controls">
                             {{ Form::label('LeaveAllowance', 'Leave Allowance' ) }}
@@ -84,6 +87,8 @@
                         </div>
                 </div>
         </div>
+        @endif
+
     </div>
 
     <br>
