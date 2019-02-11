@@ -19,7 +19,7 @@ class BulletinController extends Controller
     {
         $today            = date('Y-m-d');
         $user             = auth()->user();
-        $user_departments = explode(',', $user->staff->DepartmentID);
+        $user_departments = $user->staff->DepartmentID;
 
         if ($user->is_superadmin) {
             $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->paginate(10);
