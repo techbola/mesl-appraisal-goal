@@ -56,7 +56,7 @@
         
     </div>
 
-   {{--  <div class="row">
+    <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
@@ -69,31 +69,33 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('DepartmentID', 'Department') }}
-                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray() ,null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="form-group">
-                <div class="controls">
                     {{ Form::label('LotDescriptionID', 'Lot Description') }}
                     {{ Form::select('LotDescriptionID', ['' => 'Select Request'] + $lot_descriptions->pluck('LotDescription','LotDescriptionRef')->toArray() ,null, ['class' => 'full-width LotDescriptionID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-6">
+        {{-- <div class="col-sm-6">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('DepartmentID', 'Department') }}
+                    {{ Form::select('DepartmentID', ['' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray() ,null, ['class' => 'full-width DepartmentID','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
+                </div>
+            </div>
+        </div> --}}
+    </div>
+
+    <div class="row">
+        
+
+       {{--  <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
                     {{ Form::label('LocationID', 'Location') }}
                     {{ Form::select('LocationID', ['' => 'Select Request'] + $locations->pluck('Location','LocationRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location']) }}
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="clearfix"></div>
     </div>
 
@@ -314,11 +316,20 @@
                 // console.log('stuff')
                  e.preventDefault();
                  let val = $(e.target).select2().val();
-                 $('#DepartmentID').empty();
-                  $.get('/expense_management/fetch-departments/'+val, function(data) {
-                    $('#DepartmentID').append(`<option value="">Select Department</option>`);
+                //  $('#DepartmentID').empty();
+                //   $.get('/expense_management/fetch-departments/'+val, function(data) {
+                //     $('#DepartmentID').append(`<option value="">Select Department</option>`);
+                //     $.each(data, function(index, val) {
+                //          $('#DepartmentID').append(`<option value="${val.DepartmentRef}">${val.Department}</option>`);
+                //     });
+                     
+                // });
+
+                $('.LotDescriptionID').empty();
+                  $.get('/expense_management/fetch-lots/'+val, function(data) {
+                    $('.LotDescriptionID').append(`<option value="">Select Lot Description</option>`);
                     $.each(data, function(index, val) {
-                         $('#DepartmentID').append(`<option value="${val.DepartmentRef}">${val.Department}</option>`);
+                         $('.LotDescriptionID').append(`<option value="${val.LotDescriptionRef}">${val.LotDescription}</option>`);
                     });
                      
                 });

@@ -99,8 +99,9 @@ class ExpenseManagementController extends Controller
 
     public function create()
     {
-        $user      = \Auth::user();
-        $employees = Staff::where('CompanyID', auth()->user()->CompanyID)->get();
+        $user               = \Auth::user();
+        $user_department_id = $user->staff->DepartmentID;
+        $employees          = Staff::where('CompanyID', auth()->user()->CompanyID)->get();
         // dd($employees);
         $employees = $employees->transform(function ($item, $key) {
             $item->name = $item->FullName;
@@ -115,7 +116,7 @@ class ExpenseManagementController extends Controller
 
         $doctypes           = DocType::where('CompanyID', $user->staff->CompanyID)->get();
         $request_list       = RequestList::all();
-        $lot_descriptions   = LotDescription::all();
+        $lot_descriptions   = LotDescription::where('DepartmentID', $user_department_id)->get();
         $locations          = Location::all();
         $departments        = CompanyDepartment::all()->sortBy('Department');
         $banks              = Bank::all();
@@ -528,7 +529,11 @@ class ExpenseManagementController extends Controller
 
     public function fetch_lots($dept_id)
     {
-        $lots = LotDescription::where('DepartmentID', $dept_id)->get();
+        // change dept to category id
+        $user_department_id = auth()->user()->staff->DepartmentID;
+        $lots               = LotDescription::where('ExpenseCategoryID', $dept_id)
+            ->where('DepartmentID', $user_department_id)
+            ->get();
         return $lots;
     }
 
