@@ -117,7 +117,7 @@ class ExpenseManagementController extends Controller
         $request_list       = RequestList::all();
         $lot_descriptions   = LotDescription::all();
         $locations          = Location::all();
-        $departments        = CompanyDepartment::all();
+        $departments        = CompanyDepartment::all()->sortBy('Department');
         $banks              = Bank::all();
         $expense_categories = ExpenseCategory::all();
         $bank_acct_details  = LotDescription::all();
@@ -267,7 +267,7 @@ class ExpenseManagementController extends Controller
         $user               = \Auth::user();
         $staff              = Staff::all();
         $doctypes           = DocType::where('CompanyID', $user->staff->CompanyID)->get();
-        $departments        = CompanyDepartment::all();
+        $departments        = CompanyDepartment::all()->sortBy('Department');
         $banks              = Bank::all();
         $locations          = Location::all();
         $expense_categories = ExpenseCategory::all();

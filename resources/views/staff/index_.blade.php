@@ -235,10 +235,10 @@
 								 </div>
 							  </div>
 
-							  <div class="col-md-4">
+							  <div class="col-md-6">
 						        <div class="form-group">
 						          <label>Supervisor</label>
-						          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "full-width form-control select2", 'data-init-plugin' => "select2", "required"]) }}
+						          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "full-width form-control select2", 'data-init-plugin' => "select2"]) }}
 						        </div>
 						      </div>
 							 {{--  <div class="col-md-6">
