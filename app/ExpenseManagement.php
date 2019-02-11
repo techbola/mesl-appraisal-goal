@@ -28,6 +28,11 @@ class ExpenseManagement extends Model
         return $this->belongsTo(RequestList::class, 'RequestListID');
     }
 
+    public function requester()
+    {
+        return $this->belongsTo(User::class, 'inputter_id');
+    }
+
     public function lot_description()
     {
         return $this->belongsTo(LotDescription::class, 'LotDescriptionID');
