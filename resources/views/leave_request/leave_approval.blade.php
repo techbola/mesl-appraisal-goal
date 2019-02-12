@@ -149,7 +149,7 @@
      $('body').on('click', '.show-hon', function(e) {
        e.preventDefault();
        let leave_req_id = $(this).data('leave_req_id');
-       $('.hon-modal-body').html(' ');
+       $('.hon-tbody').html('');
        $.get('/fetch-leave-hons/'+leave_req_id, function(data) {
          console.log(data)
          $.each(data, function(index, val) {
