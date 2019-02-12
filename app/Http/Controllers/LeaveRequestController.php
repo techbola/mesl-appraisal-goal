@@ -570,7 +570,7 @@ class LeaveRequestController extends Controller
             $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
             $leave_request->save();
         }
-        if ($leave_request->update($request->all())) {
+        if ($leave_request->update($request->except(['HandOverNote']))) {
             return redirect()->route('LeaveDashBoard')->with('success' . 'Update was successful');
         } else {
             return redirect()->back()->withInput();
