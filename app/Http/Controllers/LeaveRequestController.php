@@ -553,9 +553,8 @@ class LeaveRequestController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $leave_request = LeaveRequest::where('LeaveReqRef', $id)->first();
         if ($request->hasFile('HandOverNote')) {
-            $leave_request  = LeaveRequest::where('LeaveReqRef', $id)->first();
             $start_date     = $request->StartDate;
             $converted_date = (int) $request->NumberofDays;
             // $drpartment                  = (int) $request->
@@ -569,27 +568,13 @@ class LeaveRequestController extends Controller
             $leave_request->HandOverNote = $filenametostore;
             $leave_request->ReturnDate   = $request->ReturnDate;
             $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
-
-            if ($leave_request->save()) {
-                return redirect()->route('LeaveDashBoard')->with('success' . 'Update was successful');
-            } else {
-                return redirect()->back()->withInput();
-            }
-        } else {
-            $leave_request               = LeaveRequest::where('LeaveReqRef', $id)->first();
-            $start_date                  = $request->StartDate;
-            $converted_date              = (int) $request->NumberofDays;
-            $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
-            $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
-            $leave_request->ReturnDate   = $request->ReturnDate;
-
-            if ($leave_request->save()) {
-                return redirect()->route('LeaveDashBoard')->with('success' . 'Update was successful');
-            } else {
-                return redirect()->back()->withInput();
-            }
+            $leave_request->save();
         }
-
+        if ($leave_request->update($request->all())) {
+            return redirect()->route('LeaveDashBoard')->with('success' . 'Update was successful');
+        } else {
+            return redirect()->back()->withInput();
+        }
     }
 
     public function destroy($id)

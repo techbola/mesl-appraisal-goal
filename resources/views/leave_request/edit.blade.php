@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="panel-body">
-        {{ Form::model($leave_request, ['action' => ['LeaveRequestController@update', $leave_request->LeaveReqRef ], 'autocomplete' => 'off', 'role' => 'form']) }}
+        {{ Form::model($leave_request, ['action' => ['LeaveRequestController@update', $leave_request->LeaveReqRef ], 'autocomplete' => 'off', 'role' => 'form', 'files' => true]) }}
         {{ method_field('PATCH') }}
         @include('leave_request.form', ['buttonText' => 'Save'])
         {{ Form::close() }}
