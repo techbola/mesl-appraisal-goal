@@ -553,12 +553,43 @@ class LeaveRequestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $leave_request = LeaveRequest::where('LeaveReqRef', $id)->first();
-        if ($leave_request->update($request->all())) {
-            return redirect()->route('LeaveDashBoard')->with('success' . 'Update was successful');
+
+        if ($request->hasFile('HandOverNote')) {
+            $leave_request  = LeaveRequest::where('LeaveReqRef', $id)->first();
+            $start_date     = $request->StartDate;
+            $converted_date = (int) $request->NumberofDays;
+            // $drpartment                  = (int) $request->
+            $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
+            $leave_request->ReturnDate   = $completion_Date;
+            $filenamewithextension       = $request->file('HandOverNote')->getClientOriginalName();
+            $filename                    = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+            $extension                   = $request->file('HandOverNote')->getClientOriginalExtension();
+            $filenametostore             = str_slug($filename) . time() . '.' . $extension;
+            $saveFile                    = $request->file('HandOverNote')->storeAs('public/leave_document', $filenametostore);
+            $leave_request->HandOverNote = $filenametostore;
+            $leave_request->ReturnDate   = $request->ReturnDate;
+            $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
+
+            if ($leave_request->save()) {
+                return redirect()->route('LeaveDashBoard')->with('success' . 'Update was successful');
+            } else {
+                return redirect()->back()->withInput();
+            }
         } else {
-            return redirect()->back()->withInput();
+            $leave_request               = LeaveRequest::where('LeaveReqRef', $id)->first();
+            $start_date                  = $request->StartDate;
+            $converted_date              = (int) $request->NumberofDays;
+            $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
+            $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
+            $leave_request->ReturnDate   = $request->ReturnDate;
+
+            if ($leave_request->save()) {
+                return redirect()->route('LeaveDashBoard')->with('success' . 'Update was successful');
+            } else {
+                return redirect()->back()->withInput();
+            }
         }
+
     }
 
     public function destroy($id)
