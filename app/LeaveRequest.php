@@ -37,4 +37,9 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo('MESL\CompanyDepartment', 'DepartmentID');
     }
+
+    public function handovers()
+    {
+        return $this->hasMany(HandOverNote::class, 'LeaveRequestID', 'LeaveReqRef');
+    }
 }

@@ -16,14 +16,7 @@ use MESL\RestrictionDates;
 use MESL\LeaveTransaction;
 use MESL\LeaveApprover;
 use MESL\HandoverTask;
-// use MESL\LeaveApprover;
-// use MESL\LeaveType;
-// use MESL\Mail\Leave;
-// use MESL\Staff;
-// use MESL\LeaveRequest;
-// use Carbon\Carbon;
-// use MESL\RestrictionDates;
-// use MESL\LeaveTransaction;
+use MESL\HandOverNote;
 
 use Illuminate\Http\Request;
 use Mail;
@@ -207,7 +200,8 @@ class LeaveRequestController extends Controller
                         ->where('id', Staff::find($details->ApproverID)->user->id)
                         ->first();
 
-                    Mail::to($email)->send(new LR($name));
+                    // return ($leave_request);
+                    Mail::to($email)->send(new LR($name, $details));
                 }
                 return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
             }
@@ -279,7 +273,7 @@ class LeaveRequestController extends Controller
                                 ->where('id', $new_approver_id)
                                 ->first();
 
-                            Mail::to($email)->send(new LR($name));
+                            Mail::to($email)->send(new LR($name, $details));
                         }
                     }
                 }
@@ -300,7 +294,19 @@ class LeaveRequestController extends Controller
                     $reject_trans = \DB::table('tblLeaveRequest')
                         ->where('leaveReqRef', $Ref)
                         ->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
+                    $leave_request = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $email         = \DB::table('users')
+                        ->select('email')
+                        ->where('id', $leave_request->StaffID)
+                        ->first();
+
+                    $name = \DB::table('users')
+                        ->select('first_name')
+                        ->where('id', $leave_request->StaffID)
+                        ->first();
+                    Mail::to($email)->send(new LR($name, $leave_request));
                 }
+
                 \DB::commit();
                 return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
             } catch (Exception $e) {
@@ -383,6 +389,31 @@ class LeaveRequestController extends Controller
                     $reject_trans = \DB::table('tblLeaveRequest')
                         ->where('leaveReqRef', $Ref)
                         ->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
+
+                    $leave_request = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $email         = \DB::table('users')
+                        ->select('email')
+                        ->where('id', $leave_request->StaffID)
+                        ->first();
+
+                    $name = \DB::table('users')
+                        ->select('first_name')
+                        ->where('id', $leave_request->StaffID)
+                        ->first();
+                    if (!is_null($leave_request->ReliefOfficerID)) {
+                        $relief_officer_email == \DB::table('users')
+                            ->select('email')
+                            ->where('id', (int) $leave_request->ReliefOfficerID)
+                            ->first();
+
+                        $relief_officer_name = \DB::table('users')
+                            ->select('first_name')
+                            ->where('id', (int) $leave_request->ReliefOfficerID)
+                            ->first();
+
+                        Mail::to($relief_officer_email)->send(new LR($relief_officer_name, $leave_request));
+                    }
+                    Mail::to($email)->send(new LR($name, $leave_request));
                 }
                 \DB::commit();
                 return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
@@ -403,7 +434,7 @@ class LeaveRequestController extends Controller
                 $converted_date = (int) $request->NumberofDays;
                 // $drpartment                  = (int) $request->
                 $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
-                $leave_request               = new LeaveRequest($request->all());
+                $leave_request               = new LeaveRequest($request->except(['Task', 'CompletionDate', 'Description']));
                 $leave_request->ReturnDate   = $completion_Date;
                 $filenamewithextension       = $request->file('HandOverNote')->getClientOriginalName();
                 $filename                    = pathinfo($filenamewithextension, PATHINFO_FILENAME);
@@ -418,11 +449,25 @@ class LeaveRequestController extends Controller
                 $start_date                  = $request->StartDate;
                 $converted_date              = (int) $request->NumberofDays;
                 $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
-                $leave_request               = new LeaveRequest($request->all());
+                $leave_request               = new LeaveRequest($request->except(['Task', 'CompletionDate', 'Description']));
                 $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
                 $leave_request->ReturnDate   = $request->ReturnDate;
 
                 $leave_request->save();
+            }
+
+            foreach ($request->Task as $key => $value) {
+
+                // if ($saved) {
+                $hon = new HandOverNote([
+                    'LeaveRequestID' => $leave_request->LeaveReqRef,
+
+                    'Task'           => $request->Task[$key] ?? null,
+                    'CompletionDate' => Carbon::parse($request->HonCompletionDate[$key]) ?? null,
+                    'Description'    => $request->Description[$key] ?? null,
+                ]);
+                $hon->save();
+                // }
             }
             \DB::commit();
             return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
@@ -568,9 +613,37 @@ class LeaveRequestController extends Controller
             $leave_request->HandOverNote = $filenametostore;
             $leave_request->ReturnDate   = $request->ReturnDate;
             $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
-            $leave_request->save();
+            foreach ($request->HandOverNoteRef as $key => $value) {
+
+                // if ($saved) {
+                $hon = HandOverNote::find($value);
+
+                $hon->update([
+                    'LeaveRequestID' => $leave_request->LeaveReqRef,
+
+                    'Task'           => $request->Task[$key] ?? null,
+                    'CompletionDate' => Carbon::parse($request->HonCompletionDate[$key]) ?? null,
+                    'Description'    => $request->Description[$key] ?? null,
+                ]);
+                // }
+            }
         }
-        if ($leave_request->update($request->except(['HandOverNote']))) {
+        foreach ($request->HandOverNoteRef as $key => $value) {
+
+            // if ($saved) {
+            $hon = HandOverNote::find($key);
+            // dd($hon);
+
+            $hon->update([
+                'LeaveRequestID' => $leave_request->LeaveReqRef,
+
+                'Task'           => $request->Task[$key] ?? null,
+                'CompletionDate' => Carbon::parse($request->HonCompletionDate[$key]) ?? null,
+                'Description'    => $request->Description[$key] ?? null,
+            ]);
+            // }
+        }
+        if ($leave_request->update($request->except(['HandOverNote', 'HandOverNoteRef', 'Task', 'HonCompletionDate', 'Description']))) {
             return redirect()->route('LeaveDashBoard')->with('success' . 'Update was successful');
         } else {
             return redirect()->back()->withInput();

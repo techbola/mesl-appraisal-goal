@@ -7,22 +7,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class LeaveRequest extends Mailable
+class RejectLeaveRequest extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $name;
-    public $leave_request;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $leave_request)
+    public function __construct($name)
     {
-        $this->name          = $name;
-        $this->leave_request = $leave_request;
+        $this->name = $name;
     }
 
     /**

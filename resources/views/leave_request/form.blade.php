@@ -143,6 +143,98 @@
 
     <hr>
 
+    <div class="card-section p-l-5">HandOver Note</div>
+
+
+                        <div class="">
+
+                            <div class="hon-wrapper">
+                                <div class="hon_option_template">
+
+
+                                        @if(isset($leave_request) && request()->route()->getName('leave_request.edit'))
+    @foreach($leave_request->handovers as $key => $lhon)
+   <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                 <label for="Task">Task</label>
+                                                {{ Form::text('Task['. $lhon->HandOverNoteRef .']', $lhon->Task, ['class'=> "form-control", 'placeholder' => 'Enter Task' ]) }}
+                                            </div>
+                                        </div>
+
+                                            <input type="hidden" name="HandOverNoteRef[{{ $lhon->HandOverNoteRef }}]">
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <div class="controls">
+                                                    {{ Form::label('CompletionDate', 'Completion Date') }}
+                                                    <div class="input-group date dp">
+                                                        {{ Form::text('HonCompletionDate['.$lhon->HandOverNoteRef.']', $lhon->CompletionDate, ['class' => 'form-control', 'placeholder' => 'Completion Date']) }}
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar">
+                                                            </i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                            <div class="col-sm-6">
+                                           
+                                            <div class="form-group">
+                                                 <label for="Description">Description</label>
+                                                {{ Form::textarea('Description['.$lhon->HandOverNoteRef.']', $lhon->Description, ['class'=> "form-control", 'placeholder' => 'Enter Description' ]) }}
+                                            </div>
+                                        </div>
+                                        </div>
+    @endforeach
+    @else
+    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                 <label for="Task">Task</label>
+                                                {{ Form::text('Task[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Task' ]) }}
+                                            </div>
+                                        </div>
+
+                                        
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <div class="controls">
+                                                    {{ Form::label('CompletionDate', 'Completion Date') }}
+                                                    <div class="input-group date dp">
+                                                        {{ Form::text('HonCompletionDate[]', null, ['class' => 'form-control', 'placeholder' => 'Completion Date']) }}
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar">
+                                                            </i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                            <div class="col-sm-6">
+                                           
+                                            <div class="form-group">
+                                                 <label for="Description">Description</label>
+                                                {{ Form::textarea('Description[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Description' ]) }}
+                                            </div>
+                                        </div>
+                                        </div>
+    @endif
+
+
+                                    
+                                        <div class="to-be-inserted"></div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                                <button type="button" style="margin-left: 7px"  class="add_hon_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                </div>
+                            </div>
+
     <input type="hidden" name="StaffID" value="{{ $id }}">
     <input type="hidden" name="ModuleID" value="3">
     <input type="hidden" name="ApproverID" id='approver_id'>
@@ -252,5 +344,73 @@
                 $("#leave_allowance").val('');
             }
         });
+
+
+                                  
+$(function(){
+
+
+        var hon_option_temp = `
+<div class="row">
+    <div class="col-sm-3">
+        <div class="form-group">
+             <label for="Task">Task</label>
+            {{ Form::text('Task[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Task' ]) }}
+        </div>
+    </div>
+
+    
+
+    <div class="col-sm-3">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('CompletionDate', 'Completion Date') }}
+                <div class="input-group date dp">
+                    {{ Form::text('HonCompletionDate[]', null, ['class' => 'form-control', 'placeholder' => 'Completion Date']) }}
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar">
+                        </i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="col-sm-3">
+       
+        <div class="form-group">
+             <label for="Description">Description</label>
+            {{ Form::textarea('Description[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Description' ]) }}
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-group">
+            <button type="button" style="margin-top: 30px"  class="remove_hon_node btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+    </div>`;
+
+    $(".add_hon_node").click(function(e) {
+    e.preventDefault();
+    $('.hon_option_template').find('.to-be-inserted').append(hon_option_temp);
+    $('.hon_option_template').find('select').select2();
+     var options = {
+              todayHighlight: true,
+              format: 'yyyy-mm-dd',
+              autoclose: true,
+              startDate: '1920-01-01',
+          };
+    $('.dp').datepicker(options);
+});
+
+
+$('body').on('click', '.remove_hon_node', function(e) {
+    e.preventDefault();
+    console.log('delete me')
+    $(this).closest('.row').remove();
+});
+})
+
     </script>
     @endpush
