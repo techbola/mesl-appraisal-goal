@@ -44,7 +44,7 @@
 				<p>Posted Successfully</p>
 			</div><br>
 			{{ Form::open(['id'=>'post_bill','autocomplete' => 'off', 'role' => 'form']) }}
-			<button type="submit" id="submit_bill" class="btn btn-info btn-lg">Send for Approval</button>
+			<button type="submit" id="submit_bill" class="btn btn-info btn-lg" data-toggle="tooltip" data-placement="top" title="Send for Approval"><i class="fa fa-share-square"></i> Send for Approval</button>
 			{{-- <a href="#" id="submit_bill" class="btn btn-info btn-lg"  title="">Send for Approval</a> --}}
 			<table class="table tableWithSearch" id="cash_entry_table">
 				<thead>
