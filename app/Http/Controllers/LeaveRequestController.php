@@ -437,7 +437,7 @@ class LeaveRequestController extends Controller
                 $converted_date = (int) $request->NumberofDays;
                 // $drpartment                  = (int) $request->
                 $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
-                $leave_request               = new LeaveRequest($request->except(['Task', 'CompletionDate', 'Description']));
+                $leave_request               = new LeaveRequest($request->except(['Task', 'HonCompletionDate', 'Description']));
                 $leave_request->ReturnDate   = $completion_Date;
                 $filenamewithextension       = $request->file('HandOverNote')->getClientOriginalName();
                 $filename                    = pathinfo($filenamewithextension, PATHINFO_FILENAME);
@@ -452,7 +452,7 @@ class LeaveRequestController extends Controller
                 $start_date                  = $request->StartDate;
                 $converted_date              = (int) $request->NumberofDays;
                 $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
-                $leave_request               = new LeaveRequest($request->except(['Task', 'CompletionDate', 'Description']));
+                $leave_request               = new LeaveRequest($request->except(['Task', 'HonCompletionDate', 'Description']));
                 $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
                 $leave_request->ReturnDate   = $request->ReturnDate;
 
