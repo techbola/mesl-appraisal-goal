@@ -93,7 +93,7 @@
 						{{ Form::open(['id'=>'merge_form', 'autocomplete' => 'off', 'role' => 'form']) }}
 						   <input type="hidden" id="address1_ref" name="address1">
 						   <input type="hidden" id="address2_ref" name="address2">
-						<input type="submit" id="submit_form" class="btn btn-sm btn-primary pull-right" value="Merge Data">
+						<button type="submit" id="submit_form" class="btn btn-sm btn-primary pull-right" data-toggle="tooltip" data-placement="top" title="Merge Data"><i class="fa fa-compress"></i> Merge Data</button>
 					</div>
 				</div>
 		{{ Form::close() }}

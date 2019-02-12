@@ -64,7 +64,7 @@
                 <td style="background: #fba1a0">{{$leave_request->NumberofDays}} 
                     @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
-                  <label class="label label-success">Download attachment</label></td>
+                  <label class="label label-success"><i class="fa fa-download"></i> Download attachment</label></td>
                     @endif</td>
               </tr>
               @else
@@ -77,7 +77,7 @@
                 <td>{{$leave_request->NumberofDays}}days 
                     @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
-                  <label class="label label-success">Download attachment</label></td>
+                  <label class="label label-success"><i class="fa fa-download"></i> Download attachment</label></td>
                     @endif</td>
                 </td>
               </tr>
