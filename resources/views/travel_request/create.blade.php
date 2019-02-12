@@ -383,17 +383,11 @@
                     <table class="table tableWithSearch table-bordered" id="travelTable">
                         <thead>
                             <th width="5px">S/N</th>
-                            <th style="width: 120px; word-break:break-all;">Travel Type</th>
                             <th style="width: 80px; word-break:break-all;">From</th>
                             <th style="width: 80px; word-break:break-all;">To</th>
                             <th>Travellers</th>
                             <th style="width: 120px; word-break:break-all;">Departure Date</th>
-                            <th style="width: 80px; word-break:break-all;">Departure Time</th>
-                            <th style="width: 80px; word-break:break-all;">Arrival Date</th>
-                            <th style="width: 80px; ">Arrival time</th>
                             <th style="width: 80px; word-break:break-all;">Travel Purpose</th>
-                            <th style="width: 80px; ">Travel Lodge</th>
-                            <th style="width: 80px; word-break:break-all;">Travel Transporter</th>
                             <th style="width: 80px; word-break:break-all;">Action</th>
                         </thead>
                         <tbody>
@@ -402,7 +396,6 @@
                                 <?php $count = $count + 1; ?>
                                 <tr>
                                     <th>{{ $count }}</th>
-                                    <td>{{ $travel_request->Travel_type->TravelType ?? '-' }}</td>
                                     <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_from_state->State : $travel_request->travel_from_state->State ?? '-' }}</td>
                                     <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_to_state->State : $travel_request->travel_to_country->Country ?? '-' }}</td>
                                     <td>
@@ -422,12 +415,7 @@
                                         @endforeach
                                     </td>
                                     <td>{{ $travel_request->DepartureDate }}</td>
-                                    <td>{{ $travel_request->DepartureTime }}</td>
-                                    <td>{{ $travel_request->ArrivalDate }}</td>
-                                    <td>{{ $travel_request->ArrivalTime }}</td>
                                     <td>{{ $travel_request->travel_purpose->TravelPurpose ?? '-' }}</td>
-                                    <td>{{ $travel_request->travel_lodge->TravelLodge ?? '-' }}</td>
-                                    <td>{{ $travel_request->travel_transporter->Transporter ?? '-' }}</td>
                                     <td style="width: 20%">
                                         <span data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <button style="margin-right: 10px; display: inline-block" type="edit" class="btn btn-sm btn-primary toggler" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="edit_travelrequest( {{$travel_request->TravelRef}})"><i class="fa fa-edit"></i></button>
