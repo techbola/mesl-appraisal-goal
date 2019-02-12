@@ -42,12 +42,13 @@
          <p style="color : red">Note : Leave Request highlighted in red are within the company restricted leave days</p>
         <table class="table tableWithSearch table-bordered">
           <thead>
-            <th width="10%">Action</th>
-            <th width="10%">Requester</th>
-            <th width="10%">Leave Type</th>
-            <th width="10%">Start Date</th>
-            <th width="10%">End Date</th>
-            <th width="10%">Leave Days</th>
+            <th>Action</th>
+            <th>Requester</th>
+            <th>Leave Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th width="1%">Leave Days</th>
+            <th>File(s)</th>
           </thead>
           <tbody>
 
@@ -59,11 +60,13 @@
                 <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                 <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                 <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
-                <td style="background: #fba1a0">{{$leave_request->NumberofDays}} 
-                    @if(!is_null($leave_request->HandOverNote))
+                <td style="background: #fba1a0">{{$leave_request->NumberofDays}}</td>
+                <td>
+                  @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
-                  <label class="label label-success">Download attachment</label></td>
-                    @endif</td>
+                  Download attachment
+                    @endif
+                </td>
               </tr>
               @else
               <tr>
@@ -72,11 +75,12 @@
                 <td>{{$leave_request->LeaveType}}</td>
                 <td>{{$leave_request->StartDate}}</td>
                 <td>{{$leave_request->ReturnDate}}</td>
-                <td>{{$leave_request->NumberofDays}}days 
-                    @if(!is_null($leave_request->HandOverNote))
+                <td>{{$leave_request->NumberofDays}}days </td>
+                <td>
+                  @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
-                  <label class="label label-success">Download attachment</label></td>
-                    @endif</td>
+                  Download attachment
+                    @endif
                 </td>
               </tr>
                @endif

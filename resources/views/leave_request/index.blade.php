@@ -52,12 +52,13 @@
   			
         <table class="table tableWithSearch table-bordered">
           <thead>
-            <th width="10%">Leave Type</th>
-            <th width="7%">Start Date</th>
-            <th width="7%">End Date</th>
-            <th width="5%">Leave Days</th>
-            <th width="12%">Awaiting Approval</th>
-            <th width="15%">Action</th>
+            <th >Leave Type</th>
+            <th >Start Date</th>
+            <th >End Date</th>
+            <th >Leave Days</th>
+            <th>Files(s)</th>
+            <th >Awaiting Approval</th>
+            <th >Action</th>
           </thead>
           <tbody>
 
@@ -67,6 +68,14 @@
                 <td>{{$leave_request->StartDate}}</td>
                 <td>{{$leave_request->ReturnDate}}</td>
                 <td>{{$leave_request->NumberofDays}}</td>
+                <td>
+                  @if(!is_null($leave_request->HandOverNote))
+                    <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
+                  Download attachment
+                  @else
+                    <span class="badge">No Files Uploaded</span>
+                  @endif
+                </td>
                 <td>
                   @if($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1 && is_null($leave_request->ApproverID) && $leave_request->CompletedFlag == 1 )
                   <label class="label label-success"> Your Leave Request Awaits HR Approval. </label>

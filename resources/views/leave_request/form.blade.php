@@ -126,7 +126,7 @@
 
         <div class="col-sm-4">
             <div class="form-group">
-                {{ Form::label('HandOverNote','Upload Document') }}
+                {{ Form::label('HandOverNote','Upload Handover Note') }}
                 {{ Form::file('HandOverNote', null, ['class' => 'form-control']) }}
             </div>
         </div>

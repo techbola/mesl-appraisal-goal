@@ -48,6 +48,7 @@
             <th width="10%">Start Date</th>
             <th width="10%">End Date</th>
             <th width="10%">Leave Days</th>
+            <th>File(s)</th>
           </thead>
           <tbody>
 
@@ -65,11 +66,13 @@
                 <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                 <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                 <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
-                <td style="background: #fba1a0">{{$leave_request->NumberofDays}} 
-                    @if(!is_null($leave_request->HandOverNote))
+                <td style="background: #fba1a0">{{$leave_request->NumberofDays}} </td>
+                <td>
+                  @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
-                  <label class="label label-success">Download attachment</label></td>
-                    @endif</td>
+                  Download attachment
+                    @endif
+                </td>
               </tr>
               @else
               <tr>
@@ -84,11 +87,13 @@
                 <td>{{$leave_request->LeaveType}}</td>
                 <td>{{$leave_request->StartDate}}</td>
                 <td>{{$leave_request->ReturnDate}}</td>
-                <td>{{$leave_request->NumberofDays}}days 
-                    @if(!is_null($leave_request->HandOverNote))
+                <td>{{$leave_request->NumberofDays}}days</td>
+                </td>
+                <td>
+                  @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
-                  <label class="label label-success">Download attachment</label></td>
-                    @endif</td>
+                  Download attachment
+                    @endif
                 </td>
               </tr>
                @endif
