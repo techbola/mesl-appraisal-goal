@@ -96,6 +96,7 @@ class LeaveRequestController extends Controller
         $id             = \Auth::user()->id;
         $leave_requests = \DB::table('tblLeaveRequest')
             ->join('tblLeaveType', 'tblLeaveRequest.AbsenceTypeID', '=', 'tblLeaveType.LeaveTypeRef')
+        // ->join('tblHandOver', 'tblLeaveRequest.LeaveReqRef', '=', 'tblHandOver.LeaveRequestID')
             ->join('users', 'tblLeaveRequest.StaffID', '=', 'users.id')
             ->where('ApproverID', auth()->user()->staff->StaffRef)
             ->where('NotifyFlag', 1)
@@ -122,9 +123,11 @@ class LeaveRequestController extends Controller
 
                 ;
             });
-            $item->status = $events->count();
+            $item->handovers = HandOverNote::where('LeaveRequestID', $item->LeaveReqRef)->get();
+            $item->status    = $events->count();
             return $item;
         });
+        // dd($leave_check);
         return view('leave_request.leave_approval', compact('leave_requests', 'leave_check'));
     }
 
@@ -659,5 +662,11 @@ class LeaveRequestController extends Controller
     {
         $leave_habdover = LeaveRequest::find($id);
         $leave_request  = LeaveRequesr::Where('');
+    }
+
+    public function fetch_leave_hons($leave_ref)
+    {
+        $hons = HandOverNote::where('LeaveRequestID', $leave_ref)->get();
+        return $hons;
     }
 }

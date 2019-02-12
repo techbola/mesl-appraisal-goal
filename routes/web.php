@@ -228,6 +228,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('approve_leave_request_hr', 'LeaveRequestController@approve_leave_request_hr');
     Route::get('leave_notification/{elem_value}', 'LeaveRequestController@leave_notification');
     Route::get('request_date/{start_date}/{numberdays}', 'LeaveRequestController@retrieve_details');
+    Route::get('fetch-leave-hons/{leave_ref}', 'LeaveRequestController@fetch_leave_hons');
 
     Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
     Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');

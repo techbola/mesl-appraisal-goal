@@ -47,8 +47,9 @@
             <th>Leave Type</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th width="1%">Leave Days</th>
+            <th >Leave Days</th>
             <th>File(s)</th>
+            <th>HandOver Notes</th>
           </thead>
           <tbody>
 
@@ -65,7 +66,16 @@
                   @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
                   Download attachment
+                  @else
+                  <span class="badge">No Files</span>
                     @endif
+                </td>
+                <td>
+                  @if($leave_request->handovers->count() > 0)
+                  <button class="btn btn-sm show-hon" data-leave_req_id= "{{ $leave_request->LeaveReqRef }}">show notes</button>
+                  @else
+                  <span class="badge">No HandOver Notes</span>
+                  @endif
                 </td>
               </tr>
               @else
@@ -80,7 +90,16 @@
                   @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
                   Download attachment
+                   @else
+                  <span class="badge">No Files</span>
                     @endif
+                </td>
+                <td>
+                  @if($leave_request->handovers->count() > 0)
+                  <button class="btn btn-sm show-hon" data-leave_req_id= "{{ $leave_request->LeaveReqRef }}">show notes</button>
+                  @else
+                  <span class="badge">No HandOver Notes</span>
+                  @endif
                 </td>
               </tr>
                @endif
@@ -90,12 +109,63 @@
     {{ Form::close() }}
     </div>
     <!-- END PANEL -->
+
+
+    <div class="modal hon-modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">HandOver Notes</h4>
+      </div>
+      <div class="modal-body">
+        
+        <table class="table">
+          <thead>
+            <th>Task</th>
+            <th>Description</th>
+            <th>Completion Date</th>
+          </thead>
+
+          <tbody class="hon-tbody">
+            
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @endsection
 
 @push('scripts')
   <script>
     $(jQuery(document)).ready(function($) {
      $('#test').tooltip('show');
+
+     $('body').on('click', '.show-hon', function(e) {
+       e.preventDefault();
+       let leave_req_id = $(this).data('leave_req_id');
+       $('.hon-modal-body').html(' ');
+       $.get('/fetch-leave-hons/'+leave_req_id, function(data) {
+         console.log(data)
+         $.each(data, function(index, val) {
+            $('.hon-tbody').append(`
+              <tr>
+                <td>${val.Task}</td>
+                <td>${val.Description}</td>
+                <td>${val.CompletionDate}</td>
+              </tr>
+            `);
+         });
+       });
+       // $('.hon-modal table').DataTable();
+       $('.hon-modal').modal();
+
+     });
     });
   </script>
 @endpush
