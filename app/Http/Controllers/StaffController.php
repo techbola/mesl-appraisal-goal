@@ -231,8 +231,8 @@ class StaffController extends Controller
             $staff_arr = $staff_data->getattributes();
             // Copy & save to FCYTrade
             // $staff = Staff::create($staff_arr);
-            $staff               = Staff::find($pending->StaffRef);
-            $staff->DepartmentID = $request->DepartmentID;
+            $staff = Staff::find($pending->StaffRef);
+            // $staff->DepartmentID = $request->DepartmentID;
             // dd($staff_arr);
             $staff->update($staff_arr);
             // Soft delete from Pending
@@ -692,8 +692,6 @@ class StaffController extends Controller
         if ($staff_onboard !== null) {
             $staff_onboard->ApprovalStatus1 = '1';
             $staff_onboard->update();
-
-            
 
             $users = User::whereHas('staff', function ($query) {
                 $query->whereIn('DepartmentID', [3]);
