@@ -23,7 +23,7 @@
             <td>{{ $pending->user->FullName ?? '-' }}</td>
             <td>{{ $pending->created_at->format('jS M, Y') }}</td>
             <td>
-              <a href="{{ route('pending_biodata', $pending->id) }}" class="btn btn-sm btn-inverse">View</a>
+              <a href="{{ route('pending_biodata', $pending->id) }}" class="btn btn-sm btn-inverse" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye-slash"></i> View</a>
             </td>
           </tr>
         @endforeach

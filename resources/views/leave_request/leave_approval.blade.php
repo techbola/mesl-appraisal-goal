@@ -38,7 +38,9 @@
         </div>
         <div class="clearfix"></div>
          {{ Form::open(['action' => 'LeaveRequestController@approve_leave_request', 'autocomplete' => 'off', 'role' => 'form']) }}
-         <p><input type="submit" name="approve" class="btn btn-sm btn-primary" value="Approve">  <input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject"></p>
+         <p><button type="submit" name="approve" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Approve"><i class="fa fa-share-square"></i> Approve</button>  
+         <button type="submit" name="reject" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-times-circle"></i> Reject</button>
+        </p>
          <p style="color : red">Note : Leave Request highlighted in red are within the company restricted leave days</p>
         <table class="table tableWithSearch table-bordered">
           <thead>
@@ -65,6 +67,7 @@
                 <td>
                   @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
+<<<<<<< HEAD
                   Download attachment
                   @else
                   <span class="badge">No Files</span>
@@ -77,6 +80,10 @@
                   <span class="badge">No HandOver Notes</span>
                   @endif
                 </td>
+=======
+                  <label class="label label-success"><i class="fa fa-download"></i> Download attachment</label></td>
+                    @endif</td>
+>>>>>>> 75cd798a9e2558f877338a1d584bab89742b7d2a
               </tr>
               @else
               <tr>
@@ -89,6 +96,7 @@
                 <td>
                   @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
+<<<<<<< HEAD
                   Download attachment
                    @else
                   <span class="badge">No Files</span>
@@ -100,6 +108,10 @@
                   @else
                   <span class="badge">No HandOver Notes</span>
                   @endif
+=======
+                  <label class="label label-success"><i class="fa fa-download"></i> Download attachment</label></td>
+                    @endif</td>
+>>>>>>> 75cd798a9e2558f877338a1d584bab89742b7d2a
                 </td>
               </tr>
                @endif

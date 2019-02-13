@@ -24,7 +24,7 @@
 
 		<form id="print_form" class="" action="" method="post">
 			{{ csrf_field() }}
-			<button type="submit">Print</button>
+			<button type="submit" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i> Print</button>
 			<table id="assets" class="table table-striped table-bordered tableWithSearch">
 				<thead>
 					<th></th>
@@ -71,10 +71,10 @@
 							<td>{{ $asset->AssetNo ?? '-' }}</td>
 							<td>{{ $asset->allotee->FullName ?? '—' }}</td>
 							<td class="actions">
-								<a href="#" data-toggle="modal" data-target="#edit_asset" class="" @click="edit_asset({{ $asset }})">
+								<a href="#" data-toggle="modal" data-target="#edit_asset" class="" @click="edit_asset({{ $asset }})" data-toggle="tooltip" data-placement="top" title="Edit Asset">
 									<i class="fa fa-pencil text-warning"></i>
 								</a>
-								<a href="#" class="" onclick="confirm2('Delete this asset?', '', 'delete_{{ $asset->AssetRef }}')">
+								<a href="#" class="" onclick="confirm2('Delete this asset?', '', 'delete_{{ $asset->AssetRef }}')" data-toggle="tooltip" data-placement="top" title="Delete Asset">
 									<i class="fa fa-trash-o text-danger"></i>
 								</a>
 								<form id="delete_{{ $asset->AssetRef }}" class="hidden" action="{{ route('delete_asset', $asset->AssetRef) }}" method="post">
@@ -83,7 +83,7 @@
 								</form>
 
 								<!-- Asset maintenance -->
-								<a href="#" class="" title="Asset Maintenance" onclick="">
+								<a href="#" class="" title="Asset Maintenance" onclick="" data-toggle="tooltip" data-placement="top" title="Asset Mainteinance">
 									<i class="fa fa-wrench text-danger"></i>
 								</a>
 								<!-- end asset maintenance actions-->
