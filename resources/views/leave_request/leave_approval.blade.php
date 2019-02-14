@@ -41,7 +41,7 @@
          <p><button type="submit" name="approve" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Approve"><i class="fa fa-share-square"></i> Approve</button>  
          <button type="submit" name="reject" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-times-circle"></i> Reject</button>
         </p>
-         <p style="color : red">Note : Leave Request highlighted in red are within the company restricted leave days</p>
+         <p style="color : red" class="hide">Note : Leave Request highlighted in red are within the company restricted leave days</p>
         <table class="table tableWithSearch table-bordered">
           <thead>
             <th>Action</th>
