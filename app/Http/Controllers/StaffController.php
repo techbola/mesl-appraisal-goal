@@ -182,8 +182,9 @@ class StaffController extends Controller
         $staff->user->last_name  = $request->last_name;
         $staff->user->email      = $request->email;
         // dd($request->DepartmentID);
-        $staff->DepartmentID = $request->DepartmentID;
-        $staff->SupervisorID = $request->SupervisorID;
+        $staff->DepartmentID   = $request->DepartmentID;
+        $staff->SupervisorID   = $request->SupervisorID;
+        $staff->SupervisorFlag = $request->supervisor_options ? 1 : 0;
         $staff->update();
         $staff->user->roles()->detach();
         $staff->user->roles()->attach($request->roles);
