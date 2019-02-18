@@ -33,6 +33,11 @@ class LeaveRequest extends Model
         return $this->belongsTo('MESL\User', 'StaffID');
     }
 
+    public function supervisor()
+    {
+        return $this->belongsTo('MESL\Staff', 'SupervisorID');
+    }
+
     public function get_department()
     {
         return $this->belongsTo('MESL\CompanyDepartment', 'DepartmentID');
@@ -41,5 +46,16 @@ class LeaveRequest extends Model
     public function handovers()
     {
         return $this->hasMany(HandOverNote::class, 'LeaveRequestID', 'LeaveReqRef');
+    }
+
+    public function current_approver()
+    {
+        $approver_id = $this->ApproverID;
+        if ($approver_id != null) {
+            // return User::find($approver_id)->fullName;
+            return $this->belongsTo(User::class, 'ApproverID');
+        } else {
+            return null;
+        }
     }
 }
