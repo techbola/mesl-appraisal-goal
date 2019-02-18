@@ -14,6 +14,7 @@ use MESL\Mail\FinalHRLeaveConfirmation;
 use MESL\Mail\LeaveRequestedInit;
 use MESL\Mail\LeaveRequestSupervisor;
 use MESL\Mail\LeaveRequestApproval;
+use MESL\Mail\RejectLeaveRequest;
 use Carbon\Carbon;
 use MESL\RestrictionDates;
 use MESL\LeaveTransaction;
@@ -286,6 +287,37 @@ class LeaveRequestController extends Controller
         // $email = User::find($leave_request->RequesterID)->first()->email;
         // dd($request->all());
         Mail::to($leave_request->current_approver->email)->send(new LeaveRequestApproval($leave_request));
+
+        // send emails when ApproverID is null and send route request to admin
+        //  end
+
+        return redirect('/leave_request/leave_approval')->with('success', 'Request Approved successfully');
+    }
+
+    public function reject_request_supervisor($id)
+    {
+        $staffs = Staff::all();
+        $user   = User::all();
+
+        $leave_request = LeaveRequest::find($id);
+        // $leave_request->ApprovalDate = date('Y-m-d');
+
+        // dd($leave_request);
+        $leave_request->RejectionFlag      = 1;
+        $leave_request->SupervisorApproved = 0;
+        $leave_request->NotifyFlag         = 0;
+        $leave_request->ApproverID         = $request->Approver1 ?? 0;
+        $leave_request->ApproverID1        = $request->Approver1 ?? 0;
+        $leave_request->ApproverID2        = $request->Approver2 ?? 0;
+        $leave_request->ApproverID3        = $request->Approver3 ?? 0;
+        $leave_request->ApproverID4        = $request->Approver4 ?? 0;
+
+        $leave_request->update();
+
+        // $email = User::find($leave_request->RequesterID)->first()->email;
+        // dd($request->all());
+        $requester = User::find($leave_request->StaffID);
+        Mail::to($requester->email)->send(new RejectLeaveRequest($requester, $leave_request));
 
         // send emails when ApproverID is null and send route request to admin
         //  end

@@ -232,6 +232,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fetch-leave-hons/{leave_ref}', 'LeaveRequestController@fetch_leave_hons');
     Route::get('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor')->name('leave_request.approved');
     Route::post('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor');
+    Route::get('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
 
     Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
     Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');
