@@ -628,11 +628,11 @@ class LeaveRequestController extends Controller
                     ->cc($relief_office_email)
                     ->send(new LeaveRequestedInit($leave_request));
                 // supervisor
-                Mail::to()->send(new LeaveRequestSupervisor($leave_request));
+                // Mail::to()->send(new LeaveRequestSupervisor($leave_request));
             } else {
                 Mail::to($email)
                     ->send(new LeaveRequestedInit($leave_request));
-                Mail::to()->send(new LeaveRequestSupervisor($leave_request));
+                // Mail::to()->send(new LeaveRequestSupervisor($leave_request));
             }
             return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
         } catch (Exception $e) {
