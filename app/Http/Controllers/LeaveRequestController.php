@@ -131,7 +131,9 @@ class LeaveRequestController extends Controller
             $item->status    = $events->count();
             return $item;
         });
-        $staff = Staff::all()->sortBy('FullName');
+        $staff = Staff::all()
+            ->where('SupervisorFlag', 1)
+            ->sortBy('FullName');
         // dd($leave_check);
         return view('leave_request.leave_approval_supervisor', compact('leave_requests', 'leave_check', 'staff'));
     }
