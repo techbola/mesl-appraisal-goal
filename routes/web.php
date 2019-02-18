@@ -223,6 +223,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('leave_request/{id}/edit', 'LeaveRequestController@edit')->name('leave_request.edit');
     Route::patch('leave_request/{id}/update', 'LeaveRequestController@update')->name('leave_request.update');
     Route::get('leave_request/leave_approval', 'LeaveRequestController@leave_approval')->name('LeaveApproval');
+    Route::get('leave_request/leave_approval_supervisor', 'LeaveRequestController@leave_approval_supervisor')->name('LeaveApprovalSupervisor');
     Route::get('leave_request/hr_leave_approval', 'LeaveRequestController@hr_leave_approval')->name('HrLeaveApproval');
     Route::post('approve_leave_request', 'LeaveRequestController@approve_leave_request');
     Route::post('approve_leave_request_hr', 'LeaveRequestController@approve_leave_request_hr');
