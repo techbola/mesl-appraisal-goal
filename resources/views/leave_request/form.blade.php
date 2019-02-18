@@ -126,7 +126,7 @@
 
         <div class="col-sm-4">
             <div class="form-group">
-                {{ Form::label('HandOverNote','Upload Handover Note') }}
+                {{ Form::label('HandOverNote','Upload Document') }}
                 {{ Form::file('HandOverNote', null, ['class' => 'form-control']) }}
             </div>
         </div>
@@ -376,7 +376,7 @@ $(function(){
         </div>
     </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-6">
        
         <div class="form-group">
              <label for="Description">Description</label>
@@ -384,7 +384,7 @@ $(function(){
         </div>
     </div>
 
-    <div class="col-sm-3">
+    <div class="pull-right">
         <div class="form-group">
             <button type="button" style="margin-top: 30px"  class="remove_hon_node btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
         </div>
