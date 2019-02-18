@@ -46,7 +46,12 @@ class TravelRequestController extends Controller
     //Store travel request function
     public function store_travel_request(Request $request)
     {
+
+        if (is_null(auth()->user()->staff->SupervisorID)) {
+            return back()->withInput()->with('danger', 'Request Failed. You do not have a  supervisor');
+        }
         try {
+
             \DB::beginTransaction();
             $travel_request = new TravelRequest($request->except(['TravellerPhone', 'TravellerFullName', 'TravellerCompany', 'TravellerStaffID', 'staff_options']));
 
@@ -154,30 +159,64 @@ class TravelRequestController extends Controller
         $travel_request = TravelRequest::where('TravelRef', $ref)
             ->where('SentForApproval', '0')
             ->first();
-        $travel_request->SentForApproval = '1';
-        $travel_request->update();
+        if ($travel_request) {
+            $travel_request->SentForApproval = '1';
+            $travel_request->update();
 
-        $email = Staff::find($travel_request->SupervisorID)->first()->user->email;
+            $email = Staff::find($travel_request->SupervisorID)->first()->user->email;
 
-        Mail::to($email)->send(new SendforApproval());
+            Mail::to($email)->send(new SendforApproval());
 
-        return redirect()->route('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'transports', 'lodges', 'travelmodes'))->with('success', 'Request was sent successfully');
-
+            return redirect()->route('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'transports', 'lodges', 'travelmodes'))->with('success', 'Request was sent successfully');
+        } else {
+            return redirect()->back()->with('error', 'Request already sent for approval ');
+        }
     }
 
-    //admin request dashboard
+    //admin request dashboard (updated: to be approvvers screen )
+    public function dash_approvers(Request $request)
+    {
+
+        $travel_requests = TravelRequest::where('SentForApproval', '1')
+            ->where('SupervisorID', auth()->user()->staff->StaffRef)
+            ->where('SupervisorApproved', 1)
+            ->where('ApproverID', auth()->user()->id)
+            ->get();
+
+        // unapproved docs
+        $unapproved_requests = TravelRequest::where('ApproverID', auth()->user()->id)
+            ->where('SentForApproval', 1)
+            ->get();
+        $my_unsent_requests = TravelRequest::where('RequesterID', auth()->user()->id)->where('SentForApproval', 0);
+        // approved docs
+        $approved_requests = TravelRequest::where('ApproverID', 0)
+            ->where('ApprovedFlag', 1)
+            ->whereIn('ApproverID1', [auth()->user()->id])
+            ->orWhereIn('ApproverID2', [auth()->user()->id])
+            ->orWhereIn('ApproverID3', [auth()->user()->id])
+            ->orWhereIn('ApproverID4', [auth()->user()->id])
+            ->get();
+
+        $staff = Staff::all()->sortBy('FullName');
+
+        return view('travel_request.admindashboard_approvers', compact('travel_requests', 'staff', 'unapproved_requests', 'my_unsent_requests', 'approved_requests'));
+    }
+
     public function dash(Request $request)
     {
 
         $travel_requests = TravelRequest::where('SentForApproval', '1')
             ->where('SupervisorID', auth()->user()->staff->StaffRef)
+            ->where('SupervisorApproved', 0)
             ->get();
 
         $travel_request = TravelRequest::find($request->TravelRef);
 
-        $user = User::all();
+        $user  = User::all();
+        $staff = Staff::all()->sortBy('FullName');
+        // dd($staff);
 
-        return view('travel_request.admindashboard', compact('travel_requests'));
+        return view('travel_request.admindashboard', compact('travel_requests', 'staff'));
     }
 
     // admin dashboard
@@ -187,6 +226,9 @@ class TravelRequestController extends Controller
         if (auth()->user()->staff->SupervisorFlag == 1) {
             $travel_requests = TravelRequest::where('SentForApproval', '1')
                 ->where('RequestApproved', 1)
+                ->where('SupervisorApproved', 1)
+                ->where('ApproverID', 0)
+                ->where('ApprovedFlag', 1)
                 ->get();
         } else {
             $travel_requests = collect([]);
@@ -195,54 +237,96 @@ class TravelRequestController extends Controller
         return view('travel_request.final_admindashboard', compact('travel_requests'));
     }
 
-    //Approve travel request function
+    //Approve travel request function for supervisors
     public function approve_request(Request $request, $ref)
     {
         $staffs = Staff::all();
-
-        $user = User::all();
-
-        $travel_request = User::all();
+        $user   = User::all();
 
         $travel_request               = TravelRequest::find($ref);
         $travel_request->ApprovalDate = date('Y-m-d');
-        $travel_request               = TravelRequest::where('TravelRef', $ref)
-            ->where('RequestApproved', '0')
-            ->first();
-        $travel_request->RequestApproved = '1';
-        $travel_request->ApproverComment = $request->ApproverComment;
+        $travel_request               = TravelRequest::where('TravelRef', $ref)->first();
+
+        // dd($travel_request);
+        $travel_request->RequestApproved    = 1;
+        $travel_request->ApproverComment    = $request->ApproverComment;
+        $travel_request->SupervisorApproved = 1;
+        $travel_request->ApproverID         = $request->Approver1;
+        $travel_request->ApproverID1        = $request->Approver1;
+        $travel_request->ApproverID2        = $request->Approver2;
+        $travel_request->ApproverID3        = $request->Approver3;
+        $travel_request->ApproverID4        = $request->Approver4;
 
         $travel_request->update();
 
         $email = User::find($travel_request->RequesterID)->first()->email;
-
+        // dd($request->all());
         Mail::to($email)->send(new RequestApproved());
 
+        // send emails when ApproverID is null and send route request to admin
+        //  end
+
         return redirect()->route('travel_request.admindashboard')->with('success', 'Request Approved successfully');
+    }
+
+// approvals
+    public function approve(Request $request)
+    {
+
+        $ApprovedDate = $request->ApprovedDate;
+        $SelectedID   = collect($request->SelectedID);
+        $ApproverID   = $request->ApproverID;
+        $Comment      = $request->Comment;
+        $ModuleID     = $request->ModuleID;
+        $ApprovedFlag = $request->ApprovedFlag;
+        $new_array    = array();
+        foreach ($SelectedID as $value) {
+            array_push($new_array, intval($value));
+            $approve_proc = \DB::statement(
+                "EXEC procApproveRequest  '$ApprovedDate', '$value', $ModuleID, '$Comment', $ApproverID, $ApprovedFlag"
+            );
+            $travel_request = TravelRequest::find($value);
+
+            $next_approver = $travel_request->ApproverID != 0 ? Staff::where('UserID', $travel_request->ApproverID)->first()->user : null;
+            $recipients    = $travel_request->recipients;
+            $recipients    = collect($recipients);
+
+            $recipients->transform(function ($item, $key) {
+                $item = Staff::where('UserID', $item)->first()->user;
+                return $item;
+            });
+
+            if (!is_null($next_approver) || $next_approver != 0) {
+                // Notification::send($next_approver, new TravelRequestApproval($memo));
+            } else {
+                // send mail to reciepient, notifying them of the memo approval
+                // Notification::send($recipients->all(), new TravelRequestReceipient($memo));
+            }
+        }
+        // $selected_ids = (implode(',', $new_array));
+
+        // Send Notification to next Approver
+
+        return response()->json([
+            'message' => 'Travel Request was approved successfully',
+        ])->setStatusCode(200);
     }
 
     //Final Approval for travel request (role based)
     public function admin_approve_request(Request $request, $ref)
     {
-        $staffs = Staff::all();
-
-        $user = User::all();
-
-        $travel_request               = User::all();
-        $travel_request               = TravelRequest::find($ref);
-        $travel_request->ApprovalDate = date('Y-m-d');
-        $travel_request               = TravelRequest::where('TravelRef', $ref)
-            ->where('RequestApproved', '0')
-            ->first();
-        $travel_request->AdminApproved   = 1;
-        $travel_request->ApproverComment = $request->ApproverComment;
+        // dd($request->all());
+        $staffs         = Staff::all();
+        $travel_request = TravelRequest::find($ref);
+        $travel_request = TravelRequest::find($ref);
+        // dd($travel_request);
+        $travel_request->ApprovalDate  = date('Y-m-d');
+        $travel_request->AdminApproved = 1;
+        // $travel_request->ApproverComment = $request->ApproverComment;
 
         $travel_request->update();
-
         $email = User::find($travel_request->RequesterID)->first()->email;
-
         Mail::to($email)->send(new RequestApproved());
-
         return redirect()->route('travel_request.admindashboard')->with('success', 'Request Approved successfully');
     }
 

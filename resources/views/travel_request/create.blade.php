@@ -38,6 +38,7 @@
             <div class="clearfix"></div>
             <div class="card-box">
                 <div class="card-title">Travel Request</div>
+                @include('errors.list')
                 <form action="{{ route('storerequest') }}" method="POST" class="form">
                     {{ csrf_field() }}
                         <div class="row">                                

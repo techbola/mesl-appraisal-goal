@@ -7,19 +7,7 @@
     background-color: rgba(107, 101, 101, 0.73);
     }
 
-    /* thead tr {
-      font-weight: bold;
-      color: #000;
-    } */
-
-    /* table th, table td {
-        width: 150px  !important;
-    }
-
-    .table {
-      overflow: scroll;
-
-    } */
+    
 
     thead tr {
           font-weight: bold;
@@ -73,7 +61,9 @@
                             </div>
                         </td>
                         <td>
-                            <a style="margin-right: 10px; display: inline-block" href="{{ route('approved', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-success toggler" data-toggle="tooltip" data-placement="top" title="Approve"><i class="fa fa-send"></i></a>
+                            <!--href="{{-- route('approved', $travel_request->TravelRef) --}}"-->
+                            <!-- Trigger Modal -->
+                            <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $travel_request->TravelRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
                             <a style="margin-right: 10px; display: inline-block" href="{{ route('rejected', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
                         </td>
@@ -85,18 +75,100 @@
     </div>
   </div>
 
+  <div class="modal fade" role="dialog" id="myModal">
+      <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Select Approvers where required</h4> <hr>
+          </div>
+          <div class="modal-body">
+           <form id="approvers-form" method="post">
+            {{ csrf_field() }}
+               <div class="row">
+                   <div class="col-md-6">
+                    <div class="controls">
+                        <div class="form-group">
+                            {{ Form::label('Approver1', 'First Approver' ) }}
+                            <select name="Approver1" class="full-width" data-init-plugin="select2" id="Approver1" onchange="">
+                                    <option value=" ">Select Approver</option>
+                                @foreach($staff as $st)
+                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="controls">
+                        <div class="form-group">
+                            {{ Form::label('Approver2', 'Second Approver' ) }}
+                            <select name="Approver2" class="full-width" data-init-plugin="select2" id="Approver2" onchange="">
+                                    <option value=" ">Select Approver</option>
+                                @foreach($staff as $st)
+                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+               </div>
+
+               <div class="row">
+                   <div class="col-md-6">
+                    <div class="controls">
+                        <div class="form-group">
+                            {{ Form::label('Approver3', 'Third Approver' ) }}
+                            <select name="Approver3" class="full-width" data-init-plugin="select2" id="Approver3" onchange="">
+                                    <option value=" ">Select Approver</option>
+                                @foreach($staff as $st)
+                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="controls">
+                        <div class="form-group">
+                            {{ Form::label('Approver4', 'Fourth Approver' ) }}
+                            <select name="Approver4" class="full-width" data-init-plugin="select2" id="Approver4" onchange="">
+                                    <option value=" ">Select Approver</option>
+                                @foreach($staff as $st)
+                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+               </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+      </form>
+    </div><!-- /.modal -->
+
 @endsection
 
 @push('scripts')
 
-{{-- <script>
-
-      $(document).ready(function() {
-    $('#requestTable').DataTable( {
-        "scrollX": true
-    } );
-} );
-
-</script> --}}
+<script>
+    $(function(){
+       $("#approvers-toggler").click(function(e) {
+           e.preventDefault();
+           let val = $(this).data('whatever');
+           console.log(val);
+           $('#myModal').modal();
+           $('#approvers-form').prop('action', '/approve_request/'+val);
+       });
+    });
+</script>
 
 @endpush

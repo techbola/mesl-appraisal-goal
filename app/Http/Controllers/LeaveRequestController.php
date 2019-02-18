@@ -91,7 +91,7 @@ class LeaveRequestController extends Controller
         return view('leave_request.create', compact('leave_type', 'unsent_request', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department', 'leave_days'));
     }
 
-    public function leave_approval()
+    public function leave_approval_supervisor()
     {
         $id             = \Auth::user()->id;
         $leave_requests = \DB::table('tblLeaveRequest')
@@ -127,8 +127,50 @@ class LeaveRequestController extends Controller
             $item->status    = $events->count();
             return $item;
         });
+        $staff = Staff::all()->sortBy('FullName');
         // dd($leave_check);
-        return view('leave_request.leave_approval', compact('leave_requests', 'leave_check'));
+        return view('leave_request.leave_approval_supervisor', compact('leave_requests', 'leave_check', 'staff'));
+    }
+
+    public function leave_approval()
+    {
+        $id             = \Auth::user()->id;
+        $leave_requests = \DB::table('tblLeaveRequest')
+            ->join('tblLeaveType', 'tblLeaveRequest.AbsenceTypeID', '=', 'tblLeaveType.LeaveTypeRef')
+        // ->join('tblHandOver', 'tblLeaveRequest.LeaveReqRef', '=', 'tblHandOver.LeaveRequestID')
+            ->join('users', 'tblLeaveRequest.StaffID', '=', 'users.id')
+            ->where('ApproverID', auth()->user()->id)
+            ->where('NotifyFlag', 1)
+            ->get();
+
+        $leave_check = $leave_requests->transform(function ($item, $key) {
+            $start = $item->StartDate;
+            $end   = $item->ReturnDate;
+
+            $events = RestrictionDates::where(function ($query) use ($start, $end) {
+                $query->where(function ($query) use ($start, $end) {
+                    $query->where('StartDate', '>=', $start)
+                        ->where('EndDate', '>=', $start);
+                })
+                    ->orWhere(function ($query) use ($start, $end) {
+                        $query->where('EndDate', '>=', $end)
+                            ->where('EndDate', '<=', $end);
+                    })
+
+                    ->orWhere(function ($query) use ($start, $end) {
+                        $query->where('StartDate', '>=', $start)
+                            ->where('EndDate', '>=', $end);
+                    })
+
+                ;
+            });
+            $item->handovers = HandOverNote::where('LeaveRequestID', $item->LeaveReqRef)->get();
+            $item->status    = $events->count();
+            return $item;
+        });
+        $staff = Staff::all()->sortBy('FullName');
+        // dd($leave_check);
+        return view('leave_request.leave_approval', compact('leave_requests', 'leave_check', 'staff'));
     }
 
     public function hr_leave_approval()
@@ -213,9 +255,40 @@ class LeaveRequestController extends Controller
         }
     }
 
+    // supervisor
+    public function approve_request_supervisor(Request $request, $ref)
+    {
+        $staffs = Staff::all();
+        $user   = User::all();
+
+        $leave_request = LeaveRequest::find($ref);
+        // $leave_request->ApprovalDate = date('Y-m-d');
+
+        // dd($leave_request);
+        // $leave_request->RequestApproved    = 1;
+        $leave_request->SupervisorApproved = 1;
+        $leave_request->ApproverID         = $request->Approver1 ?? 0;
+        $leave_request->ApproverID1        = $request->Approver1 ?? 0;
+        $leave_request->ApproverID2        = $request->Approver2 ?? 0;
+        $leave_request->ApproverID3        = $request->Approver3 ?? 0;
+        $leave_request->ApproverID4        = $request->Approver4 ?? 0;
+
+        $leave_request->update();
+
+        // $email = User::find($leave_request->RequesterID)->first()->email;
+        // dd($request->all());
+        // Mail::to($email)->send(new RequestApproved());
+
+        // send emails when ApproverID is null and send route request to admin
+        //  end
+
+        return redirect('/leave_request/leave_approval')->with('success', 'Request Approved successfully');
+    }
+
     public function approve_leave_request(Request $request, LeaveApprover $get_approvers)
     {
         if ($request->input('approve')) {
+            // dd($request->all());
             try {
                 \DB::beginTransaction();
                 foreach ($request->LeaveRef as $Ref) {
