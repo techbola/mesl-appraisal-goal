@@ -65,7 +65,8 @@ class LeaveRequestController extends Controller
         $leave_used = collect(\DB::table('tblLeaveTransaction')
                 ->where('StaffID', $id)->where('LeaveTypeID', $leave_type_id)->get())
             ->sum('DaysRequested');
-        $leave_remaining_days = $leave_days - $leave_used;
+
+        $leave_remaining_days = ($leave_days - $leave_used) < 0 ? 0 : $leave_days - $leave_used;
         //return $leave_used;
         return response()->json(['data' => ['leavedays' => $leave_days, 'leaveremainingdays' => $leave_remaining_days]]);
 
@@ -510,6 +511,36 @@ class LeaveRequestController extends Controller
 
     public function store_leave_request(Request $request)
     {
+
+        $id = \Auth::user()->id;
+
+        $leavedays     = Staff::where('UserID', $id)->first();
+        $leave_type_id = $request->AbsenceTypeID;
+
+        if ($leave_type_id == '1') {
+            $leave_days = $leavedays->LeaveDays;
+        } elseif ($leave_type_id == '2') {
+            $leave_days = $leavedays->CasualLeaveDays;
+        } elseif ($leave_type_id == '3') {
+            $leave_days = $leavedays->ExamLeaveDays;
+        } elseif ($leave_type_id == '4') {
+            $leave_days = $leavedays->MaternityLeaveDays;
+        } elseif ($leave_type_id == '5') {
+            $leave_days = $leavedays->SickLeaveDays;
+        } elseif ($leave_type_id == '6') {
+            $leave_days = $leavedays->CompasionateLeaveDays;
+        }
+
+        $leave_used = collect(\DB::table('tblLeaveTransaction')
+                ->where('StaffID', $id)->where('LeaveTypeID', $leave_type_id)->get())
+            ->sum('DaysRequested');
+
+        $leave_remaining_days = ($leave_days - $leave_used);
+        if ($leave_remaining_days <= 0) {
+            return back()->withInput()->with('error', 'You have exceeded the number of leave days allocated to you');
+        } elseif ($request->NumberofDays > $leave_remaining_days) {
+            return back()->withInput()->with('error', 'Request Failed. You have requested more than the number of leave days allocated to you');
+        }
         try {
             \DB::beginTransaction();
 
