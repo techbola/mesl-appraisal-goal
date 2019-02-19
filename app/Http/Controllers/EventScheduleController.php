@@ -13,141 +13,142 @@ use Notification;
 
 class EventScheduleController extends Controller
 {
-  public function index()
-  {
-    $user = auth()->user();
-    // $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
-    $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
-    $events_array = $events->toArray();
-    // dd($events_array);
-    $departments = CompanyDepartment::where('is_deleted', false)->get();
+    public function index()
+    {
+        $user = auth()->user();
+        // $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
+        $events       = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
+        $events_array = $events->toArray();
+        // dd($events_array);
+        $departments = CompanyDepartment::where('is_deleted', false)->get();
 
-    return view('events.index', compact('events', 'events_array', 'departments'));
-  }
-
-  public function get_events()
-  {
-    $user = auth()->user();
-    $user_departments = explode(',', $user->staff->DepartmentID);
-    $events = EventSchedule::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->get();
-    $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->where('DateofBirth', '!=', '')->where('DateofBirth', '!=', NULL)->get();
-    $events_array = [];
-    $count = '0';
-
-    foreach ($events as $event) {
-      $events_array[$count]['ref'] = $event->EventRef;
-      $events_array[$count]['title'] = $event->Event;
-      $events_array[$count]['start'] = $event->StartDate;
-
-      $date[$count] = date_create($event->EndDate);
-      date_add($date[$count], date_interval_create_from_date_string('1 days'));
-      $end_date = date_format($date[$count], 'Y-m-d');
-
-      $events_array[$count]['end'] = $end_date;
-      $events_array[$count]['description'] = str_limit($event->Description, '100');
-      $count++;
+        return view('events.index', compact('events', 'events_array', 'departments'));
     }
-    // foreach ($staffs as $staff) {
-    //   $events_array[$count]['ref'] = '00',
-    //   $events_array[$count]['title'] = $staff->FullName.'\'s Birthday',
-    //   $events_array[$count]['start'] = $staff->DateofBirth,
-    //     $date[$count] = date_create($staff->DateofBirth);
-    //     date_add($date[$count], date_interval_create_from_date_string('1 days'));
-    //     $end_date = date_format($date[$count], 'Y-m-d');
-    //   $events_array[$count]['end'] = $end_date,
-    //   $events_array[$count]['description'] = '';
-    //   $count++;
-    // }
 
-    // $events_json = $events->toJson();
-    // dd($events_array);
-    return json_encode($events_array);
-  }
+    public function get_events()
+    {
+        $user             = auth()->user();
+        $user_departments = explode(',', $user->staff->DepartmentID);
+        $events           = EventSchedule::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->get();
+        $staffs           = Staff::where('CompanyID', $user->staff->CompanyID)->where('DateofBirth', '!=', '')->where('DateofBirth', '!=', null)->get();
+        $events_array     = [];
+        $count            = '0';
 
-  public function save_event(Request $request)
-  {
-    $user = auth()->user();
+        foreach ($events as $event) {
+            $events_array[$count]['ref']   = $event->EventRef;
+            $events_array[$count]['title'] = $event->Event;
+            $events_array[$count]['start'] = $event->StartDate;
 
-    $this->validate($request, [
-      'Event' => 'required',
-      'StartDate' => 'required',
-      'EndDate' => 'required',
-      'DepartmentID' => 'required',
-    ]);
+            $date[$count] = date_create($event->EndDate);
+            date_add($date[$count], date_interval_create_from_date_string('1 days'));
+            $end_date = date_format($date[$count], 'Y-m-d');
 
-    $event = new EventSchedule;
-    $event->Event = $request->Event;
-    $event->StartDate = $request->StartDate;
-    $event->EndDate = $request->EndDate;
-    $event->StartTime = $request->StartTime;
-    $event->EndTime = $request->EndTime;
-    $event->Initiator = $user->id;
-    $event->CompanyID = $user->staff->CompanyID;
-    $event->Description = $request->Description;
-    $event->DepartmentID = $request->DepartmentID;
-    $event->save();
+            $events_array[$count]['end']         = $end_date;
+            $events_array[$count]['description'] = str_limit($event->Description, '100');
+            $count++;
+        }
+        // foreach ($staffs as $staff) {
+        //   $events_array[$count]['ref'] = '00',
+        //   $events_array[$count]['title'] = $staff->FullName.'\'s Birthday',
+        //   $events_array[$count]['start'] = $staff->DateofBirth,
+        //     $date[$count] = date_create($staff->DateofBirth);
+        //     date_add($date[$count], date_interval_create_from_date_string('1 days'));
+        //     $end_date = date_format($date[$count], 'Y-m-d');
+        //   $events_array[$count]['end'] = $end_date,
+        //   $events_array[$count]['description'] = '';
+        //   $count++;
+        // }
 
-    $depts = CompanyDepartment::all()->pluck('id')->toArray();
+        // $events_json = $events->toJson();
+        // dd($events_array);
+        return json_encode($events_array);
+    }
 
+    public function save_event(Request $request)
+    {
+        $user = auth()->user();
 
-      $all = User::whereHas('staff', function($query) use($user, $request) {
-        $query->where('DepartmentID', $request->DepartmentID);
-      })->get();
+        $this->validate($request, [
+            'Event'        => 'required',
+            'StartDate'    => 'required',
+            'EndDate'      => 'required',
+            'DepartmentID' => 'required',
+        ]);
 
+        $event               = new EventSchedule;
+        $event->Event        = $request->Event;
+        $event->StartDate    = $request->StartDate;
+        $event->EndDate      = $request->EndDate;
+        $event->StartTime    = $request->StartTime;
+        $event->EndTime      = $request->EndTime;
+        $event->Initiator    = $user->id;
+        $event->CompanyID    = $user->staff->CompanyID;
+        $event->Description  = $request->Description;
+        $event->DepartmentID = $request->DepartmentID;
+        $event->save();
 
-    Notification::send($all, new NewCalendarEvent($event));
+        $depts = CompanyDepartment::all()->pluck('id')->toArray();
 
-    return redirect()->route('events')->with('success', 'Event was created successfully');
-  }
+        if ($request->DepartmentID == 29) {
+            $all = User::all();
+        } else {
+            $all = User::whereHas('staff', function ($query) use ($user, $request) {
+                $query->where('DepartmentID', $request->DepartmentID);
+            })->get();
+        }
+        Notification::send($all, new NewCalendarEvent($event));
 
-  public function view_event($id)
-  {
-    $user = auth()->user();
-    $event = EventSchedule::find($id);
-    $departments = CompanyDepartment::all();
+        return redirect()->route('events')->with('success', 'Event was created successfully');
+    }
 
-    return view('events.view', compact('event', 'departments'));
-  }
+    public function view_event($id)
+    {
+        $user        = auth()->user();
+        $event       = EventSchedule::find($id);
+        $departments = CompanyDepartment::all();
 
-  public function update_event(Request $request, $id)
-  {
+        return view('events.view', compact('event', 'departments'));
+    }
 
-    $event = EventSchedule::find($id);
-    $user = auth()->user();
+    public function update_event(Request $request, $id)
+    {
 
-    $this->authorize('edit-event', $event);
+        $event = EventSchedule::find($id);
+        $user  = auth()->user();
 
-    $this->validate($request, [
-      'Event' => 'required',
-      'StartDate' => 'required',
-      'EndDate' => 'required',
-      'DepartmentID' => 'required',
-    ]);
+        $this->authorize('edit-event', $event);
 
-    $event->Event = $request->Event;
-    $event->StartDate = $request->StartDate;
-    $event->EndDate = $request->EndDate;
-    $event->StartTime = $request->StartTime;
-    $event->EndTime = $request->EndTime;
-    $event->Initiator = $user->id;
-    $event->CompanyID = $user->staff->CompanyID;
-    $event->Description = $request->Description;
-    $event->DepartmentID = $request->DepartmentID;
-    $event->save();
+        $this->validate($request, [
+            'Event'        => 'required',
+            'StartDate'    => 'required',
+            'EndDate'      => 'required',
+            'DepartmentID' => 'required',
+        ]);
 
-    return redirect()->route('events')->with('success', 'Event was updated successfully');
-  }
+        $event->Event        = $request->Event;
+        $event->StartDate    = $request->StartDate;
+        $event->EndDate      = $request->EndDate;
+        $event->StartTime    = $request->StartTime;
+        $event->EndTime      = $request->EndTime;
+        $event->Initiator    = $user->id;
+        $event->CompanyID    = $user->staff->CompanyID;
+        $event->Description  = $request->Description;
+        $event->DepartmentID = $request->DepartmentID;
+        $event->save();
 
-  public function delete_event(Request $request, $id)
-  {
-    $event = EventSchedule::find($id);
+        return redirect()->route('events')->with('success', 'Event was updated successfully');
+    }
 
-    $this->authorize('edit-event', $event);
+    public function delete_event(Request $request, $id)
+    {
+        $event = EventSchedule::find($id);
 
-    $event->delete();
+        $this->authorize('edit-event', $event);
 
-    return redirect()->route('events')->with('success', 'The event was deleted successfully');
+        $event->delete();
 
-  }
+        return redirect()->route('events')->with('success', 'The event was deleted successfully');
+
+    }
 
 }

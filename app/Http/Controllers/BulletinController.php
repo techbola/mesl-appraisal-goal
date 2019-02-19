@@ -81,10 +81,17 @@ class BulletinController extends Controller
         //     $query->whereIn('DepartmentID', $depts);
         //   })->get();
         // } else {
-        $staff = User::whereHas('staff', function ($q) use ($request) {
-            $q->whereRaw("DepartmentID IN ($request->DepartmentID)");
-        })->get();
+
         // }
+
+        // SEND NOTIFICATION TO ALL STAFF IF ALL DEARTMENTS WAS SELECTED
+        if ($request->DepartmentID == 29) {
+            $staff = User::all();
+        } else {
+            $staff = User::whereHas('staff', function ($q) use ($request) {
+                $q->whereRaw("DepartmentID IN ($request->DepartmentID)");
+            })->get();
+        }
 
         Notification::send($staff, new NewBulletin($bulletin));
 
