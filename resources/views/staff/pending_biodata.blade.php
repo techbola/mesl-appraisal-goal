@@ -195,6 +195,18 @@
           <td>{!! ($pending->BeneficiaryPhone != $staff->BeneficiaryPhone)? $pending->BeneficiaryPhone : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
+        <tr>
+          <td>Beneficiary Email</td>
+          <td>{{ $staff->Beneficiary_Email ?? '-' }}</td>
+          <td>{!! ($pending->Beneficiary_Email != $staff->Beneficiary_Email)? $pending->Beneficiary_Email : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Beneficiary Address</td>
+          <td>{{ $staff->Beneficiary_Address ?? '-' }}</td>
+          <td>{!! ($pending->Beneficiary_Address != $staff->Beneficiary_Address)? $pending->Beneficiary_Address : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
         
       </tbody>
     </table>
