@@ -281,6 +281,7 @@ class LeaveRequestController extends Controller
         $leave_request->ApproverID2        = $request->Approver2 ?? 0;
         $leave_request->ApproverID3        = $request->Approver3 ?? 0;
         $leave_request->ApproverID4        = $request->Approver4 ?? 0;
+        $leave_request->ApproverComment    = $request->Comment;
 
         $leave_request->update();
 
@@ -331,15 +332,16 @@ class LeaveRequestController extends Controller
             // dd($request->all());
             try {
                 \DB::beginTransaction();
-                foreach ($request->LeaveRef as $Ref) {
+                foreach ($request->LeaveRef as $key => $Ref) {
                     $details      = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                     $current_time = Carbon::now();
 
-                    $module_id   = 3;
-                    $comment     = "Approved";
+                    $module_id = 3;
+                    $comment   = $request->Comment[$details->LeaveReqRef];
+                    // dd($comment);
                     $approver_id = $details->ApproverID;
                     $flag        = 1;
-                    $approve     = \DB::statement("EXEC procApproveRequest '$current_time', '$Ref', $module_id, '$comment', $approver_id, $flag");
+                    $approve     = \DB::statement("EXEC procApproveRequest '$current_time', '$Ref', $module_id, $comment, $approver_id, $flag");
 
                     if ($approve) {
                         $trans           = LeaveRequest::where('LeaveReqRef', $Ref)->first();
@@ -393,7 +395,8 @@ class LeaveRequestController extends Controller
                             Mail::to($approver_email)->send(new LeaveRequestApproval($details));
                         }
                     }
-                    Mail::to($approver_email)->send(new LeaveRequestApproval($details));
+                    // mail to hr
+                    // Mail::to($approver_email)->send(new LeaveRequestApproval($details));
                 }
                 \DB::commit();
                 return redirect()->route('LeaveApproval')->with('success', 'Leave Request was added successfully');
@@ -722,23 +725,11 @@ class LeaveRequestController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $leave_request = LeaveRequest::where('LeaveReqRef', $id)->first();
@@ -753,13 +744,6 @@ class LeaveRequestController extends Controller
         return view('leave_request.edit', compact('leave_request', 'staff', 'id', 'user', 'department', 'leave_type'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $leave_request = LeaveRequest::where('LeaveReqRef', $id)->first();

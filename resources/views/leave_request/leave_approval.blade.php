@@ -54,7 +54,7 @@
             <th >Leave Days</th>
             <th>File(s)</th>
             <th>HandOver Notes</th>
-            <th>Action</th>
+            <th>Approver Comment</th>
 
           </thead>
           <tbody>
@@ -119,6 +119,10 @@
                  {{--  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
                             <a style="margin-right: 10px; display: inline-block" href="{{ route('rejected', $leave_request->LeaveReqRef) }}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a> --}}
+                           <div class="form-group">
+                              
+                            <textarea name="Comment[{{ $leave_request->LeaveReqRef }}]" placeholder="Enter Comment" id="Comment" cols="30" rows="3" class="form-control"></textarea>
+                           </div>
                 </td>
               </tr>
                @endif

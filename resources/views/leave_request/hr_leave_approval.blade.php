@@ -48,7 +48,7 @@
             <th width="10%">Start Date</th>
             <th width="10%">End Date</th>
             <th width="10%">Leave Days</th>
-            <th>File(s)</th>
+            <th width="10%">File(s)</th>
           </thead>
           <tbody>
 
@@ -93,8 +93,11 @@
                   @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
                   Download attachment
+                  @else
+                  <span class="badge">No Files</span>
                     @endif
                 </td>
+               
               </tr>
                @endif
               @endforeach

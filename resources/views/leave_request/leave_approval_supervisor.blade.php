@@ -230,6 +230,15 @@
                     </div>
                 </div>
                </div>
+
+               <div class="row">
+                 <div class="controls">
+                        <div class="form-group">
+                            {{ Form::label('Comment' ) }}
+                            <textarea name="Comment" id="Comment" class="form-control summernote" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+               </div>
            
           </div>
           <div class="modal-footer">
