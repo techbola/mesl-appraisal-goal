@@ -336,12 +336,12 @@ class LeaveRequestController extends Controller
                     $details      = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                     $current_time = Carbon::now();
 
-                    $module_id = 3;
-                    $comment   = $request->Comment[$details->LeaveReqRef];
-                    // dd($comment);
+                    $module_id        = 3;
+                    $approver_comment = (STRING) $request->ApproverComment[$Ref];
+                    // dd($approver_comment);
                     $approver_id = $details->ApproverID;
                     $flag        = 1;
-                    $approve     = \DB::statement("EXEC procApproveRequest '$current_time', '$Ref', $module_id, $comment, $approver_id, $flag");
+                    $approve     = \DB::statement("EXEC procApproveRequest '$current_time', '$Ref', $module_id, '$approver_comment', $approver_id, $flag");
 
                     if ($approve) {
                         $trans           = LeaveRequest::where('LeaveReqRef', $Ref)->first();
