@@ -24,6 +24,8 @@ class LeaveRequestedInit extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.leave.init');
+        return $this
+            ->subject('Leave Request')
+            ->markdown('emails.leave.init');
     }
 }

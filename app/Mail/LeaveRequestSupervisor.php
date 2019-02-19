@@ -24,6 +24,8 @@ class LeaveRequestSupervisor extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.leave.supervisor');
+        return $this
+            ->subject('Leave Request Needs Approval')
+            ->markdown('emails.leave.supervisor');
     }
 }

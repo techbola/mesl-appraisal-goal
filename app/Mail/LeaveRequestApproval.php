@@ -24,6 +24,8 @@ class LeaveRequestApproval extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.leave.approval');
+        return $this
+            ->subject('Leave Request Needs Approval')
+            ->markdown('emails.leave.approval');
     }
 }
