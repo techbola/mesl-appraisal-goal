@@ -13,8 +13,8 @@
       </div>
 
       <div class="form-group m-t-10 inline-block m-l-10" style="max-width:50%; vertical-align:middle">
-          {{ Form::label('avatar','Upload Profile Picture') }}
-          {{ Form::file('avatar',  ["class" => "filestyle form-group", 'data-placeholder' => 'Upload Profile Photo', 'data-buttonname'=>'btn-info', 'data-buttonBefore'=>'true', 'style'=>'border-radius:50px']) }}
+          {{ Form::label('avatar','Upload Profile Picture', ['class' => '']) }}
+          {{ Form::file('avatar',  ["class" => "filestyle form-group ", 'data-placeholder' => 'Upload Profile Photo', 'data-buttonname'=>'btn-info', 'data-buttonBefore'=>'true', 'style'=>'border-radius:50px', '']) }}
           {{-- <input type="file" class="filestyle" name="Photo" data-placeholder="Upload Photo" data-buttonname="btn-info" data-buttonBefore="true"> --}}
       </div>
     </div>

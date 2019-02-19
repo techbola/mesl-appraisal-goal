@@ -3,8 +3,9 @@ Title : Leave Request Approval.
 
 Dear {{$leave_request->current_approver->FullName}}
 
-{{ $leave_request->requester->fullName }} Requested a <b>{{ $leave_request->leave_type->LeaveType }} Leave</b>.
-and requested that their leave starts on: <b>{{ nice_date($leave_request->StartDate) }}</b> and ends on: <b>{{ nice_date($leave_request->ReturnDate) }}</b> <b>({{ $leave_request->NumberofDays }})</b>day(s).
+{{ $leave_request->requester->fullName }} Requested a  ({{ $leave_request->NumberofDays }}) day(s) <b>{{ $leave_request->leave_type->LeaveType }} Leave</b>. <br>
+Start Date: <b>{{ nice_date($leave_request->StartDate) }}</b> <br>
+End Date: <b>{{ nice_date($leave_request->ReturnDate) }}</b> 
 
 You are required to approve or decline their request.
 
