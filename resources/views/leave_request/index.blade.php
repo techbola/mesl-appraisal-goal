@@ -41,6 +41,7 @@
   <!-- /.modal-dialog -->
 
   	<!-- START PANEL -->
+    {{-- <div class="card-box"> --}}
   	<div class="card-box">
   			<div class="card-title pull-left">Leave Status</div>
   			<div class="pull-right">
