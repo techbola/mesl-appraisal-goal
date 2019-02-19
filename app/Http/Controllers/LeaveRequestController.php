@@ -578,6 +578,23 @@ class LeaveRequestController extends Controller
         } elseif ($request->NumberofDays > $leave_remaining_days) {
             return back()->withInput()->with('error', 'Request Failed. You have requested more than the number of leave days allocated to you');
         }
+
+        // check to see if there is an approved leave already and still ongoing
+        $pending_request = LeaveRequest::where('StaffID', auth()->user()->id)
+            ->where('CompletedFlag', 1)
+            ->where('ApprovedFlag', 1)
+            ->where('ApproverID', 0)
+            ->get();
+
+        $ongoing_request = [];
+        foreach ($pending_request as $key => $value) {
+            if (Carbon::now() > $value->ReturnDate) {
+                array_push($ongoing_request, $value->LeaveReqRef);
+            }
+        }
+        if (count($ongoing_request) > 0) {
+            return back()->withInput()->with('error', 'You have an approved request which is still ongoing');
+        }
         try {
             \DB::beginTransaction();
 
