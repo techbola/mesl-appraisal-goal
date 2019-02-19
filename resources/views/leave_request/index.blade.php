@@ -42,7 +42,7 @@
 
   	<!-- START PANEL -->
     {{-- <div class="card-box"> --}}
-  	<div class="card-box">
+  	<div class="">
   			<div class="card-title pull-left">Leave Status</div>
   			<div class="pull-right">
   				<div class="col-xs-12">

@@ -179,7 +179,7 @@
                                             </div>
                                         </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-5">
                                            
                                             <div class="form-group">
                                                  <label for="Description">Description</label>
@@ -376,7 +376,7 @@ $(function(){
         </div>
     </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-5">
        
         <div class="form-group">
              <label for="Description">Description</label>
