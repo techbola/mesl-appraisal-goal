@@ -44,7 +44,7 @@
                   <td>{{$staff_onboard->StaffType}}</td>
                   <td>{{$staff_onboard->ResumptionDate}}</td>
                   <td>
-                    {{$staff_onboard->OfficeSpace}}, {{$staff_onboard->OfficeTable}}, {{$staff_onboard->BusinessCard}}
+                    {{$staff_onboard->OfficeSpace}} {{$staff_onboard->OfficeTable}} {{$staff_onboard->BusinessCard}}
                   </td>
                 <td>
                     <a href="{{ url('admin_onboard_mail')}}/ {{$staff_onboard->StaffOnboardRef }}" class="btn btn-xs btn-success">

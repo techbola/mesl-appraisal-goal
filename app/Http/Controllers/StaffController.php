@@ -607,14 +607,32 @@ class StaffController extends Controller
 
     public function store_staff_onboard(Request $request)
     {
-        $user  = auth()->user();
-        $staff = Staff::all();
+        $current_date       = strtotime(Carbon::now()->toDateString());
+        $resumption_date    = strtotime($request->ResumptionDate);
 
-        $staff_onboard = new StaffOnboarding($request->all());
+        if($resumption_date >= $current_date){
+            $user  = auth()->user();
+            $staff = Staff::all();
+            $staff_onboard = new StaffOnboarding($request->all());
+            if($staff_onboard->save()) {
+                $data = [
+                    'status'    => 'success',
+                    'message'   =>  $request->StaffName.' onboarding request was created successfully!'
+                ];
+            }else{
+                $data = [
+                    'status'    => 'error',
+                    'message'   =>  $request->StaffName.' onboarding request was not successful!'
+                ];
+            }
+        }else{
+            $data = [
+                'status'    => 'error',
+                'message'   => 'Invalid resumption date! Select a valid date and try again!'
+            ];    
+        } 
 
-        if ($staff_onboard->save()) {
-            return redirect()->route('StoreStaff')->with('success', 'Staff Rquest was Made successfully');
-        }
+        return redirect()->route('StoreStaff')->with($data['status'], $data['message']);
     }
 
     //Send mail to IT and Admin for Onboarding notification
@@ -634,23 +652,26 @@ class StaffController extends Controller
         $staff_onboard->SendForApproval = '1';
         $staff_onboard->update();
 
-        $users = User::whereHas('staff', function ($query) {
+        $staffs = User::whereHas('staff', function ($query) {
             $query->whereIn('DepartmentID', [7, 14]);
         })->get(); // ->toArray();
 
-        Mail::to($users)->send(new StaffOnboard());
+        foreach ($staffs as $key => $value) {
+            if($value->email !== null){
+                Mail::to($value->email)->send(new StaffOnboard());
+            }
+        }
 
-        return redirect()->route('StaffOnboarding')->with('success', 'Request was Sent successfully');
+        return redirect()->route('StaffOnboarding')->with('success', 'Onboarding request has been sent!');
     }
 
     //Delete Staff Onboarding queue function
     public function delete_onboarding($id)
     {
         $staff_onboard = StaffOnboarding::find($id);
-
         $staff_onboard->delete();
 
-        return redirect()->route('StaffOnboarding')->with('success', 'Process was Deleted successfully');
+        return redirect()->route('StaffOnboarding')->with('success', 'Onboarding request has been deleted!');
     }
 
     public function staff_onboarding()
@@ -694,12 +715,15 @@ class StaffController extends Controller
             $staff_onboard->ApprovalStatus1 = '1';
             $staff_onboard->update();
 
-            $users = User::whereHas('staff', function ($query) {
+            $staffs = User::whereHas('staff', function ($query) {
                 $query->whereIn('DepartmentID', [3]);
             })->get();
-            dd($users);
-
-            \Mail::to($users)->send(new ApprovalIT());
+            
+            foreach ($staffs as $key => $value) {
+                if($value->email !== null){
+                    \Mail::to($value->email)->send(new ApprovalIT());
+                }
+            }
 
             $status  = "success";
             $message = "Request has been treated successfully";
@@ -752,11 +776,17 @@ class StaffController extends Controller
             $staff_onboard->ApprovalStatus2 = 1;
             $staff_onboard->update();
 
-            $users = User::whereHas('staff', function ($query) {
+            $staffs = User::whereHas('staff', function ($query) {
                 $query->whereIn('DepartmentID', [3]);
             })->get();
 
-            \Mail::to($users)->send(new AdminOnboardApproval());
+
+            foreach ($staffs as $key => $value) {
+                if($value->email !== null){
+                    // Mail::to($value->email)->send(new StaffOnboard());
+                    \Mail::to($value->email)->send(new AdminOnboardApproval());
+                }
+            }
 
             $status  = "success";
             $message = "Request has been treated successfully";

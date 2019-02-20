@@ -49,12 +49,8 @@
                             </div>
                             <div class="col-md-6">
                                 {{ Form::label('Department','Department') }}
-                                {{-- {{ Form::text('Department', null, ['class' => 'form-control', 'placeholder' => 'Staff Department', 'required' ]) }} --}}
-                                <select name="Department" id="Staff Department" class= "full-width",data-placeholder = "Choose your Leave Type", data-init-plugin = "select2" >
+                                <select name="Department" id="department_name" class="form-control" required="">
                                     <option value="">Select Department</option>
-                                    @foreach ($department as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -66,7 +62,7 @@
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('StaffType', 'Staff Type' ) }}
-                                        <select name="StaffType" class="full-width" data-init-plugin="select2">
+                                        <select name="StaffType" class="form-control" required="">
                                             <option value="">Select Staff Type</option>
                                             <option value="Full Staff">Full Staff</option>
                                             <option value="Contract Staff">Contract Staff</option>
@@ -200,9 +196,6 @@
         </div>
 
         {{-- Modal --}}
-
-
-
         <div id="onboarding-status" class="tab-pane fade">        
             <div class="clearfix"></div>
             <div class="card-box">
@@ -262,6 +255,7 @@
             </div>
         </div>
     </div>
+
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -272,7 +266,7 @@
             <span aria-hidden="true">&times;</span>
           </button> --}}
         </div>
-    <form action="{{ url('submit_staff_onboarding') }}" class="form-edit" method="POST">
+        <form action="{{ url('submit_staff_onboarding') }}" class="form-edit" method="POST">
             {{ csrf_field() }}
             <input type="hidden" id="StaffOnboardRef" name="StaffOnboardRef" value="">
                 <div class="modal-body">
@@ -286,11 +280,8 @@
                             <div class="col-md-6">
                                 {{ Form::label('Department','Department') }}
                                 {{-- {{ Form::text('Department', null, ['class' => 'form-control', 'placeholder' => 'Staff Department', 'required' ]) }} --}}
-                                <select name="Department" id="Staff Department" class= "full-width",data-placeholder = "Choose your Leave Type", data-init-plugin = "select2", id="staff_department" >
+                                <select name="Department" class="form-control" id="edit_department_name">
                                     <option value="">Select Department</option>
-                                    @foreach ($department as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -389,9 +380,9 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#travelTable').DataTable( {
+            $('#travelTable').DataTable({
                 "scrollX": true
-            } );
+            });
         });
 
         function edit_staff_onboarding(id)
@@ -402,7 +393,7 @@
 
                 $('#staff_name').val(data.StaffName);
 
-                $('#staff_department').val(data.StaffDepartment).trigger('change');
+                $('#edit_department_name').val(data.Department).trigger('change');
 
                 $('#staff_type').val(data.StaffType).trigger('change');
 
@@ -454,7 +445,7 @@
 
                 $('#form-edit').prop('action', '/submit_staff_onboarding');
             });
-         }
+        }
 
 
         //  $('#submit-edit').click(function(e) {
@@ -467,5 +458,27 @@
         // });
 
     //   });
+
+        // get all department
+        $(function(){
+            $.get('{{ url("supervisor/all/department") }}', function(data) {
+                $("#department_name").html("");
+                $("#edit_department_name").html("");
+
+                $.each(data, function(index, val) {
+                    $("#department_name").append(`
+                        <option value="${val.id}">${val.text}</option>
+                    `);
+                    $("#edit_department_name").append(`
+                        <option value="${val.id}">${val.text}</option>
+                    `);
+                });
+
+                // prepare select 2
+                $('#department_name').select2({
+                    // multiple: true
+                });
+            });
+        })
     </script>
 @endpush
