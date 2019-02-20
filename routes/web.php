@@ -1108,6 +1108,10 @@ Route::post('get-transaction-details', 'ReportController@fetchTransactionDetails
 Route::get('expense_management', 'ExpenseManagementController@index')->name('expense_management.index');
 Route::get('expense_management/create', 'ExpenseManagementController@create')->name('expense_management.create');
 Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+// setup screen to add Approvr Roles for users
+Route::get('expense_management/setup-approver-roles', 'ExpenseManagementController@setup')->name('expense_management.setup');
+Route::post('expense_management/setup-approver-roles', 'ExpenseManagementController@setup_post');
+//  end setup;
 Route::get('expense_management/lot_description', 'ExpenseManagementController@lot_description')->name('lot_description.index');
 Route::get('expense_management/lot_description/create', 'ExpenseManagementController@lot_description_create')->name('lot_description.create');
 Route::post('expense_management/lot_description/create', 'ExpenseManagementController@lot_description_store')->name('lot_description.store');
