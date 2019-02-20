@@ -1235,7 +1235,7 @@ Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->nam
 
 Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
 
-Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
+// Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
 Route::get('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');

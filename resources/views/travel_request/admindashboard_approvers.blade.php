@@ -207,9 +207,9 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      console.log(checked_trs_array)
    var ApprovedDate = "{{ \Carbon\Carbon::now() }}";
    var ApproverID = {{ auth()->user()->id }};
-     var confirm  = window.confirm('Are You sure you want to approve this memo ?');
-     if(confirm)
-     var Comment = prompt("Enter Approval Comment");
+     var confirm  = window.confirm('Are You sure you want to approve this request ?');
+     if(confirm) {
+         var Comment = prompt("Enter Approval Comment");
      
      $.ajax({
          url: '/travel_request/approve',
@@ -239,6 +239,8 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      .fail(function() {
          console.log("error");
      });
+     }
+    
      
  });
 
@@ -253,7 +255,7 @@ var table = $('.tableWithSearch_a').DataTable(settings);
      console.log(checked_trs_array)
    var RejectedDate = "{{ \Carbon\Carbon::now() }}";
    var RejecterID = {{ auth()->user()->id }};
-     alert('Are You sure you want to reject this memo ?');
+     alert('Are You sure you want to reject this request ?');
      var Comment = prompt("Enter Rejection Comment");
      
      $.ajax({

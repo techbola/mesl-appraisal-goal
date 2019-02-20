@@ -191,10 +191,10 @@ class TravelRequestController extends Controller
         // approved docs
         $approved_requests = TravelRequest::where('ApproverID', 0)
             ->where('ApprovedFlag', 1)
-            ->whereIn('ApproverID1', [auth()->user()->id])
-            ->orWhereIn('ApproverID2', [auth()->user()->id])
-            ->orWhereIn('ApproverID3', [auth()->user()->id])
-            ->orWhereIn('ApproverID4', [auth()->user()->id])
+            ->orWhere('ApproverID1', [auth()->user()->id])
+            ->orWhere('ApproverID2', [auth()->user()->id])
+            ->orWhere('ApproverID3', [auth()->user()->id])
+            ->orWhere('ApproverID4', [auth()->user()->id])
             ->get();
 
         $staff = Staff::all()->sortBy('FullName');
@@ -205,7 +205,7 @@ class TravelRequestController extends Controller
     public function dash(Request $request)
     {
 
-        $travel_requests = TravelRequest::where('SentForApproval', '1')
+        $travel_requests = TravelRequest::where('SentForApproval', 1)
             ->where('SupervisorID', auth()->user()->staff->StaffRef)
             ->where('SupervisorApproved', 0)
             ->get();
@@ -223,16 +223,18 @@ class TravelRequestController extends Controller
     public function admindash(Request $request)
     {
 
-        if (auth()->user()->staff->SupervisorFlag == 1) {
-            $travel_requests = TravelRequest::where('SentForApproval', '1')
-                ->where('RequestApproved', 1)
-                ->where('SupervisorApproved', 1)
-                ->where('ApproverID', 0)
-                ->where('ApprovedFlag', 1)
-                ->get();
-        } else {
-            $travel_requests = collect([]);
-        }
+        // if (auth()->user()->staff->SupervisorFlag == 1) {
+        $travel_requests = TravelRequest::where('SentForApproval', 1)
+            ->where('RequestApproved', 1)
+            ->where('SupervisorApproved', 1)
+            ->where('ApproverID', 0)
+            ->where('AdminApproved', 0)
+            ->where('ApprovedFlag', 1)
+            ->get();
+        // }
+        // else {
+        //     $travel_requests = collect([]);
+        // }
 
         return view('travel_request.final_admindashboard', compact('travel_requests'));
     }
@@ -252,10 +254,10 @@ class TravelRequestController extends Controller
         $travel_request->ApproverComment    = $request->ApproverComment;
         $travel_request->SupervisorApproved = 1;
         $travel_request->ApproverID         = $request->Approver1;
-        $travel_request->ApproverID1        = $request->Approver1;
-        $travel_request->ApproverID2        = $request->Approver2;
-        $travel_request->ApproverID3        = $request->Approver3;
-        $travel_request->ApproverID4        = $request->Approver4;
+        $travel_request->ApproverID1        = $request->Approver1 ?? 0;
+        $travel_request->ApproverID2        = $request->Approver2 ?? 0;
+        $travel_request->ApproverID3        = $request->Approver3 ?? 0;
+        $travel_request->ApproverID4        = $request->Approver4 ?? 0;
 
         $travel_request->update();
 
@@ -277,7 +279,7 @@ class TravelRequestController extends Controller
         $SelectedID   = collect($request->SelectedID);
         $ApproverID   = $request->ApproverID;
         $Comment      = $request->Comment;
-        $ModuleID     = $request->ModuleID;
+        $ModuleID     = 4;
         $ApprovedFlag = $request->ApprovedFlag;
         $new_array    = array();
         foreach ($SelectedID as $value) {
@@ -316,8 +318,8 @@ class TravelRequestController extends Controller
     public function admin_approve_request(Request $request, $ref)
     {
         // dd($request->all());
-        $staffs         = Staff::all();
-        $travel_request = TravelRequest::find($ref);
+        $staffs = Staff::all();
+        // $travel_request = TravelRequest::find($ref);
         $travel_request = TravelRequest::find($ref);
         // dd($travel_request);
         $travel_request->ApprovalDate  = date('Y-m-d');
@@ -327,7 +329,7 @@ class TravelRequestController extends Controller
         $travel_request->update();
         $email = User::find($travel_request->RequesterID)->first()->email;
         Mail::to($email)->send(new RequestApproved());
-        return redirect()->route('travel_request.admindashboard')->with('success', 'Request Approved successfully');
+        return redirect()->route('travel_request.final-admindashboard')->with('success', 'Request Approved successfully');
     }
 
     //Reject travel request function
