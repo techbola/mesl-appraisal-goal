@@ -1245,3 +1245,5 @@ Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-ho
 |------------------------------------------------------------------------------------------
  */
 Route::get('help/desk/complaints', 'HelpDeskController@index')->name('helpdesk_module');
+
+Route::get('/exit/create', 'ExitController@index');

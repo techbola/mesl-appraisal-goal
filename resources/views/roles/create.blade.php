@@ -57,7 +57,7 @@
 							<td class="v-align-middle">{{ $role->company->Company ?? '' }}</td>
 							<td class="v-align-middle">{{ $role->description }}</td>
 							<td class="v-align-middle">
-								<a href="{{ action('RoleController@edit', $role->id) }}" class="btn btn-inverse">Edit</a> {{-- &nbsp;
+								<a href="{{ action('RoleController@edit', $role->id) }}" class="btn btn-inverse" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a> {{-- &nbsp;
 								{{ Form::open(['action' => ['RoleController@destroy', $role->id], 'method' => 'delete', 'class' => 'inline-block']) }}
 								{{ Form::submit('Delete',['class' => 'btn btn-danger ']) }}
 								{{ Form::close() }} --}}

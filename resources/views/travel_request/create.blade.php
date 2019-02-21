@@ -473,7 +473,7 @@
     
                                                         <div class="travel_from_country hide">
                                                             <label for="TravelFromCountry">Travel From</label>
-                                                            <select name="TravelFromCountry" class="full-width travel_from_country" style="display: none" data-init-plugin="select2" id="travel_from1" onchange="">
+                                                            <select name="TravelFromCountry" class="full-width travel_from_country" style="display: none" data-init-plugin="select2" id="travel_from2" onchange="">
                                                                 @foreach($states as $state)
                                                                     <option value="{{ $state->StateRef }}">{{ $state->State }}</option>
                                                                 @endforeach
@@ -497,7 +497,7 @@
                                 
                                                         <div class="travel_to_country hide">
                                                             <label for="TravelToCountry">Travel To</label>
-                                                            <select name="TravelToCountry" class="full-width travel_to_country" style="display: none" data-init-plugin="select2" id="travel_to1" >
+                                                            <select name="TravelToCountry" class="full-width travel_to_country" style="display: none" data-init-plugin="select2" id="travel_to2" >
                                                                 @foreach($countries as $country)
                                                                     <option value="{{ $country->CountryRef }}">{{ $country->Country }}</option>
                                                                 @endforeach
@@ -767,9 +767,9 @@
 
         $('#travel_to1').val(data.TravelToState).trigger('change');
 
-        $('#travel_from1').val(data.TravelFromCountry).trigger('change');
+        $('#travel_from2').val(data.TravelFromCountry).trigger('change');
 
-        $('#travel_to1').val(data.TravelToCountry).trigger('change');
+        $('#travel_to2').val(data.TravelToCountry).trigger('change');
 
         $('#departure_date').val(data.DepartureDate);
 
