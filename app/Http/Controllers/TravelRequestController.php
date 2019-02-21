@@ -37,11 +37,15 @@ class TravelRequestController extends Controller
             ->Where('SentForApproval', '0')
             ->Where('RequesterID', Auth::user()->id)
             ->get();
+        $sent_requests = TravelRequest::orderBy('TravelRef', 'DESC')
+            ->Where('SentForApproval', 1)
+            ->Where('RequesterID', Auth::user()->id)
+            ->get();
         $lodges      = TravelLodge::all();
         $travelmodes = TravelMode::all();
 
         $user = User::all();
-        return view('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'transports', 'lodges', 'travelmodes'));
+        return view('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'sent_requests', 'transports', 'lodges', 'travelmodes'));
     }
     //Store travel request function
     public function store_travel_request(Request $request)
@@ -91,7 +95,7 @@ class TravelRequestController extends Controller
                     }
                 }
                 \DB::commit();
-                return redirect()->route('travel_request.create')->with('success', 'Request was added successfully');
+                return redirect('/travel_request/create?queue=1')->with('success', 'Request was added successfully');
             }
 
         } catch (Exception $e) {
