@@ -84,7 +84,7 @@
         <tr>
           <td>Country of Origin</td>
           <td>{{ $staff->country_of_origin->Country ?? '-' }}</td>
-          <td>{!! ($pending->CountryOfOrigin != $staff->CountryOfOrigin)? $pending->country_of_origin->Country : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->CountryOfOrigin != $staff->CountryOfOrigin)? $pending->country_of_origin->Country ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -131,7 +131,7 @@
         </tr>
         <tr>
           <td>Date of Birth</td>
-          <td>{{ $staff->DateofBirth ?? '-' }}</td>
+          <td>{{ nice_date($staff->DateofBirth) ?? '-' }}</td>
           <td>{!! ($pending->DateofBirth != $staff->DateofBirth)? $pending->DateofBirth : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
@@ -141,6 +141,73 @@
           <td>{!! ($pending->HomePhone != $staff->HomePhone)? $pending->HomePhone : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
+        <tr>
+          <td>Employment Date</td>
+          <td>{{ nice_date($staff->EmploymentDate) ?? '-' }}</td>
+          <td>{!! ($pending->EmploymentDate != $staff->EmploymentDate)? $pending->EmploymentDate : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Confirmation Date</td>
+          <td>{{ nice_date($staff->ConfirmationDate) ?? '-' }}</td>
+          <td>{!! ($pending->ConfirmationDate != $staff->ConfirmationDate)? $pending->ConfirmationDate : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Residential Address</td>
+          <td>{{ $staff->AddressLine1 ?? '-' }}</td>
+          <td>{!! ($pending->AddressLine1 != $staff->AddressLine1)? $pending->AddressLine1 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Next Of Kin</td>
+          <td>{{ $staff->NextofKIN ?? '-' }}</td>
+          <td>{!! ($pending->NextofKIN != $staff->NextofKIN)? $pending->NextofKIN : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Next Of Kin's Phone</td>
+          <td>{{ $staff->NextofKIN_Phone ?? '-' }}</td>
+          <td>{!! ($pending->NextofKIN_Phone != $staff->NextofKIN_Phone)? $pending->NextofKIN_Phone : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Next Of Kin's Email</td>
+          <td>{{ $staff->NextofKIN_Email ?? '-' }}</td>
+          <td>{!! ($pending->NextofKIN_Email != $staff->NextofKIN_Email)? $pending->NextofKIN_Email : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Next Of Beneficiary</td>
+          <td>{{ $staff->Beneficiary ?? '-' }}</td>
+          <td>{!! ($pending->Beneficiary != $staff->Beneficiary)? $pending->Beneficiary : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Beneficiary Relationship</td>
+          <td>{{ $staff->BeneficiaryRelationship ?? '-' }}</td>
+          <td>{!! ($pending->BeneficiaryRelationship != $staff->BeneficiaryRelationship)? $pending->BeneficiaryRelationship : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Beneficiary Phone</td>
+          <td>{{ $staff->BeneficiaryPhone ?? '-' }}</td>
+          <td>{!! ($pending->BeneficiaryPhone != $staff->BeneficiaryPhone)? $pending->BeneficiaryPhone : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Beneficiary Email</td>
+          <td>{{ $staff->Beneficiary_Email ?? '-' }}</td>
+          <td>{!! ($pending->Beneficiary_Email != $staff->Beneficiary_Email)? $pending->Beneficiary_Email : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Beneficiary Address</td>
+          <td>{{ $staff->Beneficiary_Address ?? '-' }}</td>
+          <td>{!! ($pending->Beneficiary_Address != $staff->Beneficiary_Address)? $pending->Beneficiary_Address : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        
       </tbody>
     </table>
 

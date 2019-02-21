@@ -39,7 +39,7 @@
         <div class="clearfix"></div>
          {{ Form::open(['action' => 'LeaveRequestController@approve_leave_request_hr', 'autocomplete' => 'off', 'role' => 'form']) }}
          <p><input type="submit" name="approve" class="btn btn-sm btn-primary" value="Approve">  <input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject"></p>
-         <p style="color : red">Note : Leave Request highlighted in red are within the company restricted leave days</p>
+         <p style="color : red" class="hide">Note : Leave Request highlighted in red are within the company restricted leave days</p>
         <table class="table tableWithSearch table-bordered">
           <thead>
             <th width="10%">Action</th>
@@ -48,7 +48,7 @@
             <th width="10%">Start Date</th>
             <th width="10%">End Date</th>
             <th width="10%">Leave Days</th>
-            <th>File(s)</th>
+            <th width="10%">File(s)</th>
           </thead>
           <tbody>
 
@@ -93,8 +93,11 @@
                   @if(!is_null($leave_request->HandOverNote))
                     <a href="{{ asset( 'storage/leave_document/'.$leave_request->HandOverNote)}}" class="btn btn-xs btn-success" target="_blank">
                   Download attachment
+                  @else
+                  <span class="badge">No Files</span>
                     @endif
                 </td>
+               
               </tr>
                @endif
               @endforeach

@@ -7,18 +7,15 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class StaffOnboard extends Mailable implements ShouldQueue
+class TravelRequestSupervisor extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public $travel_request;
+
+    public function __construct($travel_request)
     {
-        //
+        $this->travel_request = $travel_request;
     }
 
     /**
@@ -28,6 +25,8 @@ class StaffOnboard extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject("New staff onboarding request")->markdown('emails.SendOnboard');
+        return $this
+            ->subject('Travel Request Needs Approval')
+            ->markdown('emails.travel.supervisor');
     }
 }

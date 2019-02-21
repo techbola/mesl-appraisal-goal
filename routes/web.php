@@ -223,12 +223,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('leave_request/{id}/edit', 'LeaveRequestController@edit')->name('leave_request.edit');
     Route::patch('leave_request/{id}/update', 'LeaveRequestController@update')->name('leave_request.update');
     Route::get('leave_request/leave_approval', 'LeaveRequestController@leave_approval')->name('LeaveApproval');
+    Route::get('leave_request/leave_approval_supervisor', 'LeaveRequestController@leave_approval_supervisor')->name('LeaveApprovalSupervisor');
     Route::get('leave_request/hr_leave_approval', 'LeaveRequestController@hr_leave_approval')->name('HrLeaveApproval');
     Route::post('approve_leave_request', 'LeaveRequestController@approve_leave_request');
     Route::post('approve_leave_request_hr', 'LeaveRequestController@approve_leave_request_hr');
     Route::get('leave_notification/{elem_value}', 'LeaveRequestController@leave_notification');
     Route::get('request_date/{start_date}/{numberdays}', 'LeaveRequestController@retrieve_details');
     Route::get('fetch-leave-hons/{leave_ref}', 'LeaveRequestController@fetch_leave_hons');
+    Route::get('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor')->name('leave_request.approved');
+    Route::post('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor');
+    Route::get('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
 
     Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
     Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');
@@ -1104,6 +1108,10 @@ Route::post('get-transaction-details', 'ReportController@fetchTransactionDetails
 Route::get('expense_management', 'ExpenseManagementController@index')->name('expense_management.index');
 Route::get('expense_management/create', 'ExpenseManagementController@create')->name('expense_management.create');
 Route::get('expense_management/approvallist', 'ExpenseManagementController@approval_list')->name('expense_management_approvallist');
+// setup screen to add Approvr Roles for users
+Route::get('expense_management/setup-approver-roles', 'ExpenseManagementController@setup')->name('expense_management.setup');
+Route::post('expense_management/setup-approver-roles', 'ExpenseManagementController@setup_post');
+//  end setup;
 Route::get('expense_management/lot_description', 'ExpenseManagementController@lot_description')->name('lot_description.index');
 Route::get('expense_management/lot_description/create', 'ExpenseManagementController@lot_description_create')->name('lot_description.create');
 Route::post('expense_management/lot_description/create', 'ExpenseManagementController@lot_description_store')->name('lot_description.store');
@@ -1185,13 +1193,13 @@ Route::get('/leave/resumption/get/approver', 'LeaveResumptionController@getAppro
 Route::get('/approve/leave/resumption/{id}/{staff_id}', 'LeaveResumptionController@approveLeaveResumption');
 Route::get('/leave/test/notification/mail', 'LeaveResumptionController@testNotification');
 
-//Travel Request form
+// Travel Request form
 Route::get('travel_request/admindashboard', 'TravelRequestController@dash')->name('travel_request.admindashboard');
+Route::get('travel_request/admindashboard-approvers', 'TravelRequestController@dash_approvers')->name('travel_request.admindashboard_approvers');
 Route::get('travel_request/create', 'TravelRequestController@create')->name('travel_request.create');
 Route::post('travel_request/create', 'TravelRequestController@store_travel_request')->name('storerequest');
 
 Route::get('edit_travel_request/{id}', 'TravelRequestController@edit_travel_request')->name('edit_travel_request');
-
 Route::post('submit_travel_request', 'TravelRequestController@submit_travel_request')->name('updatedrequest');
 
 Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->name('delete');
@@ -1199,6 +1207,7 @@ Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->nam
 Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
 
 Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
+Route::post('approve_request/{id}', 'TravelRequestController@approve_request');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
 /*
@@ -1230,11 +1239,13 @@ Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->nam
 
 Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
 
-Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
+// Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
 Route::get('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
 Route::get('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
+
+Route::post('/travel_request/approve', 'TravelRequestController@approve');
 
 // admin dashboard
 Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-home');

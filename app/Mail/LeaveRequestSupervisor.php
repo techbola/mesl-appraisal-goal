@@ -7,18 +7,14 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class StaffOnboard extends Mailable implements ShouldQueue
+class LeaveRequestSupervisor extends Mailable
 {
     use Queueable, SerializesModels;
+    public $leave_request;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct($leave_request)
     {
-        //
+        $this->leave_request = $leave_request;
     }
 
     /**
@@ -28,6 +24,8 @@ class StaffOnboard extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject("New staff onboarding request")->markdown('emails.SendOnboard');
+        return $this
+            ->subject('Leave Request Needs Approval')
+            ->markdown('emails.leave.supervisor');
     }
 }

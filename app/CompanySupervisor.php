@@ -8,11 +8,17 @@ use MESL\User;
 
 class CompanySupervisor extends Model
 {
+    /*
+    |-----------------------------------------
+    | RELATIONSHIP WITH STAFF
+    |-----------------------------------------
+    */
+    public function staff()
+    {
+        // relationship
+        return $this->belongsTo(Staff::class, 'staff_id', 'StaffRef');
+    }
 
-  public function staff()
-  {
-    return $this->belongsTo(Staff::class, 'staff_id', 'StaffRef');
-  }
     /*
     |-----------------------------------------
     | LOAD ONE DEPARMENT

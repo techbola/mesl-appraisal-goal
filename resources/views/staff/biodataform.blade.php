@@ -12,9 +12,10 @@
         <img src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" alt="" class="inline-block avatar2" style="height:100px; width:100px; padding:2px; border:1px solid #ccc">
       </div>
 
+
       <div class="form-group m-t-10 inline-block m-l-10" style="max-width:50%; vertical-align:middle">
-          {{ Form::label('avatar','Upload Profile Picture') }}
-          {{ Form::file('avatar',  ["class" => "filestyle form-group", 'data-placeholder' => 'Upload Profile Photo', 'data-buttonname'=>'btn-info', 'data-buttonBefore'=>'true', 'style'=>'border-radius:50px']) }}
+          {{ Form::label('avatar','Upload Profile Picture', ['class' => 'req']) }}
+          {{ Form::file('avatar',  ["class" => "filestyle form-group", 'data-placeholder' => 'Upload Profile Photo', 'data-buttonname'=>'btn-info', 'data-buttonBefore'=>'true', 'style'=>'border-radius:50px', is_null($staff->user->avatar) ? 'required': '']) }}
           {{-- <input type="file" class="filestyle" name="Photo" data-placeholder="Upload Photo" data-buttonname="btn-info" data-buttonBefore="true"> --}}
       </div>
     </div>

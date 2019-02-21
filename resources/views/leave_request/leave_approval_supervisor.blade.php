@@ -30,7 +30,7 @@
 
     <!-- START PANEL -->
     <div class="card-box">
-        <div class="card-title pull-left">Leave Request Approval</div>
+        <div class="card-title pull-left">Leave Request Approval (supervisor)</div>
         <div class="pull-right">
           <div class="col-xs-12">
             <input type="text" class="search-table form-control pull-right" placeholder="Search">
@@ -38,9 +38,10 @@
         </div>
         <div class="clearfix"></div>
          {{ Form::open(['action' => 'LeaveRequestController@approve_leave_request', 'autocomplete' => 'off', 'role' => 'form']) }}
-         <p> <input type="submit" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Approve" name="approve" value="Approve"> 
+         <p> 
+          {{-- <input type="submit" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Approve" name="approve" value="Approve">  --}}
           <!--<button type="submit" name="approve" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Approve"><i class="fa fa-share-square"></i> Approve</button>  -->
-          <input type="submit" name="reject" value="Reject" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject">
+          {{-- <input type="submit" name="reject" value="Reject" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"> --}}
          <!--<button type="submit" name="reject" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-times-circle"></i> Reject</button>-->
         </p>
          <p style="color : red" class="hide">Note : Leave Request highlighted in red are within the company restricted leave days</p>
@@ -54,7 +55,7 @@
             <th >Leave Days</th>
             <th>File(s)</th>
             <th>HandOver Notes</th>
-            <th>Approver Comment</th>
+            <th>Action</th>
 
           </thead>
           <tbody>
@@ -84,9 +85,10 @@
                   @endif
                 </td>
                 <td>
-                 {{--  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
+                  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
-                            <a style="margin-right: 10px; display: inline-block" href="{{ route('rejected', $leave_request->LeaveReqRef) }}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a> --}}
+                            <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
+
                 </td>
 
               </tr>
@@ -116,13 +118,9 @@
 
                 </td>
                 <td>
-                 {{--  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
+                  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
-                            <a style="margin-right: 10px; display: inline-block" href="{{ route('rejected', $leave_request->LeaveReqRef) }}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a> --}}
-                           <div class="form-group">
-                              
-                            <textarea name="ApproverComment[{{ $leave_request->LeaveReqRef }}]" placeholder="Enter Comment" id="Comment" cols="30" rows="3" class="form-control"></textarea>
-                           </div>
+                            <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
                 </td>
               </tr>
                @endif
@@ -231,6 +229,15 @@
                         </div>
                     </div>
                 </div>
+               </div>
+
+               <div class="row">
+                 <div class="controls">
+                        <div class="form-group">
+                            {{ Form::label('Comment' ) }}
+                            <textarea name="Comment" id="Comment" class="form-control summernote" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
                </div>
            
           </div>

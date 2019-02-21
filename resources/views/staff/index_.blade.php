@@ -201,6 +201,21 @@
 							{{ csrf_field() }}
 							{{ method_field('PATCH') }}
 							<div class="row">
+								<div class="col-md-6">
+							    <div class="form-group">
+							      <label>Is this staff a supervisor?</label> <br>
+							      <div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-sm btn-primary ">
+									    <input style="position: relative;" type="radio" name="supervisor_options" id="is_not_supervisor" autocomplete="off" > No
+									  </label>
+									  <label class="btn btn-sm btn-primary">
+									    <input style="position: relative;" type="radio" name="supervisor_options" id="is_supervisor" autocomplete="off"> Yes
+									  </label>
+									</div>
+							    </div>
+							  </div>
+							</div>
+							<div class="row">
 							  <div class="col-md-6">
 							    <div class="form-group">
 							      <label>First Name</label>
@@ -322,6 +337,20 @@
 					}
 					else{
 						$('#edit_staff').find('form select[name="SupervisorID"]').val(staff.SupervisorID).trigger('change');
+					}
+
+					if(staff.SupervisorFlag != 1 ||staff.SupervisorFlag == null ){
+						$('#is_not_supervisor').prop('checked','checked');
+						$('#is_not_supervisor').parents("label").addClass('active');
+						
+						$('#is_supervisor').removeProp('checked','checked');
+						$('#is_supervisor').parents("label").removeClass('active');
+					} else if(staff.SupervisorFlag == 1){
+						$('#is_supervisor').prop('checked','checked');
+						$('#is_supervisor').parents("label").addClass('active');
+
+						$('#is_not_supervisor').removeProp('checked','checked');
+						$('#is_not_supervisor').parents("label").removeClass('active');
 					}
 					// console.log('staff',staff)
 				}

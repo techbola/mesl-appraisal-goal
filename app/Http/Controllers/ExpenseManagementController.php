@@ -591,4 +591,49 @@ class ExpenseManagementController extends Controller
             return back()->withInput()->with('danger', 'Lot Description failed to update');
         }
     }
+
+    public function setup()
+    {
+        $approver_roles = ApproverRole::all()->sortBy('ApproverRole');
+        $staff          = Staff::select(['StaffRef', 'UserID'])->get()->transform(function ($item, $key) {
+            $approver_role_ids    = explode(',', $item->user->ApproverRoleIDs);
+            $approver_roles       = ApproverRole::whereIn('ApproverRoleRef', $approver_role_ids)->select(['ApproverRole'])->get();
+            $approver_roles_array = [];
+            foreach ($approver_roles as $key => $value) {
+                array_push($approver_roles_array, $value->ApproverRole);
+            }
+            $item->approver_role = $approver_roles_array;
+            return $item;
+        });
+        // dd($staff->first()->approver_roles);
+        $request_list = RequestList::all()->sortBy('Request');
+        // dd($approver_roles);
+        return view('expense_management.setup', compact('approver_roles', 'staff', 'request_list'));
+    }
+
+    public function setup_post(Request $request)
+    {
+
+        $selected_users = [];
+        $selected_roles = [];
+        foreach ($request->roles as $key => $value) {
+            array_push($selected_roles, $value);
+        }
+
+        $user_approver_roles = implode(',', $selected_roles);
+
+        try {
+            DB::beginTransaction();
+            foreach ($request->staff as $key => $value) {
+                $user                  = User::find($value);
+                $user->ApproverRoleIDs = $user_approver_roles;
+                $user->save();
+            }
+            DB::commit();
+            return redirect()->route('expense_management.setup')->with('success', 'Approver Roles Assigned Successfully');
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+
+    }
 }

@@ -28,8 +28,8 @@ class BulletinController extends Controller
             $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
             $archives  = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
         } else {
-            $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
-            $archives  = Bulletin::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
+            $bulletins = Bulletin::where('CompanyID', $user->staff->CompanyID)->where('DepartmentID', $user_departments)->whereDate('ExpiryDate', '>=', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
+            $archives  = Bulletin::where('CompanyID', $user->staff->CompanyID)->where('DepartmentID', $user_departments)->whereDate('ExpiryDate', '<', $today)->orderBy('BulletinRef', 'desc')->paginate(10);
         }
         // $departments = Department::where('CompanyID', $user->staff->CompanyID)->get();
         $departments = CompanyDepartment::where('is_deleted', false)->get();
@@ -81,10 +81,17 @@ class BulletinController extends Controller
         //     $query->whereIn('DepartmentID', $depts);
         //   })->get();
         // } else {
-        $staff = User::whereHas('staff', function ($q) use ($request) {
-            $q->whereRaw("DepartmentID IN ($request->DepartmentID)");
-        })->get();
+
         // }
+
+        // SEND NOTIFICATION TO ALL STAFF IF ALL DEARTMENTS WAS SELECTED
+        if ($request->DepartmentID == 29) {
+            $staff = User::all();
+        } else {
+            $staff = User::whereHas('staff', function ($q) use ($request) {
+                $q->whereRaw("DepartmentID IN ($request->DepartmentID)");
+            })->get();
+        }
 
         Notification::send($staff, new NewBulletin($bulletin));
 

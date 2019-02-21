@@ -31,6 +31,11 @@
                 Travel Requests &nbsp; <span class="badge badge-success"> {{ count($travel_requests) }}</span>
             </a>
         </li>
+        <li>
+            <a data-toggle="tab" href="#sent-status">
+                Sent Requests &nbsp; <span class="badge badge-success"> {{ count($sent_requests) }}</span>
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content">
@@ -38,6 +43,7 @@
             <div class="clearfix"></div>
             <div class="card-box">
                 <div class="card-title">Travel Request</div>
+                @include('errors.list')
                 <form action="{{ route('storerequest') }}" method="POST" class="form">
                     {{ csrf_field() }}
                         <div class="row">                                
@@ -274,7 +280,7 @@
                             <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="controls">
-                                            {{ Form::label('ReferenceLetter', 'Reference Letter' ) }}
+                                            {{ Form::label('ReferenceLetter', 'Supporting Document' ) }}
                                             {{ Form::file('ReferenceLetter', null, ['class' => 'form-control', 'placeholder' => 'Upload Reference Letter', 'rows'=> '2']) }}
                                         </div>
                                     </div>
@@ -308,14 +314,14 @@
                                            
                                             <div class="form-group">
                                                  <label for="TravellerCompany">Company</label>
-                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
+                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Company\'s Name' ]) }}
                                             </div>
                                         </div>
 
                                         <div class="col-sm-3 ">
                                             <div class="form-group">
                                                  <label for="TravellerPhone">Phone</label>
-                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number']) }}
+                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number','minlength' => 11, 'maxlength' => 11, 'pattern'=> "\d+"]) }}
                                             </div>
                                         </div>
 
@@ -342,14 +348,14 @@
                                            
                                             <div class="form-group">
                                                  <label for="TravellerCompany">Company</label>
-                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
+                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Company\'s Name' ]) }}
                                             </div>
                                         </div>
 
                                         <div class="col-sm-3 ">
                                             <div class="form-group">
                                                  <label for="TravellerPhone">Phone</label>
-                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number']) }}
+                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number', 'minlength' => 11, 'maxlength' => 11,  'pattern'=> "\d+"]) }}
                                             </div>
                                         </div>
 
@@ -376,7 +382,7 @@
         
 
 
-        <div id="onboarding-status" class="tab-pane fade">        
+        <div id="onboarding-status" class="tab-pane ">        
                 <div class="clearfix"></div>
             <div class="card-box">
                 <div class="request-table table-responsive">
@@ -418,12 +424,12 @@
                                     <td>{{ $travel_request->travel_purpose->TravelPurpose ?? '-' }}</td>
                                     <td style="width: 20%">
                                         <span data-toggle="tooltip" data-placement="top" title="Edit">
-                                                <button style="margin-right: 10px; display: inline-block" type="edit" class="btn btn-sm btn-primary toggler" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="edit_travelrequest( {{$travel_request->TravelRef}})"><i class="fa fa-edit"></i></button>
+                                                <button style="margin-right: 10px; display: inline-block" type="edit" class="btn btn-sm btn-primary toggler" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="edit_travelrequest( {{$travel_request->TravelRef}})" @if($travel_request->SentForApproval) disabled @endif><i class="fa fa-edit"></i></button>
                                         </span>
             
                                         <a style="margin-right: 10px; display: inline-block" href="{{ route('delete', $travel_request->TravelRef) }}" type="edit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
                 
-                                        <a href="{{ route('sendapproval', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Send for Approval"><i class="fa fa-share-square"></i></a>
+                                        <a href="{{ route('sendapproval', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Send for Approval" @if($travel_request->SentForApproval) disabled @endif><i class="fa fa-share-square"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -432,7 +438,70 @@
                 </div>
             </div>
     
-            <div class="container">
+            
+        </div>
+
+         <div id="sent-status" class="tab-pane ">        
+                <div class="clearfix"></div>
+            <div class="card-box">
+                <div class="request-table table-responsive">
+                    <table class="table tableWithSearch table-bordered" id="travelTable">
+                        <thead>
+                            <th width="5px">S/N</th>
+                            <th style="width: 80px; word-break:break-all;">From</th>
+                            <th style="width: 80px; word-break:break-all;">To</th>
+                            <th>Travellers</th>
+                            <th style="width: 120px; word-break:break-all;">Departure Date</th>
+                            <th style="width: 80px; word-break:break-all;">Travel Purpose</th>
+                            <th style="width: 80px; word-break:break-all;">Action</th>
+                        </thead>
+                        <tbody>
+                            <?php $count = 0; ?>
+                            @foreach($sent_requests as $travel_request)
+                                <?php $count = $count + 1; ?>
+                                <tr>
+                                    <th>{{ $count }}</th>
+                                    <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_from_state->State : $travel_request->travel_from_state->State ?? '-' }}</td>
+                                    <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_to_state->State : $travel_request->travel_to_country->Country ?? '-' }}</td>
+                                    <td>
+                                        @foreach($travel_request->travellers as $tr)
+
+                                        @if($tr->StaffID != NULL)
+                                        <span class="badge">
+                                            <b>MESL STAFF:</b> {{ $tr->internel_traveller->FullName }}
+                                        </span>
+                                        @endif
+
+                                        @if($tr->FullName != NULL)
+                                        <span class="badge">
+                                            <b>Visitor: </b>{{ $tr->FullName }}
+                                        </span>
+                                        @endif
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $travel_request->DepartureDate }}</td>
+                                    <td>{{ $travel_request->travel_purpose->TravelPurpose ?? '-' }}</td>
+                                    <td style="width: 20%">
+                                        <span data-toggle="tooltip" data-placement="top" title="Edit">
+                                                <button style="margin-right: 10px; display: inline-block" type="edit" class="btn btn-sm btn-primary toggler" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="edit_travelrequest( {{$travel_request->TravelRef}})" @if($travel_request->SentForApproval) disabled @endif><i class="fa fa-edit"></i></button>
+                                        </span>
+            
+                                        <a style="margin-right: 10px; display: inline-block" href="{{ route('delete', $travel_request->TravelRef) }}" type="edit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                
+                                        <a href="{{ route('sendapproval', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Send for Approval" @if($travel_request->SentForApproval) disabled @endif><i class="fa fa-share-square"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
+            
+        </div>
+    </div>
+    
+      <div class="container">
                 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"       aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -705,10 +774,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-      
       <!-- Modal -->
       
       
@@ -840,7 +905,7 @@ var staff_option_temp = `
                                         <div class="col-sm-3 ">
                                             <div class="form-group">
                                                  <label for="TravellerPhone">Phone</label>
-                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number']) }}
+                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number', 'minlength' => 11, 'maxlength' => 11, 'pattern'=> "\d+"]) }}
                                             </div>
                                         </div>
 
@@ -866,14 +931,14 @@ var staff_option_temp = `
                                            
                                             <div class="form-group">
                                                  <label for="TravellerCompany">Company</label>
-                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
+                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Company\'s Name' ]) }}
                                             </div>
                                         </div>
 
                                         <div class="col-sm-3 ">
                                             <div class="form-group">
                                                  <label for="TravellerPhone">Phone</label>
-                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number']) }}
+                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number', 'minlength' => 11, 'maxlength' => 11, 'pattern'=> "\d+"]) }}
                                             </div>
                                         </div>
 
@@ -901,6 +966,20 @@ $('body').on('click', '.remove_staff_node', function(e) {
     e.preventDefault();
     console.log('delete me')
     $(this).closest('.row').remove();
+});
+
+// make request queue tab active if url query says so
+
+function activate_travel_request_queue(){
+    let url = new URL(window.location.href);
+    let queue = url.searchParams.get('queue'); 
+    if(queue != null && queue == 1) {
+        $('a[href="#onboarding-status"]').tab('show');
+    }
+}
+
+$(document).ready(function() {
+    activate_travel_request_queue();
 });
 
 
