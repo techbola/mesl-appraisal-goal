@@ -312,7 +312,7 @@ class TravelRequestController extends Controller
             if (!is_null($next_approver) || $next_approver != 0) {
                 Mail::to($next_approver->email)->send(new TravelRequestApprover($travel_request));
             } else {
-
+                // Send mailto HR
             }
         }
         // $selected_ids = (implode(',', $new_array));
