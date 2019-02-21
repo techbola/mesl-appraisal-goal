@@ -61,6 +61,11 @@ class TravelRequest extends Model
         return $this->hasMany(Traveller::class, 'TravelRef', 'TravelRef');
     }
 
+    public function supervisor()
+    {
+        return $this->belongsTo('MESL\Staff', 'SupervisorID');
+    }
+
     public function sent()
     {
         return $this->SentForApproval;
@@ -122,6 +127,17 @@ class TravelRequest extends Model
     public function initiator()
     {
         return $this->belongsTo(User::class, 'RequesterID', 'id');
+    }
+
+    public function current_approver()
+    {
+        $approver_id = $this->ApproverID;
+        if ($approver_id != null) {
+            // return User::find($approver_id)->fullName;
+            return $this->belongsTo(User::class, 'ApproverID');
+        } else {
+            return null;
+        }
     }
 
 }

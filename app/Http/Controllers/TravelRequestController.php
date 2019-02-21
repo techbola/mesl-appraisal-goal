@@ -16,6 +16,10 @@ use MESL\User;
 use MESL\Mail\SendforApproval;
 use MESL\Mail\RequestApproved;
 use MESL\Mail\RequestRejected;
+use MESL\Mail\TravelRequestInit;
+use MESL\Mail\TravelRequestSupervisor;
+use MESL\Mail\TravelRequestApprover;
+
 use Mail;
 
 class TravelRequestController extends Controller
@@ -45,6 +49,7 @@ class TravelRequestController extends Controller
         $travelmodes = TravelMode::all();
 
         $user = User::all();
+
         return view('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'sent_requests', 'transports', 'lodges', 'travelmodes'));
     }
     //Store travel request function
@@ -94,6 +99,8 @@ class TravelRequestController extends Controller
                         // }
                     }
                 }
+                $requester_email = User::find($travel_request->RequesterID)->email;
+                Mail::to($requester_email)->send(new TravelRequestInit($travel_request));
                 \DB::commit();
                 return redirect('/travel_request/create?queue=1')->with('success', 'Request was added successfully');
             }
@@ -169,7 +176,7 @@ class TravelRequestController extends Controller
 
             $email = Staff::find($travel_request->SupervisorID)->first()->user->email;
 
-            Mail::to($email)->send(new SendforApproval());
+            Mail::to($email)->send(new TravelRequestSupervisor($travel_request));
 
             return redirect()->route('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'transports', 'lodges', 'travelmodes'))->with('success', 'Request was sent successfully');
         } else {
@@ -265,9 +272,9 @@ class TravelRequestController extends Controller
 
         $travel_request->update();
 
-        $email = User::find($travel_request->RequesterID)->first()->email;
+        // $email = User::find($travel_request->RequesterID)->first()->email;
         // dd($request->all());
-        Mail::to($email)->send(new RequestApproved());
+        Mail::to($travel_request->current_approver->email)->send(new TravelRequestApprover($travel_request));
 
         // send emails when ApproverID is null and send route request to admin
         //  end
@@ -303,10 +310,9 @@ class TravelRequestController extends Controller
             });
 
             if (!is_null($next_approver) || $next_approver != 0) {
-                // Notification::send($next_approver, new TravelRequestApproval($memo));
+                Mail::to($next_approver->email)->send(new TravelRequestApprover($travel_request));
             } else {
-                // send mail to reciepient, notifying them of the memo approval
-                // Notification::send($recipients->all(), new TravelRequestReceipient($memo));
+
             }
         }
         // $selected_ids = (implode(',', $new_array));
