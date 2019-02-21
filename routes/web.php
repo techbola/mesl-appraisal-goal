@@ -22,6 +22,16 @@ Route::get('/login2', function () {
     return view('auth.login_old');
 });
 
+// reset password for dev
+Route::get('reset-all-passwords', function(){
+    $users = \MESL\User::all();
+    foreach($users as $u){
+        $u->password = bcrypt('secret');
+        $u->save();
+    }
+    return redirect('/login');
+});
+
 // GA
 Route::get('/2fa/enable', 'Google2FAController@enableTwoFactor');
 Route::get('/2fa/disable', 'Google2FAController@disableTwoFactor');

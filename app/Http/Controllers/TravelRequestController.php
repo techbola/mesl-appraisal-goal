@@ -52,6 +52,7 @@ class TravelRequestController extends Controller
 
         return view('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'sent_requests', 'transports', 'lodges', 'travelmodes'));
     }
+    
     //Store travel request function
     public function store_travel_request(Request $request)
     {

@@ -424,7 +424,7 @@
                                     <td>{{ $travel_request->travel_purpose->TravelPurpose ?? '-' }}</td>
                                     <td style="width: 20%">
                                         <span data-toggle="tooltip" data-placement="top" title="Edit">
-                                                <button style="margin-right: 10px; display: inline-block" type="edit" class="btn btn-sm btn-primary toggler" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="edit_travelrequest( {{$travel_request->TravelRef}})" @if($travel_request->SentForApproval) disabled @endif><i class="fa fa-edit"></i></button>
+                                                <button style="margin-right: 10px; display: inline-block" type="edit" class="btn btn-sm btn-primary toggler" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="edit_travelrequest( {{$travel_request->TravelRef}}); edit_travel_type()" @if($travel_request->SentForApproval) disabled @endif><i class="fa fa-edit"></i></button>
                                         </span>
             
                                         <a style="margin-right: 10px; display: inline-block" href="{{ route('delete', $travel_request->TravelRef) }}" type="edit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
@@ -519,7 +519,7 @@
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         {{ Form::label('TravelType', 'Travel Type' ) }}
-                                                        <select name="TravelType" class="full-width" data-init-plugin="select2" id="travel_type1"  onchange="find_travel_type()">
+                                                        <select name="TravelType" class="full-width" data-init-plugin="select2" id="travel_type_edit"  onchange="edit_travel_type()">
                                                             <option value="">Select Travel Type</option>
                                                             <option value="1">Local</option>
                                                             <option value="2">International</option>
@@ -566,7 +566,7 @@
                                 
                                                         <div class="travel_to_country hide">
                                                             <label for="TravelToCountry">Travel To</label>
-                                                            <select name="TravelToCountry" class="full-width travel_to_country" style="display: none" data-init-plugin="select2" id="travel_to2" >
+                                                            <select name="TravelToCountry" class="full-width travel_to_country" style="display: none" data-init-plugin="select2" id="travel_to2" onchange="">
                                                                 @foreach($countries as $country)
                                                                     <option value="{{ $country->CountryRef }}">{{ $country->Country }}</option>
                                                                 @endforeach
@@ -808,6 +808,23 @@
       }
     }
 
+    function edit_travel_type()
+    {
+      var id = $('#travel_type_edit').val();
+      if(id == 1)
+      {
+        $('.travel_from_country').addClass('hide');
+        $('.travel_from_state').removeClass('hide');
+        $('.travel_to_country').addClass('hide');
+        $('.travel_to_state').removeClass('hide');
+      }else{
+        $('.travel_from_country').addClass('hide');
+        $('.travel_from_state').removeClass('hide');
+        $('.travel_to_country').removeClass('hide');
+        $('.travel_to_state').addClass('hide');
+      }
+    }
+
 
      $(function(){
         var options = {
@@ -826,7 +843,7 @@
       
       $.get('/edit_travel_request/'+id, function(data, status) {
 
-        $('#travel_type1').val(data.TravelType).trigger('change');
+        $('#travel_type_edit').val(data.TravelType).trigger('change');
 
         $('#travel_from1').val(data.TravelFromState).trigger('change');
 
