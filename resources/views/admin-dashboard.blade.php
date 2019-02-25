@@ -68,7 +68,7 @@
   <div class="row">
 
     <div class="col-sm-4">
-      <a href="{{ route('payroll.details') }}" class="no-color">
+      <a href="{{ route('md.plant-report') }}" class="no-color">
         <div class="card-box text-center style2">
           <div class="card-img">
             <img src="{{ asset('images/management.png') }}" alt="">

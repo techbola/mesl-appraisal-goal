@@ -3,6 +3,33 @@
 
 @include('errors.list')
 
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          {{ Form::label('DocCategoryID', 'Document Category ') }}
+          {{ Form::select('DocCategoryID', [ '' =>  'Document Category'] + $doc_cat_types->pluck('DocCategory','DocCategoryRef')->toArray(), 2, ['class' => 'full-width', 'data-init-plugin' => 'select2', 'data-placeholder' => 'Choose Document Category']) }}
+        </div>
+      </div>
+
+      <div class="col-sm-6 hide report-date-wrapper">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('ReportDate', 'Reports\'s Date') }}
+                <div class="input-group date dp">
+                    {{ Form::text('ReportDate', null, ['class' => 'form-control', 'placeholder' => 'Report Date']) }}
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar">
+                        </i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <div class="clearfix"></div>
+    </div>
+
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
@@ -87,4 +114,36 @@
     @push('scripts')
       <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
       </script>
+
+
+      <script>
+        $(function(){
+          let mds_data = {!! json_encode($mds_data) !!};
+          let others_data = {!! json_encode($others_data) !!};
+          $('#DocCategoryID').change(function(e) {
+            e.preventDefault();
+            let selected = $(this).val();
+            let report_date_wrapper = $('.report-date-wrapper');
+            // management report was selected
+            if(selected == 1) {
+              // show report date 
+              report_date_wrapper.removeClass('hide');
+              //  Reload content of Document Type based on the selected category
+              $("#DocTypeID").empty();
+              $("#DocTypeID").select2({
+                data: mds_data
+              });
+            } else {
+              report_date_wrapper.addClass('hide');
+              $('#ReportDate').val(''); // reseted report date
+              $("#DocTypeID").empty();
+              $("#DocTypeID").select2({
+                data: others_data
+              });
+            }
+          });
+        });
+      </script>
+
+
     @endpush

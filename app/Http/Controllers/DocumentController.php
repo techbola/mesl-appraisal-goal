@@ -5,6 +5,7 @@ namespace MESL\Http\Controllers;
 use Illuminate\Http\Request;
 use MESL\Document;
 use MESL\DocType;
+use MESL\DocCategory;
 use MESL\Role;
 use MESL\Staff;
 use MESL\Workflow;
@@ -29,31 +30,50 @@ class DocumentController extends Controller
 
     public function my_documents()
     {
-        $user = Auth::user();
+        $user     = Auth::user();
+        $mds_data = DocType::where('CompanyID', $user->staff->CompanyID)
+            ->where('DocCategoryID', 1)
+            ->get()
+            ->transform(function ($item, $key) {
+                $item->id   = $item->DocTypeRef;
+                $item->text = $item->DocType;
+                return $item->only(['id', 'text']);
+            });
+        $others_data = DocType::where('CompanyID', $user->staff->CompanyID)
+            ->where('DocCategoryID', 2)
+            ->get()
+            ->transform(function ($item, $key) {
+                $item->id   = $item->DocTypeRef;
+                $item->text = $item->DocType;
+                return $item->only(['id', 'text']);
+            });
+
+        // dd($others_data);
         if ($user->is_superadmin) {
-            $docs        = Document::orderBy('DocRef', 'desc')->get();
-            $doctypes    = DocType::all();
-            $roles       = Role::all();
-            $staff       = Staff::all();
-            $departments = Department::all();
+            $docs          = Document::orderBy('DocRef', 'desc')->get();
+            $doctypes      = DocType::all();
+            $doc_cat_types = DocCategory::all();
+            $roles         = Role::all();
+            $staff         = Staff::all();
+            $departments   = Department::all();
         } else {
             // $docs = Document::where('CompanyID', $user->staff->CompanyID)->where('ApprovedFlag', '1')->where('NotifyFlag', '1')->where(function($query1) use($user){
             //   $query1->whereHas('assignees', function ($query) use ($user) {
             //     $query->where('StaffRef', $user->staff->StaffRef);
             //   })->orWhere('Initiator', $user->id);
             // })->orderBy('DocRef', 'desc')->get();
-            $docs = Document::where('CompanyID', $user->staff->CompanyID)->where('ApprovedFlag', '1')->where('NotifyFlag', '1')->where(function($query1) use($user){
-              $query1->whereHas('assignees', function ($query) use ($user) {
-                $query->where('StaffID', $user->staff->StaffRef);
-              });
+            $docs = Document::where('CompanyID', $user->staff->CompanyID)->where('ApprovedFlag', '1')->where('NotifyFlag', '1')->where(function ($query1) use ($user) {
+                $query1->whereHas('assignees', function ($query) use ($user) {
+                    $query->where('StaffID', $user->staff->StaffRef);
+                });
             })->orWhere('Initiator', $user->id)->orderBy('DocRef', 'desc')->get();
 
-            $doctypes = DocType::where('CompanyID', $user->staff->CompanyID)->get();
-            $roles    = Role::where('CompanyID', $user->staff->CompanyID)->get();
-            $staff = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+            $doctypes    = DocType::where('CompanyID', $user->staff->CompanyID)->get();
+            $roles       = Role::where('CompanyID', $user->staff->CompanyID)->get();
+            $staff       = Staff::where('CompanyID', $user->staff->CompanyID)->get();
             $departments = Department::where('CompanyID', $user->CompanyID)->get();
         }
-        return view('documents.my_docs', compact('docs', 'doctypes', 'roles', 'staff', 'departments'));
+        return view('documents.my_docs', compact('docs', 'doctypes', 'doc_cat_types', 'roles', 'staff', 'departments', 'mds_data', 'others_data'));
     }
 
     public function send($id)
@@ -87,10 +107,10 @@ class DocumentController extends Controller
 
     public function store(Request $request)
     {
-      // $this->validate($request, [
-      //   'DocName' => 'required',
-      //   'ApproverID' => 'required',
-      // ]);
+        // $this->validate($request, [
+        //   'DocName' => 'required',
+        //   'ApproverID' => 'required',
+        // ]);
 
         $user = auth()->user();
 
@@ -112,8 +132,8 @@ class DocumentController extends Controller
                         // 'Path' => Storage::url('documents/'.$filename)
                     ));
                     if (!empty($request->ApproverID)) {
-                      $document->ApproverID = $request->ApproverID;
-                      // $document->NotifyFlag = '1';
+                        $document->ApproverID = $request->ApproverID;
+                        // $document->NotifyFlag = '1';
                     }
                     $document->save();
 
@@ -184,8 +204,6 @@ class DocumentController extends Controller
         }
 
     }
-
-
 
     public function store_hr(Request $request)
     {
@@ -292,15 +310,15 @@ class DocumentController extends Controller
 
     public function approve(Request $request)
     {
-      foreach ($request->SelectedID as $id) {
-        $doc =  Document::findorFail($id);
-        $doc->ApproverID = auth()->user()->id;
-        $doc->ApprovedFlag = '1';
-        $doc->ApprovalDate = date('Y-m-d');
-        $doc->ApproverComment = $request->Comment;
-        $doc->update();
-      }
-      return 'ok';
+        foreach ($request->SelectedID as $id) {
+            $doc                  = Document::findorFail($id);
+            $doc->ApproverID      = auth()->user()->id;
+            $doc->ApprovedFlag    = '1';
+            $doc->ApprovalDate    = date('Y-m-d');
+            $doc->ApproverComment = $request->Comment;
+            $doc->update();
+        }
+        return 'ok';
     }
 
 }

@@ -23,9 +23,9 @@ Route::get('/login2', function () {
 });
 
 // reset password for dev
-Route::get('reset-all-passwords', function(){
+Route::get('reset-all-passwords', function () {
     $users = \MESL\User::all();
-    foreach($users as $u){
+    foreach ($users as $u) {
         $u->password = bcrypt('secret');
         $u->save();
     }
@@ -527,6 +527,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/cash-flow', 'ReportController@cash_flow')->name('cash_flow');
     Route::get('reports/outstanding-bills', 'ReportController@outstanding_bills')->name('outstanding_bills');
     Route::get('reports/outstanding-vendor-bills', 'ReportController@outstanding_vendor_bills')->name('outstanding_vendor_bills');
+
+    // MD's Reports
+    Route::get('reports/plant-report', 'ReportController@plant_report')->name('md.plant-report');
+    Route::get('reports/account-and-finance-scorecard', 'ReportController@account_finance_scorecard')->name('md.account-finance-scorecard');
+    Route::get('reports/admin-report', 'ReportController@admin_report')->name('md.admin-report');
+    Route::get('reports/procurement-report', 'ReportController@procurement_report')->name('md.procurement-report');
+    Route::get('reports/ict-report', 'ReportController@ict_report')->name('md.ict-report');
+    Route::get('reports/business-risk-control-report', 'ReportController@business_risk_control_report')->name('md.business-risk-control-report');
 
     Route::post('get-outstanding-bill-details', 'ReportController@fetchOutstandingBillsForCode');
     Route::post('get-outstanding-vendor-bill-details', 'ReportController@fetchOutstandingVendorBillsForCode');
