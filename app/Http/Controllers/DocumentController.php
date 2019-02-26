@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use MESL\Document;
 use MESL\DocType;
 use MESL\DocCategory;
+use MESL\DocSubCategory;
 use MESL\Role;
 use MESL\Staff;
 use MESL\Workflow;
@@ -32,7 +33,7 @@ class DocumentController extends Controller
     {
         $user     = Auth::user();
         $mds_data = DocType::where('CompanyID', $user->staff->CompanyID)
-            ->where('DocCategoryID', 1)
+            ->where('DocSubCategoryID', 2)
             ->get()
             ->transform(function ($item, $key) {
                 $item->id   = $item->DocTypeRef;
@@ -40,7 +41,7 @@ class DocumentController extends Controller
                 return $item->only(['id', 'text']);
             });
         $others_data = DocType::where('CompanyID', $user->staff->CompanyID)
-            ->where('DocCategoryID', 2)
+            ->where('DocSubCategoryID', 0)
             ->get()
             ->transform(function ($item, $key) {
                 $item->id   = $item->DocTypeRef;
@@ -50,18 +51,14 @@ class DocumentController extends Controller
 
         // dd($others_data);
         if ($user->is_superadmin) {
-            $docs          = Document::orderBy('DocRef', 'desc')->get();
-            $doctypes      = DocType::all();
-            $doc_cat_types = DocCategory::all();
-            $roles         = Role::all();
-            $staff         = Staff::all();
-            $departments   = Department::all();
+            $docs              = Document::orderBy('DocRef', 'desc')->get();
+            $doctypes          = DocType::all();
+            $doc_cat_types     = DocCategory::all();
+            $doc_sub_cat_types = DocSubCategory::all();
+            $roles             = Role::all();
+            $staff             = Staff::all();
+            $departments       = Department::all();
         } else {
-            // $docs = Document::where('CompanyID', $user->staff->CompanyID)->where('ApprovedFlag', '1')->where('NotifyFlag', '1')->where(function($query1) use($user){
-            //   $query1->whereHas('assignees', function ($query) use ($user) {
-            //     $query->where('StaffRef', $user->staff->StaffRef);
-            //   })->orWhere('Initiator', $user->id);
-            // })->orderBy('DocRef', 'desc')->get();
             $docs = Document::where('CompanyID', $user->staff->CompanyID)->where('ApprovedFlag', '1')->where('NotifyFlag', '1')->where(function ($query1) use ($user) {
                 $query1->whereHas('assignees', function ($query) use ($user) {
                     $query->where('StaffID', $user->staff->StaffRef);
@@ -73,7 +70,7 @@ class DocumentController extends Controller
             $staff       = Staff::where('CompanyID', $user->staff->CompanyID)->get();
             $departments = Department::where('CompanyID', $user->CompanyID)->get();
         }
-        return view('documents.my_docs', compact('docs', 'doctypes', 'doc_cat_types', 'roles', 'staff', 'departments', 'mds_data', 'others_data'));
+        return view('documents.my_docs', compact('docs', 'doctypes', 'doc_cat_types', 'doc_sub_cat_types', 'roles', 'staff', 'departments', 'mds_data', 'others_data'));
     }
 
     public function send($id)
@@ -319,6 +316,22 @@ class DocumentController extends Controller
             $doc->update();
         }
         return 'ok';
+    }
+
+    public function fetch_doctypes(Request $request)
+    {
+        $ref      = $request->sub_cat_id;
+        $user     = auth()->user();
+        $doc_type = DocType::where('CompanyID', $user->staff->CompanyID)
+            ->where('DocSubCategoryID', $ref)
+            ->get()
+            ->transform(function ($item, $key) {
+                $item->id   = $item->DocTypeRef;
+                $item->text = $item->DocType;
+                return $item->only(['id', 'text']);
+            });
+        return $doc_type;
+
     }
 
 }

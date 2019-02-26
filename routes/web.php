@@ -282,6 +282,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('documents', 'DocumentController@index')->name('documents');
     Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
+    Route::post('/fetch-doctypes', 'DocumentController@fetch_doctypes');
 
     // sends document for approval
     Route::get('my_documents/send/{id}', 'DocumentController@send')->name('send_document');
