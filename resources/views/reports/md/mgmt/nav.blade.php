@@ -1,3 +1,6 @@
+@section('buttons')
+<a href="{{ route('admin-home') }}" class="btn btn-complete">Dashboard</a>
+@endsection
 <section id="summary" class="dashblocks dashblocks-sm m-b-20">
 
 	<div class="row">

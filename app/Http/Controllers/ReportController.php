@@ -586,4 +586,331 @@ class ReportController extends Controller
         return view('reports.md.mgmt.business_risk_control_report', compact('docs'));
     }
 
+    public function department()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 2)
+            ->where('DocTypeRef', 23) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.hr-summary.department', compact('docs'));
+    }
+    public function level()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 2)
+            ->where('DocTypeRef', 24) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.hr-summary.level', compact('docs'));
+    }
+    public function leave_utilization()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 2)
+            ->where('DocTypeRef', 25) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.hr-summary.leave_utilization', compact('docs'));
+    }
+    public function staff_attrition()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 2)
+            ->where('DocTypeRef', 26) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.hr-summary.staff_attrition', compact('docs'));
+    }
+    public function overall()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 3)
+            ->where('DocTypeRef', 27) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.project.overall', compact('docs'));
+    }
+    public function performance()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 3)
+            ->where('DocTypeRef', 28) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.project.performance', compact('docs'));
+    }
+    public function individual()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 3)
+            ->where('DocTypeRef', 29) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.project.individual', compact('docs'));
+    }
+    public function internal()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 5)
+            ->where('DocTypeRef', 30) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.audit.internal', compact('docs'));
+    }
+    public function external()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 5)
+            ->where('DocTypeRef', 31) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.audit.external', compact('docs'));
+    }
+    public function company_secretariat()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 6)
+            ->where('DocTypeRef', 32) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.legal.company_secretariat', compact('docs'));
+    }
+    public function regulatory()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 6)
+            ->where('DocTypeRef', 33) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.legal.regulatory', compact('docs'));
+    }
+    public function legal_contract()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 6)
+            ->where('DocTypeRef', 34) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.legal.legal_contract', compact('docs'));
+    }
+
+    public function litigation()
+    {
+        $config = Config::where('ConfigRef', '1')->first();
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        } else {
+            $from = $config->YearStart;
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        } else {
+            $to = date('Y-m-d');
+        }
+
+        $user = auth()->user();
+        $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
+            ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
+            ->where('tblDocType.DocSubCategoryID', 6)
+            ->where('DocTypeRef', 35) // plant
+            ->whereBetween('ReportDate', [$from, $to])
+            ->orderBy('DocRef', 'desc')
+            ->get();
+        return view('reports.md.legal.litigation', compact('docs'));
+    }
+
 }

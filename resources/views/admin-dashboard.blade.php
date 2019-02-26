@@ -83,7 +83,7 @@
     </div>
 
     <div class="col-sm-4">
-      <a href="{{ route('payroll.details') }}" class="no-color">
+      <a href="{{ route('hr-summary.department') }}" class="no-color">
         <div class="card-box text-center style2">
           <div class="card-img">
             <img src="{{ asset('images/staff_card.png') }}" alt="">
@@ -97,7 +97,7 @@
       </a>
     </div>
     <div class="col-sm-4">
-      <a href="#" class="no-color">
+      <a href="{{ route('project.overall') }}" class="no-color">
         <div class="card-box text-center style2">
           <div class="card-img">
             <img src="{{ asset('images/project.png') }}" alt="">
@@ -117,7 +117,7 @@
    <div class="row">
 
     <div class="col-sm-4">
-      <a href="{{ route('payroll.details') }}" class="no-color">
+      <a href="#" class="no-color">
         <div class="card-box text-center style2">
           <div class="card-img">
             <img src="{{ asset('images/dash-hr.png') }}" alt="">
@@ -132,7 +132,7 @@
     </div>
 
     <div class="col-sm-4">
-      <a href="#" class="no-color">
+      <a href="{{ route('audit.internal') }}" class="no-color">
         <div class="card-box text-center style2">
           <div class="card-img">
             <img src="{{ asset('images/audit.png') }}" alt="">
@@ -147,7 +147,7 @@
     </div>
 
     <div class="col-sm-4">
-      <a href="#" class="no-color">
+      <a href="{{ route('legal.company-secretariat') }}" class="no-color">
         <div class="card-box text-center style2">
           <div class="card-img">
             <img src="{{ asset('images/legal.png') }}" alt="">
