@@ -758,6 +758,86 @@
                                             </div>
                                         </div>
 
+                                            <div class="card-section p-l-5">List Of Travellers</div>
+                                            <div class="">
+                                                <div class="btn-group" data-toggle="buttons" style="position: relative;">
+                                                    <label class="btn staff_option_label btn-complete active">
+                                                    <input type="radio" name="staff_options" id="staff_option" checked> Staff
+                                                    </label>
+                                                    <label class="btn staff_option_label btn-complete">
+                                                    <input type="radio" name="staff_options" id="non_staff_option"> Non Staff
+                                                    </label>
+                                                </div> <br> <br>
+
+                                                <div class="travellers-wrapper">
+                                                    <div class="staff_option_template">
+                                                        <div class="row">
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                        <label for="TravellerStaffID">Select Staff</label>
+                                                                    {{ Form::select('TravellerStaffID[]', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'StaffRef')->toArray(), null, ['class'=> "form-control full-width select2", 'id' => 'full_name', 'data-init-plugin' => "select2"]) }}
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+                                                                
+                                                                <div class="form-group">
+                                                                        <label for="TravellerCompany">Company</label>
+                                                                    {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'id' => 'company_name', 'placeholder' => 'Enter Company\'s Name' ]) }}
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-3 ">
+                                                                <div class="form-group">
+                                                                        <label for="TravellerPhone">Phone</label>
+                                                                    {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control",'id' => 'staff_phone_number', 'placeholder' => 'Enter Phone Number','minlength' => 11, 'maxlength' => 11, 'pattern'=> "\d+"]) }}
+                                                                </div>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                        <div class="to-be-inserted"></div>
+                                                        <div class="form-group">
+                                                                    <button type="button" style="margin-left: 7px"  class="add_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
+                                                                </div>
+                                                    </div>  
+
+                                                    <div class="non_staff_option_template">
+                                                        <div class="row">
+                                                            <div class="col-sm-3">
+                                                                
+                                                                <div class="form-group">
+                                                                        <label for="TravellerFullName">FullName</label>
+                                                                    {{ Form::text('TravellerFullName[]', null, ['class'=> "form-control",'id' => 'non_staff_name', 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+                                                                
+                                                                <div class="form-group">
+                                                                        <label for="TravellerCompany">Company</label>
+                                                                    {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control",'id' => 'non_staff_company', 'placeholder' => 'Enter Company\'s Name' ]) }}
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-sm-3 ">
+                                                                <div class="form-group">
+                                                                        <label for="TravellerPhone">Phone</label>
+                                                                    {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control",'id' => 'non_staff_number', 'placeholder' => 'Enter Phone Number', 'minlength' => 11, 'maxlength' => 11,  'pattern'=> "\d+"]) }}
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="to-be-inserted"></div>
+                                                        <div class="form-group">
+                                                                    <button type="button" style="margin-left: 7px"  class="add_non_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
+                                                                </div>
+                                                    </div>
+                                                        
+                                                </div>
+                                            </div>
+
                                         
     
                                             <br>
@@ -878,6 +958,20 @@
         $('#approver').val(data.Approver).trigger('change');
 
         $('#reference_letter1').val(data.ReferenceLetter);
+
+        $('#full_name').val(data.TravellerStaffID).trigger('change');
+
+        $('#company_name').val(data.TravellerCompany);
+
+        $('#staff_phone_number').val(data.TravellerPhone);
+
+        $('#non_staff_name').val(data.TravellerStaffID).trigger('change');
+
+        $('#non_staff_compnay').val(data.TravellerCompany);
+
+        $('#non_staff_number').val(data.TravellerPhone);
+
+
 
         $('#TravelRef').val(data.TravelRef);
 

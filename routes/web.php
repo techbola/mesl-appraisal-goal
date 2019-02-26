@@ -283,6 +283,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('documents', 'DocumentController@index')->name('documents');
     Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
 
+
+
     // sends document for approval
     Route::get('my_documents/send/{id}', 'DocumentController@send')->name('send_document');
     Route::get('my_documents/approvallist', 'DocumentController@approval_list')->name('docs_approvallist');
@@ -298,6 +300,14 @@ Route::middleware(['auth'])->group(function () {
     })->name('docs');
 
     Route::resource('doctypes', 'DocTypeController');
+
+    Route::get('documents/doctype', 'DocTypeController@doctype');
+    Route::post('documents/doctype', 'DocTypeController@store_doctype')->name('StoreDoctype');
+    Route::get('documents/sub_category', 'DocTypeController@subcategory');
+    Route::post('documents/sub_category', 'DocTypeController@store_subcategory')->name('Storesubcategory');
+    Route::get('document/sub_category/{id}', 'DocTypeController@delete_subcategory')->name('DeleteSub');
+    Route::get('edit_sub_category/{id}', 'DocTypeController@edit_sub_category')->name('edit_sub_category');
+    Route::get('documents/doc_category', 'DocTypeController@doc_category');
 
     Route::get('events', 'EventScheduleController@index')->name('events');
     Route::get('get_events', 'EventScheduleController@get_events')->name('get_events'); // AJAX
