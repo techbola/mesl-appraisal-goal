@@ -3,6 +3,11 @@
 namespace MESL\Http\Controllers;
 
 use MESL\DocType;
+use MESL\DocCategory;
+use MESL\Staff;
+use Auth;
+use MESL\Company;
+use MESL\SubCategory;
 use Illuminate\Http\Request;
 
 class DocTypeController extends Controller
@@ -98,5 +103,82 @@ class DocTypeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function doctype()
+    {
+        $staff = Staff::all();
+        $doctypes = DocType::Orderby('DocTypeRef', 'DESC')->get();
+        $doc_category = DocCategory::all();
+        $company = Auth::user()->staff->CompanyID;
+        return view('documents.doctype', compact('doctypes', 'doc_category', 'staff', 'company'));
+    }
+
+    public function store_doctype(Request $request)
+    {
+
+        $company = Auth::user()->staff->CompanyID;
+
+        $doctype = new Doctype($request->all());
+            if($doctype->save()) {
+                $data = [
+                    'status'    => 'success',
+                    'message'   => ' Document was created successfully!'
+                ];
+            }else{
+                $data = [
+                    'status'    => 'error',
+                    'message'   =>  ' Document creation was not successful!'
+                ];
+            }
+
+            return redirect()->route('StoreDoctype')->with($data['status'], $data['message']);
+    }
+
+    // Sub category functions
+    public function subcategory()
+    {
+        $subcategories = SubCategory::Orderby('SubCategoryRef', 'DESC')->get();
+        $category = DocCategory::all();
+        return view('documents.sub_category', compact('subcategories', 'category'));
+    }
+
+    public function store_subcategory(Request $request)
+    {
+        $subcategory = new SubCategory($request->all());
+            if($subcategory->save()) {
+                $data = [
+                    'status'    => 'success',
+                    'message'   => ' SubCategory was created successfully!'
+                ];
+            }else{
+                $data = [
+                    'status'    => 'error',
+                    'message'   =>  ' SubCategory creation was not successful!'
+                ];
+            }
+
+            return redirect()->route('Storesubcategory')->with($data['status'], $data['message']);
+        }
+
+        //Edit Sub category
+    public function edit_sub_category($id)
+    {
+        $subcategory = SubCategory::where("SubCategoryRef", $id)->first();
+
+        return response()->json($subcategory);
+    }
+
+    public function delete_subcategory($id)
+    {
+        $subcategory = SubCategory::find($id);
+
+        $subcategory->delete();
+        return redirect()->route('documents.sub_category', compact('subcategory'))->with('success',  'Deleted successfully');
+    }
+
+    public function doc_category()
+    {
+        return view('documents.doc_category');
     }
 }
