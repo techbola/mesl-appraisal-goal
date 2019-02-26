@@ -453,7 +453,7 @@ class ReportController extends Controller
         $user = auth()->user();
         $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
             ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
-            ->where('tblDocType.DocCategoryID', 1)
+            ->where('tblDocType.DocSubCategoryID', 2)
             ->where('DocTypeRef', 17) // plant
             ->whereBetween('ReportDate', [$from, $to])
             ->orderBy('DocRef', 'desc')
@@ -478,7 +478,7 @@ class ReportController extends Controller
         $user = auth()->user();
         $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
             ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
-            ->where('tblDocType.DocCategoryID', 1)
+            ->where('tblDocType.DocSubCategoryID', 2)
             ->where('DocTypeRef', 18) // plant
             ->whereBetween('ReportDate', [$from, $to])
             ->orderBy('DocRef', 'desc')
@@ -503,7 +503,7 @@ class ReportController extends Controller
         $user = auth()->user();
         $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
             ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
-            ->where('tblDocType.DocCategoryID', 1)
+            ->where('tblDocType.DocSubCategoryID', 2)
             ->where('DocTypeRef', 19) // plant
             ->whereBetween('ReportDate', [$from, $to])
             ->orderBy('DocRef', 'desc')
@@ -528,7 +528,7 @@ class ReportController extends Controller
         $user = auth()->user();
         $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
             ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
-            ->where('tblDocType.DocCategoryID', 1)
+            ->where('tblDocType.DocSubCategoryID', 2)
             ->where('DocTypeRef', 20) // plant
             ->whereBetween('ReportDate', [$from, $to])
             ->orderBy('DocRef', 'desc')
@@ -553,7 +553,7 @@ class ReportController extends Controller
         $user = auth()->user();
         $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
             ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
-            ->where('tblDocType.DocCategoryID', 1)
+            ->where('tblDocType.DocSubCategoryID', 2)
             ->where('DocTypeRef', 21) // plant
             ->whereBetween('ReportDate', [$from, $to])
             ->orderBy('DocRef', 'desc')
@@ -578,7 +578,7 @@ class ReportController extends Controller
         $user = auth()->user();
         $docs = Document::where('ApprovedFlag', '1')->where('NotifyFlag', '1')
             ->join('tblDocType', 'tblDocMgt.DocTypeID', '=', 'tblDocType.DocTypeRef')
-            ->where('tblDocType.DocCategoryID', 1)
+            ->where('tblDocType.DocSubCategoryID', 2)
             ->where('DocTypeRef', 22) // plant
             ->whereBetween('ReportDate', [$from, $to])
             ->orderBy('DocRef', 'desc')
