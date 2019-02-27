@@ -207,6 +207,55 @@
           <td>{!! ($pending->Beneficiary_Address != $staff->Beneficiary_Address)? $pending->Beneficiary_Address : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
+        <tr>
+          <td>University Attended (1st Degree)</td>
+          <td>{{ $staff->UniversityAttended1 ?? '-' }}</td>
+          <td>{!! ($pending->UniversityAttended1 != $staff->UniversityAttended1)? $pending->UniversityAttended1 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>University Attended (2nd Degree)</td>
+          <td>{{ $staff->UniversityAttended2 ?? '-' }}</td>
+          <td>{!! ($pending->UniversityAttended2 != $staff->UniversityAttended2)? $pending->UniversityAttended2 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>University Attended (3rd Degree)</td>
+          <td>{{ $staff->UniversityAttended3 ?? '-' }}</td>
+          <td>{!! ($pending->UniversityAttended3 != $staff->UniversityAttended3)? $pending->UniversityAttended3 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Professional Qualification (1st Degree)</td>
+          <td>{{ $staff->ProfessionalQualification1 ?? '-' }}</td>
+          <td>{!! ($pending->ProfessionalQualification1 != $staff->ProfessionalQualification1)? $pending->ProfessionalQualification1 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Professional Qualification (2nd Degree)</td>
+          <td>{{ $staff->ProfessionalQualification2 ?? '-' }}</td>
+          <td>{!! ($pending->ProfessionalQualification2 != $staff->ProfessionalQualification2)? $pending->ProfessionalQualification2 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Professional Qualification (3rd Degree)</td>
+          <td>{{ $staff->ProfessionalQualification3 ?? '-' }}</td>
+          <td>{!! ($pending->ProfessionalQualification3 != $staff->ProfessionalQualification3)? $pending->ProfessionalQualification3 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>NYSC Year</td>
+          <td>{{ $staff->NYSCYear ?? '-' }}</td>
+          <td>{!! ($pending->NYSCYear != $staff->NYSCYear)? $pending->NYSCYear : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>NYSC Location</td>
+          <td>{{ $staff->NYSCLocation ?? '-' }}</td>
+          <td>{!! ($pending->NYSCLocation != $staff->NYSCLocation)? $pending->NYSCLocation : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        
         
       </tbody>
     </table>
