@@ -42,7 +42,7 @@
 
       <div class="col-md-4">
         <label></label>
-        <button type="submit" class="btn btn-info m-t-25 btn-cons">Fetch</button>
+        <button type="submit" class="btn btn-info m-t-25 btn-cons">Search</button>
         <a href="{{ url()->current() }}" class="btn btn-inverse m-t-25 btn-cons" onclick="$('#spinner').show()">Reset</a>
       </div>
     </div>
