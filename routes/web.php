@@ -300,7 +300,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('docs');
 
     Route::resource('doctypes', 'DocTypeController');
-
+    Route::post('documents/doc_category', 'DocTypeController@store_doccategory')->name('StoreDocCat');
     Route::get('documents/doctype', 'DocTypeController@doctype');
     Route::post('documents/doctype', 'DocTypeController@store_doctype')->name('StoreDoctype');
     Route::get('documents/sub_category', 'DocTypeController@subcategory');
@@ -308,6 +308,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('document/sub_category/{id}', 'DocTypeController@delete_subcategory')->name('DeleteSub');
     Route::get('edit_sub_category/{id}', 'DocTypeController@edit_sub_category')->name('edit_sub_category');
     Route::get('documents/doc_category', 'DocTypeController@doc_category');
+    Route::get('edit_doc_category/{id}', 'DocTypeController@edit_doc_category')->name('edit_doc_category');
+    Route::get('documents/doc_category/{id}', 'DocTypeController@delete_doc_category')->name('delete_doc_category');
+    Route::post('update_doc_category', 'DocTypeController@update_doc_category')->name('updatedcategory');
+    
 
     Route::get('events', 'EventScheduleController@index')->name('events');
     Route::get('get_events', 'EventScheduleController@get_events')->name('get_events'); // AJAX

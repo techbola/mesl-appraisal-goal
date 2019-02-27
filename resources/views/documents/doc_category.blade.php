@@ -20,34 +20,21 @@
 
 @section('content')
 
-    {{-- <div class="card-box">
+    <div class="card-box">
         <div class="card-title">Sub Category</div>
 
-        <form action="{{ route('Storesubcategory') }}" method="POST" class="form">
+        <form action="{{ route('StoreDocCat') }}" method="POST" class="form">
             {{ csrf_field() }}
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="controls">
                         <div class="form-group">
-                            {{ Form::label('SubCategory', 'Document Sub Category' ) }}
-                            {{ Form::text('SubCategory', null, ['class' => 'form-control', 'placeholder' => 'Enter Sub Category', 'required']) }}
+                            {{ Form::label('DocCategory', 'Document Category' ) }}
+                            {{ Form::text('DocCategory', null, ['class' => 'form-control', 'placeholder' => 'Enter Document Category', 'required']) }}
                         </div>
                     </div>
                 </div>
     
-                <div class="col-md-6">
-                    <div class="controls">
-                        <div class="form-group">
-                            {{ Form::label('DocCategory', 'Document Category' ) }}
-                            <select name="DocCategory" class="full-width" data-init-plugin="select2" id="" onchange="">
-                                <option value=" ">Select Document Category</option>
-                                @foreach($category as $item)
-                                    <option value="{{ $item->DocCategoryRef }}">{{ $item->DocCategory }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
             </div>
     
             <div class="row">
@@ -57,66 +44,53 @@
             </div>
         </form>
 
-    </div> --}}
+    </div>
 
     {{-- Table --}}
-    {{-- <div class="card-box">
-        <div class="card-title">Entries</div>
+    <div class="card-box">
+        <div class="card-title">Categories</div>
         <table class="table tableWithSearch table-bordered">
             <thead>
-                <th width="10%">Sub Category Type</th>
-                <th width="7%">Document Category</th>
+                <th width="10%">Document Category</th>
+                <th width="15%">Date Created</th>
                 <th width="15%">Action</th>
             </thead>
             <tbody>
-                @foreach($subcategories as $subcategory)
+                @foreach($doccategories as $doccategory)
                     <tr>
-                        <td>{{$subcategory->SubCategory}}</td>
-                        <td>{{$subcategory->doc_category->DocCategory ?? ''}}</td>
+                        <td>{{$doccategory->DocCategory}}</td>
+                        <td>{{$doccategory->created_at}}</td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-primary toggler" onclick="edit_subcategory( {{$subcategory->SubCategoryRef}})" data-toggle="modal" data-target="#exampleModal">Edit</button>
-                            <a href="/documents/sub_category/{{$subcategory->SubCategoryRef}}" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="edit_doccategory( {{$doccategory->DocCategoryRef}})" data-toggle="modal" data-target="#exampleModal">Edit</button>
+                            <a href="{{ route('delete_doc_category', $doccategory->DocCategoryRef) }}" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                         </td>
                      </tr>
                 @endforeach
             </tbody>
         </table>
-    </div> --}}
+    </div>
 
       <!-- Modal -->
-      {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit Sub Category</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Edit Document Category</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <hr>
             <div class="modal-body">
-                <form action="" method="POST" class="form">
+                <form action="" method="POST" class="form-edit">
+                    <input type="hidden" id="DocCategoryRef" name="DocCategoryRef" value="">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-6">
                             <div class="controls">
                                 <div class="form-group">
-                                    {{ Form::label('SubCategory', 'Document Sub Category' ) }}
-                                    {{ Form::text('SubCategory', null, ['class' => 'form-control', 'id' => 'sub_category', 'placeholder' => 'Enter Sub Category', 'required']) }}
-                                </div>
-                            </div>
-                        </div>
-            
-                        <div class="col-md-6">
-                            <div class="controls">
-                                <div class="form-group">
-                                    {{ Form::label('DocCategory', 'Document Category' ) }}
-                                    <select name="DocCategory" class="full-width" data-init-plugin="select2" id="doc_category" onchange="">
-                                        <option value=" ">Select Document Category</option>
-                                        @foreach($category as $item)
-                                            <option value="{{ $item->DocCategoryRef }}">{{ $item->DocCategory }}</option>
-                                        @endforeach
-                                    </select>
+                                    {{ Form::label('DocCategory', 'Document Sub Category' ) }}
+                                    {{ Form::text('DocCategory', null, ['class' => 'form-control', 'id' => 'doc_category', 'placeholder' => 'Enter doc Category', 'required']) }}
                                 </div>
                             </div>
                         </div>
@@ -131,7 +105,7 @@
             </div>
           </div>
         </div>
-      </div> --}}
+      </div>
 
 
 
@@ -143,14 +117,16 @@
 
 <script>
 
-    // function edit_subcategory(id)
-    // {
-    //         $.get('/edit_sub_category/'+id, function(data, status) {
+    function edit_doccategory(id)
+    {
+            $.get('/edit_doc_category/'+id, function(data, status) {
 
-    //         $('#sub_category').val(data.SubCategory);
-    //         $('#doc_category').val(data.DocCategory).trigger('change');
-            
-    //     });
+            $('#doc_category').val(data.DocCategory);
 
-    // }
+            $('#DocCategoryRef').val(data.DocCategoryRef);
+
+        $('#form-edit').prop('action', '/update_doc_category');    
+        });
+
+    }
 </script>

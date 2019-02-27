@@ -11,5 +11,4 @@ class DocCategory extends Model
     protected $primaryKey = 'DocCategoryRef';
     public $timestamps = false;
 
-    
 }
