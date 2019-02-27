@@ -10,6 +10,9 @@
 <ul class="nav nav-tabs nav-tabs-sm nav-tabs-simple bg-white m-b-20">
   <li class="active"><a data-toggle="tab" href="#general">General</a></li>
   <li><a data-toggle="tab" href="#personal">Personal</a></li>
+  @if (in_array($my_dept, $depts['md']) || $user->hasRole('admin') || $user->hasRole('admin'))
+    <li><a href="{{ route('admin-home') }}">MD's Dashboard</span></a></li>
+  @endif
   @if (in_array($my_dept, $depts['hr']) || $user->hasRole('admin'))
     <li><a data-toggle="tab" href="#hr">HR</a></li>
   @endif

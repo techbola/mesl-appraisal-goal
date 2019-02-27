@@ -68,6 +68,7 @@ class HomeController extends Controller
             'sales'      => [],
             'admin'      => ['7'],
             'risk'       => ['10'],
+            'md'         => ['1'],
         ];
         $my_dept = $user->staff->DepartmentID ?? '0';
 
