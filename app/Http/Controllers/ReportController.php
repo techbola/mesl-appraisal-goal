@@ -558,7 +558,7 @@ class ReportController extends Controller
             ->whereBetween('ReportDate', [$from, $to])
             ->orderBy('DocRef', 'desc')
             ->get();
-        return view('reports.md.mgmt.ict_report', compact('docs'));
+        return view('reports.md.mgmt.ict', compact('docs'));
     }
     public function business_risk_control_report()
     {
