@@ -45,12 +45,12 @@ class HomeController extends Controller
         // $leave_requests    = LeaveRequest::where('ApproverID', $user->id)->where('CompletedFlag', '0')->get();
         // $bulletins         = Bulletin::where('CompanyID', $user->CompanyID)->whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
         // $events            = EventSchedule::where('CompanyID', $user->CompanyID)->whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today)->get();
-        $birthday_users         = Staff::where('CompanyID', $user->CompanyID)->where('DateofBirth', '!=', '')->where('DateofBirth', '!=', null)->get();
-        $birthdays = [];
+        $birthday_users = Staff::where('CompanyID', $user->CompanyID)->where('DateofBirth', '!=', '')->where('DateofBirth', '!=', null)->get();
+        $birthdays      = [];
         foreach ($birthday_users as $b_user) {
-          if (Carbon::parse($b_user->DateofBirth)->isBirthday()) {
-            $birthdays[] = $b_user;
-          }
+            if (Carbon::parse($b_user->DateofBirth)->isBirthday()) {
+                $birthdays[] = $b_user;
+            }
         }
         // $unapproved_memos  = Memo::where('ApproverID', $user->id)->where('NotifyFlag', 1)->get();
         // $policy_statements = PolicyStatement::whereDate('EntryDate', '>=', $past7days)->whereDate('EntryDate', '<=', $next7days)->get();
@@ -59,15 +59,15 @@ class HomeController extends Controller
 
         $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
         $events    = EventSchedule::whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today)->get();
-        $depts = [
-          'hr'=> ['3','5'],
-          'it'=> ['14'],
-          'finance'=> ['8'],
-          'operations'=> ['22'],
-          'legal'=> ['13'],
-          'sales'=> [],
-          'admin'=> ['7'],
-          'risk'=> ['10'],
+        $depts     = [
+            'hr'         => ['3', '5'],
+            'it'         => ['14'],
+            'finance'    => ['8'],
+            'operations' => ['22'],
+            'legal'      => ['13'],
+            'sales'      => [],
+            'admin'      => ['7'],
+            'risk'       => ['10'],
         ];
         $my_dept = $user->staff->DepartmentID ?? '0';
 
@@ -87,7 +87,7 @@ class HomeController extends Controller
 
         $config      = Config::first();
         $system_date = $config->TradeDate;
-        // $quarter     = \Carbon\Carbon::parse($system_date)->quarter;
+
         $quarter = 0;
 
         if ($quarter == 1) {
@@ -109,14 +109,8 @@ class HomeController extends Controller
 
         $current_pay_month = PayrollMonthly::max('PayMonth');
         $current_pay_year  = PayrollMonthly::max('PayYear');
-        // return dd($current_pay_month);
 
-        $staff_total =
-        // Staff::where('PayMonth', $current_pay_month)
-        // ->where('PayYear', $current_pay_year)
-        Staff::all()
-            ->count();
-        // return dd($staff_total);
+        $staff_total = Staff::all()->count();
 
         $files_total = Litigation::all()->count();
 

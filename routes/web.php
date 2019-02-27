@@ -23,9 +23,9 @@ Route::get('/login2', function () {
 });
 
 // reset password for dev
-Route::get('reset-all-passwords', function(){
+Route::get('reset-all-passwords', function () {
     $users = \MESL\User::all();
-    foreach($users as $u){
+    foreach ($users as $u) {
         $u->password = bcrypt('secret');
         $u->save();
     }
@@ -282,6 +282,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('documents', 'DocumentController@index')->name('documents');
     Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
+    Route::post('/fetch-doctypes', 'DocumentController@fetch_doctypes');
 
 
 
@@ -541,6 +542,42 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/cash-flow', 'ReportController@cash_flow')->name('cash_flow');
     Route::get('reports/outstanding-bills', 'ReportController@outstanding_bills')->name('outstanding_bills');
     Route::get('reports/outstanding-vendor-bills', 'ReportController@outstanding_vendor_bills')->name('outstanding_vendor_bills');
+
+    // MD's Reports
+    Route::prefix('reports/management')->group(function () {
+        Route::get('plant-report', 'ReportController@plant_report')->name('md.plant-report');
+        Route::get('account-and-finance-scorecard', 'ReportController@account_finance_scorecard')->name('md.account-finance-scorecard');
+        Route::get('admin-report', 'ReportController@admin_report')->name('md.admin-report');
+        Route::get('procurement-report', 'ReportController@procurement_report')->name('md.procurement-report');
+        Route::get('ict-report', 'ReportController@ict_report')->name('md.ict-report');
+        Route::get('business-risk-control-report', 'ReportController@business_risk_control_report')->name('md.business-risk-control-report');
+    });
+
+    Route::prefix('reports/hr-summary')->group(function () {
+        Route::get('department', 'ReportController@department')->name('hr-summary.department');
+        Route::get('level', 'ReportController@level')->name('hr-summary.level');
+        Route::get('leave-utilization', 'ReportController@leave_utilization')->name('hr-summary.leave-utilization');
+        Route::get('staff-attrition', 'ReportController@staff_attrition')->name('hr-summary.staff-attrition');
+
+    });
+
+    Route::name('project.')->prefix('reports/project')->group(function () {
+        Route::get('overall', 'ReportController@overall')->name('overall');
+        Route::get('performance', 'ReportController@performance')->name('performance');
+        Route::get('individual', 'ReportController@individual')->name('individual');
+    });
+
+    Route::name('audit.')->prefix('reports/audit')->group(function () {
+        Route::get('internal', 'ReportController@internal')->name('internal');
+        Route::get('external', 'ReportController@external')->name('external');
+    });
+
+    Route::name('legal.')->prefix('reports/legal')->group(function () {
+        Route::get('company-secretariat', 'ReportController@company_secretariat')->name('company-secretariat');
+        Route::get('regulatory', 'ReportController@regulatory')->name('regulatory');
+        Route::get('legal-contract', 'ReportController@legal_contract')->name('legal-contract');
+        Route::get('litigation', 'ReportController@litigation')->name('litigation');
+    });
 
     Route::post('get-outstanding-bill-details', 'ReportController@fetchOutstandingBillsForCode');
     Route::post('get-outstanding-vendor-bill-details', 'ReportController@fetchOutstandingVendorBillsForCode');

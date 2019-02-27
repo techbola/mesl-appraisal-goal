@@ -3,6 +3,43 @@
 
 @include('errors.list')
 
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          {{ Form::label('DocCategoryID', 'Document Category ') }}
+          {{ Form::select('DocCategoryID', [ '' =>  'Document Category'] + $doc_cat_types->pluck('DocCategory','DocCategoryRef')->toArray(), null, ['class' => 'full-width', 'data-init-plugin' => 'select2', 'data-placeholder' => 'Choose Document Category']) }}
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="col-sm-6 hide subcategory-wrapper">
+        <div class="form-group">
+          {{ Form::label('DocSubCategoryID', 'Document SubCategory ') }}
+          {{ Form::select('DocSubCategoryID', [ '' =>  'Document Category'] + $doc_sub_cat_types->pluck('DocSubCategory','DocSubCategoryRef')->toArray(), null, ['class' => 'full-width', 'data-init-plugin' => 'select2', 'data-placeholder' => 'Choose Document Category']) }}
+        </div>
+      </div>
+
+
+      <div class="col-sm-6 hide report-date-wrapper">
+        <div class="form-group">
+            <div class="controls">
+                {{ Form::label('ReportDate', 'Report Date') }}
+                <div class="input-group date dp">
+                    {{ Form::text('ReportDate', null, ['class' => 'form-control', 'placeholder' => 'Report Date']) }}
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar">
+                        </i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <div class="clearfix"></div>
+    </div>
+
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
@@ -87,4 +124,48 @@
     @push('scripts')
       <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
       </script>
+
+
+      <script>
+        $(function(){
+          let mds_data = {!! json_encode($mds_data) !!};
+          let others_data = {!! json_encode($others_data) !!};
+          $('#DocCategoryID').change(function(e) {
+            e.preventDefault();
+            let selected = $(this).val();
+            let wrappers_to_hide = $('.report-date-wrapper, .subcategory-wrapper');
+            // management report was selected
+            if(selected != 1) {
+              // show report date 
+              wrappers_to_hide.removeClass('hide');
+              //  Reload content of Document Type based on the selected category
+              $("#DocTypeID").empty();
+              // $("#DocTypeID").select2({
+              //   data: mds_data
+              // });
+            } else {
+              wrappers_to_hide.addClass('hide');
+              $('#ReportDate').val(''); // reseted report date
+              $("#DocTypeID").empty();
+              $("#DocTypeID").select2({
+                data: others_data
+              });
+            }
+          });
+
+          $("#DocSubCategoryID").change(function(e) {
+            e.preventDefault();
+            val = $(this).val();
+            $.post('/fetch-doctypes', {sub_cat_id: val}, function(data, textStatus, xhr) {
+              $("#DocTypeID").empty();
+              $("#DocTypeID").select2({
+                data: data
+              });
+            });
+          });
+
+        });
+      </script>
+
+
     @endpush
