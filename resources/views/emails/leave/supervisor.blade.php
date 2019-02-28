@@ -13,7 +13,7 @@ You are required to approve or decline their request.
 
 cheers.
 
-@component('mail::button', ['url' => url('/leave_request/index')])
+@component('mail::button', ['url' => url('/leave_request/leave_approval_supervisor')])
 Visit Officemate
 @endcomponent
 
