@@ -112,18 +112,14 @@
                         <br>
                 
                         <div class="row">
-                                <div class="col-md-3">
+
+                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <div class="controls">
-                                            {{ Form::label('DepartureDate', 'Departure Date') }}
-                                            <div class="input-group">
-                                                {{ Form::Date('DepartureDate', null, ['class' => 'form-control', 'placeholder' => 'Departure Date', 'required']) }}
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-calendar">
-                                                    </i>
-                                                </span>
-                                            </div>
-                                        </div>
+                                    {{ Form::label('DepartureDate', 'Departure Date' ) }}
+                                    <div class="input-group date dp">
+                                        {{ Form::text('DepartureDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Departure Date', 'required', 'id' => 'departure_date']) }}
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
                                     </div>
                                 </div>
                 
@@ -136,18 +132,14 @@
                                     </div>
                                 </div>
     
-                                <div class="col-md-3">
+
+                                <div class="col-sm-3">
                                     <div class="form-group">
-                                        <div class="controls">
-                                            {{ Form::label('ArrivalDate', 'Arrival Date') }}
-                                            <div class="input-group ">
-                                                {{ Form::date('ArrivalDate', null, ['class' => 'form-control', 'placeholder' => 'Arrival Date', 'required']) }}
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-calendar">
-                                                    </i>
-                                                </span>
-                                            </div>
-                                        </div>
+                                    {{ Form::label('ArrivalDate', 'Arrival Date' ) }}
+                                    <div class="input-group date dp2">
+                                        {{ Form::text('ArrivalDate', null, ['class' => 'form-control', 'placeholder' => 'Arrival Date', 'required', 'id' => 'arrival_date']) }}
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
                                     </div>
                                 </div>
                 
@@ -1091,7 +1083,32 @@ function activate_travel_request_queue(){
 
 $(document).ready(function() {
     activate_travel_request_queue();
+
+     var options = {
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            startDate: '{{ date('Y-m-d') }}',
+            autoclose: true,
+        };
+        $('.dp').datepicker(options);
+
+        
 });
+
+window.enddate = function() {
+            var options2 = {
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            startDate: $('#departure_date').val(),
+            autoclose: true,
+        };
+        $('.dp2').datepicker(options2);
+        }
+
+        $('#departure_date').change(function(e) {
+            // e.preventDefault();
+            window.enddate();
+        });
 
 
 
