@@ -6,7 +6,7 @@ Dear Team,
 
  A new staff onboarding request from HR awaits your attention. Click button to see the list of things to be done.
 
-@component('mail::button', ['url' => url('/staff/Onboard_dashboard')])
+@component('mail::button', ['url' => url('/staff/onboard_dashboard')])
 Visit Officemate
 @endcomponent
 
