@@ -146,6 +146,11 @@ class Staff extends Model
         return $this->hasMany('MESL\ScoreCard', 'StaffID');
     }
 
+    public function nysc_location()
+    {
+        return $this->belongsTo('MESL\State', 'NYSCLocationID');
+    }
+
     public function subordinates()
     {
         return $this->hasMany('MESL\Staff', 'SupervisorID');

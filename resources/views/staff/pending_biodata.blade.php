@@ -8,9 +8,9 @@
   <div class="card-box">
     <div class="card-title">Review Bio-Data Changes - <span class="text-primary">{{ $pending->user->FullName }}</span></div>
 
-    <img src="{{ asset('images/avatars/'.($pending->user->avatar ?? 'default.png') ) }}" alt="" class="avatar inline-block" style="height:100px; width:100px;">
+    <img src="{{ asset('images/avatars/'.($pending->user->avatar ?? 'default.png') ) }}" alt="" class="avatar inline-block" style="height:100px; width:100px;"> <br><br>
 
-    <table class="table table-condensed table-striped">
+    <table class="table table-condensed biodata_list table-striped">
       <thead>
         <tr>
           <th>Field</th>
@@ -177,7 +177,7 @@
           <td>{!! ($pending->NextofKIN_Email != $staff->NextofKIN_Email)? $pending->NextofKIN_Email : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
-        <tr>
+       {{--  <tr>
           <td>Next Of Beneficiary</td>
           <td>{{ $staff->Beneficiary ?? '-' }}</td>
           <td>{!! ($pending->Beneficiary != $staff->Beneficiary)? $pending->Beneficiary : '<em class="text-muted">Unchanged</em>' !!}</td>
@@ -205,7 +205,7 @@
           <td>Beneficiary Address</td>
           <td>{{ $staff->Beneficiary_Address ?? '-' }}</td>
           <td>{!! ($pending->Beneficiary_Address != $staff->Beneficiary_Address)? $pending->Beneficiary_Address : '<em class="text-muted">Unchanged</em>' !!}</td>
-          <td></td>
+          <td></td> --}}
         </tr>
         <tr>
           <td>University Attended (1st Degree)</td>
@@ -251,8 +251,8 @@
         </tr>
         <tr>
           <td>NYSC Location</td>
-          <td>{{ $staff->NYSCLocation ?? '-' }}</td>
-          <td>{!! ($pending->NYSCLocation != $staff->NYSCLocation)? $pending->NYSCLocation : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{{ $staff->NYSCLocationID ?? '-' }}</td>
+          <td>{!! ($pending->NYSCLocationID != $staff->NYSCLocationID)? $pending->nysc_location->State : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         
@@ -276,3 +276,13 @@
 
   </div>
 @endsection
+
+@push('scripts')
+<script>
+  $(function(){
+    $('.biodata_list').DataTable({
+      paging: false
+    });
+  })
+</script>
+@endpush
