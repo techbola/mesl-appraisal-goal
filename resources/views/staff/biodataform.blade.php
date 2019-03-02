@@ -131,7 +131,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('IDNumber','ID Number') }}
-            {{ Form::number('IDNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter ID Number']) }}
+            {{ Form::number('IDNumber', null,  ['class' => 'form-control required', 'placeholder' => 'Enter ID Number', 'required']) }}
         </div>
     </div>
 
@@ -232,7 +232,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('NationalityOfOrigin','Nationality') }}
-            {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control ', 'placeholder' => 'Enter Nationality', '']) }}
+            {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Nationality', 'required']) }}
         </div>
     </div>
 
@@ -246,12 +246,12 @@
     </div>
 </div>
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('SpouseSurname','Spouse Surname') }}
         {{ Form::text('SpouseSurname', $staff->SpouseSurname,  ['class' => 'form-control', 'placeholder' => 'First name']) }}
-        {{-- <input type="text" value="{{ $staff->FullName }}" class="form-control" readonly> --}}
+        <input type="text" value="{{ $staff->FullName }}" class="form-control" readonly>
       </div>
     </div>
     <div class="col-sm-6">
@@ -260,24 +260,24 @@
         {{ Form::text('SpouseOthername', $staff->SpouseOthername,  ['class' => 'form-control', 'placeholder' => 'Middle name']) }}
       </div>
     </div>
-</div>
+</div> --}}
 
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('WorkPhone','Work Phone Number') }}
-            {{ Form::number('WorkPhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Work Phone Number', 'maxLength' => '11']) }}
+            {{ Form::number('WorkPhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Work Phone Number', 'maxLength' => '11', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('ReligionID','Religion') }}
-             {{ Form::select('ReligionID', [ 0 =>  'Select your religion'] + $religions->pluck('Religion', 'ReligionRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2", 'required']) }}
+             {{ Form::select('ReligionID', [ 0 =>  'Select your religion'] + $religions->pluck('Religion', 'ReligionRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2", '']) }}
         </div>
     </div>
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('MaritalStatusID','Marital Status') }}
+            {{ Form::label('MaritalStatusID','Marital Status', ['class'=>'req']) }}
             {{ Form::select('MaritalStatusID', [ 0 =>  'Marital Status'] + $status->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Marital Status", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
@@ -307,8 +307,8 @@
     </div> --}}
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('LocationID','Office Location') }}
-            {{ Form::select('LocationID', [ '' =>  'Select Location'] + $locations->pluck('Location', 'LocationRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Office Location", 'data-init-plugin' => "select2"]) }}
+            {{ Form::label('LocationID','Office Location', ['class' => 'req']) }}
+            {{ Form::select('LocationID', [ '' =>  'Select Location'] + $locations->pluck('Location', 'LocationRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Select Office Location", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
 </div>
@@ -489,7 +489,7 @@
             {{ Form::textarea('NextofKIN_Address', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Next of Kin Address']) }}
         </div>
     </div>
-    <div class="col-sm-4">
+    {{-- <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('Beneficiary','Beneficiary Name') }}
             {{ Form::text('Beneficiary', null,  ['class' => 'form-control', 'placeholder' => 'Enter Beneficiary Name']) }}
@@ -518,7 +518,7 @@
         {{ Form::label('Benficiary_Address','Benficiary Address') }}
         {{ Form::textarea('Benficiary_Address', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Benficiary Address']) }}
       </div>
-    </div>
+    </div> --}}
 
     <div class="col-sm-4">
       <div class="form-group">
@@ -561,17 +561,18 @@
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('NYSCYear','NYSC Year') }}
-        {{ Form::text('NYSCYear', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Year']) }}
+        {{ Form::text('NYSCYear', null,  ['class' => 'form-control required', 'placeholder' => 'Enter NYSC Year', 'required']) }}
       </div>
     </div>
     <div class="col-sm-4">
       <div class="form-group">
-        {{ Form::label('NYSCLocation','NYSC Location') }}
-        {{ Form::text('NYSCLocation', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Location']) }}
+        {{ Form::label('NYSCLocationID','NYSC Location', ['class'=>'req']) }}
+        {{-- {{ Form::text('NYSCLocation', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Location']) }} --}}
+        {{ Form::select('NYSCLocationID', [ 0 =>  'Select your Location'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Select NYSC Location", 'data-init-plugin' => "select2", 'required']) }}
       </div>
     </div>
 
-    <div class="col-sm-4">
+    {{-- <div class="col-sm-4">
         <div class="form-group">
           {{ Form::label('MSWord','MSWord Proficiency') }}
           {{ Form::select('MSWord', [ '' =>  'Select State'] + ['1'=>'Basic', '2'=>'Intermediate', '3'=>'Advance'],null, ['class'=> "full-width",'data-placeholder' => "MSWord Proficiency", 'data-init-plugin' => "select2"]) }}
@@ -594,7 +595,7 @@
           {{ Form::label('PowerPoint','PowerPoint Proficiency') }}
           {{ Form::select('PowerPoint', [ '' =>  'Select State'] + ['1'=>'Basic', '2'=>'Intermediate', '3'=>'Advance'],null, ['class'=> "full-width",'data-placeholder' => "PowerPoint Proficiency", 'data-init-plugin' => "select2"]) }}
         </div>
-    </div>
+    </div> --}}
 
     <div class="clearfix"></div>
 
@@ -673,7 +674,7 @@
     <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('PayrollGroupID','Payroll Group') }}
-        {{ Form::select('PayrollGroupID', [ 0 =>  'Select a payroll group'] + $payroll_groups->pluck('GroupDescription', 'GroupRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
+        {{ Form::select('PayrollGroupID', [ 0 =>  'Select a payroll group'] + $payroll_groups->pluck('GroupDescription', 'GroupRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Group", 'data-init-plugin' => "select2"]) }}
       </div>
     </div>
 

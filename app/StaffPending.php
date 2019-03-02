@@ -29,6 +29,11 @@ class StaffPending extends Model
         return $this->belongsTo('MESL\State', 'StateofOrigin');
     }
 
+    public function nysc_location()
+    {
+        return $this->belongsTo('MESL\State', 'NYSCLocationID');
+    }
+
     public function gender()
     {
         return $this->belongsTo(Gender::class, 'GenderID');
