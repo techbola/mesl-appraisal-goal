@@ -94,7 +94,7 @@ class Staff extends Model
     }
     public function supervisor()
     {
-        return $this->hasOne(CompanySupervisor::class, 'staff_id', 'StaffRef');
+        return $this->hasOne(Staff::class, 'SupervisorID');
     }
     public function getProjectsAttribute()
     {

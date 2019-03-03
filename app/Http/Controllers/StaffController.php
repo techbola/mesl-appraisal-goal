@@ -35,6 +35,8 @@ use MESL\StaffOnboarding;
 use MESL\Mail\StaffOnboard;
 use MESL\Mail\ApprovalIT;
 use MESL\Mail\AdminOnboardApproval;
+use MESL\Notifications\ApprovedBiodataUpdate;
+use MESL\Notifications\RejectedBiodataUpdate;
 
 use Carbon;
 
@@ -240,6 +242,7 @@ class StaffController extends Controller
             $pending->delete();
 
             DB::commit();
+            Notification::send($user, new ApprovedBiodataUpdate());
             return redirect()->route('pending_biodata_list')->with('success', 'Profile changes approved successfully');
         } catch (Exception $e) {
             DB::rollback();
@@ -255,6 +258,7 @@ class StaffController extends Controller
         $pending             = StaffPending::where('id', $id)->first();
         $pending->ApprovedBy = '0';
         $pending->save();
+        Notification::send($user, new RejectedBiodataUpdate());
 
         return redirect()->route('pending_biodata_list')->with('success', 'Profile changes were rejected successfully');
 
@@ -607,30 +611,30 @@ class StaffController extends Controller
 
     public function store_staff_onboard(Request $request)
     {
-        $current_date       = strtotime(Carbon::now()->toDateString());
-        $resumption_date    = strtotime($request->ResumptionDate);
+        $current_date    = strtotime(Carbon::now()->toDateString());
+        $resumption_date = strtotime($request->ResumptionDate);
 
-        if($resumption_date >= $current_date){
-            $user  = auth()->user();
-            $staff = Staff::all();
+        if ($resumption_date >= $current_date) {
+            $user          = auth()->user();
+            $staff         = Staff::all();
             $staff_onboard = new StaffOnboarding($request->all());
-            if($staff_onboard->save()) {
+            if ($staff_onboard->save()) {
                 $data = [
-                    'status'    => 'success',
-                    'message'   =>  $request->StaffName.' onboarding request was created successfully!'
+                    'status'  => 'success',
+                    'message' => $request->StaffName . ' onboarding request was created successfully!',
                 ];
-            }else{
+            } else {
                 $data = [
-                    'status'    => 'error',
-                    'message'   =>  $request->StaffName.' onboarding request was not successful!'
+                    'status'  => 'error',
+                    'message' => $request->StaffName . ' onboarding request was not successful!',
                 ];
             }
-        }else{
+        } else {
             $data = [
-                'status'    => 'error',
-                'message'   => 'Invalid resumption date! Select a valid date and try again!'
-            ];    
-        } 
+                'status'  => 'error',
+                'message' => 'Invalid resumption date! Select a valid date and try again!',
+            ];
+        }
 
         return redirect()->route('StoreStaff')->with($data['status'], $data['message']);
     }
@@ -657,7 +661,7 @@ class StaffController extends Controller
         })->get(); // ->toArray();
 
         foreach ($staffs as $key => $value) {
-            if($value->email !== null){
+            if ($value->email !== null) {
                 Mail::to($value->email)->send(new StaffOnboard());
             }
         }
@@ -718,9 +722,9 @@ class StaffController extends Controller
             $staffs = User::whereHas('staff', function ($query) {
                 $query->whereIn('DepartmentID', [3]);
             })->get();
-            
+
             foreach ($staffs as $key => $value) {
-                if($value->email !== null){
+                if ($value->email !== null) {
                     \Mail::to($value->email)->send(new ApprovalIT());
                 }
             }
@@ -780,9 +784,8 @@ class StaffController extends Controller
                 $query->whereIn('DepartmentID', [3]);
             })->get();
 
-
             foreach ($staffs as $key => $value) {
-                if($value->email !== null){
+                if ($value->email !== null) {
                     // Mail::to($value->email)->send(new StaffOnboard());
                     \Mail::to($value->email)->send(new AdminOnboardApproval());
                 }

@@ -10,6 +10,7 @@
 
     <img src="{{ asset('images/avatars/'.($pending->user->avatar ?? 'default.png') ) }}" alt="" class="avatar inline-block" style="height:100px; width:100px;"> <br><br>
 
+    <div>Staff Supervisor: <b>{{ $staff->supervisor->fullName ?? 'none' }}</b> | Department: <b>{{ $staff->department->Department ?? '-' }}</b></div>
     <table class="table table-condensed biodata_list table-striped">
       <thead>
         <tr>
@@ -132,7 +133,7 @@
         <tr>
           <td>Date of Birth</td>
           <td>{{ nice_date($staff->DateofBirth) ?? '-' }}</td>
-          <td>{!! ($pending->DateofBirth != $staff->DateofBirth)? $pending->DateofBirth : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->DateofBirth != $staff->DateofBirth)? nice_date($pending->DateofBirth) : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -144,13 +145,13 @@
         <tr>
           <td>Employment Date</td>
           <td>{{ nice_date($staff->EmploymentDate) ?? '-' }}</td>
-          <td>{!! ($pending->EmploymentDate != $staff->EmploymentDate)? $pending->EmploymentDate : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->EmploymentDate != $staff->EmploymentDate)? nice_date($pending->EmploymentDate) : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
           <td>Confirmation Date</td>
           <td>{{ nice_date($staff->ConfirmationDate) ?? '-' }}</td>
-          <td>{!! ($pending->ConfirmationDate != $staff->ConfirmationDate)? $pending->ConfirmationDate : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->ConfirmationDate != $staff->ConfirmationDate)? nice_date($pending->ConfirmationDate) : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -247,6 +248,13 @@
           <td>NYSC Year</td>
           <td>{{ $staff->NYSCYear ?? '-' }}</td>
           <td>{!! ($pending->NYSCYear != $staff->NYSCYear)? $pending->NYSCYear : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        </tr>
+        <tr>
+          <td>NYSC Number</td>
+          <td>{{ $staff->NYSCNumber ?? '-' }}</td>
+          <td>{!! ($pending->NYSCNumber != $staff->NYSCNumber)? $pending->NYSCNumber : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
