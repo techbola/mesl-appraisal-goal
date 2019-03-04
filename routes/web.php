@@ -244,8 +244,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor');
     Route::get('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
 
+    Route::get('leave_request/leave_type', 'LeaveRequestController@leave_type');
+
     Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
     Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');
+    
+    Route::post('leave_request/leave_type', 'LeaveRequestController@store_leavetype')->name('StoreLeaveType');
+
+    Route::get('edit_leave_type/{id}', 'LeaveRequestController@edit_leave_type')->name('edit_leave_type');
+
+    Route::get('leave_request/leave_type/{id}', 'LeaveRequestController@delete_leave_type')->name('delete_leave_type');
+    Route::post('update_leave_type', 'LeaveRequestController@update_leave_type')->name('updatedleavetype');
 
     //leave handover
     Route::get('leave_request/handover', 'LeaveRequestController@leave_handover')->name('LeaveHandover');

@@ -272,7 +272,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('ReligionID','Religion') }}
-             {{ Form::select('ReligionID', [ 0 =>  'Select your religion'] + $religions->pluck('Religion', 'ReligionRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2", 'required']) }}
+             {{ Form::select('ReligionID', [ 0 =>  'Select your religion'] + $religions->pluck('Religion', 'ReligionRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -464,7 +464,7 @@
 
   @endif
 
-    <div class="card-section p-l-5">Next of Kin & Beneficiary Details</div>
+    <div class="card-section p-l-5">Next of Kin Details</div>
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('NextofKIN','Next of KIN') }}
@@ -489,7 +489,7 @@
             {{ Form::textarea('NextofKIN_Address', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Next of Kin Address']) }}
         </div>
     </div>
-    <div class="col-sm-4">
+    {{-- <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('Beneficiary','Beneficiary Name') }}
             {{ Form::text('Beneficiary', null,  ['class' => 'form-control', 'placeholder' => 'Enter Beneficiary Name']) }}
@@ -517,9 +517,12 @@
       <div class="form-group">
         {{ Form::label('Benficiary_Address','Benficiary Address') }}
         {{ Form::textarea('Benficiary_Address', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Benficiary Address']) }}
-      </div>
+      </div> --}}
     </div>
 
+    <br>
+    
+    <div class="card-section p-l-5">Tertiary Education</div>
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('UniversityAttended1','University Attended (1st Degree)') }}
@@ -622,78 +625,82 @@
 
     @if($user->hasRole('admin'))
 
-    </div>
     <div class="row">
 
-    <div class="card-section p-l-5">Bank Details</div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        {{ Form::label('BankID','Choose Bank') }}
-        {{ Form::select('BankID', [ 0 =>  'Select a Bank'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Bank", 'data-init-plugin' => "select2", 'required']) }}
+      <div class="card-section p-l-5">Bank Details</div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          {{ Form::label('BankID','Choose Bank') }}
+          {{ Form::select('BankID', [ 0 =>  'Select a Bank'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Bank", 'data-init-plugin' => "select2", 'required']) }}
+        </div>
       </div>
+  
+      <div class="col-sm-6">
+        <div class="form-group">
+          {{ Form::label('BankAcctNumber','Bank Account Number') }}
+          {{ Form::text('BankAcctNumber', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Bank Account Number', 'required']) }}
+        </div>
+      </div>
+  
+      <div class="clearfix"></div>
+  
+      <div class="card-section p-l-5">PFA Details</div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          {{ Form::label('PFAID','Choose PFA') }}
+          {{ Form::select('PFAID', [ 0 =>  'Select a PFA'] + $pfa->pluck('PFA', 'PFARef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose PFA", 'data-init-plugin' => "select2", 'required']) }}
+        </div>
+      </div>
+  
+      <div class="col-sm-6">
+        <div class="form-group">
+          {{ Form::label('PensionRSANumber','PFA RSA Number') }}
+          {{ Form::text('PensionRSANumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter PFA RSA Number']) }}
+        </div>
+      </div>
+  
+  
+  
+      <div class="clearfix"></div>
+  
+      <div class="card-section p-l-5">Payroll Details</div>
+  
+      <div class="col-sm-6">
+        <div class="form-group">
+          {{ Form::label('LifeAssurance','Annual Life Assurance') }}
+          {{ Form::text('LifeAssurance', null,  ['class' => 'form-control', 'placeholder' => 'Enter Annual Life Assurance Amount','required']) }}
+        </div>
+      </div>
+  
+      <div class="col-sm-6">
+        <div class="form-group">
+          {{ Form::label('PayrollGroupID','Payroll Group') }}
+          {{ Form::select('PayrollGroupID', [ 0 =>  'Select a payroll group'] + $payroll_groups->pluck('GroupDescription', 'GroupRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
+        </div>
+      </div>
+  
+      <div class="col-sm-4">
+        <div class="form-group">
+          {{ Form::label('LeaveDays','Number of Leave Days') }}
+          {{ Form::number('LeaveDays', null,  ['class' => 'form-control', 'placeholder' => 'Enter Number of Leave Days']) }}
+        </div>
+      </div>
+  
+      @endif
+  
     </div>
 
-    <div class="col-sm-6">
-      <div class="form-group">
-        {{ Form::label('BankAcctNumber','Bank Account Number') }}
-        {{ Form::text('BankAcctNumber', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Bank Account Number', 'required']) }}
-      </div>
-    </div>
-
-    <div class="clearfix"></div>
-
-    <div class="card-section p-l-5">PFA Details</div>
-    <div class="col-sm-6">
-      <div class="form-group">
-        {{ Form::label('PFAID','Choose PFA') }}
-        {{ Form::select('PFAID', [ 0 =>  'Select a PFA'] + $pfa->pluck('PFA', 'PFARef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose PFA", 'data-init-plugin' => "select2", 'required']) }}
-      </div>
-    </div>
-
-    <div class="col-sm-6">
-      <div class="form-group">
-        {{ Form::label('PensionRSANumber','PFA RSA Number') }}
-        {{ Form::text('PensionRSANumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter PFA RSA Number']) }}
-      </div>
-    </div>
-
-
-
-    <div class="clearfix"></div>
-
-    <div class="card-section p-l-5">Payroll Details</div>
-
-    <div class="col-sm-6">
-      <div class="form-group">
-        {{ Form::label('LifeAssurance','Annual Life Assurance') }}
-        {{ Form::text('LifeAssurance', null,  ['class' => 'form-control', 'placeholder' => 'Enter Annual Life Assurance Amount','required']) }}
-      </div>
-    </div>
-
-    <div class="col-sm-6">
-      <div class="form-group">
-        {{ Form::label('PayrollGroupID','Payroll Group') }}
-        {{ Form::select('PayrollGroupID', [ 0 =>  'Select a payroll group'] + $payroll_groups->pluck('GroupDescription', 'GroupRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
-      </div>
-    </div>
-
-    <div class="col-sm-4">
-      <div class="form-group">
-        {{ Form::label('LeaveDays','Number of Leave Days') }}
-        {{ Form::number('LeaveDays', null,  ['class' => 'form-control', 'placeholder' => 'Enter Number of Leave Days']) }}
-      </div>
-    </div>
-
-    @endif
-
-  </div>
-
-  <!-- action buttons -->
+    <!-- action buttons -->
   <div class="form-group">
     <div class="m-t-25">
       {{ Form::submit( $buttonText, [ 'class' => 'btn btn-complete ' ]) }}
     </div>
   </div>
+
+
+
+</div>
+    
 
 @push('scripts')
   <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css') }}" rel="stylesheet" type="text/css">

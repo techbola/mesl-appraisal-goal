@@ -22,6 +22,7 @@
 
     <div class="card-box">
         <div class="card-title"><strong>Exit Interview Form</strong></div>
+        <br>
             <form action="" class="form">
                 {{ csrf_field() }}
 
@@ -107,15 +108,8 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('NewEmployment', 'If accepting another employment please indicate your main reason' ) }}
-                                <select name="NewEmployment" class="full-width" data-init-plugin="select2" id="new_emp" onchange="">
-                                    <option value=" ">Select New empployment reason</option>
-                                    <option value="Promotion / Career advancement">Promotion / Career advancement</option>
-                                    <option value="Distance to / From work">Distance to / From work</option>
-                                    <option value="Work Schedule">Work Schedule</option>
-                                    <option value="Better benefits">Better benefits</option>
-                                    <option value="Career change">Career change</option>
-                                </select>
+                                {{ Form::label('LeastLiked', 'What did you like least about your employment experience at the organization?' ) }}
+                                {{ Form::textarea('LeastLiked', null, ['class' => 'form-control', 'placeholder' => 'Expereience here', 'rows'=> '2']) }}
                             </div>
                         </div>
                     </div>
@@ -145,8 +139,15 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('LeastLiked', 'What did you like least about your employment experience at the organization?' ) }}
-                                {{ Form::textarea('LeastLiked', null, ['class' => 'form-control', 'placeholder' => 'Expereience here', 'rows'=> '2']) }}
+                                {{ Form::label('NewEmployment', 'If accepting another employment please indicate your main reason' ) }}
+                                <select name="NewEmployment" class="full-width" data-init-plugin="select2" id="new_emp" onchange="">
+                                    <option value=" ">Select New empployment reason</option>
+                                    <option value="Promotion / Career advancement">Promotion / Career advancement</option>
+                                    <option value="Distance to / From work">Distance to / From work</option>
+                                    <option value="Work Schedule">Work Schedule</option>
+                                    <option value="Better benefits">Better benefits</option>
+                                    <option value="Career change">Career change</option>
+                                </select>
                             </div>
                         </div>
                     </div>

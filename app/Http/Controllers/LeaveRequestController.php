@@ -831,4 +831,54 @@ class LeaveRequestController extends Controller
         $hons = HandOverNote::where('LeaveRequestID', $leave_ref)->get();
         return $hons;
     }
+
+    public function leave_type()
+    {
+        $leavetypes = LeaveType::Orderby('LeaveTypeRef', 'DESC')->get();
+        return view('leave_request.leave_type', compact('leavetypes'));
+    }
+
+    public function store_leavetype(Request $request)
+    {
+        $leavetype = new LeaveType($request->all());
+
+        if($leavetype->save()) {
+            $data = [
+                'status'    => 'success',
+                'message'   => 'Leave Type was created successfully!'
+            ];
+        }else{
+            $data = [
+                'status'    => 'error',
+                'message'   =>  'Leave Type creation was not successful!'
+            ];
+        }
+
+        return redirect()->route('StoreLeaveType')->with($data['status'], $data['message']);
+    }
+
+    public function edit_leave_type($id)
+    {
+        $leavetype = LeaveType::where("LeaveTypeRef", $id)->first();
+
+        return response()->json($leavetype);
+    }
+
+    public function update_leave_type(Request $request)
+    {
+        $leavetype = LeaveType::find($request->LeaveTypeRef);
+
+        $leavetype->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_leave_type($id)
+    {
+        $leavetype = LeaveType::where("LeaveTypeRef", $id);
+
+        $leavetype->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
 }
