@@ -33,6 +33,7 @@ class HomeController extends Controller
         $next7days  = date('Y-m-d', strtotime('+7 days'));
         $past7days  = date('Y-m-d', strtotime('-7 days'));
 
+
         // // Include where status is not done
         // $pending_meeting_actions = CallMemoAction::where('UserID', $user->id)->count();
         // $todos_today             = Todo::where('UserID', $user->id)->where('Done', 0)->whereDate('DueDate', '=', $today)->get();
@@ -57,8 +58,18 @@ class HomeController extends Controller
         // // dd($tasks);
         // return view('dashboard', compact('pending_meeting_actions', 'todos_today', 'tasks', 'bulletins', 'events', 'todos_week', 'messages', 'leave_requests', 'unapproved_memos', 'birthdays', 'policy_statements'));
 
-        $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
-        $events    = EventSchedule::whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today)->get();
+        $user_departments = explode(',', $user->staff->DepartmentID);
+
+        if ($user->hasRole('admin')) {
+          $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
+          $events    = EventSchedule::whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today)->get();
+        } else {
+          $bulletins = Bulletin::whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
+          $events    = EventSchedule::whereIn('DepartmentID', $user_departments)->where( function($q){
+            $q->whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today);
+          })->get();
+        }
+
         $depts     = [
             'hr'         => ['3', '5'],
             'it'         => ['14'],
