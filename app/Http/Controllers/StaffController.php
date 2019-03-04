@@ -580,7 +580,8 @@ class StaffController extends Controller
             $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar', 'roles', 'DepartmentID']));
             $staff->Declaration = $request->has('Declaration') ? 1 : 0;
             $staff->save();
-            $hr_users = Role::where('name', 'admin')->first()->users;
+            $hr_users = Role::whereIn('name', ['admin', 'HR Supervisor', 'Head, Performance Management'])
+                ->first()->users;
             Notification::send($hr_users, new PendingBiodataUpdate($staff->user));
 
             DB::commit();
