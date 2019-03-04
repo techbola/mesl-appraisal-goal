@@ -260,7 +260,7 @@
         <tr>
           <td>NYSC Location</td>
           <td>{{ $staff->NYSCLocationID ?? '-' }}</td>
-          <td>{!! ($pending->NYSCLocationID != $staff->NYSCLocationID)? $pending->nysc_location->State : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->NYSCLocationID != $staff->NYSCLocationID)? $pending->nysc_location->State ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         

@@ -243,7 +243,7 @@ class StaffController extends Controller
             $pending->delete();
 
             DB::commit();
-            Notification::send($user, new ApprovedBiodataUpdate());
+            Notification::send($staff->user, new ApprovedBiodataUpdate());
             return redirect()->route('pending_biodata_list')->with('success', 'Profile changes approved successfully');
         } catch (Exception $e) {
             DB::rollback();
@@ -259,7 +259,7 @@ class StaffController extends Controller
         $pending             = StaffPending::where('id', $id)->first();
         $pending->ApprovedBy = '0';
         $pending->save();
-        Notification::send($user, new RejectedBiodataUpdate());
+        Notification::send($pending->user, new RejectedBiodataUpdate());
 
         return redirect()->route('pending_biodata_list')->with('success', 'Profile changes were rejected successfully');
 
