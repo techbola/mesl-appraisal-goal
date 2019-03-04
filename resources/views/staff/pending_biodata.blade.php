@@ -79,7 +79,7 @@
         <tr>
           <td>Country of Birth</td>
           <td>{{ $staff->country_of_birth->Country ?? '-' }}</td>
-          <td>{!! ($pending->CountryOfBirth != $staff->CountryOfBirth)? $pending->country_of_birth->Country : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->CountryOfBirth != $staff->CountryOfBirth)? $pending->country_of_birth->Country ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
