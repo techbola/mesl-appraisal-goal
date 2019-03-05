@@ -76,7 +76,7 @@
                         {{$staff_onboard->OfficeSpace}} {{$staff_onboard->OfficeTable}} {{$staff_onboard->BusinessCard}}
                       </td>
                     <td>
-                        <a href="{{ url('admin_onboard_mail')}} / {{$staff_onboard->StaffOnboardRef }}" class="btn btn-xs btn-success">
+                        <a href="{{ url('admin_onboard_mail')}}/{{$staff_onboard->StaffOnboardRef }}" class="btn btn-xs btn-success">
                           <i class="fa fa-share-square"></i> Mark as Done
                         </a>
                     </td>
