@@ -88,8 +88,6 @@ class LeaveRequestController extends Controller
             ->get()
             ->sortBy('FullName');
 
-        //$leave_days=$leavedays->SickLeaveDays;
-
         $leave_used = \DB::table('tblLeaveTransaction')
             ->where('StaffID', $id)
             ->sum('DaysRequested');
@@ -293,7 +291,6 @@ class LeaveRequestController extends Controller
         }
         // send emails when ApproverID is null and send route request to admin
         //  end
-
         return redirect('/leave_request/leave_approval')->with('success', 'Request Approved successfully');
     }
 
@@ -651,17 +648,8 @@ class LeaveRequestController extends Controller
             // send initiator leave
             $email               = User::find($leave_request->StaffID)->email;
             $relief_office_email = User::find($leave_request->ReliefOfficerID)->email ?? null;
-            if (!is_null($relief_office_email)) {
-                Mail::to($email)
-                    ->cc($relief_office_email)
-                    ->send(new LeaveRequestedInit($leave_request));
-                // supervisor
-                // Mail::to()->send(new LeaveRequestSupervisor($leave_request));
-            } else {
-                Mail::to($email)
-                    ->send(new LeaveRequestedInit($leave_request));
-                // Mail::to()->send(new LeaveRequestSupervisor($leave_request));
-            }
+
+            Mail::to($email)->send(new LeaveRequestedInit($leave_request));
             return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
         } catch (Exception $e) {
             \DB::rollback();
