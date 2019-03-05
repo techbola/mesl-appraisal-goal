@@ -288,8 +288,9 @@ class LeaveRequestController extends Controller
 
         // $email = User::find($leave_request->RequesterID)->first()->email;
         // dd($request->all());
-        Mail::to($leave_request->current_approver->email)->send(new LeaveRequestApproval($leave_request));
-
+        if (!is_null($leave_request->current_approver)) {
+            Mail::to($leave_request->current_approver->email)->send(new LeaveRequestApproval($leave_request));
+        }
         // send emails when ApproverID is null and send route request to admin
         //  end
 
