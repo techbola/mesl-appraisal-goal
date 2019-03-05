@@ -780,7 +780,14 @@
     }
 
     $('#submit_material').click(function(event) {
-        var form = $('#submit_course_material_form')[0];
+      var course = $('#material_course').val();
+      var mat = $('#material_type').val();
+
+      if( course == "" || mat == "")
+      {
+        alert('Please make sure you re-select the course or material type. Thanks');
+      }else{
+         var form = $('#submit_course_material_form')[0];
         var formData = new FormData(form);
         $.ajax({
                    url: '/submit_course_material',
@@ -794,6 +801,10 @@
                     $("#submit_course_material_form")[0].reset();
                    }
         });
+      }
+
+
+       
     });
   </script>
   <script>
