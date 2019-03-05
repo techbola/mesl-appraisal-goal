@@ -78,7 +78,8 @@ class StaffController extends Controller
                 $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user.roles')->get();
             }
         }
-        $departments = CompanyDepartment::get();
+        $departments = CompanyDepartment::all()->sortBy('Department');
+        // dd($departments);
         $supervisors = Staff::where('SupervisorFlag', 1)->get()->sortBy('FullName');
         return view('staff.index_', compact('staffs', 'companies2', 'roles', 'departments', 'q', 'supervisors'));
     }
