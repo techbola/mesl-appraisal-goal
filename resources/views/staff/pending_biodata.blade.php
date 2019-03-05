@@ -91,7 +91,7 @@
         <tr>
           <td>Religion</td>
           <td>{{ $staff->religion->Religion ?? '-' }}</td>
-          <td>{!! ($pending->ReligionID != $staff->ReligionID)? $pending->religion->Religion : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->ReligionID != $staff->ReligionID)? $pending->religion->Religion ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -115,7 +115,7 @@
         <tr>
           <td>Marital Status</td>
           <td>{{ $staff->marital_status->MaritalStatus ?? '-' }}</td>
-          <td>{!! ($pending->MaritalStatusID != $staff->MaritalStatusID)? $pending->marital_status->MaritalStatus : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->MaritalStatusID != $staff->MaritalStatusID)? $pending->marital_status->MaritalStatus ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
