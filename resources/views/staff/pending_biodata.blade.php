@@ -79,7 +79,7 @@
         <tr>
           <td>Country of Birth</td>
           <td>{{ $staff->country_of_birth->Country ?? '-' }}</td>
-          <td>{!! ($pending->CountryOfBirth != $staff->CountryOfBirth)? $pending->country_of_birth->Country : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->CountryOfBirth != $staff->CountryOfBirth)? $pending->country_of_birth->Country ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -260,7 +260,7 @@
         <tr>
           <td>NYSC Location</td>
           <td>{{ $staff->NYSCLocationID ?? '-' }}</td>
-          <td>{!! ($pending->NYSCLocationID != $staff->NYSCLocationID)? $pending->nysc_location->State : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->NYSCLocationID != $staff->NYSCLocationID)? $pending->nysc_location->State ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         

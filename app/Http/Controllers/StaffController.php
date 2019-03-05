@@ -78,7 +78,8 @@ class StaffController extends Controller
                 $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->with('user.roles')->get();
             }
         }
-        $departments = CompanyDepartment::get();
+        $departments = CompanyDepartment::all()->sortBy('Department');
+        // dd($departments);
         $supervisors = Staff::where('SupervisorFlag', 1)->get()->sortBy('FullName');
         return view('staff.index_', compact('staffs', 'companies2', 'roles', 'departments', 'q', 'supervisors'));
     }
@@ -243,7 +244,7 @@ class StaffController extends Controller
             $pending->delete();
 
             DB::commit();
-            Notification::send($user, new ApprovedBiodataUpdate());
+            Notification::send($staff->user, new ApprovedBiodataUpdate());
             return redirect()->route('pending_biodata_list')->with('success', 'Profile changes approved successfully');
         } catch (Exception $e) {
             DB::rollback();
@@ -259,7 +260,7 @@ class StaffController extends Controller
         $pending             = StaffPending::where('id', $id)->first();
         $pending->ApprovedBy = '0';
         $pending->save();
-        Notification::send($user, new RejectedBiodataUpdate());
+        Notification::send($pending->user, new RejectedBiodataUpdate());
 
         return redirect()->route('pending_biodata_list')->with('success', 'Profile changes were rejected successfully');
 
@@ -580,7 +581,8 @@ class StaffController extends Controller
             $staff->fill($request->except(['FirstName', 'MiddleName', 'LastName', 'Avatar', 'roles', 'DepartmentID']));
             $staff->Declaration = $request->has('Declaration') ? 1 : 0;
             $staff->save();
-            $hr_users = Role::where('name', 'admin')->first()->users;
+            $hr_users = Role::whereIn('name', ['admin', 'HR Supervisor', 'Head, Performance Management'])
+                ->first()->users;
             Notification::send($hr_users, new PendingBiodataUpdate($staff->user));
 
             DB::commit();
