@@ -10,7 +10,7 @@
 
     <img src="{{ asset('images/avatars/'.($pending->user->avatar ?? 'default.png') ) }}" alt="" class="avatar inline-block" style="height:100px; width:100px;"> <br><br>
 
-    <div>Staff Supervisor: <b>{{ $staff->supervisor->user->FullName ?? 'none' }}</b> | Department: <b>{{ $staff->department->Department ?? '-' }}</b></div>
+    <div>Staff Supervisor: <b>{{ $staff->SupervisorID ?? 'none' }}</b> | Department: <b>{{ $staff->department->Department ?? '-' }}</b></div>
     <table class="table table-condensed biodata_list table-striped">
       <thead>
         <tr>
