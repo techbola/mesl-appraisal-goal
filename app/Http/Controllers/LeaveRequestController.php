@@ -15,6 +15,7 @@ use MESL\Mail\LeaveRequestedInit;
 use MESL\Mail\LeaveRequestSupervisor;
 use MESL\Mail\LeaveRequestApproval;
 use MESL\Mail\RejectLeaveRequest;
+use MESL\Mail\ReliefLeaveRequest;
 use Carbon\Carbon;
 use MESL\RestrictionDates;
 use MESL\LeaveTransaction;
@@ -86,8 +87,6 @@ class LeaveRequestController extends Controller
             ->where('UserID', '<>', $user->id)
             ->get()
             ->sortBy('FullName');
-
-        //$leave_days=$leavedays->SickLeaveDays;
 
         $leave_used = \DB::table('tblLeaveTransaction')
             ->where('StaffID', $id)
@@ -287,11 +286,11 @@ class LeaveRequestController extends Controller
 
         // $email = User::find($leave_request->RequesterID)->first()->email;
         // dd($request->all());
-        Mail::to($leave_request->current_approver->email)->send(new LeaveRequestApproval($leave_request));
-
+        if (!is_null($leave_request->current_approver)) {
+            Mail::to($leave_request->current_approver->email)->send(new LeaveRequestApproval($leave_request));
+        }
         // send emails when ApproverID is null and send route request to admin
         //  end
-
         return redirect('/leave_request/leave_approval')->with('success', 'Request Approved successfully');
     }
 
@@ -377,6 +376,7 @@ class LeaveRequestController extends Controller
                                     ->first();
 
                                 Mail::to($email)->send(new HRLeaveConfirmation($name));
+
                             }
                         }
 
@@ -393,6 +393,11 @@ class LeaveRequestController extends Controller
 
                             $approver_email = User::find($details->ApproverID)->email;
                             Mail::to($approver_email)->send(new LeaveRequestApproval($details));
+                        }
+
+                        if (!is_null($trans->ReliefOfficerID)) {
+                            $relief_officer_email = User::find($trans->ReliefOfficerID)->email;
+                            Mail::to($relief_officer_email)->send(new ReliefLeaveRequest($trans));
                         }
                     }
                     // mail to hr
@@ -643,17 +648,8 @@ class LeaveRequestController extends Controller
             // send initiator leave
             $email               = User::find($leave_request->StaffID)->email;
             $relief_office_email = User::find($leave_request->ReliefOfficerID)->email ?? null;
-            if (!is_null($relief_office_email)) {
-                Mail::to($email)
-                    ->cc($relief_office_email)
-                    ->send(new LeaveRequestedInit($leave_request));
-                // supervisor
-                // Mail::to()->send(new LeaveRequestSupervisor($leave_request));
-            } else {
-                Mail::to($email)
-                    ->send(new LeaveRequestedInit($leave_request));
-                // Mail::to()->send(new LeaveRequestSupervisor($leave_request));
-            }
+
+            Mail::to($email)->send(new LeaveRequestedInit($leave_request));
             return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
         } catch (Exception $e) {
             \DB::rollback();
