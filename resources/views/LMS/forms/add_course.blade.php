@@ -35,6 +35,16 @@
 
   <div class="col-md-4">
     <div class="form-group">
+<<<<<<< HEAD
+      {{ Form::label('final_question_limit', 'Question Limit' ) }}
+      {{ Form::text('final_question_limit', null, ['class' => 'form-control','id'=>'question_limit', 'placeholder' => 'Input Question Limit', 'required']) }}
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="form-group">
+=======
+>>>>>>> e66f0717da83c61c390e2960454e0233e5ebb562
       {{ Form::label('cover_page', 'Upload Course Cover Page' ) }}
       {{ Form::file('cover_page', null, ['class' => 'form-control','id'=>'cover_page', 'placeholder' => 'Upload Cover Page', 'required']) }}
     </div>
