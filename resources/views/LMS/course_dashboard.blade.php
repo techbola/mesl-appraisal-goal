@@ -21,6 +21,8 @@
 			<h3 style="font-weight: bold;">Course Dashboard </h3>
 		</div>
 	</div>
+
+  {{-- Course Categori Menu --}}
 	<div class="panel-body">
 		<div class="row">
 			<div class="pull-right">
@@ -159,6 +161,8 @@
 	</div>
 </div>
 
+{{-- Delete Course Category div --}}
+
 <div class="page-content-wrapper ">
      <div class="content ">
           <!-- Modal -->
@@ -168,22 +172,91 @@
             </button>
             <div class="modal-dialog ">
               <div class="modal-content">
-                <div style="background: #fff; width: 800px; padding: 15px">
-                <div class="modal-header">
-                  <h5 class="text-left semi-bold" id="edit_title"></h5>
-                </div><hr>
-                <div class="modal-body">
-                  <div id="course_category_modal_div" class="hide">
-                    @include('LMS.forms.edit_category')
-                  </div>
 
-                  <div id="course_modal_div" class="hide">
-                    @include('LMS.forms.edit_course')
-                  </div>
+                <div style="background: #fff; width: 400px; padding: 20px">
+                  <p>Are you sure you want to delete this course category ?</p>
+                  <input type="hidden" id="delete_course_category_id">
+                  <a href="#" class="btn-sm btn btn-danger pull-right" id="delete_cat" title="">Delete</a>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+                </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+  </div>
 
-                   <div id="instructor_modal_div" class="hide">
-                    @include('LMS.forms.edit_instructor')
-                  </div>
+
+  {{-- Delete Course div --}}
+<div class="page-content-wrapper ">
+     <div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="delete_modal_course"  role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div style="background: #fff; width: 400px; padding: 20px">
+                  <p>Are you sure you want to delete this course ?</p>
+                  <input type="hidden" id="delete_course_id">
+                  <a href="#" class="btn-sm btn btn-danger pull-right" id="delete_course" title="">Delete</a>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+                </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+  </div>
+
+  <!-- View Courses -->
+  <div class="page-content-wrapper ">
+     <div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="view_modal_course"  role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div style="background: #fff; width: 800px; padding: 20px">
+                 @include('LMS.forms.view_course')
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+                </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+  </div>
+
+  <!-- Edit Courses -->
+  <div class="page-content-wrapper ">
+     <div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="edit_modal_course"  role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div style="background: #fff; width: 800px; padding: 20px">
+                 @include('LMS.forms.edit_course')
 
                 </div>
                 <div class="modal-footer">
@@ -196,7 +269,32 @@
           </div>
           <!-- Modal -->
         </div>
-      </div>
+
+
+        <!-- Questionaire Modal -->
+  <div class="page-content-wrapper ">
+     <div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="questionaire"  role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div style="background: #fff; width: 800px; padding: 20px">
+                  <input type="hidden" id="questionaire_course_id">
+                 @include('LMS.forms.questionaire')
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+                </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
 
 
 <div class="page-content-wrapper ">
@@ -264,7 +362,8 @@
               <div class="modal-content">
                 <div style="background: #fff; width: 650px; padding: 15px">
                 <div class="modal-header">
-                  <h5 class="text-left semi-bold">Add Material(s)</h5>
+                  <h5 class="text-left semi-bold">Add Material(s)</h5> 
+
                 </div><hr>
                 <div class="modal-body">
                   <div class="row">
@@ -402,7 +501,7 @@
                   <td>${val.course_category_name}</td>
                   <td>${val.last_name} ${val.first_name}</td>
                   <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodal" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
-                  <td><span style="color:red">Delete</span></td>
+                  <td><span style="color:red"><a href="#" onclick="delete_course_category(${val.course_category_ref})" data-target="#deletemodal" data-toggle="modal" title="">Delete</a></span></td>
                 </tr>
                 `);
               });
@@ -461,8 +560,10 @@
                 <tr>
                   <td>${val.courses_name}</td>
                   <td>${val.course_code}</td>
-                  <td><a href="#" onclick="edit_course_test(${val.course_ref})" data-target="#editmodal" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
-                  <td><span style="color:red">Delete</span></td>
+                  <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add New Question</span></a></td>
+                  <td><a href="#" onclick="view_course_test(${val.course_ref})" data-target="#view_modal_course" data-toggle="modal" class="btn-xs btn btn-success"><span>View</span></a></td>
+                  <td><a href="#" onclick="edit_course_test(${val.course_ref})" data-target="#edit_modal_course" data-toggle="modal" class="btn-xs btn btn-info"><span>Edit</span></a></td>
+                  <td><a href="#" onclick="delete_course_test(${val.course_ref})" data-target="#delete_modal_course" data-toggle="modal" class="btn-xs btn btn-danger"><span>Delete</span></a></td>
                 </tr>
                 `);
               });
@@ -715,12 +816,96 @@
          $('#edit_courses_name').val(data.courses_name);
          $('#edit_course_duration').val(data.course_duration);
          $('#edit_course_fee').val(data.course_fee);
-         $('#editmodal select[name="category_ref"]').val(data.category_ref).trigger('change');
+         $('#edit_modal_course select[name="category_ref"]').val(data.category_ref).trigger('change');
          $('#edit_cover_page').val(data.cover_page);
          $('#edit_course_ref').val(data.course_ref);
          $('#edit_description').val(data.description);
        });
     }
+    
+    function delete_course_category(id)
+    {
+      $('#delete_course_category_id').val(id);
+    }
+
+
+    function delete_course_test(id)
+    {
+      $('#delete_course_id').val(id);
+    }
+
+     $('#delete_course').click(function(event) {
+      var ref = $('#delete_course_id').val();
+      $.get('/delete_course/'+ref, function(data) {
+        var id = 1;
+        var count = data.length;
+            $('#course_body').html(' ');
+              $.each(data, function(index, val) {
+               $('#course_body').append(`
+                <tr>
+                  <td>${val.courses_name}</td>
+                  <td>${val.course_code}</td>
+                  <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add New Question</span></a></td>
+                  <td><a href="#" onclick="view_course_test(${val.course_ref})" data-target="#view_modal_course" data-toggle="modal" class="btn-xs btn btn-success"><span>View</span></a></td>
+                  <td><a href="#" onclick="edit_course_test(${val.course_ref})" data-target="#edit_modal_course" data-toggle="modal" class="btn-xs btn btn-info"><span>Edit</span></a></td>
+                  <td><a href="#" onclick="delete_course_test(${val.course_ref})" data-target="#delete_modal_course" data-toggle="modal" class="btn-xs btn btn-danger"><span>Delete</span></a></td>
+                </tr>
+                `);
+              });
+            $('#course_count').html(count);
+            $('#delete_modal_course').modal('toggle');
+      });
+    });
+
+    $('#delete_cat').click(function(event) {
+      var ref = $('#delete_course_category_id').val();
+      $.get('/delete_course_category/'+ref, function(data) {
+        var id = 1;
+        var count = data.length;
+            $('#category_body').html(' ');
+              $.each(data, function(index, val) {
+               $('#category_body').append(`
+                <tr>
+                  <td>${id++}</td>
+                  <td>${val.course_category_name}</td>
+                  <td>${val.last_name} ${val.first_name}</td>
+                  <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodal" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
+                  <td><span style="color:red"><a href="#" onclick="delete_course_category(${val.course_category_ref})" data-target="#deletemodal" data-toggle="modal" title="">Delete</a></span></td>
+                </tr>
+                `);
+              });
+            $('#course_category_count').html(count);
+            $('#deletemodal').modal('toggle');
+      });
+    });
+
+    function view_course_test(ref)
+    {
+      $.get('/view_course_details/'+ref, function(data) {
+        $('#new_view_course').html(data.courses_name);
+        $('#new_view_category').html(data.course_category_name);
+        $('#new_view_duration').html(data.course_duration);
+        $('#new_view_course_fee').html(data.course_fee);
+        $('#new_view_course_code').html(data.course_code);
+        $('#new_view_description').html(data.description);
+        $('#new_view_cover_page').html(data.cover_page);
+      });
+    }
+
+    function new_question(id, name)
+    {
+        $('#questionaire_course_name').html(name);
+        $('#questionaire_course_id').val(id);
+        $('#questionaire_course_ref').val(id);
+        $.get('/get_question_limit/'+id, function(data) {
+          $('#question_limit').removeClass('hide');
+          var count = data.question_count;
+          var limit = data.limit;
+          $('#limit').html(limit); 
+          $('#count_rem').html(count);
+        });
+    }
+
   </script>
 
 @endpush
