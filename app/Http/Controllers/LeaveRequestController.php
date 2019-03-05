@@ -15,6 +15,7 @@ use MESL\Mail\LeaveRequestedInit;
 use MESL\Mail\LeaveRequestSupervisor;
 use MESL\Mail\LeaveRequestApproval;
 use MESL\Mail\RejectLeaveRequest;
+use MESL\Mail\ReliefLeaveRequest;
 use Carbon\Carbon;
 use MESL\RestrictionDates;
 use MESL\LeaveTransaction;
@@ -377,6 +378,7 @@ class LeaveRequestController extends Controller
                                     ->first();
 
                                 Mail::to($email)->send(new HRLeaveConfirmation($name));
+
                             }
                         }
 
@@ -393,6 +395,11 @@ class LeaveRequestController extends Controller
 
                             $approver_email = User::find($details->ApproverID)->email;
                             Mail::to($approver_email)->send(new LeaveRequestApproval($details));
+                        }
+
+                        if (!is_null($trans->ReliefOfficerID)) {
+                            $relief_officer_email = User::find($trans->ReliefOfficerID)->email;
+                            Mail::to($relief_officer_email)->send(new ReliefLeaveRequest($trans));
                         }
                     }
                     // mail to hr
