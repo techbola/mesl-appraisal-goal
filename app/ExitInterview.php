@@ -25,4 +25,9 @@ class ExitInterview extends Model
     {
         return $this->belongsTo(EmploymentReason::class, 'EmploymentReasonID');
     }
+
+    public function department()
+    {
+    return $this->belongsTo(Department::class, 'DepartmentID');
+    }
 }

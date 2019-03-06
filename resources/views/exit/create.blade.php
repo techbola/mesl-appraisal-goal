@@ -12,6 +12,17 @@
       color: #000;
     }
 
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control, .select2 {
+        font-weight: normal !important;
+        color: #aaaaaa !important;
+        font-family: "Karla", sans-serif !important;
+    }
+
+    .form-control{
+        font-family: "Karla", sans-serif !important;
+    }
+
+
     /* table th, table td {
         width: 80px  !important;
     } */
@@ -23,30 +34,36 @@
     <div class="card-box">
         <div class="card-title"><strong>Exit Interview Form</strong></div>
         <br>
-            <form action="" class="form">
+        <form action="{{ route('StoreExitInterview') }}" method="POST" class="form">
                 {{ csrf_field() }}
 
                 {{-- row1 --}}
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            {{ Form::label('StaffName','Staff Name') }}
-                            {{ Form::text('StaffName', null, ['class' => 'form-control', 'placeholder' => 'Staff Name', 'required' ]) }}
+                            {{ Form::label('StaffID','Staff Name') }}
+                            {{ Form::text('', Auth::user()->FullName, ['class' => 'form-control', 'placeholder' => 'Staff Name', 'required', 'readonly' ]) }}
+                            <input type="hidden" name="StaffID">
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            {{ Form::label('Department','Department') }}
-                            {{ Form::text('Department', null, ['class' => 'form-control', 'placeholder' => 'Department', 'required' ]) }}
+                            {{ Form::label('DepartmentID','Department') }}
+                            <select name="DepartmentID" class="full-width" data-init-plugin="select2" id="department" onchange="">
+                                <option value=" ">Select Department</option>
+                                @foreach($department as $item)
+                                    <option value="{{ $item->DepartmentRef }}">{{ $item->Department }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            {{ Form::label('ResumptionDate', 'Date Of interview' ) }}
+                            {{ Form::label('InterviewDate', 'Date Of interview' ) }}
                             <div class="input-group date dp">
-                                {{ Form::text('ResumptionDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Date Of interview', 'required', 'id' => 'resumption_Date', 'required']) }}
+                                {{ Form::text('InterviewDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Date Of interview', 'required', 'id' => 'interview_Date', 'required']) }}
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </div>
@@ -57,7 +74,7 @@
 
                 {{-- row2 --}}
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
                                 {{ Form::label('ExitReasonID', 'Reason for Leaving' ) }}
@@ -70,8 +87,12 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-4">
+                <br>
+
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
                                 {{ Form::label('ExitReasonID', 'If Relocating please specify reason why' ) }}
@@ -84,12 +105,16 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-4">
+                <br>
+
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('ForwardingAddress', 'If applicable, what is your forwarding address' ) }}
-                                {{ Form::textarea('ForwardingAddress', null, ['class' => 'form-control', 'placeholder' => 'Forwarding Address', 'rows'=> '2', 'required']) }}
+                                {{ Form::label('ForwardAddress', 'If applicable, what is your forwarding address' ) }}
+                                {{ Form::textarea('ForwardAddress', null, ['class' => 'form-control', 'placeholder' => 'Forwarding Address', 'rows'=> '2', 'required']) }}
                             </div>
                         </div>
                     </div>
@@ -99,16 +124,20 @@
 
                 {{-- row3 --}}
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('LeastLiked', 'What did you like least about your employment experience at the organization?' ) }}
-                                {{ Form::textarea('LeastLiked', null, ['class' => 'form-control', 'placeholder' => 'Expereience here', 'rows'=> '2', 'required']) }}
+                                {{ Form::label('LeastEmployment', 'What did you like least about your employment experience at the organization?' ) }}
+                                {{ Form::textarea('LeastEmployment', null, ['class' => 'form-control', 'placeholder' => 'Expereience here', 'rows'=> '2', 'required']) }}
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-4">
+                    <br>
+
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
                                 {{ Form::label('WorkReason', 'Why did you come to work for this organization?' ) }}
@@ -116,12 +145,16 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-4">
+                <br>
+
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('MostLiked', 'What did you like most about your employment experience at the organization?' ) }}
-                                {{ Form::textarea('MostLiked', null, ['class' => 'form-control', 'placeholder' => 'Expereience here', 'rows'=> '2', 'required']) }}
+                                {{ Form::label('MostEmployment', 'What did you like most about your employment experience at the organization?' ) }}
+                                {{ Form::textarea('MostEmployment', null, ['class' => 'form-control', 'placeholder' => 'Expereience here', 'rows'=> '2', 'required']) }}
                             </div>
                         </div>
                     </div>
@@ -167,10 +200,9 @@
                                 {{ Form::label('Workrelationship', 'I have a good working relationship with co-workers' ) }}
                                 <select name="Workrelationship" class="full-width" data-init-plugin="select2" id="work_rel" onchange="">
                                     <option value=" ">Select Option</option>
-                                    <option value="Strongly Agree">Strongly Agree</option>
-                                    <option value="Agree">Agree</option>
-                                    <option value="Disagree">Disagree</option>
-                                    <option value="Strongly Disagree">Strongly Disagree</option>
+                                    @foreach($option as $item)
+                                        <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -179,13 +211,12 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('Worksup', 'I had a good working relationship with my supervisor' ) }}
-                                <select name="Worksup" class="full-width" data-init-plugin="select2" id="work_sup" onchange="">
-                                    <option value=" ">Select Option</option>
-                                    <option value="Strongly Agree">Strongly Agree</option>
-                                    <option value="Agree">Agree</option>
-                                    <option value="Disagree">Disagree</option>
-                                    <option value="Strongly Disagree">Strongly Disagree</option>
+                                {{ Form::label('SupervisorRelationship', 'I had a good working relationship with my supervisor' ) }}
+                                <select name="SupervisorRelationship" class="full-width" data-init-plugin="select2" id="work_sup" onchange="">
+                                    <option value="SupervisorRelationship">Select Option</option>
+                                    @foreach($option as $item)
+                                        <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -194,13 +225,12 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('Worktrain', 'Training or job development met expectations.' ) }}
-                                <select name="WorkTrain" class="full-width" data-init-plugin="select2" id="work_sup" onchange="">
+                                {{ Form::label('JobExpectations', 'Training or job development met expectations.' ) }}
+                                <select name="JobExpectations" class="full-width" data-init-plugin="select2" id="work_pre" onchange="">
                                     <option value=" ">Select Option</option>
-                                    <option value="Strongly Agree">Strongly Agree</option>
-                                    <option value="Agree">Agree</option>
-                                    <option value="Disagree">Disagree</option>
-                                    <option value="Strongly Disagree">Strongly Disagree</option>
+                                    @foreach($option as $item)
+                                        <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -209,13 +239,12 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('Worka', 'Work Assignments were distributed evenly.' ) }}
-                                <select name="Worka" class="full-width" data-init-plugin="select2" id="worka" onchange="">
+                                {{ Form::label('WorkAssignemnt', 'Work Assignments were distributed evenly.' ) }}
+                                <select name="WorkAssignemnt" class="full-width" data-init-plugin="select2" id="worka" onchange="">
                                     <option value=" ">Select Option</option>
-                                    <option value="Strongly Agree">Strongly Agree</option>
-                                    <option value="Agree">Agree</option>
-                                    <option value="Disagree">Disagree</option>
-                                    <option value="Strongly Disagree">Strongly Disagree</option>
+                                    @foreach($option as $item)
+                                        <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -228,13 +257,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('duties', ' I had a clear understanding of my job duties.' ) }}
-                                <select name="duties" class="full-width" data-init-plugin="select2" id="duties" onchange="">
+                                {{ Form::label('JobUnderstanding', ' I had a clear understanding of my job duties.' ) }}
+                                <select name="JobUnderstanding" class="full-width" data-init-plugin="select2" id="jobu" onchange="">
                                     <option value=" ">Select Option</option>
-                                    <option value="Strongly Agree">Strongly Agree</option>
-                                    <option value="Agree">Agree</option>
-                                    <option value="Disagree">Disagree</option>
-                                    <option value="Strongly Disagree">Strongly Disagree</option>
+                                    @foreach($option as $item)
+                                        <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -243,13 +271,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('workexp', ' Working conditions met expectations.' ) }}
-                                <select name="workexp" class="full-width" data-init-plugin="select2" id="expectations" onchange="">
+                                {{ Form::label('WorkConditions', ' Working conditions met expectations.' ) }}
+                                <select name="WorkConditions" class="full-width" data-init-plugin="select2" id="expectations" onchange="">
                                     <option value=" ">Select Option</option>
-                                    <option value="Strongly Agree">Strongly Agree</option>
-                                    <option value="Agree">Agree</option>
-                                    <option value="Disagree">Disagree</option>
-                                    <option value="Strongly Disagree">Strongly Disagree</option>
+                                    @foreach($option as $item)
+                                        <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -258,13 +285,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('workpay', 'The pay was fair for work required.' ) }}
-                                <select name="workpay" class="full-width" data-init-plugin="select2" id="work_pay" onchange="">
+                                {{ Form::label('WorkPay', 'The pay was fair for work required.' ) }}
+                                <select name="WorkPay" class="full-width" data-init-plugin="select2" id="work_pay" onchange="">
                                     <option value=" ">Select Option</option>
-                                    <option value="Strongly Agree">Strongly Agree</option>
-                                    <option value="Agree">Agree</option>
-                                    <option value="Disagree">Disagree</option>
-                                    <option value="Strongly Disagree">Strongly Disagree</option>
+                                    @foreach($option as $item)
+                                        <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -277,13 +303,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('benefits', 'The Benefits were competitive' ) }}
-                                <select name="benefits" class="full-width" data-init-plugin="select2" id="work_benefits" onchange="">
+                                {{ Form::label('WorkBenefit', 'The Benefits were competitive' ) }}
+                                <select name="WorkBenefit" class="full-width" data-init-plugin="select2" id="work_benefits" onchange="">
                                     <option value=" ">Select Option</option>
-                                    <option value="Strongly Agree">Strongly Agree</option>
-                                    <option value="Agree">Agree</option>
-                                    <option value="Disagree">Disagree</option>
-                                    <option value="Strongly Disagree">Strongly Disagree</option>
+                                    @foreach($option as $item)
+                                        <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -292,13 +317,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('needs', 'My work schedule met my needs.' ) }}
-                                <select name="needs" class="full-width" data-init-plugin="select2" id="work_needs" onchange="">
+                                {{ Form::label('WorkSchedule', 'My work schedule met my needs.' ) }}
+                                <select name="WorkSchedule" class="full-width" data-init-plugin="select2" id="work_needs" onchange="">
                                     <option value=" ">Select Option</option>
-                                    <option value="Strongly Agree">Strongly Agree</option>
-                                    <option value="Agree">Agree</option>
-                                    <option value="Disagree">Disagree</option>
-                                    <option value="Strongly Disagree">Strongly Disagree</option>
+                                    @foreach($option as $item)
+                                        <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -307,13 +331,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('satisfied', 'Overall, I was satisfied with my job.' ) }}
-                                <select name="satisfied" class="full-width" data-init-plugin="select2" id="work_satisfied" onchange="">
+                                {{ Form::label('WorkSatisfaction', 'Overall, I was satisfied with my job.' ) }}
+                                <select name="WorkSatisfaction" class="full-width" data-init-plugin="select2" id="work_satisfied" onchange="">
                                     <option value=" ">Select Option</option>
-                                    <option value="Strongly Agree">Strongly Agree</option>
-                                    <option value="Agree">Agree</option>
-                                    <option value="Disagree">Disagree</option>
-                                    <option value="Strongly Disagree">Strongly Disagree</option>
+                                    @foreach($option as $item)
+                                        <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -326,9 +349,9 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('Comment', 'Please feel free to comment on any of the areas you have just rated. (Write on the back
+                                {{ Form::label('WorkComment', 'Please feel free to comment on any of the areas you have just rated. (Write on the back
                                 if additional space is needed)' ) }}
-                                {{ Form::textarea('Comment', null, ['class' => 'form-control', 'placeholder' => 'Comment here', 'rows'=> '2', 'required']) }}
+                                {{ Form::textarea('WorkComment', null, ['class' => 'form-control', 'placeholder' => 'Comment here', 'rows'=> '2', 'required']) }}
                             </div>
                         </div>
                     </div>
@@ -340,15 +363,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('Obligation', 'Outstanding Obligation' ) }}
+                                {{ Form::label('ObligationID', 'Outstanding Obligation' ) }}
                                 <a href="#" data-toggle="tooltip" title="*Please contact the Human Resources Department to confirm status of staff obligation."><i class="fa fa-question-circle"></i></a>
-                                <select name="Obligation" class="full-width" data-init-plugin="select2" id="work_obligation" onchange="">
+                                <select name="ObligationID" class="full-width" data-init-plugin="select2" id="work_obligation" onchange="">
                                     <option value=" ">Select Option</option>
-                                    <option value="In lieu of notice:">In lieu of notice:</option>
-                                    <option value="Status Car:">Status Car:</option>
-                                    <option value="Official Laptop:">Official Laptop:</option>
-                                    <option value="Other allowances:">Other allowances:</option>
-                                    <option value="Not Applicable:">Not Applicable:</option>
+                                    @foreach($obligation as $item)
+                                        <option value="{{ $item->ObligationRef }}">{{ $item->Obligation }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -370,8 +391,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('HRofficer', 'Name Of HR Officer' ) }}
-                                {{ Form::text('HRofficer', null, ['class' => 'form-control', 'placeholder' => 'Name here', 'required']) }}
+                                {{ Form::label('HROfficerID', 'Name Of HR Officer' ) }}
+                                <select name="HROfficerID" class="full-width" data-init-plugin="select2" id="hr_officer" onchange="">
+                                    <option value=" ">Select HR Officer</option>
+                                    @foreach($hr as $item)
+                                        <option value="{{ $item->id }}">{{ $item->Fullname }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -379,8 +405,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('StaffName', 'Name Of Resigned Staff' ) }}
-                                {{ Form::text('StaffName', null, ['class' => 'form-control', 'placeholder' => 'Name here', 'required']) }}
+                                {{ Form::label('ResignedStaff', 'Name Of Resigned Staff' ) }}
+                                {{ Form::text('ResignedStaff', null, ['class' => 'form-control', 'placeholder' => 'Name here', 'required']) }}
                             </div>
                         </div>
                     </div>

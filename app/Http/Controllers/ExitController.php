@@ -3,9 +3,16 @@
 namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
+use MESL\ExitInterview;
 use MESL\ExitReason;
 use MESL\RelocationReason;
 use MESL\EmploymentReason;
+use MESL\Options;
+use MESL\Obligation;
+use MESL\Department;
+use MESL\User;
+use DB;
+use Auth;
 
 class ExitController extends Controller
 {
@@ -19,12 +26,34 @@ class ExitController extends Controller
         $exitreasons = ExitReason::all();
         $relocation = RelocationReason::all();
         $employmentreason = EmploymentReason::all();
-        return view('exit.create', compact('exitreasons', 'relocation', 'employmentreason'));
+        $option = Options::all();
+        $obligation = Obligation::all();
+        $department = Department::all();
+        // $hr = DB::table('role_user')->where('user_id', Auth::id())->get();
+        $hr = User::whereHas('roles', function($q){
+            $q->where('id', '38');
+        })->get();
+        return view('exit.create', compact('exitreasons', 'relocation', 'employmentreason', 'option', 'obligation', 'department', 'hr'));
     }
 
     public function store_exit_interview(Request $request)
     {
+        $exit = new ExitInterview($request->all());
 
+        if($exit->save()) {
+            $data = [
+                'status'    => 'success',
+                'message'   => 'Exit Interview was created successfully!'
+            ];
+        }else{
+            $data = [
+                'status'    => 'error',
+                'message'   =>  'Exit Interview was not successful!'
+            ];
+        }
+
+        return redirect()->route('StoreExitInterview')->with($data['status'], $data['message']);
+        
     }
 
     /**
