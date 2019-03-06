@@ -3,6 +3,9 @@
 namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
+use MESL\ExitReason;
+use MESL\RelocationReason;
+use MESL\EmploymentReason;
 
 class ExitController extends Controller
 {
@@ -13,7 +16,15 @@ class ExitController extends Controller
      */
     public function index()
     {
-        return view('exit.create');
+        $exitreasons = ExitReason::all();
+        $relocation = RelocationReason::all();
+        $employmentreason = EmploymentReason::all();
+        return view('exit.create', compact('exitreasons', 'relocation', 'employmentreason'));
+    }
+
+    public function store_exit_interview(Request $request)
+    {
+
     }
 
     /**
