@@ -566,21 +566,6 @@
                                                 </div>
                                             </div>
                                         </div>
-<<<<<<< HEAD
-                                    
-                                            <br>
-                                    
-                                        <div class="row">
-                                             <div class="col-sm-3">
-                                    <div class="form-group">
-                                    {{ Form::label('DepartureDate', 'Departure Date' ) }}
-                                    <div class="input-group date dp">
-                                        {{ Form::text('DepartureDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Departure Date', 'required', 'id' => 'departure_date_edit']) }}
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    </div>
-                                    </div>
-                                </div>
-=======
                                     </div>
                                 </div>
                             
@@ -601,7 +586,6 @@
                                             </div>
                                         </div>
                                     </div>
->>>>>>> 75ffe34eab6dd6547d7181c057b7b85f87ebe225
 
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -612,17 +596,6 @@
                                         </div>
                                     </div>
 
-<<<<<<< HEAD
-                                            <div class="col-sm-3">
-                                    <div class="form-group">
-                                    {{ Form::label('ArrivalDate', 'Arrival Date' ) }}
-                                    <div class="input-group date dp3 dp4">
-                                        {{ Form::text('ArrivalDate', null, ['class' => 'form-control', 'placeholder' => 'Arrival Date', 'required', 'id' => 'arrival_date_edit']) }}
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    </div>
-                                    </div>
-                                </div>
-=======
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <div class="controls">
@@ -637,7 +610,6 @@
                                             </div>
                                         </div>
                                     </div>
->>>>>>> 75ffe34eab6dd6547d7181c057b7b85f87ebe225
 
                                     <div class="col-md-3">
                                         <div class="form-group">

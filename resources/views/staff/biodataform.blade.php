@@ -272,11 +272,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('ReligionID','Religion') }}
-<<<<<<< HEAD
-             {{ Form::select('ReligionID', [ 0 =>  'Select your religion'] + $religions->pluck('Religion', 'ReligionRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2", '']) }}
-=======
              {{ Form::select('ReligionID', [ 0 =>  'Select your religion'] + $religions->pluck('Religion', 'ReligionRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
->>>>>>> 75ffe34eab6dd6547d7181c057b7b85f87ebe225
         </div>
     </div>
     <div class="col-sm-4">
@@ -521,13 +517,8 @@
       <div class="form-group">
         {{ Form::label('Benficiary_Address','Benficiary Address') }}
         {{ Form::textarea('Benficiary_Address', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Benficiary Address']) }}
-<<<<<<< HEAD
-      </div>
-    </div> --}}
-=======
       </div> --}}
     </div>
->>>>>>> 75ffe34eab6dd6547d7181c057b7b85f87ebe225
 
     <br>
     
@@ -687,21 +678,12 @@
           {{ Form::text('LifeAssurance', null,  ['class' => 'form-control', 'placeholder' => 'Enter Annual Life Assurance Amount','required']) }}
         </div>
       </div>
-<<<<<<< HEAD
-    </div>
-
-    <div class="col-sm-6">
-      <div class="form-group">
-        {{ Form::label('PayrollGroupID','Payroll Group') }}
-        {{ Form::select('PayrollGroupID', [ 0 =>  'Select a payroll group'] + $payroll_groups->pluck('GroupDescription', 'GroupRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Group", 'data-init-plugin' => "select2"]) }}
-=======
   
       <div class="col-sm-6">
         <div class="form-group">
           {{ Form::label('PayrollGroupID','Payroll Group') }}
           {{ Form::select('PayrollGroupID', [ 0 =>  'Select a payroll group'] + $payroll_groups->pluck('GroupDescription', 'GroupRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
         </div>
->>>>>>> 75ffe34eab6dd6547d7181c057b7b85f87ebe225
       </div>
   
       <div class="col-sm-4">
