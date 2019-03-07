@@ -22,10 +22,15 @@
         font-family: "Karla", sans-serif !important;
     }
 
+    body {
+        color: #444;
+        background-color: #ebeff2 !important;
+        font-size: 14px;
+        font-family: "Karla", 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        zoom: 99%;
+    }
 
-    /* table th, table td {
-        width: 80px  !important;
-    } */
+
 	</style>
 @endpush
 
@@ -77,7 +82,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('ExitReasonID', 'Reason for Leaving' ) }}
+                                {{ Form::label('ExitReasonID', '1. Reason for Leaving' ) }}
                                 <select name="ExitReasonID" class="full-width" data-init-plugin="select2" id="exit_reason" onchange="">
                                     <option value=" ">Select Exit Reason</option>
                                     @foreach($exitreasons as $exitreason)
@@ -95,7 +100,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('ExitReasonID', 'If Relocating please specify reason why' ) }}
+                                {{ Form::label('ExitReasonID', '2. If Relocating please specify reason why' ) }}
                                 <select name="ExitReasonID" class="full-width" data-init-plugin="select2" id="relocation_reason" onchange="">
                                     <option value=" ">Select Relocation Reason</option>
                                     @foreach($relocation as $item)
@@ -113,7 +118,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('ForwardAddress', 'If applicable, what is your forwarding address' ) }}
+                                {{ Form::label('ForwardAddress', '3. If applicable, what is your forwarding address' ) }}
                                 {{ Form::textarea('ForwardAddress', null, ['class' => 'form-control', 'placeholder' => 'Forwarding Address', 'rows'=> '2', 'required']) }}
                             </div>
                         </div>
@@ -127,7 +132,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('LeastEmployment', 'What did you like least about your employment experience at the organization?' ) }}
+                                {{ Form::label('LeastEmployment', '4. What did you like least about your employment experience at the organization?' ) }}
                                 {{ Form::textarea('LeastEmployment', null, ['class' => 'form-control', 'placeholder' => 'Expereience here', 'rows'=> '2', 'required']) }}
                             </div>
                         </div>
@@ -140,7 +145,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('WorkReason', 'Why did you come to work for this organization?' ) }}
+                                {{ Form::label('WorkReason', '5. Why did you come to work for this organization?' ) }}
                                 {{ Form::textarea('WorkReason', null, ['class' => 'form-control', 'placeholder' => 'Reason for working here', 'rows'=> '2', 'required']) }}
                             </div>
                         </div>
@@ -153,7 +158,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('MostEmployment', 'What did you like most about your employment experience at the organization?' ) }}
+                                {{ Form::label('MostEmployment', '6. What did you like most about your employment experience at the organization?' ) }}
                                 {{ Form::textarea('MostEmployment', null, ['class' => 'form-control', 'placeholder' => 'Expereience here', 'rows'=> '2', 'required']) }}
                             </div>
                         </div>
@@ -166,7 +171,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('EmploymentReasonID', 'If accepting another employment please indicate your main reason' ) }}
+                                {{ Form::label('EmploymentReasonID', '7. If accepting another employment please indicate your main reason' ) }}
                                 <select name="EmploymentReasonID" class="full-width" data-init-plugin="select2" id="new_emp" onchange="">
                                     <option value=" ">Select New employment reason</option>
                                     @foreach($employmentreason as $item)
@@ -180,7 +185,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('WorkAgain', 'Would you consider working here again?' ) }}
+                                {{ Form::label('WorkAgain', '8. Would you consider working here again?' ) }}
                                 <select name="WorkAgain" class="full-width" data-init-plugin="select2" id="emp_again" onchange="">
                                     <option value=" ">Select Option</option>
                                     <option value="Yes">Yes</option>
@@ -197,7 +202,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('Workrelationship', 'I have a good working relationship with co-workers' ) }}
+                                {{ Form::label('Workrelationship', '9. I have a good working relationship with co-workers' ) }}
                                 <select name="Workrelationship" class="full-width" data-init-plugin="select2" id="work_rel" onchange="">
                                     <option value=" ">Select Option</option>
                                     @foreach($option as $item)
@@ -211,7 +216,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('SupervisorRelationship', 'I had a good working relationship with my supervisor' ) }}
+                                {{ Form::label('SupervisorRelationship', '10. I had a good working relationship with my supervisor' ) }}
                                 <select name="SupervisorRelationship" class="full-width" data-init-plugin="select2" id="work_sup" onchange="">
                                     <option value="SupervisorRelationship">Select Option</option>
                                     @foreach($option as $item)
@@ -225,7 +230,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('JobExpectations', 'Training or job development met expectations.' ) }}
+                                {{ Form::label('JobExpectations', '11. Training or job development met expectations.' ) }}
                                 <select name="JobExpectations" class="full-width" data-init-plugin="select2" id="work_pre" onchange="">
                                     <option value=" ">Select Option</option>
                                     @foreach($option as $item)
@@ -239,7 +244,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('WorkAssignemnt', 'Work Assignments were distributed evenly.' ) }}
+                                {{ Form::label('WorkAssignemnt', '12. Work Assignments were distributed evenly.' ) }}
                                 <select name="WorkAssignemnt" class="full-width" data-init-plugin="select2" id="worka" onchange="">
                                     <option value=" ">Select Option</option>
                                     @foreach($option as $item)
@@ -257,7 +262,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('JobUnderstanding', ' I had a clear understanding of my job duties.' ) }}
+                                {{ Form::label('JobUnderstanding', '13. I had a clear understanding of my job duties.' ) }}
                                 <select name="JobUnderstanding" class="full-width" data-init-plugin="select2" id="jobu" onchange="">
                                     <option value=" ">Select Option</option>
                                     @foreach($option as $item)
@@ -271,7 +276,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('WorkConditions', ' Working conditions met expectations.' ) }}
+                                {{ Form::label('WorkConditions', '14. Working conditions met expectations.' ) }}
                                 <select name="WorkConditions" class="full-width" data-init-plugin="select2" id="expectations" onchange="">
                                     <option value=" ">Select Option</option>
                                     @foreach($option as $item)
@@ -285,7 +290,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('WorkPay', 'The pay was fair for work required.' ) }}
+                                {{ Form::label('WorkPay', '15. The pay was fair for work required.' ) }}
                                 <select name="WorkPay" class="full-width" data-init-plugin="select2" id="work_pay" onchange="">
                                     <option value=" ">Select Option</option>
                                     @foreach($option as $item)
@@ -303,7 +308,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('WorkBenefit', 'The Benefits were competitive' ) }}
+                                {{ Form::label('WorkBenefit', '16. The Benefits were competitive' ) }}
                                 <select name="WorkBenefit" class="full-width" data-init-plugin="select2" id="work_benefits" onchange="">
                                     <option value=" ">Select Option</option>
                                     @foreach($option as $item)
@@ -317,7 +322,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('WorkSchedule', 'My work schedule met my needs.' ) }}
+                                {{ Form::label('WorkSchedule', '17. My work schedule met my needs.' ) }}
                                 <select name="WorkSchedule" class="full-width" data-init-plugin="select2" id="work_needs" onchange="">
                                     <option value=" ">Select Option</option>
                                     @foreach($option as $item)
@@ -331,7 +336,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('WorkSatisfaction', 'Overall, I was satisfied with my job.' ) }}
+                                {{ Form::label('WorkSatisfaction', '18. Overall, I was satisfied with my job.' ) }}
                                 <select name="WorkSatisfaction" class="full-width" data-init-plugin="select2" id="work_satisfied" onchange="">
                                     <option value=" ">Select Option</option>
                                     @foreach($option as $item)
@@ -349,7 +354,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('WorkComment', 'Please feel free to comment on any of the areas you have just rated. (Write on the back
+                                {{ Form::label('WorkComment', '19. Please feel free to comment on any of the areas you have just rated. (Write on the back
                                 if additional space is needed)' ) }}
                                 {{ Form::textarea('WorkComment', null, ['class' => 'form-control', 'placeholder' => 'Comment here', 'rows'=> '2', 'required']) }}
                             </div>
@@ -363,7 +368,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('ObligationID', 'Outstanding Obligation' ) }}
+                                {{ Form::label('ObligationID', '20. Outstanding Obligation' ) }}
                                 <a href="#" data-toggle="tooltip" title="*Please contact the Human Resources Department to confirm status of staff obligation."><i class="fa fa-question-circle"></i></a>
                                 <select name="ObligationID" class="full-width" data-init-plugin="select2" id="work_obligation" onchange="">
                                     <option value=" ">Select Option</option>
@@ -378,7 +383,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('PayObligation', 'How do you intend to pay your outstanding obligation?' ) }}
+                                {{ Form::label('PayObligation', '21. How do you intend to pay your outstanding obligation?' ) }}
                                 {{ Form::textarea('PayObligation', null, ['class' => 'form-control', 'placeholder' => 'Comment here', 'rows'=> '2', 'required']) }}
                             </div>
                         </div>
@@ -391,7 +396,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('HROfficerID', 'Name Of HR Officer' ) }}
+                                {{ Form::label('HROfficerID', '22. Name Of HR Officer' ) }}
                                 <select name="HROfficerID" class="full-width" data-init-plugin="select2" id="hr_officer" onchange="">
                                     <option value=" ">Select HR Officer</option>
                                     @foreach($hr as $item)
@@ -405,7 +410,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="controls">
-                                {{ Form::label('ResignedStaff', 'Name Of Resigned Staff' ) }}
+                                {{ Form::label('ResignedStaff', '23. Name Of Resigned Staff' ) }}
                                 {{ Form::text('ResignedStaff', null, ['class' => 'form-control', 'placeholder' => 'Name here', 'required']) }}
                             </div>
                         </div>
