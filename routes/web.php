@@ -321,7 +321,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit_doc_category/{id}', 'DocTypeController@edit_doc_category')->name('edit_doc_category');
     Route::get('documents/doc_category/{id}', 'DocTypeController@delete_doc_category')->name('delete_doc_category');
     Route::post('update_doc_category', 'DocTypeController@update_doc_category')->name('updatedcategory');
-    Route::get('edit_doctype/{id}', 'DocTypeController@edit_doctype')->name('edit_doctype');
+    Route::get('edit_doc_type/{id}', 'DocTypeController@edit_doc_type')->name('edit_doc_type');
+    Route::get('documents/doctype/{id}', 'DocTypeController@delete_doc_type')->name('delete_doc_type');
+    Route::post('update_doc_type', 'DocTypeController@update_doc_type')->name('updatedoctype');
     
 
     Route::get('events', 'EventScheduleController@index')->name('events');

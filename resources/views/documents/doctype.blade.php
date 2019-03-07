@@ -29,8 +29,8 @@
                 <div class="col-md-6">
                     <div class="controls">
                         <div class="form-group">
-                            {{ Form::label('Doctype', 'Document Type' ) }}
-                            {{ Form::text('Doctype', null, ['class' => 'form-control', 'placeholder' => 'Enter Document Type', 'required']) }}
+                            {{ Form::label('DocType', 'Document Type' ) }}
+                            {{ Form::text('DocType', null, ['class' => 'form-control', 'placeholder' => 'Enter Document Type', 'required']) }}
                         </div>
                     </div>
                 </div>
@@ -79,8 +79,8 @@
                         <td>{{$doctype->doc_category->DocCategory ?? ''}}</td>
                         <td>{{$doctype->staff_company->Company ?? ''}}</td>
                         <td>
-                                <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_doctype($doctype->DocTypeRef)" data-toggle="modal" data-target="#exampleModal">Edit</button>
-                            <a href="" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                            <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_doctype({{$doctype->DocTypeRef}})" data-toggle="modal" data-target="#exampleModal">Edit</button>
+                            <a href="/documents/doctype/{{$doctype->DocTypeRef}}" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                         </td>
                     </tr>
                 @endforeach
@@ -104,15 +104,30 @@
                         <input type="hidden" id="DocTypeRef" name="DocTypeRef" value="">
                         {{ csrf_field() }}
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="controls">
                                     <div class="form-group">
-                                        {{ Form::label('Doctype', 'Document Type' ) }}
-                                        {{ Form::text('Doctype', null, ['class' => 'form-control', 'id' => 'doc_type', 'placeholder' => 'Edit Doc Type', 'required']) }}
+                                        {{ Form::label('DocType', 'Document Type' ) }}
+                                        {{ Form::text('DocType', null, ['class' => 'form-control', 'id' => 'doc_type', 'placeholder' => 'Edit Doc Type', 'required']) }}
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                            <div class="controls">
+                                <div class="form-group">
+                                    {{ Form::label('DocCategory', 'Document Category' ) }}
+                                    <select name="DocCategory" class="full-width" data-init-plugin="select2" id="doc_category" onchange="">
+                                        <option value=" ">Select Document Category</option>
+                                        @foreach($doc_category as $item)
+                                            <option value="{{ $item->DocCategoryRef }}">{{ $item->DocCategory }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
+
+                        <input type="hidden" name="CompanyID" value="17">
                 
                         <div class="row">
                             <div class="pull-right">
@@ -139,7 +154,9 @@
     {
             $.get('/edit_doc_type/'+id, function(data, status) {
 
-            $('#doc_type').val(data.Doctype);
+            $('#doc_type').val(data.DocType);
+
+            $('#doc_category').val(data.DocCategory).trigger('change');
 
             $('#form-edit').prop('action', '/update_doc_type');
             

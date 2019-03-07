@@ -227,9 +227,27 @@ class DocTypeController extends Controller
         return redirect()->back()->with('success',  'Updated successfully');
     }
 
-    public function edit_doctype($id)
+    public function edit_doc_type($id)
     {
-        $doctype = Doctype::where('DocTypeRef', $id);
+        $doctype = Doctype::where('DocTypeRef', $id)->first();
         return response()->json($doctype);
+    }
+
+    public function delete_doc_type($id)
+    {
+        $doctype = DocType::where("DocTypeRef", $id);
+
+        $doctype->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function update_doc_type(Request $request)
+    {
+        $doctype = DocType::find($request->DocTypeRef);
+
+        $doctype->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
     }
 }
