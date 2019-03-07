@@ -3,12 +3,14 @@ Title : Leave Request.
 
 Dear {{$leave_request->requester->fullName}}
 
-You Requested a  ({{ $leave_request->NumberofDays }}) day(s) <b>{{ $leave_request->leave_type->LeaveType }} Leave</b>. <br>
+You requested a  ({{ $leave_request->NumberofDays }}) day(s) <b>{{ $leave_request->leave_type->LeaveType }} Leave</b>. <br>
+
 Start Date: <b>{{ nice_date($leave_request->StartDate) }}</b> <br>
+
 End Date: <b>{{ nice_date($leave_request->ReturnDate) }}</b> 
 
 
-Your requested is awaiting your supervisor's approval and you will be notified at every level of approval or rejection.
+Your request is awaiting your supervisor's approval and you will be notified at every level of approval or rejection.
 
 cheers.
 

@@ -29,7 +29,11 @@ class EventScheduleController extends Controller
     {
         $user             = auth()->user();
         $user_departments = explode(',', $user->staff->DepartmentID);
-        $events           = EventSchedule::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->get();
+        if ($user->hasRole('admin')) {
+          $events           = EventSchedule::where('CompanyID', $user->staff->CompanyID)->get();
+        } else {
+          $events           = EventSchedule::where('CompanyID', $user->staff->CompanyID)->whereIn('DepartmentID', $user_departments)->get();
+        }
         $staffs           = Staff::where('CompanyID', $user->staff->CompanyID)->where('DateofBirth', '!=', '')->where('DateofBirth', '!=', null)->get();
         $events_array     = [];
         $count            = '0';

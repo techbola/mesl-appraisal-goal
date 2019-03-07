@@ -14,8 +14,8 @@
 
 
       <div class="form-group m-t-10 inline-block m-l-10" style="max-width:50%; vertical-align:middle">
-          {{ Form::label('avatar','Upload Profile Picture', ['class' => 'req']) }}
-          {{ Form::file('avatar',  ["class" => "filestyle form-group", 'data-placeholder' => 'Upload Profile Photo', 'data-buttonname'=>'btn-info', 'data-buttonBefore'=>'true', 'style'=>'border-radius:50px', is_null($staff->user->avatar) ? 'required': '']) }}
+          {{ Form::label('avatar','Upload passport photo', ['class' => 'req']) }}
+          {{ Form::file('avatar',  ["class" => "filestyle form-group", 'data-placeholder' => 'Upload passport photo', 'data-buttonname'=>'btn-info', 'data-buttonBefore'=>'true', 'style'=>'border-radius:50px', is_null($staff->user->avatar) ? 'required': '']) }}
           {{-- <input type="file" class="filestyle" name="Photo" data-placeholder="Upload Photo" data-buttonname="btn-info" data-buttonBefore="true"> --}}
       </div>
     </div>
@@ -131,7 +131,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('IDNumber','ID Number') }}
-            {{ Form::number('IDNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter ID Number']) }}
+            {{ Form::number('IDNumber', null,  ['class' => 'form-control required', 'placeholder' => 'Enter ID Number', 'required']) }}
         </div>
     </div>
 
@@ -178,12 +178,12 @@
 
 
 
-    <div class="col-sm-3">
+   {{--  <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('HomePhone','Home Phone Number') }}
             {{ Form::number('HomePhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Home Phone Number', 'maxLength' => '11']) }}
         </div>
-    </div>
+    </div> --}}
 
       <div class="col-sm-3">
         <div class="form-group">
@@ -199,12 +199,12 @@
         </div>
     </div> --}}
 
-    <div class="col-sm-3">
+    {{-- <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('CountryOfBirth','Country Of Birth') }}
             {{ Form::select('CountryOfBirth', [ '' =>  'Select Country'] + $countries->pluck('Country', 'CountryRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Country", 'data-init-plugin' => "select2", 'required']) }}
         </div>
-    </div>
+    </div> --}}
 
     {{-- <div class="col-sm-3">
         <div class="form-group">
@@ -232,11 +232,11 @@
     <div class="col-sm-3">
         <div class="form-group">
             {{ Form::label('NationalityOfOrigin','Nationality') }}
-            {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control ', 'placeholder' => 'Enter Nationality', '']) }}
+            {{ Form::text('NationalityOfOrigin', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Nationality', 'required']) }}
         </div>
     </div>
 
-<div class="clearfix"></div>
+{{-- <div class="clearfix"></div> --}}
 
     <div class="col-sm-3">
         <div class="form-group">
@@ -246,12 +246,12 @@
     </div>
 </div>
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
         {{ Form::label('SpouseSurname','Spouse Surname') }}
         {{ Form::text('SpouseSurname', $staff->SpouseSurname,  ['class' => 'form-control', 'placeholder' => 'First name']) }}
-        {{-- <input type="text" value="{{ $staff->FullName }}" class="form-control" readonly> --}}
+        <input type="text" value="{{ $staff->FullName }}" class="form-control" readonly>
       </div>
     </div>
     <div class="col-sm-6">
@@ -260,13 +260,13 @@
         {{ Form::text('SpouseOthername', $staff->SpouseOthername,  ['class' => 'form-control', 'placeholder' => 'Middle name']) }}
       </div>
     </div>
-</div>
+</div> --}}
 
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('WorkPhone','Work Phone Number') }}
-            {{ Form::number('WorkPhone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Work Phone Number', 'maxLength' => '11']) }}
+            {{ Form::number('WorkPhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Work Phone Number', 'maxLength' => '11', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -277,7 +277,7 @@
     </div>
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('MaritalStatusID','Marital Status') }}
+            {{ Form::label('MaritalStatusID','Marital Status', ['class'=>'req']) }}
             {{ Form::select('MaritalStatusID', [ 0 =>  'Marital Status'] + $status->pluck('MaritalStatus', 'MaritalStatusRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose your Marital Status", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
@@ -307,18 +307,18 @@
     </div> --}}
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('LocationID','Office Location') }}
-            {{ Form::select('LocationID', [ '' =>  'Select Location'] + $locations->pluck('Location', 'LocationRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select Office Location", 'data-init-plugin' => "select2"]) }}
+            {{ Form::label('LocationID','Office Location', ['class' => 'req']) }}
+            {{ Form::select('LocationID', [ '' =>  'Select Location'] + $locations->pluck('Location', 'LocationRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Select Office Location", 'data-init-plugin' => "select2", 'required']) }}
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4">
+    {{-- <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('StateOfMarriage','State of Marriage') }}
             {{ Form::select('StateOfMarriage', [ '' =>  'Select State'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose State of Marriage", 'data-init-plugin' => "select2"]) }}
         </div>
-    </div>
+    </div> --}}
     {{-- <div class="col-sm-4">
         <div class="form-group">
           {{ Form::label('LGAID','Local Government') }}
@@ -474,7 +474,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             {{ Form::label('NextofKIN_Phone','Next of Kin Phone Number') }}
-            {{ Form::number('NextofKIN_Phone', null,  ['class' => 'form-control', 'placeholder' => 'Enter Next of Kin Phone Number', 'maxLength' => '11']) }}
+            {{ Form::number('NextofKIN_Phone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Next of Kin Phone Number', 'maxLength' => '11', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -564,17 +564,24 @@
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('NYSCYear','NYSC Year') }}
-        {{ Form::text('NYSCYear', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Year']) }}
+        {{ Form::text('NYSCYear', null,  ['class' => 'form-control required', 'placeholder' => 'Enter NYSC Year', 'required']) }}
       </div>
     </div>
     <div class="col-sm-4">
       <div class="form-group">
-        {{ Form::label('NYSCLocation','NYSC Location') }}
-        {{ Form::text('NYSCLocation', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Location']) }}
+        {{ Form::label('NYSCNumber','NYSC Number') }}
+        {{ Form::text('NYSCNumber', null,  ['class' => 'form-control required', 'placeholder' => 'Enter NYSC Number', 'required']) }}
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('NYSCLocationID','NYSC Location', ['class'=>'req']) }}
+        {{-- {{ Form::text('NYSCLocation', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Location']) }} --}}
+        {{ Form::select('NYSCLocationID', [ 0 =>  'Select your Location'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Select NYSC Location", 'data-init-plugin' => "select2", 'required']) }}
       </div>
     </div>
 
-    <div class="col-sm-4">
+    {{-- <div class="col-sm-4">
         <div class="form-group">
           {{ Form::label('MSWord','MSWord Proficiency') }}
           {{ Form::select('MSWord', [ '' =>  'Select State'] + ['1'=>'Basic', '2'=>'Intermediate', '3'=>'Advance'],null, ['class'=> "full-width",'data-placeholder' => "MSWord Proficiency", 'data-init-plugin' => "select2"]) }}
@@ -597,7 +604,7 @@
           {{ Form::label('PowerPoint','PowerPoint Proficiency') }}
           {{ Form::select('PowerPoint', [ '' =>  'Select State'] + ['1'=>'Basic', '2'=>'Intermediate', '3'=>'Advance'],null, ['class'=> "full-width",'data-placeholder' => "PowerPoint Proficiency", 'data-init-plugin' => "select2"]) }}
         </div>
-    </div>
+    </div> --}}
 
     <div class="clearfix"></div>
 
@@ -726,12 +733,61 @@
       $('select[name="DepartmentID"]').val('{{$staff->DepartmentID}}').trigger('change');
 
       // refs
-      var ref_html = $(".ref-row")[0].innerHTML;
+      var ref_html = `
+<div class="row ref-row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('Name','Ref. Name') }}
+            {{ Form::text('RefName[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Name']) }}
+          </div>
+        </div>
+
+         <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefRelationship','Relationship') }}
+            {{ Form::text('RefRelationship[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Relationship']) }}
+          </div>
+        </div>
+
+         <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefOccupation','Occupation') }}
+            {{ Form::text('RefOccupation[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Occupation']) }}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefPhone','Phone') }}
+            {{ Form::number('RefPhone[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Phone', 'maxLength' => '11']) }}
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            {{ Form::label('RefEmail','Email') }}
+            {{ Form::email('RefEmail[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Ref. Email']) }}
+          </div>
+        </div>
+
+    <div class="pull-right">
+        <div class="form-group">
+            <button type="button" style="margin-top: 30px"  class="remove_hon_node btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+    </div>
+    `;
       $("#add-more-refs").click(function(e) {
           e.preventDefault();
-          $('.ref-row').append('<div class="clearfix"></div><hr>').append(ref_html);
+          $('.ref-row:eq(-1)').append('<div class="clearfix"></div><hr>').append(ref_html);
       });
 
     });
+
+    $('body').on('click', '.remove_hon_node', function(e) {
+    e.preventDefault();
+    console.log('delete me')
+    $(this).closest('.ref-row').remove();
+});
   </script>
 @endpush

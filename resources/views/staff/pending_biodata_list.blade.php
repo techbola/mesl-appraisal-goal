@@ -7,7 +7,7 @@
 @section('content')
   <div class="card-box">
     <div class="card-title">Pending Bio-data Edits</div>
-    <table class="table tableWithSearch table-striped table-bordered">
+    <table class="table tableWithSearch2 table-striped table-bordered">
       <thead>
         <tr>
           <th>Staff</th>
@@ -31,3 +31,11 @@
     </table>
   </div>
 @endsection
+
+@push('scripts')
+<script>
+  // $(function(){
+    $('.tableWithSearch2').DataTable();
+  // })
+</script>
+@endpush

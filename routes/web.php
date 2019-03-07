@@ -293,8 +293,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('my_documents', 'DocumentController@my_documents')->name('my_documents');
     Route::post('/fetch-doctypes', 'DocumentController@fetch_doctypes');
 
-
-
     // sends document for approval
     Route::get('my_documents/send/{id}', 'DocumentController@send')->name('send_document');
     Route::get('my_documents/approvallist', 'DocumentController@approval_list')->name('docs_approvallist');
@@ -478,6 +476,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_course_details/{id}', 'CourseController@get_course_details');
     Route::post('submit_edit_course_form', 'CourseController@submit_edit_course_form');
     Route::post('Post_cash_entry_imprest', 'CashEntryController@postImprest');
+    Route::get('delete_course_category/{ref}', 'CourseController@delete_course_category');
+    Route::get('delete_course/{ref}', 'CourseController@delete_course');
+    Route::get('view_course_details/{ref}', 'CourseController@view_course_details');
+    Route::get('get_question_limit/{id}', 'CourseController@get_question_limit');
+    Route::post('post_submit_record', 'CourseController@post_submit_record');
+    Route::get('find_new_question/{course_ref}/{batch_ref}', 'CourseController@find_new_question');
+    Route::post('process_examination_question/{batch}/{course_ref}', 'CourseController@process_examination_question');
+    Route::get('get_final_test_result/{batch}/{course_ref}', 'CourseController@get_final_test_result');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');

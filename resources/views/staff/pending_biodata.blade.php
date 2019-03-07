@@ -8,9 +8,10 @@
   <div class="card-box">
     <div class="card-title">Review Bio-Data Changes - <span class="text-primary">{{ $pending->user->FullName }}</span></div>
 
-    <img src="{{ asset('images/avatars/'.($pending->user->avatar ?? 'default.png') ) }}" alt="" class="avatar inline-block" style="height:100px; width:100px;">
+    <img src="{{ asset('images/avatars/'.($pending->user->avatar ?? 'default.png') ) }}" alt="" class="avatar inline-block" style="height:100px; width:100px;"> <br><br>
 
-    <table class="table table-condensed table-striped">
+    <div>Staff Supervisor: <b>{{ \MESL\Staff::find($staff->SupervisorID)->FullName ?? 'none' }}</b> | Department: <b>{{ $staff->department->Department ?? '-' }}</b></div>
+    <table class="table table-condensed biodata_list table-striped">
       <thead>
         <tr>
           <th>Field</th>
@@ -78,7 +79,7 @@
         <tr>
           <td>Country of Birth</td>
           <td>{{ $staff->country_of_birth->Country ?? '-' }}</td>
-          <td>{!! ($pending->CountryOfBirth != $staff->CountryOfBirth)? $pending->country_of_birth->Country : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->CountryOfBirth != $staff->CountryOfBirth)? $pending->country_of_birth->Country ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -90,7 +91,7 @@
         <tr>
           <td>Religion</td>
           <td>{{ $staff->religion->Religion ?? '-' }}</td>
-          <td>{!! ($pending->ReligionID != $staff->ReligionID)? $pending->religion->Religion : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->ReligionID != $staff->ReligionID)? $pending->religion->Religion ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -114,7 +115,7 @@
         <tr>
           <td>Marital Status</td>
           <td>{{ $staff->marital_status->MaritalStatus ?? '-' }}</td>
-          <td>{!! ($pending->MaritalStatusID != $staff->MaritalStatusID)? $pending->marital_status->MaritalStatus : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->MaritalStatusID != $staff->MaritalStatusID)? $pending->marital_status->MaritalStatus ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -132,7 +133,7 @@
         <tr>
           <td>Date of Birth</td>
           <td>{{ nice_date($staff->DateofBirth) ?? '-' }}</td>
-          <td>{!! ($pending->DateofBirth != $staff->DateofBirth)? $pending->DateofBirth : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->DateofBirth != $staff->DateofBirth)? nice_date($pending->DateofBirth) : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -144,13 +145,13 @@
         <tr>
           <td>Employment Date</td>
           <td>{{ nice_date($staff->EmploymentDate) ?? '-' }}</td>
-          <td>{!! ($pending->EmploymentDate != $staff->EmploymentDate)? $pending->EmploymentDate : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->EmploymentDate != $staff->EmploymentDate)? nice_date($pending->EmploymentDate) : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
           <td>Confirmation Date</td>
           <td>{{ nice_date($staff->ConfirmationDate) ?? '-' }}</td>
-          <td>{!! ($pending->ConfirmationDate != $staff->ConfirmationDate)? $pending->ConfirmationDate : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->ConfirmationDate != $staff->ConfirmationDate)? nice_date($pending->ConfirmationDate) : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
         <tr>
@@ -177,7 +178,7 @@
           <td>{!! ($pending->NextofKIN_Email != $staff->NextofKIN_Email)? $pending->NextofKIN_Email : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
-        <tr>
+       {{--  <tr>
           <td>Next Of Beneficiary</td>
           <td>{{ $staff->Beneficiary ?? '-' }}</td>
           <td>{!! ($pending->Beneficiary != $staff->Beneficiary)? $pending->Beneficiary : '<em class="text-muted">Unchanged</em>' !!}</td>
@@ -205,8 +206,64 @@
           <td>Beneficiary Address</td>
           <td>{{ $staff->Beneficiary_Address ?? '-' }}</td>
           <td>{!! ($pending->Beneficiary_Address != $staff->Beneficiary_Address)? $pending->Beneficiary_Address : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td> --}}
+        </tr>
+        <tr>
+          <td>University Attended (1st Degree)</td>
+          <td>{{ $staff->UniversityAttended1 ?? '-' }}</td>
+          <td>{!! ($pending->UniversityAttended1 != $staff->UniversityAttended1)? $pending->UniversityAttended1 : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
+        <tr>
+          <td>University Attended (2nd Degree)</td>
+          <td>{{ $staff->UniversityAttended2 ?? '-' }}</td>
+          <td>{!! ($pending->UniversityAttended2 != $staff->UniversityAttended2)? $pending->UniversityAttended2 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>University Attended (3rd Degree)</td>
+          <td>{{ $staff->UniversityAttended3 ?? '-' }}</td>
+          <td>{!! ($pending->UniversityAttended3 != $staff->UniversityAttended3)? $pending->UniversityAttended3 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Professional Qualification (1st Degree)</td>
+          <td>{{ $staff->ProfessionalQualification1 ?? '-' }}</td>
+          <td>{!! ($pending->ProfessionalQualification1 != $staff->ProfessionalQualification1)? $pending->ProfessionalQualification1 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Professional Qualification (2nd Degree)</td>
+          <td>{{ $staff->ProfessionalQualification2 ?? '-' }}</td>
+          <td>{!! ($pending->ProfessionalQualification2 != $staff->ProfessionalQualification2)? $pending->ProfessionalQualification2 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Professional Qualification (3rd Degree)</td>
+          <td>{{ $staff->ProfessionalQualification3 ?? '-' }}</td>
+          <td>{!! ($pending->ProfessionalQualification3 != $staff->ProfessionalQualification3)? $pending->ProfessionalQualification3 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>NYSC Year</td>
+          <td>{{ $staff->NYSCYear ?? '-' }}</td>
+          <td>{!! ($pending->NYSCYear != $staff->NYSCYear)? $pending->NYSCYear : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        </tr>
+        <tr>
+          <td>NYSC Number</td>
+          <td>{{ $staff->NYSCNumber ?? '-' }}</td>
+          <td>{!! ($pending->NYSCNumber != $staff->NYSCNumber)? $pending->NYSCNumber : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>NYSC Location</td>
+          <td>{{ $staff->NYSCLocationID ?? '-' }}</td>
+          <td>{!! ($pending->NYSCLocationID != $staff->NYSCLocationID)? $pending->nysc_location->State ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        
         
       </tbody>
     </table>
@@ -227,3 +284,13 @@
 
   </div>
 @endsection
+
+@push('scripts')
+<script>
+  $(function(){
+    $('.biodata_list').DataTable({
+      paging: false
+    });
+  })
+</script>
+@endpush

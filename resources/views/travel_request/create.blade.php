@@ -112,18 +112,14 @@
                         <br>
                 
                         <div class="row">
-                                <div class="col-md-3">
+
+                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <div class="controls">
-                                            {{ Form::label('DepartureDate', 'Departure Date') }}
-                                            <div class="input-group">
-                                                {{ Form::Date('DepartureDate', null, ['class' => 'form-control', 'placeholder' => 'Departure Date', 'required']) }}
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-calendar">
-                                                    </i>
-                                                </span>
-                                            </div>
-                                        </div>
+                                    {{ Form::label('DepartureDate', 'Departure Date' ) }}
+                                    <div class="input-group date dp">
+                                        {{ Form::text('DepartureDate', null, ['class' => 'form-control', 'placeholder' => 'Departure Date', 'required', 'id' => 'departure_date']) }}
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
                                     </div>
                                 </div>
                 
@@ -136,18 +132,14 @@
                                     </div>
                                 </div>
     
-                                <div class="col-md-3">
+
+                                <div class="col-sm-3">
                                     <div class="form-group">
-                                        <div class="controls">
-                                            {{ Form::label('ArrivalDate', 'Arrival Date') }}
-                                            <div class="input-group ">
-                                                {{ Form::date('ArrivalDate', null, ['class' => 'form-control', 'placeholder' => 'Arrival Date', 'required']) }}
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-calendar">
-                                                    </i>
-                                                </span>
-                                            </div>
-                                        </div>
+                                    {{ Form::label('ArrivalDate', 'Arrival Date' ) }}
+                                    <div class="input-group date dp2">
+                                        {{ Form::text('ArrivalDate', null, ['class' => 'form-control', 'placeholder' => 'Arrival Date', 'required', 'id' => 'arrival_date']) }}
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
                                     </div>
                                 </div>
                 
@@ -933,13 +925,21 @@
 
         $('#travel_to2').val(data.TravelToCountry).trigger('change');
 
-        $('#departure_date').val(data.DepartureDate);
+        $('#departure_date_edit').val(data.DepartureDate);
 
         $('#departure_time').val(data.DepartureTime);
 
         $('#arrival_time').val(data.ArrivalTime);
 
-        $('#arrival_date').val(data.ArrivalDate); 
+        $('#arrival_date_edit').val(data.ArrivalDate); 
+
+         var options = {
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            startDate: data.ArrivalDate,
+            autoclose: true,
+        };
+        $('.dp3').datepicker(options);
 
         $('#travel_purpose1').val(data.Purpose).trigger('change');
 
@@ -1091,7 +1091,51 @@ function activate_travel_request_queue(){
 
 $(document).ready(function() {
     activate_travel_request_queue();
+
+     var options = {
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            startDate: '{{ date('Y-m-d') }}',
+            autoclose: true,
+        };
+        $('.dp').datepicker(options);
+
+        
+
+        
 });
+
+window.enddate = function() {
+            var options2 = {
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            startDate: $('#departure_date').val(),
+            autoclose: true,
+        };
+        $('.dp2').datepicker(options2);
+        }
+
+        window.enddate2 = function() {
+            $('#arrival_date_edit').val('');
+            var options3 = {
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            startDate: $('#departure_date_edit').val(),
+            autoclose: true,
+        };
+        $('.dp4').datepicker(options3);
+        }
+
+        $('#departure_date').change(function(e) {
+            // e.preventDefault();
+            window.enddate();
+        });
+
+        $('#departure_date_edit').change(function(e) {
+            // e.preventDefault();
+            $('#arrival_date_edit').parent().removeClass('dp3');
+            window.enddate2();
+        });
 
 
 

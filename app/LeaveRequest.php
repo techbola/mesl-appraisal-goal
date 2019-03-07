@@ -58,4 +58,9 @@ class LeaveRequest extends Model
             return null;
         }
     }
+
+    public function relief_officer()
+    {
+        return $this->belongsTo('MESL\User', 'ReliefOfficerID');
+    }
 }

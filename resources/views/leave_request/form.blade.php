@@ -193,7 +193,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                  <label for="Task">Task</label>
-                                                {{ Form::text('Task[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Task' ]) }}
+                                                {{ Form::text('Task[]', null, ['class'=> "form-control required", 'placeholder' => 'Enter Task', 'required' ]) }}
                                             </div>
                                         </div>
 
@@ -218,7 +218,7 @@
                                            
                                             <div class="form-group">
                                                  <label for="Description">Description</label>
-                                                {{ Form::textarea('Description[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Description' ]) }}
+                                                {{ Form::textarea('Description[]', null, ['class'=> "form-control required", 'placeholder' => 'Enter Description', 'required' ]) }}
                                             </div>
                                         </div>
                                         </div>

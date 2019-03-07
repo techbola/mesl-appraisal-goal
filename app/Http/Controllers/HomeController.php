@@ -57,9 +57,19 @@ class HomeController extends Controller
         // // dd($tasks);
         // return view('dashboard', compact('pending_meeting_actions', 'todos_today', 'tasks', 'bulletins', 'events', 'todos_week', 'messages', 'leave_requests', 'unapproved_memos', 'birthdays', 'policy_statements'));
 
-        $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
-        $events    = EventSchedule::whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today)->get();
-        $depts     = [
+        $user_departments = explode(',', $user->staff->DepartmentID);
+
+        if ($user->hasRole('admin')) {
+            $bulletins = Bulletin::whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
+            $events    = EventSchedule::whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today)->get();
+        } else {
+            $bulletins = Bulletin::whereIn('DepartmentID', $user_departments)->whereDate('ExpiryDate', '>=', $today)->with('poster')->orderBy('CreatedDate', 'desc')->get();
+            $events    = EventSchedule::whereIn('DepartmentID', $user_departments)->where(function ($q) use ($today) {
+                $q->whereDate('StartDate', '>=', $today)->orWhereDate('EndDate', '>=', $today);
+            })->get();
+        }
+
+        $depts = [
             'hr'         => ['3', '5'],
             'it'         => ['14'],
             'finance'    => ['8'],
@@ -68,6 +78,7 @@ class HomeController extends Controller
             'sales'      => [],
             'admin'      => ['7'],
             'risk'       => ['10'],
+            'md'         => ['1'],
         ];
         $my_dept = $user->staff->DepartmentID ?? '0';
 
