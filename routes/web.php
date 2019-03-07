@@ -321,6 +321,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit_doc_category/{id}', 'DocTypeController@edit_doc_category')->name('edit_doc_category');
     Route::get('documents/doc_category/{id}', 'DocTypeController@delete_doc_category')->name('delete_doc_category');
     Route::post('update_doc_category', 'DocTypeController@update_doc_category')->name('updatedcategory');
+    Route::get('edit_doctype/{id}', 'DocTypeController@edit_doctype')->name('edit_doctype');
     
 
     Route::get('events', 'EventScheduleController@index')->name('events');

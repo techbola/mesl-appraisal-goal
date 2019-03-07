@@ -226,4 +226,10 @@ class DocTypeController extends Controller
 
         return redirect()->back()->with('success',  'Updated successfully');
     }
+
+    public function edit_doctype($id)
+    {
+        $doctype = Doctype::where('DocTypeRef', $id);
+        return response()->json($doctype);
+    }
 }
