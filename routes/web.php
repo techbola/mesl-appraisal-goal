@@ -1339,3 +1339,9 @@ Route::get('help/desk/complaints', 'HelpDeskController@index')->name('helpdesk_m
 Route::get('/exit/create', 'ExitController@index');
 
 Route::post('exit/create', 'ExitController@store_exit_interview')->name('StoreExitInterview');
+
+Route::get('edit_exit_interview/{id}', 'ExitController@edit_exit_interview')->name('edit_exit_interview');
+
+Route::post('update_exit_interview', 'ExitController@update_exit_interview')->name('updateExit');
+
+Route::get('exit/create/{id}', 'ExitController@delete_exit_interview')->name('delete_exit_interview');

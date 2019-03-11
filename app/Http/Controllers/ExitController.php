@@ -23,6 +23,7 @@ class ExitController extends Controller
      */
     public function index()
     {
+        $exits = ExitInterview::Orderby('ExitInterviewRef', 'DESC')->get();
         $exitreasons = ExitReason::all();
         $relocation = RelocationReason::all();
         $employmentreason = EmploymentReason::all();
@@ -33,7 +34,7 @@ class ExitController extends Controller
         $hr = User::whereHas('roles', function($q){
             $q->where('id', '38');
         })->get();
-        return view('exit.create', compact('exitreasons', 'relocation', 'employmentreason', 'option', 'obligation', 'department', 'hr'));
+        return view('exit.create', compact('exitreasons', 'relocation', 'employmentreason', 'option', 'obligation', 'department', 'hr', 'exits'));
     }
 
     public function store_exit_interview(Request $request)
@@ -54,6 +55,30 @@ class ExitController extends Controller
 
         return redirect()->route('StoreExitInterview')->with($data['status'], $data['message']);
         
+    }
+
+    public function edit_exit_interview($id)
+    {
+        $exitinterview = ExitInterview::where('ExitInterviewRef', $id)->first();
+        return response()->json($exitinterview);
+    }
+
+    public function delete_exit_interview($id)
+    {
+        $exitinterview = ExitInterview::where("ExitInterviewRef", $id);
+
+        $exitinterview->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function update_exit_interview(Request $request)
+    {
+        $exitinterview = ExitInterview::find($request->ExitInterviewRef);
+
+        $exitinterview->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
     }
 
     /**
