@@ -562,10 +562,13 @@
     </div>
 
     <div class="col-sm-4">
-      <div class="form-group">
-        {{ Form::label('NYSCYear','NYSC Year') }}
-        {{ Form::text('NYSCYear', null,  ['class' => 'form-control required', 'placeholder' => 'Enter NYSC Year', 'required']) }}
-      </div>
+        <div class="">
+          {{ Form::label('NYSCYear','NYSC Year', ['class' => 'form-label']) }}
+          <div class="input-group date dp-year required">
+            {{ Form::text('NYSCYear', null, ['class' => 'form-control', 'placeholder' => 'NYSC Year', 'required', 'readonly']) }}
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
     </div>
     <div class="col-sm-4">
       <div class="form-group">
@@ -720,10 +723,23 @@
           format: 'yyyy-mm-dd',
           autoclose: true,
           startDate: '1920-01-01',
-          endDate: '{{ date('Y-m-d') }}',
+          endDate: '{{ date('Y-m-d') }}'
 
       };
+
+      var options_year = {
+          todayHighlight: true,
+          format: 'yyyy-mm-dd',
+          autoclose: true,
+          format: "yyyy",
+          viewMode: "years", 
+          minViewMode: "years"
+
+      };
+
       $('.dp').datepicker(options);
+
+      $('.dp-year').datepicker(options_year);
   });
   </script>
 
