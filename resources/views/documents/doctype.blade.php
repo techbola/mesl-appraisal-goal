@@ -76,7 +76,7 @@
                 @foreach($doctypes as $doctype)
                     <tr>
                         <td>{{$doctype->DocType}}</td>
-                        <td>{{$doctype->doc_category->DocCategory ?? ''}}</td>
+                        <td>{{$doctype->category->DocCategory ?? ''}}</td>
                         <td>{{$doctype->staff_company->Company ?? ''}}</td>
                         <td>
                             <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_doctype({{$doctype->DocTypeRef}})" data-toggle="modal" data-target="#exampleModal">Edit</button>
@@ -100,8 +100,8 @@
                 </div>
                 <hr>
                 <div class="modal-body">
-                    <form action="" method="POST" class="form-edit">
-                        <input type="hidden" id="DocTypeRef" name="DocTypeRef" value="">
+                    <form action="" method="POST" id="form-edit">
+                        <input type="hidden" id="DocTypeRef" name="DocTypeRef">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-6">
@@ -154,6 +154,7 @@
     {
             $.get('/edit_doc_type/'+id, function(data, status) {
 
+            $('#DocTypeRef').val(data.DocTypeRef);
             $('#doc_type').val(data.DocType);
 
             $('#doc_category').val(data.DocCategory).trigger('change');

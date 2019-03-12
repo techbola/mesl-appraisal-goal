@@ -86,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
     Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
 
+    Route::get('/staff/exit_interview', 'StaffController@exit_interview');
     Route::post('staff/staff_onboard', 'StaffController@store_staff_onboard')->name('StoreStaff');
     Route::get('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
     Route::get('staff/staff_onboard/{id}', 'StaffController@delete_onboarding')->name('deleteOnboard');
@@ -1345,3 +1346,4 @@ Route::get('edit_exit_interview/{id}', 'ExitController@edit_exit_interview')->na
 Route::post('update_exit_interview', 'ExitController@update_exit_interview')->name('updateExit');
 
 Route::get('exit/create/{id}', 'ExitController@delete_exit_interview')->name('delete_exit_interview');
+

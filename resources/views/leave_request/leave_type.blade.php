@@ -59,7 +59,7 @@
                         <td>{{$leavetype->LeaveType}}</td>
                         <td>
                             <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_leavetype( {{$leavetype->LeaveTypeRef}})" data-toggle="modal" data-target="#exampleModal">Edit</button>
-                            <a href="/leave_request/leave_type/{{$leavetype->LeaveTypeRef}}" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                            <a href="#" onclick="deleteItem('{{$leavetype->LeaveTypeRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                         </td>
                      </tr>
                 @endforeach
@@ -79,8 +79,8 @@
             </div>
             <hr>
             <div class="modal-body">
-                <form action="" method="POST" class="form-edit">
-                    <input type="hidden" id="LeaveTypeRef" name="LeaveTypeRef" value="">
+                <form action="" method="POST" id="form-edit">
+                    <input type="hidden" id="LeaveTypeRef" name="LeaveTypeRef">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-12">
@@ -118,11 +118,30 @@
     {
             $.get('/edit_leave_type/'+id, function(data, status) {
 
+            $('#LeaveTypeRef').val(data.LeaveTypeRef);
+
             $('#leave_type').val(data.LeaveType);
 
             $('#form-edit').prop('action', '/update_leave_type');
             
         });
 
+    }
+
+    // delete alert function
+    function deleteItem(LeaveTypeRef){
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if(result == true){
+                window.location.href = "/leave_request/leave_type/"+LeaveTypeRef;
+            }
+        })
     }
 </script>

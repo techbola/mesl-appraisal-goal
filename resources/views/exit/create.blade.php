@@ -45,7 +45,7 @@
         <li>
             <a data-toggle="tab" href="#interview-request">
                 Submitted Interview &nbsp; <span class="badge badge-success">
-                    
+                    {{ $exits->count() }}
                 </span>
             </a>
         </li>
@@ -464,8 +464,8 @@
                                 <td>{{$exit->InterviewDate}}</td>
                                 <td>{{$exit->exit_reason->ExitReason}}</td>
                                 <td>
-                                    <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_exitinterview(e,{{$exit->ExitInterviewRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
-                                    <a href="/exit/create/{{$exit->ExitInterviewRef}}" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                                    <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_exitinterview({{$exit->ExitInterviewRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
+                                <a href="#" onclick="deleteItem('{{$exit->ExitInterviewRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -487,8 +487,8 @@
                     </div>
                     <br>
                     <div class="modal-body">
-                        <form action="" method="POST" class="form-edit">
-                        <input type="hidden" id="ExitInterviewRef" name="ExitInterviewRef" value="">
+                        <form action="" method="POST" id="form-edit">
+                        <input type="hidden" id="ExitInterviewRef" name="ExitInterviewRef">
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-md-4">
@@ -884,9 +884,10 @@
 
 <script>
 
-    function edit_exitinterview(e,id) {
-        console.log(e)
+    function edit_exitinterview(id) {
         $.get('/edit_exit_interview/'+id, function(data, status) {
+
+        $('#ExitInterviewRef').val(data.ExitInterviewRef);
 
         $('#staff_id').val(data.StaffID);
 
@@ -940,13 +941,27 @@
 
         $('#resigned_staff').val(data.ResignedStaff);
 
-
-        $('#form-edit').prop('action', '/update_exit_inerview');
-
-
+        console.log($('.form-edit').prop('action'))
+        $('#form-edit').prop('action', '/update_exit_interview');
                 
         });
+    }
 
+    // what to delete btn
+    function deleteItem(ExitInterviewRef){
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if(result == true){
+                window.location.href = "/exit/create/"+ExitInterviewRef;
+            }
+        })
     }
 
 
