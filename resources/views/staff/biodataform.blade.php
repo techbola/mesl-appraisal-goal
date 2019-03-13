@@ -608,7 +608,7 @@
             </div>
           </div>
       </div>
-<div class="clearfix"></div>
+      <div class="clearfix"></div>
        <hr>
     @endforeach
     <div class="row prof-row">

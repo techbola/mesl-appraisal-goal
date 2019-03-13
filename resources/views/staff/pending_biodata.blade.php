@@ -62,10 +62,37 @@
           <td></td>
         </tr>
 
+        <tr>
+          <td>ID Number</td>
+          <td>{{ $staff->IDNumber ?? '-' }}</td>
+          <td>{!! ($pending->IDNumber != $staff->IDNumber)? $pending->IDNumber : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
          <tr>
           <td>Gender</td>
           <td>{{ $staff->gender->Gender ?? '-' }}</td>
           <td>{!! ($pending->Gender != $staff->Gender)? $pending->gender->Gender : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>Employment Date</td>
+          <td>{{ nice_date($staff->EmploymentDate) ?? '-' }}</td>
+          <td>{!! ($pending->EmploymentDate != $staff->EmploymentDate)? nice_date($pending->EmploymentDate) : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Confirmation Date</td>
+          <td>{{ nice_date($staff->ConfirmationDate) ?? '-' }}</td>
+          <td>{!! ($pending->ConfirmationDate != $staff->ConfirmationDate)? nice_date($pending->ConfirmationDate) : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+         <tr>
+          <td>Date of Birth</td>
+          <td>{{ nice_date($staff->DateofBirth) ?? '-' }}</td>
+          <td>{!! ($pending->DateofBirth != $staff->DateofBirth)? nice_date($pending->DateofBirth) : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
 
@@ -84,6 +111,41 @@
         </tr>
 
         <tr>
+          <td>Religion</td>
+          <td>{{ $staff->religion->Religion ?? '-' }}</td>
+          <td>{!! ($pending->ReligionID != $staff->ReligionID)? $pending->religion->Religion ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>Marital Status</td>
+          <td>{{ $staff->marital_status->MaritalStatus ?? '-' }}</td>
+          <td>{!! ($pending->MaritalStatusID != $staff->MaritalStatusID)? $pending->marital_status->MaritalStatus ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>No. Of Children</td>
+          <td>{{ $staff->NoofChildren ?? '-' }}</td>
+          <td>{!! ($pending->NoofChildren != $staff->NoofChildren)? $pending->NoofChildren : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>Office Location</td>
+          <td>{{ $staff->location->Location ?? '-' }}</td>
+          <td>{!! ($pending->LocationID != $staff->LocationID)? $pending->location->Location : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+         <tr>
+          <td>Residential Address</td>
+          <td>{{ $staff->AddressLine1 ?? '-' }}</td>
+          <td>{!! ($pending->AddressLine1 != $staff->AddressLine1)? $pending->AddressLine1 : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+        <tr>
           <td>City of Birth</td>
           <td>{{ $staff->CityOfBirth ?? '-' }}</td>
           <td>{!! ($pending->CityOfBirth != $staff->CityOfBirth)? $pending->CityOfBirth : '<em class="text-muted">Unchanged</em>' !!}</td>
@@ -96,12 +158,7 @@
           <td>{!! ($pending->CountryOfOrigin != $staff->CountryOfOrigin)? $pending->country_of_origin->Country ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
-        <tr>
-          <td>Religion</td>
-          <td>{{ $staff->religion->Religion ?? '-' }}</td>
-          <td>{!! ($pending->ReligionID != $staff->ReligionID)? $pending->religion->Religion ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
-          <td></td>
-        </tr>
+        
         <tr>
           <td>HMO</td>
           <td>{{ $staff->HMOID ?? '-' }}</td>
@@ -114,18 +171,8 @@
           <td>{!! ($pending->HMONumber != $staff->HMONumber)? $pending->HMONumber : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
-        <tr>
-          <td>No. Of Children</td>
-          <td>{{ $staff->NoofChildren ?? '-' }}</td>
-          <td>{!! ($pending->NoofChildren != $staff->NoofChildren)? $pending->NoofChildren : '<em class="text-muted">Unchanged</em>' !!}</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Marital Status</td>
-          <td>{{ $staff->marital_status->MaritalStatus ?? '-' }}</td>
-          <td>{!! ($pending->MaritalStatusID != $staff->MaritalStatusID)? $pending->marital_status->MaritalStatus ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
-          <td></td>
-        </tr>
+        
+        
         <tr>
           <td>Spouse Surname</td>
           <td>{{ $staff->SpouseSurname ?? '-' }}</td>
@@ -138,36 +185,15 @@
           <td>{!! ($pending->SpouseOthername != $staff->SpouseOthername)? $pending->SpouseOthername : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
-        <tr>
-          <td>Date of Birth</td>
-          <td>{{ nice_date($staff->DateofBirth) ?? '-' }}</td>
-          <td>{!! ($pending->DateofBirth != $staff->DateofBirth)? nice_date($pending->DateofBirth) : '<em class="text-muted">Unchanged</em>' !!}</td>
-          <td></td>
-        </tr>
+       
         <tr>
           <td>Home Phone</td>
           <td>{{ $staff->HomePhone ?? '-' }}</td>
           <td>{!! ($pending->HomePhone != $staff->HomePhone)? $pending->HomePhone : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
-        <tr>
-          <td>Employment Date</td>
-          <td>{{ nice_date($staff->EmploymentDate) ?? '-' }}</td>
-          <td>{!! ($pending->EmploymentDate != $staff->EmploymentDate)? nice_date($pending->EmploymentDate) : '<em class="text-muted">Unchanged</em>' !!}</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Confirmation Date</td>
-          <td>{{ nice_date($staff->ConfirmationDate) ?? '-' }}</td>
-          <td>{!! ($pending->ConfirmationDate != $staff->ConfirmationDate)? nice_date($pending->ConfirmationDate) : '<em class="text-muted">Unchanged</em>' !!}</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Residential Address</td>
-          <td>{{ $staff->AddressLine1 ?? '-' }}</td>
-          <td>{!! ($pending->AddressLine1 != $staff->AddressLine1)? $pending->AddressLine1 : '<em class="text-muted">Unchanged</em>' !!}</td>
-          <td></td>
-        </tr>
+        
+       
         <tr>
           <td>Next Of Kin</td>
           <td>{{ $staff->NextofKIN ?? '-' }}</td>
@@ -216,7 +242,7 @@
           <td>{!! ($pending->Beneficiary_Address != $staff->Beneficiary_Address)? $pending->Beneficiary_Address : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td> --}}
         </tr>
-        <tr>
+        {{-- <tr>
           <td>University Attended (1st Degree)</td>
           <td>{{ $staff->UniversityAttended1 ?? '-' }}</td>
           <td>{!! ($pending->UniversityAttended1 != $staff->UniversityAttended1)? $pending->UniversityAttended1 : '<em class="text-muted">Unchanged</em>' !!}</td>
@@ -233,8 +259,44 @@
           <td>{{ $staff->UniversityAttended3 ?? '-' }}</td>
           <td>{!! ($pending->UniversityAttended3 != $staff->UniversityAttended3)? $pending->UniversityAttended3 : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
-        </tr>
+        </tr> --}}
         <tr>
+          <td colspan="3" class="text-center">Educational Qualification</td>
+        </tr>
+        <thead>
+          <th>Qualification</th>
+          <th>Date Obtained</th>
+          <th></th>
+        </thead>
+        <tbody>
+          @foreach($qualifications as  $qv)
+          <tr>
+            <td>{{ $qv->Qualification }}</td>
+            <td>{{ nice_date($qv->DateObtained) }}</td>
+            <td></td>
+          </tr>
+          @endforeach
+        </tbody>
+        {{--  --}}
+        <tr>
+          <td colspan="3" class="text-center">Institutions Attended</td>
+        </tr>
+        <thead>
+          <th>Institution Attended</th>
+          <th>Qualitification Obtained</th>
+          <th>Date Obtained</th>
+        </thead>
+        <tbody>
+          @foreach($institutions as $vi)
+          <tr>
+            <td>{{ $vi->Institution }}</td>
+            <td>{{ $vi->QualificationObtained }}</td>
+            <td>{{ nice_date($vi->DateObtained) }}</td>
+          </tr>
+          @endforeach
+        </tbody>
+        {{--  --}}
+        {{-- <tr>
           <td>Professional Qualification (1st Degree)</td>
           <td>{{ $staff->ProfessionalQualification1 ?? '-' }}</td>
           <td>{!! ($pending->ProfessionalQualification1 != $staff->ProfessionalQualification1)? $pending->ProfessionalQualification1 : '<em class="text-muted">Unchanged</em>' !!}</td>
@@ -251,7 +313,7 @@
           <td>{{ $staff->ProfessionalQualification3 ?? '-' }}</td>
           <td>{!! ($pending->ProfessionalQualification3 != $staff->ProfessionalQualification3)? $pending->ProfessionalQualification3 : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
-        </tr>
+        </tr> --}}
         <tr>
           <td>NYSC Year</td>
           <td>{{ $staff->NYSCYear ?? '-' }}</td>

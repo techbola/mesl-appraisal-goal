@@ -213,12 +213,14 @@ class StaffController extends Controller
 
     public function pending_biodata($id)
     {
-        $user     = auth()->user();
-        $pending  = StaffPending::find($id);
-        $staff    = Staff::find($pending->user->staff->StaffRef);
-        $pending2 = StaffPending::where('id', $id)->get(['MobilePhone', 'EmployeeNumber']);
+        $user           = auth()->user();
+        $pending        = StaffPending::find($id);
+        $staff          = Staff::find($pending->user->staff->StaffRef);
+        $pending2       = StaffPending::where('id', $id)->get(['MobilePhone', 'EmployeeNumber']);
+        $qualifications = Qualification::where('StaffID', $staff->StaffRef)->get();
+        $institutions   = Institution::where('StaffID', $staff->StaffRef)->get();
 
-        return view('staff.pending_biodata', compact('user', 'pending', 'staff', 'pending2'));
+        return view('staff.pending_biodata', compact('user', 'pending', 'staff', 'pending2', 'qualifications', 'institutions'));
     }
 
     public function approve_biodata($id)
