@@ -493,349 +493,359 @@
         </div>
     </div>
     
-      <div class="container">
-                <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"       aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <br>
-                            <div class="modal-header">
-                                <h3 class="modal-title" id="exampleModalCenterTitle"><strong>Edit Travel Request</strong></h3>
-                            </div>
-                            <br>
-                            <div class="modal-body">
-                            <form action="" method="POST" id="form-edit">
-                                    {{ csrf_field() }}
-                                    <input type="hidden" id="TravelRef" name="TravelRef" value="">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <div class="controls">
-                                                        {{ Form::label('TravelType', 'Travel Type' ) }}
-                                                        <select name="TravelType" class="full-width" data-init-plugin="select2" id="travel_type_edit"  onchange="edit_travel_type()">
-                                                            <option value="">Select Travel Type</option>
-                                                            <option value="1">Local</option>
-                                                            <option value="2">International</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+    <div class="container">
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"       aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <br>
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalCenterTitle"><strong>Edit Travel Request</strong></h3>
+                    </div>
+                    <br>
+                    <div class="modal-body">
+                    <form action="" method="POST" id="form-edit">
+                            {{ csrf_field() }}
+                            <input type="hidden" id="TravelRef" name="TravelRef" value="">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                {{ Form::label('TravelType', 'Travel Type' ) }}
+                                                <select name="TravelType" class="full-width" data-init-plugin="select2" id="travel_type_edit"  onchange="edit_travel_type()">
+                                                    <option value="">Select Travel Type</option>
+                                                    <option value="1">Local</option>
+                                                    <option value="2">International</option>
+                                                </select>
                                             </div>
+                                        </div>
+                                    </div>
 
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <div class="controls">
-                                                        <div class="travel_from_state hide">
-                                                            <label for="TravelFromState">Travel From</label>
-                                                            <select name="TravelFromState" class="full-width travel_from_state" style="display: none" data-init-plugin="select2" id="travel_from1" onchange="">
-                                                                @foreach($states as $state)
-                                                                    <option value="{{ $state->StateRef }}">{{ $state->State }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-    
-                                                        <div class="travel_from_country hide">
-                                                            <label for="TravelFromCountry">Travel From</label>
-                                                            <select name="TravelFromCountry" class="full-width travel_from_country" style="display: none" data-init-plugin="select2" id="travel_from2" onchange="">
-                                                                @foreach($states as $state)
-                                                                    <option value="{{ $state->StateRef }}">{{ $state->State }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                <div class="travel_from_state hide">
+                                                    <label for="TravelFromState">Travel From</label>
+                                                    <select name="TravelFromState" class="full-width travel_from_state" style="display: none" data-init-plugin="select2" id="travel_from1" onchange="">
+                                                        @foreach($states as $state)
+                                                            <option value="{{ $state->StateRef }}">{{ $state->State }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <div class="controls">
-                                                        <div class="travel_to_state hide">
-                                                            <label for="TravelTo">Travel To</label>
-                                                            <select name="TravelToState" class="full-width travel_to_state" style="display: none" data-init-plugin="select2" id="travel_to1" onchange="">
-                                                                @foreach($states as $state)
-                                                                    <option value="{{ $state->StateRef }}">{{ $state->State }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                
-                                                        <div class="travel_to_country hide">
-                                                            <label for="TravelToCountry">Travel To</label>
-                                                            <select name="TravelToCountry" class="full-width travel_to_country" style="display: none" data-init-plugin="select2" id="travel_to2" onchange="">
-                                                                @foreach($countries as $country)
-                                                                    <option value="{{ $country->CountryRef }}">{{ $country->Country }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                <div class="travel_from_country hide">
+                                                    <label for="TravelFromCountry">Travel From</label>
+                                                    <select name="TravelFromCountry" class="full-width travel_from_country" style="display: none" data-init-plugin="select2" id="travel_from2" onchange="">
+                                                        @foreach($states as $state)
+                                                            <option value="{{ $state->StateRef }}">{{ $state->State }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
-                                    
-                                            <br>
-                                    
-                                        <div class="row">
-                                             <div class="col-sm-3">
-                                    <div class="form-group">
-                                    {{ Form::label('DepartureDate', 'Departure Date' ) }}
-                                    <div class="input-group date dp">
-                                        {{ Form::text('DepartureDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Departure Date', 'required', 'id' => 'departure_date_edit']) }}
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                <div class="travel_to_state hide">
+                                                    <label for="TravelTo">Travel To</label>
+                                                    <select name="TravelToState" class="full-width travel_to_state" style="display: none" data-init-plugin="select2" id="travel_to1" onchange="">
+                                                        @foreach($states as $state)
+                                                            <option value="{{ $state->StateRef }}">{{ $state->State }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                        
+                                                <div class="travel_to_country hide">
+                                                    <label for="TravelToCountry">Travel To</label>
+                                                    <select name="TravelToCountry" class="full-width travel_to_country" style="display: none" data-init-plugin="select2" id="travel_to2" onchange="">
+                                                        @foreach($countries as $country)
+                                                            <option value="{{ $country->CountryRef }}">{{ $country->Country }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                    <br>
+                            
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                {{ Form::label('DepartureDate', 'Departure Date') }}
+                                                <div class="input-group">
+                                                    {{ Form::Date('DepartureDate', null, ['class' => 'form-control', 'id' => 'departure_date', 'placeholder' => 'Departure Date', 'required']) }}
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar">
+                                                        </i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                {{ Form::label('DepartureTime', 'Departure Time' ) }}
+                                                {{ Form::time('DepartureTime', null, ['class' => 'form-control', 'id' => 'departure_time', 'placeholder' => 'Departure Time']) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                {{ Form::label('ArrivalDate', 'Arrival Date') }}
+                                                <div class="input-group">
+                                                    {{ Form::Date('ArrivalDate', null, ['class' => 'form-control', 'id' => 'arrival_date', 'placeholder' => 'Arrival Date', 'required']) }}
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar">
+                                                        </i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                {{ Form::label('ArrivalTime', 'Arrival Time' ) }}
+                                                {{ Form::time('ArrivalTime', null, ['class' => 'form-control', 'id' => 'arrival_time', 'placeholder' => 'Arrival Time']) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <br>
+                            
+                                <div class="row">
+                        
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                {{ Form::label('Purpose', 'Travel Purpose' ) }}
+                                                <select name="Purpose" class="full-width" data-init-plugin="select2" id="travel_purpose1" onchange="">
+                                                    <option value=" ">Select Travel Purpose</option>
+                                                    <option value="1">Training</option>
+                                                    <option value="2">Conference</option>
+                                                    <option value="3">Meeting</option>
+                                                    <option value="4">Vacation</option>
+                                                    <option value="5">Medical</option>
+                                                    <option value="6">Systems Review</option>
+                                                    <option value="7">Study Tour</option>
+                                                    <option value="8">Feasibility Study</option>
+                                                    <option value="9">Recruitment</option>
+                                                    <option value="10">Business Development</option>
+                                                    <option value="11">Awards</option>
+                                                    <option value="12">Interviews</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="controls">
+                                            <div class="form-group">
+                                                {{ Form::label('PurposeDescription', 'Purpose Description' ) }}
+                                                {{ Form::textarea('PurposeDescription', null, ['class' => 'form-control', 'id' => 'purpose_description', 'placeholder' => 'Purpose Description', 'rows'=> '1']) }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="controls">
-                                                        {{ Form::label('DepartureTime', 'Departure Time' ) }}
-                                                        {{ Form::time('DepartureTime', null, ['class' => 'form-control', 'id' => 'departure_time', 'placeholder' => 'Departure Time']) }}
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <br>
 
-                                            <div class="col-sm-3">
-                                    <div class="form-group">
-                                    {{ Form::label('ArrivalDate', 'Arrival Date' ) }}
-                                    <div class="input-group date dp3 dp4">
-                                        {{ Form::text('ArrivalDate', null, ['class' => 'form-control', 'placeholder' => 'Arrival Date', 'required', 'id' => 'arrival_date_edit']) }}
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="controls">
+                                            <div class="form-group">
+                                                {{ Form::label('TravelMode', 'Travel mode' ) }}
+                                                <select name="TravelMode" class="full-width" data-init-plugin="select2" id="travel_mode1" onchange="">
+                                                    <option value=" ">Select Travel Mode</option>
+                                                    @foreach($travelmodes as $travelmode)
+                                                        <option value="{{ $travelmode->TravelModeRef }}">{{ $travelmode->TravelMode }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <div class="controls">
+                                            <div class="form-group">
+                                                {{ Form::label('PreferredTransporter', 'Preffered Transporter' ) }}
+                                                <select name="PreferredTransporter" class="full-width" data-init-plugin="select2" id="preferred_transporter" onchange="">
+                                                        <option value=" ">Select Transport Type</option>
+                                                    @foreach($transports as $transport)
+                                                        <option value="{{ $transport->TransporterRef }}">{{ $transport->Transporter }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="controls">
+                                            <div class="form-group">
+                                                {{ Form::label('OtherTransporter', 'Other Transporter' ) }}
+                                                {{ Form::textarea('OtherTransporter', null, ['class' => 'form-control', 'id' => 'other_transporter', 'placeholder' => 'Other Transporter', 'rows'=> '1']) }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="controls">
-                                                        {{ Form::label('ArrivalTime', 'Arrival Time' ) }}
-                                                        {{ Form::time('ArrivalTime', null, ['class' => 'form-control', 'id' => 'arrival_time', 'placeholder' => 'Arrival Time']) }}
-                                                    </div>
-                                                </div>
+
+                                <br>
+                            
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="controls">
+                                            <div class="form-group">
+                                                {{ Form::label('Lodging', 'Lodging' ) }}
+                                                <select name="Lodging" class="full-width" data-init-plugin="select2" id="lodging" onchange="">
+                                                    <option value=" ">Preffered Lodge Type</option>
+                                                    @foreach($lodges as $lodge)
+                                                        <option value="{{ $lodge->TravelLodgeRef }}">{{ $lodge->TravelLodge }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
-                                            <br>
-                                    
-                                        <div class="row">
-                                
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <div class="controls">
-                                                        {{ Form::label('Purpose', 'Travel Purpose' ) }}
-                                                        <select name="Purpose" class="full-width" data-init-plugin="select2" id="travel_purpose1" onchange="">
-                                                            <option value=" ">Select Travel Purpose</option>
-                                                            <option value="1">Training</option>
-                                                            <option value="2">Conference</option>
-                                                            <option value="3">Meeting</option>
-                                                            <option value="4">Vacation</option>
-                                                            <option value="5">Medical</option>
-                                                            <option value="6">Systems Review</option>
-                                                            <option value="7">Study Tour</option>
-                                                            <option value="8">Feasibility Study</option>
-                                                            <option value="9">Recruitment</option>
-                                                            <option value="10">Business Development</option>
-                                                            <option value="11">Awards</option>
-                                                            <option value="12">Interviews</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    </div>
 
-                                            <div class="col-md-6">
-                                                <div class="controls">
-                                                    <div class="form-group">
-                                                        {{ Form::label('PurposeDescription', 'Purpose Description' ) }}
-                                                        {{ Form::textarea('PurposeDescription', null, ['class' => 'form-control', 'id' => 'purpose_description', 'placeholder' => 'Purpose Description', 'rows'=> '1']) }}
-                                                    </div>
-                                                </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                {{ Form::label('DestinationAddress', 'Destination Address' ) }}
+                                                {{ Form::textarea('DestinationAddress', null, ['class' => 'form-control', 'id' => 'destination_address', 'placeholder' => 'Destination Address', 'rows'=> '2']) }}
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <br>
-    
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="controls">
-                                                    <div class="form-group">
-                                                        {{ Form::label('TravelMode', 'Travel mode' ) }}
-                                                        <select name="TravelMode" class="full-width" data-init-plugin="select2" id="travel_mode1" onchange="">
-                                                            <option value=" ">Select Travel Mode</option>
-                                                            @foreach($travelmodes as $travelmode)
-                                                                <option value="{{ $travelmode->TravelModeRef }}">{{ $travelmode->TravelMode }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="controls">
-                                                    <div class="form-group">
-                                                        {{ Form::label('PreferredTransporter', 'Preffered Transporter' ) }}
-                                                        <select name="PreferredTransporter" class="full-width" data-init-plugin="select2" id="preferred_transporter" onchange="">
-                                                                <option value=" ">Select Transport Type</option>
-                                                            @foreach($transports as $transport)
-                                                                <option value="{{ $transport->TransporterRef }}">{{ $transport->Transporter }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="controls">
-                                                    <div class="form-group">
-                                                        {{ Form::label('OtherTransporter', 'Other Transporter' ) }}
-                                                        {{ Form::textarea('OtherTransporter', null, ['class' => 'form-control', 'id' => 'other_transporter', 'placeholder' => 'Other Transporter', 'rows'=> '1']) }}
-                                                    </div>
-                                                </div>
+                                    {{-- <div class="col-md-3">
+                                        <div class="controls">
+                                            <div class="form-group">
+                                                {{ Form::label('Approver', 'Approver' ) }}
+                                                <select name="Approver" class="full-width" data-init-plugin="select2" id="approver" onchange="">
+                                                    <option value=" ">Select Approver</option>
+                                                    @foreach($staffs as $staff)
+                                                        <option value="{{ $staff->StaffRef }}">{{ $staff->FullName }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
+                                    </div> --}}
 
-
-                                        <br>
-                                    
-    
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="controls">
-                                                    <div class="form-group">
-                                                        {{ Form::label('Lodging', 'Lodging' ) }}
-                                                        <select name="Lodging" class="full-width" data-init-plugin="select2" id="lodging" onchange="">
-                                                            <option value=" ">Preffered Lodge Type</option>
-                                                            @foreach($lodges as $lodge)
-                                                                <option value="{{ $lodge->TravelLodgeRef }}">{{ $lodge->TravelLodge }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="controls">
-                                                        {{ Form::label('DestinationAddress', 'Destination Address' ) }}
-                                                        {{ Form::textarea('DestinationAddress', null, ['class' => 'form-control', 'id' => 'destination_address', 'placeholder' => 'Destination Address', 'rows'=> '2']) }}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {{-- <div class="col-md-3">
-                                                <div class="controls">
-                                                    <div class="form-group">
-                                                        {{ Form::label('Approver', 'Approver' ) }}
-                                                        <select name="Approver" class="full-width" data-init-plugin="select2" id="approver" onchange="">
-                                                            <option value=" ">Select Approver</option>
-                                                            @foreach($staffs as $staff)
-                                                                <option value="{{ $staff->StaffRef }}">{{ $staff->FullName }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
-
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="controls">
-                                                        {{ Form::label('ReferenceLetter', 'Reference Letter' ) }}
-                                                        {{ Form::file('ReferenceLetter', null, ['class' => 'form-control', 'id' => 'reference_letter1', 'placeholder' => 'Upload Reference Letter', 'rows'=> '2']) }}
-                                                    </div>
-                                                </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="controls">
+                                                {{ Form::label('ReferenceLetter', 'Reference Letter' ) }}
+                                                {{ Form::file('ReferenceLetter', null, ['class' => 'form-control', 'id' => 'reference_letter1', 'placeholder' => 'Upload Reference Letter', 'rows'=> '2']) }}
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
 
-                                            <div class="card-section p-l-5">List Of Travellers</div>
-                                            <div class="">
-                                                <div class="btn-group" data-toggle="buttons" style="position: relative;">
-                                                    <label class="btn staff_option_label btn-complete active">
-                                                    <input type="radio" name="staff_options" id="staff_option" checked> Staff
-                                                    </label>
-                                                    <label class="btn staff_option_label btn-complete">
-                                                    <input type="radio" name="staff_options" id="non_staff_option"> Non Staff
-                                                    </label>
-                                                </div> <br> <br>
+                                    <div class="card-section p-l-5">List Of Travellers</div>
+                                    <div class="">
+                                        <div class="btn-group" data-toggle="buttons" style="position: relative;">
+                                            <label class="btn staff_option_label btn-complete active">
+                                            <input type="radio" name="staff_options" id="staff_option" checked> Staff
+                                            </label>
+                                            <label class="btn staff_option_label btn-complete">
+                                            <input type="radio" name="staff_options" id="non_staff_option"> Non Staff
+                                            </label>
+                                        </div> <br> <br>
 
-                                                <div class="travellers-wrapper">
-                                                    <div class="staff_option_template">
-                                                        <div class="row">
-                                                            <div class="col-sm-3">
-                                                                <div class="form-group">
-                                                                        <label for="TravellerStaffID">Select Staff</label>
-                                                                    {{ Form::select('TravellerStaffID[]', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'StaffRef')->toArray(), null, ['class'=> "form-control full-width select2", 'id' => 'full_name', 'data-init-plugin' => "select2"]) }}
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-3">
-                                                                
-                                                                <div class="form-group">
-                                                                        <label for="TravellerCompany">Company</label>
-                                                                    {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'id' => 'company_name', 'placeholder' => 'Enter Company\'s Name' ]) }}
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-3 ">
-                                                                <div class="form-group">
-                                                                        <label for="TravellerPhone">Phone</label>
-                                                                    {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control",'id' => 'staff_phone_number', 'placeholder' => 'Enter Phone Number','minlength' => 11, 'maxlength' => 11, 'pattern'=> "\d+"]) }}
-                                                                </div>
-                                                            </div>
-
-
-
-                                                        </div>
-                                                        <div class="to-be-inserted"></div>
+                                        <div class="travellers-wrapper">
+                                            <div class="staff_option_template">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
                                                         <div class="form-group">
-                                                                    <button type="button" style="margin-left: 7px"  class="add_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
-                                                                </div>
-                                                    </div>  
-
-                                                    <div class="non_staff_option_template">
-                                                        <div class="row">
-                                                            <div class="col-sm-3">
-                                                                
-                                                                <div class="form-group">
-                                                                        <label for="TravellerFullName">FullName</label>
-                                                                    {{ Form::text('TravellerFullName[]', null, ['class'=> "form-control",'id' => 'non_staff_name', 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-3">
-                                                                
-                                                                <div class="form-group">
-                                                                        <label for="TravellerCompany">Company</label>
-                                                                    {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control",'id' => 'non_staff_company', 'placeholder' => 'Enter Company\'s Name' ]) }}
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-sm-3 ">
-                                                                <div class="form-group">
-                                                                        <label for="TravellerPhone">Phone</label>
-                                                                    {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control",'id' => 'non_staff_number', 'placeholder' => 'Enter Phone Number', 'minlength' => 11, 'maxlength' => 11,  'pattern'=> "\d+"]) }}
-                                                                </div>
-                                                            </div>
-
+                                                                <label for="TravellerStaffID">Select Staff</label>
+                                                            {{ Form::select('TravellerStaffID[]', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'StaffRef')->toArray(), null, ['class'=> "form-control full-width select2", 'id' => 'full_name', 'data-init-plugin' => "select2"]) }}
                                                         </div>
-                                                        <div class="to-be-inserted"></div>
-                                                        <div class="form-group">
-                                                                    <button type="button" style="margin-left: 7px"  class="add_non_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
-                                                                </div>
                                                     </div>
+
+                                                    <div class="col-sm-3">
                                                         
-                                                </div>
-                                            </div>
+                                                        <div class="form-group">
+                                                                <label for="TravellerCompany">Company</label>
+                                                            {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'id' => 'company_name', 'placeholder' => 'Enter Company\'s Name' ]) }}
+                                                        </div>
+                                                    </div>
 
-                                        
-    
-                                            <br>
-                                    
-                                        <div class="row">
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Submit changes</button>
+                                                    <div class="col-sm-3 ">
+                                                        <div class="form-group">
+                                                                <label for="TravellerPhone">Phone</label>
+                                                            {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control",'id' => 'staff_phone_number', 'placeholder' => 'Enter Phone Number','minlength' => 11, 'maxlength' => 11, 'pattern'=> "\d+"]) }}
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div class="to-be-inserted"></div>
+                                                <div class="form-group">
+                                                            <button type="button" style="margin-left: 7px"  class="add_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
+                                                        </div>
+                                            </div>  
+
+                                            <div class="non_staff_option_template">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        
+                                                        <div class="form-group">
+                                                                <label for="TravellerFullName">FullName</label>
+                                                            {{ Form::text('TravellerFullName[]', null, ['class'=> "form-control",'id' => 'non_staff_name', 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-3">
+                                                        
+                                                        <div class="form-group">
+                                                                <label for="TravellerCompany">Company</label>
+                                                            {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control",'id' => 'non_staff_company', 'placeholder' => 'Enter Company\'s Name' ]) }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-3 ">
+                                                        <div class="form-group">
+                                                                <label for="TravellerPhone">Phone</label>
+                                                            {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control",'id' => 'non_staff_number', 'placeholder' => 'Enter Phone Number', 'minlength' => 11, 'maxlength' => 11,  'pattern'=> "\d+"]) }}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="to-be-inserted"></div>
+                                                <div class="form-group">
+                                                            <button type="button" style="margin-left: 7px"  class="add_non_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
+                                                        </div>
                                             </div>
+                                                
                                         </div>
-                                </form>
-                            </div>
-                        </div>
+                                    </div>
+
+                                
+
+                                    <br>
+                            
+                                <div class="row">
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Submit changes</button>
+                                    </div>
+                                </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
       <!-- Modal -->
       
       

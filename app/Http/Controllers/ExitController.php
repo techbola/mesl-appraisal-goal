@@ -3,6 +3,16 @@
 namespace MESL\Http\Controllers;
 
 use Illuminate\Http\Request;
+use MESL\ExitInterview;
+use MESL\ExitReason;
+use MESL\RelocationReason;
+use MESL\EmploymentReason;
+use MESL\Options;
+use MESL\Obligation;
+use MESL\Department;
+use MESL\User;
+use DB;
+use Auth;
 
 class ExitController extends Controller
 {
@@ -13,7 +23,62 @@ class ExitController extends Controller
      */
     public function index()
     {
-        return view('exit.create');
+        $exits = ExitInterview::Orderby('ExitInterviewRef', 'DESC')->get();
+        $exitreasons = ExitReason::all();
+        $relocation = RelocationReason::all();
+        $employmentreason = EmploymentReason::all();
+        $option = Options::all();
+        $obligation = Obligation::all();
+        $department = Department::all();
+        // $hr = DB::table('role_user')->where('user_id', Auth::id())->get();
+        $hr = User::whereHas('roles', function($q){
+            $q->where('id', '38');
+        })->get();
+        return view('exit.create', compact('exitreasons', 'relocation', 'employmentreason', 'option', 'obligation', 'department', 'hr', 'exits'));
+    }
+
+    public function store_exit_interview(Request $request)
+    {
+        $exit = new ExitInterview($request->all());
+
+        if($exit->save()) {
+            $data = [
+                'status'    => 'success',
+                'message'   => 'Exit Interview was created successfully!'
+            ];
+        }else{
+            $data = [
+                'status'    => 'error',
+                'message'   =>  'Exit Interview was not successful!'
+            ];
+        }
+
+        return redirect()->route('StoreExitInterview')->with($data['status'], $data['message']);
+        
+    }
+
+    public function edit_exit_interview($id)
+    {
+        $exitinterview = ExitInterview::where('ExitInterviewRef', $id)->first();
+        return response()->json($exitinterview);
+    }
+
+    public function delete_exit_interview($id)
+    {
+        $exitinterview = ExitInterview::where("ExitInterviewRef", $id);
+
+        $exitinterview->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function update_exit_interview(Request $request)
+    {
+        $exitinterview = ExitInterview::find($request->ExitInterviewRef);
+
+        $exitinterview->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
     }
 
     /**

@@ -42,7 +42,7 @@
 
   <div class="col-md-4">
     <div class="form-group">
-      {{ Form::label('course_pass_mark', 'Pass Mark' ) }}
+      {{ Form::label('course_pass_mark', 'Pass Mark (in percentage)' ) }}
       {{ Form::number('course_pass_mark', null, ['class' => 'form-control','id'=>'cover_page', 'placeholder' => 'Enter Pass mark', 'required']) }}
     </div>
   </div>

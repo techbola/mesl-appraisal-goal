@@ -12,9 +12,9 @@ class DocType extends Model
     public $timestamps = false;
 
 
-    public function doc_category()
+    public function category()
     {
-        return $this->belongsTo(DocCategory::class, 'DocCategoryID');
+        return $this->belongsTo(DocCategory::class, 'DocCategory');
     }
 
     public function staff_company()
