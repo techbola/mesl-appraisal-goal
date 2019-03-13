@@ -179,6 +179,75 @@ class DocTypeController extends Controller
 
     public function doc_category()
     {
-        return view('documents.doc_category');
+        $doccategories = DocCategory::Orderby('DocCategoryRef', 'DESC')->get();
+        return view('documents.doc_category', compact('doccategories'));
+    }
+
+    public function store_doccategory(Request $request)
+    {
+        $doc_category = new DocCategory($request->all());
+
+        if($doc_category->save()) {
+            $data = [
+                'status'    => 'success',
+                'message'   => 'Category was created successfully!'
+            ];
+        }else{
+            $data = [
+                'status'    => 'error',
+                'message'   =>  'Category creation was not successful!'
+            ];
+        }
+
+        return redirect()->route('StoreDocCat')->with($data['status'], $data['message']);
+    }
+
+    public function edit_doc_category($id)
+    {
+        $doccategory = DocCategory::where("DocCategoryRef", $id)->first();
+
+        return response()->json($doccategory);
+    }
+
+    public function delete_doc_category($id)
+    {
+        $doccategory = DocCategory::where("DocCategoryRef", $id);
+
+        $doccategory->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function update_doc_category(Request $request)
+    {
+        $doccategory = DocCategory::find($request->DocCategoryRef);
+
+        $doccategory->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function edit_doc_type($id)
+    {
+        $doctype = Doctype::where('DocTypeRef', $id)->first();
+        return response()->json($doctype);
+    }
+
+    public function delete_doc_type($id)
+    {
+        $doctype = DocType::where("DocTypeRef", $id);
+
+        $doctype->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function update_doc_type(Request $request)
+    {
+        $doctype = DocType::find($request->DocTypeRef);
+
+        $doctype->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
     }
 }

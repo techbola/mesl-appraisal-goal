@@ -21,20 +21,19 @@
 @section('content')
 
     <div class="card-box">
-        <div class="card-title">Sub Category</div>
+        <div class="card-title">Leave Type</div>
 
-        <form action="{{ route('StoreDocCat') }}" method="POST" class="form">
+        <form action="{{ route('StoreLeaveType') }}" method="POST" class="form">
             {{ csrf_field() }}
             <div class="row">
                 <div class="col-md-12">
                     <div class="controls">
                         <div class="form-group">
-                            {{ Form::label('DocCategory', 'Document Category' ) }}
-                            {{ Form::text('DocCategory', null, ['class' => 'form-control', 'placeholder' => 'Enter Document Category', 'required']) }}
+                            {{ Form::label('LeaveType', 'Leave Type' ) }}
+                            {{ Form::text('LeaveType', null, ['class' => 'form-control', 'placeholder' => 'Enter Leave Type', 'required']) }}
                         </div>
                     </div>
                 </div>
-    
             </div>
     
             <div class="row">
@@ -48,21 +47,19 @@
 
     {{-- Table --}}
     <div class="card-box">
-        <div class="card-title">Categories</div>
+        <div class="card-title">Entries</div>
         <table class="table tableWithSearch table-bordered">
             <thead>
-                <th width="10%">Document Category</th>
-                <th width="15%">Date Created</th>
+                <th width="10%">Leave Type</th>
                 <th width="15%">Action</th>
             </thead>
             <tbody>
-                @foreach($doccategories as $doccategory)
+                @foreach($leavetypes as $leavetype)
                     <tr>
-                        <td>{{$doccategory->DocCategory}}</td>
-                        <td>{{$doccategory->created_at}}</td>
+                        <td>{{$leavetype->LeaveType}}</td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="edit_doccategory( {{$doccategory->DocCategoryRef}})" data-toggle="modal" data-target="#exampleModal">Edit</button>
-                            <a href="{{ route('delete_doc_category', $doccategory->DocCategoryRef) }}" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                            <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_leavetype( {{$leavetype->LeaveTypeRef}})" data-toggle="modal" data-target="#exampleModal">Edit</button>
+                            <a href="#" onclick="deleteItem('{{$leavetype->LeaveTypeRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                         </td>
                      </tr>
                 @endforeach
@@ -75,22 +72,22 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit Document Category</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Edit Leave Type</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <hr>
             <div class="modal-body">
-                <form action="" method="POST" class="form-edit">
-                    <input type="hidden" id="DocCategoryRef" name="DocCategoryRef" value="">
+                <form action="" method="POST" id="form-edit">
+                    <input type="hidden" id="LeaveTypeRef" name="LeaveTypeRef">
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="controls">
                                 <div class="form-group">
-                                    {{ Form::label('DocCategory', 'Document Sub Category' ) }}
-                                    {{ Form::text('DocCategory', null, ['class' => 'form-control', 'id' => 'doc_category', 'placeholder' => 'Enter doc Category', 'required']) }}
+                                    {{ Form::label('LeaveType', 'Leave Type' ) }}
+                                    {{ Form::text('LeaveType', null, ['class' => 'form-control', 'id' => 'leave_type', 'placeholder' => 'Edit Leave Type', 'required']) }}
                                 </div>
                             </div>
                         </div>
@@ -117,16 +114,34 @@
 
 <script>
 
-    function edit_doccategory(id)
+    function edit_leavetype(id)
     {
-            $.get('/edit_doc_category/'+id, function(data, status) {
+            $.get('/edit_leave_type/'+id, function(data, status) {
 
-            $('#doc_category').val(data.DocCategory);
+            $('#LeaveTypeRef').val(data.LeaveTypeRef);
 
-            $('#DocCategoryRef').val(data.DocCategoryRef);
+            $('#leave_type').val(data.LeaveType);
 
-        $('#form-edit').prop('action', '/update_doc_category');    
+            $('#form-edit').prop('action', '/update_leave_type');
+            
         });
 
+    }
+
+    // delete alert function
+    function deleteItem(LeaveTypeRef){
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if(result == true){
+                window.location.href = "/leave_request/leave_type/"+LeaveTypeRef;
+            }
+        })
     }
 </script>

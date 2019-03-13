@@ -86,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
     Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
 
+    Route::get('/staff/exit_interview', 'StaffController@exit_interview');
     Route::post('staff/staff_onboard', 'StaffController@store_staff_onboard')->name('StoreStaff');
     Route::get('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
     Route::get('staff/staff_onboard/{id}', 'StaffController@delete_onboarding')->name('deleteOnboard');
@@ -244,8 +245,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor');
     Route::get('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
 
+    Route::get('leave_request/leave_type', 'LeaveRequestController@leave_type');
+
     Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
     Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');
+    
+    Route::post('leave_request/leave_type', 'LeaveRequestController@store_leavetype')->name('StoreLeaveType');
+
+    Route::get('edit_leave_type/{id}', 'LeaveRequestController@edit_leave_type')->name('edit_leave_type');
+
+    Route::get('leave_request/leave_type/{id}', 'LeaveRequestController@delete_leave_type')->name('delete_leave_type');
+    Route::post('update_leave_type', 'LeaveRequestController@update_leave_type')->name('updatedleavetype');
 
     //leave handover
     Route::get('leave_request/handover', 'LeaveRequestController@leave_handover')->name('LeaveHandover');
@@ -299,7 +309,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('docs');
 
     Route::resource('doctypes', 'DocTypeController');
-
+    Route::post('documents/doc_category', 'DocTypeController@store_doccategory')->name('StoreDocCat');
     Route::get('documents/doctype', 'DocTypeController@doctype');
     Route::post('documents/doctype', 'DocTypeController@store_doctype')->name('StoreDoctype');
     Route::get('documents/sub_category', 'DocTypeController@subcategory');
@@ -307,6 +317,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('document/sub_category/{id}', 'DocTypeController@delete_subcategory')->name('DeleteSub');
     Route::get('edit_sub_category/{id}', 'DocTypeController@edit_sub_category')->name('edit_sub_category');
     Route::get('documents/doc_category', 'DocTypeController@doc_category');
+    Route::get('edit_doc_category/{id}', 'DocTypeController@edit_doc_category')->name('edit_doc_category');
+    Route::get('documents/doc_category/{id}', 'DocTypeController@delete_doc_category')->name('delete_doc_category');
+    Route::post('update_doc_category', 'DocTypeController@update_doc_category')->name('updatedcategory');
+    Route::get('edit_doc_type/{id}', 'DocTypeController@edit_doc_type')->name('edit_doc_type');
+    Route::get('documents/doctype/{id}', 'DocTypeController@delete_doc_type')->name('delete_doc_type');
+    Route::post('update_doc_type', 'DocTypeController@update_doc_type')->name('updatedoctype');
+    
 
     Route::get('events', 'EventScheduleController@index')->name('events');
     Route::get('get_events', 'EventScheduleController@get_events')->name('get_events'); // AJAX
@@ -1323,3 +1340,12 @@ Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-ho
 Route::get('help/desk/complaints', 'HelpDeskController@index')->name('helpdesk_module');
 
 Route::get('/exit/create', 'ExitController@index');
+
+Route::post('exit/create', 'ExitController@store_exit_interview')->name('StoreExitInterview');
+
+Route::get('edit_exit_interview/{id}', 'ExitController@edit_exit_interview')->name('edit_exit_interview');
+
+Route::post('update_exit_interview', 'ExitController@update_exit_interview')->name('updateExit');
+
+Route::get('exit/create/{id}', 'ExitController@delete_exit_interview')->name('delete_exit_interview');
+

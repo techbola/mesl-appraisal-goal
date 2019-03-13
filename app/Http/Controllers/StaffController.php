@@ -822,4 +822,9 @@ class StaffController extends Controller
             return redirect()->back()->with('error', 'Please check the credentials well');
         }
     }
+
+    public function exit_interview()
+    {
+        return view('staff.exit_interview');
+    }
 }
