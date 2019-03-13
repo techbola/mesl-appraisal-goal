@@ -838,15 +838,15 @@ class LeaveRequestController extends Controller
     {
         $leavetype = new LeaveType($request->all());
 
-        if($leavetype->save()) {
+        if ($leavetype->save()) {
             $data = [
-                'status'    => 'success',
-                'message'   => 'Leave Type was created successfully!'
+                'status'  => 'success',
+                'message' => 'Leave Type was created successfully!',
             ];
-        }else{
+        } else {
             $data = [
-                'status'    => 'error',
-                'message'   =>  'Leave Type creation was not successful!'
+                'status'  => 'error',
+                'message' => 'Leave Type creation was not successful!',
             ];
         }
 
