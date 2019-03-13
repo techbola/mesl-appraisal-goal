@@ -8,6 +8,7 @@ use MESL\Staff;
 use MESL\CourseInstructor;
 use MESL\CourseBatch;
 use MESL\Question;
+use MESL\TestScore;
 use MESL\CourseMaterial;
 use MESL\ExamCollation;
 use Image;
@@ -436,38 +437,52 @@ class CourseController extends Controller
                 ->where('CustomerRef', $user_id)
                 ->get();
 
-            if (count($check_exam_collation) > 0) {
-
-                if (count($check_exam_collation) == $course_details->final_question_limit) {
-                    $get_result = ExamCollation::where('BatchRef', $batch_ref)
-                        ->where('CourseID', $course_ref)
-                        ->where('CustomerRef', $user_id)
-                        ->where('Status', 1)
-                        ->count();
-                } else {
-                    $question = Question::where('CourseID', $course_ref)
-                        ->whereNotIn('QuestionRef', $check_exam_collation->pluck('QuestionID')->toArray())
-                        ->inRandomOrder()
-                        ->first();
-                }
-
-            } else {
-                $question = Question::where('CourseID', $course_ref)
-                    ->inRandomOrder()
-                    ->first();
+            if (count($check_exam_collation) == $course_details->final_question_limit) {
                 $get_result = ExamCollation::where('BatchRef', $batch_ref)
                     ->where('CourseID', $course_ref)
                     ->where('CustomerRef', $user_id)
                     ->where('Status', 1)
                     ->count();
 
-                $details = [
-                    'question'     => $question,
-                    'total_result' => $get_result,
-                    'total'        => $check_exam_collation,
-                    'limit'        => $course_details->final_question_limit,
-                ];
+                $question = Question::where('CourseID', $course_ref)
+                    ->inRandomOrder()
+                    ->first();
+
+                $final = 1;
+
+                $pass_mark   = $course_details->course_pass_mark;
+                $unit_score  = 100 / $course_details->final_question_limit;
+                $final_score = $unit_score * $get_result;
+
+            } else {
+                $question = Question::where('CourseID', $course_ref)
+                    ->whereNotIn('QuestionRef', $check_exam_collation->pluck('QuestionID')->toArray())
+                    ->inRandomOrder()
+                    ->first();
+
+                $get_result = ExamCollation::where('BatchRef', $batch_ref)
+                    ->where('CourseID', $course_ref)
+                    ->where('CustomerRef', $user_id)
+                    ->where('Status', 1)
+                    ->count();
+
+                $final = 0;
+
+                $pass_mark   = $course_details->course_pass_mark;
+                $unit_score  = 100 / $course_details->final_question_limit;
+                $final_score = $unit_score * $get_result;
             }
+
+            $details = [
+                'question'     => $question,
+                'total_result' => $get_result,
+                'total'        => $check_exam_collation,
+                'limit'        => $course_details->final_question_limit,
+                'final'        => $final,
+                'pass_mark'    => $pass_mark,
+                'unit_score'   => $unit_score,
+                'final_score'  => $final_score,
+            ];
 
             \DB::commit();
             return response()->json($details)->setStatusCode(200);
@@ -511,30 +526,53 @@ class CourseController extends Controller
                         ->where('CustomerRef', $user_id)
                         ->where('Status', 1)
                         ->count();
+
                     $question = Question::where('CourseID', $course_ref)
                         ->inRandomOrder()
                         ->first();
+
                     $final = 1;
+
+                    $pass_mark   = $course_details->course_pass_mark;
+                    $unit_score  = 100 / $course_details->final_question_limit;
+                    $final_score = $unit_score * $get_result;
+
+                    $update_test              = new TestScore();
+                    $update_test->CustomerRef = $user_id;
+                    $update_test->CourseID    = $course_ref;
+                    $update_test->BatchID     = $batch;
+                    $update_test->Score       = $final_score;
+                    $update_test->save();
+
                 } else {
                     $question = Question::where('CourseID', $course_ref)
                         ->whereNotIn('QuestionRef', $check_exam_collation->pluck('QuestionID')->toArray())
                         ->inRandomOrder()
                         ->first();
-                    $final      = 0;
+
                     $get_result = ExamCollation::where('BatchRef', $batch)
                         ->where('CourseID', $course_ref)
                         ->where('CustomerRef', $user_id)
                         ->where('Status', 1)
                         ->count();
+
+                    $final = 0;
+
+                    $pass_mark   = $course_details->course_pass_mark;
+                    $unit_score  = 100 / $course_details->final_question_limit;
+                    $final_score = $unit_score * $get_result;
                 }
             }
 
             $details = [
                 'question'     => $question,
-                'final'        => $final,
                 'total_result' => $get_result,
                 'total'        => $check_exam_collation,
                 'limit'        => $course_details->final_question_limit,
+                'final'        => $final,
+                'pass_mark'    => $pass_mark,
+                'unit_score'   => $unit_score,
+                'final_score'  => $final_score,
             ];
 
             \DB::commit();
@@ -577,6 +615,42 @@ class CourseController extends Controller
 
             \DB::commit();
             return response()->json($details)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function get_exam_review_questions($course_ref, $batch_ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $user_id = auth()->user()->id;
+            $reviews = ExamCollation::where('BatchRef', $batch_ref)
+                ->join('tblQuestion', 'tblExamCollation.QuestionID', '=', 'tblQuestion.QuestionRef')
+                ->where('tblExamCollation.CourseID', $course_ref)
+                ->where('CustomerRef', $user_id)
+                ->where('Status', 0)
+                ->get();
+            \DB::commit();
+            return response()->json($reviews)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function reset_exam_question($course_ref, $batch_ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $user_id = auth()->user()->id;
+            $reset   = ExamCollation::where('BatchRef', $batch_ref)
+                ->where('tblExamCollation.CourseID', $course_ref)
+                ->where('CustomerRef', $user_id)
+                ->delete();
+            \DB::commit();
+            return response($content = 'ok', $status = 200);
         } catch (Exception $e) {
             \DB::rollback();
             return response($content = 'failed', $status = 200);

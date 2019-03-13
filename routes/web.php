@@ -468,6 +468,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('find_new_question/{course_ref}/{batch_ref}', 'CourseController@find_new_question');
     Route::post('process_examination_question/{batch}/{course_ref}', 'CourseController@process_examination_question');
     Route::get('get_final_test_result/{batch}/{course_ref}', 'CourseController@get_final_test_result');
+    Route::get('get_exam_review_questions/{course_ref}/{batch_ref}', 'CourseController@get_exam_review_questions');
+    Route::get('reset_exam_question/{course_ref}/{batch_ref}', 'CourseController@reset_exam_question');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
