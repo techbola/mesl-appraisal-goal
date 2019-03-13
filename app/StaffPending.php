@@ -10,7 +10,11 @@ class StaffPending extends Model
     use SoftDeletes;
 
     protected $table   = 'tblStaffPending';
-    protected $guarded = ['id', 'RefName', 'RefRelationship', 'RefOccupation', 'RefPhone', 'RefEmail', 'RefAddress'];
+    protected $guarded = [
+        'id', 'RefName', 'RefRelationship', 'RefOccupation',
+        'RefPhone', 'RefEmail', 'RefAddress', 'Qualification', 'ProfDateObtained',
+        'Institution', 'QualificationObtained', 'DateObtained',
+    ];
     public $primaryKey = 'id';
     public $dates      = ['deleted_at'];
 

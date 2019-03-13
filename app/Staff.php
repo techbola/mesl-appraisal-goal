@@ -13,7 +13,8 @@ class Staff extends Model
     // use EloquentTrait;
 
     protected $table   = 'tblStaff';
-    protected $guarded = ['StaffRef', 'YearsOfService', 'RefName', 'RefRelationship', 'RefOccupation', 'RefPhone', 'RefEmail', 'RefAddress'];
+    protected $guarded = ['StaffRef', 'YearsOfService', 'RefName', 'RefRelationship', 'RefOccupation', 'RefPhone', 'RefEmail', 'RefAddress', 'Qualification', 'ProfDateObtained',
+        'Institution', 'QualificationObtained', 'DateObtained'];
     public $timestamps = false;
     public $primaryKey = 'StaffRef';
 

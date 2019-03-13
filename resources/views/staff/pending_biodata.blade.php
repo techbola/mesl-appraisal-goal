@@ -11,6 +11,9 @@
     <img src="{{ asset('images/avatars/'.($pending->user->avatar ?? 'default.png') ) }}" alt="" class="avatar inline-block" style="height:100px; width:100px;"> <br><br>
 
     <div>Staff Supervisor: <b>{{ \MESL\Staff::find($staff->SupervisorID)->FullName ?? 'none' }}</b> | Department: <b>{{ $staff->department->Department ?? '-' }}</b></div>
+    <div>
+      Staff's Location: <b>{{ $staff->location->Location }}</b>
+    </div>
     <table class="table table-condensed biodata_list table-striped">
       <thead>
         <tr>
@@ -51,22 +54,32 @@
           <td>{!! ($pending->LastName != $staff->LastName)? $pending->LastName : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
-        <tr>
-          <td>Gender</td>
-          <td>{{ $staff->gender->Gender ?? '-' }}</td>
-          <td>{!! ($pending->Gender != $staff->Gender)? $pending->gender->Gender : '<em class="text-muted">Unchanged</em>' !!}</td>
-          <td></td>
-        </tr>
+       
         <tr>
           <td>Personal Email</td>
           <td>{{ $staff->PersonalEmail ?? '-' }}</td>
           <td>{!! ($pending->PersonalEmail != $staff->PersonalEmail)? $pending->PersonalEmail : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
+
+         <tr>
+          <td>Gender</td>
+          <td>{{ $staff->gender->Gender ?? '-' }}</td>
+          <td>{!! ($pending->Gender != $staff->Gender)? $pending->gender->Gender : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
         <tr>
           <td>State of Origin</td>
           <td>{{ $staff->state_of_origin->State ?? '-' }}</td>
           <td>{!! ($pending->StateofOrigin != $staff->StateofOrigin)? $pending->state_of_origin->State : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>Nationality</td>
+          <td>{{ $staff->Nationality ?? '-' }}</td>
+          <td>{!! ($pending->Nationality != $staff->Nationality)? $pending->Nationality : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
 
@@ -76,12 +89,7 @@
           <td>{!! ($pending->CityOfBirth != $staff->CityOfBirth)? $pending->CityOfBirth : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
-        <tr>
-          <td>Country of Birth</td>
-          <td>{{ $staff->country_of_birth->Country ?? '-' }}</td>
-          <td>{!! ($pending->CountryOfBirth != $staff->CountryOfBirth)? $pending->country_of_birth->Country ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
-          <td></td>
-        </tr>
+        
         <tr>
           <td>Country of Origin</td>
           <td>{{ $staff->country_of_origin->Country ?? '-' }}</td>
@@ -289,7 +297,8 @@
 <script>
   $(function(){
     $('.biodata_list').DataTable({
-      paging: false
+      paging: false,
+      ordering: false
     });
   })
 </script>
