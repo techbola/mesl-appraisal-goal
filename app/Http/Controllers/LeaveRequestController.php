@@ -325,6 +325,7 @@ class LeaveRequestController extends Controller
 
         // dd($leave_request);
         $leave_request->RejectionFlag      = 1;
+        $leave_request->RejectedBy         = auth()->user()->staff->StaffRef;
         $leave_request->SupervisorApproved = 0;
         $leave_request->NotifyFlag         = 0;
         $leave_request->ApproverID         = $request->Approver1 ?? 0;
@@ -372,6 +373,7 @@ class LeaveRequestController extends Controller
                         $leave_type_id   = $trans->AbsenceTypeID;
                         $id              = \Auth::user()->id;
 
+                        $trans->ApproverID = 0;
                         if (is_null($new_approver_id) || $new_approver_id == 0) {
 
                             // if ($details->AbsenceTypeID == 1) {
@@ -441,8 +443,9 @@ class LeaveRequestController extends Controller
                     $reject_trans = \DB::table('tblLeaveRequest')
                         ->where('leaveReqRef', $Ref)
                         ->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
-                    $leave_request = LeaveRequest::where('LeaveReqRef', $Ref)->first();
-                    $email         = \DB::table('users')
+                    $leave_request             = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $leave_request->RejectedBy = auth()->user()->staff->StaffRef;
+                    $email                     = \DB::table('users')
                         ->select('email')
                         ->where('id', $leave_request->StaffID)
                         ->first();
@@ -538,8 +541,9 @@ class LeaveRequestController extends Controller
                         ->where('leaveReqRef', $Ref)
                         ->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
 
-                    $leave_request = LeaveRequest::where('LeaveReqRef', $Ref)->first();
-                    $email         = \DB::table('users')
+                    $leave_request             = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $leave_request->RejectedBy = auth()->user()->staff->StaffRef;
+                    $email                     = \DB::table('users')
                         ->select('email')
                         ->where('id', $leave_request->StaffID)
                         ->first();
