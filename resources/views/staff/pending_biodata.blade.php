@@ -110,6 +110,23 @@
           <td></td>
         </tr>
 
+         <tr>
+          <td>Mobile Phone</td>
+          <td>{{ $staff->MobilePhone ?? '-' }}</td>
+          <td>{!! ($pending->MobilePhone != $staff->MobilePhone)? $pending->MobilePhone : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+        
+
+
+        <tr>
+          <td>WorkPhone</td>
+          <td>{{ $staff->WorkPhone ?? '-' }}</td>
+          <td>{!! ($pending->WorkPhoneID != $staff->WorkPhoneID)? $pending->WorkPhone ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
         <tr>
           <td>Religion</td>
           <td>{{ $staff->religion->Religion ?? '-' }}</td>
@@ -121,6 +138,13 @@
           <td>Marital Status</td>
           <td>{{ $staff->marital_status->MaritalStatus ?? '-' }}</td>
           <td>{!! ($pending->MaritalStatusID != $staff->MaritalStatusID)? $pending->marital_status->MaritalStatus ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td>Date Of Marriage</td>
+          <td>{{ nice_date($staff->DateOfMarriage) ?? '-' }}</td>
+          <td>{!! ($pending->DateOfMarriage != $staff->DateOfMarriage)? nice_date($pending->DateOfMarriage) : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
 
