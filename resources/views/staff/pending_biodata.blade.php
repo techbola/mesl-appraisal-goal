@@ -134,7 +134,7 @@
         <tr>
           <td>Office Location</td>
           <td>{{ $staff->location->Location ?? '-' }}</td>
-          <td>{!! ($pending->LocationID != $staff->LocationID)? $pending->location->Location : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{!! ($pending->LocationID != $staff->LocationID)? $pending->location->Location ?? '-' : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
 
