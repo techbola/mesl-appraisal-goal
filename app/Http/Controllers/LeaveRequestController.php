@@ -291,12 +291,12 @@ class LeaveRequestController extends Controller
         foreach ($get_approvers as $ref) {
             $email = \DB::table('users')
                 ->select('email')
-                ->where('id', Staff::find($leave_request->StaffID)->first()->user->id)
+                ->where('id', Staff::find($ref->StaffID)->first()->user->id)
                 ->first();
 
             $name = \DB::table('users')
                 ->select('first_name')
-                ->where('id', Staff::find($leave_request->StaffID)->first()->user->id)
+                ->where('id', Staff::find($ref->StaffID)->first()->user->id)
                 ->first();
 
             Mail::to($email)->send(new HRLeaveConfirmation($name));
