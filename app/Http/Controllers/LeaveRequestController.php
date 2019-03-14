@@ -568,7 +568,7 @@ class LeaveRequestController extends Controller
                             ->where('id', (int) $leave_request->ReliefOfficerID)
                             ->first();
 
-                        Mail::to($relief_officer_email)->send(new LR($relief_officer_name, $leave_request));
+                        // Mail::to($relief_officer_email)->send(new LR($relief_officer_name, $leave_request));
                     }
                     Mail::to($email)->send(new LR($name, $leave_request));
                 }
