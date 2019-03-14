@@ -10,9 +10,9 @@
 
     <img src="{{ asset('images/avatars/'.($pending->user->avatar ?? 'default.png') ) }}" alt="" class="avatar inline-block" style="height:100px; width:100px;"> <br><br>
 
-    <div>Staff Supervisor: <b>{{ \MESL\Staff::find($staff->SupervisorID)->FullName ?? 'none' }}</b> | Department: <b>{{ $staff->department->Department ?? '-' }}</b></div>
+    <div>Supervisor: <b>{{ \MESL\Staff::find($staff->SupervisorID)->FullName ?? 'none' }}</b> | Department: <b>{{ $staff->department->Department ?? '-' }}</b></div>
     <div>
-      Staff's Location: <b>{{ $staff->location->Location ?? '-' }}</b>
+      Location: <b>{{ $staff->location->Location ?? '-' }}</b>
     </div>
     <table class="table table-condensed biodata_list table-striped">
       <thead>
