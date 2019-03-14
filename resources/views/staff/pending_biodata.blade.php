@@ -12,7 +12,7 @@
 
     <div>Staff Supervisor: <b>{{ \MESL\Staff::find($staff->SupervisorID)->FullName ?? 'none' }}</b> | Department: <b>{{ $staff->department->Department ?? '-' }}</b></div>
     <div>
-      Staff's Location: <b>{{ $staff->location->Location }}</b>
+      Staff's Location: <b>{{ $staff->location->Location ?? '-' }}</b>
     </div>
     <table class="table table-condensed biodata_list table-striped">
       <thead>
