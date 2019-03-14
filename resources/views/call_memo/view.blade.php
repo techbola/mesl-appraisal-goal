@@ -52,7 +52,7 @@
       @endif
       @foreach ($contact->call_memos as $memo)
 
-@if (in_array($user->email, explode(',', $memo->AttendeeEmails)) || $user->hasRole('admin'))
+{{-- @if (in_array($user->email, explode(',', $memo->AttendeeEmails)) || $user->hasRole('admin')) --}}
 
         <tbody>
           <tr id="parent_{{ $memo->CallMemoRef }}">
@@ -170,7 +170,7 @@
           @endforeach
         </tbody>
 
-@endif
+{{-- @endif --}}
         @endforeach
     </table>
   </div>
