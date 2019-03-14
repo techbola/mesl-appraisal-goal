@@ -195,6 +195,25 @@
           <td>{!! ($pending->HMONumber != $staff->HMONumber)? $pending->HMONumber : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
+
+        <tr>
+          <td>Next Of Kin</td>
+          <td>{{ $staff->NextofKIN ?? '-' }}</td>
+          <td>{!! ($pending->NextofKIN != $staff->NextofKIN)? $pending->NextofKIN : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Next Of Kin's Phone</td>
+          <td>{{ $staff->NextofKIN_Phone ?? '-' }}</td>
+          <td>{!! ($pending->NextofKIN_Phone != $staff->NextofKIN_Phone)? $pending->NextofKIN_Phone : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Next Of Kin's Email</td>
+          <td>{{ $staff->NextofKIN_Email ?? '-' }}</td>
+          <td>{!! ($pending->NextofKIN_Email != $staff->NextofKIN_Email)? $pending->NextofKIN_Email : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td></td>
+        </tr>
         
         
      {{--    <tr>
@@ -285,7 +304,7 @@
           <td></td>
         </tr> --}}
         <tr>
-          <td colspan="3" class="text-center">Educational Qualification</td>
+          <td colspan="3" class="text-center text-info"><b>Educational Qualification</b></td>
         </tr>
         <thead>
           <th>Qualification</th>
@@ -303,7 +322,7 @@
         </tbody>
         {{--  --}}
         <tr>
-          <td colspan="3" class="text-center">Institutions Attended</td>
+          <td colspan="3" class="text-center text-info"><b>Institutions Attended</b></td>
         </tr>
         <thead>
           <th>Institution Attended</th>
