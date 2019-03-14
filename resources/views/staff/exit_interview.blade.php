@@ -132,7 +132,7 @@
                                 @endif
                             </td>
                             <td>
-                                <button type="button" class="btn btn-xs btn-primary toggler" onclick="" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i>View</button>
+                                <a href="{{route('viewexit', ['id' => $item->ExitInterviewID])}}" class="btn btn-xs btn-primary toggler" onclick=""><i class="fa fa-eye"></i>View</a>
                                 <a href="#" onclick="deleteItem('{{$item->ExitNotificationRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                             </td>
                         </tr>

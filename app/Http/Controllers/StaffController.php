@@ -883,4 +883,11 @@ class StaffController extends Controller
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }
+
+    public function view_exit_interview($id)
+    {
+        $view = ExitInterview::where('ExitInterviewRef', $id)->first();
+
+        return view('staff.view_exit', compact('view'));
+    }
 }

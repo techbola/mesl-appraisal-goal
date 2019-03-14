@@ -76,6 +76,8 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('menus/delete/{id}', 'MenuController@destroy')->name('delete_menu');
     });
 
+    Route::get('staff/view_exit/{id}', 'StaffController@view_exit_interview')->name('viewexit');
+
     // Menu Assignment For Company Admins
     Route::get('company-menus', 'MenuController@company_menus')->name('company_menus');
     Route::get('assign-menu/{id}', 'MenuController@edit_company_menu')->name('edit_company_menu');
@@ -1353,4 +1355,5 @@ Route::get('exit/create/{id}', 'ExitController@delete_exit_interview')->name('de
 Route::get('send_exit_interview/{id}', 'ExitController@send_exit_interview')->name('SendResponse');
 
 Route::get('staff/exit_interview/{id}', 'StaffController@delete_exit_response')->name('delete_exit_response');
+
 
