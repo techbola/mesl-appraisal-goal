@@ -63,7 +63,9 @@
             @foreach($leave_check as $leave_request)
                 @if($leave_request->status > 0)
               <tr>
-                <td style="background: #fba1a0"><input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" ></td>
+                <td style="background: #fba1a0">
+                  {{-- <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" > --}}
+                </td>
                 <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
                 <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                 <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
@@ -94,7 +96,9 @@
               </tr>
               @else
               <tr>
-                <td><input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" ></td>
+                <td>
+                  {{-- <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" > --}}
+                </td>
                 <td>{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}}</td>
                 <td>{{$leave_request->LeaveType}}</td>
                 <td>{{$leave_request->StartDate}}</td>
