@@ -320,6 +320,11 @@
           </tr>
           @endforeach
         </tbody>
+        <tfoot>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tfoot>
         {{--  --}}
         <tr>
           <td colspan="3" class="text-center text-info"><b>Institutions Attended</b></td>
@@ -338,6 +343,11 @@
           </tr>
           @endforeach
         </tbody>
+        <tfoot>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tfoot>
         {{--  --}}
         {{-- <tr>
           <td>Professional Qualification (1st Degree)</td>
