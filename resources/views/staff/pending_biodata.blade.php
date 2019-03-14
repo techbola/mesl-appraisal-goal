@@ -105,8 +105,8 @@
 
         <tr>
           <td>Nationality</td>
-          <td>{{ $staff->Nationality ?? '-' }}</td>
-          <td>{!! ($pending->Nationality != $staff->Nationality)? $pending->Nationality : '<em class="text-muted">Unchanged</em>' !!}</td>
+          <td>{{ $staff->NationalityOfOrigin ?? '-' }}</td>
+          <td>{!! ($pending->NationalityOfOrigin != $staff->NationalityOfOrigin)? $pending->NationalityOfOrigin : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
         </tr>
 
@@ -146,7 +146,7 @@
         </tr>
 
         <tr>
-          <td>City of Birth</td>
+          <td>City/Town</td>
           <td>{{ $staff->CityOfBirth ?? '-' }}</td>
           <td>{!! ($pending->CityOfBirth != $staff->CityOfBirth)? $pending->CityOfBirth : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
@@ -173,7 +173,7 @@
         </tr>
         
         
-        <tr>
+     {{--    <tr>
           <td>Spouse Surname</td>
           <td>{{ $staff->SpouseSurname ?? '-' }}</td>
           <td>{!! ($pending->SpouseSurname != $staff->SpouseSurname)? $pending->SpouseSurname : '<em class="text-muted">Unchanged</em>' !!}</td>
