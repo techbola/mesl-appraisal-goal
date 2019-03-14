@@ -157,11 +157,9 @@
                       @if($leave_request->status > 0)
                     <tr>
                       <td style="background: #fba1a0">
-                        @if($leave_request->CompletedFlag == 1)
-                        <span class="badge badge-success">Completed</span>
-                        @else
+                        
                         <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" >
-                        @endif
+                      
                       </td>
                       <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
                       <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
