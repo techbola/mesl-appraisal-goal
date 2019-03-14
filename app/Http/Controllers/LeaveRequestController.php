@@ -284,6 +284,22 @@ class LeaveRequestController extends Controller
         // $leave_request->ApproverID4        = $request->Approver4 ?? 0;
         // $leave_request->ApproverComment    = $request->Comment;
         $leave_request->ApprovedFlag = 1;
+        $get_approvers               = LeaveApprover::where('ModuleID', 3)->get();
+
+        foreach ($get_approvers as $ref) {
+            $email = \DB::table('users')
+                ->select('email')
+                ->where('id', Staff::find($leave_request->StaffID)->first()->user->id)
+                ->first();
+
+            $name = \DB::table('users')
+                ->select('first_name')
+                ->where('id', Staff::find($leave_request->StaffID)->first()->user->id)
+                ->first();
+
+            Mail::to($email)->send(new HRLeaveConfirmation($name));
+
+        }
 
         $leave_request->update();
 
