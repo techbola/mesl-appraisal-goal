@@ -104,7 +104,7 @@ class LeaveRequestController extends Controller
             ->join('tblLeaveType', 'tblLeaveRequest.AbsenceTypeID', '=', 'tblLeaveType.LeaveTypeRef')
         // ->join('tblHandOver', 'tblLeaveRequest.LeaveReqRef', '=', 'tblHandOver.LeaveRequestID')
             ->join('users', 'tblLeaveRequest.StaffID', '=', 'users.id')
-            ->where('ApproverID', auth()->user()->id)
+            ->where('ApproverID', auth()->user()->staff->StaffRef)
             ->where('NotifyFlag', 1)
             ->get();
 
