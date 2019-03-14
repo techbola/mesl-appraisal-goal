@@ -30,22 +30,23 @@
 
 
     <ul class="nav nav-tabs outside">
+        
         <li class="active">
-            <a data-toggle="tab" href="#approved-request">
-                Approved Request &nbsp; <span class="badge badge-warning"></span>
-            </a>
-        </li>
-        <li>
             <a data-toggle="tab" href="#unapproved-request">
                 Unapproved Request &nbsp; <span class="badge badge-success">
                     {{-- {{ count($staff_onboarding_sent) }} --}}
                 </span>
             </a>
         </li>
+        <li >
+            <a data-toggle="tab" href="#approved-request">
+                Approved Request &nbsp; <span class="badge badge-warning"></span>
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content">
-      <div id="approved-request" class="tab-pane fade in active">
+      <div id="approved-request" class="tab-pane fade in">
           <div class="clearfix"></div>
           <!-- START PANEL -->
           <div class="card-box">
@@ -71,7 +72,7 @@
               </thead>
               <tbody>
 
-                @foreach($leave_check as $leave_request)
+                @foreach($leave_check->where('CompletedFlag', 1) as $leave_request)
                     @if($leave_request->status > 0)
                   <tr>
                     <td style="background: #fba1a0">
@@ -127,7 +128,7 @@
           <!-- END PANEL -->
       </div>
       
-      <div id="unapproved-request" class="tab-pane">
+      <div id="unapproved-request" class="tab-pane active">
         <div class="card-box">
             <div class="card-title pull-left">Incomplete Request</div>
             <div class="pull-right">
@@ -152,7 +153,7 @@
                 </thead>
                 <tbody>
 
-                  @foreach($leave_check as $leave_request)
+                  @foreach($leave_check->where('CompletedFlag', 0) as $leave_request)
                       @if($leave_request->status > 0)
                     <tr>
                       <td style="background: #fba1a0">
