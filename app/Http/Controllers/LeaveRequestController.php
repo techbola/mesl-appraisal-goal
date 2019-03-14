@@ -292,14 +292,16 @@ class LeaveRequestController extends Controller
         $leave_request->ApprovedFlag = 1;
         $get_approvers               = LeaveApprover::where('ModuleID', 3)->get();
 
-        $hr_users = Role::where('name', 'hr admin')->first()->users;
+        $hr_users = Role::where('name', 'Head, Performance Management')
+            ->orWhere('name', 'Head, Human Resources')
+            ->first()->users;
 
         $name = \DB::table('users')
             ->select('first_name')
             ->where('id', Staff::find($leave_request->StaffID)->first()->user->id)
             ->first();
 
-        Mail::to($hr_users)->send(new HRLeaveConfirmation($name));
+        Mail::to($hr_users)->send(new HRLeaveConfirmation($name, $leave_request));
 
         $leave_request->update();
 
@@ -396,7 +398,7 @@ class LeaveRequestController extends Controller
                                     ->where('id', Staff::find($ref->StaffID)->first()->user->id)
                                     ->first();
 
-                                Mail::to($email)->send(new HRLeaveConfirmation($name));
+                                // Mail::to($email)->send(new HRLeaveConfirmation($name));
 
                             }
                         }
@@ -512,10 +514,10 @@ class LeaveRequestController extends Controller
                             $leave_requester = User::find($leave_req_ref->StaffID)->first();
                             // dd($leave_requester->first()->email);
 
-                            $name  = $leave_requester;
+                            $name  = Staff::find($trans->StaffID)->user;
                             $email = $leave_requester->email;
 
-                            Mail::to($email)->send(new FinalHRLeaveConfirmation($name));
+                            Mail::to(Staff::find($trans->StaffID)->user)->send(new FinalHRLeaveConfirmation($name));
                             // relief officer
                             if (!is_null($trans->ReliefOfficerID)) {
                                 $relief_officer_email = User::find($leave_req_ref->ReliefOfficerID)->email;
