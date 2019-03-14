@@ -201,6 +201,7 @@
   <script>
     function send_notification()
         {
+          console.log(this)
           var elem = this.event.target;
           var elem_value = $(elem).attr('data-id');
             $.get('/leave_notification/'+elem_value, function(data, status) {

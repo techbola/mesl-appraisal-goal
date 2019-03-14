@@ -6,6 +6,7 @@ use MESL\LeaveType;
 // use MESL\Mail\Leave;
 use MESL\Staff;
 use MESL\User;
+use MESL\Role;
 use MESL\LeaveRequest;
 use MESL\Department;
 use MESL\Mail\LeaveRequest as LR;
@@ -80,6 +81,7 @@ class LeaveRequestController extends Controller
 
     public function leave_request()
     {
+
         $leave_type     = LeaveType::all()->sortBy('LeaveType');
         $unsent_request = LeaveRequest::where('StaffID', auth()->user()->id)->where('NotifyFlag', 1)->get();
         $user           = \Auth::user();
@@ -107,7 +109,9 @@ class LeaveRequestController extends Controller
         // ->join('tblHandOver', 'tblLeaveRequest.LeaveReqRef', '=', 'tblHandOver.LeaveRequestID')
             ->join('users', 'tblLeaveRequest.StaffID', '=', 'users.id')
             ->where('ApproverID', auth()->user()->staff->StaffRef)
+        // ->where('ApproverID', auth()->user()->id)
             ->where('NotifyFlag', 1)
+            ->where('SupervisorApproved', 0)
             ->get();
 
         $leave_check = $leave_requests->transform(function ($item, $key) {
@@ -288,20 +292,14 @@ class LeaveRequestController extends Controller
         $leave_request->ApprovedFlag = 1;
         $get_approvers               = LeaveApprover::where('ModuleID', 3)->get();
 
-        foreach ($get_approvers as $ref) {
-            $email = \DB::table('users')
-                ->select('email')
-                ->where('id', Staff::find($ref->StaffID)->first()->user->id)
-                ->first();
+        $hr_users = Role::where('name', 'hr admin')->first()->users;
 
-            $name = \DB::table('users')
-                ->select('first_name')
-                ->where('id', Staff::find($ref->StaffID)->first()->user->id)
-                ->first();
+        $name = \DB::table('users')
+            ->select('first_name')
+            ->where('id', Staff::find($leave_request->StaffID)->first()->user->id)
+            ->first();
 
-            Mail::to($email)->send(new HRLeaveConfirmation($name));
-
-        }
+        Mail::to($hr_users)->send(new HRLeaveConfirmation($name));
 
         $leave_request->update();
 
@@ -312,7 +310,7 @@ class LeaveRequestController extends Controller
         }
         // send emails when ApproverID is null and send route request to admin
         //  end
-        return redirect('/leave_request/leave_approval')->with('success', 'Request Approved successfully');
+        return redirect('/leave_request/leave_approval_supervisor')->with('success', 'Request Approved successfully');
     }
 
     public function reject_request_supervisor($id)
@@ -518,6 +516,11 @@ class LeaveRequestController extends Controller
                             $email = $leave_requester->email;
 
                             Mail::to($email)->send(new FinalHRLeaveConfirmation($name));
+                            // relief officer
+                            if (!is_null($trans->ReliefOfficerID)) {
+                                $relief_officer_email = User::find($leave_req_ref->ReliefOfficerID)->email;
+                                Mail::to($relief_officer_email)->send(new ReliefLeaveRequest($leave_req_ref));
+                            }
 
                         }
 
@@ -902,6 +905,6 @@ class LeaveRequestController extends Controller
 
         $leavetype->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 }
