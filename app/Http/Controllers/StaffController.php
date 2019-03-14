@@ -41,7 +41,8 @@ use MESL\Notifications\PendingBiodataUpdate;
 use MESL\ExitNotification;
 use MESL\Mail\ExitMail;
 use MESL\ExitInterview;
-
+use MESL\Institution;
+use MESL\Qualification;
 use Carbon;
 
 use DB;
@@ -215,12 +216,14 @@ class StaffController extends Controller
 
     public function pending_biodata($id)
     {
-        $user     = auth()->user();
-        $pending  = StaffPending::find($id);
-        $staff    = Staff::find($pending->user->staff->StaffRef);
-        $pending2 = StaffPending::where('id', $id)->get(['MobilePhone', 'EmployeeNumber']);
+        $user           = auth()->user();
+        $pending        = StaffPending::find($id);
+        $staff          = Staff::find($pending->user->staff->StaffRef);
+        $pending2       = StaffPending::where('id', $id)->get(['MobilePhone', 'EmployeeNumber']);
+        $qualifications = Qualification::where('StaffID', $staff->StaffRef)->get();
+        $institutions   = Institution::where('StaffID', $staff->StaffRef)->get();
 
-        return view('staff.pending_biodata', compact('user', 'pending', 'staff', 'pending2'));
+        return view('staff.pending_biodata', compact('user', 'pending', 'staff', 'pending2', 'qualifications', 'institutions'));
     }
 
     public function approve_biodata($id)
@@ -381,6 +384,8 @@ class StaffController extends Controller
 
         $religions      = Religion::all()->sortBy('Religion');
         $refs           = Reference::where('StaffID', auth()->user()->staff->StaffRef)->get();
+        $qualifications = Qualification::where('StaffID', auth()->user()->staff->StaffRef)->get();
+        $institutions   = Institution::where('StaffID', auth()->user()->staff->StaffRef)->get();
         $genders        = Gender::all()->sortBy('Gender');
         $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');
         $status         = MaritalStatus::all()->sortBy('MaritalStatus');
@@ -400,10 +405,10 @@ class StaffController extends Controller
         $staff_departments = $staff->DepartmentID;
         // $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
         $supervisors = Staff::where('SupervisorFlag', 1)->get()->sortBy('FullName');
-        // dd($supervisors);
+        // dd($qualifications);
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa', 'qualifications', 'institutions'));
     }
 
     // public function editFinanceDetails($id)
@@ -511,24 +516,54 @@ class StaffController extends Controller
                 // Non Admins
                 $staff              = new StaffPending;
                 $ref                = new Reference;
+                $institution        = new Institution;
+                $qualification      = new Qualification;
                 $staff->UserID      = $user->id;
                 $staff->StaffRef    = $user->staff->StaffRef;
                 $staff->CompanyID   = $user->staff->CompanyID;
                 $staff->Declaration = $request->has('Declaration') ? 1 : 0;
-
                 // saave references
                 foreach ($request->RefName as $key => $value) {
-                    $ref               = new Reference;
-                    $ref->Name         = $request['RefName'][$key];
-                    $ref->Relationship = $request['RefRelationship'][$key];
-                    $ref->Occupation   = $request['RefOccupation'][$key];
-                    $ref->Phone        = $request['RefPhone'][$key];
-                    $ref->Email        = $request['RefEmail'][$key];
-                    $ref->Address      = $request['RefAddress'][$key];
-                    $ref->StaffID      = auth()->user()->staff->StaffRef;
-                    $ref->save();
+                    if (!is_null($request['RefName'][$key])) {
+                        $ref               = new Reference;
+                        $ref->Name         = $request['RefName'][$key];
+                        $ref->Relationship = $request['RefRelationship'][$key];
+                        $ref->Occupation   = $request['RefOccupation'][$key];
+                        $ref->Phone        = $request['RefPhone'][$key];
+                        $ref->Email        = $request['RefEmail'][$key];
+                        $ref->Address      = $request['RefAddress'][$key];
+                        $ref->StaffID      = auth()->user()->staff->StaffRef;
+                        $ref->save();
+                    }
+
                 }
                 // end saving refs
+
+                // saave institutions
+                foreach ($request->Institution as $key => $value) {
+                    if (!is_null($request['Institution'][$key]) && !is_null($request['DateObtained'][$key])) {
+                        $institution                        = new Institution;
+                        $institution->Institution           = $request['Institution'][$key];
+                        $institution->QualificationObtained = $request['QualificationObtained'][$key];
+                        $institution->DateObtained          = $request['DateObtained'][$key];
+                        $institution->StaffID               = auth()->user()->staff->StaffRef;
+                        $institution->save();
+                    }
+                }
+                // end saving institutions
+
+                // saave qualifications
+                foreach ($request->Qualification as $key => $value) {
+                    if (!is_null($request['Qualification'][$key]) && !is_null($request['ProfDateObtained'][$key])) {
+                        $qualification                = new Qualification;
+                        $qualification->Qualification = $request['Qualification'][$key];
+                        // $qualification->QualificationObtained = $request['QualificationObtained'][$key];
+                        $qualification->DateObtained = $request['ProfDateObtained'][$key];
+                        $qualification->StaffID      = auth()->user()->staff->StaffRef;
+                        $qualification->save();
+                    }
+                }
+                // end saving qualifications
 
                 // START PHOTO
                 if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
@@ -571,6 +606,33 @@ class StaffController extends Controller
                     // Name to be saved to DB
                     $user_staff->avatar = $filename;
                 }
+
+// saave institutions
+                foreach ($request->Institution as $key => $value) {
+                    if (!is_null($request['Institution'][$key]) && !is_null($request['DateObtained'][$key])) {
+                        $institution                        = new Institution;
+                        $institution->Institution           = $request['Institution'][$key];
+                        $institution->QualificationObtained = $request['QualificationObtained'][$key];
+                        $institution->DateObtained          = $request['DateObtained'][$key];
+                        $institution->StaffID               = auth()->user()->staff->StaffRef;
+                        $institution->save();
+                    }
+                }
+                // end saving institutions
+
+                // saave qualifications
+                foreach ($request->Qualification as $key => $value) {
+                    if (!is_null($request['Qualification'][$key]) && !is_null($request['ProfDateObtained'][$key])) {
+                        $qualification                = new Qualification;
+                        $qualification->Qualification = $request['Qualification'][$key];
+                        // $qualification->QualificationObtained = $request['QualificationObtained'][$key];
+                        $qualification->DateObtained = $request['ProfDateObtained'][$key];
+                        $qualification->StaffID      = auth()->user()->staff->StaffRef;
+                        $qualification->save();
+                    }
+                }
+                // end saving qualifications
+
                 $user_staff->save();
 
                 // END PHOTO

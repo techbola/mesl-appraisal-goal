@@ -52,7 +52,7 @@ class TravelRequestController extends Controller
 
         return view('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'sent_requests', 'transports', 'lodges', 'travelmodes'));
     }
-    
+
     //Store travel request function
     public function store_travel_request(Request $request)
     {
@@ -254,6 +254,9 @@ class TravelRequestController extends Controller
     //Approve travel request function for supervisors
     public function approve_request(Request $request, $ref)
     {
+        if (is_null($request->Approver1)) {
+            return redirect()->back()->with('error', 'Kindly select at least Approver1');
+        }
         $staffs = Staff::all();
         $user   = User::all();
 

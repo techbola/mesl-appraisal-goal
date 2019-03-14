@@ -5,7 +5,6 @@
 @include('errors.list')
 <div class="row">
 
-  {{-- {{ dd($staff->PhotographLocation->default_url) }} --}}
     <div class="col-sm-6">
       <div class="inline-block">
 
@@ -26,7 +25,6 @@
           <label for="SupervisorFlag">
             <input type="checkbox" value="" @if($staff->SupervisorFlag == 1) checked @endif name="SupervisorFlag">
             Mark Staff as Supervisor 
-
           </label>
         </div>
       </div>
@@ -117,7 +115,7 @@
       <div class="col-md-4">
         <div class="form-group">
           <label>Supervisor</label>
-          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "disabled"]) }}
+          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2",  $user->hasRole('admin') ? "required" : "", "disabled"]) }}
         </div>
       </div>
       
@@ -350,7 +348,7 @@
     </div>
 </div>
 
-<div class="card-section p-l-5">References</div>
+<div class="card-section p-l-5">References - (Emergency Contact)</div>
     @foreach($refs as $key=>$value)
         <div class="row ref-row">
         <div class="col-sm-4">
@@ -517,50 +515,130 @@
       <div class="form-group">
         {{ Form::label('Benficiary_Address','Benficiary Address') }}
         {{ Form::textarea('Benficiary_Address', null,  ['class' => 'form-control', 'rows'=>'2', 'placeholder' => 'Enter Benficiary Address']) }}
-      </div> --}}
-    </div>
-
-    <br>
-    
-    <div class="card-section p-l-5">Tertiary Education</div>
-    <div class="col-sm-4">
-      <div class="form-group">
-        {{ Form::label('UniversityAttended1','University Attended (1st Degree)') }}
-        {{ Form::text('UniversityAttended1', null,  ['class' => 'form-control', 'placeholder' => 'Enter University Attended']) }}
       </div>
-    </div>
-    <div class="col-sm-4">
+    </div> --}}
+    <div class="card-section p-l-5">Educational Qualification</div>
+    @foreach($institutions as $key=>$value)
+        <div class="row institution-row">
+      <div class="col-sm-4">
       <div class="form-group">
-        {{ Form::label('UniversityAttended2','University Attended (2nd Degree)') }}
-        {{ Form::text('UniversityAttended2', null,  ['class' => 'form-control', 'placeholder' => 'Enter University Attended']) }}
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="form-group">
-        {{ Form::label('UniversityAttended3','University Attended (3rd Degree)') }}
-        {{ Form::text('UniversityAttended3', null,  ['class' => 'form-control', 'placeholder' => 'Enter University Attended']) }}
+        {{ Form::label('Institution[]','Institution Attended') }}
+        {{ Form::text('Institution[]', $value->Institution,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended', 'disabled']) }}
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group">
-        {{ Form::label('ProfessionalQualification1','Professional Qualification (1st Degree)') }}
-        {{ Form::text('ProfessionalQualification1', null,  ['class' => 'form-control', 'placeholder' => 'Enter Professional Qualification']) }}
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="form-group">
-        {{ Form::label('ProfessionalQualification2','Professional Qualification (2nd Degree)') }}
-        {{ Form::text('ProfessionalQualification2', null,  ['class' => 'form-control', 'placeholder' => 'Enter Professional Qualification']) }}
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="form-group">
-        {{ Form::label('ProfessionalQualification3','Professional Qualification (3rd Degree)') }}
-        {{ Form::text('ProfessionalQualification3', null,  ['class' => 'form-control', 'placeholder' => 'Enter Professional Qualification']) }}
+        {{ Form::label('Qualification Obtained','Qualitification Obtained') }}
+        {{ Form::text('QualificationObtained[]', $value->QualificationObtained,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended', 'disabled']) }}
       </div>
     </div>
 
+    <div class="col-sm-4">
+        <div class="">
+          {{ Form::label('DateObtained','Date Obtained', ['class' => 'form-label req']) }}
+          <div class="input-group date dp required">
+            {{ Form::text('DateObtained[]', $value->DateObtained, ['class' => 'form-control', 'placeholder' => 'Date Obtained', 'disabled']) }}
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
+    </div>
+    </div> <hr>
+    @endforeach
+    <div class="row institution-row">
+      <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('Institution[]','Institution Attended') }}
+        {{ Form::text('Institution[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('Qualification Obtained','Qualitification Obtained') }}
+        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="">
+          {{ Form::label('DateObtained','Date Obtained', ['class' => 'form-label req']) }}
+          <div class="input-group date dp required">
+            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained']) }}
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <button class="btn btn-sm btn-success" id="add-more-institution">
+      <i class="fa fa-plus"></i>
+    </button>
+      </div>
+    </div>
+    {{-- <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('UniversityAttended2','Institution Attended (2nd Degree)') }}
+        {{ Form::text('UniversityAttended2', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+      </div>
+    </div> --}}
+    {{-- <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('UniversityAttended3','Institution Attended (3rd Degree)') }}
+        {{ Form::text('UniversityAttended3', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+      </div>
+    </div> --}}
+    <div class="clearfix"></div> <hr>
+     @foreach($qualifications as $key=>$value)
+        <div class="col-sm-4">
+        <div class="form-group">
+          {{ Form::label('Qualification[]','Professional Qualification') }}
+          {{ Form::text('Qualification[]', $value->Qualification,  ['class' => 'form-control', 'placeholder' => 'Enter Professional Qualification', 'disabled']) }}
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+          <div class="">
+            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label req']) }}
+            <div class="input-group date dp required">
+              {{ Form::text('ProfDateObtained[]', $value->DateObtained, ['class' => 'form-control', 'placeholder' => 'Date Obtained', 'disabled']) }}
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+      </div>
+      <div class="clearfix"></div>
+       <hr>
+    @endforeach
+    <div class="row prof-row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          {{ Form::label('Qualification[]','Professional Qualification') }}
+          {{ Form::text('Qualification[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Professional Qualification']) }}
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+          <div class="">
+            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label req']) }}
+            <div class="input-group date dp required">
+              {{ Form::text('ProfDateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained']) }}
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <button class="btn btn-sm btn-success" id="add-more-prof">
+      <i class="fa fa-plus"></i>
+    </button>
+      </div>
+    </div>
+
+<br>
     <div class="col-sm-4">
         <div class="">
           {{ Form::label('NYSCYear','NYSC Year', ['class' => 'form-label']) }}
@@ -798,12 +876,93 @@
           $('.ref-row:eq(-1)').append('<div class="clearfix"></div><hr>').append(ref_html);
       });
 
+      var institution_html = `<div class="row institution-row">
+      <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('Institution[]','Institution Attended') }}
+        {{ Form::text('Institution[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('QualificationObtained','Qualitification Obtained') }}
+        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="">
+          {{ Form::label('DateObtained[]','Date Obtained', ['class' => 'form-label req']) }}
+          <div class="input-group date dp required">
+            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained']) }}
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
+    </div>
+    <div class="pull-right">
+        <div class="form-group">
+            <button type="button" style="margin-top: 30px"  class="remove_inst_node btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+    </div>`;
+
+    $("#add-more-institution").click(function(e) {
+          e.preventDefault();
+          $('.institution-row:eq(-1)').append('<div class="clearfix"></div><br>').append(institution_html);
+      });
+
+
+var prof_html = `<div class="row prof-row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          {{ Form::label('Qualification[]','Professional Qualification') }}
+          {{ Form::text('Qualification[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Professional Qualification']) }}
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+          <div class="">
+            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label req']) }}
+            <div class="input-group date dp required">
+              {{ Form::text('ProfDateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained']) }}
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+      </div>
+
+       <div class="pull-right">
+        <div class="form-group">
+            <button type="button" style="margin-top: 30px"  class="remove_prof_node btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+    </div>`;
+
+      $("#add-more-prof").click(function(e) {
+          e.preventDefault();
+          $('.prof-row:eq(-1)').append('<div class="clearfix"></div><br>').append(prof_html);
+      });
+
     });
 
     $('body').on('click', '.remove_hon_node', function(e) {
-    e.preventDefault();
-    console.log('delete me')
-    $(this).closest('.ref-row').remove();
-});
+      e.preventDefault();
+      // console.log('delete me')
+      $(this).closest('.ref-row').remove();
+    });
+
+    $('body').on('click', '.remove_inst_node', function(e) {
+      e.preventDefault();
+      // console.log('delete me')
+      $(this).closest('.institution-row').find('hr').remove();
+      $(this).closest('.institution-row').remove();
+    });
+
+    $('body').on('click', '.remove_prof_node', function(e) {
+      e.preventDefault();
+      // console.log('delete me')
+      $(this).closest('.prof-row').find('hr').remove();
+      $(this).closest('.prof-row').remove();
+    });
   </script>
 @endpush
