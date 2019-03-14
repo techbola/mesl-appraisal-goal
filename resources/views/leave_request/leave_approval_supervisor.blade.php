@@ -85,7 +85,7 @@
                   @endif
                 </td>
                 <td>
-                  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
+                  <a style="margin-right: 10px; display: inline-block" href="/leave_request/approve_request/{{ $leave_request->LeaveReqRef }}"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
                             <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
 
@@ -118,7 +118,7 @@
 
                 </td>
                 <td>
-                  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
+                  <a style="margin-right: 10px; display: inline-block" href="/leave_request/approve_request/{{ $leave_request->LeaveReqRef }}"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
                             <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
                 </td>
@@ -281,7 +281,7 @@
   </script>
   <script>
     $(function(){
-       $("#approvers-toggler").click(function(e) {
+       $("#approvers-toggler_").click(function(e) {
            e.preventDefault();
            let val = $(this).data('whatever');
            console.log(val);

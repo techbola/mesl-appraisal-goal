@@ -106,7 +106,7 @@ class LeaveRequestController extends Controller
             ->join('tblLeaveType', 'tblLeaveRequest.AbsenceTypeID', '=', 'tblLeaveType.LeaveTypeRef')
         // ->join('tblHandOver', 'tblLeaveRequest.LeaveReqRef', '=', 'tblHandOver.LeaveRequestID')
             ->join('users', 'tblLeaveRequest.StaffID', '=', 'users.id')
-            ->where('ApproverID', auth()->user()->staff->StaffRef)
+            ->where('ApproverID', auth()->user()->id)
             ->where('NotifyFlag', 1)
             ->get();
 
@@ -279,12 +279,13 @@ class LeaveRequestController extends Controller
         // dd($leave_request);
         // $leave_request->RequestApproved    = 1;
         $leave_request->SupervisorApproved = 1;
-        $leave_request->ApproverID         = $request->Approver1 ?? 0;
-        $leave_request->ApproverID1        = $request->Approver1 ?? 0;
-        $leave_request->ApproverID2        = $request->Approver2 ?? 0;
-        $leave_request->ApproverID3        = $request->Approver3 ?? 0;
-        $leave_request->ApproverID4        = $request->Approver4 ?? 0;
-        $leave_request->ApproverComment    = $request->Comment;
+        // $leave_request->ApproverID         = $request->Approver1 ?? 0;
+        // $leave_request->ApproverID1        = $request->Approver1 ?? 0;
+        // $leave_request->ApproverID2        = $request->Approver2 ?? 0;
+        // $leave_request->ApproverID3        = $request->Approver3 ?? 0;
+        // $leave_request->ApproverID4        = $request->Approver4 ?? 0;
+        // $leave_request->ApproverComment    = $request->Comment;
+        $leave_request->ApprovedFlag = 1;
 
         $leave_request->update();
 
