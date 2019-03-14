@@ -11,6 +11,8 @@ use MESL\Options;
 use MESL\Obligation;
 use MESL\Department;
 use MESL\User;
+use MESL\Mail\ExitInterviewResponse;
+use Mail;
 use DB;
 use Auth;
 
@@ -79,6 +81,27 @@ class ExitController extends Controller
         $exitinterview->update($request->except(['_token']));
 
         return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function send_exit_interview(Request $request, $id)
+    {
+        $user = User::all();
+
+        $exit = ExitInterview::where('ExitInterviewRef', $id)->where('SentResponse', '0')->first();
+        if($exit){
+            $exit->SentResponse = '1';
+            $exit->update();
+
+            $hr = User::whereHas('roles', function($q){
+                $q->where('id', '38');
+            })->get();
+
+            Mail::to($hr)->send(new ExitInterviewResponse($exit));
+
+            return redirect()->back()->with('success', 'Response was sent successfully');
+        }else {
+            return redirect()->back()->with('error', 'Response already/not sent');
+        }
     }
 
     /**

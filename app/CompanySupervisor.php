@@ -5,6 +5,7 @@ namespace MESL;
 use Illuminate\Database\Eloquent\Model;
 use MESL\CompanyDepartment;
 use MESL\User;
+use MESL\Staff;
 
 class CompanySupervisor extends Model
 {
@@ -16,7 +17,7 @@ class CompanySupervisor extends Model
     public function staff()
     {
         // relationship
-        return $this->belongsTo(Staff::class, 'staff_id', 'StaffRef');
+        return $this->belongsTo(Staff::class, 'staff_id', 'StaffID', 'StaffRef');
     }
 
     /*

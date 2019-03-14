@@ -30,4 +30,14 @@ class ExitInterview extends Model
     {
     return $this->belongsTo(Department::class, 'DepartmentID');
     }
+
+    public function status()
+    {
+        if ($this->NotifyFlag == 0) {
+            return 'Not Sent';
+        } else {
+            return  true;
+        }
+        
+    }
 }

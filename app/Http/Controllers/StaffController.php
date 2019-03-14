@@ -38,6 +38,9 @@ use MESL\Mail\AdminOnboardApproval;
 use MESL\Notifications\ApprovedBiodataUpdate;
 use MESL\Notifications\RejectedBiodataUpdate;
 use MESL\Notifications\PendingBiodataUpdate;
+use MESL\ExitNotification;
+use MESL\Mail\ExitMail;
+use MESL\ExitInterview;
 
 use Carbon;
 
@@ -825,6 +828,59 @@ class StaffController extends Controller
 
     public function exit_interview()
     {
-        return view('staff.exit_interview');
+        $staff = Staff::all();
+        $users = User::all();
+        $department = Department::all();
+        $exitinterview = ExitInterview::all();
+        $exitnotice = ExitNotification::Orderby('ExitNotificationRef', 'DESC')->get();
+        $supervisor = CompanySupervisor::all();
+
+        return view('staff.exit_interview', compact('staff', 'department', 'supervisor', 'users', 'exitnotice', 'exitinterview'));
+    }
+
+    public function send_exit(Request $request)
+    {
+       $exitnotification = new ExitNotification;
+       
+       $exitnotification->StaffID = $request->StaffID;
+
+       $exitnotification->DepartmentID = $request->DepartmentID;
+
+       $exitnotification->SupervisorId = $request->SupervisorID;
+
+       $exitnotification->save();
+
+       $staff = Staff::find($request->StaffID);
+
+       Mail::to($staff->user)->send(new ExitMail($staff->user));
+
+       return redirect()->back()->with('success', 'Staff notified successfully');
+    }
+
+    public function getStaffInfo(Request $request)
+    {
+        $StaffID = $request->StaffID;
+        $staff = Staff::where("StaffRef", $StaffID)->first();
+        
+
+        $supervisor = Staff::find($staff->SupervisorID);
+        // return $supervisor;
+
+        $data = [
+            "department_id" => $staff->DepartmentID,
+            "supervisor_id" => $staff->SupervisorID,
+            "supervisor_name" => $supervisor->FullName
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    public function delete_exit_response($id)
+    {
+        $exitnotice = ExitNotification::where("ExitNotificationRef", $id);
+
+        $exitnotice->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
     }
 }
