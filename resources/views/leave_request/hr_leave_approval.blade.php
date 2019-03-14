@@ -82,7 +82,7 @@
                       <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" >
                       @endif
                     </td>
-                    <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
+                    <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} </td>
                     <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                     <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                     <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
@@ -103,7 +103,7 @@
                       <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" >
                       @endif
                     </td>
-                    <td>{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}}</td>
+                    <td>{{$leave_request->first_name}} {{$leave_request->last_name}}</td>
                     <td>{{$leave_request->LeaveType}}</td>
                     <td>{{$leave_request->StartDate}}</td>
                     <td>{{$leave_request->ReturnDate}}</td>
@@ -161,7 +161,7 @@
                         <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" >
                       
                       </td>
-                      <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
+                      <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} </td>
                       <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                       <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                       <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
@@ -180,7 +180,7 @@
                         <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" >
                       
                       </td>
-                      <td>{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}}</td>
+                      <td>{{$leave_request->first_name}} {{$leave_request->last_name}}</td>
                       <td>{{$leave_request->LeaveType}}</td>
                       <td>{{$leave_request->StartDate}}</td>
                       <td>{{$leave_request->ReturnDate}}</td>
