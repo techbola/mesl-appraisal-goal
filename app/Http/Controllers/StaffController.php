@@ -895,6 +895,7 @@ class StaffController extends Controller
         $department = Department::all();
         $exitinterview = ExitInterview::all();
         $exitnotice = ExitNotification::Orderby('ExitNotificationRef', 'DESC')->get();
+        // dd($exitnotice);
         $supervisor = CompanySupervisor::all();
 
         return view('staff.exit_interview', compact('staff', 'department', 'supervisor', 'users', 'exitnotice', 'exitinterview'));
