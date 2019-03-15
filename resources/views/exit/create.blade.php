@@ -94,7 +94,7 @@
                         <br>
                         
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('ExitReasonID', '1. Reason for Leaving' ) }}
@@ -107,12 +107,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-        
-                        <br>
-        
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('RelocationReasonID', '2. If Relocating please specify reason why' ) }}
@@ -130,20 +125,17 @@
                         <br>
         
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('ForwardAddress', '3. If applicable, what is your forwarding address' ) }}
+                                        <br>
+                                        <br>
                                         {{ Form::textarea('ForwardAddress', null, ['class' => 'form-control', 'placeholder' => 'Forwarding Address', 'rows'=> '2', 'required']) }}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-        
-                        <br>
-        
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('LeastEmployment', '4. What did you like least about your employment experience at the organization?' ) }}
@@ -156,20 +148,17 @@
                         <br>
         
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('WorkReason', '5. Why did you come to work for this organization?' ) }}
+                                        <br>
+                                        <br>
                                         {{ Form::textarea('WorkReason', null, ['class' => 'form-control', 'placeholder' => 'Reason for working here', 'rows'=> '2', 'required']) }}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-        
-                        <br>
-        
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('MostEmployment', '6. What did you like most about your employment experience at the organization?' ) }}
@@ -213,7 +202,7 @@
                         <br>
         
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('Workrelationship', '9. I have a good working relationship with co-workers' ) }}
@@ -227,7 +216,7 @@
                                 </div>
                             </div>
         
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('SupervisorRelationship', '10. I had a good working relationship with my supervisor' ) }}
@@ -240,8 +229,12 @@
                                     </div>
                                 </div>
                             </div>
-        
-                            <div class="col-md-3">
+                        </div>
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('JobExpectations', '11. Training or job development met expectations.' ) }}
@@ -255,7 +248,7 @@
                                 </div>
                             </div>
         
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('WorkAssignemnt', '12. Work Assignments were distributed evenly.' ) }}
@@ -273,7 +266,7 @@
                         <br>
         
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('JobUnderstanding', '13. I had a clear understanding of my job duties.' ) }}
@@ -287,7 +280,7 @@
                                 </div>
                             </div>
         
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('WorkConditions', '14. Working conditions met expectations.' ) }}
@@ -300,8 +293,12 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <br>
                             
-                            <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('WorkPay', '15. The pay was fair for work required.' ) }}
@@ -314,12 +311,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-        
-                        <br>
-        
-                        <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('WorkBenefit', '16. The Benefits were competitive' ) }}
@@ -332,8 +324,12 @@
                                     </div>
                                 </div>
                             </div>
-        
-                            <div class="col-md-4">
+                        </div>
+
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('WorkSchedule', '17. My work schedule met my needs.' ) }}
@@ -347,7 +343,7 @@
                                 </div>
                             </div>
         
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('WorkSatisfaction', '18. Overall, I was satisfied with my job.' ) }}
@@ -458,16 +454,19 @@
                     </thead>
                     <tbody>
                         @foreach($exits as $exit)
-                            <tr>
-                                <td>{{$exit->ResignedStaff}}</td>
-                                <td>{{$exit->department->Department}}</td>
-                                <td>{{$exit->InterviewDate}}</td>
-                                <td>{{$exit->exit_reason->ExitReason}}</td>
-                                <td>
-                                    <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_exitinterview({{$exit->ExitInterviewRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
-                                <a href="#" onclick="deleteItem('{{$exit->ExitInterviewRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
-                                </td>
-                            </tr>
+                            @if($exit->SentResponse == false)
+                                <tr>
+                                    <td>{{$exit->ResignedStaff}}</td>
+                                    <td>{{$exit->department->Department}}</td>
+                                    <td>{{$exit->InterviewDate}}</td>
+                                    <td>{{$exit->exit_reason->ExitReason}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_exitinterview({{$exit->ExitInterviewRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
+                                        <a href="#" onclick="deleteItem('{{$exit->ExitInterviewRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                                        <a href="{{ route('SendResponse', $exit->ExitInterviewRef) }}" onclick="" type="button" class="btn btn-xs btn-success toggler"><i class="fa fa-send"></i>Send Response</a>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table> 
@@ -525,7 +524,7 @@
                             <br>
                             
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('ExitReasonID', '1. Reason for Leaving' ) }}
@@ -538,12 +537,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
             
-                            <br>
-            
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('RelocationReasonID', '2. If Relocating please specify reason why' ) }}
@@ -561,20 +556,17 @@
                             <br>
             
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('ForwardAddress', '3. If applicable, what is your forwarding address' ) }}
+                                            <br>
+                                            <br>
                                             {{ Form::textarea('ForwardAddress', null, ['class' => 'form-control', 'placeholder' => 'Forwarding Address','id' => 'forward_address', 'rows'=> '2', 'required']) }}
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-            
-                            <br>
-            
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('LeastEmployment', '4. What did you like least about your employment experience at the organization?' ) }}
@@ -587,20 +579,17 @@
                             <br>
             
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('WorkReason', '5. Why did you come to work for this organization?' ) }}
+                                            <br>
+                                            <br>
                                             {{ Form::textarea('WorkReason', null, ['class' => 'form-control', 'placeholder' => 'Reason for working here','id' => 'work_reason', 'rows'=> '2', 'required']) }}
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-            
-                            <br>
-            
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('MostEmployment', '6. What did you like most about your employment experience at the organization?' ) }}
@@ -631,6 +620,8 @@
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('WorkAgain', '8. Would you consider working here again?' ) }}
+                                            <br>
+                                            <br>
                                             <select name="WorkAgain" class="full-width" data-init-plugin="select2" id="work_again" onchange="">
                                                 <option value=" ">Select Option</option>
                                                 <option value="Yes">Yes</option>
@@ -644,7 +635,7 @@
                             <br>
             
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('Workrelationship', '9. I have a good working relationship with co-workers' ) }}
@@ -658,7 +649,7 @@
                                     </div>
                                 </div>
             
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('SupervisorRelationship', '10. I had a good working relationship with my supervisor' ) }}
@@ -671,8 +662,12 @@
                                         </div>
                                     </div>
                                 </div>
-            
-                                <div class="col-md-3">
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('JobExpectations', '11. Training or job development met expectations.' ) }}
@@ -686,7 +681,7 @@
                                     </div>
                                 </div>
             
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('WorkAssignment', '12. Work Assignments were distributed evenly.' ) }}
@@ -704,7 +699,7 @@
                             <br>
             
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('JobUnderstanding', '13. I had a clear understanding of my job duties.' ) }}
@@ -718,7 +713,7 @@
                                     </div>
                                 </div>
             
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('WorkConditions', '14. Working conditions met expectations.' ) }}
@@ -731,8 +726,12 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                                 
-                                <div class="col-md-4">
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('WorkPay', '15. The pay was fair for work required.' ) }}
@@ -745,12 +744,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-            
-                            <br>
-            
-                            <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('WorkBenefit', '16. The Benefits were competitive' ) }}
@@ -763,8 +757,12 @@
                                         </div>
                                     </div>
                                 </div>
-            
-                                <div class="col-md-4">
+                            </div>
+
+                            <br>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('WorkSchedule', '17. My work schedule met my needs.' ) }}
@@ -778,7 +776,7 @@
                                     </div>
                                 </div>
             
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('WorkSatisfaction', '18. Overall, I was satisfied with my job.' ) }}
@@ -941,7 +939,6 @@
 
         $('#resigned_staff').val(data.ResignedStaff);
 
-        console.log($('.form-edit').prop('action'))
         $('#form-edit').prop('action', '/update_exit_interview');
                 
         });
@@ -960,6 +957,23 @@
         }).then((result) => {
             if(result == true){
                 window.location.href = "/exit/create/"+ExitInterviewRef;
+            }
+        })
+    }
+
+    //send interview
+    function sendItem(ExitInerviewRef){
+        swal({
+            title: 'Are you sure?',
+            text: "You might not be able to make Changes again!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Send it!'
+        }).then((result) => {
+            if(result == true){
+                window.location.href = "//"+ExitInterviewRef;
             }
         })
     }
