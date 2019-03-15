@@ -125,14 +125,14 @@
                             <td>{{$item->department->Department ?? ''}}</td>
                             <td>{{$item->supervisor->FullName ?? ''}}</td>
                             <td>
-                                @if($item->exit_interview->SentResponse == true )
-                                    <button type="button" class="btn btn-xs btn-success toggler" onclick=""><i class="fa fa-success"></i>Filled</button>
+                                @if(!is_null($item->ExitInterviewID) && $item->exit_interview->SentResponse == true )
+                                    <button type="button" class="btn btn-xs btn-success toggler"><i class="fa fa-success"></i>Filled</button>
                                 @else
-                                    <button type="button" class="btn btn-xs btn-danger toggler" onclick=""><i class="fa fa-danger"></i>Pending</button>
+                                    <button type="button" class="btn btn-xs btn-danger toggler"><i class="fa fa-danger"></i>Pending</button>
                                 @endif
                             </td>
                             <td>
-                                <a href="{{route('viewexit', ['id' => $item->ExitInterviewID])}}" class="btn btn-xs btn-primary toggler" onclick=""><i class="fa fa-eye"></i>View</a>
+                                <a href="{{route('viewexit', ['id' => $item->ExitInterviewID])}}" class="btn btn-xs btn-primary toggler" @if(!is_null($item->ExitInterviewID) && $item->exit_interview->SentResponse == false ) disabled @endif><i class="fa fa-eye"></i>View</a>
                                 <a href="#" onclick="deleteItem('{{$item->ExitNotificationRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                             </td>
                         </tr>
