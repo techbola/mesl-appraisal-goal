@@ -30,6 +30,7 @@
         <table class="table datatable table-bordered" id="requestTable">
                 <thead>
                     <th>S/N</th>
+                    <th>Date Created</th>
                     <th>Staff Name</th>
                     <th>From</th>
                     <th>To</th>
@@ -39,6 +40,18 @@
                     <th>Approver Comment</th>
                     <th>Action</th>
                 </thead>
+                 <tfoot class="thead">
+                    <th>S/N</th>
+                    <th>Date Created</th>
+                    <th>Staff Name</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Departure Date</th>
+                    <th>Arrival Date</th>
+                    <th>Travel Purpose</th>
+                    <th>Approver Comment</th>
+                    <th>Action</th>
+                </tfoot>
                 <tbody>
                     <?php $count = 0; ?>
                     @foreach($travel_requests as $travel_request)
@@ -46,6 +59,7 @@
                     <?php $count = $count + 1; ?>
                     <tr>
                         <td>{{ $count }}</td>
+                        <td>{{ nice_date($travel_request->RequestDate) }}</td>
                         <td>{{ $travel_request->requester_name->FullName ?? '-'  }}</td>
                         <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_from_state->State : $travel_request->travel_from_state->State ?? '-' }}</td>
                         <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_to_state->State : $travel_request->travel_to_country->Country ?? '-' }}</td>
@@ -170,5 +184,27 @@
        });
     });
 </script>
+
+  <script>
+var table = $('#requestTable').DataTable();
+
+      $('#requestTable tfoot th').each(function(key, val) {
+            var title = $(this).text();
+            if (key === $('#requestTable tfoot th')) {
+                return false
+            }
+            $(this).html('<input type="text" class="my-input input-sm" placeholder="' + $.trim(title) + '" />');
+        });
+ table.columns().every(function() {
+            var that = this;
+            $('input', this.footer()).on('keyup change', function() {
+                if (that.search() !== this.value) {
+                    that.search(this.value).draw();
+                }
+            });
+        });
+$('#requestTable tfoot tr').appendTo('#requestTable thead');
+
+  </script>
 
 @endpush
