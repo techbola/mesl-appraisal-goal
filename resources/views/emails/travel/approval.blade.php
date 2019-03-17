@@ -34,9 +34,9 @@ No Travellers
 
 Your are required to decline or approve the request.
 
-cheers.
+Cheers.
 
-@component('mail::button', ['url' => url('/travel_request/admindashboard')])
+@component('mail::button', ['url' => url('/travel_request/admindashboard-approvers')])
 Visit Officemate
 @endcomponent
 
