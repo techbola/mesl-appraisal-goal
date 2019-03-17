@@ -185,7 +185,7 @@
 
       <div class="col-sm-3">
         <div class="form-group">
-            {{ Form::label('CityOfBirth','Town/City') }}
+            {{ Form::label('CityOfBirth','Hometown') }}
             {{ Form::text('CityOfBirth', null,  ['class' => 'form-control required', 'placeholder' => 'Enter City', 'required']) }}
         </div>
     </div>

@@ -170,7 +170,7 @@
         </tr>
 
         <tr>
-          <td>City/Town</td>
+          <td>Hometown</td>
           <td>{{ $staff->CityOfBirth ?? '-' }}</td>
           <td>{!! ($pending->CityOfBirth != $staff->CityOfBirth)? $pending->CityOfBirth : '<em class="text-muted">Unchanged</em>' !!}</td>
           <td></td>
