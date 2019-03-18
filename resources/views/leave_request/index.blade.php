@@ -102,7 +102,7 @@
                     <label class="label label-default"> pending with {{$leave_request->current_approver->FullName ?? ''}} </label>
                     @endif
                   @else
-                  <label class="label label-danger"> Rejected by {{$leave_request->staff->user->first_name ?? ''}} {{$leave_request->staff->user->last_name ?? ''}}</label>
+                  <label class="label label-danger"> Rejected by {{$leave_request->rejector->user->first_name ?? ''}} {{$leave_request->staff->user->last_name ?? ''}}</label>
                   @endif
                   @endif
                 </td>
@@ -169,7 +169,7 @@
                     <label class="label label-default"> pending with {{$leave_request->current_approver->FullName ?? ''}} </label>
                     @endif
                   @else
-                  <label class="label label-danger"> Rejected by {{$leave_request->staff->user->first_name ?? ''}} {{$leave_request->staff->user->last_name ?? ''}}</label>
+                  <label class="label label-danger"> Rejected by {{$leave_request->rejector->user->first_name ?? ''}} {{$leave_request->staff->user->last_name ?? ''}}</label>
                   @endif
                   @endif
                 </td>
@@ -201,6 +201,7 @@
   <script>
     function send_notification()
         {
+          console.log(this)
           var elem = this.event.target;
           var elem_value = $(elem).attr('data-id');
             $.get('/leave_notification/'+elem_value, function(data, status) {

@@ -6,6 +6,7 @@ use MESL\LeaveType;
 // use MESL\Mail\Leave;
 use MESL\Staff;
 use MESL\User;
+use MESL\Role;
 use MESL\LeaveRequest;
 use MESL\Department;
 use MESL\Mail\LeaveRequest as LR;
@@ -62,6 +63,8 @@ class LeaveRequestController extends Controller
             $leave_days = $leavedays->SickLeaveDays;
         } elseif ($leave_type_id == '6') {
             $leave_days = $leavedays->CompasionateLeaveDays;
+        } elseif ($leave_type_id == '7') {
+            $leave_days = $leavedays->PaternityLeaveDays;
         }
 
         $leave_used = collect(\DB::table('tblLeaveTransaction')
@@ -76,6 +79,7 @@ class LeaveRequestController extends Controller
 
     public function leave_request()
     {
+
         $leave_type     = LeaveType::all()->sortBy('LeaveType');
         $unsent_request = LeaveRequest::where('StaffID', auth()->user()->id)->where('NotifyFlag', 1)->get();
         $user           = \Auth::user();
@@ -103,7 +107,9 @@ class LeaveRequestController extends Controller
         // ->join('tblHandOver', 'tblLeaveRequest.LeaveReqRef', '=', 'tblHandOver.LeaveRequestID')
             ->join('users', 'tblLeaveRequest.StaffID', '=', 'users.id')
             ->where('ApproverID', auth()->user()->staff->StaffRef)
+        // ->where('ApproverID', auth()->user()->id)
             ->where('NotifyFlag', 1)
+            ->where('SupervisorApproved', 0)
             ->get();
 
         $leave_check = $leave_requests->transform(function ($item, $key) {
@@ -275,12 +281,25 @@ class LeaveRequestController extends Controller
         // dd($leave_request);
         // $leave_request->RequestApproved    = 1;
         $leave_request->SupervisorApproved = 1;
-        $leave_request->ApproverID         = $request->Approver1 ?? 0;
-        $leave_request->ApproverID1        = $request->Approver1 ?? 0;
-        $leave_request->ApproverID2        = $request->Approver2 ?? 0;
-        $leave_request->ApproverID3        = $request->Approver3 ?? 0;
-        $leave_request->ApproverID4        = $request->Approver4 ?? 0;
-        $leave_request->ApproverComment    = $request->Comment;
+        // $leave_request->ApproverID         = $request->Approver1 ?? 0;
+        // $leave_request->ApproverID1        = $request->Approver1 ?? 0;
+        // $leave_request->ApproverID2        = $request->Approver2 ?? 0;
+        // $leave_request->ApproverID3        = $request->Approver3 ?? 0;
+        // $leave_request->ApproverID4        = $request->Approver4 ?? 0;
+        // $leave_request->ApproverComment    = $request->Comment;
+        $leave_request->ApprovedFlag = 1;
+        $get_approvers               = LeaveApprover::where('ModuleID', 3)->get();
+
+        $hr_users = Role::where('name', 'Head, Performance Management')
+            ->orWhere('name', 'Head, Human Resources')
+            ->first()->users;
+
+        $name = \DB::table('users')
+            ->select('first_name')
+            ->where('id', Staff::find($leave_request->StaffID)->first()->user->id)
+            ->first();
+
+        Mail::to($hr_users)->send(new HRLeaveConfirmation($name, $leave_request));
 
         $leave_request->update();
 
@@ -291,7 +310,7 @@ class LeaveRequestController extends Controller
         }
         // send emails when ApproverID is null and send route request to admin
         //  end
-        return redirect('/leave_request/leave_approval')->with('success', 'Request Approved successfully');
+        return redirect('/leave_request/leave_approval_supervisor')->with('success', 'Request Approved successfully');
     }
 
     public function reject_request_supervisor($id)
@@ -304,6 +323,7 @@ class LeaveRequestController extends Controller
 
         // dd($leave_request);
         $leave_request->RejectionFlag      = 1;
+        $leave_request->RejectedBy         = auth()->user()->staff->StaffRef;
         $leave_request->SupervisorApproved = 0;
         $leave_request->NotifyFlag         = 0;
         $leave_request->ApproverID         = $request->Approver1 ?? 0;
@@ -351,6 +371,7 @@ class LeaveRequestController extends Controller
                         $leave_type_id   = $trans->AbsenceTypeID;
                         $id              = \Auth::user()->id;
 
+                        $trans->ApproverID = 0;
                         if (is_null($new_approver_id) || $new_approver_id == 0) {
 
                             // if ($details->AbsenceTypeID == 1) {
@@ -375,7 +396,7 @@ class LeaveRequestController extends Controller
                                     ->where('id', Staff::find($ref->StaffID)->first()->user->id)
                                     ->first();
 
-                                Mail::to($email)->send(new HRLeaveConfirmation($name));
+                                // Mail::to($email)->send(new HRLeaveConfirmation($name));
 
                             }
                         }
@@ -420,8 +441,9 @@ class LeaveRequestController extends Controller
                     $reject_trans = \DB::table('tblLeaveRequest')
                         ->where('leaveReqRef', $Ref)
                         ->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
-                    $leave_request = LeaveRequest::where('LeaveReqRef', $Ref)->first();
-                    $email         = \DB::table('users')
+                    $leave_request             = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $leave_request->RejectedBy = auth()->user()->staff->StaffRef;
+                    $email                     = \DB::table('users')
                         ->select('email')
                         ->where('id', $leave_request->StaffID)
                         ->first();
@@ -490,10 +512,15 @@ class LeaveRequestController extends Controller
                             $leave_requester = User::find($leave_req_ref->StaffID)->first();
                             // dd($leave_requester->first()->email);
 
-                            $name  = $leave_requester;
+                            $name  = Staff::find($trans->StaffID)->user;
                             $email = $leave_requester->email;
 
-                            Mail::to($email)->send(new FinalHRLeaveConfirmation($name));
+                            Mail::to(Staff::find($trans->StaffID)->user)->send(new FinalHRLeaveConfirmation($name));
+                            // relief officer
+                            if (!is_null($trans->ReliefOfficerID)) {
+                                $relief_officer_email = User::find($leave_req_ref->ReliefOfficerID)->email;
+                                Mail::to($relief_officer_email)->send(new ReliefLeaveRequest($leave_req_ref));
+                            }
 
                         }
 
@@ -517,8 +544,9 @@ class LeaveRequestController extends Controller
                         ->where('leaveReqRef', $Ref)
                         ->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
 
-                    $leave_request = LeaveRequest::where('LeaveReqRef', $Ref)->first();
-                    $email         = \DB::table('users')
+                    $leave_request             = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $leave_request->RejectedBy = auth()->user()->staff->StaffRef;
+                    $email                     = \DB::table('users')
                         ->select('email')
                         ->where('id', $leave_request->StaffID)
                         ->first();
@@ -538,7 +566,7 @@ class LeaveRequestController extends Controller
                             ->where('id', (int) $leave_request->ReliefOfficerID)
                             ->first();
 
-                        Mail::to($relief_officer_email)->send(new LR($relief_officer_name, $leave_request));
+                        // Mail::to($relief_officer_email)->send(new LR($relief_officer_name, $leave_request));
                     }
                     Mail::to($email)->send(new LR($name, $leave_request));
                 }
@@ -571,6 +599,8 @@ class LeaveRequestController extends Controller
             $leave_days = $leavedays->SickLeaveDays;
         } elseif ($leave_type_id == '6') {
             $leave_days = $leavedays->CompasionateLeaveDays;
+        } elseif ($leave_type_id == '7') {
+            $leave_days = $leavedays->PaternityLeaveDays;
         }
 
         $leave_used = collect(\DB::table('tblLeaveTransaction')
@@ -838,15 +868,15 @@ class LeaveRequestController extends Controller
     {
         $leavetype = new LeaveType($request->all());
 
-        if($leavetype->save()) {
+        if ($leavetype->save()) {
             $data = [
-                'status'    => 'success',
-                'message'   => 'Leave Type was created successfully!'
+                'status'  => 'success',
+                'message' => 'Leave Type was created successfully!',
             ];
-        }else{
+        } else {
             $data = [
-                'status'    => 'error',
-                'message'   =>  'Leave Type creation was not successful!'
+                'status'  => 'error',
+                'message' => 'Leave Type creation was not successful!',
             ];
         }
 
@@ -866,7 +896,7 @@ class LeaveRequestController extends Controller
 
         $leavetype->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_leave_type($id)
@@ -875,6 +905,6 @@ class LeaveRequestController extends Controller
 
         $leavetype->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 }

@@ -254,7 +254,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
     Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');
-    
+
     Route::post('leave_request/leave_type', 'LeaveRequestController@store_leavetype')->name('StoreLeaveType');
 
     Route::get('edit_leave_type/{id}', 'LeaveRequestController@edit_leave_type')->name('edit_leave_type');
@@ -328,7 +328,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit_doc_type/{id}', 'DocTypeController@edit_doc_type')->name('edit_doc_type');
     Route::get('documents/doctype/{id}', 'DocTypeController@delete_doc_type')->name('delete_doc_type');
     Route::post('update_doc_type', 'DocTypeController@update_doc_type')->name('updatedoctype');
-    
 
     Route::get('events', 'EventScheduleController@index')->name('events');
     Route::get('get_events', 'EventScheduleController@get_events')->name('get_events'); // AJAX
@@ -490,6 +489,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('find_new_question/{course_ref}/{batch_ref}', 'CourseController@find_new_question');
     Route::post('process_examination_question/{batch}/{course_ref}', 'CourseController@process_examination_question');
     Route::get('get_final_test_result/{batch}/{course_ref}', 'CourseController@get_final_test_result');
+    Route::get('get_exam_review_questions/{course_ref}/{batch_ref}', 'CourseController@get_exam_review_questions');
+    Route::get('reset_exam_question/{course_ref}/{batch_ref}', 'CourseController@reset_exam_question');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');

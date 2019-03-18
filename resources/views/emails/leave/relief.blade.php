@@ -11,7 +11,7 @@ The request has been approved and needs your attention.
 
 You received this email notification because you are **{{ $leave_request->requester->fullName }}'s** relief officer. 
 
-cheers.
+Cheers.
 
 @component('mail::button', ['url' => url('/leave_request/leave_approval_supervisor')])
 Visit Officemate

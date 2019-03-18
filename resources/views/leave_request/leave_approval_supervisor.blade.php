@@ -55,7 +55,7 @@
             <th >Leave Days</th>
             <th>File(s)</th>
             <th>HandOver Notes</th>
-            <th>Action</th>
+            {{-- <th>Action</th> --}}
 
           </thead>
           <tbody>
@@ -63,7 +63,9 @@
             @foreach($leave_check as $leave_request)
                 @if($leave_request->status > 0)
               <tr>
-                <td style="background: #fba1a0"><input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" ></td>
+                {{-- <td style="background: #fba1a0"> --}}
+                  {{-- <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" > --}}
+                {{-- </td> --}}
                 <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
                 <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                 <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
@@ -85,7 +87,7 @@
                   @endif
                 </td>
                 <td>
-                  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
+                  <a style="margin-right: 10px; display: inline-block" href="/leave_request/approve_request/{{ $leave_request->LeaveReqRef }}"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
                             <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
 
@@ -94,7 +96,9 @@
               </tr>
               @else
               <tr>
-                <td><input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" ></td>
+                {{-- <td> --}}
+                  {{-- <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" > --}}
+                {{-- </td> --}}
                 <td>{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}}</td>
                 <td>{{$leave_request->LeaveType}}</td>
                 <td>{{$leave_request->StartDate}}</td>
@@ -118,7 +122,7 @@
 
                 </td>
                 <td>
-                  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
+                  <a style="margin-right: 10px; display: inline-block" href="/leave_request/approve_request/{{ $leave_request->LeaveReqRef }}"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
                             <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
                 </td>
@@ -281,7 +285,7 @@
   </script>
   <script>
     $(function(){
-       $("#approvers-toggler").click(function(e) {
+       $("#approvers-toggler_").click(function(e) {
            e.preventDefault();
            let val = $(this).data('whatever');
            console.log(val);
