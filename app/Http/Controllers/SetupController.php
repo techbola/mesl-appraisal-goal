@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use MESL\HMO;
 use MESL\HMOPlan;
 use MESL\Location;
+use MESL\PFA;
 
 class SetupController extends Controller
 {
@@ -142,4 +143,51 @@ class SetupController extends Controller
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }
+
+    //PFA Setup
+
+    public function pfa()
+    {
+        $pfa = PFA::Orderby('PFARef', 'DESC')->get();
+        return view('setup.pfa', compact('pfa'));
+    }
+
+    public function store_pfa(Request $request)
+    {
+        $pfa = new PFA($request->all());
+        $this->validate($request, [
+            'PFA' => 'required',
+        ]);
+        if ($pfa->save()) {
+            return redirect('/setup/pfa')->with('success', 'PFA was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'PFA failed to save');
+        }
+    }
+
+    public function edit_pfa($id)
+    {
+        $pfa = PFA::where("PFARef", $id)->first();
+
+        return response()->json($pfa);
+    }
+
+    public function update_pfa(Request $request)
+    {
+        $pfa = PFA::find($request->PFARef);
+
+        $pfa->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_pfa($id)
+    {
+        $pfa = PFA::where("PFARef", $id);
+
+        $pfa->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
 }

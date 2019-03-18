@@ -1375,3 +1375,9 @@ Route::post('setup/location', 'SetupController@store_location')->name('StoreLoca
 Route::get('edit_location/{id}', 'SetupController@edit_location')->name('edit_location');
 Route::post('update_location', 'SetupController@update_location')->name('updateLocation');
 Route::get('setup/location/{id}', 'SetupController@delete_location')->name('delete_location');
+
+Route::get('setup/pfa', 'SetupController@pfa');
+Route::post('setup/pfa', 'SetupController@store_pfa')->name('Storepfa');
+Route::get('edit_pfa/{id}', 'SetupController@edit_pfa')->name('edit_pfa');
+Route::post('update_pfa', 'SetupController@update_pfa')->name('updatepfa');
+Route::get('setup/pfa/{id}', 'SetupController@delete_pfa')->name('delete_pfa');
