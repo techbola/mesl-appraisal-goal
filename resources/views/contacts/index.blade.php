@@ -124,69 +124,8 @@
 
 @push('scripts')
 	<script>
-	// var head = $('.table thead tr').clone();
-	// $('.table tfoot').append(head);
-	//
-	// // Setup - add a text input to each footer cell
-	//     $('.table tfoot th').each( function () {
-	//         var title = $(this).text();
-	//         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-	//     } );
-	//
-	//     // DataTable
-	//     var table = $('.table').DataTable();
-	//
-	//     // Apply the search
-	//     table.columns().every( function () {
-	//         var that = this;
-	//
-	//         $( 'input', this.footer() ).on( 'keyup change', function () {
-	//             if ( that.search() !== this.value ) {
-	//                 that
-	//                     .search( this.value )
-	//                     .draw();
-	//             }
-	//         } );
-	//     } );
-			// $('.table tfoot tr').clone().appendTo('.table thead');
-
-
-	// 		var settings = {
- //     "sDom": "<'exportOptions'T><'table-responsive't><'row'<p i>>",
- //     "sPaginationType": "bootstrap",
- //     "destroy": true,
- //     "scrollCollapse": true,
- //     "oLanguage": {
- //         "sLengthMenu": "_MENU_ ",
- //         "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
- //     },
- //
- //     "iDisplayLength": 20,
- //     "oTableTools": {
- //         "sSwfPath": "../assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
- //         "aButtons": [{
- //             "sExtends": "csv",
- //             "sButtonText": "<i class='pg-grid'></i>",
- //         }, {
- //             "sExtends": "xls",
- //             "sButtonText": "<i class='fa fa-file-excel-o'></i>",
- //         }, {
- //             "sExtends": "pdf",
- //             "sButtonText": "<i class='fa fa-file-pdf-o'></i>",
- //         }, {
- //             "sExtends": "copy",
- //             "sButtonText": "<i class='fa fa-copy'></i>",
- //         }]
- //     },
- //     fnDrawCallback: function(oSettings) {
- //         $('.export-options-container').append($('.exportOptions'));
- //     }
- // };
-
 var table = $('#contacts').DataTable();
-// var tfoot = $('#contacts thead tr').clone().prop('id', 'tfoot');
-// $('#contacts thead').after('<tfoot></tfoot>');
-// $('#contacts tfoot').append(tfoot);
+
 			$('#contacts tfoot th').each(function(key, val) {
             var title = $(this).text();
             if (key === $('#contacts tfoot th')) {
@@ -202,7 +141,7 @@ var table = $('#contacts').DataTable();
                 }
             });
         });
-				$('#contacts tfoot tr').appendTo('#contacts thead');
+$('#contacts tfoot tr').appendTo('#contacts thead');
 
 	</script>
 @endpush
