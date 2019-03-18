@@ -7,6 +7,8 @@ use MESL\HMO;
 use MESL\HMOPlan;
 use MESL\Location;
 use MESL\PFA;
+use MESL\Bank;
+use MESL\Currency;
 
 class SetupController extends Controller
 {
@@ -186,6 +188,54 @@ class SetupController extends Controller
         $pfa = PFA::where("PFARef", $id);
 
         $pfa->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    //Bank Setup
+
+    public function bank_setup()
+    {
+        $currency = Currency::all();
+        $bank = Bank::Orderby('BankRef', 'DESC')->get();
+        return view('setup.bank_setup', compact('bank', 'currency'));
+    }
+
+    public function store_bank(Request $request)
+    {
+        $bank = new Bank($request->all());
+        $this->validate($request, [
+            'BankName' => 'required',
+            'CurrencyID' => 'required',
+        ]);
+        if ($bank->save()) {
+            return redirect('/setup/bank_setup')->with('success', 'Bank was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Bank failed to save');
+        }
+    }
+
+    public function edit_bank($id)
+    {
+        $bank = Bank::where("BankRef", $id)->first();
+
+        return response()->json($bank);
+    }
+
+    public function update_bank(Request $request)
+    {
+        $bank = Bank::find($request->BankRef);
+
+        $bank->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_bank($id)
+    {
+        $bank = Bank::where("BankRef", $id);
+
+        $bank->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }

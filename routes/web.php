@@ -1381,3 +1381,9 @@ Route::post('setup/pfa', 'SetupController@store_pfa')->name('Storepfa');
 Route::get('edit_pfa/{id}', 'SetupController@edit_pfa')->name('edit_pfa');
 Route::post('update_pfa', 'SetupController@update_pfa')->name('updatepfa');
 Route::get('setup/pfa/{id}', 'SetupController@delete_pfa')->name('delete_pfa');
+
+Route::get('setup/bank_setup', 'SetupController@bank_setup');
+Route::post('setup/bank_setup', 'SetupController@store_bank')->name('StoreBank');
+Route::get('edit_bank/{id}', 'SetupController@edit_bank')->name('edit_bank');
+Route::post('update_bank', 'SetupController@update_bank')->name('updateBank');
+Route::get('setup/bank/{id}', 'SetupController@delete_bank')->name('delete_bank');
