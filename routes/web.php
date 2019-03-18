@@ -1363,3 +1363,9 @@ Route::post('setup/hmo', 'SetupController@store_hmo')->name('StoreHmo');
 Route::get('edit_hmo/{id}', 'SetupController@edit_hmo')->name('edit_hmo');
 Route::post('update_hmo', 'SetupController@update_hmo')->name('updateHMO');
 Route::get('setup/hmo/{id}', 'SetupController@delete_hmo')->name('delete_hmo');
+
+Route::get('setup/hmo_plan', 'SetupController@hmo_plan');
+Route::post('setup/hmo_plan', 'SetupController@store_hmo_plan')->name('StoreHMOplan');
+Route::get('edit_hmo_plan/{id}', 'SetupController@edit_hmo_plan')->name('edit_hmo_plan');
+Route::post('update_hmo_plan', 'SetupController@update_hmo_plan')->name('updateHMOplan');
+Route::get('setup/hmo_plan/{id}', 'SetupController@delete_hmo_plan')->name('delete_hmo_plan');
