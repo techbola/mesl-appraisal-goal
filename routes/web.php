@@ -1369,3 +1369,9 @@ Route::post('setup/hmo_plan', 'SetupController@store_hmo_plan')->name('StoreHMOp
 Route::get('edit_hmo_plan/{id}', 'SetupController@edit_hmo_plan')->name('edit_hmo_plan');
 Route::post('update_hmo_plan', 'SetupController@update_hmo_plan')->name('updateHMOplan');
 Route::get('setup/hmo_plan/{id}', 'SetupController@delete_hmo_plan')->name('delete_hmo_plan');
+
+Route::get('setup/location', 'SetupController@location');
+Route::post('setup/location', 'SetupController@store_location')->name('StoreLocation');
+Route::get('edit_location/{id}', 'SetupController@edit_location')->name('edit_location');
+Route::post('update_location', 'SetupController@update_location')->name('updateLocation');
+Route::get('setup/location/{id}', 'SetupController@delete_location')->name('delete_location');

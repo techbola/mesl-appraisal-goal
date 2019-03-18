@@ -5,6 +5,7 @@ namespace MESL\Http\Controllers;
 use Illuminate\Http\Request;
 use MESL\HMO;
 use MESL\HMOPlan;
+use MESL\Location;
 
 class SetupController extends Controller
 {
@@ -93,6 +94,51 @@ class SetupController extends Controller
         $hmoplan = HMOPlan::where("HMOPlanRef", $id);
 
         $hmoplan->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    //location Setup
+    public function location()
+    {
+        $location = Location::Orderby('LocationRef', 'DESC')->get();
+        return view ('setup.location', compact('location'));
+    }
+
+    public function store_location(Request $request)
+    {
+        $location = new Location($request->all());
+        $this->validate($request, [
+            'Location' => 'required',
+        ]);
+        if ($location->save()) {
+            return redirect('/setup/location')->with('success', 'Location was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Location failed to save');
+        }
+    }
+
+    public function edit_location($id)
+    {
+        $location = Location::where("LocationRef", $id)->first();
+
+        return response()->json($location);
+    }
+
+    public function update_location(Request $request)
+    {
+        $location = Location::find($request->LocationRef);
+
+        $location->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_location($id)
+    {
+        $location = Location::where("LocationRef", $id);
+
+        $location->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }
