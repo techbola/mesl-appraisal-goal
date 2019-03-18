@@ -1387,4 +1387,4 @@ Route::get('setup/bank_setup', 'SetupController@bank_setup');
 Route::post('setup/bank_setup', 'SetupController@store_bank')->name('StoreBank');
 Route::get('edit_bank/{id}', 'SetupController@edit_bank')->name('edit_bank');
 Route::post('update_bank', 'SetupController@update_bank')->name('updateBank');
-Route::get('setup/bank/{id}', 'SetupController@delete_bank')->name('delete_bank');
+Route::get('setup/bank_setup/{id}', 'SetupController@delete_bank')->name('delete_bank');
