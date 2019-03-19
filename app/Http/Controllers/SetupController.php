@@ -12,6 +12,7 @@ use MESL\Currency;
 use MESL\TravelPurpose;
 use MESL\TravelMode;
 use MESL\TravelTransport;
+use MESL\TravelLodge;
 
 class SetupController extends Controller
 {
@@ -377,6 +378,50 @@ class SetupController extends Controller
         $transport = TravelTransport::where("TransporterRef", $id);
 
         $transport->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function travel_lodge()
+    {
+        $lodge = TravelLodge::Orderby('TravelLodgeRef', 'DESC')->get();
+        return view('setup.travel_lodge', compact('lodge'));
+    }
+
+    public function store_travel_lodge(Request $request)
+    {
+        $lodge = new TravelLodge($request->all());
+        $this->validate($request, [
+            'TravelLodge' => 'required',
+        ]);
+        if ($lodge->save()) {
+            return redirect('/setup/travel_lodge')->with('success', 'Lodge was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Lodge failed to save');
+        }
+    }
+
+    public function edit_travel_lodge($id)
+    {
+        $lodge = TravelLodge::where("TravelLodgeRef", $id)->first();
+
+        return response()->json($lodge);
+    }
+
+    public function update_travel_lodge(Request $request)
+    {
+        $lodge = TravelLodge::find($request->TravelLodgeRef);
+
+        $lodge->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_travel_lodge($id)
+    {
+        $lodge = TravelLodge::where("TravelLodgeRef", $id);
+
+        $lodge->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }

@@ -1406,3 +1406,10 @@ Route::post('setup/travel_transport', 'SetupController@store_travel_transport')-
 Route::get('edit_travel_transport/{id}', 'SetupController@edit_travel_transport')->name('edit_travel_transport');
 Route::post('update_travel_transport', 'SetupController@update_travel_transport')->name('updateTransport');
 Route::get('setup/travel_transport/{id}', 'SetupController@delete_travel_transport')->name('delete_travel_transport');
+
+Route::get('setup/travel_lodge', 'SetupController@travel_lodge');
+Route::post('setup/travel_lodge', 'SetupController@store_travel_lodge')->name('StoreLodge');
+Route::get('edit_travel_lodge/{id}', 'SetupController@edit_travel_lodge')->name('edit_travel_lodge');
+Route::post('update_travel_lodge', 'SetupController@update_travel_lodge')->name('updateLodge');
+Route::get('setup/travel_lodge/{id}', 'SetupController@delete_travel_lodge')->name('delete_travel_lodge');
+
