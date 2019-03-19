@@ -1388,3 +1388,9 @@ Route::post('setup/bank_setup', 'SetupController@store_bank')->name('StoreBank')
 Route::get('edit_bank/{id}', 'SetupController@edit_bank')->name('edit_bank');
 Route::post('update_bank', 'SetupController@update_bank')->name('updateBank');
 Route::get('setup/bank_setup/{id}', 'SetupController@delete_bank')->name('delete_bank');
+
+Route::get('setup/travel_purpose', 'SetupController@travel_purpose');
+Route::post('setup/travel_purpose', 'SetupController@store_travel_purpose')->name('StorePurpose');
+Route::get('edit_travel_purpose/{id}', 'SetupController@edit_travel_purpose')->name('edit_travel_purpose');
+Route::post('update_travel_purpose', 'SetupController@update_travel_purpose')->name('updatePurpose');
+Route::get('setup/travel_purpose/{id}', 'SetupController@delete_travel_purpose')->name('delete_travel_purpose');

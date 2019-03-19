@@ -9,6 +9,7 @@ use MESL\Location;
 use MESL\PFA;
 use MESL\Bank;
 use MESL\Currency;
+use MESL\TravelPurpose;
 
 class SetupController extends Controller
 {
@@ -236,6 +237,52 @@ class SetupController extends Controller
         $bank = Bank::where("BankRef", $id);
 
         $bank->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    //travel purpose setup
+
+    public function travel_purpose()
+    {
+        $purpose = TravelPurpose::Orderby('TravelPurposeRef', 'DESC')->get();
+        return view('setup.travel_purpose', compact('purpose'));
+    }
+
+    public function store_travel_purpose(Request $request)
+    {
+        $purpose = new TravelPurpose($request->all());
+        $this->validate($request, [
+            'TravelPurpose' => 'required',
+        ]);
+        if ($purpose->save()) {
+            return redirect('/setup/travel_purpose')->with('success', 'Purpose was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Purpose failed to save');
+        }
+    }
+
+    public function edit_travel_purpose($id)
+    {
+        $purpose = TravelPurpose::where("TravelPurposeRef", $id)->first();
+
+        return response()->json($purpose);
+    }
+
+    public function update_travel_purpose(Request $request)
+    {
+        $purpose = TravelPurpose::find($request->TravelPurposeRef);
+
+        $purpose->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_travel_purpose($id)
+    {
+        $purpose = TravelPurpose::where("TravelPurposeRef", $id);
+
+        $purpose->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }
