@@ -11,6 +11,7 @@ use MESL\Bank;
 use MESL\Currency;
 use MESL\TravelPurpose;
 use MESL\TravelMode;
+use MESL\TravelTransport;
 
 class SetupController extends Controller
 {
@@ -330,6 +331,52 @@ class SetupController extends Controller
         $mode = TravelMode::where("TravelModeRef", $id);
 
         $mode->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    //Travel Transport Setup
+
+    public function travel_transport()
+    {
+        $transport = TravelTransport::Orderby('TransporterRef', 'DESC')->get();
+        return view('setup.travel_transport', compact('transport'));
+    }
+
+    public function store_travel_transport(Request $request)
+    {
+        $transport = new TravelTransport($request->all());
+        $this->validate($request, [
+            'Transporter' => 'required',
+        ]);
+        if ($transport->save()) {
+            return redirect('/setup/travel_transport')->with('success', 'Transporter was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Transporter failed to save');
+        }
+    }
+
+    public function edit_travel_transport($id)
+    {
+        $transport = TravelTransport::where("TransporterRef", $id)->first();
+
+        return response()->json($transport);
+    }
+
+    public function update_travel_transport(Request $request)
+    {
+        $transport = TravelTransport::find($request->TransporterRef);
+
+        $transport->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_travel_transport($id)
+    {
+        $transport = TravelTransport::where("TransporterRef", $id);
+
+        $transport->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }

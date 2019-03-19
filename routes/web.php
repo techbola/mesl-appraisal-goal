@@ -1400,3 +1400,9 @@ Route::post('setup/travel_mode', 'SetupController@store_travel_mode')->name('Sto
 Route::get('edit_travel_mode/{id}', 'SetupController@edit_travel_mode')->name('edit_travel_mode');
 Route::post('update_travel_mode', 'SetupController@update_travel_mode')->name('updateMode');
 Route::get('setup/travel_mode/{id}', 'SetupController@delete_travel_mode')->name('delete_travel_mode');
+
+Route::get('setup/travel_transport', 'SetupController@travel_transport');
+Route::post('setup/travel_transport', 'SetupController@store_travel_transport')->name('StoreTransport');
+Route::get('edit_travel_transport/{id}', 'SetupController@edit_travel_transport')->name('edit_travel_transport');
+Route::post('update_travel_transport', 'SetupController@update_travel_transport')->name('updateTransport');
+Route::get('setup/travel_transport/{id}', 'SetupController@delete_travel_transport')->name('delete_travel_transport');
