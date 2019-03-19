@@ -10,6 +10,7 @@ use MESL\PFA;
 use MESL\Bank;
 use MESL\Currency;
 use MESL\TravelPurpose;
+use MESL\TravelMode;
 
 class SetupController extends Controller
 {
@@ -283,6 +284,52 @@ class SetupController extends Controller
         $purpose = TravelPurpose::where("TravelPurposeRef", $id);
 
         $purpose->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    //Travel mode setup
+
+    public function travel_mode()
+    {
+        $mode = TravelMode::Orderby('TravelModeRef', 'DESC')->get();
+        return view('setup.travel_mode', compact('mode'));
+    }
+
+    public function store_travel_mode(Request $request)
+    {
+        $mode = new TravelMode($request->all());
+        $this->validate($request, [
+            'TravelMode' => 'required',
+        ]);
+        if ($mode->save()) {
+            return redirect('/setup/travel_mode')->with('success', 'Mode was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Mode failed to save');
+        }
+    }
+
+    public function edit_travel_mode($id)
+    {
+        $mode = TravelMode::where("TravelModeRef", $id)->first();
+
+        return response()->json($mode);
+    }
+
+    public function update_travel_mode(Request $request)
+    {
+        $mode = TravelMode::find($request->TravelModeRef);
+
+        $mode->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_travel_mode($id)
+    {
+        $mode = TravelMode::where("TravelModeRef", $id);
+
+        $mode->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }

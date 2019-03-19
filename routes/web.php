@@ -1394,3 +1394,9 @@ Route::post('setup/travel_purpose', 'SetupController@store_travel_purpose')->nam
 Route::get('edit_travel_purpose/{id}', 'SetupController@edit_travel_purpose')->name('edit_travel_purpose');
 Route::post('update_travel_purpose', 'SetupController@update_travel_purpose')->name('updatePurpose');
 Route::get('setup/travel_purpose/{id}', 'SetupController@delete_travel_purpose')->name('delete_travel_purpose');
+
+Route::get('setup/travel_mode', 'SetupController@travel_mode');
+Route::post('setup/travel_mode', 'SetupController@store_travel_mode')->name('StoreMode');
+Route::get('edit_travel_mode/{id}', 'SetupController@edit_travel_mode')->name('edit_travel_mode');
+Route::post('update_travel_mode', 'SetupController@update_travel_mode')->name('updateMode');
+Route::get('setup/travel_mode/{id}', 'SetupController@delete_travel_mode')->name('delete_travel_mode');
