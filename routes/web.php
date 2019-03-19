@@ -1358,3 +1358,27 @@ Route::get('send_exit_interview/{id}', 'ExitController@send_exit_interview')->na
 Route::get('staff/exit_interview/{id}', 'StaffController@delete_exit_response')->name('delete_exit_response');
 
 
+//SETUP ROUTES
+Route::get('setup/hmo', 'SetupController@hmo');
+Route::post('setup/hmo', 'SetupController@store_hmo')->name('StoreHmo');
+Route::get('edit_hmo/{id}', 'SetupController@edit_hmo')->name('edit_hmo');
+Route::post('update_hmo', 'SetupController@update_hmo')->name('updateHMO');
+Route::get('setup/hmo/{id}', 'SetupController@delete_hmo')->name('delete_hmo');
+
+Route::get('setup/hmo_plan', 'SetupController@hmo_plan');
+Route::post('setup/hmo_plan', 'SetupController@store_hmo_plan')->name('StoreHMOplan');
+Route::get('edit_hmo_plan/{id}', 'SetupController@edit_hmo_plan')->name('edit_hmo_plan');
+Route::post('update_hmo_plan', 'SetupController@update_hmo_plan')->name('updateHMOplan');
+Route::get('setup/hmo_plan/{id}', 'SetupController@delete_hmo_plan')->name('delete_hmo_plan');
+
+Route::get('setup/location', 'SetupController@location');
+Route::post('setup/location', 'SetupController@store_location')->name('StoreLocation');
+Route::get('edit_location/{id}', 'SetupController@edit_location')->name('edit_location');
+Route::post('update_location', 'SetupController@update_location')->name('updateLocation');
+Route::get('setup/location/{id}', 'SetupController@delete_location')->name('delete_location');
+
+Route::get('setup/pfa', 'SetupController@pfa');
+Route::post('setup/pfa', 'SetupController@store_pfa')->name('Storepfa');
+Route::get('edit_pfa/{id}', 'SetupController@edit_pfa')->name('edit_pfa');
+Route::post('update_pfa', 'SetupController@update_pfa')->name('updatepfa');
+Route::get('setup/pfa/{id}', 'SetupController@delete_pfa')->name('delete_pfa');

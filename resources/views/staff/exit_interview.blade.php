@@ -41,7 +41,7 @@
         <li>
             <a data-toggle="tab" href="#exit-table">
                 Exit table &nbsp; <span class="badge badge-success">
-                    {{-- {{ count() }} --}}
+                    {{ $exitnotice->count() }}
                 </span>
             </a>
         </li>
