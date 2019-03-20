@@ -90,55 +90,55 @@
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Edit Doc Type</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <hr>
-                <div class="modal-body">
-                    <form action="" method="POST" id="form-edit">
-                        <input type="hidden" id="DocTypeRef" name="DocTypeRef">
-                        {{ csrf_field() }}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="controls">
-                                    <div class="form-group">
-                                        {{ Form::label('DocType', 'Document Type' ) }}
-                                        {{ Form::text('DocType', null, ['class' => 'form-control', 'id' => 'doc_type', 'placeholder' => 'Edit Doc Type', 'required']) }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Doc Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr>
+            <div class="modal-body">
+                <form action="" method="POST" id="form-edit">
+                    <input type="hidden" id="DocTypeRef" name="DocTypeRef">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="controls">
                                 <div class="form-group">
-                                    {{ Form::label('DocCategory', 'Document Category' ) }}
-                                    <select name="DocCategory" class="full-width" data-init-plugin="select2" id="doc_category" onchange="">
-                                        <option value=" ">Select Document Category</option>
-                                        @foreach($doc_category as $item)
-                                            <option value="{{ $item->DocCategoryRef }}">{{ $item->DocCategory }}</option>
-                                        @endforeach
-                                    </select>
+                                    {{ Form::label('DocType', 'Document Type' ) }}
+                                    {{ Form::text('DocType', null, ['class' => 'form-control', 'id' => 'doc_type', 'placeholder' => 'Edit Doc Type', 'required']) }}
                                 </div>
                             </div>
                         </div>
 
-                        <input type="hidden" name="CompanyID" value="17">
-                
-                        <div class="row">
-                            <div class="pull-right">
-                                <button class="btn btn-info" type="submit">Submit</button>
+                        <div class="col-md-6">
+                        <div class="controls">
+                            <div class="form-group">
+                                {{ Form::label('DocCategory', 'Document Category' ) }}
+                                <select name="DocCategory" class="full-width" data-init-plugin="select2" id="doc_category" onchange="">
+                                    <option value=" ">Select Document Category</option>
+                                    @foreach($doc_category as $item)
+                                        <option value="{{ $item->DocCategoryRef }}">{{ $item->DocCategory }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
-                    </form>
-                </div>
-              </div>
+                    </div>
+
+                    <input type="hidden" name="CompanyID" value="17">
+            
+                    <div class="row">
+                        <div class="pull-right">
+                            <button class="btn btn-info" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </div>
+            </div>
+        </div>
+    </div>
 
 
 
