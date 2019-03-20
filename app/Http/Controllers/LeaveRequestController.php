@@ -17,6 +17,7 @@ use MESL\Mail\LeaveRequestSupervisor;
 use MESL\Mail\LeaveRequestApproval;
 use MESL\Mail\RejectLeaveRequest;
 use MESL\Mail\ReliefLeaveRequest;
+use MESL\Mail\LeaveRequestedRejected;
 use Carbon\Carbon;
 use MESL\RestrictionDates;
 use MESL\LeaveTransaction;
@@ -339,7 +340,7 @@ class LeaveRequestController extends Controller
         // $email = User::find($leave_request->RequesterID)->first()->email;
         // dd($request->all());
         $requester = User::find($leave_request->StaffID);
-        Mail::to($requester->email)->send(new RejectLeaveRequest($requester, $leave_request));
+        Mail::to($requester->email)->send(new LeaveRequestedRejected($leave_request));
 
         // send emails when ApproverID is null and send route request to admin
         //  end
