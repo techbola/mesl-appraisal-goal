@@ -1359,6 +1359,8 @@ Route::get('staff/exit_interview/{id}', 'StaffController@delete_exit_response')-
 
 
 //SETUP ROUTES
+Route::get('setup/index', 'SetupController@index');
+
 Route::get('setup/hmo', 'SetupController@hmo');
 Route::post('setup/hmo', 'SetupController@store_hmo')->name('StoreHmo');
 Route::get('edit_hmo/{id}', 'SetupController@edit_hmo')->name('edit_hmo');

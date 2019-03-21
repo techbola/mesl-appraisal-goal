@@ -17,6 +17,11 @@ use MESL\StaffType;
 
 class SetupController extends Controller
 {
+    public function index()
+    {
+        return view('setup.index');
+    }
+
     public function hmo()
     {
         $hmo = HMO::Orderby('HMORef', 'DESC')->get();
