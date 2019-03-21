@@ -1413,3 +1413,8 @@ Route::get('edit_travel_lodge/{id}', 'SetupController@edit_travel_lodge')->name(
 Route::post('update_travel_lodge', 'SetupController@update_travel_lodge')->name('updateLodge');
 Route::get('setup/travel_lodge/{id}', 'SetupController@delete_travel_lodge')->name('delete_travel_lodge');
 
+Route::get('setup/staff_type', 'SetupController@staff_type');
+Route::post('setup/staff_type', 'SetupController@store_staff_type')->name('StoreStaffType');
+Route::get('edit_staff_type/{id}', 'SetupController@edit_staff_type')->name('edit_staff_type');
+Route::post('update_staff_type', 'SetupController@update_staff_type')->name('updateStaffType');
+Route::get('setup/staff_type/{id}', 'SetupController@delete_staff_type')->name('delete_staff_type');

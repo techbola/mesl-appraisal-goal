@@ -13,6 +13,7 @@ use MESL\TravelPurpose;
 use MESL\TravelMode;
 use MESL\TravelTransport;
 use MESL\TravelLodge;
+use MESL\StaffType;
 
 class SetupController extends Controller
 {
@@ -422,6 +423,52 @@ class SetupController extends Controller
         $lodge = TravelLodge::where("TravelLodgeRef", $id);
 
         $lodge->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function staff_type()
+    {
+        $type = StaffType::Orderby('StaffTypeRef', 'DESC')->get();
+        return view('setup.staff_type', compact('type'));
+    }
+
+    public function store_staff_type(Request $request)
+    {
+        $type = new StaffType($request->all());
+
+        $this->validate($request, [
+            'StaffType' => 'required',
+        ]);
+
+        if ($type->save()) {
+            return redirect('/setup/staff_type')->with('success', 'Staff type was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Staff type failed to save');
+        }
+    }
+
+    public function edit_staff_type($id)
+    {
+        $type = StaffType::where("StaffTypeRef", $id)->first();
+
+        return response()->json($type);
+    }
+
+    public function update_staff_type(Request $request)
+    {
+        $type = StaffType::find($request->StaffTypeRef);
+
+        $type->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_staff_type($id)
+    {
+        $type = StaffType::where("StaffTypeRef", $id);
+
+        $type->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }
