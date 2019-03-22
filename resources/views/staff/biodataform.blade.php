@@ -148,8 +148,8 @@
 <div class="row">
     <div class="col-sm-3">
         <div class="">
-          {{ Form::label('EmploymentDate','Employment Date', ['class' => 'form-label']) }}
-          <div class="input-group date dp required req">
+          {{ Form::label('EmploymentDate','Employment Date', ['class' => 'form-label req']) }}
+          <div class="input-group date dp required">
             {{ Form::text('EmploymentDate', null, ['class' => 'form-control', 'placeholder' => 'Employment Date', 'required']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
@@ -166,8 +166,8 @@
     </div>
     <div class="col-sm-3">
         <div class="">
-          {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label']) }}
-          <div class="input-group date dp required req">
+          {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label req']) }}
+          <div class="input-group date dp required ">
             {{ Form::text('DateofBirth', null, ['class' => 'form-control required', 'placeholder' => 'Date of Birth', 'required']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
@@ -549,14 +549,14 @@
       <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('Institution[]','Institution Attended') }}
-        {{ Form::text('Institution[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+        {{ Form::text('Institution[]', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Institution Attended'], 'required') }}
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('Qualification Obtained','Qualitification Obtained') }}
-        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Institution Attended'], 'required') }}
       </div>
     </div>
 
@@ -564,7 +564,7 @@
         <div class="">
           {{ Form::label('DateObtained','Date Obtained', ['class' => 'form-label req']) }}
           <div class="input-group date dp required">
-            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained']) }}
+            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained'], 'required') }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
         </div>
@@ -641,9 +641,9 @@
 <br>
     <div class="col-sm-4">
         <div class="">
-          {{ Form::label('NYSCYear','NYSC Year', ['class' => 'form-label']) }}
+          {{ Form::label('NYSCYear','NYSC Year', ['class' => 'form-label req']) }}
           <div class="input-group date dp-year required">
-            {{ Form::text('NYSCYear', null, ['class' => 'form-control', 'placeholder' => 'NYSC Year', 'required', 'readonly']) }}
+            {{ Form::text('NYSCYear', null, ['class' => 'form-control', 'placeholder' => 'NYSC Year', 'required'],'required') }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
         </div>
@@ -880,14 +880,14 @@
       <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('Institution[]','Institution Attended') }}
-        {{ Form::text('Institution[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+        {{ Form::text('Institution[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended'], 'required') }}
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('QualificationObtained','Qualitification Obtained') }}
-        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended'], 'required') }}
       </div>
     </div>
 
@@ -895,7 +895,7 @@
         <div class="">
           {{ Form::label('DateObtained[]','Date Obtained', ['class' => 'form-label req']) }}
           <div class="input-group date dp required">
-            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained']) }}
+            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained'], 'required') }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
         </div>

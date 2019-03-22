@@ -297,13 +297,14 @@ class LeaveRequestController extends Controller
             ->orWhere('name', 'Head, Human Resources')
             ->first()->users;
 
-        $name = \DB::table('users')
-            ->select('first_name')
-            ->where('id', Staff::find($leave_request->StaffID)->first()->user->id)
-            ->first();
+        if (Staff::find($leave_request->StaffID)) {
+            $name = \DB::table('users')
+                ->select('first_name')
+                ->where('id', Staff::find($leave_request->StaffID)->first()->user->id)
+                ->first();
 
-        Mail::to($hr_users)->send(new HRLeaveConfirmation($name, $leave_request));
-
+            Mail::to($hr_users)->send(new HRLeaveConfirmation($name, $leave_request));
+        }
         $leave_request->update();
 
         // $email = User::find($leave_request->RequesterID)->first()->email;
