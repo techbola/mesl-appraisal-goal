@@ -303,6 +303,7 @@ class LeaveRequestController extends Controller
 
             Mail::to($hr_users)->send(new HRLeaveConfirmation($name, $leave_request));
         }
+
         $leave_request->update();
 
         // $email = User::find($leave_request->RequesterID)->first()->email;
