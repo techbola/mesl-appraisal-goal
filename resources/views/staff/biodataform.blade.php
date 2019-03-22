@@ -601,8 +601,8 @@
 
       <div class="col-sm-4">
           <div class="">
-            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label req']) }}
-            <div class="input-group date dp required">
+            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label']) }}
+            <div class="input-group date dp">
               {{ Form::text('ProfDateObtained[]', $value->DateObtained, ['class' => 'form-control', 'placeholder' => 'Date Obtained', 'disabled']) }}
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
@@ -621,8 +621,8 @@
 
       <div class="col-sm-4">
           <div class="">
-            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label req']) }}
-            <div class="input-group date dp required">
+            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label']) }}
+            <div class="input-group date dp">
               {{ Form::text('ProfDateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained']) }}
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
