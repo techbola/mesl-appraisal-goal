@@ -315,7 +315,7 @@ class LeaveRequestController extends Controller
         // }
         // send emails when ApproverID is null and send route request to admin
         //  end
-        return redirect('/leave_request/leave_approval_supervisor')->with('success', 'Request Approved successfully');
+        return redirect('/leave_request/leave_approval_supervisor')->with('success', 'Request approved successfully');
     }
 
     public function reject_request_supervisor($id)
@@ -348,7 +348,7 @@ class LeaveRequestController extends Controller
         // send emails when ApproverID is null and send route request to admin
         //  end
 
-        return redirect('/leave_request/leave_approval')->with('success', 'Request Approved successfully');
+        return redirect('/leave_request/leave_approval')->with('success', 'Request approved successfully');
     }
 
     public function approve_leave_request(Request $request, LeaveApprover $get_approvers)
