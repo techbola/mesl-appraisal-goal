@@ -293,9 +293,11 @@ class LeaveRequestController extends Controller
         $leave_request->ApproverID      = 0;
         $get_approvers                  = LeaveApprover::where('ModuleID', 3)->get();
 
-        $hr_users = Role::where('name', 'Head, Performance Management')
-            ->orWhere('name', 'Head, Human Resources')
-            ->first()->users;
+        $hr_users =
+        User::whereHas('roles', function ($query) {
+            $query->where('name', 'Head, Performance Management')
+                ->orWhere('name', 'Head, Human Resources');
+        })->get();
 
         if (User::find($leave_request->StaffID)) {
             $name = \DB::table('users')
