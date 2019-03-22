@@ -1,7 +1,7 @@
 @component('mail::message')
 Title : Leave Request.
 
-Dear {{$leave_request->relief_officer->FullName}}
+Dear {{$leave_request->relief_officer->FullName}},
 
 {{ $leave_request->requester->fullName }} requested a <b>({{ $leave_request->NumberofDays }})</b>day(s). <b>{{ $leave_request->leave_type->LeaveType }} Leave</b>. <br>
 Start Date: <b>{{ nice_date($leave_request->StartDate) }}</b> <br>

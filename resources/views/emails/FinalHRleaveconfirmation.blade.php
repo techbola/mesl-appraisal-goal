@@ -1,7 +1,7 @@
 @component('mail::message')
 Title : Leave Request.
 
-Dear {{$name->first_name}}
+Dear {{$name->fullName}}
 
  Your Leave Request has been approved.
 
