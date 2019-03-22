@@ -536,8 +536,8 @@
 
     <div class="col-sm-4">
         <div class="">
-          {{ Form::label('DateObtained','Date Obtained', ['class' => 'form-label req']) }}
-          <div class="input-group date dp required">
+          {{ Form::label('DateObtained','Date Obtained', ['class' => 'form-label ']) }}
+          <div class="input-group date dp ">
             {{ Form::text('DateObtained[]', $value->DateObtained, ['class' => 'form-control', 'placeholder' => 'Date Obtained', 'disabled']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
@@ -545,7 +545,9 @@
     </div>
     </div> <hr>
     @endforeach
-    <div class="row institution-row">
+    
+    @if(count($institutions) <= 0)
+<div class="row institution-row">
       <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('Institution[]','Institution Attended') }}
@@ -570,6 +572,33 @@
         </div>
     </div>
     </div>
+    @else
+    <div class="row institution-row">
+      <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('Institution[]','Institution Attended') }}
+        {{ Form::text('Institution[]', null,  ['class' => 'form-control ', 'placeholder' => 'Enter Institution Attended', '']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('Qualification Obtained','Qualitification Obtained') }}
+        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control ', 'placeholder' => 'Enter Institution Attended', '']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="">
+          {{ Form::label('DateObtained','Date Obtained', ['class' => 'form-label ']) }}
+          <div class="input-group date dp ">
+            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained', '']) }}
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
+    </div>
+    </div>
+    @endif
 
     <div class="row">
       <div class="col-sm-12">
