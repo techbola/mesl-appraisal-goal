@@ -249,6 +249,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor')->name('leave_request.approved');
     Route::post('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor');
     Route::get('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
+    Route::post('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
 
     Route::get('leave_request/leave_type', 'LeaveRequestController@leave_type');
 
@@ -1356,7 +1357,6 @@ Route::get('exit/create/{id}', 'ExitController@delete_exit_interview')->name('de
 Route::get('send_exit_interview/{id}', 'ExitController@send_exit_interview')->name('SendResponse');
 
 Route::get('staff/exit_interview/{id}', 'StaffController@delete_exit_response')->name('delete_exit_response');
-
 
 //SETUP ROUTES
 Route::get('setup/hmo', 'SetupController@hmo');
