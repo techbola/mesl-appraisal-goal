@@ -263,7 +263,7 @@ class LeaveRequestController extends Controller
                     // // supervisor
                     Mail::to($email)->send(new LeaveRequestSupervisor($leave_request));
                 }
-                return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
+                return redirect()->route('LeaveDashBoard')->with('success', 'Leave request was added successfully');
             }
         } else {
             return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
@@ -433,7 +433,7 @@ class LeaveRequestController extends Controller
                     // Mail::to($approver_email)->send(new LeaveRequestApproval($details));
                 }
                 \DB::commit();
-                return redirect()->route('LeaveApproval')->with('success', 'Leave Request was added successfully');
+                return redirect()->route('LeaveApproval')->with('success', 'Leave request was added successfully');
             } catch (Exception $e) {
                 \DB::rollback();
                 return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
@@ -464,7 +464,7 @@ class LeaveRequestController extends Controller
                 }
 
                 \DB::commit();
-                return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
+                return redirect()->route('LeaveDashBoard')->with('success', 'Leave request was added successfully');
             } catch (Exception $e) {
                 \DB::rollback();
                 return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
@@ -536,7 +536,7 @@ class LeaveRequestController extends Controller
                     }
                 }
                 \DB::commit();
-                return redirect()->route('HrLeaveApproval')->with('success', 'Leave Request was added successfully');
+                return redirect()->route('HrLeaveApproval')->with('success', 'Leave request was added successfully');
             } catch (Exception $e) {
                 \DB::rollback();
                 return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
@@ -568,7 +568,7 @@ class LeaveRequestController extends Controller
                     Mail::to($email)->send(new LR($name, $leave_request));
                 }
                 \DB::commit();
-                return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
+                return redirect()->route('LeaveDashBoard')->with('success', 'Leave request was added successfully');
             } catch (Exception $e) {
                 \DB::rollback();
                 return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
@@ -677,7 +677,7 @@ class LeaveRequestController extends Controller
             $relief_office_email = User::find($leave_request->ReliefOfficerID)->email ?? null;
 
             Mail::to($email)->send(new LeaveRequestedInit($leave_request));
-            return redirect()->route('LeaveDashBoard')->with('success', 'Leave Request was added successfully');
+            return redirect()->route('LeaveDashBoard')->with('success', 'Leave request was added successfully');
         } catch (Exception $e) {
             \DB::rollback();
             return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
