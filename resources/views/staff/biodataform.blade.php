@@ -641,9 +641,9 @@
 <br>
     <div class="col-sm-4">
         <div class="">
-          {{ Form::label('NYSCYear','NYSC Year', ['class' => 'form-label req']) }}
-          <div class="input-group date dp-year required">
-            {{ Form::text('NYSCYear', null, ['class' => 'form-control', 'placeholder' => 'NYSC Year', 'required'],'required') }}
+          {{ Form::label('NYSCYear','NYSC Year', ['class' => 'form-label']) }}
+          <div class="input-group date dp-year">
+            {{ Form::text('NYSCYear', null, ['class' => 'form-control', 'placeholder' => 'NYSC Year']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
         </div>
@@ -651,14 +651,14 @@
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('NYSCNumber','NYSC Number') }}
-        {{ Form::text('NYSCNumber', null,  ['class' => 'form-control required', 'placeholder' => 'Enter NYSC Number', 'required']) }}
+        {{ Form::text('NYSCNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Number']) }}
       </div>
     </div>
     <div class="col-sm-4">
       <div class="form-group">
-        {{ Form::label('NYSCLocationID','NYSC Location', ['class'=>'req']) }}
+        {{ Form::label('NYSCLocationID','NYSC Location', ['class'=>'']) }}
         {{-- {{ Form::text('NYSCLocation', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Location']) }} --}}
-        {{ Form::select('NYSCLocationID', ['' =>  'Select your Location'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Select NYSC Location", 'data-init-plugin' => "select2", 'required']) }}
+        {{ Form::select('NYSCLocationID', ['' =>  'Select your Location'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width ",'data-placeholder' => "Select NYSC Location", 'data-init-plugin' => "select2", '']) }}
       </div>
     </div>
 

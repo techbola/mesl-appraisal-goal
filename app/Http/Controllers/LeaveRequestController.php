@@ -475,16 +475,17 @@ class LeaveRequestController extends Controller
         if ($request->input('approve')) {
             try {
                 \DB::beginTransaction();
-                foreach ($request->LeaveRef as $Ref) {
+                foreach ($request->LeaveRef as $key => $Ref) {
                     $details      = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                     $current_time = Carbon::now();
 
-                    $module_id              = 3;
-                    $comment                = "Approved";
-                    $approver_id            = auth()->user()->id;
-                    $flag                   = 1;
-                    $details->CompletedFlag = 1;
-                    $approve                = \DB::statement("EXEC procApproveRequest '$current_time', '$Ref', $module_id, '$comment', $approver_id, $flag");
+                    $module_id                = 3;
+                    $comment                  = "Approved";
+                    $approver_id              = auth()->user()->id;
+                    $flag                     = 1;
+                    $details->CompletedFlag   = 1;
+                    $details->ApproverComment = $request->Comment[$Ref];
+                    $approve                  = \DB::statement("EXEC procApproveRequest '$current_time', '$Ref', $module_id, '$comment', $approver_id, $flag");
 
                     if ($approve) {
                         $trans           = LeaveRequest::where('LeaveReqRef', $Ref)->first();
