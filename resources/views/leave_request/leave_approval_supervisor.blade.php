@@ -67,7 +67,7 @@
                 {{-- <td style="background: #fba1a0"> --}}
                   {{-- <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" > --}}
                 {{-- </td> --}}
-                <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
+                <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}}  </td>
                 <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                 <td style="background: #fba1a0">{{nice_date($leave_request->EntryDate)}}</td>
                 <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
@@ -101,7 +101,7 @@
                 {{-- <td> --}}
                   {{-- <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" > --}}
                 {{-- </td> --}}
-                <td>{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}}</td>
+                <td>{{$leave_request->first_name}} {{$leave_request->last_name}} </td>
                 <td>{{$leave_request->LeaveType}}</td>
                 <td>{{nice_date($leave_request->EntryDate)}}</td>
                 <td>{{$leave_request->StartDate}}</td>
