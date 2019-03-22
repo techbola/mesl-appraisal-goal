@@ -566,19 +566,7 @@ class LeaveRequestController extends Controller
                         ->select('first_name')
                         ->where('id', $leave_request->StaffID)
                         ->first();
-                    if (!is_null($leave_request->ReliefOfficerID)) {
-                        $relief_officer_email == \DB::table('users')
-                            ->select('email')
-                            ->where('id', (int) $leave_request->ReliefOfficerID)
-                            ->first();
 
-                        $relief_officer_name = \DB::table('users')
-                            ->select('first_name')
-                            ->where('id', (int) $leave_request->ReliefOfficerID)
-                            ->first();
-
-                        // Mail::to($relief_officer_email)->send(new LR($relief_officer_name, $leave_request));
-                    }
                     Mail::to($email)->send(new LR($name, $leave_request));
                 }
                 \DB::commit();
