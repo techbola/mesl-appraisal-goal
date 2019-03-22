@@ -173,76 +173,16 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Select Approvers where required</h4> <hr>
+            <h4 class="modal-title">Enter Approval Comment</h4> <hr>
           </div>
           <div class="modal-body">
            <form id="approvers-form" method="post">
             {{ csrf_field() }}
                <div class="row">
-                   <div class="col-md-6">
-                    <div class="controls">
-                        <div class="form-group">
-                            {{ Form::label('Approver1', 'First Approver' ) }}
-                            <select name="Approver1" class="full-width" data-init-plugin="select2" id="Approver1" onchange="">
-                                    <option value=" ">Select Approver</option>
-                                @foreach($staff as $st)
-                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="controls">
-                        <div class="form-group">
-                            {{ Form::label('Approver2', 'Second Approver' ) }}
-                            <select name="Approver2" class="full-width" data-init-plugin="select2" id="Approver2" onchange="">
-                                    <option value=" ">Select Approver</option>
-                                @foreach($staff as $st)
-                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-               </div>
-
-               <div class="row">
-                   <div class="col-md-6">
-                    <div class="controls">
-                        <div class="form-group">
-                            {{ Form::label('Approver3', 'Third Approver' ) }}
-                            <select name="Approver3" class="full-width" data-init-plugin="select2" id="Approver3" onchange="">
-                                    <option value=" ">Select Approver</option>
-                                @foreach($staff as $st)
-                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="controls">
-                        <div class="form-group">
-                            {{ Form::label('Approver4', 'Fourth Approver' ) }}
-                            <select name="Approver4" class="full-width" data-init-plugin="select2" id="Approver4" onchange="">
-                                    <option value=" ">Select Approver</option>
-                                @foreach($staff as $st)
-                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-               </div>
-
-               <div class="row">
                  <div class="controls">
                         <div class="form-group">
-                            {{ Form::label('Comment' ) }}
-                            <textarea name="Comment" id="Comment" class="form-control summernote" cols="30" rows="10"></textarea>
+                            {{ Form::label('ApproverComment' ) }}
+                            <textarea name="ApproverComment" id="Comment" class="form-control summernote" cols="30" rows="10"></textarea>
                         </div>
                     </div>
                </div>
@@ -288,7 +228,7 @@
   </script>
   <script>
     $(function(){
-       $("#approvers-toggler_").click(function(e) {
+       $("#approvers-toggler").click(function(e) {
            e.preventDefault();
            let val = $(this).data('whatever');
            console.log(val);

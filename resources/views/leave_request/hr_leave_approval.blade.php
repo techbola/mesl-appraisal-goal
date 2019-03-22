@@ -58,7 +58,7 @@
             </div>
             <div class="clearfix"></div>
             {{ Form::open(['action' => 'LeaveRequestController@approve_leave_request_hr', 'autocomplete' => 'off', 'role' => 'form']) }}
-            <p><input type="submit" name="approve" class="btn btn-sm btn-primary" value="Approve">  <input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject"></p>
+            {{-- <p><input type="submit" name="approve" class="btn btn-sm btn-primary" value="Approve">  <input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject"></p> --}}
             <p style="color : red" class="hide">Note : Leave Request highlighted in red are within the company restricted leave days</p>
             <table class="table tableWithSearch table-bordered">
               <thead>

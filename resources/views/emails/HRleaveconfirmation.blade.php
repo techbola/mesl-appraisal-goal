@@ -1,7 +1,7 @@
 @component('mail::message')
 Title : Leave Request.
 
-Dear {{$name->first_name}}
+Dear HR,
 
  A Leave Request awaits your confirmation. Click button to view your leave dashboard.
  

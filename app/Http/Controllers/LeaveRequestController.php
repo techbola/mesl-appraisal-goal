@@ -289,16 +289,17 @@ class LeaveRequestController extends Controller
         // $leave_request->ApproverID4        = $request->Approver4 ?? 0;
         // $leave_request->ApproverComment    = $request->Comment;
         $leave_request->ApprovedFlag = 1;
+        $leave_request->ApproverID   = 0;
         $get_approvers               = LeaveApprover::where('ModuleID', 3)->get();
 
         $hr_users = Role::where('name', 'Head, Performance Management')
             ->orWhere('name', 'Head, Human Resources')
             ->first()->users;
 
-        if (Staff::find($leave_request->StaffID)) {
+        if (User::find($leave_request->StaffID)) {
             $name = \DB::table('users')
                 ->select('first_name')
-                ->where('id', Staff::find($leave_request->StaffID)->first()->user->id)
+                ->where('id', User::find($leave_request->StaffID)->first()->id)
                 ->first();
 
             Mail::to($hr_users)->send(new HRLeaveConfirmation($name, $leave_request));
@@ -308,9 +309,9 @@ class LeaveRequestController extends Controller
 
         // $email = User::find($leave_request->RequesterID)->first()->email;
         // dd($request->all());
-        if (!is_null($leave_request->current_approver)) {
-            Mail::to($leave_request->current_approver->email)->send(new LeaveRequestApproval($leave_request));
-        }
+        // if (!is_null($leave_request->current_approver)) {
+        //     Mail::to($leave_request->current_approver->email)->send(new LeaveRequestApproval($leave_request));
+        // }
         // send emails when ApproverID is null and send route request to admin
         //  end
         return redirect('/leave_request/leave_approval_supervisor')->with('success', 'Request Approved successfully');
@@ -515,10 +516,10 @@ class LeaveRequestController extends Controller
                             $leave_requester = User::find($leave_req_ref->StaffID)->first();
                             // dd($leave_requester->first()->email);
 
-                            $name  = Staff::find($trans->StaffID)->user;
+                            $name  = User::find($trans->StaffID);
                             $email = $leave_requester->email;
 
-                            Mail::to(Staff::find($trans->StaffID)->user)->send(new FinalHRLeaveConfirmation($name));
+                            Mail::to($email)->send(new FinalHRLeaveConfirmation($name));
                             // relief officer
                             if (!is_null($trans->ReliefOfficerID)) {
                                 $relief_officer_email = User::find($leave_req_ref->ReliefOfficerID)->email;
@@ -821,6 +822,15 @@ class LeaveRequestController extends Controller
                 ]);
                 // }
             }
+        } else {
+            $start_date     = $request->StartDate;
+            $converted_date = (int) $request->NumberofDays;
+            // $drpartment                  = (int) $request->
+            $completion_Date           = Carbon::parse($start_date)->addDays($converted_date);
+            $leave_request->ReturnDate = $completion_Date;
+
+            $leave_request->ReturnDate   = $request->ReturnDate;
+            $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
         }
         foreach ($request->HandOverNoteRef as $key => $value) {
 
