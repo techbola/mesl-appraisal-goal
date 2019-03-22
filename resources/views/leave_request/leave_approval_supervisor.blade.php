@@ -91,7 +91,7 @@
                 <td>
                   <a style="margin-right: 10px; display: inline-block" href="/leave_request/approve_request/{{ $leave_request->LeaveReqRef }}"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
-                            <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
+                            <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject" id="rejection-toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"><i class="fa fa-user-times"></i></a>
 
                 </td>
 
@@ -127,7 +127,7 @@
                 <td>
                   <a style="margin-right: 10px; display: inline-block" href="/leave_request/approve_request/{{ $leave_request->LeaveReqRef }}"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
-                            <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
+                            <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject" id="rejection-toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"><i class="fa fa-user-times"></i></a>
                 </td>
               </tr>
                @endif
@@ -197,6 +197,35 @@
       </form>
     </div><!-- /.modal -->
 
+    <div class="modal fade" role="dialog" id="myModal_rejection">
+      <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Enter reason for rejection</h4> <hr>
+          </div>
+          <div class="modal-body">
+           <form id="rejection-form" method="post">
+            {{ csrf_field() }}
+               <div class="row">
+                 <div class="controls">
+                        <div class="form-group">
+                            {{ Form::label('RejectionComment' ) }}
+                            <textarea name="RejectionComment" id="Comment" class="form-control summernote" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+               </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+      </form>
+    </div><!-- /.modal -->
+
 @endsection
 
 @push('scripts')
@@ -234,6 +263,15 @@
            console.log(val);
            $('#myModal').modal();
            $('#approvers-form').prop('action', '/leave_request/approve_request/'+val);
+       });
+
+
+       $("#rejection-toggler").click(function(e) {
+           e.preventDefault();
+           let val = $(this).data('whatever');
+           console.log(val);
+           $('#myModal_rejection').modal();
+           $('#rejection-form').prop('action', '/leave_request/reject_request/'+val);
        });
     });
 </script>

@@ -290,9 +290,10 @@ class LeaveRequestController extends Controller
         // $leave_request->ApproverID3        = $request->Approver3 ?? 0;
         // $leave_request->ApproverID4        = $request->Approver4 ?? 0;
         // $leave_request->ApproverComment    = $request->Comment;
-        $leave_request->ApprovedFlag = 1;
-        $leave_request->ApproverID   = 0;
-        $get_approvers               = LeaveApprover::where('ModuleID', 3)->get();
+        $leave_request->ApprovedFlag    = 1;
+        $leave_request->ApproverComment = $request->ApproverComment;
+        $leave_request->ApproverID      = 0;
+        $get_approvers                  = LeaveApprover::where('ModuleID', 3)->get();
 
         $hr_users = Role::where('name', 'Head, Performance Management')
             ->orWhere('name', 'Head, Human Resources')
@@ -332,6 +333,7 @@ class LeaveRequestController extends Controller
         $leave_request->RejectedBy         = auth()->user()->staff->StaffRef;
         $leave_request->SupervisorApproved = 0;
         $leave_request->NotifyFlag         = 0;
+        $leave_request->RejectionComment   = $request->RejectionComment;
         $leave_request->ApproverID         = $request->Approver1 ?? 0;
         $leave_request->ApproverID1        = $request->Approver1 ?? 0;
         $leave_request->ApproverID2        = $request->Approver2 ?? 0;
