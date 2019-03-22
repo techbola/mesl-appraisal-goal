@@ -658,7 +658,7 @@
       <div class="form-group">
         {{ Form::label('NYSCLocationID','NYSC Location', ['class'=>'req']) }}
         {{-- {{ Form::text('NYSCLocation', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Location']) }} --}}
-        {{ Form::select('NYSCLocationID', [ 0 =>  'Select your Location'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Select NYSC Location", 'data-init-plugin' => "select2", 'required']) }}
+        {{ Form::select('NYSCLocationID', ['' =>  'Select your Location'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Select NYSC Location", 'data-init-plugin' => "select2", 'required']) }}
       </div>
     </div>
 
