@@ -17,7 +17,7 @@
 @section('content')
 
     <div class="card-box">
-       <div class="card-title">Locatoion Setup</div>
+       <div class="card-title">Department Setup</div>
         <form action="{{ route('StoreDept') }}" method="POST" class="form">
            {{ csrf_field() }}
            <div class="row">
@@ -118,7 +118,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Office Location</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Department</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
