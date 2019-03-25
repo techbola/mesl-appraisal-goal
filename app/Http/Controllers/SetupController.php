@@ -19,6 +19,7 @@ use MESL\Company;
 use MESL\Subsidiary;
 use MESL\Division;
 use MESL\Group;
+use MESL\SeniorityLevel;
 
 class SetupController extends Controller
 {
@@ -529,6 +530,56 @@ class SetupController extends Controller
         $department = Department::where("DepartmentRef", $id);
 
         $department->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function level()
+    {
+        $level = SeniorityLevel::Orderby('SeniorityRef', 'DESC')->get();
+        return view('setup.level', compact('level'));
+    }
+
+    public function store_level(Request $request)
+    {
+        $level = new SeniorityLevel($request->all());
+
+        $senioritylevel = SeniorityLevel::Orderby('SeniorityLevel', 'DESC')->first();
+
+        $seniority = $senioritylevel->SeniorityLevel + 1;
+
+        $level->GradeLevel = $request->GradeLevel;
+
+        $level->SeniorityLevel = $seniority;
+
+        if ($level->save()) {
+            return redirect('/setup/level')->with('success', 'Level was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Level failed to save');
+        }
+    }
+
+    public function edit_seniority_level($id)
+    {
+        $level = SeniorityLevel::where("SeniorityRef", $id)->first();
+
+        return response()->json($level);
+    }
+
+    public function update_seniority_level(Request $request)
+    {
+        $level = SeniorityLevel::find($request->SeniorityRef);
+
+        $level->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_level($id)
+    {
+        $level = SeniorityLevel::where("SeniorityRef", $id);
+
+        $level->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }

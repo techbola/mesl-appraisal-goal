@@ -1426,3 +1426,9 @@ Route::post('setup/department', 'SetupController@store_department')->name('Store
 Route::get('edit_department/{id}', 'SetupController@edit_department')->name('edit_department');
 Route::post('update_department', 'SetupController@update_department')->name('UpdateDept');
 Route::get('setup/department/{id}', 'SetupController@delete_department')->name('delete_department');
+
+Route::get('setup/level', 'SetupController@level');
+Route::post('setup/level', 'SetupController@store_level')->name('StoreLevel');
+Route::get('edit_seniority_level/{id}', 'SetupController@edit_seniority_level')->name('edit_seniority_level');
+Route::post('update_seniority_level', 'SetupController@update_seniority_level')->name('UpdateLevel');
+Route::get('setup/level/{id}', 'SetupController@delete_level')->name('delete_level');

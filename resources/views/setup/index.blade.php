@@ -1,4 +1,4 @@
-@extends('layouts.master')
+{{-- @extends('layouts.master')
 
 @push('styles')
 
@@ -47,7 +47,24 @@
     </div>
 
     <div class="card-box">
-        
+        <div class="card-title">Entries</div>
+        <table class="table tableWithSearch table-bordered">
+            <thead>
+                <th width="10%">Setup Type</th>
+                <th width="15%">Action</th>
+            </thead>
+            <tbody>
+                @foreach($setup as $item)
+                    <tr>
+                        <td>{{$item->S ?? ''}}</td>
+                        <td>
+                            <button type="button" class="btn btn-xs btn-primary toggler" onclick="editstaff_type({{$item->StaffTypeRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
+                            <a href="#" onclick="deleteItem('{{$item->StaffTypeRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table> 
     </div>
 
 
@@ -60,4 +77,4 @@
 <script>
 
     
-</script>
+</script> --}}
