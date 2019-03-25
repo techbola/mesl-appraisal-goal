@@ -45,25 +45,25 @@
 
     {{--Staff Type table --}}
     <div class="card-box">
-            <div class="card-title">Entries</div>
-            <table class="table tableWithSearch table-bordered">
-                <thead>
-                    <th width="10%">Staff Type</th>
-                    <th width="15%">Action</th>
-                </thead>
-                <tbody>
-                    @foreach($type as $item)
-                        <tr>
-                            <td>{{$item->StaffType ?? ''}}</td>
-                            <td>
-                                <button type="button" class="btn btn-xs btn-primary toggler" onclick="editstaff_type({{$item->StaffTypeRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
-                                <a href="#" onclick="deleteItem('{{$item->StaffTypeRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+        <div class="card-title">Entries</div>
+        <table class="table tableWithSearch table-bordered">
+            <thead>
+                <th width="10%">Staff Type</th>
+                <th width="15%">Action</th>
+            </thead>
+            <tbody>
+                @foreach($type as $item)
+                    <tr>
+                        <td>{{$item->StaffType ?? ''}}</td>
+                        <td>
+                            <button type="button" class="btn btn-xs btn-primary toggler" onclick="editstaff_type({{$item->StaffTypeRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
+                            <a href="#" onclick="deleteItem('{{$item->StaffTypeRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
         <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

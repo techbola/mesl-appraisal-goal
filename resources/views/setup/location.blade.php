@@ -11,10 +11,6 @@
       font-weight: bold;
       color: #000;
     }
-
-    /* table th, table td {
-        width: 80px  !important;
-    } */
 	</style>
 @endpush
 

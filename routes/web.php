@@ -1420,3 +1420,9 @@ Route::post('setup/staff_type', 'SetupController@store_staff_type')->name('Store
 Route::get('edit_staff_type/{id}', 'SetupController@edit_staff_type')->name('edit_staff_type');
 Route::post('update_staff_type', 'SetupController@update_staff_type')->name('updateStaffType');
 Route::get('setup/staff_type/{id}', 'SetupController@delete_staff_type')->name('delete_staff_type');
+
+Route::get('setup/department', 'SetupController@department');
+Route::post('setup/department', 'SetupController@store_department')->name('StoreDept');
+Route::get('edit_department/{id}', 'SetupController@edit_department')->name('edit_department');
+Route::post('update_department', 'SetupController@update_department')->name('UpdateDept');
+Route::get('setup/department/{id}', 'SetupController@delete_department')->name('delete_department');

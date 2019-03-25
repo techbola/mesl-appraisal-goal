@@ -14,6 +14,11 @@ use MESL\TravelMode;
 use MESL\TravelTransport;
 use MESL\TravelLodge;
 use MESL\StaffType;
+use MESL\Department;
+use MESL\Company;
+use MESL\Subsidiary;
+use MESL\Division;
+use MESL\Group;
 
 class SetupController extends Controller
 {
@@ -474,6 +479,56 @@ class SetupController extends Controller
         $type = StaffType::where("StaffTypeRef", $id);
 
         $type->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function department()
+    {
+        $company = Company::all();
+        $subsidiary = Subsidiary::all();
+        $division = Division::all();
+        $group = Group::all();
+        $department = Department::Orderby('DepartmentRef', 'DESC')->get();
+        return view('setup.department', compact('department', 'company', 'subsidiary', 'division', 'group'));
+    }
+
+    public function store_department(Request $request)
+    {
+        $department = new Department($request->all());
+
+        $this->validate($request, [
+            'Department' => 'required',
+        ]);
+
+        if ($department->save()) {
+            return redirect('/setup/department')->with('success', 'Department was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Department failed to save');
+        }
+    }
+
+    public function edit_department($id)
+    {
+        $department = Department::where("DepartmentRef", $id)->first();
+
+        return response()->json($department);
+    }
+
+    public function update_department(Request $request)
+    {
+        $department = Department::find($request->DepartmentRef);
+
+        $department->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_department($id)
+    {
+        $department = Department::where("DepartmentRef", $id);
+
+        $department->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }
