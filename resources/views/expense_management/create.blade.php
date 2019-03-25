@@ -6,7 +6,7 @@
 
   	<!-- START PANEL -->
   	<div class="card-box">
-  			<div class="card-title pull-left">Request Expense</div>
+  			<div class="card-title pull-left">Request Expense From - <span class="text-info">{{ auth()->user()->staff->location->Location ?? 'Unknown Location' }}</span></div>
   			<div class="clearfix"></div>
   			
   			{{ Form::open(['action' => 'ExpenseManagementController@store', 'autocomplete' => 'off', 'files' => true, 'novalidate' => 'novalidate', 'role' => 'form']) }}

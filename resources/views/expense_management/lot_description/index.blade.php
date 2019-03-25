@@ -20,9 +20,10 @@
 			<div class="table-responsive">
 				<table class="table tableWithSearch table-striped">
 				<thead>
-					<th>Lot Description</th>
+					
 					<th>Deparment</th>
 					<th>Expense Category</th>
+					<th>Lot Description</th>
 					<th>Annual Budget</th>
 					<th>Monthly Budget</th>
 					<th>Amount Spent</th>
@@ -34,9 +35,10 @@
 				<tbody>
 					@foreach ($lot_descriptions as $ld)
 					<tr>
-						<td>{{ $ld->LotDescription }}</td>
-						<td>{{ $ld->department->name ?? '-' }}</td>
+						
+						<td>{{ $ld->department->Department ?? '-' }}</td>
 						<td>{{ $ld->expense_category->ExpenseCategory ?? '-' }}</td>
+						<td>{{ $ld->LotDescription }}</td>
 						<td>{{ number_format($ld->AnnualBudget, 2) }}</td>
 						<td>{{ number_format($ld->MonthlyBudget, 2) }}</td>
 						<td>{{ number_format($ld->AmountSpent, 2) }}</td>

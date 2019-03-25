@@ -125,14 +125,14 @@ class CompanySupervisorController extends Controller
     */
     public function allDepartment(){
         // body
-        $all_department = CompanyDepartment::where('is_deleted', false)->get();
+        $all_department = CompanyDepartment::get();
         if(count($all_department) > 0){
             $department_box = [];
             foreach ($all_department as $department) {
                 # code...
                 $data = [
-                    'id'    => $department->id,
-                    'text'  => ucfirst($department->name)
+                    'id'    => $department->DepartmentRef,
+                    'text'  => ucfirst($department->Department)
                 ];
 
                 array_push($department_box, $data);

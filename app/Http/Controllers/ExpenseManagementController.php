@@ -99,8 +99,9 @@ class ExpenseManagementController extends Controller
 
     public function create()
     {
-        $user      = \Auth::user();
-        $employees = Staff::where('CompanyID', auth()->user()->CompanyID)->get();
+        $user               = \Auth::user();
+        $user_department_id = $user->staff->DepartmentID;
+        $employees          = Staff::where('CompanyID', auth()->user()->CompanyID)->get();
         // dd($employees);
         $employees = $employees->transform(function ($item, $key) {
             $item->name = $item->FullName;
@@ -115,7 +116,7 @@ class ExpenseManagementController extends Controller
 
         $doctypes           = DocType::where('CompanyID', $user->staff->CompanyID)->get();
         $request_list       = RequestList::all();
-        $lot_descriptions   = LotDescription::all();
+        $lot_descriptions   = LotDescription::where('DepartmentID', $user_department_id)->get();
         $locations          = Location::all();
         $departments        = CompanyDepartment::all()->sortBy('Department');
         $banks              = Bank::all();
@@ -182,7 +183,7 @@ class ExpenseManagementController extends Controller
         $user               = \Auth::user();
         $staff              = Staff::all();
         $doctypes           = DocType::where('CompanyID', $user->staff->CompanyID)->get();
-        $departments        = CompanyDepartment::all();
+        $departments        = CompanyDepartment::all()->sortBy('Department');
         $banks              = Bank::all();
         $locations          = Location::all();
         $expense_categories = ExpenseCategory::all();
@@ -528,7 +529,11 @@ class ExpenseManagementController extends Controller
 
     public function fetch_lots($dept_id)
     {
-        $lots = LotDescription::where('DepartmentID', $dept_id)->get();
+        // change dept to category id
+        $user_department_id = auth()->user()->staff->DepartmentID;
+        $lots               = LotDescription::where('ExpenseCategoryID', $dept_id)
+            ->where('DepartmentID', $user_department_id)
+            ->get();
         return $lots;
     }
 
@@ -585,5 +590,50 @@ class ExpenseManagementController extends Controller
         } else {
             return back()->withInput()->with('danger', 'Lot Description failed to update');
         }
+    }
+
+    public function setup()
+    {
+        $approver_roles = ApproverRole::all()->sortBy('ApproverRole');
+        $staff          = Staff::select(['StaffRef', 'UserID'])->get()->transform(function ($item, $key) {
+            $approver_role_ids    = explode(',', $item->user->ApproverRoleIDs);
+            $approver_roles       = ApproverRole::whereIn('ApproverRoleRef', $approver_role_ids)->select(['ApproverRole'])->get();
+            $approver_roles_array = [];
+            foreach ($approver_roles as $key => $value) {
+                array_push($approver_roles_array, $value->ApproverRole);
+            }
+            $item->approver_role = $approver_roles_array;
+            return $item;
+        });
+        // dd($staff->first()->approver_roles);
+        $request_list = RequestList::all()->sortBy('Request');
+        // dd($approver_roles);
+        return view('expense_management.setup', compact('approver_roles', 'staff', 'request_list'));
+    }
+
+    public function setup_post(Request $request)
+    {
+
+        $selected_users = [];
+        $selected_roles = [];
+        foreach ($request->roles as $key => $value) {
+            array_push($selected_roles, $value);
+        }
+
+        $user_approver_roles = implode(',', $selected_roles);
+
+        try {
+            DB::beginTransaction();
+            foreach ($request->staff as $key => $value) {
+                $user                  = User::find($value);
+                $user->ApproverRoleIDs = $user_approver_roles;
+                $user->save();
+            }
+            DB::commit();
+            return redirect()->route('expense_management.setup')->with('success', 'Approver Roles Assigned Successfully');
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+
     }
 }

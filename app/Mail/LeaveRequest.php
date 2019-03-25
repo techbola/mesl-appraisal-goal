@@ -12,15 +12,17 @@ class LeaveRequest extends Mailable
     use Queueable, SerializesModels;
 
     public $name;
+    public $leave_request;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name)
+    public function __construct($name, $leave_request)
     {
-        $this->name = $name;
+        $this->name          = $name;
+        $this->leave_request = $leave_request;
     }
 
     /**

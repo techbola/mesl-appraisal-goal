@@ -144,9 +144,9 @@
 										{{-- <span class="help">Type an email, then press enter or comma.</span> --}}
 										{{-- <input name="DepartmentID" class="tagsinput custom-tag-input" type="text" value="" placeholder="."/> --}}
 
-										<select class="form-control select2" name="DepartmentID[]" data-init-plugin="select2" multiple="multiple" required>
-											@foreach ($departments as $dept)
+										<select class="form-control select2" name="DepartmentID" data-init-plugin="select2" required>
 											<option value="">Select Department</option>
+											@foreach ($departments as $dept)
 												<option value="{{ $dept->DepartmentRef }}">{{ $dept->Department }}</option>
 											@endforeach
 										</select>
@@ -201,6 +201,21 @@
 							{{ csrf_field() }}
 							{{ method_field('PATCH') }}
 							<div class="row">
+								<div class="col-md-6">
+							    <div class="form-group">
+							      <label>Is this staff a supervisor?</label> <br>
+							      <div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-sm btn-primary ">
+									    <input style="position: relative;" type="radio" name="supervisor_options" id="is_not_supervisor" autocomplete="off" > No
+									  </label>
+									  <label class="btn btn-sm btn-primary">
+									    <input style="position: relative;" type="radio" name="supervisor_options" id="is_supervisor" autocomplete="off"> Yes
+									  </label>
+									</div>
+							    </div>
+							  </div>
+							</div>
+							<div class="row">
 							  <div class="col-md-6">
 							    <div class="form-group">
 							      <label>First Name</label>
@@ -223,7 +238,7 @@
 
 							  <div class="col-md-6">
 							  	<label for="" class="req">Departments</label>
-							    {{ Form::select('DepartmentID[]', $departments->pluck('Department', 'DepartmentRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", "multiple"]) }}
+							    {{ Form::select('DepartmentID', $departments->pluck('Department', 'DepartmentRef')->toArray(),null, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
 							  </div>
 
 							  <div class="clearfix"></div>
@@ -305,11 +320,11 @@
 					$('#edit_staff').find('form').attr('action', form_action);
 					// $(".select2").select2();
 					if(staff.DepartmentID != null) {
-						$('#edit_staff').find('form select[name="DepartmentID[]"]').val(staff.DepartmentID.split(",")).trigger('change');
+						$('#edit_staff').find('form select[name="DepartmentID"]').val(staff.DepartmentID).trigger('change');
 					} else {
-						$('#edit_staff').find('form select[name="DepartmentID[]"]').val([]).trigger('change');
+						$('#edit_staff').find('form select[name="DepartmentID"]').val([]).trigger('change');
 					}
-					// console.log(staff.DepartmentID.split(","))
+					// console.log(staff.DepartmentID)
 					
 					if(role_ids.length > 0) {
 						$('#edit_staff').find('form select[name="roles[]"]').val(role_ids).trigger('change');
@@ -322,6 +337,20 @@
 					}
 					else{
 						$('#edit_staff').find('form select[name="SupervisorID"]').val(staff.SupervisorID).trigger('change');
+					}
+
+					if(staff.SupervisorFlag != 1 ||staff.SupervisorFlag == null ){
+						$('#is_not_supervisor').prop('checked','checked');
+						$('#is_not_supervisor').parents("label").addClass('active');
+						
+						$('#is_supervisor').removeProp('checked','checked');
+						$('#is_supervisor').parents("label").removeClass('active');
+					} else if(staff.SupervisorFlag == 1){
+						$('#is_supervisor').prop('checked','checked');
+						$('#is_supervisor').parents("label").addClass('active');
+
+						$('#is_not_supervisor').removeProp('checked','checked');
+						$('#is_not_supervisor').parents("label").removeClass('active');
 					}
 					// console.log('staff',staff)
 				}

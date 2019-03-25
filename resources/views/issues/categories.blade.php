@@ -43,7 +43,7 @@
             {{-- <td>{{ $category->poster->FullName }}</td>
             <td data-sort="{{ $category->created_at }}">{{ $category->created_at? $category->created_at->format('Y-m-d') : '' }}</td> --}}
             <td>
-              <a href="{{ route('project_issues', $project->ProjectRef) }}" class="btn btn-xs btn-info">View Issues</a>
+              <a href="{{ route('project_issues', $project->ProjectRef) }}" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="top" title="View Issues"><i class="fa fa-eye-slash"></i> View Issues</a>
               <a href="{{ route('view_project', $project->ProjectRef) }}" class="btn btn-xs btn-inverse"><i class="fa fa-external-link-square m-r-5"></i> Project</a>
             </td>
           </tr>

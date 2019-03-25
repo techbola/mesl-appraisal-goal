@@ -23,6 +23,11 @@
       opacity: 0.3;
       zoom: 2;
     }
+
+    .nav-tabs-sm>li>a {
+    font-size: 12px !important;
+    padding: 14px 16px !important;
+}
   </style>
   {{-- <div class="text-center">
     <img src="{{ asset('assets/img/backgrounds/cavidel-slide.jpg') }}" alt="" width="95%">

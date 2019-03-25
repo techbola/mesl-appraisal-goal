@@ -49,7 +49,7 @@
 						<td>{{ number_format($p->Leave, 2) }}%</td>
 						<td>{{ number_format($p->Utilities, 2) }}%</td>
 						<td>
-							<a href="{{ url('/payroll/percentage/').'/'.$p->ScenarioRef }}" class="btn btn-sm btn-inverse">Edit</a>
+							<a href="{{ url('/payroll/percentage/').'/'.$p->ScenarioRef }}" class="btn btn-inverse" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
 						</td>
 					</tr>
 					@endforeach

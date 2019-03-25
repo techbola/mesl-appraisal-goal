@@ -4,7 +4,7 @@
 	<button class="close" data-dismiss="alert"></button>
 	<div class="clearfix"></div>
 	@foreach( $errors->all() as $error )
-	<p>{{ $error }}</p>
+	<p>{!! $error !!}</p>
 	@endforeach
 </div>
 @endif

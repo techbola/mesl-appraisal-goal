@@ -77,7 +77,7 @@
     </div>
     <div class="col-md-4">
       <span class="bio-label">Religion</span>
-      <h5>{{ $staff->Religion ?? '—' }}</h5>
+      <h5>{{ $staff->Religion->Religion ?? '—' }}</h5>
     </div>
   </div>
 

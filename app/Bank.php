@@ -8,5 +8,6 @@ class Bank extends Model
 {
     protected $table   = 'tblBank';
     protected $guarded = ['BankRef'];
+    protected $primaryKey = 'tblBank';
     public $timestamps = false;
 }

@@ -13,7 +13,8 @@ class Staff extends Model
     // use EloquentTrait;
 
     protected $table   = 'tblStaff';
-    protected $guarded = ['StaffRef', 'YearsOfService', 'RefName', 'RefRelationship', 'RefOccupation', 'RefPhone', 'RefEmail', 'RefAddress'];
+    protected $guarded = ['StaffRef', 'YearsOfService', 'RefName', 'RefRelationship', 'RefOccupation', 'RefPhone', 'RefEmail', 'RefAddress', 'Qualification', 'ProfDateObtained',
+        'Institution', 'QualificationObtained', 'DateObtained'];
     public $timestamps = false;
     public $primaryKey = 'StaffRef';
 
@@ -69,9 +70,18 @@ class Staff extends Model
     {
         return $this->hasMany('MESL\ProjectTask', 'StaffID', 'StaffRef');
     }
+    // singular
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'DepartmentID');
+        // return Department::whereIn('DepartmentRef', explode(',', $this->DepartmentID))->get();
+    }
+
+    // plural
     public function departments()
     {
         return $this->hasMany(Department::class, 'DepartmentRef', 'DepartmentID');
+        // return Department::whereIn('DepartmentRef', explode(',', $this->DepartmentID))->get();
     }
 
     public function religion()
@@ -85,7 +95,7 @@ class Staff extends Model
     }
     public function supervisor()
     {
-        return $this->hasOne(CompanySupervisor::class, 'staff_id', 'StaffRef');
+        return $this->hasOne(Staff::class, 'SupervisorID');
     }
     public function getProjectsAttribute()
     {
@@ -135,6 +145,11 @@ class Staff extends Model
     public function scorecards()
     {
         return $this->hasMany('MESL\ScoreCard', 'StaffID');
+    }
+
+    public function nysc_location()
+    {
+        return $this->belongsTo('MESL\State', 'NYSCLocationID');
     }
 
     public function subordinates()

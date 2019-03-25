@@ -162,6 +162,7 @@
             <table class="table tableWithSearch">
               <thead>
                 <th >Request Type</th>
+                <th>Requester</th>
                 <th >Description</th>
                 <th>Comment</th>
                 <th>Files</th>
@@ -173,6 +174,7 @@
                 @foreach ( $exp_inbox as $exp)
                   <tr>
                     <td>{{ $exp->request_type->Request }}</td>
+                    <td>{{ $exp->requester->fullName }}</td>
                     <td>{{ $exp->Description }}</td>
                     <td>
                      <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($exp->Comment), 50, '...') }}</p> <br>
