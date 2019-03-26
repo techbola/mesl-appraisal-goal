@@ -904,9 +904,6 @@
             autoclose:true,
             format: 'yyyy-mm-dd'
         };
-        //  $('.dp').datepicker({autoclose:true});
-        //  $('.dp-departure-date').datepicker({autoclose:true, format: 'yyyy-mm-dd', startDate: '2018-01-01'});
-        //  $('.dp-arrival-date').datepicker({autoclose:true, format: 'yyyy-mm-dd', startDate: '2018-01-01'});
     });
 
 
@@ -998,36 +995,36 @@ $('.staff_option_label').click(function(e) {
 
 var staff_option_temp = `
 <div class="row">
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                 <label for="TravellerStaffID">Select Staff</label>
-                                                {{ Form::select('TravellerStaffID[]', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'StaffRef')->toArray(), null, ['class'=> "form-control full-width select2", 'data-init-plugin' => "select2"]) }}
-                                            </div>
-                                        </div>
+    <div class="col-sm-3">
+        <div class="form-group">
+             <label for="TravellerStaffID">Select Staff</label>
+            {{ Form::select('TravellerStaffID[]', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'StaffRef')->toArray(), null, ['class'=> "form-control full-width select2", 'data-init-plugin' => "select2"]) }}
+        </div>
+    </div>
 
-                                        <div class="col-sm-3">
-                                           
-                                            <div class="form-group">
-                                                 <label for="TravellerCompany">Company</label>
-                                                {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter  Staff\'s Company' ]) }}
-                                            </div>
-                                        </div>
+    <div class="col-sm-3">
+       
+        <div class="form-group">
+             <label for="TravellerCompany">Company</label>
+            {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter  Staff\'s Company' ]) }}
+        </div>
+    </div>
 
-                                        <div class="col-sm-3 ">
-                                            <div class="form-group">
-                                                 <label for="TravellerPhone">Phone</label>
-                                                {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number', 'minlength' => 11, 'maxlength' => 11, 'pattern'=> "\d+"]) }}
-                                            </div>
-                                        </div>
+    <div class="col-sm-3 ">
+        <div class="form-group">
+             <label for="TravellerPhone">Phone</label>
+            {{ Form::text('TravellerPhone[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Phone Number', 'minlength' => 11, 'maxlength' => 11, 'pattern'=> "\d+"]) }}
+        </div>
+    </div>
 
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <button type="button" style="margin-top: 30px"  class="remove_staff_node btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
-                                            </div>
-                                        </div>
+    <div class="col-sm-3">
+        <div class="form-group">
+            <button type="button" style="margin-top: 30px"  class="remove_staff_node btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
 
 
-                                    </div>`;
+</div>`;
 
  var non_staff_option_temp = `
 <div class="row">
