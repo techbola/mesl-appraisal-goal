@@ -21,7 +21,7 @@
        <form action="{{route('StoreLevel')}}" method="POST" class="form">
            {{ csrf_field() }}
            <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="controls">
                         <div class="form-group">
                             {{ Form::label('GradeLevel', 'Level' ) }}
@@ -77,7 +77,7 @@
                         <input type="hidden" id="SeniorityRef" name="SeniorityRef">
                         {{ csrf_field() }}
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="controls">
                                     <div class="form-group">
                                         {{ Form::label('GradeLevel', 'Level' ) }}
