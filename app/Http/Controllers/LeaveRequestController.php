@@ -2,51 +2,45 @@
 
 namespace MESL\Http\Controllers;
 
-use MESL\LeaveType;
-// use MESL\Mail\Leave;
-use MESL\Staff;
-use MESL\User;
-use MESL\Role;
-use MESL\LeaveRequest;
-use MESL\Department;
-use MESL\Mail\LeaveRequest as LR;
-use MESL\Mail\HRLeaveConfirmation;
-use MESL\Mail\FinalHRLeaveConfirmation;
-use MESL\Mail\LeaveRequestedInit;
-use MESL\Mail\LeaveRequestSupervisor;
-use MESL\Mail\LeaveRequestApproval;
-use MESL\Mail\RejectLeaveRequest;
-use MESL\Mail\ReliefLeaveRequest;
-use MESL\Mail\LeaveRequestedRejected;
 use Carbon\Carbon;
-use MESL\RestrictionDates;
-use MESL\LeaveTransaction;
-use MESL\LeaveApprover;
-use MESL\HandoverTask;
-use MESL\HandOverNote;
-
+// use MESL\Mail\Leave;
 use Illuminate\Http\Request;
 use Mail;
+use MESL\Department;
+use MESL\HandOverNote;
+use MESL\HandoverTask;
+use MESL\LeaveApprover;
+use MESL\LeaveRequest;
+use MESL\LeaveTransaction;
+use MESL\LeaveType;
+use MESL\Mail\FinalHRLeaveConfirmation;
+use MESL\Mail\HRLeaveConfirmation;
+use MESL\Mail\LeaveRequestApproval;
+use MESL\Mail\LeaveRequest as LR;
+use MESL\Mail\LeaveRequestedInit;
+use MESL\Mail\LeaveRequestedRejected;
+use MESL\Mail\LeaveRequestSupervisor;
+use MESL\Mail\ReliefLeaveRequest;
+use MESL\RestrictionDates;
+use MESL\Staff;
+use MESL\User;
 
-class LeaveRequestController extends Controller
-{
-    public function dashboard()
-    {
-        $id             = \Auth::user()->id;
+class LeaveRequestController extends Controller {
+    public function dashboard() {
+        $id = \Auth::user()->id;
         $leave_requests = LeaveRequest::where('StaffID', $id)->get();
         $unsent_request = LeaveRequest::where('StaffID', $id)->where('NotifyFlag', 1)->get();
-        $leavedays      = Staff::where('UserID', $id)->first();
-        $leave_type     = LeaveType::all();
-        $department     = Department::all()->sortBy('Department');
+        $leavedays = Staff::where('UserID', $id)->first();
+        $leave_type = LeaveType::all();
+        $department = Department::all()->sortBy('Department');
 
-        $user  = \Auth::user();
-        $id    = \Auth::user()->id;
+        $user = \Auth::user();
+        $id = \Auth::user()->id;
         $staff = Staff::where('CompanyID', $user->CompanyID)->get();
         return view('leave_request.index', compact('leave_requests', 'unsent_request', 'leave_type', 'staff', 'user', 'id', 'department', 'user', 'leavedays'));
     }
 
-    public function get_leave_days($leave_type_id)
-    {
+    public function get_leave_days($leave_type_id) {
 
         $id = \Auth::user()->id;
 
@@ -64,9 +58,7 @@ class LeaveRequestController extends Controller
             $leave_days = $leavedays->SickLeaveDays;
         } elseif ($leave_type_id == '6') {
             $leave_days = $leavedays->CompasionateLeaveDays;
-
         } elseif ($leave_type_id == '7') {
-
             $leave_days = $leavedays->PaternityLeaveDays;
         }
 
@@ -80,16 +72,15 @@ class LeaveRequestController extends Controller
 
     }
 
-    public function leave_request()
-    {
+    public function leave_request() {
 
-        $leave_type     = LeaveType::all()->sortBy('LeaveType');
+        $leave_type = LeaveType::all()->sortBy('LeaveType');
         $unsent_request = LeaveRequest::where('StaffID', auth()->user()->id)->where('NotifyFlag', 1)->get();
-        $user           = \Auth::user();
-        $id             = \Auth::user()->id;
-        $department     = Department::all()->sortBy('Department');
-        $leavedays      = Staff::where('UserID', $id)->first();
-        $staff          = Staff::where('CompanyID', $user->CompanyID)
+        $user = \Auth::user();
+        $id = \Auth::user()->id;
+        $department = Department::all()->sortBy('Department');
+        $leavedays = Staff::where('UserID', $id)->first();
+        $staff = Staff::where('CompanyID', $user->CompanyID)
 
             ->where('DepartmentID', $user->staff->DepartmentID)
             ->where('UserID', '<>', $user->id)
@@ -104,9 +95,8 @@ class LeaveRequestController extends Controller
         return view('leave_request.create', compact('leave_type', 'unsent_request', 'staff', 'id', 'leavedays', 'leave_used', 'remaining_days', 'department', 'leave_days'));
     }
 
-    public function leave_approval_supervisor()
-    {
-        $id             = \Auth::user()->id;
+    public function leave_approval_supervisor() {
+        $id = \Auth::user()->id;
         $leave_requests = \DB::table('tblLeaveRequest')
             ->join('tblLeaveType', 'tblLeaveRequest.AbsenceTypeID', '=', 'tblLeaveType.LeaveTypeRef')
         // ->join('tblHandOver', 'tblLeaveRequest.LeaveReqRef', '=', 'tblHandOver.LeaveRequestID')
@@ -119,7 +109,7 @@ class LeaveRequestController extends Controller
 
         $leave_check = $leave_requests->transform(function ($item, $key) {
             $start = $item->StartDate;
-            $end   = $item->ReturnDate;
+            $end = $item->ReturnDate;
 
             $events = RestrictionDates::where(function ($query) use ($start, $end) {
                 $query->where(function ($query) use ($start, $end) {
@@ -139,7 +129,7 @@ class LeaveRequestController extends Controller
                 ;
             });
             $item->handovers = HandOverNote::where('LeaveRequestID', $item->LeaveReqRef)->get();
-            $item->status    = $events->count();
+            $item->status = $events->count();
             return $item;
         });
         $staff = Staff::all()
@@ -149,9 +139,8 @@ class LeaveRequestController extends Controller
         return view('leave_request.leave_approval_supervisor', compact('leave_requests', 'leave_check', 'staff'));
     }
 
-    public function leave_approval()
-    {
-        $id             = \Auth::user()->id;
+    public function leave_approval() {
+        $id = \Auth::user()->id;
         $leave_requests = \DB::table('tblLeaveRequest')
             ->join('tblLeaveType', 'tblLeaveRequest.AbsenceTypeID', '=', 'tblLeaveType.LeaveTypeRef')
         // ->join('tblHandOver', 'tblLeaveRequest.LeaveReqRef', '=', 'tblHandOver.LeaveRequestID')
@@ -162,7 +151,7 @@ class LeaveRequestController extends Controller
 
         $leave_check = $leave_requests->transform(function ($item, $key) {
             $start = $item->StartDate;
-            $end   = $item->ReturnDate;
+            $end = $item->ReturnDate;
 
             $events = RestrictionDates::where(function ($query) use ($start, $end) {
                 $query->where(function ($query) use ($start, $end) {
@@ -182,7 +171,7 @@ class LeaveRequestController extends Controller
                 ;
             });
             $item->handovers = HandOverNote::where('LeaveRequestID', $item->LeaveReqRef)->get();
-            $item->status    = $events->count();
+            $item->status = $events->count();
             return $item;
         });
         $staff = Staff::all()->sortBy('FullName');
@@ -190,9 +179,8 @@ class LeaveRequestController extends Controller
         return view('leave_request.leave_approval', compact('leave_requests', 'leave_check', 'staff'));
     }
 
-    public function hr_leave_approval()
-    {
-        $id             = \Auth::user()->id;
+    public function hr_leave_approval() {
+        $id = \Auth::user()->id;
         $leave_requests = \DB::table('tblLeaveRequest')
             ->join('tblLeaveType', 'tblLeaveRequest.AbsenceTypeID', '=', 'tblLeaveType.LeaveTypeRef')
             ->join('users', 'tblLeaveRequest.StaffID', '=', 'users.id')
@@ -203,7 +191,7 @@ class LeaveRequestController extends Controller
 
         $leave_check = $leave_requests->transform(function ($item, $key) {
             $start = $item->StartDate;
-            $end   = $item->ReturnDate;
+            $end = $item->ReturnDate;
 
             $events = RestrictionDates::where(function ($query) use ($start, $end) {
                 $query->where(function ($query) use ($start, $end) {
@@ -228,21 +216,19 @@ class LeaveRequestController extends Controller
         return view('leave_request.hr_leave_approval', compact('leave_requests', 'leave_check'));
     }
 
-    public function retrieve_details($start_date, $numberdays)
-    {
+    public function retrieve_details($start_date, $numberdays) {
         $trans = collect(\DB::select("EXEC procLeaveEndDate '$start_date', $numberdays"));
         return response()->json($trans->first())->setStatusCode(200);
     }
 
-    public function leave_notification($elem_value)
-    {
+    public function leave_notification($elem_value) {
         if (!is_null($elem_value)) {
             $leave_request = LeaveRequest::find($elem_value);
-            $trans         = \DB::table('tblLeaveRequest')
+            $trans = \DB::table('tblLeaveRequest')
                 ->where('leaveReqRef', $elem_value)
                 ->update([
-                    'NotifyFlag'    => 1,
-                    'ApproverID'    => $leave_request->SupervisorID,
+                    'NotifyFlag' => 1,
+                    'ApproverID' => $leave_request->SupervisorID,
                     'RejectionFlag' => '0',
                 ]);
 
@@ -275,10 +261,9 @@ class LeaveRequestController extends Controller
     }
 
     // supervisor
-    public function approve_request_supervisor(Request $request, $ref)
-    {
+    public function approve_request_supervisor(Request $request, $ref) {
         $staffs = Staff::all();
-        $user   = User::all();
+        $user = User::all();
 
         $leave_request = LeaveRequest::find($ref);
         // $leave_request->ApprovalDate = date('Y-m-d');
@@ -292,10 +277,10 @@ class LeaveRequestController extends Controller
         // $leave_request->ApproverID3        = $request->Approver3 ?? 0;
         // $leave_request->ApproverID4        = $request->Approver4 ?? 0;
         // $leave_request->ApproverComment    = $request->Comment;
-        $leave_request->ApprovedFlag    = 1;
+        $leave_request->ApprovedFlag = 1;
         $leave_request->ApproverComment = $request->ApproverComment;
-        $leave_request->ApproverID      = 0;
-        $get_approvers                  = LeaveApprover::where('ModuleID', 3)->get();
+        $leave_request->ApproverID = 0;
+        $get_approvers = LeaveApprover::where('ModuleID', 3)->get();
 
         $hr_users =
         User::whereHas('roles', function ($query) {
@@ -324,25 +309,24 @@ class LeaveRequestController extends Controller
         return redirect('/leave_request/leave_approval_supervisor')->with('success', 'Request approved successfully');
     }
 
-    public function reject_request_supervisor($id)
-    {
+    public function reject_request_supervisor($id) {
         $staffs = Staff::all();
-        $user   = User::all();
+        $user = User::all();
 
         $leave_request = LeaveRequest::find($id);
         // $leave_request->ApprovalDate = date('Y-m-d');
 
         // dd($leave_request);
-        $leave_request->RejectionFlag      = 1;
-        $leave_request->RejectedBy         = auth()->user()->staff->StaffRef;
+        $leave_request->RejectionFlag = 1;
+        $leave_request->RejectedBy = auth()->user()->staff->StaffRef;
         $leave_request->SupervisorApproved = 0;
-        $leave_request->NotifyFlag         = 0;
-        $leave_request->RejectionComment   = $request->RejectionComment;
-        $leave_request->ApproverID         = $request->Approver1 ?? 0;
-        $leave_request->ApproverID1        = $request->Approver1 ?? 0;
-        $leave_request->ApproverID2        = $request->Approver2 ?? 0;
-        $leave_request->ApproverID3        = $request->Approver3 ?? 0;
-        $leave_request->ApproverID4        = $request->Approver4 ?? 0;
+        $leave_request->NotifyFlag = 0;
+        $leave_request->RejectionComment = $request->RejectionComment;
+        $leave_request->ApproverID = $request->Approver1 ?? 0;
+        $leave_request->ApproverID1 = $request->Approver1 ?? 0;
+        $leave_request->ApproverID2 = $request->Approver2 ?? 0;
+        $leave_request->ApproverID3 = $request->Approver3 ?? 0;
+        $leave_request->ApproverID4 = $request->Approver4 ?? 0;
 
         $leave_request->update();
 
@@ -357,41 +341,40 @@ class LeaveRequestController extends Controller
         return redirect('/leave_request/leave_approval')->with('success', 'Request approved successfully');
     }
 
-    public function approve_leave_request(Request $request, LeaveApprover $get_approvers)
-    {
+    public function approve_leave_request(Request $request, LeaveApprover $get_approvers) {
         if ($request->input('approve')) {
             // dd($request->all());
             try {
                 \DB::beginTransaction();
                 foreach ($request->LeaveRef as $key => $Ref) {
-                    $details      = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $details = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                     $current_time = Carbon::now();
 
-                    $module_id        = 3;
+                    $module_id = 3;
                     $approver_comment = (STRING) $request->ApproverComment[$Ref];
                     // dd($approver_comment);
                     $approver_id = $details->ApproverID;
-                    $flag        = 1;
-                    $approve     = \DB::statement("EXEC procApproveRequest '$current_time', '$Ref', $module_id, '$approver_comment', $approver_id, $flag");
+                    $flag = 1;
+                    $approve = \DB::statement("EXEC procApproveRequest '$current_time', '$Ref', $module_id, '$approver_comment', $approver_id, $flag");
 
                     if ($approve) {
-                        $trans           = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                        $trans = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                         $new_approver_id = $trans->ApproverID;
-                        $leavedays       = $trans->NumberofDays;
-                        $leave_id        = $trans->LeaveReqRef;
-                        $staff_id        = $trans->StaffID;
-                        $leave_type_id   = $trans->AbsenceTypeID;
-                        $id              = \Auth::user()->id;
+                        $leavedays = $trans->NumberofDays;
+                        $leave_id = $trans->LeaveReqRef;
+                        $staff_id = $trans->StaffID;
+                        $leave_type_id = $trans->AbsenceTypeID;
+                        $id = \Auth::user()->id;
 
                         $trans->ApproverID = 0;
                         if (is_null($new_approver_id) || $new_approver_id == 0) {
 
                             // if ($details->AbsenceTypeID == 1) {
-                            $record                = new LeaveTransaction;
-                            $record->StaffID       = $staff_id;
+                            $record = new LeaveTransaction;
+                            $record->StaffID = $staff_id;
                             $record->DaysRequested = $leavedays;
-                            $record->LeaveID       = $leave_id;
-                            $record->LeaveTypeID   = $leave_type_id;
+                            $record->LeaveID = $leave_id;
+                            $record->LeaveTypeID = $leave_type_id;
                             $record->save();
                             // }
 
@@ -446,16 +429,16 @@ class LeaveRequestController extends Controller
             try {
                 \DB::beginTransaction();
                 foreach ($request->LeaveRef as $Ref) {
-                    $details      = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $details = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                     $approver_id1 = $details->ApproverID1;
                     $current_time = Carbon::now();
-                    $comment      = "You Can't Leave Now work Still To be done";
+                    $comment = "You Can't Leave Now work Still To be done";
                     $reject_trans = \DB::table('tblLeaveRequest')
                         ->where('leaveReqRef', $Ref)
                         ->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
-                    $leave_request             = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $leave_request = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                     $leave_request->RejectedBy = auth()->user()->staff->StaffRef;
-                    $email                     = \DB::table('users')
+                    $email = \DB::table('users')
                         ->select('email')
                         ->where('id', $leave_request->StaffID)
                         ->first();
@@ -476,40 +459,39 @@ class LeaveRequestController extends Controller
         }
     }
 
-    public function approve_leave_request_hr(Request $request, LeaveApprover $get_approvers)
-    {
+    public function approve_leave_request_hr(Request $request, LeaveApprover $get_approvers) {
         if ($request->input('approve')) {
             try {
                 \DB::beginTransaction();
                 foreach ($request->LeaveRef as $key => $Ref) {
-                    $details      = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $details = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                     $current_time = Carbon::now();
 
-                    $module_id              = 3;
-                    $comment                = $request->Comment[$Ref];
-                    $approver_id            = auth()->user()->id;
-                    $flag                   = 1;
+                    $module_id = 3;
+                    $comment = $request->Comment[$Ref];
+                    $approver_id = auth()->user()->id;
+                    $flag = 1;
                     $details->CompletedFlag = 1;
                     // $details->ApproverComment = $request->Comment[$Ref];
                     $approve = \DB::statement("EXEC procApproveRequest '$current_time', '$Ref', $module_id, '$comment', $approver_id, $flag");
 
                     if ($approve) {
-                        $trans           = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                        $trans = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                         $new_approver_id = $trans->ApproverID;
-                        $leavedays       = $trans->NumberofDays;
-                        $leave_id        = $trans->LeaveReqRef;
-                        $staff_id        = $trans->StaffID;
-                        $leave_type_id   = $trans->AbsenceTypeID;
-                        $id              = \Auth::user()->id;
+                        $leavedays = $trans->NumberofDays;
+                        $leave_id = $trans->LeaveReqRef;
+                        $staff_id = $trans->StaffID;
+                        $leave_type_id = $trans->AbsenceTypeID;
+                        $id = \Auth::user()->id;
 
                         if (is_null($new_approver_id) || $new_approver_id == 0) {
 
                             // if ($details->AbsenceTypeID == 1) {
-                            $record                = new LeaveTransaction;
-                            $record->StaffID       = $staff_id;
+                            $record = new LeaveTransaction;
+                            $record->StaffID = $staff_id;
                             $record->DaysRequested = $leavedays;
-                            $record->LeaveID       = $leave_id;
-                            $record->LeaveTypeID   = $leave_type_id;
+                            $record->LeaveID = $leave_id;
+                            $record->LeaveTypeID = $leave_type_id;
                             $record->save();
                             // }
 
@@ -518,14 +500,14 @@ class LeaveRequestController extends Controller
                                 ->update([
                                     'CompletedDate' => $current_time,
                                     'CompletedFlag' => 1,
-                                    'HRStaffID'     => auth()->user()->id,
+                                    'HRStaffID' => auth()->user()->id,
                                 ]);
 
-                            $leave_req_ref   = LeaveRequest::find($Ref);
+                            $leave_req_ref = LeaveRequest::find($Ref);
                             $leave_requester = User::find($leave_req_ref->StaffID)->first();
                             // dd($leave_requester->first()->email);
 
-                            $name  = User::find($trans->StaffID);
+                            $name = User::find($trans->StaffID);
                             $email = $leave_requester->email;
 
                             Mail::to($email)->send(new FinalHRLeaveConfirmation($name));
@@ -549,17 +531,17 @@ class LeaveRequestController extends Controller
             try {
                 \DB::beginTransaction();
                 foreach ($request->LeaveRef as $Ref) {
-                    $details      = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $details = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                     $approver_id1 = $details->ApproverID1;
                     $current_time = Carbon::now();
-                    $comment      = "You Can't Leave Now work Still To be done";
+                    $comment = "You Can't Leave Now work Still To be done";
                     $reject_trans = \DB::table('tblLeaveRequest')
                         ->where('leaveReqRef', $Ref)
                         ->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
 
-                    $leave_request             = LeaveRequest::where('LeaveReqRef', $Ref)->first();
+                    $leave_request = LeaveRequest::where('LeaveReqRef', $Ref)->first();
                     $leave_request->RejectedBy = auth()->user()->staff->StaffRef;
-                    $email                     = \DB::table('users')
+                    $email = \DB::table('users')
                         ->select('email')
                         ->where('id', $leave_request->StaffID)
                         ->first();
@@ -580,12 +562,11 @@ class LeaveRequestController extends Controller
         }
     }
 
-    public function store_leave_request(Request $request)
-    {
+    public function store_leave_request(Request $request) {
 
         $id = \Auth::user()->id;
 
-        $leavedays     = Staff::where('UserID', $id)->first();
+        $leavedays = Staff::where('UserID', $id)->first();
         $leave_type_id = $request->AbsenceTypeID;
 
         if ($leave_type_id == '1') {
@@ -628,35 +609,35 @@ class LeaveRequestController extends Controller
                 array_push($ongoing_request, $value->LeaveReqRef);
             }
         }
-        if (count($ongoing_request) > 0) {
-            return back()->withInput()->with('error', 'You have an approved request which is still ongoing');
-        }
+        // if (count($ongoing_request) > 0) {
+        //     return back()->withInput()->with('error', 'You have an approved request which is still ongoing');
+        // }
         try {
             \DB::beginTransaction();
 
             if ($request->hasFile('HandOverNote')) {
-                $start_date     = $request->StartDate;
+                $start_date = $request->StartDate;
                 $converted_date = (int) $request->NumberofDays;
                 // $drpartment                  = (int) $request->
-                $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
-                $leave_request               = new LeaveRequest($request->except(['Task', 'HonCompletionDate', 'Description']));
-                $leave_request->ReturnDate   = $completion_Date;
-                $filenamewithextension       = $request->file('HandOverNote')->getClientOriginalName();
-                $filename                    = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-                $extension                   = $request->file('HandOverNote')->getClientOriginalExtension();
-                $filenametostore             = str_slug($filename) . time() . '.' . $extension;
-                $saveFile                    = $request->file('HandOverNote')->storeAs('public/leave_document', $filenametostore);
+                $completion_Date = Carbon::parse($start_date)->addDays($converted_date);
+                $leave_request = new LeaveRequest($request->except(['Task', 'HonCompletionDate', 'Description']));
+                $leave_request->ReturnDate = $completion_Date;
+                $filenamewithextension = $request->file('HandOverNote')->getClientOriginalName();
+                $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+                $extension = $request->file('HandOverNote')->getClientOriginalExtension();
+                $filenametostore = str_slug($filename) . time() . '.' . $extension;
+                $saveFile = $request->file('HandOverNote')->storeAs('public/leave_document', $filenametostore);
                 $leave_request->HandOverNote = $filenametostore;
-                $leave_request->ReturnDate   = $request->ReturnDate;
+                $leave_request->ReturnDate = $request->ReturnDate;
                 $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
                 $leave_request->save();
             } else {
-                $start_date                  = $request->StartDate;
-                $converted_date              = (int) $request->NumberofDays;
-                $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
-                $leave_request               = new LeaveRequest($request->except(['Task', 'HonCompletionDate', 'Description']));
+                $start_date = $request->StartDate;
+                $converted_date = (int) $request->NumberofDays;
+                $completion_Date = Carbon::parse($start_date)->addDays($converted_date);
+                $leave_request = new LeaveRequest($request->except(['Task', 'HonCompletionDate', 'Description']));
                 $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
-                $leave_request->ReturnDate   = $request->ReturnDate;
+                $leave_request->ReturnDate = $request->ReturnDate;
 
                 $leave_request->save();
             }
@@ -667,9 +648,9 @@ class LeaveRequestController extends Controller
                 $hon = new HandOverNote([
                     'LeaveRequestID' => $leave_request->LeaveReqRef,
 
-                    'Task'           => $request->Task[$key] ?? null,
+                    'Task' => $request->Task[$key] ?? null,
                     'CompletionDate' => Carbon::parse($request->HonCompletionDate[$key]) ?? null,
-                    'Description'    => $request->Description[$key] ?? null,
+                    'Description' => $request->Description[$key] ?? null,
                 ]);
                 $hon->save();
                 // }
@@ -677,7 +658,7 @@ class LeaveRequestController extends Controller
 
             \DB::commit();
             // send initiator leave
-            $email               = User::find($leave_request->StaffID)->email;
+            $email = User::find($leave_request->StaffID)->email;
             $relief_office_email = User::find($leave_request->ReliefOfficerID)->email ?? null;
 
             Mail::to($email)->send(new LeaveRequestedInit($leave_request));
@@ -688,21 +669,19 @@ class LeaveRequestController extends Controller
         }
     }
 
-    public function leave_handover()
-    {
+    public function leave_handover() {
         $leave_type = LeaveType::all();
-        $staff      = Staff::all();
+        $staff = Staff::all();
         // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
-        $user           = \Auth::user();
-        $id             = \Auth::user()->id;
-        $department     = Department::all()->sortBy('Department');
+        $user = \Auth::user();
+        $id = \Auth::user()->id;
+        $department = Department::all()->sortBy('Department');
         $handover_tasks = HandoverTask::orderBy('HandoverTaskRef', 'DESC')->get();
         return view('leave_request.handover', compact('leave_type', 'staff', 'id', 'user', 'department', 'handover_tasks'));
     }
 
     //Leave handover task method, IN PROGRESS!!!!!!
-    public function handover_task(Request $request)
-    {
+    public function handover_task(Request $request) {
         $handover_tasks = HandoverTask::orderBy('HandoverTaskRef', 'DESC');
 
         $leave_type = LeaveType::all();
@@ -714,8 +693,7 @@ class LeaveRequestController extends Controller
     }
 
     //store handover task
-    public function store_task(Request $request)
-    {
+    public function store_task(Request $request) {
         $handover_task = new HandoverTask($request->all());
 
         $handover_task->StaffID = auth()->user()->id;
@@ -726,8 +704,7 @@ class LeaveRequestController extends Controller
     }
 
     //Delete travel request function
-    public function destroy_task($id)
-    {
+    public function destroy_task($id) {
         // $handover_task = Handovertask::find($id);
 
         $handover_task = Handovertask::where('HandoverTaskRef', $id)->firstOrFail();
@@ -743,8 +720,7 @@ class LeaveRequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         //
     }
 
@@ -753,8 +729,7 @@ class LeaveRequestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -764,46 +739,42 @@ class LeaveRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
     }
 
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         $leave_request = LeaveRequest::where('LeaveReqRef', $id)->first();
         // dd($leave_request);
-        $id         = \Auth::user()->id;
+        $id = \Auth::user()->id;
         $leave_type = LeaveType::all();
         $department = Department::all()->sortBy('Department');
 
-        $user  = \Auth::user();
-        $id    = \Auth::user()->id;
+        $user = \Auth::user();
+        $id = \Auth::user()->id;
         $staff = Staff::where('CompanyID', $user->CompanyID)->get();
         return view('leave_request.edit', compact('leave_request', 'staff', 'id', 'user', 'department', 'leave_type'));
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $leave_request = LeaveRequest::where('LeaveReqRef', $id)->first();
         if ($request->hasFile('HandOverNote')) {
-            $start_date     = $request->StartDate;
+            $start_date = $request->StartDate;
             $converted_date = (int) $request->NumberofDays;
             // $drpartment                  = (int) $request->
-            $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
-            $leave_request->ReturnDate   = $completion_Date;
-            $filenamewithextension       = $request->file('HandOverNote')->getClientOriginalName();
-            $filename                    = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-            $extension                   = $request->file('HandOverNote')->getClientOriginalExtension();
-            $filenametostore             = str_slug($filename) . time() . '.' . $extension;
-            $saveFile                    = $request->file('HandOverNote')->storeAs('public/leave_document', $filenametostore);
+            $completion_Date = Carbon::parse($start_date)->addDays($converted_date);
+            $leave_request->ReturnDate = $completion_Date;
+            $filenamewithextension = $request->file('HandOverNote')->getClientOriginalName();
+            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+            $extension = $request->file('HandOverNote')->getClientOriginalExtension();
+            $filenametostore = str_slug($filename) . time() . '.' . $extension;
+            $saveFile = $request->file('HandOverNote')->storeAs('public/leave_document', $filenametostore);
             $leave_request->HandOverNote = $filenametostore;
-            $leave_request->ReturnDate   = $request->ReturnDate;
+            $leave_request->ReturnDate = $request->ReturnDate;
             $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
             foreach ($request->HandOverNoteRef as $key => $value) {
 
@@ -813,20 +784,20 @@ class LeaveRequestController extends Controller
                 $hon->update([
                     'LeaveRequestID' => $leave_request->LeaveReqRef,
 
-                    'Task'           => $request->Task[$key] ?? null,
+                    'Task' => $request->Task[$key] ?? null,
                     'CompletionDate' => Carbon::parse($request->HonCompletionDate[$key]) ?? null,
-                    'Description'    => $request->Description[$key] ?? null,
+                    'Description' => $request->Description[$key] ?? null,
                 ]);
                 // }
             }
         } else {
-            $start_date     = $request->StartDate;
+            $start_date = $request->StartDate;
             $converted_date = (int) $request->NumberofDays;
             // $drpartment                  = (int) $request->
-            $completion_Date           = Carbon::parse($start_date)->addDays($converted_date);
+            $completion_Date = Carbon::parse($start_date)->addDays($converted_date);
             $leave_request->ReturnDate = $completion_Date;
 
-            $leave_request->ReturnDate   = $request->ReturnDate;
+            $leave_request->ReturnDate = $request->ReturnDate;
             $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
         }
         foreach ($request->HandOverNoteRef as $key => $value) {
@@ -838,9 +809,9 @@ class LeaveRequestController extends Controller
             $hon->update([
                 'LeaveRequestID' => $leave_request->LeaveReqRef,
 
-                'Task'           => $request->Task[$key] ?? null,
+                'Task' => $request->Task[$key] ?? null,
                 'CompletionDate' => Carbon::parse($request->HonCompletionDate[$key]) ?? null,
-                'Description'    => $request->Description[$key] ?? null,
+                'Description' => $request->Description[$key] ?? null,
             ]);
             // }
         }
@@ -851,41 +822,36 @@ class LeaveRequestController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
 
-    public function create_leave_handover()
-    {
+    public function create_leave_handover() {
         $leave_habdover = LeaveRequest::find($id);
-        $leave_request  = LeaveRequesr::Where('');
+        $leave_request = LeaveRequesr::Where('');
     }
 
-    public function fetch_leave_hons($leave_ref)
-    {
+    public function fetch_leave_hons($leave_ref) {
         $hons = HandOverNote::where('LeaveRequestID', $leave_ref)->get();
         return $hons;
     }
 
-    public function leave_type()
-    {
+    public function leave_type() {
         $leavetypes = LeaveType::Orderby('LeaveTypeRef', 'DESC')->get();
         return view('leave_request.leave_type', compact('leavetypes'));
     }
 
-    public function store_leavetype(Request $request)
-    {
+    public function store_leavetype(Request $request) {
         $leavetype = new LeaveType($request->all());
 
         if ($leavetype->save()) {
             $data = [
-                'status'  => 'success',
+                'status' => 'success',
                 'message' => 'Leave Type was created successfully!',
             ];
         } else {
             $data = [
-                'status'  => 'error',
+                'status' => 'error',
                 'message' => 'Leave Type creation was not successful!',
             ];
         }
@@ -893,15 +859,13 @@ class LeaveRequestController extends Controller
         return redirect()->route('StoreLeaveType')->with($data['status'], $data['message']);
     }
 
-    public function edit_leave_type($id)
-    {
+    public function edit_leave_type($id) {
         $leavetype = LeaveType::where("LeaveTypeRef", $id)->first();
 
         return response()->json($leavetype);
     }
 
-    public function update_leave_type(Request $request)
-    {
+    public function update_leave_type(Request $request) {
         $leavetype = LeaveType::find($request->LeaveTypeRef);
 
         $leavetype->update($request->except(['_token']));
@@ -909,8 +873,7 @@ class LeaveRequestController extends Controller
         return redirect()->back()->with('success', 'Updated successfully');
     }
 
-    public function delete_leave_type($id)
-    {
+    public function delete_leave_type($id) {
         $leavetype = LeaveType::where("LeaveTypeRef", $id);
 
         $leavetype->delete();
