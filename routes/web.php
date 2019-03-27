@@ -1432,3 +1432,9 @@ Route::post('setup/level', 'SetupController@store_level')->name('StoreLevel');
 Route::get('edit_seniority_level/{id}', 'SetupController@edit_seniority_level')->name('edit_seniority_level');
 Route::post('update_seniority_level', 'SetupController@update_seniority_level')->name('UpdateLevel');
 Route::get('setup/level/{id}', 'SetupController@delete_level')->name('delete_level');
+
+Route::get('setup/deduction', 'SetupController@deduction_item');
+Route::post('setup/deduction', 'SetupController@store_deduction')->name('StoreDeduction');
+Route::get('edit_deduction/{id}', 'SetupController@edit_deduction')->name('edit_deduction');
+Route::post('update_deduction', 'SetupController@update_deduction')->name('updateDeduction');
+Route::get('setup/deduction/{id}', 'SetupController@delete_deduction')->name('delete_deduction');

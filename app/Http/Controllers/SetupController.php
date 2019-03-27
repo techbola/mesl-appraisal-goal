@@ -20,6 +20,7 @@ use MESL\Subsidiary;
 use MESL\Division;
 use MESL\Group;
 use MESL\SeniorityLevel;
+use MESL\DeductionItem;
 
 class SetupController extends Controller
 {
@@ -580,6 +581,53 @@ class SetupController extends Controller
         $level = SeniorityLevel::where("SeniorityRef", $id);
 
         $level->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function deduction_item()
+    {
+        $deduction = DeductionItem::Orderby('DeductionItemRef', 'DESC')->get();
+        return view('setup.deduction', compact('deduction'));
+    }
+
+    public function store_deduction(Request $request)
+    {
+        $deduction = new DeductionItem($request->all());
+
+        $this->validate($request, [
+            'DeductionItem' => 'required',
+            'DeductionSign' => 'required',
+        ]);
+
+        if ($deduction->save()) {
+            return redirect('/setup/deduction')->with('success', 'Deduction Item was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Deduction Item failed to save');
+        }
+    }
+
+    public function edit_deduction($id)
+    {
+        $deduction = DeductionItem::where("DeductionItemRef", $id)->first();
+
+        return response()->json($deduction);
+    }
+
+    public function update_deduction(Request $request)
+    {
+        $deduction = DeductionItem::find($request->DeductionItemRef);
+
+        $deduction->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_deduction($id)
+    {
+        $deduction = DeductionItem::where("DeductionItemRef", $id);
+
+        $deduction->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }
