@@ -21,6 +21,8 @@ use MESL\Division;
 use MESL\Group;
 use MESL\SeniorityLevel;
 use MESL\DeductionItem;
+use MESL\Policy;
+use Auth;
 
 class SetupController extends Controller
 {
@@ -632,4 +634,51 @@ class SetupController extends Controller
         return redirect()->back()->with('success',  'Deleted successfully');
     }
 
+    public function policy()
+    {
+        $policy = Policy::Orderby('PolicyRef', 'DESC')->get();
+        return view('setup.policy', compact('policy'));
+    }
+
+    public function store_policy(Request $request)
+    {
+        $policy = new Policy($request->all());
+
+        $policy->EnteredBy = Auth::user()->id;
+
+        $this->validate($request, [
+            'Policy' => 'required',
+        ]);
+
+        if ($policy->save()) {
+            return redirect('/setup/policy')->with('success', 'Policy was added successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Policy failed to save');
+        }
+    }
+
+    public function edit_policy($id)
+    {
+        $policy = Policy::where("PolicyRef", $id)->first();
+
+        return response()->json($policy);
+    }
+
+    public function update_policy(Request $request)
+    {
+        $policy = Policy::find($request->PolicyRef);
+
+        $policy->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+    public function delete_policy($id)
+    {
+        $policy = Policy::where("PolicyRef", $id);
+
+        $policy->delete();
+
+        return redirect()->back()->with('success',  'Deleted successfully');
+    }
 }

@@ -1438,3 +1438,9 @@ Route::post('setup/deduction', 'SetupController@store_deduction')->name('StoreDe
 Route::get('edit_deduction/{id}', 'SetupController@edit_deduction')->name('edit_deduction');
 Route::post('update_deduction', 'SetupController@update_deduction')->name('updateDeduction');
 Route::get('setup/deduction/{id}', 'SetupController@delete_deduction')->name('delete_deduction');
+
+Route::get('setup/policy', 'SetupController@policy');
+Route::post('setup/policy', 'SetupController@store_policy')->name('StorePolicy');
+Route::get('edit_policy/{id}', 'SetupController@edit_policy')->name('edit_policy');
+Route::post('update_policy', 'SetupController@update_policy')->name('UpdatePolicy');
+Route::get('setup/policy/{id}', 'SetupController@delete_policy')->name('delete_policy');
