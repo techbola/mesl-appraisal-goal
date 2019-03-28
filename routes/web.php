@@ -1359,6 +1359,8 @@ Route::get('send_exit_interview/{id}', 'ExitController@send_exit_interview')->na
 Route::get('staff/exit_interview/{id}', 'StaffController@delete_exit_response')->name('delete_exit_response');
 
 //SETUP ROUTES
+Route::get('setup/index', 'SetupController@index');
+
 Route::get('setup/hmo', 'SetupController@hmo');
 Route::post('setup/hmo', 'SetupController@store_hmo')->name('StoreHmo');
 Route::get('edit_hmo/{id}', 'SetupController@edit_hmo')->name('edit_hmo');
@@ -1382,3 +1384,63 @@ Route::post('setup/pfa', 'SetupController@store_pfa')->name('Storepfa');
 Route::get('edit_pfa/{id}', 'SetupController@edit_pfa')->name('edit_pfa');
 Route::post('update_pfa', 'SetupController@update_pfa')->name('updatepfa');
 Route::get('setup/pfa/{id}', 'SetupController@delete_pfa')->name('delete_pfa');
+
+Route::get('setup/bank_setup', 'SetupController@bank_setup');
+Route::post('setup/bank_setup', 'SetupController@store_bank')->name('StoreBank');
+Route::get('edit_bank/{id}', 'SetupController@edit_bank')->name('edit_bank');
+Route::post('update_bank', 'SetupController@update_bank')->name('updateBank');
+Route::get('setup/bank_setup/{id}', 'SetupController@delete_bank')->name('delete_bank');
+
+Route::get('setup/travel_purpose', 'SetupController@travel_purpose');
+Route::post('setup/travel_purpose', 'SetupController@store_travel_purpose')->name('StorePurpose');
+Route::get('edit_travel_purpose/{id}', 'SetupController@edit_travel_purpose')->name('edit_travel_purpose');
+Route::post('update_travel_purpose', 'SetupController@update_travel_purpose')->name('updatePurpose');
+Route::get('setup/travel_purpose/{id}', 'SetupController@delete_travel_purpose')->name('delete_travel_purpose');
+
+Route::get('setup/travel_mode', 'SetupController@travel_mode');
+Route::post('setup/travel_mode', 'SetupController@store_travel_mode')->name('StoreMode');
+Route::get('edit_travel_mode/{id}', 'SetupController@edit_travel_mode')->name('edit_travel_mode');
+Route::post('update_travel_mode', 'SetupController@update_travel_mode')->name('updateMode');
+Route::get('setup/travel_mode/{id}', 'SetupController@delete_travel_mode')->name('delete_travel_mode');
+
+Route::get('setup/travel_transport', 'SetupController@travel_transport');
+Route::post('setup/travel_transport', 'SetupController@store_travel_transport')->name('StoreTransport');
+Route::get('edit_travel_transport/{id}', 'SetupController@edit_travel_transport')->name('edit_travel_transport');
+Route::post('update_travel_transport', 'SetupController@update_travel_transport')->name('updateTransport');
+Route::get('setup/travel_transport/{id}', 'SetupController@delete_travel_transport')->name('delete_travel_transport');
+
+Route::get('setup/travel_lodge', 'SetupController@travel_lodge');
+Route::post('setup/travel_lodge', 'SetupController@store_travel_lodge')->name('StoreLodge');
+Route::get('edit_travel_lodge/{id}', 'SetupController@edit_travel_lodge')->name('edit_travel_lodge');
+Route::post('update_travel_lodge', 'SetupController@update_travel_lodge')->name('updateLodge');
+Route::get('setup/travel_lodge/{id}', 'SetupController@delete_travel_lodge')->name('delete_travel_lodge');
+
+Route::get('setup/staff_type', 'SetupController@staff_type');
+Route::post('setup/staff_type', 'SetupController@store_staff_type')->name('StoreStaffType');
+Route::get('edit_staff_type/{id}', 'SetupController@edit_staff_type')->name('edit_staff_type');
+Route::post('update_staff_type', 'SetupController@update_staff_type')->name('updateStaffType');
+Route::get('setup/staff_type/{id}', 'SetupController@delete_staff_type')->name('delete_staff_type');
+
+Route::get('setup/department', 'SetupController@department');
+Route::post('setup/department', 'SetupController@store_department')->name('StoreDept');
+Route::get('edit_department/{id}', 'SetupController@edit_department')->name('edit_department');
+Route::post('update_department', 'SetupController@update_department')->name('UpdateDept');
+Route::get('setup/department/{id}', 'SetupController@delete_department')->name('delete_department');
+
+Route::get('setup/level', 'SetupController@level');
+Route::post('setup/level', 'SetupController@store_level')->name('StoreLevel');
+Route::get('edit_seniority_level/{id}', 'SetupController@edit_seniority_level')->name('edit_seniority_level');
+Route::post('update_seniority_level', 'SetupController@update_seniority_level')->name('UpdateLevel');
+Route::get('setup/level/{id}', 'SetupController@delete_level')->name('delete_level');
+
+Route::get('setup/deduction', 'SetupController@deduction_item');
+Route::post('setup/deduction', 'SetupController@store_deduction')->name('StoreDeduction');
+Route::get('edit_deduction/{id}', 'SetupController@edit_deduction')->name('edit_deduction');
+Route::post('update_deduction', 'SetupController@update_deduction')->name('updateDeduction');
+Route::get('setup/deduction/{id}', 'SetupController@delete_deduction')->name('delete_deduction');
+
+Route::get('setup/policy', 'SetupController@policy');
+Route::post('setup/policy', 'SetupController@store_policy')->name('StorePolicy');
+Route::get('edit_policy/{id}', 'SetupController@edit_policy')->name('edit_policy');
+Route::post('update_policy', 'SetupController@update_policy')->name('UpdatePolicy');
+Route::get('setup/policy/{id}', 'SetupController@delete_policy')->name('delete_policy');
