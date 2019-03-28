@@ -17,24 +17,15 @@
 @section('content')
 
     <div class="card-box">
-       <div class="card-title">Locatoion Setup</div>
-       <form action="{{route('StoreLocation')}}" method="POST" class="form">
+       <div class="card-title">Policy Setup</div>
+       <form action="{{route('StorePolicy')}}" method="POST" class="form">
            {{ csrf_field() }}
            <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="controls">
                         <div class="form-group">
-                            {{ Form::label('Location', 'Office Location' ) }}
-                            {{ Form::text('Location', null, ['class' => 'form-control', 'placeholder' => 'Enter Office Location', 'required']) }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="controls">
-                        <div class="form-group">
-                            {{ Form::label('CompanyID', 'Company ID' ) }}
-                            {{ Form::text('CompanyID', null, ['class' => 'form-control', 'placeholder' => 'Enter Company ID']) }}
+                            {{ Form::label('Policy', 'Policy' ) }}
+                            {{ Form::text('Policy', null, ['class' => 'form-control', 'placeholder' => 'Add Policy', 'required']) }}
                         </div>
                     </div>
                 </div>
@@ -50,21 +41,19 @@
 
     {{-- Location-table --}}
     <div class="card-box">
-            <div class="card-title">Entries</div>
+            <div class="card-title">List Of Policies</div>
             <table class="table tableWithSearch table-bordered">
                 <thead>
-                    <th width="10%">Office Location</th>
-                    <th width="10%">CompanyID</th>
+                    <th width="10%">Policy</th>
                     <th width="15%">Action</th>
                 </thead>
                 <tbody>
-                    @foreach($location as $item)
+                    @foreach($policy as $item)
                         <tr>
-                            <td>{{$item->Location}}</td>
-                            <td>{{$item->CompanyID ?? ''}}</td>
+                            <td>{{$item->Policy}}</td>
                             <td>
-                                <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_office_location({{$item->LocationRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
-                                <a href="#" onclick="deleteItem('{{$item->LocationRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                                <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_policy({{$item->PolicyRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
+                                <a href="#" onclick="deleteItem('{{$item->PolicyRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -77,7 +66,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Office Location</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Policy</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -85,22 +74,14 @@
                 <hr>
                 <div class="modal-body">
                     <form action="" method="POST" id="form-edit">
-                        <input type="hidden" id="LocationRef" name="LocationRef">
+                        <input type="hidden" id="PolicyRef" name="PolicyRef">
                         {{ csrf_field() }}
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="controls">
                                     <div class="form-group">
-                                        {{ Form::label('Location', 'Office Location' ) }}
-                                        {{ Form::text('Location', null, ['class' => 'form-control', 'id' => 'location_id', 'placeholder' => 'Edit Office Location', 'required']) }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="controls">
-                                    <div class="form-group">
-                                        {{ Form::label('CompanyID', 'Company ID' ) }}
-                                        {{ Form::text('CompanyID', null, ['class' => 'form-control', 'id' => 'company_id', 'placeholder' => 'Edit Company ID']) }}
+                                        {{ Form::label('Policy', 'Policy' ) }}
+                                        {{ Form::text('Policy', null, ['class' => 'form-control', 'id' => 'policy_id', 'placeholder' => 'Edit Policy', 'required']) }}
                                     </div>
                                 </div>
                             </div>
@@ -126,24 +107,22 @@
 
 <script>
 
-    function edit_office_location(id)
+    function edit_policy(id)
     {
-        $.get('/edit_location/'+id, function(data, status) {
+        $.get('/edit_policy/'+id, function(data, status) {
             console.log(data);
 
-            $('#LocationRef').val(data.LocationRef);
+            $('#PolicyRef').val(data.PolicyRef);
 
-            $('#location_id').val(data.Location);
-
-            $('#company_id').val(data.CompanyID);
+            $('#policy_id').val(data.Policy);
             
-            $('#form-edit').prop('action', '/update_location');
+            $('#form-edit').prop('action', '/update_policy');
             
         });
 
     }
 
-    function deleteItem(LocationRef){
+    function deleteItem(PolicyRef){
         swal({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -154,7 +133,7 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if(result == true){
-                window.location.href = "/setup/location/"+LocationRef;
+                window.location.href = "/setup/policy/"+PolicyRef;
             }
         })
     }
