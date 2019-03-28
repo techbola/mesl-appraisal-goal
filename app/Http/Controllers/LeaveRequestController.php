@@ -321,12 +321,12 @@ class LeaveRequestController extends Controller {
         $leave_request->RejectedBy = auth()->user()->staff->StaffRef;
         $leave_request->SupervisorApproved = 0;
         $leave_request->NotifyFlag = 0;
-        $leave_request->RejectionComment = $request->RejectionComment;
-        $leave_request->ApproverID = $request->Approver1 ?? 0;
-        $leave_request->ApproverID1 = $request->Approver1 ?? 0;
-        $leave_request->ApproverID2 = $request->Approver2 ?? 0;
-        $leave_request->ApproverID3 = $request->Approver3 ?? 0;
-        $leave_request->ApproverID4 = $request->Approver4 ?? 0;
+        $leave_request->RejectionComment = '';
+        $leave_request->ApproverID = User::find($leave_request->StaffID)->staff->SupervisorID;
+        $leave_request->ApproverID1 = 0;
+        $leave_request->ApproverID2 = 0;
+        $leave_request->ApproverID3 = 0;
+        $leave_request->ApproverID4 = 0;
 
         $leave_request->update();
 
