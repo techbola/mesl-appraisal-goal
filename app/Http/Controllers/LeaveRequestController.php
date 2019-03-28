@@ -309,7 +309,7 @@ class LeaveRequestController extends Controller {
         return redirect('/leave_request/leave_approval_supervisor')->with('success', 'Request approved successfully');
     }
 
-    public function reject_request_supervisor($id) {
+    public function reject_request_supervisor(Request $request, $id) {
         $staffs = Staff::all();
         $user = User::all();
 
@@ -321,7 +321,7 @@ class LeaveRequestController extends Controller {
         $leave_request->RejectedBy = auth()->user()->staff->StaffRef;
         $leave_request->SupervisorApproved = 0;
         $leave_request->NotifyFlag = 0;
-        $leave_request->RejectionComment = '';
+        $leave_request->RejectionComment = $request->RejectionComment;
         $leave_request->ApproverID = User::find($leave_request->StaffID)->staff->SupervisorID;
         $leave_request->ApproverID1 = 0;
         $leave_request->ApproverID2 = 0;
@@ -338,7 +338,7 @@ class LeaveRequestController extends Controller {
         // send emails when ApproverID is null and send route request to admin
         //  end
 
-        return redirect('/leave_request/leave_approval')->with('success', 'Request approved successfully');
+        return redirect('/leave_request/leave_approval_supervisor')->with('success', 'Request approved successfully');
     }
 
     public function approve_leave_request(Request $request, LeaveApprover $get_approvers) {
