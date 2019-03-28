@@ -250,6 +250,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor');
     Route::get('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
     Route::post('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
+    Route::delete('leave_request/delete-leave-request/', 'LeaveRequestController@delete_leave_request');
 
     Route::get('leave_request/leave_type', 'LeaveRequestController@leave_type');
 

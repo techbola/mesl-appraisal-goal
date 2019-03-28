@@ -109,8 +109,14 @@
                 </td>
                 <td>
                   @if($leave_request->NotifyFlag == 0)
-                  <a href="/leave_request/{{ $leave_request->LeaveReqRef }}/edit" class="btn btn-xs btn-complete " data-request_ref = "{{ $leave_request->LeaveReqRef }}" >Edit Request</a>
-                  | <a href="#" class="btn btn-xs btn-success" data-id="{{$leave_request->LeaveReqRef}}" onclick="send_notification()">Send for Approval</a>
+                  <a href="/leave_request/{{ $leave_request->LeaveReqRef }}/edit" class="btn btn-sm btn-complete " data-request_ref = "{{ $leave_request->LeaveReqRef }}" title="Edit Request" ><i class="fa fa-edit"></i></a>
+                  | <a href="#" class="btn btn-sm btn-success" title="Send for Approval" data-id="{{$leave_request->LeaveReqRef}}" onclick="send_notification()"><i class="fa fa-send"></i></a>
+                  <form action="/leave_request/delete-leave-request" method="post" id="delete-request" style="display: inline">
+                    {{ method_field('DELETE') }}
+                    {{ csrf_field() }}
+                    <input type="hidden" name="LeaveReqRef" value="{{ $leave_request->LeaveReqRef }}">
+                    <button class="btn btn-sm btn-danger" title="delete" type="submit"><i class="fa fa-trash"></i></button>
+                  </form>
                   @elseif($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1 && is_null($leave_request->ApproverID) && $leave_request->CompletedFlag == 1)
                     <p><i style="font-size: 12px; color: green">Completed</i></p>
                   @else
@@ -216,6 +222,19 @@
 
 
         }
+
+
+        $('body').on('submit', '#delete-request', function(e) {
+          e.preventDefault();
+          var formData = $(this).serialize();
+          var formAction = $(this).prop('action');
+          var that = $(this);
+          $.post(formAction, formData, function(data, textStatus, xhr) {
+           if(data.success) {
+              that.closest('tr').remove();
+           }
+          });
+        });
   </script>
 @endpush
 
