@@ -3,7 +3,7 @@ Title : Leave Request.
 
 Dear {{$leave_request->requester->fullName}}
 
-Your request has been rejected.
+Your leave request has been rejected by your supervisor.
 
 Leave Request Details
 ---------------------
