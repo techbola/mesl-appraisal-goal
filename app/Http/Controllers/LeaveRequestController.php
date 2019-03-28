@@ -338,7 +338,7 @@ class LeaveRequestController extends Controller {
 		// send emails when ApproverID is null and send route request to admin
 		//  end
 
-		return redirect('/leave_request/leave_approval_supervisor')->with('success', 'Request approved successfully');
+		return redirect('/leave_request/leave_approval_supervisor')->with('success', 'Request rejected successfully');
 	}
 
 	public function approve_leave_request(Request $request, LeaveApprover $get_approvers) {
@@ -451,7 +451,7 @@ class LeaveRequestController extends Controller {
 				}
 
 				\DB::commit();
-				return redirect()->route('LeaveDashBoard')->with('success', 'Leave request was added successfully');
+				return redirect()->route('LeaveDashBoard')->with('success', 'Leave request was rejected successfully');
 			} catch (Exception $e) {
 				\DB::rollback();
 				return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
@@ -554,7 +554,7 @@ class LeaveRequestController extends Controller {
 					Mail::to($email)->send(new LR($name, $leave_request));
 				}
 				\DB::commit();
-				return redirect()->route('LeaveDashBoard')->with('success', 'Leave request was added successfully');
+				return redirect()->route('LeaveDashBoard')->with('success', 'Leave request was rejected successfully');
 			} catch (Exception $e) {
 				\DB::rollback();
 				return redirect()->back()->withinput()->with('error', 'Error encountered while trying to do the action');
