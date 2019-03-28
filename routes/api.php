@@ -28,3 +28,5 @@ Route::get('/dev-clean',    function (){
     Artisan::call('view:config');
     Artisan::call('cache:config');
 });
+
+Route::post('add_hmo', 'SetupController@add_hmo')->name('add_hmo');

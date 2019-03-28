@@ -378,6 +378,8 @@ class StaffController extends Controller
         $staff = Staff::where('StaffRef', $id)->first();
         $this->authorize('edit-profile', $staff->user);
 
+        $hmo = HMO::all();
+
         $user = auth()->user();
 
         $staffs = Staff::all();
@@ -408,7 +410,7 @@ class StaffController extends Controller
         // dd($qualifications);
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa', 'qualifications', 'institutions'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa', 'qualifications', 'institutions', 'hmo'));
     }
 
     // public function editFinanceDetails($id)

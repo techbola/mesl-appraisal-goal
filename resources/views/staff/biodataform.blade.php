@@ -441,7 +441,7 @@
 
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('HMOID','Health Maintainace Organisation (HMO)') }}
+            {{ Form::label('HMOID','Health Maintainace Organisation (HMO)') }} <span style="padding: 0 !important" class="form-add-more add-hmo badge badge-success" data-toggle="modal" data-target="hmo_id"><i class="fa fa-plus"></i></span>
              {{ Form::select('HMOID', [ 0 =>  'Select your HMO'] + $hmos->pluck('HMO', 'HMORef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select your HMO", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>

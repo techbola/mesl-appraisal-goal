@@ -681,4 +681,19 @@ class SetupController extends Controller
 
         return redirect()->back()->with('success',  'Deleted successfully');
     }
+
+    public function add_hmo(Request $request)
+    {
+        $hmo = new HMO($request->all());
+        $this->validate($request, [
+            'HMO' => 'required',
+        ]);
+        if ($hmo->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $hmo
+            ],200);
+        }
+    }
 }
