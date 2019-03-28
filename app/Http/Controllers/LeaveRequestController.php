@@ -942,4 +942,13 @@ class LeaveRequestController extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage(), 'data' => $leave_request], 200);
         }
     }
+
+    public function show_handover($LeaveReqRef)
+    {
+        $leave_request = LeaveRequest::find($LeaveReqRef);
+        if (!null($leave_request)) {
+            $handover_notes = $leave_request->handovers
+        }
+        return view('leave_request.view_handover', compact('handover_notes'));
+    }
 }
