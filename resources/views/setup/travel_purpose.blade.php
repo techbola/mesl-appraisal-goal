@@ -11,30 +11,25 @@
       font-weight: bold;
       color: #000;
     }
+
+    /* table th, table td {
+        width: 80px  !important;
+    } */
 	</style>
 @endpush
 
 @section('content')
 
     <div class="card-box">
-       <div class="card-title">Locatoion Setup</div>
-       <form action="{{route('StoreLocation')}}" method="POST" class="form">
+       <div class="card-title">Travel Purpose Setup</div>
+       <form action="{{route('StorePurpose')}}" method="POST" class="form">
            {{ csrf_field() }}
            <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="controls">
                         <div class="form-group">
-                            {{ Form::label('Location', 'Office Location' ) }}
-                            {{ Form::text('Location', null, ['class' => 'form-control', 'placeholder' => 'Enter Office Location', 'required']) }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="controls">
-                        <div class="form-group">
-                            {{ Form::label('CompanyID', 'Company ID' ) }}
-                            {{ Form::text('CompanyID', null, ['class' => 'form-control', 'placeholder' => 'Enter Company ID']) }}
+                            {{ Form::label('TravelPurpose', 'Travel Purpose' ) }}
+                            {{ Form::text('TravelPurpose', null, ['class' => 'form-control', 'placeholder' => 'Add Travel Purpose', 'required']) }}
                         </div>
                     </div>
                 </div>
@@ -48,23 +43,21 @@
        </form> 
     </div>
 
-    {{-- Location-table --}}
+    {{-- Travel Purpose-table --}}
     <div class="card-box">
             <div class="card-title">Entries</div>
             <table class="table tableWithSearch table-bordered">
                 <thead>
-                    <th width="10%">Office Location</th>
-                    <th width="10%">CompanyID</th>
+                    <th width="10%">Travel Purpose</th>
                     <th width="15%">Action</th>
                 </thead>
                 <tbody>
-                    @foreach($location as $item)
+                    @foreach($purpose as $item)
                         <tr>
-                            <td>{{$item->Location}}</td>
-                            <td>{{$item->CompanyID ?? ''}}</td>
+                            <td>{{$item->TravelPurpose}}</td>
                             <td>
-                                <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_office_location({{$item->LocationRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
-                                <a href="#" onclick="deleteItem('{{$item->LocationRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                                <button type="button" class="btn btn-xs btn-primary toggler" onclick="edittravel_purpose({{$item->TravelPurposeRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
+                                <a href="#" onclick="deleteItem('{{$item->TravelPurposeRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -77,7 +70,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Office Location</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Travel Purpose</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -85,22 +78,14 @@
                 <hr>
                 <div class="modal-body">
                     <form action="" method="POST" id="form-edit">
-                        <input type="hidden" id="LocationRef" name="LocationRef">
+                        <input type="hidden" id="TravelPurposeRef" name="TravelPurposeRef">
                         {{ csrf_field() }}
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="controls">
                                     <div class="form-group">
-                                        {{ Form::label('Location', 'Office Location' ) }}
-                                        {{ Form::text('Location', null, ['class' => 'form-control', 'id' => 'location_id', 'placeholder' => 'Edit Office Location', 'required']) }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="controls">
-                                    <div class="form-group">
-                                        {{ Form::label('CompanyID', 'Company ID' ) }}
-                                        {{ Form::text('CompanyID', null, ['class' => 'form-control', 'id' => 'company_id', 'placeholder' => 'Edit Company ID']) }}
+                                        {{ Form::label('TravelPurpose', 'Travel Purpose' ) }}
+                                        {{ Form::text('TravelPurpose', null, ['class' => 'form-control', 'id' => 'travel_purpose', 'placeholder' => 'Edit Travel Purpose', 'required']) }}
                                     </div>
                                 </div>
                             </div>
@@ -126,24 +111,21 @@
 
 <script>
 
-    function edit_office_location(id)
+    function edittravel_purpose(id)
     {
-        $.get('/edit_location/'+id, function(data, status) {
-            console.log(data);
+            $.get('/edit_travel_purpose/'+id, function(data, status) {
 
-            $('#LocationRef').val(data.LocationRef);
+            $('#TravelPurposeRef').val(data.TravelPurposeRef);
 
-            $('#location_id').val(data.Location);
-
-            $('#company_id').val(data.CompanyID);
+            $('#travel_purpose').val(data.TravelPurpose);
             
-            $('#form-edit').prop('action', '/update_location');
+            $('#form-edit').prop('action', '/update_travel_purpose');
             
         });
 
     }
 
-    function deleteItem(LocationRef){
+    function deleteItem(TravelPurposeRef){
         swal({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -154,7 +136,7 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if(result == true){
-                window.location.href = "/setup/location/"+LocationRef;
+                window.location.href = "/setup/travel_purpose/"+TravelPurposeRef;
             }
         })
     }

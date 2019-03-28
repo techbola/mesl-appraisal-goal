@@ -17,24 +17,23 @@
 @section('content')
 
     <div class="card-box">
-       <div class="card-title">Locatoion Setup</div>
-       <form action="{{route('StoreLocation')}}" method="POST" class="form">
+       <div class="card-title">Deduction Item Setup</div>
+       <form action="{{route('StoreDeduction')}}" method="POST" class="form">
            {{ csrf_field() }}
            <div class="row">
                 <div class="col-md-6">
                     <div class="controls">
                         <div class="form-group">
-                            {{ Form::label('Location', 'Office Location' ) }}
-                            {{ Form::text('Location', null, ['class' => 'form-control', 'placeholder' => 'Enter Office Location', 'required']) }}
+                            {{ Form::label('DeductionItem', 'Deduction Item' ) }}
+                            {{ Form::text('DeductionItem', null, ['class' => 'form-control', 'placeholder' => 'Add Deduction Item', 'required']) }}
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-6">
                     <div class="controls">
                         <div class="form-group">
-                            {{ Form::label('CompanyID', 'Company ID' ) }}
-                            {{ Form::text('CompanyID', null, ['class' => 'form-control', 'placeholder' => 'Enter Company ID']) }}
+                            {{ Form::label('DeductionSign', 'Deduction Sign' ) }}
+                            {{ Form::text('DeductionSign', null, ['class' => 'form-control', 'placeholder' => 'Add Deduction Sign', 'required']) }}
                         </div>
                     </div>
                 </div>
@@ -50,21 +49,21 @@
 
     {{-- Location-table --}}
     <div class="card-box">
-            <div class="card-title">Entries</div>
+            <div class="card-title">List Of Deductions</div>
             <table class="table tableWithSearch table-bordered">
                 <thead>
-                    <th width="10%">Office Location</th>
-                    <th width="10%">CompanyID</th>
+                    <th width="10%">Deduction Item</th>
+                    <th width="10%">Deduction Sign</th>
                     <th width="15%">Action</th>
                 </thead>
                 <tbody>
-                    @foreach($location as $item)
+                    @foreach($deduction as $item)
                         <tr>
-                            <td>{{$item->Location}}</td>
-                            <td>{{$item->CompanyID ?? ''}}</td>
+                            <td>{{$item->DeductionItem}}</td>
+                            <td>{{$item->DeductionSign}}</td>
                             <td>
-                                <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_office_location({{$item->LocationRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
-                                <a href="#" onclick="deleteItem('{{$item->LocationRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                                <button type="button" class="btn btn-xs btn-primary toggler" onclick="edit_deduction_item({{$item->DeductionItemRef}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>Edit</button>
+                                <a href="#" onclick="deleteItem('{{$item->DeductionItemRef}}')" type="delete" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> Delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -77,7 +76,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Office Location</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Deduction Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -85,22 +84,22 @@
                 <hr>
                 <div class="modal-body">
                     <form action="" method="POST" id="form-edit">
-                        <input type="hidden" id="LocationRef" name="LocationRef">
+                        <input type="hidden" id="DeductionItemRef" name="DeductionItemRef">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="controls">
                                     <div class="form-group">
-                                        {{ Form::label('Location', 'Office Location' ) }}
-                                        {{ Form::text('Location', null, ['class' => 'form-control', 'id' => 'location_id', 'placeholder' => 'Edit Office Location', 'required']) }}
+                                        {{ Form::label('DeductionItem', 'Deduction Item' ) }}
+                                        {{ Form::text('DeductionItem', null, ['class' => 'form-control', 'id' => 'deduction_item', 'placeholder' => 'Edit Deduction Item', 'required']) }}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="controls">
                                     <div class="form-group">
-                                        {{ Form::label('CompanyID', 'Company ID' ) }}
-                                        {{ Form::text('CompanyID', null, ['class' => 'form-control', 'id' => 'company_id', 'placeholder' => 'Edit Company ID']) }}
+                                        {{ Form::label('DeductionSign', 'Deduction Sign' ) }}
+                                        {{ Form::text('DeductionSign', null, ['class' => 'form-control', 'id' => 'deduction_sign', 'placeholder' => 'Edit Deduction Sign', 'required']) }}
                                     </div>
                                 </div>
                             </div>
@@ -126,24 +125,24 @@
 
 <script>
 
-    function edit_office_location(id)
+    function edit_deduction_item(id)
     {
-        $.get('/edit_location/'+id, function(data, status) {
+        $.get('/edit_deduction/'+id, function(data, status) {
             console.log(data);
 
-            $('#LocationRef').val(data.LocationRef);
+            $('#DeductionItemRef').val(data.DeductionItemRef);
 
-            $('#location_id').val(data.Location);
+            $('#deduction_item').val(data.DeductionItem);
 
-            $('#company_id').val(data.CompanyID);
+            $('#deduction_sign').val(data.DeductionSign);
             
-            $('#form-edit').prop('action', '/update_location');
+            $('#form-edit').prop('action', '/update_deduction');
             
         });
 
     }
 
-    function deleteItem(LocationRef){
+    function deleteItem(DeductionItemRef){
         swal({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -154,7 +153,7 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if(result == true){
-                window.location.href = "/setup/location/"+LocationRef;
+                window.location.href = "/setup/deduction/"+DeductionItemRef;
             }
         })
     }
