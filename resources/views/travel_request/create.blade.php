@@ -159,21 +159,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
-                                        {{ Form::label('Purpose', 'Travel Purpose' ) }}
-                                        <select name="Purpose" class="full-width" data-init-plugin="select2" id="travel_purpose" onchange="">
-                                            <option value=" ">Select Travel Purpose</option>
-                                            <option value="1">Training</option>
-                                            <option value="2">Conference</option>
-                                            <option value="3">Meeting</option>
-                                            <option value="4">Vacation</option>
-                                            <option value="5">Medical</option>
-                                            <option value="6">Systems Review</option>
-                                            <option value="7">Study Tour</option>
-                                            <option value="8">Feasibility Study</option>
-                                            <option value="9">Recruitment</option>
-                                            <option value="10">Business Development</option>
-                                            <option value="11">Awards</option>
-                                            <option value="12">Interviews</option>
+                                        {{ Form::label('PurposeID', 'Travel Purpose' ) }}
+                                        <select name="PurposeID" class="full-width" style="display: none" id="travel_purpose" data-init-plugin="select2">
+                                            @foreach($purpose as $item)
+                                                <option value="{{ $item->TravelPurposeRef }}">{{ $item->TravelPurpose }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -627,21 +617,12 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="controls">
-                                                {{ Form::label('Purpose', 'Travel Purpose' ) }}
-                                                <select name="Purpose" class="full-width" data-init-plugin="select2" id="travel_purpose1" onchange="">
-                                                    <option value=" ">Select Travel Purpose</option>
-                                                    <option value="1">Training</option>
-                                                    <option value="2">Conference</option>
-                                                    <option value="3">Meeting</option>
-                                                    <option value="4">Vacation</option>
-                                                    <option value="5">Medical</option>
-                                                    <option value="6">Systems Review</option>
-                                                    <option value="7">Study Tour</option>
-                                                    <option value="8">Feasibility Study</option>
-                                                    <option value="9">Recruitment</option>
-                                                    <option value="10">Business Development</option>
-                                                    <option value="11">Awards</option>
-                                                    <option value="12">Interviews</option>
+                                                    {{ Form::label('PurposeID', 'Travel Purpose' ) }}
+                                                    <select name="PurposeID" class="full-width" style="display: none" id="travel_purpose1" data-init-plugin="select2">
+                                                        @foreach($purpose as $item)
+                                                            <option value="{{ $item->TravelPurposeRef }}">{{ $item->TravelPurpose }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </select>
                                             </div>
                                         </div>
@@ -941,7 +922,7 @@
         };
         $('.dp3').datepicker(options);
 
-        $('#travel_purpose1').val(data.Purpose).trigger('change');
+        $('#travel_purpose1').val(data.PurposeID).trigger('change');
 
         $('#purpose_description').val(data.PurposeDescription);
 

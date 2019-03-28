@@ -13,6 +13,7 @@ use MESL\TravelLodge;
 use MESL\TravelMode;
 use MESL\Traveller;
 use MESL\User;
+use MESL\TravelPurpose;
 use MESL\Mail\SendforApproval;
 use MESL\Mail\RequestApproved;
 use MESL\Mail\RequestRejected;
@@ -37,6 +38,8 @@ class TravelRequestController extends Controller
 
         $transports = TravelTransport::all();
 
+        $purpose = TravelPurpose::all();
+
         $travel_requests = TravelRequest::orderBy('TravelRef', 'DESC')
             ->Where('SentForApproval', '0')
             ->Where('RequesterID', Auth::user()->id)
@@ -50,7 +53,7 @@ class TravelRequestController extends Controller
 
         $user = User::all();
 
-        return view('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'sent_requests', 'transports', 'lodges', 'travelmodes'));
+        return view('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'sent_requests', 'transports', 'lodges', 'travelmodes', 'purpose'));
     }
 
     //Store travel request function
