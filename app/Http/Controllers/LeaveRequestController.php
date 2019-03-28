@@ -323,7 +323,7 @@ class LeaveRequestController extends Controller {
 		$leave_request->SupervisorApproved = 0;
 		$leave_request->NotifyFlag = 0;
 		$leave_request->RejectionComment = $request->RejectionComment;
-		$leave_request->ApproverID = User::find($leave_request->StaffID)->staff->SupervisorID;
+		$leave_request->ApproverID = $leave_request->SupervisorID;
 		$leave_request->ApproverID1 = 0;
 		$leave_request->ApproverID2 = 0;
 		$leave_request->ApproverID3 = 0;
@@ -436,7 +436,15 @@ class LeaveRequestController extends Controller {
 					$comment = "You Can't Leave Now work Still To be done";
 					$reject_trans = \DB::table('tblLeaveRequest')
 						->where('leaveReqRef', $Ref)
-						->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
+						->update([
+							'NotifyFlag' => 0,
+							'RejectionFlag' => 1,
+							'RejectionDate' => $current_time,
+							'RejectionComment' => $comment,
+							'ApprovedFlag' => 0,
+							'SupervisorApproved' => 0,
+							'ApproverID' => $details->SupervisorID,
+						]);
 					$leave_request = LeaveRequest::where('LeaveReqRef', $Ref)->first();
 					$leave_request->RejectedBy = auth()->user()->staff->StaffRef;
 					$email = \DB::table('users')
@@ -538,7 +546,15 @@ class LeaveRequestController extends Controller {
 					$comment = "You Can't Leave Now work Still To be done";
 					$reject_trans = \DB::table('tblLeaveRequest')
 						->where('leaveReqRef', $Ref)
-						->update(['NotifyFlag' => 0, 'RejectionFlag' => 1, 'RejectionDate' => $current_time, 'RejectionComment' => $comment, 'ApprovedFlag' => 0]);
+						->update([
+							'NotifyFlag' => 0,
+							'RejectionFlag' => 1,
+							'RejectionDate' => $current_time,
+							'RejectionComment' => $comment,
+							'ApprovedFlag' => 0,
+							'SupervisorApproved' => 0,
+							'ApproverID' => $details->SupervisorID,
+						]);
 
 					$leave_request = LeaveRequest::where('LeaveReqRef', $Ref)->first();
 					$leave_request->RejectedBy = auth()->user()->staff->StaffRef;

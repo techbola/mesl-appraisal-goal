@@ -11,14 +11,12 @@ Dear {{$name->first_name}}
 	{{ !is_null($leave_request->ReliefOfficerID) ?  'Leave request has been rejected' :  'Leave request has been rejected' }}
  @endif
 
- @if(!is_null($leave_request->ReliefOfficerID) && $leave_request->RejectionFlag == 1)
- 	You received this email due to your role as a relief officer 
- @endif
+
 
 @component('mail::button', ['url' => url('/leave_request/index')])
 Visit Officemate
 @endcomponent
 
 Thanks,<br>
-{{ config('app.name') }}   
+{{ config('app.name') }}
 @endcomponent
