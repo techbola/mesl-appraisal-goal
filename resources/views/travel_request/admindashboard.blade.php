@@ -95,6 +95,7 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">Select Approvers where required</h4> <hr>
+            <div class="alert alert-info text-left">Select approver(s) where additional approval is required; otherwise, submit to route directly to Admin.</div>
           </div>
           <div class="modal-body">
            <form id="approvers-form" method="post">
@@ -175,13 +176,14 @@
 
 <script>
     $(function(){
-       $("#approvers-toggler").click(function(e) {
-           e.preventDefault();
+      $('body').on('click', '#approvers-toggler', function(e) {
+        e.preventDefault();
            let val = $(this).data('whatever');
            console.log(val);
            $('#myModal').modal();
            $('#approvers-form').prop('action', '/approve_request/'+val);
-       });
+
+      });
     });
 </script>
 
