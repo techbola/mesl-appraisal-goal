@@ -2,59 +2,55 @@
 
 namespace MESL\Http\Controllers;
 
+use Auth;
+use Carbon;
+use DB;
+use File;
+use Gate;
 use Illuminate\Http\Request;
+use Image;
+use Mail;
 use MESL\Bank;
+use MESL\Company;
+use MESL\CompanyDepartment;
+use MESL\CompanySupervisor;
 use MESL\Country;
 use MESL\Department;
+use MESL\DocType;
 use MESL\EmploymentStatus;
-use MESL\GradeLevel;
+use MESL\ExitInterview;
+use MESL\ExitNotification;
 use MESL\Gender;
 use MESL\HMO;
 use MESL\HMOPlan;
+use MESL\Institution;
+use MESL\LGA;
 use MESL\Location;
+use MESL\Mail\AdminOnboardApproval;
+use MESL\Mail\ApprovalIT;
+use MESL\Mail\ExitMail;
+use MESL\Mail\StaffOnboard;
 use MESL\MaritalStatus;
+use MESL\Notifications\ApprovedBiodataUpdate;
+use MESL\Notifications\PendingBiodataUpdate;
+use MESL\Notifications\RejectedBiodataUpdate;
+use MESL\Notifications\StaffInvitation;
+use MESL\PayrollAdjustmentGroup;
 use MESL\PFA;
 use MESL\Position;
+use MESL\Qualification;
+use MESL\Reference;
 use MESL\Religion;
 use MESL\Role;
 use MESL\Sex;
 use MESL\Staff;
+use MESL\StaffOnboarding;
+use MESL\StaffPending;
 use MESL\State;
-use MESL\LGA;
-use MESL\TaxableBase;
 use MESL\Title;
 use MESL\Unit;
 use MESL\User;
-use MESL\Reference;
-use MESL\StaffPending;
-use MESL\PayrollAdjustmentGroup;
-use MESL\HrInitiatedDocs;
-use MESL\DocType;
-use MESL\CompanySupervisor;
-use MESL\StaffOnboarding;
-use MESL\Mail\StaffOnboard;
-use MESL\Mail\ApprovalIT;
-use MESL\Mail\AdminOnboardApproval;
-use MESL\Notifications\ApprovedBiodataUpdate;
-use MESL\Notifications\RejectedBiodataUpdate;
-use MESL\Notifications\PendingBiodataUpdate;
-use MESL\ExitNotification;
-use MESL\Mail\ExitMail;
-use MESL\ExitInterview;
-use MESL\Institution;
-use MESL\Qualification;
-use Carbon;
-
-use DB;
 use Notification;
-use MESL\Notifications\StaffInvitation;
-use MESL\Company;
-use MESL\CompanyDepartment;
-use File;
-use Image;
-use Auth;
-use Gate;
-use Mail;
 
 class StaffController extends Controller
 {
@@ -190,9 +186,10 @@ class StaffController extends Controller
         $staff->user->last_name  = $request->last_name;
         $staff->user->email      = $request->email;
         // dd($request->DepartmentID);
-        $staff->DepartmentID   = $request->DepartmentID;
-        $staff->SupervisorID   = $request->SupervisorID;
-        $staff->SupervisorFlag = $request->supervisor_options ? 1 : 0;
+        $staff->DepartmentID = $request->DepartmentID;
+        $staff->SupervisorID = $request->SupervisorID;
+        // return $request->supervisor_options;
+        $staff->SupervisorFlag = $request->supervisor_options == 'on' ? 1 : 0;
         $staff->update();
         $staff->user->roles()->detach();
         $staff->user->roles()->attach($request->roles);
@@ -890,11 +887,11 @@ class StaffController extends Controller
 
     public function exit_interview()
     {
-        $staff = Staff::all();
-        $users = User::all();
-        $department = Department::all();
+        $staff         = Staff::all();
+        $users         = User::all();
+        $department    = Department::all();
         $exitinterview = ExitInterview::all();
-        $exitnotice = ExitNotification::Orderby('ExitNotificationRef', 'DESC')->get();
+        $exitnotice    = ExitNotification::Orderby('ExitNotificationRef', 'DESC')->get();
         // dd($exitnotice);
         $supervisor = CompanySupervisor::all();
 
@@ -903,36 +900,35 @@ class StaffController extends Controller
 
     public function send_exit(Request $request)
     {
-       $exitnotification = new ExitNotification;
-       
-       $exitnotification->StaffID = $request->StaffID;
+        $exitnotification = new ExitNotification;
 
-       $exitnotification->DepartmentID = $request->DepartmentID;
+        $exitnotification->StaffID = $request->StaffID;
 
-       $exitnotification->SupervisorId = $request->SupervisorID;
+        $exitnotification->DepartmentID = $request->DepartmentID;
 
-       $exitnotification->save();
+        $exitnotification->SupervisorId = $request->SupervisorID;
 
-       $staff = Staff::find($request->StaffID);
+        $exitnotification->save();
 
-       Mail::to($staff->user)->send(new ExitMail($staff->user));
+        $staff = Staff::find($request->StaffID);
 
-       return redirect()->back()->with('success', 'Staff notified successfully');
+        Mail::to($staff->user)->send(new ExitMail($staff->user));
+
+        return redirect()->back()->with('success', 'Staff notified successfully');
     }
 
     public function getStaffInfo(Request $request)
     {
         $StaffID = $request->StaffID;
-        $staff = Staff::where("StaffRef", $StaffID)->first();
-        
+        $staff   = Staff::where("StaffRef", $StaffID)->first();
 
         $supervisor = Staff::find($staff->SupervisorID);
         // return $supervisor;
 
         $data = [
-            "department_id" => $staff->DepartmentID,
-            "supervisor_id" => $staff->SupervisorID,
-            "supervisor_name" => $supervisor->FullName
+            "department_id"   => $staff->DepartmentID,
+            "supervisor_id"   => $staff->SupervisorID,
+            "supervisor_name" => $supervisor->FullName,
         ];
 
         return response()->json($data, 200);
@@ -944,7 +940,7 @@ class StaffController extends Controller
 
         $exitnotice->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     public function view_exit_interview($id)
