@@ -947,7 +947,7 @@ class LeaveRequestController extends Controller
     {
         $leave_request = LeaveRequest::find($LeaveReqRef);
         if (!null($leave_request)) {
-            $handover_notes = $leave_request->handovers
+            $handover_notes = $leave_request->handovers;
         }
         return view('leave_request.view_handover', compact('handover_notes'));
     }
