@@ -30,3 +30,6 @@ Route::get('/dev-clean',    function (){
 });
 
 Route::post('add_hmo', 'SetupController@add_hmo')->name('add_hmo');
+Route::post('add_hmo_plan', 'SetupController@add_hmo_plan')->name('add_hmo_plan');
+Route::post('add_bank', 'SetupController@add_bank')->name('add_bank');
+Route::post('add_pfa', 'SetupController@add_pfa')->name('add_pfa');

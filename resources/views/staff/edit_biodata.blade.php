@@ -47,6 +47,67 @@
 	</div>
 </div>
 
+{{-- Modal --}}
+<div class="modal fade" id="hmo_plan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Add HMO Plan</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<hr>
+		<div class="modal-body">
+			<form action="" method="POST" id="hmo-plan-form">
+				{{ csrf_field() }}
+				@include('setup.hmoplan.form')
+			</form>
+		</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="bank_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Add More Banks</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<hr>
+		<div class="modal-body">
+			<form action="" method="POST" id="bank-form">
+				{{ csrf_field() }}
+				@include('setup.bank.form')
+			</form>
+		</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="pfa_id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Add More PFAs</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<hr>
+		<div class="modal-body">
+			<form action="" method="POST" id="pfa-form">
+				{{ csrf_field() }}
+				@include('setup.pfa.form')
+			</form>
+		</div>
+		</div>
+	</div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -73,6 +134,90 @@
 									'success'
 								)
                  $('#HMO').val('');
+                 
+              }
+            });
+          });
+
+			//HMO Plan
+			$('.add-hmo-plan').click(function(e){
+          e.preventDefault();
+          $('#hmo_plan').show();
+          $('#hmo_plan').modal('show');
+          
+        });
+
+        var form1 = $("#hmo-plan-form");
+          form1.submit(function(e) {
+            e.preventDefault();
+            $.post('/api/add_hmo_plan', {
+              HMOPlan: $('#HMOPlan').val()
+            }, function(data, textStatus, xhr) {
+              if(data.success === true){
+                $('#HMOPlanID').append('<option selected value="'+ data.data.HMOPlanRef +'">' +  data.data.HMOPlan +'</option>');
+                $('#hmo_plan').modal('hide');
+								swal(
+									'Success',
+									data.data.HMOPlan + ' was added to the HMOPlan list',
+									'success'
+								)
+                 $('#HMOPlan').val('');
+                 
+              }
+            });
+          });
+
+		//Bank Setup
+		$('.add-bank').click(function(e){
+          e.preventDefault();
+          $('#bank_id').show();
+          $('#bank_id').modal('show');
+          
+        });
+
+        var form1 = $("#bank-form");
+          form1.submit(function(e) {
+            e.preventDefault();
+            $.post('/api/add_bank', {
+              BankName: $('#BankName').val()
+            }, function(data, textStatus, xhr) {
+              if(data.success === true){
+                $('#BankID').append('<option selected value="'+ data.data.BankRef +'">' +  data.data.BankName +'</option>');
+                $('#bank_id').modal('hide');
+								swal(
+									'Success',
+									data.data.BankName + ' was added to the Banks list',
+									'success'
+								)
+                 $('#BankName').val('');
+                 
+              }
+            });
+          });
+
+	//PFA Setup
+	$('.add-pfa').click(function(e){
+          e.preventDefault();
+          $('#pfa_id').show();
+          $('#pfa_id').modal('show');
+          
+        });
+
+        var form1 = $("#pfa-form");
+          form1.submit(function(e) {
+            e.preventDefault();
+            $.post('/api/add_pfa', {
+              PFA: $('#PFA').val()
+            }, function(data, textStatus, xhr) {
+              if(data.success === true){
+                $('#PFAID').append('<option selected value="'+ data.data.PFARef +'">' +  data.data.PFA +'</option>');
+                $('#pfa_id').modal('hide');
+								swal(
+									'Success',
+									data.data.PFA + ' was added to the PFA list',
+									'success'
+								)
+                 $('#PFA').val('');
                  
               }
             });

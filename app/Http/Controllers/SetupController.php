@@ -696,4 +696,49 @@ class SetupController extends Controller
             ],200);
         }
     }
+
+    public function add_hmo_plan(Request $request)
+    {
+        $hmoplan = new HMOPlan($request->all());
+        $this->validate($request, [
+            'HMOPlan' => 'required',
+        ]);
+        if ($hmoplan->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $hmoplan
+            ],200);
+        }
+    }
+
+    public function add_bank(Request $request)
+    {
+        $bank = new Bank($request->all());
+        $this->validate($request, [
+            'BankName' => 'required',
+        ]);
+        if ($bank->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $bank
+            ],200);
+        }
+    }
+
+    public function add_pfa(Request $request)
+    {
+        $pfa = new PFA($request->all());
+        $this->validate($request, [
+            'PFA' => 'required',
+        ]);
+        if ($pfa->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $pfa
+            ],200);
+        }
+    }
 }

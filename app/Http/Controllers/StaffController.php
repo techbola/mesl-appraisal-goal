@@ -43,6 +43,7 @@ use MESL\Mail\ExitMail;
 use MESL\ExitInterview;
 use MESL\Institution;
 use MESL\Qualification;
+use MESL\Currency;
 use Carbon;
 
 use DB;
@@ -380,9 +381,19 @@ class StaffController extends Controller
 
         $hmo = HMO::all();
 
+        $hmoplan = HMOPlan::all();
+
         $user = auth()->user();
 
         $staffs = Staff::all();
+
+        $bank = Bank::all();
+
+        $currency = Currency::all();
+
+        $pfa = PFA::all();
+
+
 
         $religions      = Religion::all()->sortBy('Religion');
         $refs           = Reference::where('StaffID', auth()->user()->staff->StaffRef)->get();
@@ -410,7 +421,7 @@ class StaffController extends Controller
         // dd($qualifications);
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa', 'qualifications', 'institutions', 'hmo'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa', 'qualifications', 'institutions', 'hmo', 'hmoplan', 'bank', 'currency', 'pfa'));
     }
 
     // public function editFinanceDetails($id)

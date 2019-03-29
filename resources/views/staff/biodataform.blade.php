@@ -448,7 +448,7 @@
 
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('HMOPlanID','Health Maintainace Organisation Plan') }}
+            {{ Form::label('HMOPlanID','Health Maintainace Organisation Plan') }} <span style="padding: 0 !important" class="form-add-more add-hmo-plan badge badge-success" data-toggle="modal" data-target="hmo_plan"><i class="fa fa-plus"></i></span>
              {{ Form::select('HMOPlanID', [ 0 =>  'Select your HMO Plan'] + $hmoplans->pluck('HMOPlan', 'HMOPlanRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select your HMO Plan", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
@@ -718,7 +718,7 @@
       <div class="card-section p-l-5">Bank Details</div>
       <div class="col-sm-6">
         <div class="form-group">
-          {{ Form::label('BankID','Choose Bank') }}
+          {{ Form::label('BankID','Choose Bank') }} <span style="padding: 0 !important" class="form-add-more add-bank badge badge-success" data-toggle="modal" data-target="bank_id"><i class="fa fa-plus"></i></span>
           {{ Form::select('BankID', [ 0 =>  'Select a Bank'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Bank", 'data-init-plugin' => "select2", 'required']) }}
         </div>
       </div>
@@ -735,7 +735,7 @@
       <div class="card-section p-l-5">PFA Details</div>
       <div class="col-sm-6">
         <div class="form-group">
-          {{ Form::label('PFAID','Choose PFA') }}
+          {{ Form::label('PFAID','Choose PFA') }}  <span style="padding: 0 !important" class="form-add-more add-pfa badge badge-success" data-toggle="modal" data-target="pfa_id"><i class="fa fa-plus"></i></span>
           {{ Form::select('PFAID', [ 0 =>  'Select a PFA'] + $pfa->pluck('PFA', 'PFARef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose PFA", 'data-init-plugin' => "select2", 'required']) }}
         </div>
       </div>
