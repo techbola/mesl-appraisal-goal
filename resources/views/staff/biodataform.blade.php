@@ -1005,6 +1005,7 @@ var prof_html = `<div class="row prof-row">
     });
 
     $('body').on('focus', '.dp', function(event) {
+      // same options
      var options = {
               todayHighlight: true,
               format: 'yyyy-mm-dd',
