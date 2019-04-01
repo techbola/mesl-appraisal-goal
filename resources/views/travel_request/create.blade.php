@@ -12,6 +12,16 @@
       color: #000;
     }
 
+    .form-add-more{
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      border-radius: 50%;
+      text-align: center;
+      padding: 0 !important;
+      cursor: pointer;
+	}
+
     /* table th, table td {
         width: 80px  !important;
     } */
@@ -159,7 +169,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
-                                        {{ Form::label('PurposeID', 'Travel Purpose' ) }}
+                                        {{ Form::label('PurposeID', 'Travel Purpose' ) }} <span style="padding: 0 !important" class="form-add-more add-purpose badge badge-success" data-toggle="modal" data-target="travel_purpose_setup"><i class="fa fa-plus"></i></span>
                                         <select name="PurposeID" class="full-width" style="display: none" id="travel_purpose" data-init-plugin="select2">
                                             @foreach($purpose as $item)
                                                 <option value="{{ $item->TravelPurposeRef }}">{{ $item->TravelPurpose }}</option>
@@ -184,7 +194,7 @@
                                 <div class="col-md-4">
                                     <div class="controls">
                                         <div class="form-group">
-                                        {{ Form::label('TravelMode', 'Travel mode' ) }}
+                                        {{ Form::label('TravelMode', 'Travel mode' ) }} <span style="padding: 0 !important" class="form-add-more add-mode badge badge-success" data-toggle="modal" data-target="travel_mode_setup"><i class="fa fa-plus"></i></span>
                                         <select name="TravelMode" class="full-width" data-init-plugin="select2" id="travel_mode" onchange="">
                                             <option value=" ">Select Travel Mode</option>
                                             @foreach($travelmodes as $travelmode)
@@ -198,8 +208,8 @@
                                 <div class="col-md-4">
                                     <div class="controls">
                                         <div class="form-group">
-                                            {{ Form::label('PreferredTransporter', 'Preffered Transporter' ) }}
-                                            <select name="PreferredTransporter" class="full-width" data-init-plugin="select2" id="preffered_transporter" onchange="">
+                                            {{ Form::label('PreferredTransporter', 'Preffered Transporter' ) }} <span style="padding: 0 !important" class="form-add-more add-transporter badge badge-success" data-toggle="modal" data-target="transporter_setup"><i class="fa fa-plus"></i></span>
+                                            <select name="PreferredTransporter" class="full-width" data-init-plugin="select2" id="preffered_transporter">
                                                     <option value=" ">Select Transport Type</option>
                                                 @foreach($transports as $transport)
                                                     <option value="{{ $transport->TransporterRef }}">{{ $transport->Transporter }}</option>
@@ -225,7 +235,7 @@
                             <div class="col-md-3">
                                 <div class="controls">
                                     <div class="form-group">
-                                        {{ Form::label('Lodging', 'Lodging' ) }}
+                                        {{ Form::label('Lodging', 'Lodging' ) }} <span style="padding: 0 !important" class="form-add-more add-lodge badge badge-success" data-toggle="modal" data-target="lodging_setup"><i class="fa fa-plus"></i></span>
                                         <select name="Lodging" class="full-width" data-init-plugin="select2" id="Lodging" onchange="">
                                             <option value=" ">Preffered Lodge Type</option>
                                             @foreach($lodges as $lodge)
@@ -828,7 +838,160 @@
         </div>
     </div>
       <!-- Modal -->
-      
+
+      {{-- Travel-purpose-setup --}}
+      <div class="modal fade" id="travel_purpose_setup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Travel Purpose</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr>
+            <div class="modal-body">
+                <form action="" method="POST" id="travel-purpose-form">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="controls">
+                                    {{ Form::label('TravelPurpose', 'Travel Purpose' ) }}
+                                    {{ Form::text('TravelPurpose', null, ['class' => 'form-control', 'placeholder' => 'Add Travel Purpose', 'required']) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{--Everything works but form input not appending --}}
+
+                    <div class="row">
+                            <div class="pull-right">
+                                <button class="btn btn-info" type="submit">Submit</button>
+                            </div>
+                       </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{-- Travel-mode-setup --}}
+    <div class="modal fade" id="travel_mode_setup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Travel Mode</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr>
+            <div class="modal-body">
+                <form action="" method="POST" id="travel-mode-form">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="controls">
+                                    {{ Form::label('TravelMode', 'Travel Mode' ) }}
+                                    {{ Form::text('TravelMode', null, ['class' => 'form-control', 'placeholder' => 'Add Travel Mode', 'required']) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{--Everything works but form input not appending --}}
+
+                    <div class="row">
+                            <div class="pull-right">
+                                <button class="btn btn-info" type="submit">Submit</button>
+                            </div>
+                       </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{-- Travel-lodge-setup --}}
+    <div class="modal fade" id="lodging_setup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Travel Lodge</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr>
+            <div class="modal-body">
+                <form action="" method="POST" id="travel-lodge-form">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="controls">
+                                    {{ Form::label('TravelLodge', 'Travel Lodge' ) }}
+                                    {{ Form::text('TravelLodge', null, ['class' => 'form-control', 'placeholder' => 'Add Travel Lodge', 'required']) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{--Everything works but form input not appending --}}
+
+                    <div class="row">
+                            <div class="pull-right">
+                                <button class="btn btn-info" type="submit">Submit</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="modal fade" id="transporter_setup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Travel Transporter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr>
+            <div class="modal-body">
+                <form action="" method="POST" id="travel-transport-form">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="controls">
+                                    {{ Form::label('Transporter', 'Travel Transporter' ) }}
+                                    {{ Form::text('Transporter', null, ['class' => 'form-control', 'placeholder' => 'Add Travel Transporter', 'required']) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{--Everything works but form input not appending --}}
+
+                    <div class="row">
+                            <div class="pull-right">
+                                <button class="btn btn-info" type="submit">Submit</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
       
         
 
@@ -841,6 +1004,116 @@
 </script>
 
 <script>
+
+$('.add-transporter').click(function(e){
+        e.preventDefault();
+        $('#transporter_setup').show();
+        $('#transporter_setup').modal('show');
+        
+    });
+
+    var form1 = $("#travel-transport-form");
+        form1.submit(function(e) {
+        e.preventDefault();
+        $.post('/api/add_travel_transport', {
+            Transporter: $('#Transporter').val()
+        }, function(data, textStatus, xhr) {
+            if(data.success === true){
+            $('#preffered_transporter').append('<option selected value="'+ data.data.TransporterRef +'">' +  data.data.Transporter +'</option>');
+            $('#transporter_setup').modal('hide');
+            swal(
+                'Success',
+                data.data.Transporter + ' was added to the list',
+                'success'
+            )
+                $('#Transporter').val('');
+                
+            }
+        });
+    });
+
+$('.add-purpose').click(function(e){
+        e.preventDefault();
+        $('#travel_purpose_setup').show();
+        $('#travel_purpose_setup').modal('show');
+        
+    });
+
+    var form1 = $("#travel-purpose-form");
+        form1.submit(function(e) {
+        e.preventDefault();
+        $.post('/api/add_travel_purpose', {
+            TravelPurpose: $('#TravelPurpose').val()
+        }, function(data, textStatus, xhr) {
+            if(data.success === true){
+            $('#travel_purpose').append('<option selected value="'+ data.data.TravelPurposeRef +'">' +  data.data.TravelPurpose +'</option>');
+            $('#travel_purpose_setup').modal('hide');
+            swal(
+                'Success',
+                data.data.TravelPurpose + ' was added to the list',
+                'success'
+            )
+                $('#TravelPurpose').val('');
+                
+            }
+        });
+    });
+
+
+    $('.add-mode').click(function(e){
+        e.preventDefault();
+        $('#travel_mode_setup').show();
+        $('#travel_mode_setup').modal('show');
+        
+    });
+
+    var form1 = $("#travel-mode-form");
+        form1.submit(function(e) {
+        e.preventDefault();
+        $.post('/api/add_travel_mode', {
+            TravelMode: $('#TravelMode').val()
+        }, function(data, textStatus, xhr) {
+            if(data.success === true){
+            $('#travel_mode').append('<option selected value="'+ data.data.TravelModeRef +'">' +  data.data.TravelMode +'</option>');
+            $('#travel_mode_setup').modal('hide');
+            swal(
+                'Success',
+                data.data.TravelMode + ' was added to the list',
+                'success'
+            )
+                $('#TravelMode').val('');
+                
+            }
+        });
+    });
+
+
+    $('.add-lodge').click(function(e){
+        e.preventDefault();
+        $('#lodging_setup').show();
+        $('#lodging_setup').modal('show');
+        
+    });
+
+    var form1 = $("#travel-lodge-form");
+        form1.submit(function(e) {
+        e.preventDefault();
+        $.post('/api/add_travel_lodge', {
+            TravelLodge: $('#TravelLodge').val()
+        }, function(data, textStatus, xhr) {
+            if(data.success === true){
+            $('#Lodging').append('<option selected value="'+ data.data.TravelLodgeRef +'">' +  data.data.TravelLodge +'</option>');
+            $('#lodging_setup').modal('hide');
+            swal(
+                'Success',
+                data.data.TravelLodge + ' was added to the list',
+                'success'
+            )
+                $('#TravelLodge').val('');
+                
+            }
+        });
+    });
     
     
     

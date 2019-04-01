@@ -741,4 +741,64 @@ class SetupController extends Controller
             ],200);
         }
     }
+
+    public function add_travel_purpose(Request $request)
+    {
+        $purpose = new TravelPurpose($request->all());
+        $this->validate($request, [
+            'TravelPurpose' => 'required',
+        ]);
+        if ($purpose->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $purpose
+            ],200);
+        }
+    }
+
+    public function add_travel_mode(Request $request)
+    {
+        $mode = new TravelMode($request->all());
+        $this->validate($request, [
+            'TravelMode' => 'required',
+        ]);
+        if ($mode->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $mode
+            ],200);
+        }
+    }
+
+    public function add_travel_lodge(Request $request)
+    {
+        $lodge = new TravelLodge($request->all());
+        $this->validate($request, [
+            'TravelLodge' => 'required',
+        ]);
+        if ($lodge->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $lodge
+            ],200);
+        }
+    }
+
+    public function add_travel_transport(Request $request)
+    {
+        $transport = new TravelTransport($request->all());
+        $this->validate($request, [
+            'Transporter' => 'required',
+        ]);
+        if ($transport->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $transport
+            ],200);
+        }
+    }
 }
