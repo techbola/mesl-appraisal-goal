@@ -223,17 +223,20 @@ class StaffController extends Controller
         return view('staff.pending_biodata', compact('user', 'pending', 'staff', 'pending2', 'qualifications', 'institutions'));
     }
 
-    public function approve_biodata($id)
+    public function approve_biodata(Request $request, $id)
     {
         try {
             DB::beginTransaction();
 
             $user = Auth::user();
 
+            // dd($request->ApprovalComment);
+
             $pending    = StaffPending::where('id', $id)->first();
             $staff_data = $pending->replicate(['StaffRef', 'ApprovedBy', 'Age', 'deleted_at']);
             // Any extra columns?
-            $pending->ApprovedBy = $user->id;
+            $pending->ApprovedBy      = $user->id;
+            $pending->ApprovalComment = $request->ApprovalComment;
             $pending->save();
             // Fetch only the attributes
             $staff_arr = $staff_data->getattributes();
@@ -256,12 +259,13 @@ class StaffController extends Controller
 
     }
 
-    public function reject_biodata($id)
+    public function reject_biodata(Request $request, $id)
     {
         $user = Auth::user();
 
-        $pending             = StaffPending::where('id', $id)->first();
-        $pending->ApprovedBy = '0';
+        $pending                   = StaffPending::where('id', $id)->first();
+        $pending->ApprovedBy       = '0';
+        $pending->RejectionComment = $request->RejectionComment;
         $pending->save();
         Notification::send($pending->user, new RejectedBiodataUpdate());
 

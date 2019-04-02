@@ -392,14 +392,16 @@
     </table>
 
     <div class="text-center" style="margin: auto">
-      <a class="btn btn-success btn-cons btn-lg m-r-20" onclick="confirm2('Approve Changes?', '', 'form_approve')">Approve</a>
-      <a class="btn btn-danger btn-cons btn-lg" onclick="confirm2('Reject Changes?', '', 'form_reject')">Reject</a>
+      <a class="btn btn-success btn-cons btn-lg m-r-20" onclick="approve_confirm2('Approve Changes?', '', 'form_approve')">Approve</a>
+      <a class="btn btn-danger btn-cons btn-lg" onclick="reject_confirm2('Reject Changes?', '', 'form_reject')">Reject</a>
 
       <form id="form_approve" class="hidden" action="{{ route('approve_biodata', $pending->id) }}" method="post">
+        <textarea name="ApprovalComment" class="form-control" id="ApprovalComment" cols="30" rows="5"></textarea>
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
       </form>
       <form id="form_reject" class="hidden" action="{{ route('reject_biodata', $pending->id) }}" method="post">
+        <textarea name="RejectionComment" class="form-control" id="RejectionComment" cols="30" rows="5"></textarea>
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
       </form>
@@ -415,6 +417,73 @@
       paging: false,
       ordering: false
     });
-  })
+
+
+  });
+
+  function approve_confirm2(the_title, the_html, form_id, modalClass = '', defaultAnimation = true){
+        // Turning off default animation if using classes from animate.css
+        if( modalClass.indexOf('animated') >= 0){
+          defaultAnimation = false;
+        }
+
+        swal({
+          input: 'textarea',
+          inputPlaceholder: 'Type your comment here...',
+          title:the_title,
+           html: the_html,
+            type:"warning",showCancelButton:!0,
+            confirmButtonClass:"btn btn-primary",
+            cancelButtonClass:"btn btn-danger",
+            confirmButtonText:"Yes",
+            cancelButtonText:"No",
+             animation: defaultAnimation,
+               customClass: modalClass }).then(function(){ 
+                $('body').on('keyup', '.swal2-textarea', function(e) {
+                  e.preventDefault();
+                 $('#ApprovalComment').val($('.swal2-textarea').val());
+                });
+
+                $('#ApprovalComment').val($('.swal2-textarea').val());
+                console.log($('.swal2-textarea').val());
+                setTimeout(function(){
+                  $('#'+form_id).submit();
+                }, 1000) }).catch(swal.noop);
+
+      } 
+
+
+  function reject_confirm2(the_title, the_html, form_id, modalClass = '', defaultAnimation = true){
+        // Turning off default animation if using classes from animate.css
+        if( modalClass.indexOf('animated') >= 0){
+          defaultAnimation = false;
+        }
+
+       swal({
+          input: 'textarea',
+          inputPlaceholder: 'Type your comment here...',
+          title:the_title,
+           html: the_html,
+            type:"warning",showCancelButton:!0,
+            confirmButtonClass:"btn btn-primary",
+            cancelButtonClass:"btn btn-danger",
+            confirmButtonText:"Yes",
+            cancelButtonText:"No",
+             animation: defaultAnimation,
+               customClass: modalClass }).then(function(){ 
+                $('body').on('keyup', '.swal2-textarea', function(e) {
+                  e.preventDefault();
+                 $('#RejectionComment').val($('.swal2-textarea').val());
+                });
+
+                $('#RejectionComment').val($('.swal2-textarea').val());
+                console.log($('.swal2-textarea').val());
+                setTimeout(function(){
+                  $('#'+form_id).submit();
+                }, 1000) }).catch(swal.noop);
+
+      } 
+
+
 </script>
 @endpush
