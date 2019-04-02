@@ -233,7 +233,7 @@ class StaffController extends Controller
             // dd($request->ApprovalComment);
 
             $pending    = StaffPending::where('id', $id)->first();
-            $staff_data = $pending->replicate(['StaffRef', 'ApprovedBy', 'Age', 'deleted_at']);
+            $staff_data = $pending->replicate(['StaffRef', 'ApprovedBy', 'Age', 'ApprovalComment', 'RejectionComment', 'deleted_at']);
             // Any extra columns?
             $pending->ApprovedBy      = $user->id;
             $pending->ApprovalComment = $request->ApprovalComment;
@@ -245,7 +245,9 @@ class StaffController extends Controller
             $staff = Staff::find($pending->StaffRef);
             // $staff->DepartmentID = $request->DepartmentID;
             // dd($staff_arr);
+            $staff->ApprovalComment = $pending->ApprovalComment;
             $staff->update($staff_arr);
+
             // Soft delete from Pending
             $pending->delete();
 
@@ -263,9 +265,11 @@ class StaffController extends Controller
     {
         $user = Auth::user();
 
-        $pending                   = StaffPending::where('id', $id)->first();
-        $pending->ApprovedBy       = '0';
-        $pending->RejectionComment = $request->RejectionComment;
+        $pending             = StaffPending::where('id', $id)->first();
+        $pending->ApprovedBy = '0';
+        $staff               = Staff::find($pending->StaffRef);
+
+        $staff->update(['RejectionComment' => $request->RejectionComment]);
         $pending->save();
         Notification::send($pending->user, new RejectedBiodataUpdate());
 
