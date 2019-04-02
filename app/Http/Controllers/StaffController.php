@@ -492,7 +492,9 @@ class StaffController extends Controller
     {
 
         // CHECKING IF THERE IS A PENDIING BIO-DATA REQUEST FOR USER excluding the deleted ones (softdeletes)
-        $pending_biodata_update = StaffPending::where('UserID', auth()->user()->id)->get();
+        $pending_biodata_update = StaffPending::where('UserID', auth()->user()->id)
+            ->Where('ApprovedBy', null)
+            ->get();
         // dd($pending_biodata_update);
         if ($pending_biodata_update->count() > 0) {
             return redirect()->back()->with('error', 'You have a pending biodata update still awaiting approval');
