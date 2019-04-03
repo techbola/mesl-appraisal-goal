@@ -155,7 +155,13 @@
 								)
                  $('#Department').val('');
                  
-              }
+              } else {
+								swal(
+									'error',
+									data.data.Department + ' has already been taken.',
+									'error'
+								)
+							}
             });
           });
 
@@ -183,7 +189,13 @@
 								)
                  $('#HMO').val('');
                  
-              }
+              } else {
+								swal(
+									'error',
+									data.data.HMO + ' has already been taken.',
+									'error'
+								)
+							}
             });
           });
 
@@ -211,7 +223,13 @@
 								)
                  $('#HMOPlan').val('');
                  
-              }
+              } else {
+								swal(
+									'error',
+									data.data.HMOPlan + ' has already been taken.',
+									'error'
+								)
+							}
             });
           });
 

@@ -23,6 +23,7 @@ use MESL\SeniorityLevel;
 use MESL\DeductionItem;
 use MESL\Policy;
 use Auth;
+use Validator;
 
 class SetupController extends Controller
 {
@@ -685,9 +686,19 @@ class SetupController extends Controller
     public function add_hmo(Request $request)
     {
         $hmo = new HMO($request->all());
-        $this->validate($request, [
-            'HMO' => 'required',
+        // $this->validate($request, [
+        //     'HMO' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'HMO' => 'required|unique:tblHMO',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $hmo
+            ],200);
+        }
         if ($hmo->save()) {
             return response()->json([
                 'success' => true, 
@@ -700,9 +711,19 @@ class SetupController extends Controller
     public function add_hmo_plan(Request $request)
     {
         $hmoplan = new HMOPlan($request->all());
-        $this->validate($request, [
-            'HMOPlan' => 'required',
+        // $this->validate($request, [
+        //     'HMOPlan' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'HMOPlan' => 'required|unique:tblHMOPlan',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $hmoplan
+            ],200);
+        }
         if ($hmoplan->save()) {
             return response()->json([
                 'success' => true, 
@@ -835,9 +856,19 @@ class SetupController extends Controller
     public function add_department(Request $request)
     {
         $department = new Department($request->all());
-        $this->validate($request, [
-            'Department' => 'required',
+        // $this->validate($request, [
+        //     'Department' => 'required|unique:tblDepartment',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'Department' => 'required|unique:tblDepartment',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $department
+            ],200);
+        }
         if ($department->save()) {
             return response()->json([
                 'success' => true, 
