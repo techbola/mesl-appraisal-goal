@@ -393,6 +393,8 @@ class StaffController extends Controller
 
         $pfa = PFA::all();
 
+        $nationality = Country::all();
+
 
 
         $religions      = Religion::all()->sortBy('Religion');
@@ -421,7 +423,7 @@ class StaffController extends Controller
         // dd($qualifications);
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa', 'qualifications', 'institutions', 'hmo', 'hmoplan', 'bank', 'currency', 'pfa'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa', 'qualifications', 'institutions', 'hmo', 'hmoplan', 'bank', 'currency', 'pfa', 'nationality'));
     }
 
     // public function editFinanceDetails($id)

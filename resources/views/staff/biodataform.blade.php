@@ -235,6 +235,18 @@
         </div>
     </div>
 
+    {{-- <div class="col-sm-3">
+        <div class="form-group">
+            {{ Form::label('NationalityOfOrigin','Nationality') }}
+            <select name="NationalityOfOrigin" class="full-width" data-init-plugin="select2">
+                <option value="">Select Nationality</option>
+                @foreach($nationality as $nation)
+                    <option value="{{ $nation->CountryRef }}">{{ $nation->Country }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div> --}}
+
 {{-- <div class="clearfix"></div> --}}
 
     <div class="col-sm-3">
