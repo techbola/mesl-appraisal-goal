@@ -801,4 +801,49 @@ class SetupController extends Controller
             ],200);
         }
     }
+
+    public function add_level(Request $request)
+    {
+        $level = new SeniorityLevel($request->all());
+        $this->validate($request, [
+            'SeniorityLevel' => 'required',
+        ]);
+        if ($level->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $level
+            ],200);
+        }
+    }
+
+    public function add_policy(Request $request)
+    {
+        $policy = new Policy($request->all());
+        $this->validate($request, [
+            'Policy' => 'required',
+        ]);
+        if ($policy->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $policy
+            ],200);
+        }
+    }
+
+    public function add_department(Request $request)
+    {
+        $department = new Department($request->all());
+        $this->validate($request, [
+            'Department' => 'required',
+        ]);
+        if ($department->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $department
+            ],200);
+        }
+    }
 }

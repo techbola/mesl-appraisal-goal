@@ -108,10 +108,58 @@
 	</div>
 </div>
 
+<div class="modal fade" id="department_setup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Add Department</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<hr>
+			<div class="modal-body">
+				<form action="" method="POST" id="department-form">
+					{{ csrf_field() }}
+					@include('setup.department.form')
+				</form>
+			</div>
+			</div>
+		</div>
+	</div>
+
 @endsection
 
 @push('scripts')
 	<script>
+		$('.add-department').click(function(e){
+          e.preventDefault();
+          $('#department_setup').show();
+          $('#department_setup').modal('show');
+          
+        });
+
+        var form1 = $("#department-form");
+          form1.submit(function(e) {
+            e.preventDefault();
+            $.post('/api/add_department', {
+              Department: $('#Department').val()
+            }, function(data, textStatus, xhr) {
+              if(data.success === true){
+                $('#DepartmentID').append('<option selected value="'+ data.data.DepartmentRef +'">' +  data.data.Department +'</option>');
+                $('#department_setup').modal('hide');
+								swal(
+									'Success',
+									data.data.Department + ' was added to the list',
+									'success'
+								)
+                 $('#Department').val('');
+                 
+              }
+            });
+          });
+
+
 		$('.add-hmo').click(function(e){
           e.preventDefault();
           $('#hmo_id').show();

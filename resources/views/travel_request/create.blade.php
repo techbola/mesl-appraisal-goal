@@ -195,7 +195,7 @@
                                     <div class="controls">
                                         <div class="form-group">
                                         {{ Form::label('TravelMode', 'Travel mode' ) }} <span style="padding: 0 !important" class="form-add-more add-mode badge badge-success" data-toggle="modal" data-target="travel_mode_setup"><i class="fa fa-plus"></i></span>
-                                        <select name="TravelMode" class="full-width" data-init-plugin="select2" id="travel_mode" onchange="">
+                                        <select name="TravelMode" class="full-width" data-init-plugin="select2" id="travel_mode">
                                             <option value=" ">Select Travel Mode</option>
                                             @foreach($travelmodes as $travelmode)
                                                 <option value="{{ $travelmode->TravelModeRef }}">{{ $travelmode->TravelMode }}</option>

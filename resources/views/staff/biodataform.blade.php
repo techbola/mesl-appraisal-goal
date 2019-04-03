@@ -65,7 +65,8 @@
 
       <div class="col-sm-6">
         <div class="form-group">
-          <label class="req">Departments</label>
+            {{ Form::label('DepartmentID','Departments') }} <span style="padding: 0 !important" class="form-add-more add-department badge badge-success" data-toggle="modal" data-target="department_setup"><i class="fa fa-plus"></i></span>
+          {{-- <label class="req">Departments</label>  --}}
           {{ Form::select('DepartmentID', $departments->pluck('Department', 'DepartmentRef')->toArray(), $staff_departments, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
       </div>
