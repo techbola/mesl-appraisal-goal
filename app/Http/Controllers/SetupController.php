@@ -736,9 +736,19 @@ class SetupController extends Controller
     public function add_bank(Request $request)
     {
         $bank = new Bank($request->all());
-        $this->validate($request, [
-            'BankName' => 'required',
+        // $this->validate($request, [
+        //     'BankName' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'BankName' => 'required|unique:tblBank',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $bank
+            ],200);
+        }
         if ($bank->save()) {
             return response()->json([
                 'success' => true, 
@@ -751,9 +761,19 @@ class SetupController extends Controller
     public function add_pfa(Request $request)
     {
         $pfa = new PFA($request->all());
-        $this->validate($request, [
-            'PFA' => 'required',
+        // $this->validate($request, [
+        //     'PFA' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'PFA' => 'required|unique:tblPFA',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $pfa
+            ],200);
+        }
         if ($pfa->save()) {
             return response()->json([
                 'success' => true, 

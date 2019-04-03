@@ -257,7 +257,13 @@
 								)
                  $('#BankName').val('');
                  
-              }
+              } else {
+								swal(
+									'error',
+									data.data.BankName + ' has already been taken.',
+									'error'
+								)
+							}
             });
           });
 
@@ -285,7 +291,13 @@
 								)
                  $('#PFA').val('');
                  
-              }
+              } else {
+								swal(
+									'error',
+									data.data.PFA + ' has already been taken.',
+									'error'
+								)
+							}
             });
           });
 	</script>
