@@ -786,9 +786,19 @@ class SetupController extends Controller
     public function add_travel_purpose(Request $request)
     {
         $purpose = new TravelPurpose($request->all());
-        $this->validate($request, [
-            'TravelPurpose' => 'required',
+        // $this->validate($request, [
+        //     'TravelPurpose' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'TravelPurpose' => 'required|unique:tblTravelPurpose',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $purpose
+            ],200);
+        }
         if ($purpose->save()) {
             return response()->json([
                 'success' => true, 
@@ -801,9 +811,19 @@ class SetupController extends Controller
     public function add_travel_mode(Request $request)
     {
         $mode = new TravelMode($request->all());
-        $this->validate($request, [
-            'TravelMode' => 'required',
+        // $this->validate($request, [
+        //     'TravelMode' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'TravelMode' => 'required|unique:tblTravelMode',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $mode
+            ],200);
+        }
         if ($mode->save()) {
             return response()->json([
                 'success' => true, 
@@ -816,9 +836,19 @@ class SetupController extends Controller
     public function add_travel_lodge(Request $request)
     {
         $lodge = new TravelLodge($request->all());
-        $this->validate($request, [
-            'TravelLodge' => 'required',
+        // $this->validate($request, [
+        //     'TravelLodge' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'TravelLodge' => 'required|unique:tblTravelLodge',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $lodge
+            ],200);
+        }
         if ($lodge->save()) {
             return response()->json([
                 'success' => true, 
@@ -831,9 +861,19 @@ class SetupController extends Controller
     public function add_travel_transport(Request $request)
     {
         $transport = new TravelTransport($request->all());
-        $this->validate($request, [
-            'Transporter' => 'required',
+        // $this->validate($request, [
+        //     'Transporter' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'Transporter' => 'required|unique:tblTravelTransporter',
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $transport
+            ],200);
+        }
         if ($transport->save()) {
             return response()->json([
                 'success' => true, 

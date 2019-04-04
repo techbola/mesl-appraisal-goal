@@ -1028,7 +1028,13 @@ $('.add-transporter').click(function(e){
             )
                 $('#Transporter').val('');
                 
-            }
+            } else {
+            swal(
+                'error',
+                data.data.Transporter + ' has already been taken.',
+                'error'
+            )
+        }
         });
     });
 
@@ -1055,7 +1061,13 @@ $('.add-purpose').click(function(e){
             )
                 $('#TravelPurpose').val('');
                 
-            }
+            } else {
+            swal(
+                'error',
+                data.data.TravelPurpose + ' has already been taken.',
+                'error'
+            )
+        }
         });
     });
 
@@ -1083,7 +1095,13 @@ $('.add-purpose').click(function(e){
             )
                 $('#TravelMode').val('');
                 
-            }
+            } else {
+            swal(
+                'error',
+                data.data.TravelMode + ' has already been taken.',
+                'error'
+            )
+        }
         });
     });
 
@@ -1111,7 +1129,13 @@ $('.add-purpose').click(function(e){
             )
                 $('#TravelLodge').val('');
                 
-            }
+            } else {
+            swal(
+                'error',
+                data.data.TravelLodge + ' has already been taken.',
+                'error'
+            )
+          }
         });
     });
     
