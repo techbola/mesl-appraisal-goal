@@ -88,14 +88,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
     Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
 
-    Route::get('/staff/exit_interview', 'StaffController@exit_interview');
+    Route::get('/staff/exit_interview', 'StaffController@exit_interview')->name('StaffExits');
     Route::post('staff/staff_onboard', 'StaffController@store_staff_onboard')->name('StoreStaff');
     Route::get('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
     Route::get('staff/staff_onboard/{id}', 'StaffController@delete_onboarding')->name('deleteOnboard');
     Route::get('staff', 'StaffController@index')->name('staff');
     Route::get('staff/onboard_dashboard_admin', 'StaffController@approve_onboard_admin')->name('ApproveOnboardAdmin');
 
-    Route::post('staff/exit_interview', 'StaffController@send_exit')->name('SendExit');
+    Route::post('staff/exit_interview', 'StaffController@send_exit')->name('SendExit')->middleware(['auth']);
     Route::get('fetch/staff/info', 'StaffController@getStaffInfo');
 
     Route::get('edit_staff_onboarding/{id}', 'StaffController@edit_staff_onboarding')->name('edit_staff_onboarding');
