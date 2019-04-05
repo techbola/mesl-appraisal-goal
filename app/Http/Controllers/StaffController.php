@@ -44,6 +44,7 @@ use MESL\ExitInterview;
 use MESL\Institution;
 use MESL\Qualification;
 use MESL\Currency;
+use MESL\StaffType;
 use Carbon;
 
 use DB;
@@ -768,6 +769,7 @@ class StaffController extends Controller
         $user       = \Auth::user();
         $id         = \Auth::user()->id;
         $department = CompanyDepartment::all();
+        $stafftype = StaffType::all();
         // dd($department);
         // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
         $staff          = Staff::all();
@@ -779,7 +781,7 @@ class StaffController extends Controller
             ->where('SendForApproval', '1')
             ->get();
 
-        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department'));
+        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department', 'stafftype'));
     }
 
     /*

@@ -937,4 +937,27 @@ class SetupController extends Controller
             ],200);
         }
     }
+
+    public function add_staff_type(Request $request)
+    {
+        $stafftype = new StaffType($request->all());
+
+        $validator = Validator::make($request->all(),[
+            'StaffType' => 'required|unique:tblStaffType',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $stafftype
+            ],200);
+        }
+        if ($stafftype->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $stafftype
+            ],200);
+        }
+    }
 }

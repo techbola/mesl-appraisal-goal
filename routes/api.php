@@ -50,3 +50,5 @@ Route::post('add_level', 'SetupController@add_level')->name('add_level');
 Route::post('add_policy', 'SetupController@add_policy')->name('add_policy');
 
 Route::post('add_department', 'SetupController@add_department')->name('add_department');
+
+Route::post('add_staff_type', 'SetupController@add_staff_type')->name('add_staff_type');
