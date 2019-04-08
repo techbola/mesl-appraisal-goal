@@ -15,6 +15,7 @@ use MESL\Company;
 use MESL\CompanyDepartment;
 use MESL\CompanySupervisor;
 use MESL\Country;
+use MESL\Currency;
 use MESL\Department;
 use MESL\DocType;
 use MESL\EmploymentStatus;
@@ -929,7 +930,7 @@ class StaffController extends Controller
 
         $staff = Staff::find($request->StaffID);
 
-        Mail::to($staff->user)->send(new ExitMail($staff->user));
+        Mail::to($staff->user->email)->send(new ExitMail($staff->user));
 
         return redirect()->back()->with('success', 'Staff notified successfully');
     }

@@ -310,4 +310,17 @@ class MemoController extends Controller
             return back()->withInput();
         }
     }
+
+    public function downloadAttachments($id)
+    {
+        $memo = Memo::find($id);
+
+        $filename = 'myzipfile.zip';
+        $files    = $memo->attachments->map(function ($item, $key) {
+            return public_path('storage/memo_attachments') . '/' . $item->attachment_location;
+        })->toArray();
+        // dd($files);
+        \Zipper::make(public_path(str_slug($memo->subject) . '.zip'))->add($files)->close();
+        return response()->download(public_path(str_slug($memo->subject) . '.zip'));
+    }
 }

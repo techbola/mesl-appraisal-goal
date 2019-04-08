@@ -854,6 +854,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('memos/process', 'MemoController@process')->name('process_memo');
     Route::post('memos/reject', 'MemoController@reject');
 
+    // download memo files as zip
+    Route::get('download-memo-attachments/{id}', 'MemoController@downloadAttachments')->name('download-memo-attachments');
+
     // main memo routes
     Route::resource('memos', 'MemoController');
     // End Memorandum
