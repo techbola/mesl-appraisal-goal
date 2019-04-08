@@ -13,6 +13,16 @@
 hr {
     margin-top: -8px !important;
 }
+
+.form-add-more{
+      width: 20px;
+      height: 20px;
+      line-height: 20px  !important;
+      border-radius: 50%;
+      text-align: center;
+      padding: 0 !important;
+      cursor: pointer;
+	}
 </style>
 @endpush
 
@@ -47,8 +57,8 @@ s
                <div class="col-md-4">
                  <div class="form-group">
                     <div class="controls">
-                        {{ Form::label('Select Policy' ) }}
-                            {{ Form::select('PolicyID', [ '' =>  'Select Policy'] + $policies->pluck('Policy', 'PolicyRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'policy_id', 'onchange' => 'get_segments()', 'data-init-plugin' => "select2", 'required']) }}
+                        {{ Form::label('Select Policy' ) }} <span style="padding: 0 !important" class="form-add-more add-policy badge badge-success" data-toggle="modal" data-target="policy_setup"><i style="line-height: 20px" class="fa fa-plus"></i></span>
+                        {{ Form::select('PolicyID', [ '' =>  'Select Policy'] + $policies->pluck('Policy', 'PolicyRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose policy",'id'=>'policy_id', 'onchange' => 'get_segments()', 'data-init-plugin' => "select2", 'required']) }}
                     </div>
                   </div>
 
@@ -72,12 +82,75 @@ s
 
            </div>
   	</div>
-  	<!-- END PANEL -->
+    <!-- END PANEL -->
+    
+    {{-- Modal --}}
+    <div class="modal fade" id="policy_setup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add New Policy</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <hr>
+          <div class="modal-body">
+              <form action="" method="POST" id="policy-form">
+                  {{ csrf_field() }}
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <div class="controls">
+                                  {{ Form::label('Policy', 'Policy' ) }}
+                                  {{ Form::text('Policy', null, ['class' => 'form-control', 'placeholder' => 'Add Policy', 'required']) }}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="pull-right">
+                          <button class="btn btn-info" type="submit">Submit</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          </div>
+      </div>
+  </div>
+
 @endsection
 
 @push('scripts')
 
   <script>
+
+$('.add-policy').click(function(e){
+        e.preventDefault();
+        $('#policy_setup').show();
+        $('#policy_setup').modal('show');
+        
+    });
+
+    var form1 = $("#policy-form");
+        form1.submit(function(e) {
+        e.preventDefault();
+        $.post('/api/add_policy', {
+          Policy: $('#Policy').val()
+        }, function(data, textStatus, xhr) {
+            if(data.success === true){
+            $('#policy_id').append('<option selected value="'+ data.data.PolicyRef +'">' +  data.data.Policy +'</option>');
+            $('#policy_setup').modal('hide');
+            swal(
+                'Success',
+                data.data.Policy + ' was added to the list',
+                'success'
+            )
+                $('#Policy').val('');
+                
+            }
+        });
+    });
 
         function get_segments()
         {

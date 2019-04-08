@@ -162,6 +162,11 @@ class Staff extends Model
         return $this->hasMany(Reference::class, 'ReferenceID');
     }
 
+    public function nationality()
+    {
+        return $this->belongsTo(Country::class, 'Nationality');
+    }
+
     // public function __construct(array $attributes = array())
     // {
     //     $this->hasAttachedFile('PhotographLocation', [

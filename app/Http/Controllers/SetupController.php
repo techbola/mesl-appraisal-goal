@@ -23,6 +23,7 @@ use MESL\SeniorityLevel;
 use MESL\DeductionItem;
 use MESL\Policy;
 use Auth;
+use Validator;
 
 class SetupController extends Controller
 {
@@ -680,5 +681,283 @@ class SetupController extends Controller
         $policy->delete();
 
         return redirect()->back()->with('success',  'Deleted successfully');
+    }
+
+    public function add_hmo(Request $request)
+    {
+        $hmo = new HMO($request->all());
+        // $this->validate($request, [
+        //     'HMO' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'HMO' => 'required|unique:tblHMO',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $hmo
+            ],200);
+        }
+        if ($hmo->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $hmo
+            ],200);
+        }
+    }
+
+    public function add_hmo_plan(Request $request)
+    {
+        $hmoplan = new HMOPlan($request->all());
+        // $this->validate($request, [
+        //     'HMOPlan' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'HMOPlan' => 'required|unique:tblHMOPlan',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $hmoplan
+            ],200);
+        }
+        if ($hmoplan->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $hmoplan
+            ],200);
+        }
+    }
+
+    public function add_bank(Request $request)
+    {
+        $bank = new Bank($request->all());
+        // $this->validate($request, [
+        //     'BankName' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'BankName' => 'required|unique:tblBank',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $bank
+            ],200);
+        }
+        if ($bank->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $bank
+            ],200);
+        }
+    }
+
+    public function add_pfa(Request $request)
+    {
+        $pfa = new PFA($request->all());
+        // $this->validate($request, [
+        //     'PFA' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'PFA' => 'required|unique:tblPFA',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $pfa
+            ],200);
+        }
+        if ($pfa->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $pfa
+            ],200);
+        }
+    }
+
+    public function add_travel_purpose(Request $request)
+    {
+        $purpose = new TravelPurpose($request->all());
+        // $this->validate($request, [
+        //     'TravelPurpose' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'TravelPurpose' => 'required|unique:tblTravelPurpose',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $purpose
+            ],200);
+        }
+        if ($purpose->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $purpose
+            ],200);
+        }
+    }
+
+    public function add_travel_mode(Request $request)
+    {
+        $mode = new TravelMode($request->all());
+        // $this->validate($request, [
+        //     'TravelMode' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'TravelMode' => 'required|unique:tblTravelMode',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $mode
+            ],200);
+        }
+        if ($mode->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $mode
+            ],200);
+        }
+    }
+
+    public function add_travel_lodge(Request $request)
+    {
+        $lodge = new TravelLodge($request->all());
+        // $this->validate($request, [
+        //     'TravelLodge' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'TravelLodge' => 'required|unique:tblTravelLodge',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $lodge
+            ],200);
+        }
+        if ($lodge->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $lodge
+            ],200);
+        }
+    }
+
+    public function add_travel_transport(Request $request)
+    {
+        $transport = new TravelTransport($request->all());
+        // $this->validate($request, [
+        //     'Transporter' => 'required',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'Transporter' => 'required|unique:tblTravelTransporter',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $transport
+            ],200);
+        }
+        if ($transport->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $transport
+            ],200);
+        }
+    }
+
+    public function add_level(Request $request)
+    {
+        $level = new SeniorityLevel($request->all());
+        $this->validate($request, [
+            'SeniorityLevel' => 'required',
+        ]);
+        if ($level->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $level
+            ],200);
+        }
+    }
+
+    public function add_policy(Request $request)
+    {
+        $policy = new Policy($request->all());
+        $this->validate($request, [
+            'Policy' => 'required',
+        ]);
+        if ($policy->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $policy
+            ],200);
+        }
+    }
+
+    public function add_department(Request $request)
+    {
+        $department = new Department($request->all());
+        // $this->validate($request, [
+        //     'Department' => 'required|unique:tblDepartment',
+        // ]);
+        $validator = Validator::make($request->all(),[
+            'Department' => 'required|unique:tblDepartment',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $department
+            ],200);
+        }
+        if ($department->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $department
+            ],200);
+        }
+    }
+
+    public function add_staff_type(Request $request)
+    {
+        $stafftype = new StaffType($request->all());
+
+        $validator = Validator::make($request->all(),[
+            'StaffType' => 'required|unique:tblStaffType',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false, 
+                'message' => $validator->messages()->first(),
+                'data' => $stafftype
+            ],200);
+        }
+        if ($stafftype->save()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Setup created Successfully',
+                'data' => $stafftype
+            ],200);
+        }
     }
 }
