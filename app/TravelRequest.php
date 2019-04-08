@@ -38,7 +38,7 @@ class TravelRequest extends Model
 
     public function travel_purpose()
     {
-        return $this->belongsTo('MESL\TravelPurpose', 'Purpose');
+        return $this->belongsTo('MESL\TravelPurpose', 'PurposeID');
     }
 
     public function travel_lodge()

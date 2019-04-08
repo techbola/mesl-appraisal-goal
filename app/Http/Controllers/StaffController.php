@@ -384,9 +384,23 @@ class StaffController extends Controller
         $staff = Staff::where('StaffRef', $id)->first();
         $this->authorize('edit-profile', $staff->user);
 
+        $hmo = HMO::all();
+
+        $hmoplan = HMOPlan::all();
+
         $user = auth()->user();
 
         $staffs = Staff::all();
+
+        $bank = Bank::all();
+
+        $currency = Currency::all();
+
+        $pfa = PFA::all();
+
+        $nationality = Country::all();
+
+
 
         $religions      = Religion::all()->sortBy('Religion');
         $refs           = Reference::where('StaffID', auth()->user()->staff->StaffRef)->get();
@@ -414,7 +428,7 @@ class StaffController extends Controller
         // dd($qualifications);
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa', 'qualifications', 'institutions'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa', 'qualifications', 'institutions', 'hmo', 'hmoplan', 'bank', 'currency', 'pfa', 'nationality'));
     }
 
     // public function editFinanceDetails($id)
@@ -768,6 +782,7 @@ class StaffController extends Controller
         $user       = \Auth::user();
         $id         = \Auth::user()->id;
         $department = CompanyDepartment::all();
+        $stafftype = StaffType::all();
         // dd($department);
         // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
         $staff          = Staff::all();
@@ -779,7 +794,7 @@ class StaffController extends Controller
             ->where('SendForApproval', '1')
             ->get();
 
-        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department'));
+        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department', 'stafftype'));
     }
 
     /*

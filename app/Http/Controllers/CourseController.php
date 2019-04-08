@@ -9,7 +9,10 @@ use MESL\CourseInstructor;
 use MESL\CourseBatch;
 use MESL\Question;
 use MESL\TestScore;
+use MESL\CourseModule;
+use MESL\ModuleQuestion;
 use MESL\CourseMaterial;
+use MESL\ModuleExamCollation;
 use MESL\ExamCollation;
 use Image;
 use Illuminate\Http\Request;
@@ -64,6 +67,17 @@ class CourseController extends Controller
             $add_new_course->entered_by  = $user_id;
             $add_new_course->save();
             $count_course = Courses::all()->count();
+
+            $counter = 1;
+            while ($counter <= (int) $request->Module_No) {
+                $new_module             = new CourseModule();
+                $new_module->CourseID   = $add_new_course->course_ref;
+                $new_module->Module     = 'Module ' . $counter;
+                $new_module->InputterID = $user_id;
+                $new_module->save();
+                $counter++;
+            }
+
             return response()->json($count_course)->setStatusCode(200);
         } else {
 
@@ -72,6 +86,17 @@ class CourseController extends Controller
             $add_new_course->entered_by  = $user_id;
             $add_new_course->save();
             $count_course = Courses::all()->count();
+
+            $counter = 1;
+            while ($counter <= (int) $request->Module_No) {
+                $new_module             = new CourseModule();
+                $new_module->CourseID   = $add_new_course->course_ref;
+                $new_module->Module     = 'Module ' . $counter;
+                $new_module->InputterID = $user_id;
+                $new_module->save();
+                $counter++;
+            }
+
             return response()->json($count_course)->setStatusCode(200);
         }
     }
@@ -212,7 +237,14 @@ class CourseController extends Controller
     {
         $id                      = $id;
         $course_material_details = CourseMaterial::where('course_id', $id)->get();
-        return response()->json($course_material_details)->setStatusCode(200);
+        $course_modules          = CourseModule::where('CourseID', $id)->get();
+
+        $details = [
+            'material' => $course_material_details,
+            'module'   => $course_modules,
+        ];
+
+        return response()->json($details)->setStatusCode(200);
     }
 
     public function staff_course_dashboard()
@@ -252,8 +284,9 @@ class CourseController extends Controller
             ->first();
 
         $course_id        = $course_details->course_id;
+        $courses          = Courses::where('course_ref', $course_id)->first();
         $course_materials = CourseMaterial::where('course_id', $course_id)->get();
-        return view('LMS.show_course', compact('course_details', 'course_materials', 'id'));
+        return view('LMS.show_course', compact('course_details', 'course_materials', 'id', 'courses'));
 
         //checkbox function
         $checkbox->$course_details = $request->input('checkbox');
@@ -564,15 +597,21 @@ class CourseController extends Controller
                 }
             }
 
+            $get_previous = ExamCollation::where('BatchRef', $batch)
+                ->where('CourseID', $course_ref)
+                ->where('CustomerRef', $user_id)
+                ->get()->toArray();
+
             $details = [
-                'question'     => $question,
-                'total_result' => $get_result,
-                'total'        => $check_exam_collation,
-                'limit'        => $course_details->final_question_limit,
-                'final'        => $final,
-                'pass_mark'    => $pass_mark,
-                'unit_score'   => $unit_score,
-                'final_score'  => $final_score,
+                'question'          => $question,
+                'total_result'      => $get_result,
+                'total'             => $check_exam_collation,
+                'limit'             => $course_details->final_question_limit,
+                'final'             => $final,
+                'pass_mark'         => $pass_mark,
+                'unit_score'        => $unit_score,
+                'final_score'       => $final_score,
+                'previous_question' => $get_previous,
             ];
 
             \DB::commit();
@@ -651,6 +690,185 @@ class CourseController extends Controller
                 ->delete();
             \DB::commit();
             return response($content = 'ok', $status = 200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function get_all_course_module($id)
+    {
+        try {
+            \DB::beginTransaction();
+            $courses = Courses::where('course_ref', $id)->first();
+            $modules = CourseModule::where('CourseID', $id)->get();
+
+            $details = [
+                'courses' => $courses,
+                'modules' => $modules,
+            ];
+
+            \DB::commit();
+            return response()->json($details)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function post_module_question_record(Request $request)
+    {
+        try {
+            \DB::beginTransaction();
+            $user_id                   = auth()->user()->id;
+            $post_question             = new ModuleQuestion($request->all());
+            $post_question->InputterID = $user_id;
+            $post_question->save();
+            \DB::commit();
+            return response($content = 'ok', $status = 200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function get_course_module_questions($id, $course_id)
+    {
+        try {
+            \DB::beginTransaction();
+            $questions = ModuleQuestion::where('ModuleID', $id)
+                ->where('CourseID', $course_id)
+                ->get();
+            \DB::commit();
+            return response()->json($questions)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function post_module_examination(Request $request)
+    {
+        try {
+            \DB::beginTransaction();
+            foreach ($request->Answer as $key => $value) {
+                # code...
+            }
+            \DB::commit();
+
+        } catch (Exception $e) {
+            \DB::rollback();
+
+        }
+    }
+
+    public function view_and_edit_question()
+    {
+        $courses = Courses::all();
+        return view('LMS.view_edit_questions', compact('courses'));
+    }
+
+    public function get_course_module_for_edit($ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $details = CourseModule::where('CourseID', $ref)->get();
+            \DB::commit();
+            return response()->json($details)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function search_course_module($course_ref, $module_ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $questions = ModuleQuestion::where('CourseID', $course_ref)
+                ->where('ModuleID', $module_ref)
+                ->get();
+            \DB::commit();
+            return response()->json($questions)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function get_module_question_by_id($id)
+    {
+        try {
+            \DB::beginTransaction();
+            $questions = ModuleQuestion::where('ModuleQuestionRef', $id)
+                ->first();
+            \DB::commit();
+            return response()->json($questions)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function post_editted_course_module(Request $request, $ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $details = ModuleQuestion::where('ModuleQuestionRef', $ref)->first();
+            if ($details->update($request->except(['_token', '_method']))) {
+                $questions = ModuleQuestion::where('CourseID', $details->CourseID)
+                    ->where('ModuleID', $details->ModuleID)
+                    ->get();
+            }
+            \DB::commit();
+            return response()->json($questions)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function delete_module_question($ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $details    = ModuleQuestion::where('ModuleQuestionRef', $ref)->first();
+            $course_ref = $details->CourseID;
+            $module_ref = $details->ModuleID;
+            $trans      = $details->delete();
+            if ($trans) {
+                $questions = ModuleQuestion::where('CourseID', $course_ref)
+                    ->where('ModuleID', $module_ref)
+                    ->get();
+            }
+            \DB::commit();
+            return response()->json($questions)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function search_course_question($ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $details = Question::where('CourseID', $ref)->get();
+            \DB::commit();
+            return response()->json($details)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function get_editted_question($ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $details = Question::where('QuestionRef', $ref)->first();
+            \DB::commit();
+            return response()->json($details)->setStatusCode(200);
         } catch (Exception $e) {
             \DB::rollback();
             return response($content = 'failed', $status = 200);
