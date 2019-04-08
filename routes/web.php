@@ -88,7 +88,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
     Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
 
-    Route::get('/staff/exit_interview', 'StaffController@exit_interview')->name('StaffExits');
+
+    Route::get('/staff/exit_interview', 'StaffController@exit_interview')->name('StaffExit');
     Route::post('staff/staff_onboard', 'StaffController@store_staff_onboard')->name('StoreStaff');
     Route::get('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
     Route::get('staff/staff_onboard/{id}', 'StaffController@delete_onboarding')->name('deleteOnboard');
@@ -250,6 +251,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor');
     Route::get('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
     Route::post('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
+    Route::delete('leave_request/delete-leave-request/', 'LeaveRequestController@delete_leave_request');
+    Route::get('leave_request/hon/{LeaveReqRef}', 'LeaveRequestController@show_handover');
 
     Route::get('leave_request/leave_type', 'LeaveRequestController@leave_type');
 
@@ -1344,7 +1347,7 @@ Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-ho
  */
 Route::get('help/desk/complaints', 'HelpDeskController@index')->name('helpdesk_module');
 
-Route::get('/exit/create', 'ExitController@index');
+Route::get('/exit/create', 'ExitController@index')->middleware(['auth']);
 
 Route::post('exit/create', 'ExitController@store_exit_interview')->name('StoreExitInterview');
 

@@ -1006,5 +1006,26 @@ var prof_html = `<div class="row prof-row">
       $(this).closest('.prof-row').find('hr').remove();
       $(this).closest('.prof-row').remove();
     });
+
+    $('body').on('click', '.dp', function(event) {
+     var options = {
+              todayHighlight: true,
+              format: 'yyyy-mm-dd',
+              autoclose: true,
+              startDate: '1920-01-01',
+          };
+          $('.dp').datepicker(options);
+    });
+
+    $('body').on('focus', '.dp', function(event) {
+      // same options
+     var options = {
+              todayHighlight: true,
+              format: 'yyyy-mm-dd',
+              autoclose: true,
+              startDate: '1920-01-01',
+          };
+          $('.dp').datepicker(options);
+    });
   </script>
 @endpush

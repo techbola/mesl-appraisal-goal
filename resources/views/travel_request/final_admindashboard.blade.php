@@ -65,11 +65,12 @@
                     <th>Action</th>
                 </tfoot>
                 <tbody>
-                    <?php $count = 0; ?>
+                    <?php $count = 0;?>
                     @foreach($travel_requests as $travel_request)
                     @if($travel_request->RequestApprovedd !== "1")
-                    <?php $count = $count + 1; ?>
+
                     <tr>
+                        <td><?php $count = $count + 1;?></td>
                         <td>{{ nice_date($travel_request->RequestDate) }}</td>
                         <td>{{ $travel_request->requester_name->FullName ?? '-'  }}</td>
                         <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_from_state->State : $travel_request->travel_from_state->State ?? '-' }}</td>

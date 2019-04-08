@@ -12,7 +12,7 @@ The request has been approved and needs your attention. Please click the link be
 
 Cheers.
 
-@component('mail::button', ['url' => url('/leave_request/leave_approval/index')])
+@component('mail::button', ['url' => url("/leave_request/hon/$leave_request->LeaveReqRef")])
 Visit Officemate
 @endcomponent
 
