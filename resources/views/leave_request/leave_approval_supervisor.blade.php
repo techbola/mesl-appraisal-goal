@@ -50,12 +50,13 @@
             <th>Action</th>
             <th>Requester</th>
             <th>Leave Type</th>
+            <th>Request Date</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th >Leave Days</th>
             <th>File(s)</th>
             <th>HandOver Notes</th>
-            <th>Action</th>
+            {{-- <th>Action</th> --}}
 
           </thead>
           <tbody>
@@ -63,9 +64,12 @@
             @foreach($leave_check as $leave_request)
                 @if($leave_request->status > 0)
               <tr>
-                <td style="background: #fba1a0"><input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" ></td>
-                <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
+                {{-- <td style="background: #fba1a0"> --}}
+                  {{-- <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" > --}}
+                {{-- </td> --}}
+                <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}}  </td>
                 <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
+                <td style="background: #fba1a0">{{nice_date($leave_request->EntryDate)}}</td>
                 <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                 <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
                 <td style="background: #fba1a0">{{$leave_request->NumberofDays}}</td>
@@ -85,18 +89,21 @@
                   @endif
                 </td>
                 <td>
-                  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
+                  <a style="margin-right: 10px; display: inline-block" href="/leave_request/approve_request/{{ $leave_request->LeaveReqRef }}"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
-                            <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
+                            <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject" id="rejection-toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"><i class="fa fa-user-times"></i></a>
 
                 </td>
 
               </tr>
               @else
               <tr>
-                <td><input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" ></td>
-                <td>{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}}</td>
+                {{-- <td> --}}
+                  {{-- <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" > --}}
+                {{-- </td> --}}
+                <td>{{$leave_request->first_name}} {{$leave_request->last_name}} </td>
                 <td>{{$leave_request->LeaveType}}</td>
+                <td>{{nice_date($leave_request->EntryDate)}}</td>
                 <td>{{$leave_request->StartDate}}</td>
                 <td>{{$leave_request->ReturnDate}}</td>
                 <td>{{$leave_request->NumberofDays}}days </td>
@@ -118,9 +125,9 @@
 
                 </td>
                 <td>
-                  <a style="margin-right: 10px; display: inline-block"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
+                  <a style="margin-right: 10px; display: inline-block" href="/leave_request/approve_request/{{ $leave_request->LeaveReqRef }}"  type="submit"  class="btn btn-sm btn-success toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
 
-                            <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
+                            <a style="margin-right: 10px; display: inline-block" href="{{ '/leave_request/reject_request/'.$leave_request->LeaveReqRef}}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject" id="rejection-toggler" data-whatever="{{ $leave_request->LeaveReqRef }}"><i class="fa fa-user-times"></i></a>
                 </td>
               </tr>
                @endif
@@ -166,76 +173,45 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Select Approvers where required</h4> <hr>
+            <h4 class="modal-title">Enter Approval Comment</h4> <hr>
           </div>
           <div class="modal-body">
            <form id="approvers-form" method="post">
             {{ csrf_field() }}
                <div class="row">
-                   <div class="col-md-6">
-                    <div class="controls">
+                 <div class="controls">
                         <div class="form-group">
-                            {{ Form::label('Approver1', 'First Approver' ) }}
-                            <select name="Approver1" class="full-width" data-init-plugin="select2" id="Approver1" onchange="">
-                                    <option value=" ">Select Approver</option>
-                                @foreach($staff as $st)
-                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
-                                @endforeach
-                            </select>
+                            {{ Form::label('ApproverComment' ) }}
+                            <textarea name="ApproverComment" id="Comment" class="form-control summernote" cols="30" rows="10"></textarea>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="controls">
-                        <div class="form-group">
-                            {{ Form::label('Approver2', 'Second Approver' ) }}
-                            <select name="Approver2" class="full-width" data-init-plugin="select2" id="Approver2" onchange="">
-                                    <option value=" ">Select Approver</option>
-                                @foreach($staff as $st)
-                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
                </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+      </form>
+    </div><!-- /.modal -->
 
-               <div class="row">
-                   <div class="col-md-6">
-                    <div class="controls">
-                        <div class="form-group">
-                            {{ Form::label('Approver3', 'Third Approver' ) }}
-                            <select name="Approver3" class="full-width" data-init-plugin="select2" id="Approver3" onchange="">
-                                    <option value=" ">Select Approver</option>
-                                @foreach($staff as $st)
-                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="controls">
-                        <div class="form-group">
-                            {{ Form::label('Approver4', 'Fourth Approver' ) }}
-                            <select name="Approver4" class="full-width" data-init-plugin="select2" id="Approver4" onchange="">
-                                    <option value=" ">Select Approver</option>
-                                @foreach($staff as $st)
-                                    <option value="{{ $st->user->id }}">{{ $st->FullName }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-               </div>
-
+    <div class="modal fade" role="dialog" id="myModal_rejection">
+      <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Enter reason for rejection</h4> <hr>
+          </div>
+          <div class="modal-body">
+           <form id="rejection-form" method="post">
+            {{ csrf_field() }}
                <div class="row">
                  <div class="controls">
                         <div class="form-group">
-                            {{ Form::label('Comment' ) }}
-                            <textarea name="Comment" id="Comment" class="form-control summernote" cols="30" rows="10"></textarea>
+                            {{ Form::label('RejectionComment' ) }}
+                            <textarea name="RejectionComment" id="Comment" class="form-control summernote" cols="30" rows="10"></textarea>
                         </div>
                     </div>
                </div>
@@ -287,6 +263,15 @@
            console.log(val);
            $('#myModal').modal();
            $('#approvers-form').prop('action', '/leave_request/approve_request/'+val);
+       });
+
+
+       $("#rejection-toggler").click(function(e) {
+           e.preventDefault();
+           let val = $(this).data('whatever');
+           console.log(val);
+           $('#myModal_rejection').modal();
+           $('#rejection-form').prop('action', '/leave_request/reject_request/'+val);
        });
     });
 </script>

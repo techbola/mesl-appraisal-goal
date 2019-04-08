@@ -9,9 +9,9 @@ End Date: <b>{{ nice_date($leave_request->ReturnDate) }}</b>
 
 
 
-You are required to approve or decline their request.
+You are required to either approve or decline this request.
 
-cheers.
+Cheers.
 
 @component('mail::button', ['url' => url('/leave_request/leave_approval_supervisor')])
 Visit Officemate

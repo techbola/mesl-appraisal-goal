@@ -30,22 +30,23 @@
 
 
     <ul class="nav nav-tabs outside">
+        
         <li class="active">
-            <a data-toggle="tab" href="#approved-request">
-                Approved Request &nbsp; <span class="badge badge-warning"></span>
-            </a>
-        </li>
-        <li>
             <a data-toggle="tab" href="#unapproved-request">
                 Unapproved Request &nbsp; <span class="badge badge-success">
                     {{-- {{ count($staff_onboarding_sent) }} --}}
                 </span>
             </a>
         </li>
+        <li >
+            <a data-toggle="tab" href="#approved-request">
+                Approved Request &nbsp; <span class="badge badge-warning"></span>
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content">
-      <div id="approved-request" class="tab-pane fade in active">
+      <div id="approved-request" class="tab-pane fade in">
           <div class="clearfix"></div>
           <!-- START PANEL -->
           <div class="card-box">
@@ -57,7 +58,7 @@
             </div>
             <div class="clearfix"></div>
             {{ Form::open(['action' => 'LeaveRequestController@approve_leave_request_hr', 'autocomplete' => 'off', 'role' => 'form']) }}
-            <p><input type="submit" name="approve" class="btn btn-sm btn-primary" value="Approve">  <input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject"></p>
+            {{-- <p><input type="submit" name="approve" class="btn btn-sm btn-primary" value="Approve">  <input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject"></p> --}}
             <p style="color : red" class="hide">Note : Leave Request highlighted in red are within the company restricted leave days</p>
             <table class="table tableWithSearch table-bordered">
               <thead>
@@ -68,10 +69,11 @@
                 <th width="10%">End Date</th>
                 <th width="10%">Leave Days</th>
                 <th width="10%">File(s)</th>
+                <th width="10%">Allowance</th>
               </thead>
               <tbody>
 
-                @foreach($leave_check as $leave_request)
+                @foreach($leave_check->where('CompletedFlag', 1) as $leave_request)
                     @if($leave_request->status > 0)
                   <tr>
                     <td style="background: #fba1a0">
@@ -81,7 +83,7 @@
                       <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" >
                       @endif
                     </td>
-                    <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
+                    <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} </td>
                     <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                     <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                     <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
@@ -92,6 +94,7 @@
                       Download attachment
                         @endif
                     </td>
+                    <td>{{$leave_request->PayAllowance ?? '-'}}</td>
                   </tr>
                   @else
                   <tr>
@@ -102,7 +105,7 @@
                       <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" >
                       @endif
                     </td>
-                    <td>{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}}</td>
+                    <td>{{$leave_request->first_name}} {{$leave_request->last_name}}</td>
                     <td>{{$leave_request->LeaveType}}</td>
                     <td>{{$leave_request->StartDate}}</td>
                     <td>{{$leave_request->ReturnDate}}</td>
@@ -116,6 +119,7 @@
                       <span class="badge">No Files</span>
                         @endif
                     </td>
+                    <td>{{$leave_request->PayAllowance ?? '-'}}</td>
                   
                   </tr>
                   @endif
@@ -127,7 +131,7 @@
           <!-- END PANEL -->
       </div>
       
-      <div id="unapproved-request" class="tab-pane">
+      <div id="unapproved-request" class="tab-pane active">
         <div class="card-box">
             <div class="card-title pull-left">Incomplete Request</div>
             <div class="pull-right">
@@ -149,20 +153,21 @@
                   <th width="10%">End Date</th>
                   <th width="10%">Leave Days</th>
                   <th width="10%">File(s)</th>
+                  <th width="10%">Allowance</th>
+                  <th width="10%">Comment</th>
+
                 </thead>
                 <tbody>
 
-                  @foreach($leave_check as $leave_request)
+                  @foreach($leave_check->where('CompletedFlag', 0) as $leave_request)
                       @if($leave_request->status > 0)
                     <tr>
                       <td style="background: #fba1a0">
-                        @if($leave_request->CompletedFlag == 1)
-                        <span class="badge badge-success">Completed</span>
-                        @else
+                        
                         <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" >
-                        @endif
+                      
                       </td>
-                      <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
+                      <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} </td>
                       <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                       <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                       <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
@@ -173,17 +178,19 @@
                         Download attachment
                           @endif
                       </td>
+                      <td>{{$leave_request->PayAllowance ?? '-'}}</td>
+                      <td>
+                        <textarea name="Comment" id="Comment" class="form-control"></textarea>
+                      </td>
                     </tr>
                     @else
                     <tr>
                       <td>
-                        @if($leave_request->CompletedFlag == 0)
-                        <span class="badge badge-success">Completed</span>
-                        @else
+                       
                         <input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" >
-                        @endif
+                      
                       </td>
-                      <td>{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}}</td>
+                      <td>{{$leave_request->first_name}} {{$leave_request->last_name}}</td>
                       <td>{{$leave_request->LeaveType}}</td>
                       <td>{{$leave_request->StartDate}}</td>
                       <td>{{$leave_request->ReturnDate}}</td>
@@ -196,6 +203,10 @@
                         @else
                         <span class="badge">No Files</span>
                           @endif
+                      </td>
+                      <td>{{$leave_request->PayAllowance ?? '-'}}</td>
+                      <td>
+                        <textarea name="Comment[{{ $leave_request->LeaveReqRef }}]" id="Comment" class="form-control"></textarea>
                       </td>
                     
                     </tr>

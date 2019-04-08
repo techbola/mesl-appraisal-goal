@@ -8,17 +8,30 @@ Dear {{$name->first_name}}
  @elseif($leave_request->ApprovedFlag == 1 && $leave_request->NotifyFlag == 1)
 	Your Leave request has been approved.
 @elseif($leave_request->ApprovedFlag == 0 && $leave_request->RejectionFlag == 1)
-	{{ !is_null($leave_request->ReliefOfficerID) ?  'Leave request has been rejected' :  'Leave request has been rejected' }}
- @endif
 
- @if(!is_null($leave_request->ReliefOfficerID) && $leave_request->RejectionFlag == 1)
- 	You received this email due to your role as a relief officer 
- @endif
+Your leave request has been rejected by HR.
 
-@component('mail::button', ['url' => url('/leave_request/index')])
+Leave Request Details
+---------------------
+
+
+No of Days:  ({{ $leave_request->NumberofDays }}) day(s) <b>{{ $leave_request->leave_type->LeaveType }} Leave</b>. <br>
+
+Start Date: <b>{{ nice_date($leave_request->StartDate) }}</b> <br>
+
+End Date: <b>{{ nice_date($leave_request->ReturnDate) }}</b> 
+
+
+Cheers.
+
+@endif
+
+
+
+@component('mail::button', ['url' => url('/leave_request/hr_leave_approval')])
 Visit Officemate
 @endcomponent
 
 Thanks,<br>
-{{ config('app.name') }}   
+{{ config('app.name') }}
 @endcomponent

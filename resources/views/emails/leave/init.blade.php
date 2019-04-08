@@ -10,9 +10,9 @@ Start Date: <b>{{ nice_date($leave_request->StartDate) }}</b> <br>
 End Date: <b>{{ nice_date($leave_request->ReturnDate) }}</b> 
 
 
-Your request is awaiting your supervisor's approval and you will be notified at every level of approval or rejection.
+Your request is awaiting your supervisor's approval and you will be notified upon approval or rejection.
 
-cheers.
+Cheers.
 
 @component('mail::button', ['url' => url('/leave_request/index')])
 Visit Officemate

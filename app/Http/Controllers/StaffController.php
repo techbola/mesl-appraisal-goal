@@ -2,55 +2,55 @@
 
 namespace MESL\Http\Controllers;
 
+use Auth;
+use Carbon;
+use DB;
+use File;
+use Gate;
 use Illuminate\Http\Request;
+use Image;
+use Mail;
 use MESL\Bank;
+use MESL\Company;
+use MESL\CompanyDepartment;
+use MESL\CompanySupervisor;
 use MESL\Country;
 use MESL\Department;
+use MESL\DocType;
 use MESL\EmploymentStatus;
-use MESL\GradeLevel;
+use MESL\ExitInterview;
+use MESL\ExitNotification;
 use MESL\Gender;
 use MESL\HMO;
 use MESL\HMOPlan;
+use MESL\Institution;
+use MESL\LGA;
 use MESL\Location;
+use MESL\Mail\AdminOnboardApproval;
+use MESL\Mail\ApprovalIT;
+use MESL\Mail\ExitMail;
+use MESL\Mail\StaffOnboard;
 use MESL\MaritalStatus;
+use MESL\Notifications\ApprovedBiodataUpdate;
+use MESL\Notifications\PendingBiodataUpdate;
+use MESL\Notifications\RejectedBiodataUpdate;
+use MESL\Notifications\StaffInvitation;
+use MESL\PayrollAdjustmentGroup;
 use MESL\PFA;
 use MESL\Position;
+use MESL\Qualification;
+use MESL\Reference;
 use MESL\Religion;
 use MESL\Role;
 use MESL\Sex;
 use MESL\Staff;
+use MESL\StaffOnboarding;
+use MESL\StaffPending;
 use MESL\State;
-use MESL\LGA;
-use MESL\TaxableBase;
 use MESL\Title;
 use MESL\Unit;
 use MESL\User;
-use MESL\Reference;
-use MESL\StaffPending;
-use MESL\PayrollAdjustmentGroup;
-use MESL\HrInitiatedDocs;
-use MESL\DocType;
-use MESL\CompanySupervisor;
-use MESL\StaffOnboarding;
-use MESL\Mail\StaffOnboard;
-use MESL\Mail\ApprovalIT;
-use MESL\Mail\AdminOnboardApproval;
-use MESL\Notifications\ApprovedBiodataUpdate;
-use MESL\Notifications\RejectedBiodataUpdate;
-use MESL\Notifications\PendingBiodataUpdate;
-
-use Carbon;
-
-use DB;
 use Notification;
-use MESL\Notifications\StaffInvitation;
-use MESL\Company;
-use MESL\CompanyDepartment;
-use File;
-use Image;
-use Auth;
-use Gate;
-use Mail;
 
 class StaffController extends Controller
 {
@@ -186,9 +186,10 @@ class StaffController extends Controller
         $staff->user->last_name  = $request->last_name;
         $staff->user->email      = $request->email;
         // dd($request->DepartmentID);
-        $staff->DepartmentID   = $request->DepartmentID;
-        $staff->SupervisorID   = $request->SupervisorID;
-        $staff->SupervisorFlag = $request->supervisor_options ? 1 : 0;
+        $staff->DepartmentID = $request->DepartmentID;
+        $staff->SupervisorID = $request->SupervisorID;
+        // return $request->supervisor_options;
+        $staff->SupervisorFlag = $request->supervisor_options == 'on' ? 1 : 0;
         $staff->update();
         $staff->user->roles()->detach();
         $staff->user->roles()->attach($request->roles);
@@ -212,25 +213,30 @@ class StaffController extends Controller
 
     public function pending_biodata($id)
     {
-        $user     = auth()->user();
-        $pending  = StaffPending::find($id);
-        $staff    = Staff::find($pending->user->staff->StaffRef);
-        $pending2 = StaffPending::where('id', $id)->get(['MobilePhone', 'EmployeeNumber']);
+        $user           = auth()->user();
+        $pending        = StaffPending::find($id);
+        $staff          = Staff::find($pending->user->staff->StaffRef);
+        $pending2       = StaffPending::where('id', $id)->get(['MobilePhone', 'EmployeeNumber']);
+        $qualifications = Qualification::where('StaffID', $staff->StaffRef)->get();
+        $institutions   = Institution::where('StaffID', $staff->StaffRef)->get();
 
-        return view('staff.pending_biodata', compact('user', 'pending', 'staff', 'pending2'));
+        return view('staff.pending_biodata', compact('user', 'pending', 'staff', 'pending2', 'qualifications', 'institutions'));
     }
 
-    public function approve_biodata($id)
+    public function approve_biodata(Request $request, $id)
     {
         try {
             DB::beginTransaction();
 
             $user = Auth::user();
 
+            // dd($request->ApprovalComment);
+
             $pending    = StaffPending::where('id', $id)->first();
-            $staff_data = $pending->replicate(['StaffRef', 'ApprovedBy', 'Age', 'deleted_at']);
+            $staff_data = $pending->replicate(['StaffRef', 'ApprovedBy', 'Age', 'ApprovalComment', 'RejectionComment', 'deleted_at']);
             // Any extra columns?
-            $pending->ApprovedBy = $user->id;
+            $pending->ApprovedBy      = $user->id;
+            $pending->ApprovalComment = $request->ApprovalComment;
             $pending->save();
             // Fetch only the attributes
             $staff_arr = $staff_data->getattributes();
@@ -239,7 +245,9 @@ class StaffController extends Controller
             $staff = Staff::find($pending->StaffRef);
             // $staff->DepartmentID = $request->DepartmentID;
             // dd($staff_arr);
+            $staff->ApprovalComment = $pending->ApprovalComment;
             $staff->update($staff_arr);
+
             // Soft delete from Pending
             $pending->delete();
 
@@ -253,12 +261,15 @@ class StaffController extends Controller
 
     }
 
-    public function reject_biodata($id)
+    public function reject_biodata(Request $request, $id)
     {
         $user = Auth::user();
 
         $pending             = StaffPending::where('id', $id)->first();
         $pending->ApprovedBy = '0';
+        $staff               = Staff::find($pending->StaffRef);
+
+        $staff->update(['RejectionComment' => $request->RejectionComment]);
         $pending->save();
         Notification::send($pending->user, new RejectedBiodataUpdate());
 
@@ -372,12 +383,28 @@ class StaffController extends Controller
         $staff = Staff::where('StaffRef', $id)->first();
         $this->authorize('edit-profile', $staff->user);
 
+        $hmo = HMO::all();
+
+        $hmoplan = HMOPlan::all();
+
         $user = auth()->user();
 
         $staffs = Staff::all();
 
+        $bank = Bank::all();
+
+        $currency = Currency::all();
+
+        $pfa = PFA::all();
+
+        $nationality = Country::all();
+
+
+
         $religions      = Religion::all()->sortBy('Religion');
         $refs           = Reference::where('StaffID', auth()->user()->staff->StaffRef)->get();
+        $qualifications = Qualification::where('StaffID', auth()->user()->staff->StaffRef)->get();
+        $institutions   = Institution::where('StaffID', auth()->user()->staff->StaffRef)->get();
         $genders        = Gender::all()->sortBy('Gender');
         $payroll_groups = PayrollAdjustmentGroup::select('GroupRef', 'GroupDescription');
         $status         = MaritalStatus::all()->sortBy('MaritalStatus');
@@ -397,10 +424,10 @@ class StaffController extends Controller
         $staff_departments = $staff->DepartmentID;
         // $supervisors       = Staff::where('CompanyID', $user->CompanyID)->get();
         $supervisors = Staff::where('SupervisorFlag', 1)->get()->sortBy('FullName');
-        // dd($supervisors);
+        // dd($qualifications);
 
         // dd($role->pluck('id', 'name'));
-        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa'));
+        return view('staff.edit_biodata', compact('religions', 'payroll_groups', 'hmoplans', 'staff', 'staffs', 'hmos', 'countries', 'status', 'states', 'user', 'roles', 'role', 'banks', 'genders', 'refs', 'departments', 'staff_departments', 'supervisors', 'locations', 'lgas', 'pfa', 'qualifications', 'institutions', 'hmo', 'hmoplan', 'bank', 'currency', 'pfa', 'nationality'));
     }
 
     // public function editFinanceDetails($id)
@@ -482,6 +509,15 @@ class StaffController extends Controller
     public function updatebiodata(Request $request, $id)
     {
 
+        // CHECKING IF THERE IS A PENDIING BIO-DATA REQUEST FOR USER excluding the deleted ones (softdeletes)
+        $pending_biodata_update = StaffPending::where('UserID', auth()->user()->id)
+            ->where('ApprovedBy', null)
+            ->get();
+        // dd($pending_biodata_update);
+        if ($pending_biodata_update->count() > 0) {
+            return redirect()->back()->with('error', 'You have a pending biodata update still awaiting approval');
+        }
+
         $this->validate($request, [
             // 'TownCity'           => 'required',
             // 'MobilePhone'  => 'required',
@@ -508,24 +544,54 @@ class StaffController extends Controller
                 // Non Admins
                 $staff              = new StaffPending;
                 $ref                = new Reference;
+                $institution        = new Institution;
+                $qualification      = new Qualification;
                 $staff->UserID      = $user->id;
                 $staff->StaffRef    = $user->staff->StaffRef;
                 $staff->CompanyID   = $user->staff->CompanyID;
                 $staff->Declaration = $request->has('Declaration') ? 1 : 0;
-
                 // saave references
                 foreach ($request->RefName as $key => $value) {
-                    $ref               = new Reference;
-                    $ref->Name         = $request['RefName'][$key];
-                    $ref->Relationship = $request['RefRelationship'][$key];
-                    $ref->Occupation   = $request['RefOccupation'][$key];
-                    $ref->Phone        = $request['RefPhone'][$key];
-                    $ref->Email        = $request['RefEmail'][$key];
-                    $ref->Address      = $request['RefAddress'][$key];
-                    $ref->StaffID      = auth()->user()->staff->StaffRef;
-                    $ref->save();
+                    if (!is_null($request['RefName'][$key])) {
+                        $ref               = new Reference;
+                        $ref->Name         = $request['RefName'][$key];
+                        $ref->Relationship = $request['RefRelationship'][$key];
+                        $ref->Occupation   = $request['RefOccupation'][$key];
+                        $ref->Phone        = $request['RefPhone'][$key];
+                        $ref->Email        = $request['RefEmail'][$key];
+                        $ref->Address      = $request['RefAddress'][$key];
+                        $ref->StaffID      = auth()->user()->staff->StaffRef;
+                        $ref->save();
+                    }
+
                 }
                 // end saving refs
+
+                // saave institutions
+                foreach ($request->Institution as $key => $value) {
+                    if (!is_null($request['Institution'][$key]) && !is_null($request['DateObtained'][$key])) {
+                        $institution                        = new Institution;
+                        $institution->Institution           = $request['Institution'][$key];
+                        $institution->QualificationObtained = $request['QualificationObtained'][$key];
+                        $institution->DateObtained          = $request['DateObtained'][$key];
+                        $institution->StaffID               = auth()->user()->staff->StaffRef;
+                        $institution->save();
+                    }
+                }
+                // end saving institutions
+
+                // saave qualifications
+                foreach ($request->Qualification as $key => $value) {
+                    if (!is_null($request['Qualification'][$key]) && !is_null($request['ProfDateObtained'][$key])) {
+                        $qualification                = new Qualification;
+                        $qualification->Qualification = $request['Qualification'][$key];
+                        // $qualification->QualificationObtained = $request['QualificationObtained'][$key];
+                        $qualification->DateObtained = $request['ProfDateObtained'][$key];
+                        $qualification->StaffID      = auth()->user()->staff->StaffRef;
+                        $qualification->save();
+                    }
+                }
+                // end saving qualifications
 
                 // START PHOTO
                 if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
@@ -568,6 +634,33 @@ class StaffController extends Controller
                     // Name to be saved to DB
                     $user_staff->avatar = $filename;
                 }
+
+// saave institutions
+                foreach ($request->Institution as $key => $value) {
+                    if (!is_null($request['Institution'][$key]) && !is_null($request['DateObtained'][$key])) {
+                        $institution                        = new Institution;
+                        $institution->Institution           = $request['Institution'][$key];
+                        $institution->QualificationObtained = $request['QualificationObtained'][$key];
+                        $institution->DateObtained          = $request['DateObtained'][$key];
+                        $institution->StaffID               = auth()->user()->staff->StaffRef;
+                        $institution->save();
+                    }
+                }
+                // end saving institutions
+
+                // saave qualifications
+                foreach ($request->Qualification as $key => $value) {
+                    if (!is_null($request['Qualification'][$key]) && !is_null($request['ProfDateObtained'][$key])) {
+                        $qualification                = new Qualification;
+                        $qualification->Qualification = $request['Qualification'][$key];
+                        // $qualification->QualificationObtained = $request['QualificationObtained'][$key];
+                        $qualification->DateObtained = $request['ProfDateObtained'][$key];
+                        $qualification->StaffID      = auth()->user()->staff->StaffRef;
+                        $qualification->save();
+                    }
+                }
+                // end saving qualifications
+
                 $user_staff->save();
 
                 // END PHOTO
@@ -688,6 +781,7 @@ class StaffController extends Controller
         $user       = \Auth::user();
         $id         = \Auth::user()->id;
         $department = CompanyDepartment::all();
+        $stafftype = StaffType::all();
         // dd($department);
         // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
         $staff          = Staff::all();
@@ -699,7 +793,7 @@ class StaffController extends Controller
             ->where('SendForApproval', '1')
             ->get();
 
-        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department'));
+        return view('staff.staff_onboard', compact('staff', 'staff_onboards', 'staff_onboarding_sent', 'department', 'stafftype'));
     }
 
     /*
@@ -825,6 +919,66 @@ class StaffController extends Controller
 
     public function exit_interview()
     {
-        return view('staff.exit_interview');
+        $staff         = Staff::all();
+        $users         = User::all();
+        $department    = Department::all();
+        $exitinterview = ExitInterview::all();
+        $exitnotice    = ExitNotification::Orderby('ExitNotificationRef', 'DESC')->get();
+        // dd($exitnotice);
+        $supervisor = CompanySupervisor::all();
+
+        return view('staff.exit_interview', compact('staff', 'department', 'supervisor', 'users', 'exitnotice', 'exitinterview'));
+    }
+
+    public function send_exit(Request $request)
+    {
+        $exitnotification = new ExitNotification;
+
+        $exitnotification->StaffID = $request->StaffID;
+
+        $exitnotification->DepartmentID = $request->DepartmentID;
+
+        $exitnotification->SupervisorId = $request->SupervisorID;
+
+        $exitnotification->save();
+
+        $staff = Staff::find($request->StaffID);
+
+        Mail::to($staff->user)->send(new ExitMail($staff->user));
+
+        return redirect()->back()->with('success', 'Staff notified successfully');
+    }
+
+    public function getStaffInfo(Request $request)
+    {
+        $StaffID = $request->StaffID;
+        $staff   = Staff::where("StaffRef", $StaffID)->first();
+
+        $supervisor = Staff::find($staff->SupervisorID);
+        // return $supervisor;
+
+        $data = [
+            "department_id"   => $staff->DepartmentID,
+            "supervisor_id"   => $staff->SupervisorID,
+            "supervisor_name" => $supervisor->FullName,
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    public function delete_exit_response($id)
+    {
+        $exitnotice = ExitNotification::where("ExitNotificationRef", $id);
+
+        $exitnotice->delete();
+
+        return redirect()->back()->with('success', 'Deleted successfully');
+    }
+
+    public function view_exit_interview($id)
+    {
+        $view = ExitInterview::where('ExitInterviewRef', $id)->first();
+
+        return view('staff.view_exit', compact('view'));
     }
 }

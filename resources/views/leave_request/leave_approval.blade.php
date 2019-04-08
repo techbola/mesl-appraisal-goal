@@ -49,6 +49,7 @@
             <th>Action</th>
             <th>Requester</th>
             <th>Leave Type</th>
+            <th>Request Date</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th >Leave Days</th>
@@ -65,6 +66,7 @@
                 <td style="background: #fba1a0"><input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" ></td>
                 <td style="background: #fba1a0">{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}} </td>
                 <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
+                <td style="background: #fba1a0">{{nice_date($leave_request->EntryDate)}}</td>
                 <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                 <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
                 <td style="background: #fba1a0">{{$leave_request->NumberofDays}}</td>
@@ -95,6 +97,7 @@
                 <td><input type="checkbox" name="LeaveRef[]" value="{{$leave_request->LeaveReqRef}}" ></td>
                 <td>{{$leave_request->first_name}} {{$leave_request->last_name}} {{ $leave_request->status}}</td>
                 <td>{{$leave_request->LeaveType}}</td>
+                <td>{{nice_date($leave_request->EntryDate)}}</td>
                 <td>{{$leave_request->StartDate}}</td>
                 <td>{{$leave_request->ReturnDate}}</td>
                 <td>{{$leave_request->NumberofDays}}days </td>

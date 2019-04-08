@@ -30,4 +30,9 @@ class StaffOnboarding extends Model
         // body
         return StaffOnboarding::orderBy('StaffOnboardRef', 'DESC')->where('SendForApproval', '1')->get();
     }
+
+    public function staff_type()
+    {
+        return $this->belongsTo(StaffType::class, 'StaffType');
+    }
 }

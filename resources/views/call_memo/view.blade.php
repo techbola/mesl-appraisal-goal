@@ -52,7 +52,7 @@
       @endif
       @foreach ($contact->call_memos as $memo)
 
-@if (in_array($user->email, explode(',', $memo->AttendeeEmails)) || $user->hasRole('admin'))
+{{-- @if (in_array($user->email, explode(',', $memo->AttendeeEmails)) || $user->hasRole('admin')) --}}
 
         <tbody>
           <tr id="parent_{{ $memo->CallMemoRef }}">
@@ -142,7 +142,7 @@
                 <td></td>
                 <td><span class="label label-{{ $action->status->Color }} pull-right">{{ $action->status->Status }}</span></td>
                 <td class="small"><i class="fa fa-bullseye text-muted m-r-5 f16"></i> {!! $action->ActionPoint !!}</td>
-                <td class="small"><i class="fa fa-user text-muted m-r-5 f15"></i> {{ $action->user->FullName }}</td>
+                <td class="small"><i class="fa fa-user text-muted m-r-5 f15"></i> {{ $action->user->FullName ?? '-' }}</td>
                 <td class="small"><i class="pg-comment text-muted m-r-5 f15"></i> {!! $action->Comment ?? '—' !!}</td>
                 <td class="small">
                   <i class="fa fa-clock-o text-muted m-r-5 f16"></i> {{ $action->StartDate.' - '.$action->EndDate  }}
@@ -170,7 +170,7 @@
           @endforeach
         </tbody>
 
-@endif
+{{-- @endif --}}
         @endforeach
     </table>
   </div>

@@ -47,6 +47,7 @@ class RejectedBiodataUpdate extends Notification
             ->subject('Rejected Biodata Update ')
             ->greeting('Hi, ' . $notifiable->FullName)
             ->line('Your biodata updates has been rejected.')
+            ->line('Reason: ' . $notifiable->staff->RejectionComment)
             ->action('Go to Officemate', route('home'));
         // ->line('Thank you for using our application!');
     }
