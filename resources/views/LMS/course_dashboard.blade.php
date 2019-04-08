@@ -35,9 +35,9 @@
 
 		<div class="row">
 
-			<div class="col-md-6">
+			<div class="col-md-3">
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-md-12">
                      <div class="card-box">
                        <div class="inline m-r-10 m-t-10" style="vertical-align:top">
                          <img class="icon" src="{{ asset('assets/img/icons/backend.png') }}" alt="" width="60px" style="filter: brightness(0.92);">
@@ -50,7 +50,7 @@
                      </div>
 			</div>
 
-				<div class="col-md-3">
+				<div class="col-md-12">
                      <div class="card-box">
                        <div class="inline m-r-10 m-t-10" style="vertical-align:top">
                          <img class="icon" src="{{ asset('assets/img/icons/languages.png') }}" alt="" width="60px" style="filter: brightness(0.92);">
@@ -63,7 +63,7 @@
                      </div>
 			</div>
 
-			<div class="col-md-3">
+			<div class="col-md-12">
                      <div class="card-box">
                        <div class="inline m-r-10 m-t-10" style="vertical-align:top">
                          <img class="icon" src="{{ asset('assets/img/icons/presentation.png') }}" alt="" width="60px" style="filter: brightness(0.92);">
@@ -76,7 +76,7 @@
                      </div>
 			</div>
 
-			<div class="col-md-3">
+			<div class="col-md-12">
                      <div class="card-box">
                        <div class="inline m-r-10 m-t-10" style="vertical-align:top">
                          <img class="icon" src="{{ asset('assets/img/icons/students.png') }}" alt="" width="60px" style="filter: brightness(0.92);">
@@ -91,12 +91,12 @@
 				</div>
 			</div>
 
-			<div class="col-md-6" style="overflow-y: scroll;max-height: 500px">
+			<div class="col-md-9" style="overflow-y: scroll;max-height: 500px">
 
 				<div class="row">
 					<div class="card-box" id="table_container">
 					  <div id="intro">
-						  <iframe width="560" height="315" src="https://www.youtube.com/embed/zv5bpfxJ2xE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+						  <iframe width="900" height="450" src="https://www.youtube.com/embed/zv5bpfxJ2xE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 					   </div>
 
              <div id="category_table" class="hide">
@@ -113,8 +113,9 @@
              </div>
 
              <div id="course_table" class="hide">
-              <div class="right">
-                <a href="#" id="activate_material_modal" data-target="#modalFillIn3" data-toggle="modal" class="btn btn-xs btn-info pull-right">Add Course Material</a>
+              <div class="pull-right">
+                <a href="{{ Route('ViewEditQuestion') }}" class="btn btn-sm btn-success">View / Edit all Module & Final Test Questions</a>&nbsp &nbsp
+                <a href="#" id="activate_material_modal" data-target="#modalFillIn3" data-toggle="modal" class="btn btn-sm btn-info">Add Course Material</a>
               </div>
                 <table class="table-hover table">
                   <thead>
@@ -296,6 +297,30 @@
           <!-- Modal -->
         </div>
 
+           <!--Module Questionaire Modal -->
+  <div class="page-content-wrapper ">
+     <div class="content ">
+          <!-- Modal -->
+          <div class="modal fade fill-in" id="module_questionaire"  role="dialog" aria-hidden="true" style="display: none;">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+              <div class="modal-content">
+                <div style="background: #fff; width: 800px; padding: 20px">
+                 @include('LMS.forms.module_questionaire')
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+                </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- Modal -->
+        </div>
+
 
 <div class="page-content-wrapper ">
      <div class="content ">
@@ -360,7 +385,7 @@
             </button>
             <div class="modal-dialog ">
               <div class="modal-content">
-                <div style="background: #fff; width: 650px; padding: 15px">
+                <div style="background: #fff; width: 850px; padding: 15px">
                 <div class="modal-header">
                   <h5 class="text-left semi-bold">Add Material(s)</h5> 
 
@@ -368,7 +393,7 @@
                 <div class="modal-body">
                   <div class="row">
                     {{ Form::open(['id'=>'submit_course_material_form','autocomplete' => 'off', 'role' => 'form', 'files'=>'true']) }}
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                          <div class="form-group">
                            {{ Form::label('course_id', 'Select Course' ) }}
                               <select name="course_id" class="full-width" id="material_course" onchange="mat()" data-init-plugin="select2">
@@ -381,7 +406,18 @@
                          </div>
                        </div>
 
-                       <div class="col-md-6">
+
+                       <div class="col-md-4">
+                         <div class="form-group">
+                           {{ Form::label('ModuleID', 'Select Course Module' ) }}
+                              <select name="module_id" class="full-width" id="course_module" data-init-plugin="select2">
+                             <option value=" ">Select Course</option>
+                           </select>
+
+                         </div>
+                       </div>
+
+                       <div class="col-md-4">
                           <div class="form-group">
                             {{ Form::label('material_type', 'Course Material Type' ) }}
                             <select name="material_type" class="full-width" id="material_type" onchange="material()" data-init-plugin="select2">
@@ -440,6 +476,7 @@
                                  <th>S/N</th>
                                  <th>Material Name</th>
                                  <th>Type</th>
+                                 <th>Module</th>
                                  <th colspan="2">Action</th>
                             </thead>
                             <tbody id="course_material_list">
@@ -479,9 +516,25 @@
              $.post('/submit_new_category', $('#course_category').serialize(), function(data, status) {
             if(status === 'success'){
               $('#course_category_count').html(data);
-            }
-        });
-
+              var id = 1;
+              $.get('/get_course_category_list', function(data, status) {
+               if(status === 'success'){
+                $('#category_body').html(' ');
+                  $.each(data, function(index, val) {
+                   $('#category_body').append(`
+                    <tr>
+                      <td>${id++}</td>
+                      <td>${val.course_category_name}</td>
+                      <td>${val.last_name} ${val.first_name}</td>
+                      <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodal" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
+                      <td><span style="color:red"><a href="#" onclick="delete_course_category(${val.course_category_ref})" data-target="#deletemodal" data-toggle="modal" title="">Delete</a></span></td>
+                    </tr>
+                    `);
+                  });
+                 }
+                });
+              }
+          });
       });
 
       $('#show_category_table').click(function(event) {
@@ -529,7 +582,6 @@
       });
 
       $('#submit_course').click(function(event) {
-
         var form = $('#course')[0];
         var formData = new FormData(form);
         $.ajax({
@@ -540,8 +592,28 @@
                    processData: false, // NEEDED, DON'T OMIT THIS
                    success: function (data, status) {
                     if(status === 'success')
-                    console.log(data);
-                  $('#course_count').html(data);
+                    {
+                    $('#course_count').html(data);
+                      $.get('/get_course_list', function(data, status) {
+                         if(status === 'success'){
+                          $('#course_body').html(' ');
+                            $.each(data, function(index, val) {
+                             $('#course_body').append(`
+                              <tr>
+                                <td>${val.courses_name} <span style="color:blue; font-weight:bold; font-size:12px">${val.course_code}</span></td>
+                                <td><a href="#" onclick="module_question(${val.course_ref})" data-target="module_questionaire" data-toggle="modal" class="btn-xs btn btn-primary"><span>Add Module Test</span></a></td>
+                                <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add Final Test</span></a></td>
+                                <td><a href="#" onclick="view_course_test(${val.course_ref})" data-target="#view_modal_course" data-toggle="modal" class="btn-xs btn btn-success"><span>View</span></a></td>
+                                <td><a href="#" onclick="edit_course_test(${val.course_ref})" data-target="#edit_modal_course" data-toggle="modal" class="btn-xs btn btn-info"><span>Edit</span></a></td>
+                                <td><a href="#" onclick="delete_course_test(${val.course_ref})" data-target="#delete_modal_course" data-toggle="modal" class="btn-xs btn btn-danger"><span>Delete</span></a></td>
+                              </tr>
+                              `);
+                            });
+                          }
+                        });
+                    }
+                    $("#course")[0].reset();
+              $("#category_ref").select2().val("").trigger('change');
                    }
         });
       });
@@ -558,9 +630,9 @@
               $.each(data, function(index, val) {
                $('#course_body').append(`
                 <tr>
-                  <td>${val.courses_name}</td>
-                  <td>${val.course_code}</td>
-                  <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add New Question</span></a></td>
+                  <td>${val.courses_name} <span style="color:blue; font-weight:bold; font-size:12px">${val.course_code}</span></td>
+                  <td><a href="#" onclick="module_question(${val.course_ref})" data-target="#module_questionaire" data-toggle="modal" class="btn-xs btn btn-primary"><span>Add Module Test</span></a></td>
+                  <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add Final Test</span></a></td>
                   <td><a href="#" onclick="view_course_test(${val.course_ref})" data-target="#view_modal_course" data-toggle="modal" class="btn-xs btn btn-success"><span>View</span></a></td>
                   <td><a href="#" onclick="edit_course_test(${val.course_ref})" data-target="#edit_modal_course" data-toggle="modal" class="btn-xs btn btn-info"><span>Edit</span></a></td>
                   <td><a href="#" onclick="delete_course_test(${val.course_ref})" data-target="#delete_modal_course" data-toggle="modal" class="btn-xs btn btn-danger"><span>Delete</span></a></td>
@@ -621,7 +693,26 @@
          if(status === 'success'){
               $('#instructor_count').html(data);
               $("#instructor")[0].reset();
-              $('select').select2().destroy();
+              $("#user_name").select2().val("").trigger('change');
+              $("#instructor_type").select2().val("").trigger('change');
+
+              var id = 1;
+              $.get('/get_instructor_list', function(data, status) {
+               if(status === 'success'){
+                $('#instructor_body').html(' ');
+                  $.each(data, function(index, val) {
+                   $('#instructor_body').append(`
+                    <tr>
+                      <td>${id++}</td>
+                      <td>${val.instructor_name}</td>
+                      <td>${val.phone}</td>
+                      <td><span style="color:blue">Edit</span></td>
+                      <td><span style="color:red">Delete</span></td>
+                    </tr>
+                    `);
+                  });
+                }
+              });
             }
       });
     });
@@ -675,8 +766,31 @@
 
       $('#submit_new_batch').click(function(event) {
         $.post('/submit_new_batch', $('#batch').serialize(), function(data, status) {
+          if(status == 'success'){
           $('#batch_count').html(data);
-          $("#batch")[0].reset();
+              $("#instructor_type").select2().val("").trigger('change');
+            $("#send_duration").select2().val("").trigger('change');
+              $("#priority").select2().val("").trigger('change');
+
+
+            var id = 1;
+            $.get('/get_batch_list', function(data, status) {
+             if(status === 'success'){
+              $('#batch_body').html(' ');
+                $.each(data, function(index, val) {
+                 $('#batch_body').append(`
+                  <tr>
+                    <td>${id++}</td>
+                    <td>${val.batch_code}</td>
+                    <td>${val.courses_name}</td>
+                    <td><span style="color:blue">Edit</span></td>
+                    <td><span style="color:red">Delete</span></td>
+                  </tr>
+                  `);
+                });
+              }
+            });
+          }
         });
       });
 
@@ -711,6 +825,8 @@
 
     $('#activate_material_modal').click(function(event) {
      $('#material_table').addClass('hide');
+     $("#material_course").select2().val(" ").trigger('change');
+     $("#material_type").select2().val(" ").trigger('change');
     });
 
     function mat()
@@ -719,16 +835,26 @@
       $('#material_table').removeClass('hide');
       $.get('/get_course_material_list/' +id, function(data, status) {
           if(status === 'success'){
+            $('#course_module').html('');
+            $('#course_module').html('<option value="">Select Module</option>');
+            $.each(data.module, function(index, val) {
+              $('#course_module').append(`
+                <option value="${val.ModuleRef}">${val.Module}</option>
+                `);
+            });
+
+
             $('#course_material_list').html(' ');
             var count = 1;
-              $.each(data, function(index, val) {
+              $.each(data.material, function(index, val) {
                $('#course_material_list').append(`
                 <tr>
                   <td>${count++}</td>
                   <td>${val.material_name}</td>
                   <td>${val.material_type}</td>
-                  <td><span style="color:blue">Edit</span></td>
-                  <td><span style="color:red">Delete</span></td>
+                  <td>Module ${val.module_id}</td>
+                  <td><span class="btn btn-xs btn-info">Edit</span></td>
+                  <td><span class="btn btn-xs btn-danger">Delete</span></td>
                 </tr>
                 `);
               });
@@ -854,9 +980,9 @@
               $.each(data, function(index, val) {
                $('#course_body').append(`
                 <tr>
-                  <td>${val.courses_name}</td>
-                  <td>${val.course_code}</td>
-                  <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add New Question</span></a></td>
+                   <td>${val.courses_name} <span style="color:blue; font-weight:bold; font-size:12px">${val.course_code}</span></td>
+                  <td><a href="#" onclick="module_question(${val.course_ref})" data-target="#module_questionaire" data-toggle="modal" class="btn-xs btn btn-primary"><span>Add Module Test</span></a></td>
+                  <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add Final Test</span></a></td>
                   <td><a href="#" onclick="view_course_test(${val.course_ref})" data-target="#view_modal_course" data-toggle="modal" class="btn-xs btn btn-success"><span>View</span></a></td>
                   <td><a href="#" onclick="edit_course_test(${val.course_ref})" data-target="#edit_modal_course" data-toggle="modal" class="btn-xs btn btn-info"><span>Edit</span></a></td>
                   <td><a href="#" onclick="delete_course_test(${val.course_ref})" data-target="#delete_modal_course" data-toggle="modal" class="btn-xs btn btn-danger"><span>Delete</span></a></td>
@@ -915,6 +1041,23 @@
           $('#limit').html(limit); 
           $('#count_rem').html(count);
         });
+    }
+
+    function module_question(id)
+    {
+      $.get('/get_all_course_module/'+id, function(data) {
+        $('#module_question_selection').html("");
+        $('#module_question_selection').html('<option value="">Select Course Module Option</option>');
+        $.each(data.modules, function(index, val) {
+           $('#module_question_selection').append(`
+              <option value="${val.ModuleRef}">${val.Module}</option>
+            `);
+        });
+
+        $('#module_questionaire_course_name').html(data.courses.courses_name);
+        $('#module_questionaire_course_ref').val(id);
+
+      });
     }
 
   </script>

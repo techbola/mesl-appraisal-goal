@@ -1,60 +1,58 @@
 {{ Form::open(['id'=>'edit_course_form','autocomplete' => 'off', 'role' => 'form', 'files'=>'true']) }}
 <div class="row">
-	<div style="padding: 20px">
-                   		<div class="row">
-  <div class="col-md-6">
-    <div class="form-group">
-      {{ Form::label('courses_name', 'Course Name' ) }}
+    <div style="padding: 20px">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ Form::label('courses_name', 'Course Name' ) }}
       {{ Form::text('courses_name', null, ['class' => 'form-control','id'=>'edit_courses_name', 'placeholder' => 'Enter Course', 'required']) }}
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="form-group">
-      {{ Form::label('course_duration', 'Course Duration' ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ Form::label('course_duration', 'Course Duration' ) }}
       {{ Form::text('course_duration', null, ['class' => 'form-control','id'=>'edit_course_duration', 'placeholder' => 'Enter Course Duration', 'required']) }}
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="form-group">
-      {{ Form::label('course_fee', 'Course fee' ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ Form::label('course_fee', 'Course fee' ) }}
       {{ Form::text('course_fee', null, ['class' => 'form-control', 'id'=>'edit_course_fee', 'placeholder' => 'Enter Course Fee', 'required']) }}
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="form-group">
-      {{ Form::label('category_ref', 'Course Category' ) }}
-      <select name="category_ref" class="full-width" id="edit_category_ref" data-init-plugin="select2">
-        <option value=" ">Select Course</option>
-        
-      </select>
-       
-    </div>
-  </div>
-
-  <div class="col-md-4">
-    <div class="form-group">
-      {{ Form::label('cover_page', 'Upload Course Cover Page' ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ Form::label('category_ref', 'Course Category' ) }}
+                    <select class="full-width" data-init-plugin="select2" id="edit_category_ref" name="category_ref">
+                        <option value=" ">
+                            Select Course
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ Form::label('cover_page', 'Upload Course Cover Page' ) }}
       {{ Form::file('cover_page', null, ['class' => 'form-control','id'=>'edit_cover_page', 'placeholder' => 'Upload Cover Page', 'required']) }}
-    </div>
-  </div>
-
-  <div class="col-md-12">
-    <div class="form-group">
-      {{ Form::label('description', 'Short Description on Course' ) }}
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    {{ Form::label('description', 'Short Description on Course' ) }}
       {{ Form::textarea('description', null, ['class' => 'form-control', 'id'=>'edit_description', 'rows'=>'3','placeholder' => 'Course Description', 'required']) }}
-    </div>
-  </div>
-  <input type="hidden" name="course_ref" id="edit_course_ref">
-<button type="submit" id="submit_edit_course_form" class="btn btn-info btn-form pull-right" data-dismiss="modal">Save</button>
-                   </div>            
+                </div>
+            </div>
+            <input id="edit_course_ref" name="course_ref" type="hidden">
+                <button class="btn btn-info btn-form pull-right" data-dismiss="modal" id="submit_edit_course_form" type="submit">
+                    Save
+                </button>
+            </input>
+        </div>
         {{ Form::close() }}
-	</div>
-@push('scripts')
-	<script>
-     $('#submit_edit_course_form').click(function(event) {
+    </div>
+    @push('scripts')
+    <script>
+        $('#submit_edit_course_form').click(function(event) {
        var form = $('#edit_course_form')[0]; 
         var formData = new FormData(form);
         $.ajax({
@@ -86,5 +84,6 @@
                    }
         });
      });
-	</script>
-@endpush
+    </script>
+    @endpush
+</div>

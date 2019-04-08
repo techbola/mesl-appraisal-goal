@@ -249,7 +249,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
     Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');
-    
+
     Route::post('leave_request/leave_type', 'LeaveRequestController@store_leavetype')->name('StoreLeaveType');
 
     Route::get('edit_leave_type/{id}', 'LeaveRequestController@edit_leave_type')->name('edit_leave_type');
@@ -323,7 +323,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit_doc_type/{id}', 'DocTypeController@edit_doc_type')->name('edit_doc_type');
     Route::get('documents/doctype/{id}', 'DocTypeController@delete_doc_type')->name('delete_doc_type');
     Route::post('update_doc_type', 'DocTypeController@update_doc_type')->name('updatedoctype');
-    
 
     Route::get('events', 'EventScheduleController@index')->name('events');
     Route::get('get_events', 'EventScheduleController@get_events')->name('get_events'); // AJAX
@@ -487,6 +486,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_final_test_result/{batch}/{course_ref}', 'CourseController@get_final_test_result');
     Route::get('get_exam_review_questions/{course_ref}/{batch_ref}', 'CourseController@get_exam_review_questions');
     Route::get('reset_exam_question/{course_ref}/{batch_ref}', 'CourseController@reset_exam_question');
+    Route::get('get_all_course_module/{ref}', 'CourseController@get_all_course_module');
+    Route::post('post_module_question_record', 'CourseController@post_module_question_record');
+    Route::get('get_course_module_questions/{id}/{ref}', 'CourseController@get_course_module_questions');
+    Route::post('post_module_examination', 'CourseController@post_module_examination');
+    Route::get('view_and_edit_question', 'CourseController@view_and_edit_question')->name('ViewEditQuestion');
+    Route::get('get_course_module_for_edit/{ref}', 'CourseController@get_course_module_for_edit');
+    Route::get('search_course_module/{course_ref}/{module_ref}', 'CourseController@search_course_module');
+    Route::get('get_module_question_by_id/{id}', 'CourseController@get_module_question_by_id');
+    Route::post('post_editted_course_module/{ref}', 'CourseController@post_editted_course_module');
+    Route::get('delete_module_question/{ref}', 'CourseController@delete_module_question');
+    Route::get('search_course_question/{ref}', 'CourseController@search_course_question');
+    Route::get('get_editted_question/{ref}', 'CourseController@get_editted_question');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
@@ -1348,4 +1359,3 @@ Route::get('edit_exit_interview/{id}', 'ExitController@edit_exit_interview')->na
 Route::post('update_exit_interview', 'ExitController@update_exit_interview')->name('updateExit');
 
 Route::get('exit/create/{id}', 'ExitController@delete_exit_interview')->name('delete_exit_interview');
-

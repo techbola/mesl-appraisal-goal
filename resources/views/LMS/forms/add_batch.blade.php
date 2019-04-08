@@ -48,7 +48,7 @@
     <div class="col-md-4">
     <div class="form-group">
       {{ Form::label('priority', 'Priority Level' ) }}
-      <select name="priority" class="full-width" data-init-plugin="select2">
+      <select name="priority" id="priority" class="full-width" data-init-plugin="select2">
       	<option value=" ">Select Course</option>
       	<option value="High">High</option>
       	<option value="Normal">Normal</option>
