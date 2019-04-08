@@ -335,10 +335,10 @@ var table = $('.tableWithSearch_a').DataTable(settings);
     });
 
   // memo preview
-      $('.preview_memo').click(function(e) {
+      $('.table').on('click', '.preview_memo', function(e) {
         e.preventDefault();
-        let url = $(this).prop('href');
-        let memo_path = '{{ asset('storage/memo_attachments') }}/';
+        var url = $(this).prop('href');
+        var memo_path = '{{ asset('storage/memo_attachments') }}/';
           $("#show-memo").find('.memo-subject').html(' ');
           $("#show-memo").find('.memo-purpose').html(' ');
           $("#show-memo").find('.memo-status').html(' ');
@@ -365,10 +365,10 @@ var table = $('.tableWithSearch_a').DataTable(settings);
             }
           $("#show-memo").modal('show');
           // list attachements
-          if(data.attachments.length > 0 ){
+           if(data.attachments.length > 0 ){
             $.each(data.attachments, function(index, val) {
-               $('#show-memo .modal-footer .files').append(`
-                <a target="_blank" href="${ memo_path+val.attachment_location}">#file ${index + 1}</a>&nbsp;
+               $('#show-memo .modal-footer .files').html(`
+                <a target="_blank" href="/download-memo-attachments/${data.id}">Dowmnload Attachment(s)</a>&nbsp;
               `);
             });
           }
