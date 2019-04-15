@@ -251,8 +251,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
-                                        {{ Form::label('WorkAssignemnt', '12. Work Assignments were distributed evenly.' ) }}
-                                        <select name="WorkAssignemnt" class="full-width" data-init-plugin="select2">
+                                        {{ Form::label('WorkAssignment', '12. Work Assignments were distributed evenly.' ) }}
+                                        <select name="WorkAssignment" class="full-width" data-init-plugin="select2">
                                             <option value=" ">Select Option</option>
                                             @foreach($option as $item)
                                                 <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
