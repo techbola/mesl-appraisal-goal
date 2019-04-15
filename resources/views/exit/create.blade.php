@@ -489,7 +489,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         {{ Form::label('StaffID','Staff Name') }}
-                                        {{ Form::text('', Auth::user()->FullName, ['class' => 'form-control', 'placeholder' => 'Staff Name', 'required', 'id' => 'staff_id', 'readonly' ]) }}
+                                        {{ Form::text('', Auth::user()->FullName, ['class' => 'form-control', 'placeholder' => 'Staff Name', 'id' => 'staff_id', 'required', 'readonly' ]) }}
                                         <input type="hidden" value="{{ Auth::user()->staff->StaffRef }}" name="StaffID">
                                     </div>
                                 </div>
@@ -874,7 +874,7 @@
 
         $('#ExitInterviewRef').val(data.ExitInterviewRef);
 
-        $('#staff_id').val(data.StaffID);
+        // $('#staff_id').val(data.StaffID);
 
         $('#exit_department').val(data.DepartmentID).trigger('change');
 
