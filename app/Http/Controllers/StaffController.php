@@ -921,7 +921,8 @@ class StaffController extends Controller
     public function send_exit(Request $request)
     {
        $exitnotification = new ExitNotification;
-       
+    //    dd($request->all());
+
        $exitnotification->StaffID = $request->StaffID;
 
        $exitnotification->DepartmentID = $request->DepartmentID;
@@ -941,7 +942,7 @@ class StaffController extends Controller
     {
         $StaffID = $request->StaffID;
         $staff = Staff::where("StaffRef", $StaffID)->first();
-        
+
 
         $supervisor = Staff::find($staff->SupervisorID);
         // return $supervisor;
