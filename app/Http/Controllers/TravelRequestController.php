@@ -403,7 +403,7 @@ class TravelRequestController extends Controller
 
         $Requester = User::where("id", $travel_request->RequesterID)->first();
 
-        Mail::to($Requester->email)->send(new RequestRejected());
+        Mail::to($Requester->email)->send(new RequestRejected($travel_request));
 
         return redirect()->route('travel_request.admindashboard')->with('success', 'Request Rejected successfully');
     }
@@ -426,7 +426,7 @@ class TravelRequestController extends Controller
 
         $Requester = User::where("id", $travel_request->RequesterID)->first();
 
-        Mail::to($Requester->email)->send(new RequestRejected());
+        Mail::to($Requester->email)->send(new RequestRejected($travel_request));
 
         return redirect()->route('travel_request.admindashboard')->with('success', 'Request Rejected successfully');
     }

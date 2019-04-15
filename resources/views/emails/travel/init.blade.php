@@ -8,8 +8,8 @@ You requested to travel from <b>({{ nice_date($travel_request->DepartureDate) }}
 
 Travel Details
 --------------
-Travel Purpose: <b>{{ $travel_request->travel_purpose->TravelPurpose }}</b> <br>
-Travel Description: <b>{{ $travel_request->PurposeDescription }}</b>
+Travel Purpose: <b>{{ $travel_request->travel_purpose->TravelPurpose ?? '-' }}</b> <br>
+Travel Description: <b>{{ $travel_request->PurposeDescription ?? '-' }}</b>
 
 <br>
 
