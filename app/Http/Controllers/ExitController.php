@@ -25,23 +25,29 @@ class ExitController extends Controller
      */
     public function index()
     {
-        $exits = ExitInterview::Orderby('ExitInterviewRef', 'DESC')->get();
+        $exits = ExitInterview::Orderby('ExitInterviewRef', 'DESC')->where('InputterID', auth()->user()->id)->where('SentResponse', 0)->get();
         $exitreasons = ExitReason::all();
         $relocation = RelocationReason::all();
         $employmentreason = EmploymentReason::all();
         $option = Options::all();
         $obligation = Obligation::all();
         $department = Department::all();
+        $staff = auth()->user()->staff;
+        $staff_departments = $staff->DepartmentID;
         // $hr = DB::table('role_user')->where('user_id', Auth::id())->get();
         $hr = User::whereHas('roles', function($q){
             $q->where('id', '38');
         })->get();
-        return view('exit.create', compact('exitreasons', 'relocation', 'employmentreason', 'option', 'obligation', 'department', 'hr', 'exits'));
+        return view('exit.create', compact('exitreasons', 'relocation', 'employmentreason', 'option', 'obligation', 'department', 'hr', 'exits', 'staff_departments', 'staff'));
     }
 
     public function store_exit_interview(Request $request)
     {
         $exit = new ExitInterview($request->all());
+
+        $exit->InputterID = auth()->user()->id;
+
+
 
         if($exit->save()) {
             $data = [
@@ -56,7 +62,7 @@ class ExitController extends Controller
         }
 
         return redirect()->route('StoreExitInterview')->with($data['status'], $data['message']);
-        
+
     }
 
     public function edit_exit_interview($id)
@@ -111,7 +117,7 @@ class ExitController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
