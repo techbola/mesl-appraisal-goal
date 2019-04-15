@@ -250,6 +250,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor');
     Route::get('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
     Route::post('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
+    Route::delete('leave_request/delete-leave-request/', 'LeaveRequestController@delete_leave_request');
+    Route::get('leave_request/hon/{LeaveReqRef}', 'LeaveRequestController@show_handover');
 
     Route::get('leave_request/leave_type', 'LeaveRequestController@leave_type');
 
@@ -492,6 +494,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_final_test_result/{batch}/{course_ref}', 'CourseController@get_final_test_result');
     Route::get('get_exam_review_questions/{course_ref}/{batch_ref}', 'CourseController@get_exam_review_questions');
     Route::get('reset_exam_question/{course_ref}/{batch_ref}', 'CourseController@reset_exam_question');
+    Route::get('get_all_course_module/{ref}', 'CourseController@get_all_course_module');
+    Route::post('post_module_question_record', 'CourseController@post_module_question_record');
+    Route::get('get_course_module_questions/{id}/{ref}', 'CourseController@get_course_module_questions');
+    Route::post('post_module_examination', 'CourseController@post_module_examination');
+    Route::get('view_and_edit_question', 'CourseController@view_and_edit_question')->name('ViewEditQuestion');
+    Route::get('get_course_module_for_edit/{ref}', 'CourseController@get_course_module_for_edit');
+    Route::get('search_course_module/{course_ref}/{module_ref}', 'CourseController@search_course_module');
+    Route::get('get_module_question_by_id/{id}', 'CourseController@get_module_question_by_id');
+    Route::post('post_editted_course_module/{ref}', 'CourseController@post_editted_course_module');
+    Route::get('delete_module_question/{ref}', 'CourseController@delete_module_question');
+    Route::get('search_course_question/{ref}', 'CourseController@search_course_question');
+    Route::get('get_editted_question/{ref}', 'CourseController@get_editted_question');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
@@ -851,6 +865,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('memos/approve', 'MemoController@approve');
     Route::post('memos/process', 'MemoController@process')->name('process_memo');
     Route::post('memos/reject', 'MemoController@reject');
+
+    // download memo files as zip
+    Route::get('download-memo-attachments/{id}', 'MemoController@downloadAttachments')->name('download-memo-attachments');
 
     // main memo routes
     Route::resource('memos', 'MemoController');
@@ -1344,7 +1361,7 @@ Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-ho
  */
 Route::get('help/desk/complaints', 'HelpDeskController@index')->name('helpdesk_module');
 
-Route::get('/exit/create', 'ExitController@index');
+Route::get('/exit/create', 'ExitController@index')->middleware(['auth']);
 
 Route::post('exit/create', 'ExitController@store_exit_interview')->name('StoreExitInterview');
 

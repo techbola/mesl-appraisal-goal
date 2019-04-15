@@ -8,6 +8,7 @@
         "php": "^7.1.3",
         "bacon/bacon-qr-code": "^1.0",
         "barryvdh/laravel-dompdf": "^0.8.2",
+        "chumper/zipper": "^1.0",
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",

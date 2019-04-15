@@ -69,6 +69,7 @@
                 <th width="10%">End Date</th>
                 <th width="10%">Leave Days</th>
                 <th width="10%">File(s)</th>
+                <th width="10%">Allowance</th>
               </thead>
               <tbody>
 
@@ -93,6 +94,7 @@
                       Download attachment
                         @endif
                     </td>
+                    <td>{{$leave_request->PayAllowance ?? '-'}}</td>
                   </tr>
                   @else
                   <tr>
@@ -117,6 +119,7 @@
                       <span class="badge">No Files</span>
                         @endif
                     </td>
+                    <td>{{$leave_request->PayAllowance ?? '-'}}</td>
                   
                   </tr>
                   @endif
@@ -150,7 +153,9 @@
                   <th width="10%">End Date</th>
                   <th width="10%">Leave Days</th>
                   <th width="10%">File(s)</th>
+                  <th width="10%">Allowance</th>
                   <th width="10%">Comment</th>
+
                 </thead>
                 <tbody>
 
@@ -173,6 +178,7 @@
                         Download attachment
                           @endif
                       </td>
+                      <td>{{$leave_request->PayAllowance ?? '-'}}</td>
                       <td>
                         <textarea name="Comment" id="Comment" class="form-control"></textarea>
                       </td>
@@ -198,6 +204,7 @@
                         <span class="badge">No Files</span>
                           @endif
                       </td>
+                      <td>{{$leave_request->PayAllowance ?? '-'}}</td>
                       <td>
                         <textarea name="Comment[{{ $leave_request->LeaveReqRef }}]" id="Comment" class="form-control"></textarea>
                       </td>

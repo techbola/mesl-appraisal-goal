@@ -16,9 +16,10 @@ class RequestRejected extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $travel_request;
+    public function __construct($travel_request)
     {
-        //
+        $this->travel_request = $travel_request;
     }
 
     /**

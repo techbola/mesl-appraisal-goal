@@ -65,11 +65,12 @@
                     <th>Action</th>
                 </tfoot>
                 <tbody>
-                    <?php $count = 0; ?>
+                    <?php $count = 0;?>
                     @foreach($travel_requests as $travel_request)
                     @if($travel_request->RequestApprovedd !== "1")
-                    <?php $count = $count + 1; ?>
+
                     <tr>
+                        <td><?php $count = $count + 1;?></td>
                         <td>{{ nice_date($travel_request->RequestDate) }}</td>
                         <td>{{ $travel_request->requester_name->FullName ?? '-'  }}</td>
                         <td>{{ $travel_request->TravelType == 1 ? $travel_request->travel_from_state->State : $travel_request->travel_from_state->State ?? '-' }}</td>
@@ -97,6 +98,32 @@
         </table>
     </div>
   </div>
+
+   <div class="modal fade" role="dialog" id="myModal">
+      <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Select Approvers where required</h4> <hr>
+            <div class="alert alert-info text-left">Select approver(s) where additional approval is required; otherwise, submit to route directly to Admin.</div>
+          </div>
+          <div class="modal-body">
+           <form id="approvers-form" method="post">
+            {{ csrf_field() }}
+               <div class="row">
+                   <label for="textarea">Comment</label>
+                   <textarea name="ApproverComment" class="form-control" cols="30"></textarea>
+               </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+      </form>
+    </div><!-- /.modal -->
 
 @endsection
 

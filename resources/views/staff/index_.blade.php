@@ -206,10 +206,10 @@
 							      <label>Is this staff a supervisor?</label> <br>
 							      <div class="btn-group" data-toggle="buttons">
 									  <label class="btn btn-sm btn-primary ">
-									    <input style="position: relative;" type="radio" name="supervisor_options" id="is_not_supervisor" autocomplete="off" > No
+									    <input style="position: relative;" type="radio" name="supervisor_options" id="is_not_supervisor" autocomplete="off" value="off" > No
 									  </label>
 									  <label class="btn btn-sm btn-primary">
-									    <input style="position: relative;" type="radio" name="supervisor_options" id="is_supervisor" autocomplete="off"> Yes
+									    <input style="position: relative;" type="radio" name="supervisor_options" id="is_supervisor" autocomplete="off" value="on"> Yes
 									  </label>
 									</div>
 							    </div>

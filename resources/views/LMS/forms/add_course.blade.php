@@ -13,14 +13,14 @@
     </div>
   </div>
 
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div class="form-group">
       {{ Form::label('course_fee', 'Course fee' ) }}
       {{ Form::text('course_fee', null, ['class' => 'form-control', 'id'=>'course_fee', 'placeholder' => 'Enter Course Fee', 'required']) }}
     </div>
   </div>
 
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div class="form-group">
       {{ Form::label('category_ref', 'Course Category' ) }}
       <select name="category_ref" class="full-width" id="category_ref" data-init-plugin="select2">
@@ -37,6 +37,13 @@
     <div class="form-group">
       {{ Form::label('final_question_limit', 'Question Limit' ) }}
       {{ Form::text('final_question_limit', null, ['class' => 'form-control','id'=>'question_limit', 'placeholder' => 'Input Question Limit', 'required']) }}
+    </div>
+  </div><div class="clearfix"></div>
+
+  <div class="col-md-4">
+    <div class="form-group">
+      {{ Form::label('Module_No', 'Number of Course Module' ) }}
+      {{ Form::number('Module_No', null, ['class' => 'form-control', 'id'=>'module_no', 'placeholder' => 'Enter Number of Course Module', 'required']) }}
     </div>
   </div>
 

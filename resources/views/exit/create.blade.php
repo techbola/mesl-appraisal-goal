@@ -67,6 +67,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     {{ Form::label('StaffID','Staff Name') }}
+
                                     {{ Form::text('', Auth::user()->FullName, ['class' => 'form-control', 'placeholder' => 'Staff Name', 'required', 'readonly' ]) }}
                                     <input type="hidden" value="{{ Auth::user()->staff->StaffRef }}" name="StaffID">
                                 </div>

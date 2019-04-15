@@ -39,30 +39,48 @@
 
         <div>
           <h4 style="color: #fb5201; font-weight: 900 !important">Course Tutorials</h4>
-          <ul style="list-style: none !important">
-            @foreach($course_materials as $course_material)
-            <li>
-                <div class="form-check">
-                    <input class="form-check-input prog" type="checkbox" value="" name="checkbox" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1" name="checkbox">
-                        <a class="material_id" href="#"  data-id ="{{ $course_material->course_material_ref }}" title="">{{ $course_material->material_name }}</a>
-                    </label>
+            <div class="col-md-12">
+                <div class="sm-m-l-5 sm-m-r-5">
+                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    @foreach($courses->course_module as $course)
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title">
+                            <a class="collapsed" style="margin-bottom: -26px; margin-top: -16px" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ $course->ModuleRef }}" aria-expanded="false" aria-controls="collapse_{{ $course->ModuleRef }}">
+                              <h5 style="font-weight: 900 !important; color: #fb5201;">{{ $course->Module }}</h5>
+                            </a>
+                          </h4>
+                      </div>
+                      <div id="collapse_{{ $course->ModuleRef }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body">
+                          @foreach($course->course_material as $course_material)
+                            <p style="font-weight: bold; font-size: 13px"><a href="#" class="material_id" title="" data-id ="{{ $course_material->course_material_ref }}">{{ $loop->index + 1 }}. {{ $course_material->material_name }}</a></p>
+                          @endforeach
+
+                          @if(count($course->module_question) > 0)
+                            <span class="pull-right">
+                              <a href="#" class="btn-success btn-sm btn" onclick="get_module_question({{ $course->ModuleRef }})" title="">Module Test</a>
+                            </span>
+                          @endif
+                        </div><div class="clearfix"></div>
+                      </div>
+                    </div>
+                    @endforeach
+                  </div>
                 </div>
-            </li>
-            @endforeach
-          </ul>
+              </div>
         </div><hr>
 
-        <div>
+      {{--   <div>
           <h4 style="color: #fb5201; font-weight: 900 !important">Summary & Reviews</h4>
           <ul>
             <li>Summary</li>
             <li>Reviews</li>
           </ul>
-        </div><hr>
+        </div><hr> --}}
 
         <div>
-          <h4 style="color: #fb5201; font-weight: 900 !important">Questions</h4>
+          <h4 style="color: #fb5201; font-weight: 900 !important">Final Test</h4><hr>
           <p><a href="#" class="btn btn-warning btn-lg" id="examination_button">Start Test</a></p>
         </div><hr>
 
@@ -101,8 +119,20 @@
         {{ Form::open(['id'=>'test_form','autocomplete' => 'off', 'role' => 'form']) }}
             <div id="question_main">
             </div>
-            <div class="pull-right"> 
-              <a href="#" class="btn btn-success btn-lg" id="next_question">Next</a>
+            <div>
+               <a href="#" class="btn btn-info btn-lg">Previous</a>&nbsp
+              <a href="#" class="btn btn-success btn-lg pull-right" id="next_question">Next</a>
+            </div><div class="clearfix"></div>
+          {{ Form::close() }}
+       </div>
+
+       <!-- Module Exam Questions-->
+       <div class="hide" id="module_examination_questions">
+        {{ Form::open(['id'=>'module_test_form','autocomplete' => 'off', 'role' => 'form']) }}
+            <div id="module_question_main" style="padding:40px">
+            </div>
+            <div>
+              <button type="submit" class="btn btn-success btn-lg pull-right" id="module_next_question">Submit Module Test</button>
             </div><div class="clearfix"></div>
           {{ Form::close() }}
        </div>
@@ -184,6 +214,7 @@
           $('#examination').addClass('hide');
           $('#exam_completion').addClass('hide');
           $('#exam_review').addClass('hide');
+          $('#module_examination_questions').addClass('hide');
           $('#examination_questions').addClass('hide');
           $('#show_material_info').removeClass('hide');
            var id = $(this).data('id');
@@ -226,6 +257,7 @@
           $('#show_material_info').addClass('hide');
           $('#exam_completion').addClass('hide');
           $('#exam_review').addClass('hide');
+          $('#module_examination_questions').addClass('hide');
           $('#examination_questions').addClass('hide');
           $('#examination').removeClass('hide');     
          });
@@ -243,6 +275,7 @@
                   $('#examination_questions').addClass('hide');
                   $('#show_material_info').addClass('hide');
                   $('#exam_review').addClass('hide');
+                  $('#module_examination_questions').addClass('hide');
                   $('#exam_completion').removeClass('hide');
 
                     var pass_score = data.pass_mark;
@@ -265,6 +298,7 @@
                   $('#show_material_info').addClass('hide');
                   $('#exam_completion').addClass('hide');
                   $('#exam_review').addClass('hide');
+                  $('#module_examination_questions').addClass('hide');
                   $('#examination_questions').removeClass('hide');
 
                   var total_done = data.total.length;
@@ -334,6 +368,7 @@
                         $('#examination_questions').addClass('hide');
                         $('#show_material_info').addClass('hide');
                         $('#exam_review').addClass('hide');
+                        $('#module_examination_questions').addClass('hide');
                         $('#exam_completion').removeClass('hide');
 
                         var pass_score = data.pass_mark;
@@ -401,8 +436,8 @@
             $('#exam_completion').addClass('hide');
             $('#examination_questions').addClass('hide');
             $('#examination').addClass('hide');
+            $('#module_examination_questions').addClass('hide');
             $('#exam_review').removeClass('hide'); 
-
             $.get('/get_exam_review_questions/'+course_ref+'/'+batch_ref, function(data) {
               var id = 1;
               $('#exam_review_questions').html('');
@@ -442,13 +477,82 @@
                 $('#exam_completion').addClass('hide');
                 $('#examination_questions').addClass('hide');
                 $('#exam_review').addClass('hide'); 
+                $('#module_examination_questions').addClass('hide');
                 $('#examination').removeClass('hide');
               }
               $('#retake_modal').modal('toggle');
             });
           });
 
+          function get_module_question(id)
+          {
+              var r = confirm("Do you want to take this module test ?");
+              if (r == true) {
+                  var ref = $('#course_new_id').val();
+                      $('#show_material_info').addClass('hide');
+                      $('#exam_completion').addClass('hide');
+                      $('#examination_questions').addClass('hide');
+                      $('#exam_review').addClass('hide'); 
+                      $('#examination').addClass('hide');
+                      $('#module_examination_questions').removeClass('hide');
+                  $.get('/get_course_module_questions/'+id+"/"+ref, function(data) {
+                    var id = 1;
+                      $.each(data, function(index, val) {
+                          $('#module_question_main').append(`
+                            <span style="font-weight : 700"> Question :  ${id++}</span><br>
+                            <p style="font-weight: 600">${val.Question}</p><br>
 
+                            <span style="font-weight : 700"> Answer : </span><br>
+                            <div class="radio radio-success">
+                              <p>
+                                <input type="radio" value="A" name="Answer[${index}]" id="A_${val.ModuleQuestionRef}">
+                                <label for="A_${val.ModuleQuestionRef}">${val.Answer_A}</label>
+                              </p>
+                              <p>
+                                <input type="radio" value="B" name="Answer[${index}]" id="B_${val.ModuleQuestionRef}">
+                                <label for="B_${val.ModuleQuestionRef}">${val.Answer_B}</label>
+                              </p>
+                              <p>
+                                <input type="radio" value="C" name="Answer[${index}]" id="C_${val.ModuleQuestionRef}">
+                                <label for="C_${val.ModuleQuestionRef}">${val.Answer_C}</label>
+                              </p>
+                              <p>
+                                <input type="radio" value="D" name="Answer[${index}]" id="D_${val.ModuleQuestionRef}">
+                                <label for="D_${val.ModuleQuestionRef}">${val.Answer_D}</label>
+                              </p>
+                            </div>
+                            <input type="hidden" value="${val.ModuleQuestionRef}" name="QuestionID[${index}]">
+                            <hr>
+                        `);
+                      });
+                  });
+              }
+          }
+
+          $('#module_next_question').click(function(event) {
+            event.preventDefault();
+             var button = $('#module_next_question');
+                    $.ajax({
+                      url: '/post_module_examination/',
+                      type: 'POST',
+                      data: $('#module_test_form').serialize(),
+                      beforeSend: function(){
+                        button.attr('disabled', 'disabled');
+                        button.html('<p><i style="font-size: 16px" class="fa fa-circle-o-notch fa-spin"></i> Processing next question and compiling result ...</p>');
+                    }
+                    })
+                    .done(function(data, status) {
+                     
+                    })
+                    .fail(function() {
+                    })
+                    .always(function() {
+                       button.removeAttr('disabled');
+                       button.text("Submit Module Test");
+                       });
+          });
+
+          
 
         var progress_status = prog_count()
         $('.prog').change(function(e){
