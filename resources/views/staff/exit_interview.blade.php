@@ -73,7 +73,7 @@
                             <div class="form-group">
                                 <div class="controls">
                                     {{ Form::label('DepartmentID', 'Department') }}
-                                    <select name="DepartmentID" class="full-width" data-init-plugin="select2">
+                                    <select name="DepartmentID" class="full-width disabled" data-init-plugin="select2" disabled>
                                         <option value=" ">Select Department</option>
                                         @foreach($department as $item)
                                             <option value="{{ $item->DepartmentRef }}">{{ $item->Department }}</option>
@@ -87,7 +87,7 @@
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('SupervisorID', 'Supervisor') }}
-                                        <select name="SupervisorID" class="full-width" data-init-plugin="select2">
+                                        <select name="SupervisorID" class="full-width disabled" data-init-plugin="select2" disabled>
                                             <option value="">Select Supervisor</option>
                                             @foreach($staff as $st)
                                                 <option value="{{ $st->StaffRef }}">{{ $st->Fullname }}</option>
@@ -107,7 +107,7 @@
             </div>
         </div>
 
-        <div id="exit-table" class="tab-pane fade">        
+        <div id="exit-table" class="tab-pane fade">
             <div class="clearfix"></div>
             <div class="card-box">
                 <table class="table tableWithSearch table-bordered">

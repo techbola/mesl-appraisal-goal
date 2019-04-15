@@ -50,7 +50,7 @@ class ExitInterview extends Model
     {
         return $this->belongsTo(Options::class, 'JobExpectations');
     }
-    
+
     public function options_work_assignment()
     {
         return $this->belongsTo(Options::class, 'WorkAssignment');

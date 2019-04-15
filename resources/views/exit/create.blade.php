@@ -18,6 +18,10 @@
         font-family: "Karla", sans-serif !important;
     }
 
+    .form-group label:not(.error) {
+    text-transform: unset;
+}
+
     .form-control{
         font-family: "Karla", sans-serif !important;
     }
@@ -64,25 +68,21 @@
                                 <div class="form-group">
                                     {{ Form::label('StaffID','Staff Name') }}
                                     {{ Form::text('', Auth::user()->FullName, ['class' => 'form-control', 'placeholder' => 'Staff Name', 'required', 'readonly' ]) }}
-                                    <input type="hidden" name="StaffID">
+                                    <input type="hidden" value="{{ Auth::user()->staff->StaffRef }}" name="StaffID">
                                 </div>
                             </div>
-        
+
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {{ Form::label('DepartmentID','Department') }}
-                                    <select name="DepartmentID" class="full-width" data-init-plugin="select2" id="department" onchange="">
-                                        <option value=" ">Select Department</option>
-                                        @foreach($department as $item)
-                                            <option value="{{ $item->DepartmentRef }}">{{ $item->Department }}</option>
-                                        @endforeach
-                                    </select>
+                                    {{ Form::label('Department') }}
+                                    {{ Form::select(null, $department->pluck('Department', 'DepartmentRef')->toArray(), $staff_departments, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required", 'disabled']) }}
+                                    <input type="hidden" value="{{ $staff_departments }}" name="DepartmentID">
                                 </div>
                             </div>
-        
+
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    {{ Form::label('InterviewDate', 'Date Of interview' ) }}
+                                    {{ Form::label('InterviewDate', 'Date of interview' ) }}
                                     <div class="input-group date dp">
                                         {{ Form::text('InterviewDate', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Date Of interview', 'required', 'required']) }}
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -90,14 +90,14 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <br>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
-                                        {{ Form::label('ExitReasonID', '1. Reason for Leaving' ) }}
+                                        {{ Form::label('ExitReasonID', '1. Reason for leaving' ) }}
                                         <select name="ExitReasonID" class="full-width" data-init-plugin="select2"  onchange="">
                                             <option value=" ">Select Exit Reason</option>
                                             @foreach($exitreasons as $exitreason)
@@ -110,7 +110,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
-                                        {{ Form::label('RelocationReasonID', '2. If Relocating please specify reason why' ) }}
+                                        {{ Form::label('RelocationReasonID', '2. If relocating please specify reason why' ) }}
                                         <select name="RelocationReasonID" class="full-width" data-init-plugin="select2">
                                             <option value=" ">Select Relocation Reason</option>
                                             @foreach($relocation as $item)
@@ -121,9 +121,9 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <br>
-        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -144,9 +144,9 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <br>
-        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -158,6 +158,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
@@ -167,10 +168,14 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <br>
-                        
+
                         <div class="row">
+                            <div class="row-title">
+                                <strong><center style="font-size: 20px;">Please complete questions about your experience with us</center></strong>
+                            </div>
+                            <hr>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
@@ -184,7 +189,7 @@
                                     </div>
                                 </div>
                             </div>
-        
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
@@ -198,9 +203,9 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <br>
-        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -215,7 +220,7 @@
                                     </div>
                                 </div>
                             </div>
-        
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
@@ -247,12 +252,12 @@
                                     </div>
                                 </div>
                             </div>
-        
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
-                                        {{ Form::label('WorkAssignemnt', '12. Work Assignments were distributed evenly.' ) }}
-                                        <select name="WorkAssignemnt" class="full-width" data-init-plugin="select2">
+                                        {{ Form::label('WorkAssignment', '12. Work Assignments were distributed evenly.' ) }}
+                                        <select name="WorkAssignment" class="full-width" data-init-plugin="select2">
                                             <option value=" ">Select Option</option>
                                             @foreach($option as $item)
                                                 <option value="{{ $item->OptionsRef }}">{{ $item->Options }}</option>
@@ -262,9 +267,9 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <br>
-        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -279,7 +284,7 @@
                                     </div>
                                 </div>
                             </div>
-        
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
@@ -296,7 +301,7 @@
                         </div>
 
                         <br>
-                            
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -342,7 +347,7 @@
                                     </div>
                                 </div>
                             </div>
-        
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
@@ -357,9 +362,9 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <br>
-        
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -371,9 +376,9 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <br>
-        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -389,7 +394,7 @@
                                     </div>
                                 </div>
                             </div>
-        
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
@@ -399,11 +404,11 @@
                                 </div>
                             </div>
                         </div>
-        
+
                         <br>
-        
+
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('HROfficerID', '22. Name Of HR Officer' ) }}
@@ -416,29 +421,20 @@
                                     </div>
                                 </div>
                             </div>
-        
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="controls">
-                                        {{ Form::label('ResignedStaff', '23. Name Of Resigned Staff' ) }}
-                                        {{ Form::text('ResignedStaff', null, ['class' => 'form-control', 'placeholder' => 'Name here', 'required']) }}
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-        
+
                         <hr>
-        
+
                         <small style="color:red;">*Please contact the Human Resources Department to arrange a time to discuss
                                 your benefits as an outgoing employee where applicable.</small>
-        
+
                         <div class="row">
                             <div class="pull-right">
                                 <button class="btn btn-info" type="submit">Submit</button>
                             </div>
                         </div>
                     </form>
-            </div>  
+            </div>
         </div>
 
         <div id="interview-request" class="tab-pane fade">
@@ -456,8 +452,8 @@
                         @foreach($exits as $exit)
                             @if($exit->SentResponse == false)
                                 <tr>
-                                    <td>{{$exit->ResignedStaff}}</td>
-                                    <td>{{$exit->department->Department}}</td>
+                                    <td>{{$exit->staff->FullName ?? '' }}</td>
+                                    <td>{{$exit->department->Department ?? ''}}</td>
                                     <td>{{$exit->InterviewDate}}</td>
                                     <td>{{$exit->exit_reason->ExitReason}}</td>
                                     <td>
@@ -469,7 +465,7 @@
                             @endif
                         @endforeach
                     </tbody>
-                </table> 
+                </table>
             </div>
         </div>
 
@@ -497,7 +493,7 @@
                                         <input type="hidden" name="StaffID">
                                     </div>
                                 </div>
-            
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         {{ Form::label('DepartmentID','Department') }}
@@ -509,7 +505,7 @@
                                         </select>
                                     </div>
                                 </div>
-            
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         {{ Form::label('InterviewDate', 'Date Of interview' ) }}
@@ -520,9 +516,9 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <br>
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -537,7 +533,7 @@
                                         </div>
                                     </div>
                                 </div>
-            
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
@@ -552,9 +548,9 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <br>
-            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -575,9 +571,9 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <br>
-            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -598,9 +594,9 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <br>
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -615,7 +611,7 @@
                                         </div>
                                     </div>
                                 </div>
-            
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
@@ -631,9 +627,9 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <br>
-            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -648,7 +644,7 @@
                                         </div>
                                     </div>
                                 </div>
-            
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
@@ -680,7 +676,7 @@
                                         </div>
                                     </div>
                                 </div>
-            
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
@@ -695,9 +691,9 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <br>
-            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -712,7 +708,7 @@
                                         </div>
                                     </div>
                                 </div>
-            
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
@@ -727,7 +723,7 @@
                                     </div>
                                 </div>
                             </div>
-                                
+
                             <br>
 
                             <div class="row">
@@ -760,7 +756,7 @@
                             </div>
 
                             <br>
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -775,7 +771,7 @@
                                         </div>
                                     </div>
                                 </div>
-            
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
@@ -790,9 +786,9 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <br>
-            
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -804,9 +800,9 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <br>
-            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -822,7 +818,7 @@
                                         </div>
                                     </div>
                                 </div>
-            
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="controls">
@@ -832,11 +828,11 @@
                                     </div>
                                 </div>
                             </div>
-            
+
                             <br>
-            
+
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="controls">
                                             {{ Form::label('HROfficerID', '22. Name Of HR Officer' ) }}
@@ -849,17 +845,8 @@
                                         </div>
                                     </div>
                                 </div>
-            
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="controls">
-                                            {{ Form::label('ResignedStaff', '23. Name Of Resigned Staff' ) }}
-                                            {{ Form::text('ResignedStaff', null, ['class' => 'form-control', 'placeholder' => 'Name here','id' => 'resigned_staff', 'required']) }}
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-            
+
                             <div class="row">
                                 <div class="pull-right">
                                     <button class="btn btn-info" type="submit">Submit</button>
@@ -928,7 +915,7 @@
         $('#work_schedule').val(data.WorkSchedule).trigger('change');
 
         $('#work_satisfaction').val(data.WorkSatisfaction).trigger('change');
-        
+
         $('#work_comment').val(data.WorkComment);
 
         $('#obligation_id').val(data.ObligationID).trigger('change');
@@ -940,7 +927,7 @@
         $('#resigned_staff').val(data.ResignedStaff);
 
         $('#form-edit').prop('action', '/update_exit_interview');
-                
+
         });
     }
 
