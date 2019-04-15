@@ -490,7 +490,7 @@
                                     <div class="form-group">
                                         {{ Form::label('StaffID','Staff Name') }}
                                         {{ Form::text('', Auth::user()->FullName, ['class' => 'form-control', 'placeholder' => 'Staff Name', 'required', 'id' => 'staff_id', 'readonly' ]) }}
-                                        <input type="hidden" name="StaffID">
+                                        <input type="hidden" value="{{ Auth::user()->staff->StaffRef }}" name="StaffID">
                                     </div>
                                 </div>
 
