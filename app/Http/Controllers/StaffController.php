@@ -51,6 +51,7 @@ use MESL\State;
 use MESL\Title;
 use MESL\Unit;
 use MESL\User;
+use MESL\StaffType;
 use Notification;
 
 class StaffController extends Controller
@@ -399,8 +400,6 @@ class StaffController extends Controller
         $pfa = PFA::all();
 
         $nationality = Country::all();
-
-
 
         $religions      = Religion::all()->sortBy('Religion');
         $refs           = Reference::where('StaffID', auth()->user()->staff->StaffRef)->get();
@@ -782,7 +781,7 @@ class StaffController extends Controller
         $user       = \Auth::user();
         $id         = \Auth::user()->id;
         $department = CompanyDepartment::all();
-        $stafftype = StaffType::all();
+        $stafftype  = StaffType::all();
         // dd($department);
         // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
         $staff          = Staff::all();
