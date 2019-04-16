@@ -102,7 +102,7 @@
     <hr>
 
     
-    @if(auth()->user()->staff->department->Departmemt == 'Finance & Account')
+    @if(auth()->user()->staff->department->Departmemt ?? '-' == 'Finance & Account')
 
    {{--  <div class="card-section p-l-5">Finance</div>
     <div class="row">
@@ -202,7 +202,7 @@
 
     <div class="clearfix"></div> <hr>
    
-    @if(auth()->user()->staff->department->Department == 'Procurement')
+    @if(auth()->user()->staff->department->Department ?? '-'  == 'Procurement')
     <div class="card-section p-l-5">Procurement Sections</div>
     <div class="row">
          <div class="col-sm-4 form-group">
