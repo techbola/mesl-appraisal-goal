@@ -908,7 +908,9 @@ class StaffController extends Controller
 
     public function submit_staff_onboarding(Request $request)
     {
+        // dd($request->all());
         $staff_onboard = StaffOnboarding::find($request->StaffOnboardRef);
+        // dd($staff_onboard);
 
         if ($staff_onboard->update($request->except(['_token']))) {
             return redirect()->back()->with('success', 'Request was updated successfully');

@@ -1,5 +1,5 @@
 @import url('../pages/css/pages.min.css');
-@import url('app.css');
+/*@import url('app.css');*/
 
 @page {
     padding: 10px;
@@ -22,6 +22,18 @@ body {
 
 hr {
     margin: 10px 0 !important;
+}
+
+.hide-on-print {
+    display: none !important;
+}
+
+.badge {
+    background-color: #eee !important;
+}
+
+.memo-approved img {
+    width: 30px !important;
 }
 
 .address{
@@ -60,6 +72,30 @@ table {
     background-color: #f5f5f6 !important;
     text-transform: capitalize !important;
 } 
+.modal * {
+    border: 0 !important;
+}
+
+.semi-bold {
+    font-weight: bolder !important;
+}
+
+.modal-dialog {
+        width: 100%;
+}
+#show-memo {
+    width: 100%;
+}
+
+#show-memo .modal-dialog {
+    width: 100%;
+}
+
+#show-memo .modal-footer {
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
 
 #bill-box + div {
     background: #eee; 

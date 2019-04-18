@@ -200,7 +200,7 @@
 
     <!-- Modal -->
   <div class="modal fade slide-up" id="show-memo" role="dialog" aria-hidden="false">
-    <div class="modal-dialog ">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content-wrapper">
         <div class="modal-content">
           <div class="modal-header clearfix text-left">
@@ -208,7 +208,7 @@
             </button>
             <h4 class="semi-bold pull-left">Internal Memo</h4>
             <div class="pull-right">
-              <button class="btn btn-default m-r-15" onclick="print_memo()">Print Memo</button>
+              <button class="btn btn-default m-r-15 hide-on-print" onclick="print_memo()">Print Memo</button>
             </div>
             <div class="clearfix"></div>
             <div class="row">
@@ -229,7 +229,7 @@
           </div>
           <div class="modal-footer">
             <span class="files"></span>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default hide-on-print" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

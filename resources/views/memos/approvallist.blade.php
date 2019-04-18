@@ -132,7 +132,7 @@
         {{-- MODALS --}}
     <!-- Modal -->
   <div class="modal fade slide-up" id="show-memo" role="dialog" aria-hidden="false">
-    <div class="modal-dialog ">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content-wrapper">
         <div class="modal-content">
           <div class="modal-header clearfix text-left">

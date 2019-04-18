@@ -222,7 +222,7 @@ class TravelRequestController extends Controller
     {
 
         $travel_requests = TravelRequest::where('SentForApproval', 1)
-            ->where('SupervisorID', auth()->user()->staff->StaffRef)
+            ->where('SupervisorID', auth()->user()->staff->StaffRef) //gets currently logged in
             ->where('SupervisorApproved', 0)
             ->get();
 
