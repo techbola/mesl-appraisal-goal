@@ -197,7 +197,7 @@ class LoginController extends Controller
     public function logout()
     {
         // Activity
-        activity()->performedOn(auth()->user())->causedBy(auth()->user())->log('Logged Out');
+        // activity()->performedOn(auth()->user())->causedBy(auth()->user())->log('Logged Out');
 
         Auth::logout();
         return redirect('/login');
