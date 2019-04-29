@@ -8,14 +8,13 @@ use MESL\Company;
 use MESL\Role;
 use MESL\UserType;
 use MESL\Staff;
-use DB;
-use Hash;
+use DB, Hash, Auth, Event;
 use Notification;
 use MESL\Http\Requests\ValidateSecretRequest;
 use MESL\Notifications\EmailActivation;
-use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Spatie\Activitylog\Models\Activity;
+use MESL\Events\LogoutEvent;
 
 class LoginController extends Controller
 {
@@ -198,8 +197,9 @@ class LoginController extends Controller
     {
         // Activity
         // activity()->performedOn(auth()->user())->causedBy(auth()->user())->log('Logged Out');
-
+        $user = auth()->user();
         Auth::logout();
+        Event::fire(new LogoutEvent($user));
         return redirect('/login');
     }
 
