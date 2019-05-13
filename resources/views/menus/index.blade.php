@@ -33,7 +33,7 @@
 
 
 
-				<table class="table tableWithSearch table-striped table-bordered">
+				<table id="menus" class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>Menu</th>
@@ -97,3 +97,56 @@
 	</div>
 
 @endsection
+
+@push('scripts')
+
+<script>
+	var settings = {
+    // "sDom": "<'exportOptions'T><'table-responsive't><'row'<p i>>",
+    sDom: 'lfrB<"pull-right">tip',
+    "sPaginationType": "bootstrap",
+    "destroy": true,
+    "scrollCollapse": true,
+    "oLanguage": {
+        "sLengthMenu": "_MENU_ ",
+        "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+    },
+     // "columnDefs": [
+     //        {
+     //            "targets": [ 3 ],
+     //            "visible": false
+     //        }
+     //    ],
+    "iDisplayLength": 20,
+     buttons: [
+            'copy', 'excel', 'pdf', 'print', {
+                extend: 'colvis',
+                columns: ':gt(0)',
+                text: 'Columns'
+            }
+        ],
+    fnDrawCallback: function(oSettings) {
+        $('.export-options-container').append($('.exportOptions'));
+    }
+};
+
+
+var table = $('#menus').DataTable(settings);
+ $('#menus tfoot th').each(function(key, val) {
+            var title = $(this).text();
+            if (key === $('#transactions tfoot th')) {
+                return false
+            }
+            $(this).html('<input type="text" class="form-control" placeholder="' + $.trim(title) + '" />');
+        });
+ table.columns().every(function() {
+            var that = this;
+            $('input', this.footer()).on('keyup change', function() {
+                if (that.search() !== this.value) {
+                    that.search(this.value).draw();
+                }
+            });
+        });
+</script>
+
+@endpush
