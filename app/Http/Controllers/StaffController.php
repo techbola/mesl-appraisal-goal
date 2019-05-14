@@ -15,6 +15,7 @@ use MESL\Company;
 use MESL\CompanyDepartment;
 use MESL\CompanySupervisor;
 use MESL\Country;
+use MESL\Currency;
 use MESL\Department;
 use MESL\DocType;
 use MESL\EmploymentStatus;
@@ -50,6 +51,7 @@ use MESL\State;
 use MESL\Title;
 use MESL\Unit;
 use MESL\User;
+use MESL\StaffType;
 use Notification;
 
 class StaffController extends Controller
@@ -398,8 +400,6 @@ class StaffController extends Controller
         $pfa = PFA::all();
 
         $nationality = Country::all();
-
-
 
         $religions      = Religion::all()->sortBy('Religion');
         $refs           = Reference::where('StaffID', auth()->user()->staff->StaffRef)->get();
@@ -781,7 +781,7 @@ class StaffController extends Controller
         $user       = \Auth::user();
         $id         = \Auth::user()->id;
         $department = CompanyDepartment::all();
-        $stafftype = StaffType::all();
+        $stafftype  = StaffType::all();
         // dd($department);
         // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
         $staff          = Staff::all();
@@ -908,7 +908,9 @@ class StaffController extends Controller
 
     public function submit_staff_onboarding(Request $request)
     {
+        // dd($request->all());
         $staff_onboard = StaffOnboarding::find($request->StaffOnboardRef);
+        // dd($staff_onboard);
 
         if ($staff_onboard->update($request->except(['_token']))) {
             return redirect()->back()->with('success', 'Request was updated successfully');
@@ -944,7 +946,7 @@ class StaffController extends Controller
 
         $staff = Staff::find($request->StaffID);
 
-        Mail::to($staff->user)->send(new ExitMail($staff->user));
+        Mail::to($staff->user->email)->send(new ExitMail($staff->user));
 
         return redirect()->back()->with('success', 'Staff notified successfully');
     }

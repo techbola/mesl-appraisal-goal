@@ -63,7 +63,7 @@
                   <img class="icon" src="{{ asset('assets/img/icons/megaphone.png') }}" alt="" width="40px" style="filter: sepia(0.3);">
                 </div>
                 <div class="inline">
-                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Bulletin Board</div>
+                  <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Notice Board</div>
                   {{-- <h3 class="no-margin p-b-5 text-info bold">{{ count($bulletins) }}</h3> --}}
                 </div>
                 {{-- Start List --}}

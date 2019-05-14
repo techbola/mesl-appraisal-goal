@@ -73,12 +73,13 @@
                             <div class="form-group">
                                 <div class="controls">
                                     {{ Form::label('DepartmentID', 'Department') }}
-                                    <select name="DepartmentID" class="full-width" data-init-plugin="select2">
+                                    <select id="DepartmentID" class="full-width  form-control" disabled>
                                         <option value=" ">Select Department</option>
                                         @foreach($department as $item)
                                             <option value="{{ $item->DepartmentRef }}">{{ $item->Department }}</option>
                                         @endforeach
                                     </select>
+                                    <input type="hidden" name="DepartmentID" value="">
                                 </div>
                             </div>
                         </div>
@@ -87,12 +88,13 @@
                                 <div class="form-group">
                                     <div class="controls">
                                         {{ Form::label('SupervisorID', 'Supervisor') }}
-                                        <select name="SupervisorID" class="full-width" data-init-plugin="select2">
+                                        <select id="SupervisorID" class="full-width  form-control" disabled>
                                             <option value="">Select Supervisor</option>
                                             @foreach($staff as $st)
                                                 <option value="{{ $st->StaffRef }}">{{ $st->Fullname }}</option>
                                             @endforeach
                                         </select>
+                                        <input type="hidden" name="SupervisorID" value="">
                                     </div>
                                 </div>
                             </div>
@@ -107,7 +109,7 @@
             </div>
         </div>
 
-        <div id="exit-table" class="tab-pane fade">        
+        <div id="exit-table" class="tab-pane fade">
             <div class="clearfix"></div>
             <div class="card-box">
                 <table class="table tableWithSearch table-bordered">
@@ -155,10 +157,18 @@
             var StaffID = $("select[name=StaffID]").val();
             $.get('{{ url("fetch/staff/info") }}', {StaffID}, function(data){
                 console.log(data);
-                $("select[name=DepartmentID]").val(data.department_id).trigger('change');
-                $("select[name=SupervisorID]").val(data.supervisor_id).trigger('change');
+                $("select[id=DepartmentID]").val(data.department_id).trigger('change');
+                $("select[id=SupervisorID]").val(data.supervisor_id).trigger('change');
             });
         }
+
+        $('select[id=DepartmentID]').on('change', function(){
+            $('input[name=DepartmentID]').val($(this).val());
+        });
+
+        $('select[id=SupervisorID]').on('change', function(){
+            $('input[name=SupervisorID]').val($(this).val());
+        });
 
         // what to delete btn
     function deleteItem(ExitNotificationRef){

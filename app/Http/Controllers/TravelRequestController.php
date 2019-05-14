@@ -21,14 +21,8 @@ use MESL\Mail\TravelRequestAdmin;
 use MESL\Mail\TravelRequestApprover;
 use MESL\Mail\TravelRequestInit;
 use MESL\Mail\TravelRequestSupervisor;
-use MESL\Staff;
+
 use MESL\State;
-use MESL\Traveller;
-use MESL\TravelLodge;
-use MESL\TravelMode;
-use MESL\TravelRequest;
-use MESL\TravelTransport;
-use MESL\User;
 
 class TravelRequestController extends Controller
 {
@@ -44,7 +38,7 @@ class TravelRequestController extends Controller
         $staffs = Staff::all();
 
         $transports = TravelTransport::all();
-        $purpose = TravelPurpose::all();
+        $purpose    = TravelPurpose::all();
 
         $travel_requests = TravelRequest::orderBy('TravelRef', 'DESC')
             ->Where('SentForApproval', '0')
@@ -59,7 +53,7 @@ class TravelRequestController extends Controller
 
         $user = User::all();
 
-        return view('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'sent_requests', 'transports', 'lodges', 'travelmodes'));
+        return view('travel_request.create', compact('states', 'countries', 'staffs', 'travel_requests', 'sent_requests', 'transports', 'lodges', 'travelmodes', 'purpose'));
     }
 
     //Store travel request function
@@ -228,7 +222,7 @@ class TravelRequestController extends Controller
     {
 
         $travel_requests = TravelRequest::where('SentForApproval', 1)
-            ->where('SupervisorID', auth()->user()->staff->StaffRef)
+            ->where('SupervisorID', auth()->user()->staff->StaffRef) //gets currently logged in
             ->where('SupervisorApproved', 0)
             ->get();
 
@@ -266,12 +260,13 @@ class TravelRequestController extends Controller
     {
 
         if (is_null($request->Approver1)) {
-            return redirect()->back()->with('error', 'Kindly select at least Approver1');
+            // return redirect()->back()->with('error', 'Kindly select at least Approver1');
+            // send directly to Admin
         }
         $staffs = Staff::all();
         $user   = User::all();
 
-        $travel_request               = TravelRequest::find($ref);
+        $travel_request = TravelRequest::find($ref);
         $travel_request = TravelRequest::find($ref);
         if (is_null($request->Approver1) ||
             is_null($request->Approver2) ||
@@ -297,7 +292,6 @@ class TravelRequestController extends Controller
         $staffs = Staff::all();
         $user   = User::all();
 
-
         $travel_request->ApprovalDate = date('Y-m-d');
         $travel_request               = TravelRequest::where('TravelRef', $ref)->first();
 
@@ -306,7 +300,7 @@ class TravelRequestController extends Controller
         $travel_request->ApproverComment    = $request->ApproverComment;
         $travel_request->SupervisorApproved = 1;
 
-        $travel_request->ApproverID         = 0;
+        $travel_request->ApproverID = 0;
         // $travel_request->ApproverID1        = $request->Approver1 ?? 0;
         // $travel_request->ApproverID2        = $request->Approver2 ?? 0;
         // $travel_request->ApproverID3        = $request->Approver3 ?? 0;
@@ -316,7 +310,6 @@ class TravelRequestController extends Controller
 
         // $email = User::find($travel_request->RequesterID)->first()->email;
         // dd($request->all());
-
 
         if (!null($travel_request->ApproverID) || ($travel_request->ApproverID != 0)) {
             Mail::to($travel_request->current_approver->email)->send(new TravelRequestApprover($travel_request));
@@ -384,7 +377,8 @@ class TravelRequestController extends Controller
         // dd($travel_request);
         $travel_request->ApprovalDate  = date('Y-m-d');
         $travel_request->AdminApproved = 1;
-        // $travel_request->ApproverComment = $request->ApproverComment;
+
+        $travel_request->ApproverComment = $request->ApproverComment;
 
         $travel_request->update();
         $email = User::find($travel_request->RequesterID)->first()->email;
@@ -410,7 +404,7 @@ class TravelRequestController extends Controller
 
         $Requester = User::where("id", $travel_request->RequesterID)->first();
 
-        Mail::to($Requester->email)->send(new RequestRejected());
+        Mail::to($Requester->email)->send(new RequestRejected($travel_request));
 
         return redirect()->route('travel_request.admindashboard')->with('success', 'Request Rejected successfully');
     }
@@ -429,12 +423,15 @@ class TravelRequestController extends Controller
         $travel_request->SentForApproval = 0;
         $travel_request->AdminApproved   = 0;
 
+        $travel_request->RejectedFlag     = 1;
+        $travel_request->RejectionComment = $request->RejectionComment;
+
         $travel_request->update();
 
         $Requester = User::where("id", $travel_request->RequesterID)->first();
 
-        Mail::to($Requester->email)->send(new RequestRejected());
+        Mail::to($Requester->email)->send(new RequestRejected($travel_request));
 
-        return redirect()->route('travel_request.admindashboard')->with('success', 'Request Rejected successfully');
+        return redirect()->route('travel_request.final-admindashboard')->with('success', 'Request Rejected successfully');
     }
 }

@@ -25,7 +25,7 @@ class Memo extends Model
     public function recipients_list()
     {
         $recipients_array = collect($this->recipients)->transform(function ($item, $key) {
-            $item = User::find($item)->full_name;
+            $item = User::find($item)->full_name ?? '-';
             return $item;
         });
         return $recipients_array;

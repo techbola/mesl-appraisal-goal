@@ -111,7 +111,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="OfficeTable" value="Table" id="defaultCheck2">
                                     <label class="form-check-label" for="defaultCheck1">
-                                        Table
+                                        Workstation
                                     </label>
                                 </div>
                                 <div class="form-check">

@@ -87,9 +87,11 @@
                             </div>
                         </td>
                         <td>
-                            <a style="margin-right: 10px; display: inline-block" href="{{ route('admin-approved', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-success toggler" data-toggle="tooltip" data-placement="top" title="Approve"><i class="fa fa-send"></i></a>
 
-                            <a style="margin-right: 10px; display: inline-block" href="{{ route('admin-rejected', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-user-times"></i></a>
+                            <a style="margin-right: 10px; display: inline-block"  type="submit" href="{{ route('admin-approved', $travel_request->TravelRef) }}"  class="btn btn-sm btn-success toggler" data-whatever="{{ $travel_request->TravelRef }}"  data-placement="top" title="Approve" id="approvers-toggler"><i class="fa fa-send" ></i></a>
+
+                            <a style="margin-right: 10px; display: inline-block" href="{{ route('admin-rejected', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-whatever="{{ $travel_request->TravelRef }}" data-placement="top" title="Reject" id="rejections-toggler"><i class="fa fa-user-times"></i></a>
+
                         </td>
                     </tr>
                     @endif
@@ -99,9 +101,81 @@
     </div>
   </div>
 
+   <div class="modal fade" role="dialog" id="myModal">
+      <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            
+          </div>
+          <div class="modal-body">
+           <form id="approvers-form" method="post">
+            {{ csrf_field() }}
+               <div class="row">
+                   <label for="textarea">Comment</label>
+                   <textarea name="ApproverComment" class="form-control" cols="30"></textarea>
+               </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+      </form>
+    </div><!-- /.modal -->
+
+    <div class="modal fade" role="dialog" id="myModalR">
+      <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            
+          </div>
+          <div class="modal-body">
+           <form id="rejection-form" method="post">
+            {{ csrf_field() }}
+               <div class="row">
+                   <label for="textarea">Comment</label>
+                   <textarea name="RejectionComment" class="form-control" cols="30"></textarea>
+               </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+      </form>
+    </div><!-- /.modal -->
+
 @endsection
 
 @push('scripts')
+
+<script>
+    $(function(){
+      $('body').on('click', '#approvers-toggler', function(e) {
+        e.preventDefault();
+           let val = $(this).data('whatever');
+           console.log(val);
+           $('#myModal').modal();
+           $('#approvers-form').prop('action', '/admin-approve_request/'+val);
+
+      });
+
+      $('body').on('click', '#rejections-toggler', function(e) {
+        e.preventDefault();
+           let val = $(this).data('whatever');
+           console.log(val);
+           $('#myModalR').modal();
+           $('#rejection-form').prop('action', '/admin-reject_request/'+val);
+
+      });
+    });
+</script>
 
 <script>
     var table = $('#requestTable').DataTable();

@@ -868,6 +868,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('memos/process', 'MemoController@process')->name('process_memo');
     Route::post('memos/reject', 'MemoController@reject');
 
+    // download memo files as zip
+    Route::get('download-memo-attachments/{id}', 'MemoController@downloadAttachments')->name('download-memo-attachments');
+
     // main memo routes
     Route::resource('memos', 'MemoController');
     // End Memorandum
@@ -1343,10 +1346,10 @@ Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->nam
 Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
 
 // Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
-Route::get('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
+Route::post('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
-Route::get('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
+Route::post('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
 
 Route::post('/travel_request/approve', 'TravelRequestController@approve');
 
