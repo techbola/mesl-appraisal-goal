@@ -506,6 +506,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('delete_module_question/{ref}', 'CourseController@delete_module_question');
     Route::get('search_course_question/{ref}', 'CourseController@search_course_question');
     Route::get('get_editted_question/{ref}', 'CourseController@get_editted_question');
+    Route::get('get_course_cateory_details/{id}', 'CourseController@get_course_cateory_details');
+    Route::get('post_edited_course_category/{ref}/{name}', 'CourseController@post_edited_course_category');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
