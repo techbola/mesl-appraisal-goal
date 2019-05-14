@@ -136,7 +136,7 @@
           e.preventDefault();
           $('#department_setup').show();
           $('#department_setup').modal('show');
-          
+
         });
 
         var form1 = $("#department-form");
@@ -148,20 +148,20 @@
               if(data.success === true){
                 $('#DepartmentID').append('<option selected value="'+ data.data.DepartmentRef +'">' +  data.data.Department +'</option>');
                 $('#department_setup').modal('hide');
-								swal(
-									'Success',
-									data.data.Department + ' was added to the list',
-									'success'
-								)
+                    swal(
+                        'Success',
+                        data.data.Department + ' was added to the list',
+                        'success'
+                    )
                  $('#Department').val('');
-                 
+
               } else {
-								swal(
-									'error',
-									data.data.Department + ' has already been taken.',
-									'error'
-								)
-							}
+                    swal(
+                        'error',
+                        data.data.Department + ' has already been taken.',
+                        'error'
+                    )
+                }
             });
           });
 
@@ -170,7 +170,7 @@
           e.preventDefault();
           $('#hmo_id').show();
           $('#hmo_id').modal('show');
-          
+
         });
 
         var form1 = $("#hmo-form");
@@ -188,7 +188,7 @@
 									'success'
 								)
                  $('#HMO').val('');
-                 
+
               } else {
 								swal(
 									'error',
@@ -204,7 +204,7 @@
           e.preventDefault();
           $('#hmo_plan').show();
           $('#hmo_plan').modal('show');
-          
+
         });
 
         var form1 = $("#hmo-plan-form");
@@ -222,7 +222,7 @@
 									'success'
 								)
                  $('#HMOPlan').val('');
-                 
+
               } else {
 								swal(
 									'error',
@@ -238,7 +238,7 @@
           e.preventDefault();
           $('#bank_id').show();
           $('#bank_id').modal('show');
-          
+
         });
 
         var form1 = $("#bank-form");
@@ -256,7 +256,7 @@
 									'success'
 								)
                  $('#BankName').val('');
-                 
+
               } else {
 								swal(
 									'error',
@@ -272,7 +272,7 @@
           e.preventDefault();
           $('#pfa_id').show();
           $('#pfa_id').modal('show');
-          
+
         });
 
         var form1 = $("#pfa-form");
@@ -290,7 +290,7 @@
 									'success'
 								)
                  $('#PFA').val('');
-                 
+
               } else {
 								swal(
 									'error',

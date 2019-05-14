@@ -1376,7 +1376,7 @@ Route::get('send_exit_interview/{id}', 'ExitController@send_exit_interview')->na
 Route::get('staff/exit_interview/{id}', 'StaffController@delete_exit_response')->name('delete_exit_response');
 
 //SETUP ROUTES
-Route::get('setup/index', 'SetupController@index');
+Route::get('/setup', 'SetupController@index');
 
 Route::get('setup/hmo', 'SetupController@hmo');
 Route::post('setup/hmo', 'SetupController@store_hmo')->name('StoreHmo');
