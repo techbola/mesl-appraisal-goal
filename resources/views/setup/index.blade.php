@@ -103,40 +103,6 @@
 </div>
 
 
-<div class="row">
-        <div class="col-sm-4">
-            <a href="#"  data-toggle="modal" data-target="#">
-                <div class="card-box text-center style2">
-                <div class="card-img">
-                    <i class="fa fa-wrench"></i>
-                </div>
-                <h6 class="bold theme-primary">Management Setup</h2>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-sm-4">
-            <a href="#"  data-toggle="modal" data-target="#">
-                <div class="card-box text-center style2">
-                <div class="card-img">
-                    <i class="fa fa-wrench"></i>
-                </div>
-                <h6 class="bold theme-primary">Admin Setup</h2>
-                </div>
-            </a>
-        </div>
-        <div class="col-sm-4">
-            <a href="#"  data-toggle="modal" data-target="#">
-                <div class="card-box text-center style2">
-                <div class="card-img">
-                    <i class="fa fa-wrench"></i>
-                </div>
-                <h6 class="bold theme-primary">HR Setup</h2>
-                </div>
-            </a>
-        </div>
-    </div>
-
   {{--Admin setup Modals --}}
 <div class="modal fade" id="admin-setup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
