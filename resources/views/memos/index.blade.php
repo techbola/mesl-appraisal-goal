@@ -39,7 +39,7 @@
                 <table class="table tableWithSearch nowrap">
                   <thead>
                     <th width="">Subject</th>
-                    <th width="">Purpose</th>
+                    <th width="30%">Purpose</th>
                     <th width="">Body</th>
                     <th width="">Date</th>
                     <th>Status</th>
@@ -88,7 +88,7 @@
             <table class="table tableWithSearch nowrap">
               <thead>
                 <th >Subject</th>
-                <th >Purpose</th>
+                <th width="30%">Purpose</th>
                 <th>Body</th>
                 <th>Date</th>
                 <th>Status</th>
@@ -138,7 +138,7 @@
             <table class="table tableWithSearch nowrap">
               <thead>
                 <th >Subject</th>
-                <th >Purpose</th>
+                <th width="30%">Purpose</th>
                 <th>Body</th>
                 <th>Date</th>
                 <th>Status</th>
