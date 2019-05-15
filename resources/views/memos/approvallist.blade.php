@@ -53,6 +53,7 @@
                     </th>
                     <th width="10%">Subject</th>
                     <th width="10%">Purpose</th>
+                    <th width="10%">Date</th>
                     <th width="10%">Initiator</th>
                     <th width="20%">Body</th>
                     <th width="10%">Approvers</th>
@@ -69,6 +70,7 @@
                         </td>
                         <td>{{ $memo->subject }}</td>
                         <td>{{ $memo->purpose }}</td>
+                        <td>{{ $memo->created_at->toDateTimeString() }}</td>
                         <td>{{ $memo->initiator->Fullname ?? '-'}}</td>
                         <td>
                            <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
@@ -95,6 +97,7 @@
                   <thead>
                     <th width="15%">Subject</th>
                     <th width="10%">Purpose</th>
+                    <th width="10%">Date</th>
                     <th width="10%">Initiator</th>
                     <th width="20%">Body</th>
                     <th width="10%">Approvers</th>
@@ -105,6 +108,7 @@
                       <tr>
                         <td>{{ $memo->subject }}</td>
                         <td>{{ $memo->purpose }}</td>
+                        <td>{{ $memo->created_at->toDateTimeString() }}</td>
                         <td>{{ $memo->initiator->Fullname ?? '-' }}</td>
                         <td>
                             <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>

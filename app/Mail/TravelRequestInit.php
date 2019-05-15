@@ -17,11 +17,6 @@ class TravelRequestInit extends Mailable
         $this->travel_request = $travel_request;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         return $this

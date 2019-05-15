@@ -459,6 +459,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('reject_purchase_journal_posting_approvals', 'CashEntryController@reject_purchase_journal_posting_approvals');
     Route::get('cash_entries/show_approve_purchase_journal', 'CashEntryController@show_approve_purchase_journal')->name('ApprovePurchaseJournal');
 
+    // balance score card
+    Route::get('/appraisal/new', 'AppraisalController@create')->name('appraisal.new');
+    Route::post('/appraisal/store', 'AppraisalController@store')->name('appraisal.store');
+
+    Route::post('/appraisalitem/store', 'AppraisalItemController@store')->name('appraisalitem.store');
+
     // Learning Management System
 
     Route::get('LMS/course_dashboard', 'CourseController@course_dashboard')->name('CourseDashboard');

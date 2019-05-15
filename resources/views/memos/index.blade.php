@@ -36,11 +36,12 @@
         <div id="unapproved" class="tab-pane fade in active">
           
             <div class="card-box ">
-                <table class="table tableWithSearch">
+                <table class="table tableWithSearch nowrap">
                   <thead>
                     <th width="">Subject</th>
                     <th width="">Purpose</th>
                     <th width="">Body</th>
+                    <th width="">Date</th>
                     <th>Status</th>
                     <th>Actions</th>
 
@@ -56,6 +57,7 @@
                           &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
+                        <td>{{ $memo->created_at->toDateTimeString() }}</td>
                         <td>
                             @if($memo->status() === true) <!-- approved -->
                                 <label class="badge badge-success">Approved</label>
@@ -83,11 +85,12 @@
 
           
           <div class="card-box">
-            <table class="table tableWithSearch">
+            <table class="table tableWithSearch nowrap">
               <thead>
                 <th >Subject</th>
                 <th >Purpose</th>
                 <th>Body</th>
+                <th>Date</th>
                 <th>Status</th>
                 <th>Actions</th>
 
@@ -103,6 +106,7 @@
                       &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                       &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></a> --}}
                     </td>
+                    <td>{{ $memo->created_at->toDateTimeString() }}</td>
                     <td>
                         @if($memo->status() === true ) <!-- approved -->
                             <label class="badge badge-success">Approved</label>
@@ -131,17 +135,18 @@
 
           
           <div class="card-box">
-            <table class="table tableWithSearch">
+            <table class="table tableWithSearch nowrap">
               <thead>
                 <th >Subject</th>
                 <th >Purpose</th>
                 <th>Body</th>
+                <th>Date</th>
                 <th>Status</th>
                 <th>Actions</th>
 
               </thead>
               <tbody>
-                @foreach ( $memo_inbox as $memo)
+                @foreach ($memo_inbox as $memo)
                   <tr>
                     <td>{{ $memo->subject }}</td>
                     <td>{{ $memo->purpose }}</td>
@@ -151,6 +156,7 @@
                       &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                       &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></a> --}}
                     </td>
+                    <td>{{ $memo->created_at->toDateTimeString() }}</td>
                     <td>
                         @if($memo->status() === true ) <!-- approved -->
                             <label class="badge badge-success">Approved</label>
