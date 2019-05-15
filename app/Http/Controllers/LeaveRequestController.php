@@ -613,7 +613,7 @@ class LeaveRequestController extends Controller
             $leave_days = $leavedays->CompasionateLeaveDays;
         } elseif ($leave_type_id == '7') {
             $leave_days = $leavedays->PaternityLeaveDays;
-        } elseif () {
+        } else {
             $leave_days = '90';
         }
 
