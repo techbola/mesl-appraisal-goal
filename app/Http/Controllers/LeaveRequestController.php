@@ -613,6 +613,8 @@ class LeaveRequestController extends Controller
             $leave_days = $leavedays->CompasionateLeaveDays;
         } elseif ($leave_type_id == '7') {
             $leave_days = $leavedays->PaternityLeaveDays;
+        } elseif () {
+            $leave_days = '90';
         }
 
         $leave_used = collect(\DB::table('tblLeaveTransaction')
