@@ -36,7 +36,7 @@
         <div id="unapproved" class="tab-pane fade in active">
           
             <div class="card-box ">
-                <table class="table tableWithSearch nowrap">
+                <table class="table tableWithSearch ">
                   <thead>
                     <th width="">Subject</th>
                     <th width="30%">Purpose</th>
@@ -85,7 +85,7 @@
 
           
           <div class="card-box">
-            <table class="table tableWithSearch nowrap">
+            <table class="table tableWithSearch ">
               <thead>
                 <th >Subject</th>
                 <th width="30%">Purpose</th>
@@ -135,7 +135,7 @@
 
           
           <div class="card-box">
-            <table class="table tableWithSearch nowrap">
+            <table class="table tableWithSearch ">
               <thead>
                 <th >Subject</th>
                 <th width="30%">Purpose</th>
