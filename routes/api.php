@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -21,8 +21,7 @@ Route::get('/employees', function (Request $request) {
     return \Cavi\Staff::all();
 });
 
-
-Route::get('/dev-clean',    function (){
+Route::get('/dev-clean', function () {
     Artisan::call('clear:config');
     Artisan::call('route:config');
     Artisan::call('view:config');
@@ -30,6 +29,7 @@ Route::get('/dev-clean',    function (){
 });
 
 Route::post('add_hmo', 'SetupController@add_hmo')->name('add_hmo');
+Route::post('add_req_setup', 'SetupController@add_req_setup')->name('add_req_setup');
 
 Route::post('add_hmo_plan', 'SetupController@add_hmo_plan')->name('add_hmo_plan');
 

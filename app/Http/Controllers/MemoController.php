@@ -136,7 +136,7 @@ class MemoController extends Controller
                 }
                 // END attachment upload
                 DB::commit();
-                return redirect()->route('memos.create')->with('success', 'Memo was created successfully.');
+                return redirect()->route('memos.index', ['tab=1'])->with('success', 'Memo was created successfully.');
             }
         } catch (Exception $e) {
             DB::rollback();
@@ -162,12 +162,15 @@ class MemoController extends Controller
 
     public function edit($id)
     {
-        $memo      = Memo::find($id);
+        $memo = Memo::find($id);
+        // dd(collect($memo->recipients));
+        // dd(collect($memo->recipients)->values());
         $employees = User::all();
         $employees = $employees->transform(function ($item, $key) {
             $item->name = $item->Fullname;
             return $item;
         });
+        // dd($employees);
         $request_types = RequestType::all();
         return view('memos.edit', compact('memo', 'employees', 'request_types'));
     }
