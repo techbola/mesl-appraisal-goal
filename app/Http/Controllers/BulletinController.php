@@ -2,15 +2,13 @@
 
 namespace MESL\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use MESL\Bulletin;
-use MESL\User;
-use Carbon\Carbon;
-use MESL\Department;
-use MESL\Staff;
 use MESL\CompanyDepartment;
-
 use MESL\Notifications\NewBulletin;
+use MESL\Staff;
+use MESL\User;
 use Notification;
 
 class BulletinController extends Controller
@@ -58,21 +56,50 @@ class BulletinController extends Controller
         })->get();
 
         $this->validate($request, [
-            'Title'        => 'required',
-            'Body'         => 'required',
-            'DepartmentID' => 'required',
+            'Title' => 'required',
+            'Body'  => 'required',
         ]);
 
-        $bulletin               = new Bulletin;
-        $bulletin->Title        = $request->Title;
-        $bulletin->Body         = $request->Body;
-        $bulletin->ExpiryDate   = $request->ExpiryDate;
-        $bulletin->CompanyID    = $user->staff->CompanyID;
-        $bulletin->DepartmentID = $request->DepartmentID;
-        $bulletin->CreatedBy    = $user->id;
-        $bulletin->CreatedDate  = Carbon::now();
+        if (in_array(29, $request->DepartmentID)) {
+            foreach ($request->DepartmentID as $key => $value) {
+                $bulletin               = new Bulletin;
+                $bulletin->Title        = $request->Title;
+                $bulletin->Body         = $request->Body;
+                $bulletin->ExpiryDate   = $request->ExpiryDate;
+                $bulletin->CompanyID    = $user->staff->CompanyID;
+                $bulletin->DepartmentID = $request->DepartmentID[$key];
+                $bulletin->CreatedBy    = $user->id;
+                $bulletin->CreatedDate  = Carbon::now();
 
-        $bulletin->save();
+                $bulletin->save();
+
+                $staff = User::all();
+
+                Notification::send($staff, new NewBulletin($bulletin));
+
+            }
+        } else {
+            foreach ($request->DepartmentID as $key => $value) {
+                $bulletin               = new Bulletin;
+                $bulletin->Title        = $request->Title;
+                $bulletin->Body         = $request->Body;
+                $bulletin->ExpiryDate   = $request->ExpiryDate;
+                $bulletin->CompanyID    = $user->staff->CompanyID;
+                $bulletin->DepartmentID = $request->DepartmentID[$key];
+                $bulletin->CreatedBy    = $user->id;
+                $bulletin->CreatedDate  = Carbon::now();
+
+                $bulletin->save();
+
+                $staff = User::whereHas('staff', function ($q) use ($request, $key) {
+                    $dept_id = $request->DepartmentID[$key];
+                    $q->whereRaw("DepartmentID = $dept_id");
+                })->get();
+
+                Notification::send($staff, new NewBulletin($bulletin));
+
+            }
+        }
 
         // $depts = CompanyDepartment::all()->pluck('id')->toArray();
         //
@@ -85,15 +112,6 @@ class BulletinController extends Controller
         // }
 
         // SEND NOTIFICATION TO ALL STAFF IF ALL DEARTMENTS WAS SELECTED
-        if ($request->DepartmentID == 29) {
-            $staff = User::all();
-        } else {
-            $staff = User::whereHas('staff', function ($q) use ($request) {
-                $q->whereRaw("DepartmentID IN ($request->DepartmentID)");
-            })->get();
-        }
-
-        Notification::send($staff, new NewBulletin($bulletin));
 
         return redirect()->route('bulletin_board')->with('success', 'New bulletin was saved successfully.');
     }

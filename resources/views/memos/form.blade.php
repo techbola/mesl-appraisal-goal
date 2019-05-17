@@ -17,7 +17,7 @@
                 <div class="controls">
 
                     {{ Form::label('recipients', 'To') }}
-                    {{ Form::select('recipients[]',$employees->pluck('FullName', 'UserID'),  isset($memo) ? collect($memo->recipients)->toArray() : null , ['class' => 'form-control', 'multiple', 'data-placeholder' => 'Select Approver']) }}
+                    {{ Form::select('recipients[]',$employees->pluck('FullName', 'UserID'),  isset($memo) ? collect($memo->recipients)->toArray() : null , ['class'=> "form-control select2", 'data-init-plugin' => "select2", 'multiple', 'data-placeholder' => 'Select Approver']) }}
                 </div>
             </div>
         </div>

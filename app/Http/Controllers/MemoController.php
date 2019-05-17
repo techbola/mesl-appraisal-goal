@@ -2,21 +2,21 @@
 
 namespace MESL\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use DB;
 use File;
-use Image;
-use ZipArchive;
-use Storage;
-use Notification;
+use Illuminate\Http\Request;
+use Mail;
+use MESL\Mail\ApprovedMemo;
+use MESL\Memo;
+use MESL\MemoAttachment;
 use MESL\Notifications\MemoApproval;
 use MESL\Notifications\MemoReceipient;
-use MESL\User;
-use MESL\Staff;
-use MESL\Memo;
 use MESL\RequestType;
-use MESL\MemoAttachment;
+use MESL\Staff;
+use MESL\User;
+use Notification;
+use Storage;
+use ZipArchive;
 
 class MemoController extends Controller
 {
@@ -255,7 +255,22 @@ class MemoController extends Controller
             $memo                 = Memo::find($request->id);
             $memo->processed_flag = 1;
             if ($memo->save()) {
+
+                // send initiator email
+
+                Mail::to($memo->initiator->user->email)->send(new ApprovedMemo($memo, $is_initiator = 1));
+
+                // send email to recipients
+                $recipients = implode(',', $memo->recipients);
+                // dd($recipients);
+                $staff = User::whereHas('staff', function ($q) use ($request, $recipients) {
+                    $q->whereRaw("id in ($recipients)");
+                })->get();
+
+                Mail::to($staff)->send(new ApprovedMemo($memo, $is_initiator = 0));
+
                 DB::commit();
+
                 return redirect('/memos')->with('success', 'Memo was marked as complete');
             }
         } catch (Exception $e) {
