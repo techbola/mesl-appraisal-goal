@@ -12,10 +12,13 @@ class ApprovedMemo extends Mailable
 
     public $memo;
     public $next_approver;
-    public function __construct($memo, $next_approver)
+    public $current_approver;
+
+    public function __construct($memo, $next_approver, $current_approver)
     {
-        $this->memo          = $memo;
-        $this->next_approver = $next_approver;
+        $this->memo             = $memo;
+        $this->next_approver    = $next_approver;
+        $this->current_approver = $current_approver;
     }
 
     /**

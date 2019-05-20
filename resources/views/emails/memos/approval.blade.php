@@ -1,24 +1,38 @@
 @component('mail::message')
-Title : Memo Approval.
 
-Dear {{$memo->initiator->FullName}},
+<p class="title-bg" style="text-align: center; padding: 3rem; font-size: 27px; background-color: #e1393b; color:#fff; font-weight: bold">
+	Internal Memo
+</p>
 
-{{-- @if(!is_null($current_approver)) --}}
-Your Memo was recently approved.
-{{-- @endif --}}
+Dear **{{$memo->initiator->FullName}},**
 
-**Memo Subject: **  {{ $memo->subject }}
+{{-- @if(!is_null($current_approver))
+Your Memo was recently approved by {{ $current_approver ?? '' }}
+@endif --}}
+This is to notify you that your (**{{ $current_approver ?? '' }}**) has approved your memo. Some details of the requests are as follows:
 
-**Date Created: **  {{ $memo->created_at }}
---------------------------------------------
+-------------------------------------------------------------------
 
-**Approvers: **  {{ $memo->approvers() }}
+**Subject: **  {{ $memo->subject }}
+
+**Purpose: **  {{ $memo->purpose }}
+
+**Content: **  {!! $memo->body !!}
+
+**Date Created: **  {{ $memo->created_at->toFormattedDateString() }}
+
+**Approvers:**  {{ $memo->approvers() }}
+
+--------------------------------------------------------------------
+
 
 @if(!is_null($next_approver))
-**Next Approver:** {{ $next_approver->fullName }}.
+Your requested has been forwarded to the next party (**{{ $next_approver->fullName }}**). You can check the status by following the link below.
 @else
-**Your memo has been approved successfully but awaits your recipients final confirmation** .
+Your requested has been forwarded to the next party. You can check the status by following the link below.
 @endif
+
+
 
 
 Cheers.

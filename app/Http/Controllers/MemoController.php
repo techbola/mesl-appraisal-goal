@@ -217,9 +217,14 @@ class MemoController extends Controller
         $new_array    = array();
         foreach ($SelectedID as $value) {
             array_push($new_array, intval($value));
+            $memo = Memo::find($value);
+            $request->session()->forget('current_approver');
+            $current_approver = User::find($memo->ApproverID)->fullName;
+            // $request->session()->put('current_approver', $memo->ApproverID);
             $approve_proc = \DB::statement(
                 "EXEC procApproveRequest  '$ApprovedDate', '$value', $ModuleID, '$Comment', $ApproverID, $ApprovedFlag"
             );
+
             $memo = Memo::find($value);
 
             $next_approver = $memo->ApproverID != 0 ? Staff::where('UserID', $memo->ApproverID)->first()->user : null;
@@ -234,9 +239,10 @@ class MemoController extends Controller
             if (!is_null($next_approver) || $next_approver != 0) {
                 Notification::send($next_approver, new MemoApproval($memo));
                 // send email notification to the initiator
-                Mail::to($memo->initiator->user->email)->send(new ApprovedMemo($memo, $next_approver));
+
+                Mail::to($memo->initiator->user->email)->send(new ApprovedMemo($memo, $next_approver, $current_approver));
             } else {
-                Mail::to($memo->initiator->user->email)->send(new ApprovedMemo($memo, $next_approver));
+                Mail::to($memo->initiator->user->email)->send(new ApprovedMemo($memo, $next_approver, $current_approver));
                 // send mail to reciepient, notifying them of the memo approval
                 Notification::send($recipients->all(), new MemoReceipient($memo));
             }
