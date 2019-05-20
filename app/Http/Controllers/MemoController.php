@@ -233,7 +233,10 @@ class MemoController extends Controller
 
             if (!is_null($next_approver) || $next_approver != 0) {
                 Notification::send($next_approver, new MemoApproval($memo));
+                // send email notification to the initiator
+                Mail::to($memo->initiator->user->email)->send(new ApprovedMemo($memo, $next_approver));
             } else {
+                Mail::to($memo->initiator->user->email)->send(new ApprovedMemo($memo, $next_approver));
                 // send mail to reciepient, notifying them of the memo approval
                 Notification::send($recipients->all(), new MemoReceipient($memo));
             }
@@ -258,16 +261,16 @@ class MemoController extends Controller
 
                 // send initiator email
 
-                Mail::to($memo->initiator->user->email)->send(new ApprovedMemo($memo, $is_initiator = 1));
+                Mail::to($memo->initiator->user->email)->send(new ApprovedMemoConfirmation($memo));
 
                 // send email to recipients
-                $recipients = implode(',', $memo->recipients);
+                // $recipients = implode(',', $memo->recipients);
                 // dd($recipients);
-                $staff = User::whereHas('staff', function ($q) use ($request, $recipients) {
-                    $q->whereRaw("id in ($recipients)");
-                })->get();
+                // $staff = User::whereHas('staff', function ($q) use ($request, $recipients) {
+                //     $q->whereRaw("id in ($recipients)");
+                // })->get();
 
-                Mail::to($staff)->send(new ApprovedMemo($memo, $is_initiator = 0));
+                // Mail::to($staff)->send(new ApprovedMemo($memo, $next_approver = null));
 
                 DB::commit();
 
