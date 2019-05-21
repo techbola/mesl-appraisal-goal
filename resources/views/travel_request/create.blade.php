@@ -56,7 +56,7 @@
                 @include('errors.list')
                 <form action="{{ route('storerequest') }}" method="POST" class="form">
                     {{ csrf_field() }}
-                        <div class="row">                                
+                        <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="controls">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="controls">
@@ -81,7 +81,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-            
+
                                         <div class="travel_from_country hide">
                                             <label for="TravelFromCountry">Travel From</label>
                                             <select name="TravelFromCountry" class="full-width travel_from_country" style="display: none" data-init-plugin="select2" id="travel_from_country" >
@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="controls">
@@ -105,7 +105,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                
+
                                         <div class="travel_to_country hide">
                                             <label for="TravelToCountry">Travel To</label>
                                             <select name="TravelToCountry" class="full-width travel_to_country" style="display: none" data-init-plugin="select2" id="travel_to_country" >
@@ -117,10 +117,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>  
-                    
+                        </div>
+
                         <br>
-                
+
                         <div class="row">
 
                                  <div class="col-sm-3">
@@ -132,7 +132,7 @@
                                     </div>
                                     </div>
                                 </div>
-                
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="controls">
@@ -141,7 +141,7 @@
                                         </div>
                                     </div>
                                 </div>
-    
+
 
                                 <div class="col-sm-3">
                                     <div class="form-group">
@@ -152,7 +152,7 @@
                                     </div>
                                     </div>
                                 </div>
-                
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="controls">
@@ -163,13 +163,13 @@
                                 </div>
                         </div>
                         <br>
-                
+
                         <div class="row">
-                
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
-                                        {{ Form::label('PurposeID', 'Travel Purpose' ) }} <span style="padding: 0 !important" class="form-add-more add-purpose badge badge-success" data-toggle="modal" data-target="travel_purpose_setup"><i class="fa fa-plus"></i></span>
+                                        {{ Form::label('PurposeID', 'Travel Purpose' ) }} @if(Auth::user()->hasRole(['admin', 'superadmin'])) <span style="padding: 0 !important" class="form-add-more add-purpose badge badge-success" data-toggle="modal" data-target="travel_purpose_setup"><i class="fa fa-plus"></i></span> @endif
                                         <select name="PurposeID" class="full-width" style="display: none" id="travel_purpose" data-init-plugin="select2">
                                             @foreach($purpose as $item)
                                                 <option value="{{ $item->TravelPurposeRef }}">{{ $item->TravelPurpose }}</option>
@@ -178,7 +178,7 @@
                                     </div>
                                 </div>
                             </div>
-                
+
                             <div class="col-md-6">
                                 <div class="controls">
                                     <div class="form-group">
@@ -189,12 +189,12 @@
                             </div>
                         </div>
                         <br>
-                
+
                         <div class="row">
                                 <div class="col-md-4">
                                     <div class="controls">
                                         <div class="form-group">
-                                        {{ Form::label('TravelMode', 'Travel mode' ) }} <span style="padding: 0 !important" class="form-add-more add-mode badge badge-success" data-toggle="modal" data-target="travel_mode_setup"><i class="fa fa-plus"></i></span>
+                                        {{ Form::label('TravelMode', 'Travel mode' ) }} @if(Auth::user()->hasRole(['admin', 'superadmin'])) <span style="padding: 0 !important" class="form-add-more add-mode badge badge-success" data-toggle="modal" data-target="travel_mode_setup"><i class="fa fa-plus"></i></span> @endif
                                         <select name="TravelMode" class="full-width" data-init-plugin="select2" id="travel_mode">
                                             <option value=" ">Select Travel Mode</option>
                                             @foreach($travelmodes as $travelmode)
@@ -204,11 +204,11 @@
                                         </div>
                                     </div>
                                 </div>
-                
+
                                 <div class="col-md-4">
                                     <div class="controls">
                                         <div class="form-group">
-                                            {{ Form::label('PreferredTransporter', 'Preffered Transporter' ) }} <span style="padding: 0 !important" class="form-add-more add-transporter badge badge-success" data-toggle="modal" data-target="transporter_setup"><i class="fa fa-plus"></i></span>
+                                            {{ Form::label('PreferredTransporter', 'Preffered Transporter' ) }} @if(Auth::user()->hasRole(['admin', 'superadmin'])) <span style="padding: 0 !important" class="form-add-more add-transporter badge badge-success" data-toggle="modal" data-target="transporter_setup"><i class="fa fa-plus"></i></span> @endif
                                             <select name="PreferredTransporter" class="full-width" data-init-plugin="select2" id="preffered_transporter">
                                                     <option value=" ">Select Transport Type</option>
                                                 @foreach($transports as $transport)
@@ -218,7 +218,7 @@
                                         </div>
                                     </div>
                                 </div>
-                
+
                                 <div class="col-md-4">
                                     <div class="controls">
                                         <div class="form-group">
@@ -228,14 +228,14 @@
                                     </div>
                                 </div>
                         </div>
-                
+
                         <br>
-                
+
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="controls">
                                     <div class="form-group">
-                                        {{ Form::label('Lodging', 'Lodging' ) }} <span style="padding: 0 !important" class="form-add-more add-lodge badge badge-success" data-toggle="modal" data-target="lodging_setup"><i class="fa fa-plus"></i></span>
+                                        {{ Form::label('Lodging', 'Lodging' ) }} @if(Auth::user()->hasRole(['admin', 'superadmin'])) <span style="padding: 0 !important" class="form-add-more add-lodge badge badge-success" data-toggle="modal" data-target="lodging_setup"><i class="fa fa-plus"></i></span> @endif
                                         <select name="Lodging" class="full-width" data-init-plugin="select2" id="Lodging" onchange="">
                                             <option value=" ">Preffered Lodge Type</option>
                                             @foreach($lodges as $lodge)
@@ -245,7 +245,7 @@
                                     </div>
                                 </div>
                             </div>
-                
+
                             <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="controls">
@@ -254,7 +254,7 @@
                                         </div>
                                     </div>
                             </div>
-                
+
                             {{-- <div class="col-md-3">
                                 <div class="controls">
                                     <div class="form-group">
@@ -268,7 +268,7 @@
                                     </div>
                                 </div>
                             </div> --}}
-                
+
                             <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="controls">
@@ -277,8 +277,8 @@
                                         </div>
                                     </div>
                             </div>
-                
-                
+
+
                         </div>
 
                         <div class="card-section p-l-5">List Of Travellers</div>
@@ -303,7 +303,7 @@
                                         </div>
 
                                         <div class="col-sm-3">
-                                           
+
                                             <div class="form-group">
                                                  <label for="TravellerCompany">Company</label>
                                                 {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Company\'s Name' ]) }}
@@ -324,12 +324,12 @@
                                     <div class="form-group">
                                                 <button type="button" style="margin-left: 7px"  class="add_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
                                             </div>
-                                </div>  
+                                </div>
 
                                 <div class="non_staff_option_template">
                                     <div class="row">
                                         <div class="col-sm-3">
-                                           
+
                                             <div class="form-group">
                                                  <label for="TravellerFullName">FullName</label>
                                                 {{ Form::text('TravellerFullName[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
@@ -337,7 +337,7 @@
                                         </div>
 
                                         <div class="col-sm-3">
-                                           
+
                                             <div class="form-group">
                                                  <label for="TravellerCompany">Company</label>
                                                 {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Company\'s Name' ]) }}
@@ -357,12 +357,12 @@
                                                 <button type="button" style="margin-left: 7px"  class="add_non_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
                                             </div>
                                 </div>
-                                 
+
                             </div>
                         </div>
-                
+
                         <br>
-                
+
                         <div class="row">
                             <div class="pull-right">
                                 <button class="btn btn-info" type="submit">Submit</button>
@@ -371,10 +371,10 @@
                 </form>
             </div>
         </div>
-        
 
 
-        <div id="onboarding-status" class="tab-pane ">        
+
+        <div id="onboarding-status" class="tab-pane ">
                 <div class="clearfix"></div>
             <div class="card-box">
                 <div class="request-table table-responsive">
@@ -418,9 +418,9 @@
                                         <span data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <button style="margin-right: 10px; display: inline-block" type="edit" class="btn btn-sm btn-primary toggler" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="edit_travelrequest( {{$travel_request->TravelRef}}); edit_travel_type()" @if($travel_request->SentForApproval) disabled @endif><i class="fa fa-edit"></i></button>
                                         </span>
-            
+
                                         <a style="margin-right: 10px; display: inline-block" href="{{ route('delete', $travel_request->TravelRef) }}" type="edit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-                
+
                                         <a href="{{ route('sendapproval', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Send for Approval" @if($travel_request->SentForApproval) disabled @endif><i class="fa fa-share-square"></i></a>
                                     </td>
                                 </tr>
@@ -429,11 +429,11 @@
                     </table>
                 </div>
             </div>
-    
-            
+
+
         </div>
 
-         <div id="sent-status" class="tab-pane ">        
+         <div id="sent-status" class="tab-pane ">
                 <div class="clearfix"></div>
             <div class="card-box">
                 <div class="request-table table-responsive">
@@ -477,9 +477,9 @@
                                         <span data-toggle="tooltip" data-placement="top" title="Edit">
                                                 <button style="margin-right: 10px; display: inline-block" type="edit" class="btn btn-sm btn-primary toggler" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="edit_travelrequest( {{$travel_request->TravelRef}})" @if($travel_request->SentForApproval) disabled @endif><i class="fa fa-edit"></i></button>
                                         </span>
-            
+
                                         <a style="margin-right: 10px; display: inline-block" href="{{ route('delete', $travel_request->TravelRef) }}" type="edit" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-                
+
                                         <a href="{{ route('sendapproval', $travel_request->TravelRef) }}" type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Send for Approval" @if($travel_request->SentForApproval) disabled @endif><i class="fa fa-share-square"></i></a>
                                     </td>
                                 </tr>
@@ -488,11 +488,11 @@
                     </table>
                 </div>
             </div>
-    
-            
+
+
         </div>
     </div>
-    
+
     <div class="container">
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"       aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -555,7 +555,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                        
+
                                                 <div class="travel_to_country hide">
                                                     <label for="TravelToCountry">Travel To</label>
                                                     <select name="TravelToCountry" class="full-width travel_to_country" style="display: none" data-init-plugin="select2" id="travel_to2" onchange="">
@@ -568,9 +568,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            
+
                                     <br>
-                            
+
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -621,9 +621,9 @@
                                     </div>
                                 </div>
                                     <br>
-                            
+
                                 <div class="row">
-                        
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="controls">
@@ -691,7 +691,7 @@
 
 
                                 <br>
-                            
+
 
                                 <div class="row">
                                     <div class="col-md-3">
@@ -763,7 +763,7 @@
                                                     </div>
 
                                                     <div class="col-sm-3">
-                                                        
+
                                                         <div class="form-group">
                                                                 <label for="TravellerCompany">Company</label>
                                                             {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'id' => 'company_name', 'placeholder' => 'Enter Company\'s Name' ]) }}
@@ -784,12 +784,12 @@
                                                 <div class="form-group">
                                                             <button type="button" style="margin-left: 7px"  class="add_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
                                                         </div>
-                                            </div>  
+                                            </div>
 
                                             <div class="non_staff_option_template">
                                                 <div class="row">
                                                     <div class="col-sm-3">
-                                                        
+
                                                         <div class="form-group">
                                                                 <label for="TravellerFullName">FullName</label>
                                                             {{ Form::text('TravellerFullName[]', null, ['class'=> "form-control",'id' => 'non_staff_name', 'placeholder' => 'Enter Non Staff\'s Full Name' ]) }}
@@ -797,7 +797,7 @@
                                                     </div>
 
                                                     <div class="col-sm-3">
-                                                        
+
                                                         <div class="form-group">
                                                                 <label for="TravellerCompany">Company</label>
                                                             {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control",'id' => 'non_staff_company', 'placeholder' => 'Enter Company\'s Name' ]) }}
@@ -817,14 +817,14 @@
                                                             <button type="button" style="margin-left: 7px"  class="add_non_staff_node btn btn-sm btn-info"><i class="fa fa-plus"></i></button>
                                                         </div>
                                             </div>
-                                                
+
                                         </div>
                                     </div>
 
-                                
+
 
                                     <br>
-                            
+
                                 <div class="row">
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -954,7 +954,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <div class="modal fade" id="transporter_setup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -992,8 +992,8 @@
             </div>
         </div>
     </div>
-      
-        
+
+
 
 
 @endsection
@@ -1009,7 +1009,7 @@ $('.add-transporter').click(function(e){
         e.preventDefault();
         $('#transporter_setup').show();
         $('#transporter_setup').modal('show');
-        
+
     });
 
     var form1 = $("#travel-transport-form");
@@ -1027,7 +1027,7 @@ $('.add-transporter').click(function(e){
                 'success'
             )
                 $('#Transporter').val('');
-                
+
             } else {
             swal(
                 'error',
@@ -1042,7 +1042,7 @@ $('.add-purpose').click(function(e){
         e.preventDefault();
         $('#travel_purpose_setup').show();
         $('#travel_purpose_setup').modal('show');
-        
+
     });
 
     var form1 = $("#travel-purpose-form");
@@ -1060,7 +1060,7 @@ $('.add-purpose').click(function(e){
                 'success'
             )
                 $('#TravelPurpose').val('');
-                
+
             } else {
             swal(
                 'error',
@@ -1076,7 +1076,7 @@ $('.add-purpose').click(function(e){
         e.preventDefault();
         $('#travel_mode_setup').show();
         $('#travel_mode_setup').modal('show');
-        
+
     });
 
     var form1 = $("#travel-mode-form");
@@ -1094,7 +1094,7 @@ $('.add-purpose').click(function(e){
                 'success'
             )
                 $('#TravelMode').val('');
-                
+
             } else {
             swal(
                 'error',
@@ -1110,7 +1110,7 @@ $('.add-purpose').click(function(e){
         e.preventDefault();
         $('#lodging_setup').show();
         $('#lodging_setup').modal('show');
-        
+
     });
 
     var form1 = $("#travel-lodge-form");
@@ -1128,7 +1128,7 @@ $('.add-purpose').click(function(e){
                 'success'
             )
                 $('#TravelLodge').val('');
-                
+
             } else {
             swal(
                 'error',
@@ -1138,9 +1138,9 @@ $('.add-purpose').click(function(e){
           }
         });
     });
-    
-    
-    
+
+
+
     function find_travel_type()
     {
       var id = $('#travel_type').val();
@@ -1187,7 +1187,7 @@ $('.add-purpose').click(function(e){
 
     function edit_travelrequest(id)
     {
-      
+
       $.get('/edit_travel_request/'+id, function(data, status) {
 
         $('#travel_type_edit').val(data.TravelType).trigger('change');
@@ -1206,7 +1206,7 @@ $('.add-purpose').click(function(e){
 
         $('#arrival_time').val(data.ArrivalTime);
 
-        $('#arrival_date_edit').val(data.ArrivalDate); 
+        $('#arrival_date_edit').val(data.ArrivalDate);
 
          var options = {
             todayHighlight: true,
@@ -1222,7 +1222,7 @@ $('.add-purpose').click(function(e){
 
         $('#travel_mode1').val(data.TravelMode).trigger('change');
 
-        $('#preferred_transporter').val(data.PreferredTransporter).trigger('change'); 
+        $('#preferred_transporter').val(data.PreferredTransporter).trigger('change');
 
         $('#other_transporter').val(data.OtherTransporter);
 
@@ -1258,12 +1258,12 @@ $(".non_staff_option_template").hide();
 $('.staff_option_label').click(function(e) {
     // e.preventDefault();
     if($('#staff_option:checked').length > 0 || $('#staff_option').is(':checked')) {
-    
+
         $(".staff_option_template").hide();
         $(".non_staff_option_template").show();
-    } 
+    }
     if($('#non_staff_option:checked').length > 0 || $('#non_staff_option').is(':checked')) {
-       
+
         $(".non_staff_option_template").hide();
         $(".staff_option_template").show();
     }
@@ -1281,7 +1281,7 @@ var staff_option_temp = `
     </div>
 
     <div class="col-sm-3">
-       
+
         <div class="form-group">
              <label for="TravellerCompany">Company</label>
             {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter  Staff\'s Company' ]) }}
@@ -1314,7 +1314,7 @@ var staff_option_temp = `
                                         </div>
 
                                         <div class="col-sm-3">
-                                           
+
                                             <div class="form-group">
                                                  <label for="TravellerCompany">Company</label>
                                                 {{ Form::text('TravellerCompany[]', null, ['class'=> "form-control", 'placeholder' => 'Enter Company\'s Name' ]) }}
@@ -1335,7 +1335,7 @@ var staff_option_temp = `
                                         </div>
 
 
-                                    </div>`;                                   
+                                    </div>`;
 $(".add_staff_node").click(function(e) {
     e.preventDefault();
     $('.staff_option_template').find('.to-be-inserted').append(staff_option_temp);
@@ -1358,7 +1358,7 @@ $('body').on('click', '.remove_staff_node', function(e) {
 
 function activate_travel_request_queue(){
     let url = new URL(window.location.href);
-    let queue = url.searchParams.get('queue'); 
+    let queue = url.searchParams.get('queue');
     if(queue != null && queue == 1) {
         $('a[href="#onboarding-status"]').tab('show');
     }
@@ -1375,9 +1375,9 @@ $(document).ready(function() {
         };
         $('.dp').datepicker(options);
 
-        
 
-        
+
+
 });
 
 window.enddate = function() {
@@ -1414,7 +1414,7 @@ window.enddate = function() {
 
 
 
-    
+
 
 
 

@@ -1,6 +1,17 @@
 @push('styles')
 <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css') }}" media="screen" rel="stylesheet" type="text/css">
-    @endpush
+    <style>
+        .form-add-more{
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            padding: 0 !important;
+            cursor: pointer;
+        }
+    </style>
+@endpush
 
 
     {{-- MODALS --}}
@@ -36,14 +47,14 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('RequestListID', 'Request Type') }}
-                   
-                    
+                    {{ Form::label('RequestListID', 'Request Type') }} <span style="padding: 0 !important" class="form-add-more add-expense-request badge badge-success" data-toggle="modal" data-target="expense_request_setup"><i class="fa fa-plus"></i></span>
+
+
                     {{ Form::select('RequestListID', ['' => 'Select Request'] + $request_list->pluck('Request','RequestListRef')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request']) }}
                 </div>
             </div>
-        </div>  
-        
+        </div>
+
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
@@ -53,7 +64,7 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        
+
     </div>
 
     <div class="row">
@@ -86,7 +97,7 @@
     </div>
 
     <div class="row">
-        
+
 
        {{--  <div class="col-sm-6">
             <div class="form-group">
@@ -101,7 +112,7 @@
 
     <hr>
 
-    
+
     @if(auth()->user()->staff->department->Departmemt == 'Finance & Account')
 
    {{--  <div class="card-section p-l-5">Finance</div>
@@ -114,7 +125,7 @@
                     {{ Form::text('AnnualBudget', null, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
                 </div>
             </div>
-        </div> 
+        </div>
 
         <div class="col-sm-6">
             <div class="form-group">
@@ -124,7 +135,7 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     <div class="row">
         <div class="col-sm-6">
@@ -134,7 +145,7 @@
                     {{ Form::text('AmountSpent', null, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
                 </div>
             </div>
-        </div> 
+        </div>
 
         <div class="col-sm-6">
             <div class="form-group">
@@ -144,7 +155,7 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     <div class="row">
         <div class="col-sm-6">
@@ -154,7 +165,7 @@
                     {{ Form::text('Balance', null, ['class' => 'form-control smartinput', 'placeholder' => '']) }}
                 </div>
             </div>
-        </div> 
+        </div>
 
         <div class="col-sm-6">
             <div class="form-group">
@@ -168,7 +179,7 @@
 
 <div class="clearfix"></div>
 <div class="card-section p-l-5">Payment Details</div>
-    <div class="row"> 
+    <div class="row">
          <div class="col-sm-4 form-group">
             {{ Form::label('BankID', 'Select Bank') }}
             {{ Form::select('BankID', [ '' =>  'Select Bank Account'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width", 'data-init-plugin' => "select2", 'class'=>"required", 'required']) }}
@@ -201,7 +212,7 @@
     @endif
 
     <div class="clearfix"></div> <hr>
-   
+
     @if(auth()->user()->staff->department->Department == 'Procurement')
     <div class="card-section p-l-5">Procurement Sections</div>
     <div class="row">
@@ -243,7 +254,7 @@
     <hr>
     @endif
 
-    
+
 
     <div class="">
         {{-- <div class="col-sm-12">
@@ -253,7 +264,7 @@
                     {{ Form::file('attachment[]',  ['class' => '','multiple' => 'multiple']) }}
                 </div>
             </div>
-        </div> --}} 
+        </div> --}}
         <button class="btn btn-info" data-toggle="modal" data-target="#new_doc" type="button">Upload Documents</button>
     </div> <br>
 
@@ -265,7 +276,7 @@
         </div>
     </div> --}}
 
-    <div class="row">    
+    <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
                 <div class="controls">
@@ -276,7 +287,7 @@
         </div>
     </div>
 
-    
+
 
 {{-- <hr> --}}
 
@@ -290,6 +301,39 @@
 				{{-- {{ Form::reset('reset fields',[ 'class' => 'btn btn-transparent ' ]) }} --}}
         </div>
     </div>
+
+    {{-- Expense request modal --}}
+    <div class="modal fade" id="expense_request_setup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Request</h4>
+            </div>
+            <div class="modal-body">
+                <form id="expense-request-form">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="controls">
+                                <div class="form-group">
+                                    {{ Form::label('Request', 'Request' ) }}
+                                    {{ Form::text('Request', null, ['class' => 'form-control', 'placeholder' => 'Add Request type']) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="pull-right">
+                            <button class="btn btn-info" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
     @push('scripts')
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
     </script>
@@ -322,7 +366,7 @@
                 //     $.each(data, function(index, val) {
                 //          $('#DepartmentID').append(`<option value="${val.DepartmentRef}">${val.Department}</option>`);
                 //     });
-                     
+
                 // });
 
                 $('.LotDescriptionID').empty();
@@ -331,7 +375,7 @@
                     $.each(data, function(index, val) {
                          $('.LotDescriptionID').append(`<option value="${val.LotDescriptionRef}">${val.LotDescription}</option>`);
                     });
-                     
+
                 });
              });
 
@@ -346,13 +390,51 @@
                     $.each(data, function(index, val) {
                          $('.LotDescriptionID').append(`<option value="${val.LotDescriptionRef}">${val.LotDescription}</option>`);
                     });
-                     
+
                 });
              });
 
 
-		}); 
+		});
 
     </script>
+
+        <script>
+                $('.add-expense-request').click(function(e){
+                e.preventDefault();
+                $('#expense_request_setup').show();
+                $('#expense_request_setup').modal('show');
+
+                alert('Okay');
+
+            });
+
+            var form1 = $("#expense-request-form");
+                form1.submit(function(e) {
+                e.preventDefault();
+                $.post('/add_expense_request', {
+                    Request: $('#Request').val()
+                }, function(data, textStatus, xhr) {
+                    if(data.success === true){
+                    $('#Request').append('<option selected value="'+ data.data.RequestListRef +'">' +  data.data.RequestListRef +'</option>');
+                    $('#expense_request_setup').modal('hide');
+                    swal(
+                        'Success',
+                        data.data.Request + ' was added to the list',
+                        'success'
+                    )
+                        $('#Request').val('');
+
+                    } else {
+                    swal(
+                        'error',
+                        data.data.Request + ' has already been taken.',
+                        'error'
+                    )
+                }
+                });
+            });
+        </script>
+
     @endpush
 </link>

@@ -1461,3 +1461,5 @@ Route::post('setup/policy', 'SetupController@store_policy')->name('StorePolicy')
 Route::get('edit_policy/{id}', 'SetupController@edit_policy')->name('edit_policy');
 Route::post('update_policy', 'SetupController@update_policy')->name('UpdatePolicy');
 Route::get('setup/policy/{id}', 'SetupController@delete_policy')->name('delete_policy');
+
+Route::post('add_expense_request', 'SetupController@add_expense_request')->name('add_expense_request');

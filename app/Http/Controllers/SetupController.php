@@ -22,6 +22,7 @@ use MESL\Group;
 use MESL\SeniorityLevel;
 use MESL\DeductionItem;
 use MESL\Policy;
+use MESL\RequestList;
 use Auth;
 use Validator;
 
@@ -694,14 +695,14 @@ class SetupController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => $validator->messages()->first(),
                 'data' => $hmo
             ],200);
         }
         if ($hmo->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $hmo
             ],200);
@@ -719,14 +720,14 @@ class SetupController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => $validator->messages()->first(),
                 'data' => $hmoplan
             ],200);
         }
         if ($hmoplan->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $hmoplan
             ],200);
@@ -744,14 +745,14 @@ class SetupController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => $validator->messages()->first(),
                 'data' => $bank
             ],200);
         }
         if ($bank->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $bank
             ],200);
@@ -769,14 +770,14 @@ class SetupController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => $validator->messages()->first(),
                 'data' => $pfa
             ],200);
         }
         if ($pfa->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $pfa
             ],200);
@@ -794,14 +795,14 @@ class SetupController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => $validator->messages()->first(),
                 'data' => $purpose
             ],200);
         }
         if ($purpose->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $purpose
             ],200);
@@ -819,14 +820,14 @@ class SetupController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => $validator->messages()->first(),
                 'data' => $mode
             ],200);
         }
         if ($mode->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $mode
             ],200);
@@ -844,14 +845,14 @@ class SetupController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => $validator->messages()->first(),
                 'data' => $lodge
             ],200);
         }
         if ($lodge->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $lodge
             ],200);
@@ -869,14 +870,14 @@ class SetupController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => $validator->messages()->first(),
                 'data' => $transport
             ],200);
         }
         if ($transport->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $transport
             ],200);
@@ -891,7 +892,7 @@ class SetupController extends Controller
         ]);
         if ($level->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $level
             ],200);
@@ -906,7 +907,7 @@ class SetupController extends Controller
         ]);
         if ($policy->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $policy
             ],200);
@@ -924,14 +925,14 @@ class SetupController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => $validator->messages()->first(),
                 'data' => $department
             ],200);
         }
         if ($department->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $department
             ],200);
@@ -947,16 +948,41 @@ class SetupController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'success' => false, 
+                'success' => false,
                 'message' => $validator->messages()->first(),
                 'data' => $stafftype
             ],200);
         }
         if ($stafftype->save()) {
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Setup created Successfully',
                 'data' => $stafftype
+            ],200);
+        }
+    }
+
+    public function add_expense_request(Request $request)
+    {
+        dd($request->all());
+        $expense_request = new RequestList($request->all());
+
+
+        $validator = Validator::make($request->all(), [
+            'Request' => 'required|unique:tblRequestList',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'succes' => false,
+                'message' => $validator->messages()->first(),
+                'data' => $expense_request
+            ],200);
+        }
+        if ($expense_request->save()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Setup created Successfully',
+                'data' => $expense_request
             ],200);
         }
     }
