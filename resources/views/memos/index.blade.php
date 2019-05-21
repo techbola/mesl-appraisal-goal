@@ -301,6 +301,16 @@
         }); 
     }
 
+    function activate_memo_inbox_queue(){
+        let url = new URL(window.location.href);
+        let queue = url.searchParams.get('tab'); 
+        if(queue != null && queue == 3) {
+            $('a[href="#inbox"]').tab('show');
+        }
+    }
+
+    activate_memo_inbox_queue();
+
     // datatbles
     var data = [];
         for ( var i=0 ; i<50000 ; i++ ) {

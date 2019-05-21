@@ -9,7 +9,7 @@ Dear **{{$memo->initiator->FullName}},**
 {{-- @if(!is_null($current_approver))
 Your Memo was recently approved by {{ $current_approver ?? '' }}
 @endif --}}
-This is to notify you that your (**{{ $current_approver ?? '' }}**) has approved your memo. Some details of the requests are as follows:
+This is to notify you that (**{{ $current_approver ?? '' }}**) has approved your memo. Some details of the requests are as follows:
 
 -------------------------------------------------------------------
 

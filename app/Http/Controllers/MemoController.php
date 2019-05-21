@@ -7,6 +7,7 @@ use File;
 use Illuminate\Http\Request;
 use Mail;
 use MESL\Mail\ApprovedMemo;
+use MESL\Mail\ApprovedMemoConfirmation;
 use MESL\Memo;
 use MESL\MemoAttachment;
 use MESL\Notifications\MemoApproval;
