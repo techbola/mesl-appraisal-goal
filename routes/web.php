@@ -874,6 +874,9 @@ Route::middleware(['auth'])->group(function () {
 
     // download memo files as zip
     Route::get('download-memo-attachments/{id}', 'MemoController@downloadAttachments')->name('download-memo-attachments');
+    Route::get('memos/routing', 'MemoController@routing');
+    Route::post('memos/routing', 'MemoController@routing_store');
+    Route::post('memos/fetch-memo-approvers', 'MemoController@fetchMemoApprovers');
 
     // main memo routes
     Route::resource('memos', 'MemoController');

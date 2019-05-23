@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Mail;
 use MESL\Mail\ApprovedMemo;
 use MESL\Mail\ApprovedMemoConfirmation;
+use MESL\Mail\SendRouteMail;
 use MESL\Memo;
 use MESL\MemoAttachment;
 use MESL\Notifications\MemoApproval;
@@ -350,5 +351,58 @@ class MemoController extends Controller
         // dd($files);
         \Zipper::make(public_path(str_slug($memo->subject) . '.zip'))->add($files)->close();
         return response()->download(public_path(str_slug($memo->subject) . '.zip'));
+    }
+
+    public function routing()
+    {
+        $memos = Memo::where('processed_flag', 0)->get();
+        $staff = User::all();
+        return view('memos.routing', compact('memos', 'staff'));
+    }
+
+    public function routing_store(Request $request)
+    {
+        $memo              = Memo::find($request->id);
+        $memo->ApproverID1 = $request->ApproverID1;
+        $memo->ApproverID2 = $request->ApproverID2;
+        $memo->ApproverID3 = $request->ApproverID3;
+        $memo->ApproverID4 = $request->ApproverID4;
+        $memo->save();
+        // return response()->json([
+        //     'success' => true,
+        //     'data'    => $memo,
+        //     'message' => 'Memo has been updated successfully',
+        // ], 200);
+        Mail::to($memo->initiator->user->email)->send(new SendRouteMail($memo));
+        return redirect('/memos/routing')->with('success', 'Memo has been routed successfully');
+    }
+
+    public function fetchMemoApprovers(Request $request)
+    {
+        $memo = Memo::where('id', $request->id)->get();
+        $memo = $memo->transform(function ($item, $key) {
+            $item->approver1_name = User::find($item->ApproverID1)->FullName ?? '';
+            $item->approver2_name = User::find($item->ApproverID2)->FullName ?? '';
+            $item->approver3_name = User::find($item->ApproverID3)->FullName ?? '';
+            $item->approver4_name = User::find($item->ApproverID4)->FullName ?? '';
+            return $item;
+        });
+
+        if ($memo) {
+            // return redirect()->with('success', 'Memo has been routed successfully');
+            return response()->json([
+                'success' => true,
+                'data'    => $memo[0],
+                'message' => 'Approvers Fetched Successfully',
+            ], 200);
+        } else {
+            // return redirect()->with('danger', 'Memo routing failed');
+            return response()->json([
+                'success' => false,
+                'data'    => $memo[0],
+                'message' => 'Memo was not found',
+            ], 200);
+        }
+
     }
 }
