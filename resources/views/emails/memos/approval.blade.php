@@ -19,6 +19,8 @@ This is to notify you that (**{{ $current_approver ?? '' }}**) has approved your
 
 **Content: **  {!! $memo->body !!}
 
+**Comment: ** {!! $memo->ApproverComment !!}
+
 **Date Created: **  {{ $memo->created_at->toFormattedDateString() }}
 
 **Approvers:**  {{ $memo->approvers() }}

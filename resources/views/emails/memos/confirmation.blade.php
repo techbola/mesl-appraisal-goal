@@ -8,11 +8,12 @@ Dear **{{$memo->initiator->FullName}}**,
 
 **Memo Subject: **  {{ $memo->subject }}
 
+**Comment: ** {!! $memo->ApproverComment !!}
+
 **Date Created: **  {{ $memo->created_at }}
 --------------------------------------------
 
 **Approvers: **  {{ $memo->approvers() }}
-
 
 
 Cheers.

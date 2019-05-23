@@ -20,6 +20,16 @@ body {
     margin-left: -15px;
 }
 
+.site-logo img {
+    width: 100px;
+}
+
+.approved {
+    background: green !important;
+    padding: 3px;
+    color: #fff !important;
+}
+
 hr {
     margin: 10px 0 !important;
 }

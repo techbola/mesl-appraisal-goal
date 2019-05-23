@@ -49,6 +49,7 @@ class MemoApproval extends Notification
             ->line('**Memo Subject: **' . $memo->subject)
             ->line('**Memo Purpose: **' . $memo->purpose)
             ->line('**Memo Body: **' . $memo->body)
+            ->line('**Comment: **' . $memo->ApproverComment)
             ->line('**Date Created: **' . $memo->created_at->toFormattedDateString())
             ->line('**Created By: **' . $memo->initiator->FullName)
             ->line('Use the button below to visit the approval page ' . config('app.name') . '.')
