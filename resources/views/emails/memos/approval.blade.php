@@ -29,9 +29,9 @@ This is to notify you that (**{{ $current_approver ?? '' }}**) has approved your
 
 
 @if(!is_null($next_approver))
-Your requested has been forwarded to the next party (**{{ $next_approver->fullName }}**). You can check the status by following the link below.
+Your request has been forwarded to the next party (**{{ $next_approver->fullName }}**). You can check the status by following the link below.
 @else
-Your requested has been forwarded to the next party. You can check the status by following the link below.
+Your request has been forwarded to the next party. You can check the status by following the link below.
 @endif
 
 
