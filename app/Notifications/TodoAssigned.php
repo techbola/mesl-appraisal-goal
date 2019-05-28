@@ -41,11 +41,11 @@ class TodoAssigned extends Notification
     public function toMail($notifiable)
     {
       $todo = $this->todo;
-      $company = $notifiable->staff->company->Company;
+      $company = $notifiable->staff->company->Company ?? '';
       $initiator = $todo->initiator->FullName;
 
         return (new MailMessage)
-            ->subject('New To-Do Item at '.$company)
+            ->subject('New To-Do Item'.($company)? ' at '.$company : '')
             ->greeting('Hi, '.$notifiable->first_name)
             ->line($initiator.' has assigned a new to-do item to you. Here\'s what they said:')
             ->line('**To-Do Item: **'.$todo->Todo)

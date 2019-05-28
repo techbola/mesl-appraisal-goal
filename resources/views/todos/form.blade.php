@@ -16,11 +16,42 @@
       </div>
     </div>
   </div>
+
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-6">
+    <div class="form-group">
+      {{ Form::label('StartTime', 'Start Time' ) }}
+      <div class="input-group bootstrap-timepicker">
+        {{ Form::text('StartTime', null, ['class' => 'form-control timepicker', 'placeholder' => 'Start Time']) }}
+        <span class="input-group-addon"><i class="pg-clock"></i></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group">
+      {{ Form::label('EndTime', 'End Time' ) }}
+      <div class="input-group bootstrap-timepicker">
+        {{ Form::text('EndTime', null, ['class' => 'form-control timepicker', 'placeholder' => 'End Time']) }}
+        <span class="input-group-addon"><i class="pg-clock"></i></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row">
+
+
   <div class="col-md-12">
     <div class="form-group">
-      {{ Form::label('UserID', 'Assign To') }}
+      {{ Form::label('assignees', 'Assign To') }}
       {{-- <span class="help">Leave empty to assign to yourself.</span> --}}
-      {{ Form::select('UserID', [ '' =>  'Select Staff'] + $staffs->pluck('FullName', 'UserID')->toArray(), auth()->id(), ['class'=> "full-width", 'data-init-plugin' => "select2"]) }}
+      {{ Form::select('assignees[]', $staffs->pluck('FullName', 'UserID')->toArray(), auth()->id(), ['class'=> "full-width", 'data-init-plugin' => "select2", "multiple"]) }}
     </div>
   </div>
 

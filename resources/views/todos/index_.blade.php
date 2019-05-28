@@ -59,10 +59,12 @@
 
   </div>
 
+  @include('todos.add_edit_modal')
+
 
 
   <!-- Modal -->
-  <div class="modal fade slide-up disable-scroll" id="new_todo" role="dialog" aria-hidden="false">
+  {{-- <div class="modal fade slide-up disable-scroll" id="new_todo" role="dialog" aria-hidden="false">
     <div class="modal-dialog ">
       <div class="modal-content-wrapper">
         <div class="modal-content">
@@ -81,7 +83,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 
 @endsection
 

@@ -340,6 +340,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('todos', 'TodoController@index')->name('todos');
     Route::get('todos-calendar', 'TodoController@todos_calendar')->name('todos_calendar');
     Route::get('get_todos/{staff?}', 'TodoController@get_todos')->name('get_todos'); // AJAX
+    Route::get('get_todo/{id}', 'TodoController@get_todo')->name('get_todo'); // AJAX
     Route::post('save_todo', 'TodoController@save_todo')->name('save_todo');
     Route::patch('update_todo/{id}', 'TodoController@update_todo')->name('update_todo');
     Route::get('toggle_todo/{id}', 'TodoController@toggle_todo')->name('toggle_todo'); // AJAX
@@ -896,6 +897,32 @@ Route::get('/cls', function () {
     Artisan::call('config:clear');
     return redirect('/');
 });
+
+Route::get('/todo_assignees', function () {
+    $todos = Cavi\Todo::all();
+    foreach ($todos as $todo) {
+      if (empty($todo->UserID))
+      continue;
+
+      $asg = DB::table('tblTodoAssignees')->insert(['TodoID'=>$todo->TodoRef, 'UserID' => $todo->UserID]);
+    }
+    return 'Done';
+});
+
+// Route::get('/fix_dates', function () {
+//     $todos = Cavi\Todo::where('Done', '1')->where('CompletedDate', null)->get();
+
+//     foreach ($todos as $todo) {
+//         if (empty($todo->DueDate)) {
+//             $todo->CompletedDate = date('Y-m-d');
+//         } else {
+//             $todo->CompletedDate = $todo->DueDate;
+//         }
+
+//         $todo->update();
+//     }
+//     return 'Done';
+// });
 
 Route::get('/cda', function () {
     exec('composer dump-autoload');

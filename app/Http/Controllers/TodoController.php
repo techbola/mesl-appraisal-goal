@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use MESL\Todo;
 use MESL\Staff;
 use Carbon;
+use MESL\User;
+use DB;
+use Gate;
 
 use Notification;
 use MESL\Notifications\TodoAssigned;
@@ -28,9 +31,13 @@ class TodoController extends Controller
 
       if (!empty($staff_id)) {
         $staff = Staff::find($staff_id);
-        $todos = Todo::where('UserID', $staff->UserID)->where('Done', '0')->get();
+        $todos = Todo::whereHas('assignees', function ($q) use ($staff) {
+          $q->where('id', $staff->UserID);
+        })->where('Done', '0')->get();
       } else {
-        $todos = Todo::where('UserID', $user->id)->where('Done', '0')->get();
+        $todos = Todo::whereHas('assignees', function ($q) use ($user) {
+          $q->where('id', $user->id);
+        })->where('Done', '0')->get();
       }
       // $todos = $user->todos->where('Done', '0')->get();
       $todos_array = [];
@@ -63,13 +70,17 @@ class TodoController extends Controller
       $todo->DueDate = $request->DueDate;
       $todo->UserID = $request->UserID;
       $todo->Initiator = $user->id;
+      $todo->StartTime = $request->StartTime;
+      $todo->EndTime   = $request->EndTime;
       $todo->CompanyID = $user->staff->CompanyID;
       // $todo->Description = $todo->Description;
       $todo->save();
+      $todo->assignees()->attach($request->assignees);
 
-      if ($user->id != $request->UserID) {
-        Notification::send($todo->user, new TodoAssigned($todo));
-      }
+      array_diff( $request->assignees, (array)$user->id );
+      // if ($user->id != $request->UserID) {
+        Notification::send($todo->assignees, new TodoAssigned($todo));
+      // }
 
       return redirect()->back()->with('success', 'Todo was added successfully');
     }
@@ -85,11 +96,55 @@ class TodoController extends Controller
       $todo = Todo::find($id);
       $todo->Todo = $request->Todo;
       $todo->DueDate = $request->DueDate;
-      $todo->UserID = $request->UserID;
+      $todo->StartTime = $request->StartTime;
+      $todo->EndTime   = $request->EndTime;
       // $todo->Description = $todo->Description;
       $todo->update();
+      if (!empty($request->assignees)) {
+        $todo->assignees()->detach();
+        $todo->assignees()->attach($request->assignees);
+      }
 
       return redirect()->back()->with('success', 'Todo was updated successfully');
+    }
+
+
+    public function update_todo_ajax(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+            $user = auth()->user();
+
+            $this->validate($request, [
+                'Todo'    => 'required',
+                'DueDate' => 'required',
+            ]);
+
+            $todo            = Todo::find($id);
+            $todo->Todo      = $request->Todo;
+            $todo->DueDate   = $request->DueDate;
+            $todo->StartTime = $request->StartTime;
+            $todo->EndTime   = $request->EndTime;
+            // $todo->UserID = $request->UserID;
+            $todo->update();
+            if (!empty($request->assignees)) {
+                $todo->assignees()->detach();
+                $todo->assignees()->attach($request->assignees);
+            }
+            // $todo->Description = $todo->Description;
+            DB::commit();
+            return response($todo, 200, $headers = ['Content-type' => 'application/json']);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json($e, 500, $headers = ['Content-type' => 'application/json']);
+        }
+
+    }
+    
+    public function get_todo($id)
+    {
+        $todo = Todo::find($id);
+        return $todo;
     }
 
     public function index()
@@ -118,12 +173,16 @@ class TodoController extends Controller
 
     public function toggle_todo(Request $request, $id)
     {
-      $todo = Todo::find($id);
+      $todo      = Todo::find($id);
+      $checkonly = $_GET['checkonly'] ?? '';
+
       if ($todo->Done == '0') {
-        $todo->Done = '1';
-        $todo->CompletedDate = Carbon::now();
+          $todo->Done = '1';
+          if (empty($checkonly)) {
+              $todo->CompletedDate = Carbon::now();
+          }
       } else {
-        $todo->Done = '0';
+          $todo->Done = '0';
       }
       $todo->update();
 
@@ -142,7 +201,11 @@ class TodoController extends Controller
     public function assigned_todos()
     {
       $user = auth()->user();
-      $todo_users = Todo::select('UserID')->where('Initiator', $user->id)->where('UserID', '!=', $user->id)->where('Done', '0')->with('user')->GroupBy('UserID')->get();
+      // $todo_users = Todo::select('UserID')->where('Initiator', $user->id)->where('UserID', '!=', $user->id)->where('Done', '0')->with('user')->GroupBy('UserID')->get();
+
+      $todo_users = User::where('id', '!=', $user->id)->whereHas('todos', function ($q) use ($user) {
+        $q->where('Initiator', $user->id);
+      })->get();
       // dd($todo_users);
       $staffs = Staff::where('CompanyID', $user->staff->CompanyID)->get();
 
@@ -152,15 +215,45 @@ class TodoController extends Controller
     public function get_assigned_todos($id)
     {
       $user = auth()->user();
-      $todos = Todo::where('Initiator', $user->id)->where('UserID', $id)->where('Done', '0')->with('user')->orderBy('DueDate', 'desc')->get();
-      // dd($todo_users);
-      return $todos;
+      $today = date('Y-m-d');
+
+      // selected dates or this week
+      $from = $_GET['from'] ?? Carbon::parse($today)->startofYear()->format('Y-m-d');
+      $to   = $_GET['to'] ?? Carbon::parse($today)->endofYear()->format('Y-m-d');
+
+      if (Gate::allows('hr-admin')) {
+        $todos = Todo::whereHas('assignees', function ($q) use ($id) {
+            $q->where('id', $id);
+        })->where('Done', '0')->whereDate('DueDate', '>=', $from)->whereDate('DueDate', '<=', $to)->orderBy('DueDate', 'desc')->get();
+      } else {
+          $todos = Todo::where('Initiator', $user->id)->whereHas('assignees', function ($q) use ($id) {
+              $q->where('id', $id);
+          })->where('Done', '0')->whereDate('DueDate', '>=', $from)->whereDate('DueDate', '<=', $to)->orderBy('DueDate', 'desc')->get();
+      }
+
+      // return $todos;
+      return response(compact('todos', 'todo_user'), 200, $headers = ['Content-type' => 'application/json']);
     }
 
     public function get_assigned_todos_done($id)
     {
       $user = auth()->user();
-      $todos = Todo::where('Initiator', $user->id)->where('UserID', $id)->where('Done', '1')->with('user')->orderBy('DueDate', 'desc')->get();
+      $today = date('Y-m-d');
+
+      // selected dates or this week
+      $from = $_GET['from'] ?? Carbon::parse($today)->startofWeek()->format('Y-m-d');
+      $to   = $_GET['to'] ?? Carbon::parse($today)->endofWeek()->format('Y-m-d');
+
+      if (Gate::allows('hr-admin')) {
+        $todos = Todo::whereHas('assignees', function ($q) use ($id) {
+            $q->where('id', $id);
+        })->where('Done', '1')->whereDate('CompletedDate', '>=', $from)->whereDate('CompletedDate', '<=', $to)->orderBy('CompletedDate', 'desc')->get();
+      } else {
+          $todos = Todo::where('Initiator', $user->id)->whereHas('assignees', function ($q) use ($id) {
+              $q->where('id', $id);
+          })->where('Done', '1')->whereDate('CompletedDate', '>=', $from)->whereDate('CompletedDate', '<=', $to)->orderBy('CompletedDate', 'desc')->get();
+      }
+      // $todos = Todo::where('Initiator', $user->id)->where('UserID', $id)->where('Done', '1')->with('user')->orderBy('DueDate', 'desc')->get();
       // dd($todo_users);
       return $todos;
     }
