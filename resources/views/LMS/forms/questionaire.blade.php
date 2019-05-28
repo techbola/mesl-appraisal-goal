@@ -1,76 +1,97 @@
 <div class="row">
-	<div style="padding: 20px">
-		<h3>Create New Question For <span id="questionaire_course_name" style="color: green; font-weight: 900"></span></h3><hr>
-
-		{{ Form::open(['id'=>'questionaire_form','autocomplete' => 'off', 'role' => 'form']) }}
-
-                  <div class="col-md-12">
-				    <div class="form-group">
-				      {{ Form::label('Question', 'Question' ) }}
+    <div style="padding: 20px">
+        <h3>
+            Create New Question For
+            <span id="questionaire_course_name" style="color: green; font-weight: 900">
+            </span>
+        </h3>
+        <hr>
+            {{ Form::open(['id'=>'questionaire_form','autocomplete' => 'off', 'role' => 'form']) }}
+            <div class="col-md-12">
+                <div class="form-group">
+                    {{ Form::label('Question', 'Question' ) }}
 				      {{ Form::textarea('Question', null, ['class' => 'summernote form-control','rows' => 3, 'id'=>'question', 'placeholder' => 'Be expressive']) }}
-				    </div>
-				  </div>
-
-				  <div class="col-md-6">
-				    <div class="form-group">
-				      <input type="radio" value="A" name="Final_Answer" id="A">
-				      <label for="A">Click if correct answer is A</label>
-				      {{ Form::text('Answer_A', null, ['class' => 'form-control', 'id'=>'option_a', 'placeholder' => 'Question A']) }}
-				    </div>
-				  </div>
-
-				  <div class="col-md-6">
-				    <div class="form-group">
-				      <input type="radio" value="B" name="Final_Answer" id="B">
-				      <label for="B">Click if correct answer is B</label>
-				      {{ Form::text('Answer_B', null, ['class' => 'form-control', 'id'=>'option_b', 'placeholder' => 'Question B']) }}
-				    </div>
-				  </div>
-
-				  <div class="col-md-6">
-				    <div class="form-group">
-				      <input type="radio" value="C" name="Final_Answer" id="C">
-				      <label for="C">Click if correct answer is C</label>
-				      {{ Form::text('Answer_C', null, ['class' => 'form-control', 'id'=>'option_c', 'placeholder' => 'Question C']) }}
-				    </div>
-				  </div>
-
-				  <div class="col-md-6">
-				    <div class="form-group">
-				      <input type="radio" value="D" name="Final_Answer" id="D">
-				      <label for="D">Click if correct answer is D</label>
-				      {{ Form::text('Answer_D', null, ['class' => 'form-control', 'id'=>'option_d', 'placeholder' => 'Question D']) }}
-				    </div>
-				  </div>
-
-				  <div class="col-md-12">
-				    <div class="form-group">
-				      {{ Form::label('Explanation', 'Question' ) }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input id="A" name="Final_Answer" type="radio" value="A">
+                        <label for="A">
+                            Click if correct answer is A
+                        </label>
+                        {{ Form::text('Answer_A', null, ['class' => 'form-control', 'id'=>'option_a', 'placeholder' => 'Question A']) }}
+                    </input>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input id="B" name="Final_Answer" type="radio" value="B">
+                        <label for="B">
+                            Click if correct answer is B
+                        </label>
+                        {{ Form::text('Answer_B', null, ['class' => 'form-control', 'id'=>'option_b', 'placeholder' => 'Question B']) }}
+                    </input>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input id="C" name="Final_Answer" type="radio" value="C">
+                        <label for="C">
+                            Click if correct answer is C
+                        </label>
+                        {{ Form::text('Answer_C', null, ['class' => 'form-control', 'id'=>'option_c', 'placeholder' => 'Question C']) }}
+                    </input>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input id="D" name="Final_Answer" type="radio" value="D">
+                        <label for="D">
+                            Click if correct answer is D
+                        </label>
+                        {{ Form::text('Answer_D', null, ['class' => 'form-control', 'id'=>'option_d', 'placeholder' => 'Question D']) }}
+                    </input>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    {{ Form::label('Explanation', 'Question' ) }}
 				      {{ Form::textarea('Explanation', null, ['class' => 'summernote form-control','rows' => 3, 'id'=>'explanation', 'placeholder' => 'Be expressive']) }}
-				    </div>
-				  </div>
-
-				  <input type="hidden" name="CourseID" id="questionaire_course_ref">
-
-				  <div class="row">
-					  <div class="pull-right">
-					  		<button type="submit" class="btn btn-primary  btn-sm" id="submit_question">Submit</button>
-					  </div>					  
-				  </div><br>
-				  <p style="font-weight: 600; color: red" class="hide" id="answer_notification">Please make sure all answer input and correct answer field are filled</p>
-				  <div style="background: #ccc; padding: 20px" id='question_limit' class="hide">
-					  		<p style="font-weight: 600; color: green" class="pull-right"><span id="limit"></span> is required,  <span id="count_rem"></span> question are available for the course.</p><div class="clearfix"></div>
-					  </div>
-
-        {{ Form::close() }}
-
-	</div>
-	
+                </div>
+            </div>
+            <input id="questionaire_course_ref" name="CourseID" type="hidden">
+                <div class="row">
+                    <div class="pull-right">
+                        <button class="btn btn-primary btn-sm" id="submit_question" type="submit">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+                <br>
+                    <p class="hide" id="answer_notification" style="font-weight: 600; color: red">
+                        Please make sure all answer input and correct answer field are filled
+                    </p>
+                    <div class="hide" id="question_limit" style="background: #ccc; padding: 20px">
+                        <p class="pull-right" style="font-weight: 600; color: green">
+                            <span id="limit">
+                            </span>
+                            is required,
+                            <span id="count_rem">
+                            </span>
+                            question are available for the course.
+                        </p>
+                        <div class="clearfix">
+                        </div>
+                    </div>
+                    {{ Form::close() }}
+                </br>
+            </input>
+        </hr>
+    </div>
 </div>
-
 @push('scripts')
-	<script>
-		$('#submit_question').click(function(event) {
+<script>
+    $('#submit_question').click(function(event) {
 			event.preventDefault();
 			var id = $('#questionaire_course_ref').val();
 			var question = $('#question').val();
@@ -120,5 +141,5 @@
 			}
 
 		});
-	</script>
+</script>
 @endpush

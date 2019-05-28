@@ -9,7 +9,7 @@ End Date: <b>{{ nice_date($leave_request->ReturnDate) }}</b>
 
 
 
-You are required to approve or decline their request.
+You are required to either approve or decline this request.
 
 Cheers.
 

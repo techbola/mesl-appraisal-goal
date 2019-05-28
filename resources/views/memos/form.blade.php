@@ -7,7 +7,7 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('request_type_id', 'Request Type') }}
+                    {{ Form::label('request_type_id', 'Request Type') }}<span style="padding: 0 !important" class="form-add-more add-req badge badge-success " data-toggle="modal" data-target="req_setup"><i style="    line-height: 17px;" class="fa fa-plus"></i></span>
                     {{ Form::select('request_type_id', ['' => 'Select Request Type'] + $request_types->pluck('name','id')->toArray() ,null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Request Type']) }}
                 </div>
             </div>
@@ -15,8 +15,9 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
+
                     {{ Form::label('recipients', 'To') }}
-                    {{ Form::select('recipients[]',$employees->pluck('FullName', 'UserID'),null, ['class' => 'full-width','data-init-plugin' => "select2", 'multiple', 'data-placeholder' => 'Select Approver']) }}
+                    {{ Form::select('recipients[]',$employees->pluck('FullName', 'UserID'),  isset($memo) ? collect($memo->recipients)->toArray() : null , ['class'=> "form-control select2", 'data-init-plugin' => "select2", 'multiple', 'data-placeholder' => 'Select Approver']) }}
                 </div>
             </div>
         </div>
@@ -140,4 +141,6 @@
 		})        
     </script>
     @endpush
+
+
 </link>

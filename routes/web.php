@@ -88,14 +88,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('staff/onboard_dashboard', 'StaffController@approve_onboard')->name('ApproveOnboard');
     Route::get('staff/staff_onboard', 'StaffController@staff_onboarding')->name('StaffOnboarding');
 
-    Route::get('/staff/exit_interview', 'StaffController@exit_interview');
+    Route::get('/staff/exit_interview', 'StaffController@exit_interview')->name('StaffExit');
     Route::post('staff/staff_onboard', 'StaffController@store_staff_onboard')->name('StoreStaff');
     Route::get('send_staff_onboarding/{id}', 'StaffController@send_staff_onboarding')->name('SendOnboarding');
     Route::get('staff/staff_onboard/{id}', 'StaffController@delete_onboarding')->name('deleteOnboard');
     Route::get('staff', 'StaffController@index')->name('staff');
     Route::get('staff/onboard_dashboard_admin', 'StaffController@approve_onboard_admin')->name('ApproveOnboardAdmin');
 
-    Route::post('staff/exit_interview', 'StaffController@send_exit')->name('SendExit');
+    Route::post('staff/exit_interview', 'StaffController@send_exit')->name('SendExit')->middleware(['auth']);
     Route::get('fetch/staff/info', 'StaffController@getStaffInfo');
 
     Route::get('edit_staff_onboarding/{id}', 'StaffController@edit_staff_onboarding')->name('edit_staff_onboarding');
@@ -249,12 +249,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor')->name('leave_request.approved');
     Route::post('leave_request/approve_request/{id}', 'LeaveRequestController@approve_request_supervisor');
     Route::get('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
+    Route::post('leave_request/reject_request/{id}', 'LeaveRequestController@reject_request_supervisor');
+    Route::delete('leave_request/delete-leave-request/', 'LeaveRequestController@delete_leave_request');
+    Route::get('leave_request/hon/{LeaveReqRef}', 'LeaveRequestController@show_handover');
 
     Route::get('leave_request/leave_type', 'LeaveRequestController@leave_type');
 
     Route::get('leave_request/{leave_type_id}', 'LeaveRequestController@get_leave_days');
     Route::get('leave_request_remaining/{leave_type_id}', 'LeaveRequestController@get_leave_remaining_days');
-    
+
     Route::post('leave_request/leave_type', 'LeaveRequestController@store_leavetype')->name('StoreLeaveType');
 
     Route::get('edit_leave_type/{id}', 'LeaveRequestController@edit_leave_type')->name('edit_leave_type');
@@ -328,7 +331,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('edit_doc_type/{id}', 'DocTypeController@edit_doc_type')->name('edit_doc_type');
     Route::get('documents/doctype/{id}', 'DocTypeController@delete_doc_type')->name('delete_doc_type');
     Route::post('update_doc_type', 'DocTypeController@update_doc_type')->name('updatedoctype');
-    
 
     Route::get('events', 'EventScheduleController@index')->name('events');
     Route::get('get_events', 'EventScheduleController@get_events')->name('get_events'); // AJAX
@@ -458,6 +460,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('reject_purchase_journal_posting_approvals', 'CashEntryController@reject_purchase_journal_posting_approvals');
     Route::get('cash_entries/show_approve_purchase_journal', 'CashEntryController@show_approve_purchase_journal')->name('ApprovePurchaseJournal');
 
+    // balance score card
+    Route::get('/appraisal/new', 'AppraisalController@create')->name('appraisal.new');
+    Route::post('/appraisal/store', 'AppraisalController@store')->name('appraisal.store');
+
+    Route::post('/appraisalitem/store', 'AppraisalItemController@store')->name('appraisalitem.store');
+
     // Learning Management System
 
     Route::get('LMS/course_dashboard', 'CourseController@course_dashboard')->name('CourseDashboard');
@@ -493,6 +501,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_final_test_result/{batch}/{course_ref}', 'CourseController@get_final_test_result');
     Route::get('get_exam_review_questions/{course_ref}/{batch_ref}', 'CourseController@get_exam_review_questions');
     Route::get('reset_exam_question/{course_ref}/{batch_ref}', 'CourseController@reset_exam_question');
+    Route::get('get_all_course_module/{ref}', 'CourseController@get_all_course_module');
+    Route::post('post_module_question_record', 'CourseController@post_module_question_record');
+    Route::get('get_course_module_questions/{id}/{ref}', 'CourseController@get_course_module_questions');
+    Route::post('post_module_examination', 'CourseController@post_module_examination');
+    Route::get('view_and_edit_question', 'CourseController@view_and_edit_question')->name('ViewEditQuestion');
+    Route::get('get_course_module_for_edit/{ref}', 'CourseController@get_course_module_for_edit');
+    Route::get('search_course_module/{course_ref}/{module_ref}', 'CourseController@search_course_module');
+    Route::get('get_module_question_by_id/{id}', 'CourseController@get_module_question_by_id');
+    Route::post('post_editted_course_module/{ref}', 'CourseController@post_editted_course_module');
+    Route::get('delete_module_question/{ref}', 'CourseController@delete_module_question');
+    Route::get('search_course_question/{ref}', 'CourseController@search_course_question');
+    Route::get('get_editted_question/{ref}', 'CourseController@get_editted_question');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
@@ -852,6 +872,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('memos/approve', 'MemoController@approve');
     Route::post('memos/process', 'MemoController@process')->name('process_memo');
     Route::post('memos/reject', 'MemoController@reject');
+
+    // download memo files as zip
+    Route::get('download-memo-attachments/{id}', 'MemoController@downloadAttachments')->name('download-memo-attachments');
+    Route::get('memos/routing', 'MemoController@routing');
+    Route::post('memos/routing', 'MemoController@routing_store');
+    Route::post('memos/fetch-memo-approvers', 'MemoController@fetchMemoApprovers');
 
     // main memo routes
     Route::resource('memos', 'MemoController');
@@ -1354,10 +1380,10 @@ Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->nam
 Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
 
 // Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
-Route::get('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
+Route::post('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
-Route::get('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
+Route::post('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
 
 Route::post('/travel_request/approve', 'TravelRequestController@approve');
 
@@ -1371,7 +1397,7 @@ Route::get('/admin-dashboard', 'HomeController@admin_dashboard')->name('admin-ho
  */
 Route::get('help/desk/complaints', 'HelpDeskController@index')->name('helpdesk_module');
 
-Route::get('/exit/create', 'ExitController@index');
+Route::get('/exit/create', 'ExitController@index')->middleware(['auth']);
 
 Route::post('exit/create', 'ExitController@store_exit_interview')->name('StoreExitInterview');
 
@@ -1385,4 +1411,89 @@ Route::get('send_exit_interview/{id}', 'ExitController@send_exit_interview')->na
 
 Route::get('staff/exit_interview/{id}', 'StaffController@delete_exit_response')->name('delete_exit_response');
 
+//SETUP ROUTES
+Route::get('setup/index', 'SetupController@index');
 
+Route::get('setup/hmo', 'SetupController@hmo');
+Route::post('setup/hmo', 'SetupController@store_hmo')->name('StoreHmo');
+Route::get('edit_hmo/{id}', 'SetupController@edit_hmo')->name('edit_hmo');
+Route::post('update_hmo', 'SetupController@update_hmo')->name('updateHMO');
+Route::get('setup/hmo/{id}', 'SetupController@delete_hmo')->name('delete_hmo');
+
+Route::get('setup/hmo_plan', 'SetupController@hmo_plan');
+Route::post('setup/hmo_plan', 'SetupController@store_hmo_plan')->name('StoreHMOplan');
+Route::get('edit_hmo_plan/{id}', 'SetupController@edit_hmo_plan')->name('edit_hmo_plan');
+Route::post('update_hmo_plan', 'SetupController@update_hmo_plan')->name('updateHMOplan');
+Route::get('setup/hmo_plan/{id}', 'SetupController@delete_hmo_plan')->name('delete_hmo_plan');
+
+Route::get('setup/location', 'SetupController@location');
+Route::post('setup/location', 'SetupController@store_location')->name('StoreLocation');
+Route::get('edit_location/{id}', 'SetupController@edit_location')->name('edit_location');
+Route::post('update_location', 'SetupController@update_location')->name('updateLocation');
+Route::get('setup/location/{id}', 'SetupController@delete_location')->name('delete_location');
+
+Route::get('setup/pfa', 'SetupController@pfa');
+Route::post('setup/pfa', 'SetupController@store_pfa')->name('Storepfa');
+Route::get('edit_pfa/{id}', 'SetupController@edit_pfa')->name('edit_pfa');
+Route::post('update_pfa', 'SetupController@update_pfa')->name('updatepfa');
+Route::get('setup/pfa/{id}', 'SetupController@delete_pfa')->name('delete_pfa');
+
+Route::get('setup/bank_setup', 'SetupController@bank_setup');
+Route::post('setup/bank_setup', 'SetupController@store_bank')->name('StoreBank');
+Route::get('edit_bank/{id}', 'SetupController@edit_bank')->name('edit_bank');
+Route::post('update_bank', 'SetupController@update_bank')->name('updateBank');
+Route::get('setup/bank_setup/{id}', 'SetupController@delete_bank')->name('delete_bank');
+
+Route::get('setup/travel_purpose', 'SetupController@travel_purpose');
+Route::post('setup/travel_purpose', 'SetupController@store_travel_purpose')->name('StorePurpose');
+Route::get('edit_travel_purpose/{id}', 'SetupController@edit_travel_purpose')->name('edit_travel_purpose');
+Route::post('update_travel_purpose', 'SetupController@update_travel_purpose')->name('updatePurpose');
+Route::get('setup/travel_purpose/{id}', 'SetupController@delete_travel_purpose')->name('delete_travel_purpose');
+
+Route::get('setup/travel_mode', 'SetupController@travel_mode');
+Route::post('setup/travel_mode', 'SetupController@store_travel_mode')->name('StoreMode');
+Route::get('edit_travel_mode/{id}', 'SetupController@edit_travel_mode')->name('edit_travel_mode');
+Route::post('update_travel_mode', 'SetupController@update_travel_mode')->name('updateMode');
+Route::get('setup/travel_mode/{id}', 'SetupController@delete_travel_mode')->name('delete_travel_mode');
+
+Route::get('setup/travel_transport', 'SetupController@travel_transport');
+Route::post('setup/travel_transport', 'SetupController@store_travel_transport')->name('StoreTransport');
+Route::get('edit_travel_transport/{id}', 'SetupController@edit_travel_transport')->name('edit_travel_transport');
+Route::post('update_travel_transport', 'SetupController@update_travel_transport')->name('updateTransport');
+Route::get('setup/travel_transport/{id}', 'SetupController@delete_travel_transport')->name('delete_travel_transport');
+
+Route::get('setup/travel_lodge', 'SetupController@travel_lodge');
+Route::post('setup/travel_lodge', 'SetupController@store_travel_lodge')->name('StoreLodge');
+Route::get('edit_travel_lodge/{id}', 'SetupController@edit_travel_lodge')->name('edit_travel_lodge');
+Route::post('update_travel_lodge', 'SetupController@update_travel_lodge')->name('updateLodge');
+Route::get('setup/travel_lodge/{id}', 'SetupController@delete_travel_lodge')->name('delete_travel_lodge');
+
+Route::get('setup/staff_type', 'SetupController@staff_type');
+Route::post('setup/staff_type', 'SetupController@store_staff_type')->name('StoreStaffType');
+Route::get('edit_staff_type/{id}', 'SetupController@edit_staff_type')->name('edit_staff_type');
+Route::post('update_staff_type', 'SetupController@update_staff_type')->name('updateStaffType');
+Route::get('setup/staff_type/{id}', 'SetupController@delete_staff_type')->name('delete_staff_type');
+
+Route::get('setup/department', 'SetupController@department');
+Route::post('setup/department', 'SetupController@store_department')->name('StoreDept');
+Route::get('edit_department/{id}', 'SetupController@edit_department')->name('edit_department');
+Route::post('update_department', 'SetupController@update_department')->name('UpdateDept');
+Route::get('setup/department/{id}', 'SetupController@delete_department')->name('delete_department');
+
+Route::get('setup/level', 'SetupController@level');
+Route::post('setup/level', 'SetupController@store_level')->name('StoreLevel');
+Route::get('edit_seniority_level/{id}', 'SetupController@edit_seniority_level')->name('edit_seniority_level');
+Route::post('update_seniority_level', 'SetupController@update_seniority_level')->name('UpdateLevel');
+Route::get('setup/level/{id}', 'SetupController@delete_level')->name('delete_level');
+
+Route::get('setup/deduction', 'SetupController@deduction_item');
+Route::post('setup/deduction', 'SetupController@store_deduction')->name('StoreDeduction');
+Route::get('edit_deduction/{id}', 'SetupController@edit_deduction')->name('edit_deduction');
+Route::post('update_deduction', 'SetupController@update_deduction')->name('updateDeduction');
+Route::get('setup/deduction/{id}', 'SetupController@delete_deduction')->name('delete_deduction');
+
+Route::get('setup/policy', 'SetupController@policy');
+Route::post('setup/policy', 'SetupController@store_policy')->name('StorePolicy');
+Route::get('edit_policy/{id}', 'SetupController@edit_policy')->name('edit_policy');
+Route::post('update_policy', 'SetupController@update_policy')->name('UpdatePolicy');
+Route::get('setup/policy/{id}', 'SetupController@delete_policy')->name('delete_policy');

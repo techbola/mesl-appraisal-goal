@@ -14,6 +14,16 @@
         tbody tr td {
             font-size: 12px;
         }
+
+        .form-add-more{
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            padding: 0 !important;
+            cursor: pointer;
+        }
 	</style>
 @endpush
 
@@ -61,12 +71,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
-                                        {{ Form::label('StaffType', 'Staff Type' ) }}
-                                        <select name="StaffType" class="form-control" required="">
+                                        {{ Form::label('StaffType', 'Staff Type' ) }} <span style="padding: 0 !important" class="form-add-more add-stafftype badge badge-success" data-toggle="modal" data-target="staff_type_setup"><i class="fa fa-plus"></i></span>
+                                        <select name="StaffType" class="full-width" data-init-plugin="select2" id="staff_type_id" required>
                                             <option value="">Select Staff Type</option>
-                                            <option value="Full Staff">Full Staff</option>
-                                            <option value="Contract Staff">Contract Staff</option>
-                                            <option value="Intern">Intern</option>
+                                            @foreach($stafftype as $item)
+                                                <option value="{{ $item->StaffTypeRef }}">{{ $item->StaffType }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -101,7 +111,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="OfficeTable" value="Table" id="defaultCheck2">
                                     <label class="form-check-label" for="defaultCheck1">
-                                        Table
+                                        Workstation
                                     </label>
                                 </div>
                                 <div class="form-check">
@@ -148,7 +158,7 @@
 
             <hr>
             <div class="card-box">
-                <div class="card-title pull-left">ID Card Request Status</div>
+                <div class="card-title pull-left">Onboarding Request Draft</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <input type="text" class="search-table form-control pull-right" placeholder="Search">
@@ -294,10 +304,10 @@
                                     <div class="controls">
                                         {{ Form::label('StaffType', 'Staff Type' ) }}
                                         <select name="StaffType" class="full-width" data-init-plugin="select2", id="staff_type">
-                                            <option value="">Select Staff Type</option>
-                                            <option value="Full Staff">Full Staff</option>
-                                            <option value="Contract Staff">Contract Staff</option>
-                                            <option value="Intern">Intern</option>
+                                            <option value="">Edit Staff Type</option>
+                                            @foreach($stafftype as $item)
+                                                <option value="{{ $item->StaffTypeRef }}">{{ $item->StaffType }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -373,12 +383,83 @@
         </form>
     </div>
   </div>
+
+  {{-- staff type setup modal --}}
+  <div class="modal fade" id="staff_type_setup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Staff Type</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <hr>
+        <div class="modal-body">
+            <form action="" method="POST" id="staff-type-form">
+                {{ csrf_field() }}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="controls">
+                                {{ Form::label('StaffType', 'Staff Type' ) }}
+                                {{ Form::text('StaffType', null, ['class' => 'form-control', 'placeholder' => 'Add Staff Type', 'required']) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="pull-right">
+                        <button class="btn btn-info" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript">
     </script>
     <script>
+        
+    $('.add-stafftype').click(function(e){
+        e.preventDefault();
+        $('#staff_type_setup').show();
+        $('#staff_type_setup').modal('show');
+        
+    });
+
+    var form1 = $("#staff-type-form");
+        form1.submit(function(e) {
+        e.preventDefault();
+        $.post('/api/add_staff_type', {
+            StaffType: $('#StaffType').val()
+        }, function(data, textStatus, xhr) {
+            if(data.success === true){
+            $('#staff_type_id').append('<option selected value="'+ data.data.StaffTypeRef +'">' +  data.data.StaffType +'</option>');
+            $('#staff_type_setup').modal('hide');
+            swal(
+                'Success',
+                data.data.StaffType + ' was added to the list',
+                'success'
+            )
+                $('#StaffType').val('');
+                
+            } else {
+            swal(
+                'error',
+                data.data.StaffType + ' has already been taken.',
+                'error'
+            )
+        }
+        });
+    });
+
+
         $(document).ready(function() {
             $('#travelTable').DataTable({
                 "scrollX": true
@@ -479,6 +560,17 @@
                     // multiple: true
                 });
             });
+
+
+            // function activate_travel_request_queue(){
+                let url = new URL(window.location.href);
+                let queue = url.searchParams.get('tab'); 
+                if(queue != null && queue == 2) {
+                    $('a[href="#onboarding-status"]').tab('show');
+                }
+            // }
         })
     </script>
+
+
 @endpush

@@ -65,7 +65,8 @@
 
       <div class="col-sm-6">
         <div class="form-group">
-          <label class="req">Departments</label>
+            {{ Form::label('DepartmentID','Departments') }} <span style="padding: 0 !important" class="form-add-more add-department badge badge-success" data-toggle="modal" data-target="department_setup"><i class="fa fa-plus"></i></span>
+          {{-- <label class="req">Departments</label>  --}}
           {{ Form::select('DepartmentID', $departments->pluck('Department', 'DepartmentRef')->toArray(), $staff_departments, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
       </div>
@@ -148,8 +149,8 @@
 <div class="row">
     <div class="col-sm-3">
         <div class="">
-          {{ Form::label('EmploymentDate','Employment Date', ['class' => 'form-label']) }}
-          <div class="input-group date dp required req">
+          {{ Form::label('EmploymentDate','Employment Date', ['class' => 'form-label req']) }}
+          <div class="input-group date dp required">
             {{ Form::text('EmploymentDate', null, ['class' => 'form-control', 'placeholder' => 'Employment Date', 'required']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
@@ -166,8 +167,8 @@
     </div>
     <div class="col-sm-3">
         <div class="">
-          {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label']) }}
-          <div class="input-group date dp required req">
+          {{ Form::label('DateofBirth','Date of Birth', ['class' => 'form-label req']) }}
+          <div class="input-group date dp required ">
             {{ Form::text('DateofBirth', null, ['class' => 'form-control required', 'placeholder' => 'Date of Birth', 'required']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
@@ -185,7 +186,7 @@
 
       <div class="col-sm-3">
         <div class="form-group">
-            {{ Form::label('CityOfBirth','Town/City') }}
+            {{ Form::label('CityOfBirth','Hometown') }}
             {{ Form::text('CityOfBirth', null,  ['class' => 'form-control required', 'placeholder' => 'Enter City', 'required']) }}
         </div>
     </div>
@@ -234,6 +235,18 @@
         </div>
     </div>
 
+    {{-- <div class="col-sm-3">
+        <div class="form-group">
+            {{ Form::label('NationalityOfOrigin','Nationality') }}
+            <select name="NationalityOfOrigin" class="full-width" data-init-plugin="select2">
+                <option value="">Select Nationality</option>
+                @foreach($nationality as $nation)
+                    <option value="{{ $nation->CountryRef }}">{{ $nation->Country }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div> --}}
+
 {{-- <div class="clearfix"></div> --}}
 
     <div class="col-sm-3">
@@ -263,8 +276,8 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('WorkPhone','Work Phone Number') }}
-            {{ Form::number('WorkPhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Work Phone Number', 'maxLength' => '11', 'required']) }}
+            {{ Form::label('WorkPhone','Work Extension') }}
+            {{ Form::number('WorkPhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Work Extension', 'maxLength' => '11', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">
@@ -441,14 +454,14 @@
 
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('HMOID','Health Maintainace Organisation (HMO)') }}
+            {{ Form::label('HMOID','Health Maintainace Organisation (HMO)') }} <span style="padding: 0 !important" class="form-add-more add-hmo badge badge-success" data-toggle="modal" data-target="hmo_id"><i class="fa fa-plus"></i></span>
              {{ Form::select('HMOID', [ 0 =>  'Select your HMO'] + $hmos->pluck('HMO', 'HMORef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select your HMO", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
 
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('HMOPlanID','Health Maintainace Organisation Plan') }}
+            {{ Form::label('HMOPlanID','Health Maintainace Organisation Plan') }} <span style="padding: 0 !important" class="form-add-more add-hmo-plan badge badge-success" data-toggle="modal" data-target="hmo_plan"><i class="fa fa-plus"></i></span>
              {{ Form::select('HMOPlanID', [ 0 =>  'Select your HMO Plan'] + $hmoplans->pluck('HMOPlan', 'HMOPlanRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select your HMO Plan", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
@@ -536,8 +549,8 @@
 
     <div class="col-sm-4">
         <div class="">
-          {{ Form::label('DateObtained','Date Obtained', ['class' => 'form-label req']) }}
-          <div class="input-group date dp required">
+          {{ Form::label('DateObtained','Date Obtained', ['class' => 'form-label ']) }}
+          <div class="input-group date dp ">
             {{ Form::text('DateObtained[]', $value->DateObtained, ['class' => 'form-control', 'placeholder' => 'Date Obtained', 'disabled']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
@@ -545,18 +558,20 @@
     </div>
     </div> <hr>
     @endforeach
-    <div class="row institution-row">
+    
+    @if(count($institutions) <= 0)
+<div class="row institution-row">
       <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('Institution[]','Institution Attended') }}
-        {{ Form::text('Institution[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+        {{ Form::text('Institution[]', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Institution Attended', 'required']) }}
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('Qualification Obtained','Qualitification Obtained') }}
-        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Institution Attended', 'required']) }}
       </div>
     </div>
 
@@ -564,12 +579,39 @@
         <div class="">
           {{ Form::label('DateObtained','Date Obtained', ['class' => 'form-label req']) }}
           <div class="input-group date dp required">
-            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained']) }}
+            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained', 'required']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
         </div>
     </div>
     </div>
+    @else
+    <div class="row institution-row">
+      <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('Institution[]','Institution Attended') }}
+        {{ Form::text('Institution[]', null,  ['class' => 'form-control ', 'placeholder' => 'Enter Institution Attended', '']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        {{ Form::label('Qualification Obtained','Qualitification Obtained') }}
+        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control ', 'placeholder' => 'Enter Institution Attended', '']) }}
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="">
+          {{ Form::label('DateObtained','Date Obtained', ['class' => 'form-label ']) }}
+          <div class="input-group date dp ">
+            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained', '']) }}
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
+    </div>
+    </div>
+    @endif
 
     <div class="row">
       <div class="col-sm-12">
@@ -601,8 +643,8 @@
 
       <div class="col-sm-4">
           <div class="">
-            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label req']) }}
-            <div class="input-group date dp required">
+            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label']) }}
+            <div class="input-group date dp">
               {{ Form::text('ProfDateObtained[]', $value->DateObtained, ['class' => 'form-control', 'placeholder' => 'Date Obtained', 'disabled']) }}
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
@@ -621,8 +663,8 @@
 
       <div class="col-sm-4">
           <div class="">
-            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label req']) }}
-            <div class="input-group date dp required">
+            {{ Form::label('ProfDateObtained[]','Date Obtained', ['class' => 'form-label']) }}
+            <div class="input-group date dp">
               {{ Form::text('ProfDateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained']) }}
               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
@@ -642,8 +684,8 @@
     <div class="col-sm-4">
         <div class="">
           {{ Form::label('NYSCYear','NYSC Year', ['class' => 'form-label']) }}
-          <div class="input-group date dp-year required">
-            {{ Form::text('NYSCYear', null, ['class' => 'form-control', 'placeholder' => 'NYSC Year', 'required', 'readonly']) }}
+          <div class="input-group date dp-year">
+            {{ Form::text('NYSCYear', null, ['class' => 'form-control', 'placeholder' => 'NYSC Year']) }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
         </div>
@@ -651,14 +693,14 @@
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('NYSCNumber','NYSC Number') }}
-        {{ Form::text('NYSCNumber', null,  ['class' => 'form-control required', 'placeholder' => 'Enter NYSC Number', 'required']) }}
+        {{ Form::text('NYSCNumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Number']) }}
       </div>
     </div>
     <div class="col-sm-4">
       <div class="form-group">
-        {{ Form::label('NYSCLocationID','NYSC Location', ['class'=>'req']) }}
+        {{ Form::label('NYSCLocationID','NYSC Location', ['class'=>'']) }}
         {{-- {{ Form::text('NYSCLocation', null,  ['class' => 'form-control', 'placeholder' => 'Enter NYSC Location']) }} --}}
-        {{ Form::select('NYSCLocationID', [ 0 =>  'Select your Location'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Select NYSC Location", 'data-init-plugin' => "select2", 'required']) }}
+        {{ Form::select('NYSCLocationID', ['' =>  'Select your Location'] + $states->pluck('State', 'StateRef')->toArray(),null, ['class'=> "full-width ",'data-placeholder' => "Select NYSC Location", 'data-init-plugin' => "select2", '']) }}
       </div>
     </div>
 
@@ -718,7 +760,7 @@
       <div class="card-section p-l-5">Bank Details</div>
       <div class="col-sm-6">
         <div class="form-group">
-          {{ Form::label('BankID','Choose Bank') }}
+          {{ Form::label('BankID','Choose Bank') }} <span style="padding: 0 !important" class="form-add-more add-bank badge badge-success" data-toggle="modal" data-target="bank_id"><i class="fa fa-plus"></i></span>
           {{ Form::select('BankID', [ 0 =>  'Select a Bank'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Bank", 'data-init-plugin' => "select2", 'required']) }}
         </div>
       </div>
@@ -735,7 +777,7 @@
       <div class="card-section p-l-5">PFA Details</div>
       <div class="col-sm-6">
         <div class="form-group">
-          {{ Form::label('PFAID','Choose PFA') }}
+          {{ Form::label('PFAID','Choose PFA') }}  <span style="padding: 0 !important" class="form-add-more add-pfa badge badge-success" data-toggle="modal" data-target="pfa_id"><i class="fa fa-plus"></i></span>
           {{ Form::select('PFAID', [ 0 =>  'Select a PFA'] + $pfa->pluck('PFA', 'PFARef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose PFA", 'data-init-plugin' => "select2", 'required']) }}
         </div>
       </div>
@@ -880,14 +922,14 @@
       <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('Institution[]','Institution Attended') }}
-        {{ Form::text('Institution[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+        {{ Form::text('Institution[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended'], 'required') }}
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group">
         {{ Form::label('QualificationObtained','Qualitification Obtained') }}
-        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended']) }}
+        {{ Form::text('QualificationObtained[]', null,  ['class' => 'form-control', 'placeholder' => 'Enter Institution Attended'], 'required') }}
       </div>
     </div>
 
@@ -895,7 +937,7 @@
         <div class="">
           {{ Form::label('DateObtained[]','Date Obtained', ['class' => 'form-label req']) }}
           <div class="input-group date dp required">
-            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained']) }}
+            {{ Form::text('DateObtained[]', null, ['class' => 'form-control', 'placeholder' => 'Date Obtained'], 'required') }}
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
           </div>
         </div>
@@ -963,6 +1005,27 @@ var prof_html = `<div class="row prof-row">
       // console.log('delete me')
       $(this).closest('.prof-row').find('hr').remove();
       $(this).closest('.prof-row').remove();
+    });
+
+    $('body').on('click', '.dp', function(event) {
+     var options = {
+              todayHighlight: true,
+              format: 'yyyy-mm-dd',
+              autoclose: true,
+              startDate: '1920-01-01',
+          };
+          $('.dp').datepicker(options);
+    });
+
+    $('body').on('focus', '.dp', function(event) {
+      // same options
+     var options = {
+              todayHighlight: true,
+              format: 'yyyy-mm-dd',
+              autoclose: true,
+              startDate: '1920-01-01',
+          };
+          $('.dp').datepicker(options);
     });
   </script>
 @endpush

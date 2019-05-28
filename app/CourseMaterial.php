@@ -10,4 +10,10 @@ class CourseMaterial extends Model
     protected $guarded = ['course_material_Ref'];
     public $primaryKey = 'course_material_Ref';
     public $timestamps = false;
+
+    public function course_module()
+    {
+        return $this->belongsTo(CourseModule::class, 'CourseID');
+    }
+
 }

@@ -30,6 +30,8 @@ class FinalHRLeaveConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.FinalHRleaveconfirmation');
+        return $this
+            ->subject('Leave Approval')
+            ->markdown('emails.FinalHRleaveconfirmation');
     }
 }

@@ -57,7 +57,7 @@
       </ul>
       <div class="tab-content">
         <div id="unapproved" class="tab-pane fade in active">
-          
+
             <div class="card-box ">
                 <table class="table tableWithSearch">
                   <thead>
@@ -93,7 +93,7 @@
                     <label class="label label-default">Leave Request has not been sent for approval.</label>
                   @elseif($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1)
                     @if($leave_request->SupervisorApproved != 1)
-                    <label class="label label-default"> pending with {{$leave_request->staff->user->first_name ?? ''}} {{$leave_request->user->last_name ?? ''}}</label>
+                    <label class="label label-default"> pending with {{$leave_request->staff->user->fullName ?? ''}}</label>
                     @elseif($leave_request->ApproverID == 0 && $leave_request->CompletedFlag == 1)
                     <label class="label label-success">completed</label>
                     @elseif($leave_request->ApproverID == 0 && $leave_request->CompletedFlag == 0)
@@ -103,18 +103,25 @@
                     @endif
                   @else
                   <label class="label label-danger"> Rejected by {{$leave_request->rejector->user->first_name ?? ''}} {{$leave_request->staff->user->last_name ?? ''}}</label>
+                  <br><br><span>{!! $leave_request->RejectionComment ?? '-' !!}</span>
                   @endif
                   @endif
                 </td>
                 <td>
                   @if($leave_request->NotifyFlag == 0)
-                  <a href="/leave_request/{{ $leave_request->LeaveReqRef }}/edit" class="btn btn-xs btn-complete " data-request_ref = "{{ $leave_request->LeaveReqRef }}" >Edit Request</a> 
-                  | <a href="#" class="btn btn-xs btn-success" data-id="{{$leave_request->LeaveReqRef}}" onclick="send_notification()">Send for Approval</a>
+                  <a href="/leave_request/{{ $leave_request->LeaveReqRef }}/edit" class="btn btn-sm btn-complete " data-request_ref = "{{ $leave_request->LeaveReqRef }}" title="Edit Request" ><i class="fa fa-edit"></i></a>
+                  | <a href="#" class="btn btn-sm btn-success send_notification" title="Send for Approval" data-id="{{$leave_request->LeaveReqRef}}" ><i class="fa fa-send"></i></a>
+                  <form action="/leave_request/delete-leave-request" method="post" id="delete-request" style="display: inline">
+                    {{ method_field('DELETE') }}
+                    {{ csrf_field() }}
+                    <input type="hidden" name="LeaveReqRef" value="{{ $leave_request->LeaveReqRef }}">
+                    <button class="btn btn-sm btn-danger" title="delete" type="submit"><i class="fa fa-trash"></i></button>
+                  </form>
                   @elseif($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1 && is_null($leave_request->ApproverID) && $leave_request->CompletedFlag == 1)
                     <p><i style="font-size: 12px; color: green">Completed</i></p>
                   @else
                     <p><i style="font-size: 12px; color: green">Request can't be edited again</i></p>
-                  @endif 
+                  @endif
                 </td>
               </tr>
               @endforeach
@@ -125,7 +132,7 @@
 
         <div id="approved" class="tab-pane fade">
 
-          
+
           <div class="card-box">
             <table class="table tableWithSearch">
               <thead>
@@ -160,7 +167,7 @@
                     <label class="label label-default">Leave Request has not been sent for approval.</label>
                   @elseif($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1)
                     @if($leave_request->SupervisorApproved != 1)
-                    <label class="label label-default"> pending with {{$leave_request->staff->user->first_name ?? ''}} {{$leave_request->user->last_name ?? ''}}</label>
+                    <label class="label label-default"> pending with {{$leave_request->staff->user->fullName ?? ''}}</label>
                     @elseif($leave_request->ApproverID == 0 && $leave_request->CompletedFlag == 1)
                     <label class="label label-success">completed</label>
                     @elseif($leave_request->ApproverID == 0 && $leave_request->CompletedFlag == 0)
@@ -170,18 +177,19 @@
                     @endif
                   @else
                   <label class="label label-danger"> Rejected by {{$leave_request->rejector->user->first_name ?? ''}} {{$leave_request->staff->user->last_name ?? ''}}</label>
+                  <br><br><span>{!! $leave_request->RejectionComment ?? ''!!}</span>
                   @endif
                   @endif
                 </td>
                 <td>
                   @if($leave_request->NotifyFlag == 0)
-                  <a href="/leave_request/{{ $leave_request->LeaveReqRef }}/edit" class="btn btn-xs btn-complete " data-request_ref = "{{ $leave_request->LeaveReqRef }}" >Edit Request</a> 
-                  | <a href="#" class="btn btn-xs btn-success" data-id="{{$leave_request->LeaveReqRef}}" onclick="send_notification()">Send for Approval</a>
+                  <a href="/leave_request/{{ $leave_request->LeaveReqRef }}/edit" class="btn btn-xs btn-complete " data-request_ref = "{{ $leave_request->LeaveReqRef }}" >Edit Request</a>
+                  | <a href="#" class="btn btn-xs btn-success send_notification" data-id="{{$leave_request->LeaveReqRef}}" >Send for Approval</a>
                   @elseif($leave_request->NotifyFlag == 1 && $leave_request->RejectionFlag != 1 && is_null($leave_request->ApproverID) && $leave_request->CompletedFlag == 1)
                     <p><i style="font-size: 12px; color: green">Completed</i></p>
                   @else
                     <p><i style="font-size: 12px; color: green">Request can't be edited again</i></p>
-                  @endif 
+                  @endif
                 </td>
               </tr>
               @endforeach
@@ -190,9 +198,9 @@
           </div>
 
         </div>
-      </div>  
-  			
-       
+      </div>
+
+
   	</div>
   	<!-- END PANEL -->
 @endsection
@@ -214,6 +222,34 @@
 
 
         }
+
+        $('body').on('click', '.send_notification', function(e) {
+          e.preventDefault();
+          console.log(this)
+          // var elem = $().event.target;
+          var elem_value = $(this).attr('data-id');
+           $(this).attr('disabled', 'disabled');
+            $.get('/leave_notification/'+elem_value, function(data, status) {
+             
+              if(status == 'success')
+              {
+                window.location.href = '{{ route('LeaveDashBoard') }}'
+              }
+            });
+        });
+
+
+        $('body').on('submit', '#delete-request', function(e) {
+          e.preventDefault();
+          var formData = $(this).serialize();
+          var formAction = $(this).prop('action');
+          var that = $(this);
+          $.post(formAction, formData, function(data, textStatus, xhr) {
+           if(data.success) {
+              that.closest('tr').remove();
+           }
+          });
+        });
   </script>
 @endpush
 
