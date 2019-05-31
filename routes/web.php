@@ -221,6 +221,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/staff_search', 'StaffController@staff_search')->name('staff_search');
     Route::get('get_staff_list', 'StaffController@get_staff_list')->name('get_staff_list');
 
+    Route::resource('holidays', 'HolidayController');
+
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
     Route::patch('approve-biodata/{id}', 'StaffController@approve_biodata')->name('approve_biodata');
@@ -927,10 +929,11 @@ Route::get('/cls', function () {
 Route::get('/todo_assignees', function () {
     $todos = Cavi\Todo::all();
     foreach ($todos as $todo) {
-      if (empty($todo->UserID))
-      continue;
+        if (empty($todo->UserID)) {
+            continue;
+        }
 
-      $asg = DB::table('tblTodoAssignees')->insert(['TodoID'=>$todo->TodoRef, 'UserID' => $todo->UserID]);
+        $asg = DB::table('tblTodoAssignees')->insert(['TodoID' => $todo->TodoRef, 'UserID' => $todo->UserID]);
     }
     return 'Done';
 });
