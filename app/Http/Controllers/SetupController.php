@@ -2,28 +2,29 @@
 
 namespace MESL\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
+use MESL\Bank;
+use MESL\Company;
+use MESL\Currency;
+use MESL\DeductionItem;
+use MESL\Department;
+use MESL\Division;
+use MESL\Group;
 use MESL\HMO;
 use MESL\HMOPlan;
 use MESL\Location;
 use MESL\PFA;
-use MESL\Bank;
-use MESL\Currency;
-use MESL\TravelPurpose;
-use MESL\TravelMode;
-use MESL\TravelTransport;
-use MESL\TravelLodge;
-use MESL\StaffType;
-use MESL\Department;
-use MESL\Company;
-use MESL\Subsidiary;
-use MESL\Division;
-use MESL\Group;
-use MESL\SeniorityLevel;
-use MESL\DeductionItem;
 use MESL\Policy;
-use MESL\RequestType;
-use Auth;
+use MESL\RequestList;
+use MESL\SeniorityLevel;
+use MESL\Staff;
+use MESL\StaffType;
+use MESL\Subsidiary;
+use MESL\TravelLodge;
+use MESL\TravelMode;
+use MESL\TravelPurpose;
+use MESL\TravelTransport;
 use Validator;
 
 class SetupController extends Controller
@@ -684,6 +685,57 @@ class SetupController extends Controller
         return redirect()->back()->with('success', 'Deleted successfully');
     }
 
+    // Leave days function
+    public function leave_days()
+    {
+        $staff = Staff::all();
+        return view('setup.leave_days', compact('staff'));
+    }
+    // Leave days function
+    public function store_leave_days(Request $request)
+    {
+        $leave = new Staff($request->all());
+
+        $this->validate($request, [
+            'LeaveType' => 'required',
+        ]);
+
+        if ($leave->save()) {
+            return redirect('/setup/leave_days')->with('success', 'Leave Days was updated successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Leave Days failed to save');
+        }
+    }
+
+    // Leave days function
+    public function edit_leave_days($id)
+    {
+        $staff = Staff::where("StaffRef", $id)->first();
+
+        return response()->json($staff);
+    }
+
+    public function getDaysById($id)
+    {
+        $staff = Staff::Orderby('StaffRef', 'DESC')->where('StaffRef', $id)->first();
+        return response()->json([
+            'data'    => $staff,
+            'message' => 'Okay',
+            'success' => true,
+        ], 200);
+
+    }
+
+    // Leave days function
+    public function update_leave_days(Request $request)
+    {
+        $staff = Staff::find($request->StaffRef);
+
+        $staff->update($request->except(['_token']));
+
+        return redirect()->back()->with('success', 'Updated successfully');
+    }
+
     public function add_hmo(Request $request)
     {
         $hmo = new HMO($request->all());
@@ -705,31 +757,6 @@ class SetupController extends Controller
                 'success' => true,
                 'message' => 'Setup created Successfully',
                 'data'    => $hmo,
-            ], 200);
-        }
-    }
-
-    public function add_req_setup(Request $request)
-    {
-        $req = new RequestType($request->all());
-        // $this->validate($request, [
-        //     'HMO' => 'required',
-        // ]);
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:request_types',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => $validator->messages()->first(),
-                'data'    => $req,
-            ], 200);
-        }
-        if ($req->save()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Setup created Successfully',
-                'data'    => $req,
             ], 200);
         }
     }
@@ -983,6 +1010,30 @@ class SetupController extends Controller
                 'success' => true,
                 'message' => 'Setup created Successfully',
                 'data'    => $stafftype,
+            ], 200);
+        }
+    }
+
+    public function add_expense_request(Request $request)
+    {
+        dd($request->all());
+        $expense_request = new RequestList($request->all());
+
+        $validator = Validator::make($request->all(), [
+            'Request' => 'required|unique:tblRequestList',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'succes'  => false,
+                'message' => $validator->messages()->first(),
+                'data'    => $expense_request,
+            ], 200);
+        }
+        if ($expense_request->save()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Setup created Successfully',
+                'data'    => $expense_request,
             ], 200);
         }
     }
