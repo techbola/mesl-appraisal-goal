@@ -1414,7 +1414,7 @@ Route::get('send_exit_interview/{id}', 'ExitController@send_exit_interview')->na
 
 Route::get('staff/exit_interview/{id}', 'StaffController@delete_exit_response')->name('delete_exit_response');
 
-Route::get('setup/leave_days', 'SetupController@leave_days');
+Route::get('setup/leave_days', 'SetupController@leave_days')->name('leave_days_setup');
 Route::post('setup/leave_days', 'SetupController@store_leave_days')->name('StoreLeaveDays');
 Route::get('edit_leave_days/{id}', 'SetupController@edit_leave_days')->name('edit_leave_days');
 Route::get('/get-days-by-id/{id}', 'SetupController@getDaysById');
