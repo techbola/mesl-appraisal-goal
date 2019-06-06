@@ -80,7 +80,7 @@
                                 <div class="controls">
                                     <div class="form-group">
                                         {{ Form::label('MaternityLeaveDays', 'Maternity Leave Days' ) }}
-                                        {{ Form::text('MaternityLeaveDays', null, ['class' => 'form-control', 'id'=>'sick', 'placeholder' => 'Add days']) }}
+                                        {{ Form::text('MaternityLeaveDays', null, ['class' => 'form-control', 'id'=>'mat', 'placeholder' => 'Add days']) }}
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                 <div class="controls">
                                     <div class="form-group">
                                         {{ Form::label('SickLeaveDays', 'Sick Leave Days' ) }}
-                                        {{ Form::text('SickLeaveDays', null, ['class' => 'form-control', 'id'=>'mat', 'placeholder' => 'Add days']) }}
+                                        {{ Form::text('SickLeaveDays', null, ['class' => 'form-control', 'id'=>'sick', 'placeholder' => 'Add days']) }}
                                     </div>
                                 </div>
                             </div>
