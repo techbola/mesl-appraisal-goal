@@ -24,11 +24,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Enter Staff Department</label>
-                <select name="DepartmentID" class="full-width" data-init-plugin="select2">
-                    <option value="">Enter Department</option>
-                    @foreach($departments as $department)
-                        <option value="{{ $department->DepartmentRef }}">{{ $department->Department }}</option>
-                    @endforeach
+                <select id="department_name" class="full-width" data-init-plugin="select2">
+                    <option value="0">Select Department</option>
                 </select>
               </div>
             </div>
