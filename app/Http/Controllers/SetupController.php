@@ -1015,29 +1015,6 @@ class SetupController extends Controller
         }
     }
 
-    public function add_expense_request(Request $request)
-    {
-        dd($request->all());
-        $expense_request = new RequestList($request->all());
-
-        $validator = Validator::make($request->all(), [
-            'Request' => 'required|unique:tblRequestList',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'succes'  => false,
-                'message' => $validator->messages()->first(),
-                'data'    => $expense_request,
-            ], 200);
-        }
-        if ($expense_request->save()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Setup created Successfully',
-                'data'    => $expense_request,
-            ], 200);
-        }
-    }
 
     public function add_expense_request(Request $request)
     {
