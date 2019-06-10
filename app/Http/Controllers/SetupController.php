@@ -736,57 +736,6 @@ class SetupController extends Controller
         return redirect()->back()->with('success', 'Updated successfully');
     }
 
-    // Leave days function
-    public function leave_days()
-    {
-        $staff = Staff::all();
-        return view('setup.leave_days', compact('staff'));
-    }
-    // Leave days function
-    public function store_leave_days(Request $request)
-    {
-        $leave = new Staff($request->all());
-
-        $this->validate($request, [
-            'LeaveType' => 'required',
-        ]);
-
-        if ($leave->save()) {
-            return redirect('/setup/leave_days')->with('success', 'Leave Days was updated successfully');
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Leave Days failed to save');
-        }
-    }
-
-        // Leave days function
-    public function edit_leave_days($id)
-    {
-        $staff = Staff::where("StaffRef", $id)->first();
-
-        return response()->json($staff);
-    }
-
-    public function getDaysById($id)
-    {
-        $staff = Staff::Orderby('StaffRef', 'DESC')->where('StaffRef', $id)->first();
-        return response()->json([
-            'data' => $staff,
-            'message' => 'Okay',
-            'success' => true
-        ],200);
-
-    }
-
-        // Leave days function
-    public function update_leave_days(Request $request)
-    {
-        $staff = Staff::find($request->StaffRef);
-
-        $staff->update($request->except(['_token']));
-
-        return redirect()->back()->with('success',  'Updated successfully');
-    }
-
 
     public function add_hmo(Request $request)
     {

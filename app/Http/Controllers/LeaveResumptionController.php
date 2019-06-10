@@ -5,7 +5,7 @@ namespace MESL\Http\Controllers;
 use Illuminate\Http\Request;
 use MESL\CompanySupervisor;
 use MESL\CompanyDepartment;
-use MESL\CompanyOffice;
+use MESL\Location;
 use MESL\LeaveResumption;
 use MESL\User;
 use MESL\Staff;
@@ -166,7 +166,7 @@ class LeaveResumptionController extends Controller
     */
     public function officeLocation(){
         // body
-        $all_offices = CompanyOffice::orderBy('name', 'ASC')->get();
+        $all_offices = Location::orderBy('name', 'ASC')->get();
         if(count($all_offices) > 0){
             $office_box = [];
             foreach ($all_offices as $office) {
