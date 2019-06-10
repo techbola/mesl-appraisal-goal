@@ -2,26 +2,25 @@
 
 namespace MESL\Http\Controllers;
 
+use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
-use MESL\User;
-use MESL\Staff;
-use MESL\RequestList;
 use MESL\ApproverRole;
-use MESL\ExpenseManagement;
-use MESL\ExpenseManagementFile;
-use MESL\ExpenseComment;
-use MESL\Department;
-use MESL\CompanyDepartment;
 use MESL\Bank;
+use MESL\CompanyDepartment;
+use MESL\DocType;
+use MESL\Document;
+use MESL\ExpenseCategory;
+use MESL\ExpenseComment;
+use MESL\ExpenseCommentFile;
+use MESL\ExpenseManagement;
 use MESL\Location;
 use MESL\LotDescription;
-use MESL\ExpenseCategory;
-use MESL\Document;
-use MESL\DocType;
-use MESL\ExpenseCommentFile;
 use MESL\Notifications\ExpenseReceipient;
-use MESL\Notifications\ExpenseApproval;
-use DB, Storage, Notification, Carbon\Carbon;
+use MESL\RequestList;
+use MESL\Staff;
+use MESL\User;
+use Notification;
 
 class ExpenseManagementController extends Controller
 {
@@ -595,8 +594,8 @@ class ExpenseManagementController extends Controller
     public function setup()
     {
         $approver_roles = ApproverRole::all()->sortBy('ApproverRole');
-        $staff          = Staff::select(['StaffRef', 'UserID'])->get()->transform(function ($item, $key) {
-            $approver_role_ids    = explode(',', $item->user->ApproverRoleIDs);
+        $staff          = Staff::select(['StaffRef', 'UserID'])->limit(10)->get()->transform(function ($item, $key) {
+            $approver_role_ids    = explode(',', User::find($item->UserID)[0]['ApproverRoleIDs']);
             $approver_roles       = ApproverRole::whereIn('ApproverRoleRef', $approver_role_ids)->select(['ApproverRole'])->get();
             $approver_roles_array = [];
             foreach ($approver_roles as $key => $value) {
@@ -605,6 +604,7 @@ class ExpenseManagementController extends Controller
             $item->approver_role = $approver_roles_array;
             return $item;
         });
+        // dd();
         // dd($staff->first()->approver_roles);
         $request_list = RequestList::all()->sortBy('Request');
         // dd($approver_roles);
