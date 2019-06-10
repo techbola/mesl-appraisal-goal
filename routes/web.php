@@ -221,6 +221,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/staff_search', 'StaffController@staff_search')->name('staff_search');
     Route::get('get_staff_list', 'StaffController@get_staff_list')->name('get_staff_list');
 
+    Route::resource('holidays', 'HolidayController');
+
     Route::get('pending-biodata-list', 'StaffController@pending_biodata_list')->name('pending_biodata_list');
     Route::get('pending-biodata/{id}', 'StaffController@pending_biodata')->name('pending_biodata');
     Route::patch('approve-biodata/{id}', 'StaffController@approve_biodata')->name('approve_biodata');
@@ -342,6 +344,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('todos', 'TodoController@index')->name('todos');
     Route::get('todos-calendar', 'TodoController@todos_calendar')->name('todos_calendar');
     Route::get('get_todos/{staff?}', 'TodoController@get_todos')->name('get_todos'); // AJAX
+    Route::get('get_todo/{id}', 'TodoController@get_todo')->name('get_todo'); // AJAX
     Route::post('save_todo', 'TodoController@save_todo')->name('save_todo');
     Route::patch('update_todo/{id}', 'TodoController@update_todo')->name('update_todo');
     Route::get('toggle_todo/{id}', 'TodoController@toggle_todo')->name('toggle_todo'); // AJAX
@@ -458,6 +461,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('submit_purchase_journal_for_approval', 'CashEntryController@submit_purchase_journal_for_approval');
     Route::post('reject_purchase_journal_posting_approvals', 'CashEntryController@reject_purchase_journal_posting_approvals');
     Route::get('cash_entries/show_approve_purchase_journal', 'CashEntryController@show_approve_purchase_journal')->name('ApprovePurchaseJournal');
+
+    // balance score card
+    Route::get('/appraisal/new', 'AppraisalController@create')->name('appraisal.new');
+    Route::post('/appraisal/store', 'AppraisalController@store')->name('appraisal.store');
+
+    Route::post('/appraisalitem/store', 'AppraisalItemController@store')->name('appraisalitem.store');
 
     // Learning Management System
 
@@ -868,6 +877,9 @@ Route::middleware(['auth'])->group(function () {
 
     // download memo files as zip
     Route::get('download-memo-attachments/{id}', 'MemoController@downloadAttachments')->name('download-memo-attachments');
+    Route::get('memos/routing', 'MemoController@routing');
+    Route::post('memos/routing', 'MemoController@routing_store');
+    Route::post('memos/fetch-memo-approvers', 'MemoController@fetchMemoApprovers');
 
     // main memo routes
     Route::resource('memos', 'MemoController');
@@ -913,6 +925,33 @@ Route::get('/cls', function () {
     Artisan::call('config:clear');
     return redirect('/');
 });
+
+Route::get('/todo_assignees', function () {
+    $todos = Cavi\Todo::all();
+    foreach ($todos as $todo) {
+        if (empty($todo->UserID)) {
+            continue;
+        }
+
+        $asg = DB::table('tblTodoAssignees')->insert(['TodoID' => $todo->TodoRef, 'UserID' => $todo->UserID]);
+    }
+    return 'Done';
+});
+
+// Route::get('/fix_dates', function () {
+//     $todos = Cavi\Todo::where('Done', '1')->where('CompletedDate', null)->get();
+
+//     foreach ($todos as $todo) {
+//         if (empty($todo->DueDate)) {
+//             $todo->CompletedDate = date('Y-m-d');
+//         } else {
+//             $todo->CompletedDate = $todo->DueDate;
+//         }
+
+//         $todo->update();
+//     }
+//     return 'Done';
+// });
 
 Route::get('/cda', function () {
     exec('composer dump-autoload');
@@ -1344,10 +1383,10 @@ Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->nam
 Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
 
 // Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
-Route::get('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
+Route::post('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
-Route::get('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
+Route::post('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
 
 Route::post('/travel_request/approve', 'TravelRequestController@approve');
 
@@ -1375,6 +1414,11 @@ Route::get('send_exit_interview/{id}', 'ExitController@send_exit_interview')->na
 
 Route::get('staff/exit_interview/{id}', 'StaffController@delete_exit_response')->name('delete_exit_response');
 
+Route::get('setup/leave_days', 'SetupController@leave_days')->name('leave_days_setup');
+Route::post('setup/leave_days', 'SetupController@store_leave_days')->name('StoreLeaveDays');
+Route::get('edit_leave_days/{id}', 'SetupController@edit_leave_days')->name('edit_leave_days');
+Route::get('/get-days-by-id/{id}', 'SetupController@getDaysById');
+Route::post('update_leave_days', 'SetupController@update_leave_days')->name('UpdateLeaveDays');
 //SETUP ROUTES
 Route::get('/setup', 'SetupController@index');
 

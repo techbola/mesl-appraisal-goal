@@ -65,10 +65,12 @@ class DocumentController extends Controller
                 });
             })->orWhere('Initiator', $user->id)->orderBy('DocRef', 'desc')->get();
 
-            $doctypes    = DocType::where('CompanyID', $user->staff->CompanyID)->get();
-            $roles       = Role::where('CompanyID', $user->staff->CompanyID)->get();
-            $staff       = Staff::where('CompanyID', $user->staff->CompanyID)->get();
-            $departments = Department::where('CompanyID', $user->CompanyID)->get();
+            $doctypes          = DocType::where('CompanyID', $user->staff->CompanyID)->get();
+            $roles             = Role::where('CompanyID', $user->staff->CompanyID)->get();
+            $staff             = Staff::where('CompanyID', $user->staff->CompanyID)->get();
+            $doc_sub_cat_types = DocSubCategory::all();
+            $departments       = Department::where('CompanyID', $user->CompanyID)->get();
+            $doc_cat_types     = DocCategory::all();
         }
         return view('documents.my_docs', compact('docs', 'doctypes', 'doc_cat_types', 'doc_sub_cat_types', 'roles', 'staff', 'departments', 'mds_data', 'others_data'));
     }

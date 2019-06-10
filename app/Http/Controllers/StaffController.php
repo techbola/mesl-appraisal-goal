@@ -51,6 +51,7 @@ use MESL\State;
 use MESL\Title;
 use MESL\Unit;
 use MESL\User;
+use MESL\StaffType;
 use Notification;
 
 class StaffController extends Controller
@@ -400,8 +401,6 @@ class StaffController extends Controller
 
         $nationality = Country::all();
 
-
-
         $religions      = Religion::all()->sortBy('Religion');
         $refs           = Reference::where('StaffID', auth()->user()->staff->StaffRef)->get();
         $qualifications = Qualification::where('StaffID', auth()->user()->staff->StaffRef)->get();
@@ -735,7 +734,7 @@ class StaffController extends Controller
             ];
         }
 
-        return redirect()->route('StoreStaff')->with($data['status'], $data['message']);
+        return redirect('/staff/staff_onboard?tab=2')->with($data['status'], $data['message']);
     }
 
     //Send mail to IT and Admin for Onboarding notification
@@ -782,7 +781,7 @@ class StaffController extends Controller
         $user       = \Auth::user();
         $id         = \Auth::user()->id;
         $department = CompanyDepartment::all();
-        $stafftype = StaffType::all();
+        $stafftype  = StaffType::all();
         // dd($department);
         // $staff      = Staff::where('CompanyID', $user->CompanyID)->get();
         $staff          = Staff::all();
@@ -909,7 +908,9 @@ class StaffController extends Controller
 
     public function submit_staff_onboarding(Request $request)
     {
+        // dd($request->all());
         $staff_onboard = StaffOnboarding::find($request->StaffOnboardRef);
+        // dd($staff_onboard);
 
         if ($staff_onboard->update($request->except(['_token']))) {
             return redirect()->back()->with('success', 'Request was updated successfully');

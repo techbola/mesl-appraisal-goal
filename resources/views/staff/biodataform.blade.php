@@ -276,8 +276,8 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('WorkPhone','Work Phone Number') }}
-            {{ Form::number('WorkPhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Work Phone Number', 'maxLength' => '11', 'required']) }}
+            {{ Form::label('WorkPhone','Work Extension') }}
+            {{ Form::number('WorkPhone', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Work Extension', 'maxLength' => '11', 'required']) }}
         </div>
     </div>
     <div class="col-sm-4">

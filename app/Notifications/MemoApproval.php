@@ -3,9 +3,8 @@
 namespace MESL\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class MemoApproval extends Notification
 {
@@ -44,13 +43,18 @@ class MemoApproval extends Notification
 
         return (new MailMessage)
             ->subject('Memo Approval Request')
-            ->greeting('Hi, ' . $notifiable->first_name)
+            ->line('<p class="title-bg" style="text-align: center; padding: 3rem; font-size: 27px; background-color: #e1393b; color:#fff; font-weight: bold">' . 'Internal Memo' . '</p>')
+            ->greeting('Dear ' . $notifiable->first_name . ',')
+            ->line('----------------------------------------------------------------')
             ->line('**Memo Subject: **' . $memo->subject)
-            ->line('**Date Created: **' . $memo->created_at)
+            ->line('**Memo Purpose: **' . $memo->purpose)
+            ->line('**Memo Body: **' . $memo->body)
+            ->line('**Comment: **' . $memo->ApproverComment)
+            ->line('**Date Created: **' . $memo->created_at->toFormattedDateString())
             ->line('**Created By: **' . $memo->initiator->FullName)
             ->line('Use the button below to visit the approval page ' . config('app.name') . '.')
             // ->line('**Description: **'.str_limit(strip_tags($doc->Description), 200).'')
-            ->action('Open Memo Approval Page', route('memos.index'));
+            ->action('Open Memo Approval Page', route('memos_approvallist'));
     }
 
     /**

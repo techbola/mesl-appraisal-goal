@@ -222,7 +222,7 @@ class TravelRequestController extends Controller
     {
 
         $travel_requests = TravelRequest::where('SentForApproval', 1)
-            ->where('SupervisorID', auth()->user()->staff->StaffRef)
+            ->where('SupervisorID', auth()->user()->staff->StaffRef) //gets currently logged in
             ->where('SupervisorApproved', 0)
             ->get();
 
@@ -377,7 +377,8 @@ class TravelRequestController extends Controller
         // dd($travel_request);
         $travel_request->ApprovalDate  = date('Y-m-d');
         $travel_request->AdminApproved = 1;
-        // $travel_request->ApproverComment = $request->ApproverComment;
+
+        $travel_request->ApproverComment = $request->ApproverComment;
 
         $travel_request->update();
         $email = User::find($travel_request->RequesterID)->first()->email;
@@ -422,12 +423,15 @@ class TravelRequestController extends Controller
         $travel_request->SentForApproval = 0;
         $travel_request->AdminApproved   = 0;
 
+        $travel_request->RejectedFlag     = 1;
+        $travel_request->RejectionComment = $request->RejectionComment;
+
         $travel_request->update();
 
         $Requester = User::where("id", $travel_request->RequesterID)->first();
 
         Mail::to($Requester->email)->send(new RequestRejected($travel_request));
 
-        return redirect()->route('travel_request.admindashboard')->with('success', 'Request Rejected successfully');
+        return redirect()->route('travel_request.final-admindashboard')->with('success', 'Request Rejected successfully');
     }
 }

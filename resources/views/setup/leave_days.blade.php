@@ -23,7 +23,7 @@
     {{-- Leave-table --}}
     <div class="card-box">
             <div class="card-title">Leave Days</div>
-            <table class="table nowrap tableWithSearch table-bordered" id="leave-days-table">
+            <table class="table nowrap tableWithSearch2 table-bordered" id="leave-days-table">
                 <thead>
                     <th width="15%">Staff</th>
                     <th width="15%">Annual Leave Days</th>

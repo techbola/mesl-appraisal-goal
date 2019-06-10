@@ -40,7 +40,7 @@
                     <th>Approver Comment</th>
                     <th>Action</th>
                 </thead>
-                 <tfoot class="thead">
+                <tfoot class="thead">
                     <th>S/N</th>
                     <th>Date Created</th>
                     <th>Staff Name</th>

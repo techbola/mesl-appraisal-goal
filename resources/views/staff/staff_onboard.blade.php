@@ -111,7 +111,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="OfficeTable" value="Table" id="defaultCheck2">
                                     <label class="form-check-label" for="defaultCheck1">
-                                        Table
+                                        Workstation
                                     </label>
                                 </div>
                                 <div class="form-check">
@@ -158,7 +158,7 @@
 
             <hr>
             <div class="card-box">
-                <div class="card-title pull-left">ID Card Request Status</div>
+                <div class="card-title pull-left">Onboarding Request Draft</div>
                 <div class="pull-right">
                     <div class="col-xs-12">
                         <input type="text" class="search-table form-control pull-right" placeholder="Search">
@@ -560,6 +560,17 @@
                     // multiple: true
                 });
             });
+
+
+            // function activate_travel_request_queue(){
+                let url = new URL(window.location.href);
+                let queue = url.searchParams.get('tab'); 
+                if(queue != null && queue == 2) {
+                    $('a[href="#onboarding-status"]').tab('show');
+                }
+            // }
         })
     </script>
+
+
 @endpush

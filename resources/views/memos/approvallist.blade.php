@@ -53,6 +53,7 @@
                     </th>
                     <th width="10%">Subject</th>
                     <th width="10%">Purpose</th>
+                    <th width="10%">Date</th>
                     <th width="10%">Initiator</th>
                     <th width="20%">Body</th>
                     <th width="10%">Approvers</th>
@@ -69,10 +70,11 @@
                         </td>
                         <td>{{ $memo->subject }}</td>
                         <td>{{ $memo->purpose }}</td>
+                        <td>{{ $memo->created_at->toDateTimeString() }}</td>
                         <td>{{ $memo->initiator->Fullname ?? '-'}}</td>
                         <td>
                            <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
-                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
+                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>view details</small></a>
                           &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
 
@@ -95,6 +97,7 @@
                   <thead>
                     <th width="15%">Subject</th>
                     <th width="10%">Purpose</th>
+                    <th width="10%">Date</th>
                     <th width="10%">Initiator</th>
                     <th width="20%">Body</th>
                     <th width="10%">Approvers</th>
@@ -105,10 +108,11 @@
                       <tr>
                         <td>{{ $memo->subject }}</td>
                         <td>{{ $memo->purpose }}</td>
+                        <td>{{ $memo->created_at->toDateTimeString() }}</td>
                         <td>{{ $memo->initiator->Fullname ?? '-' }}</td>
                         <td>
                             <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
-                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
+                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>view details</small></a>
                           &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
@@ -132,7 +136,7 @@
         {{-- MODALS --}}
     <!-- Modal -->
   <div class="modal fade slide-up" id="show-memo" role="dialog" aria-hidden="false">
-    <div class="modal-dialog ">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content-wrapper">
         <div class="modal-content">
           <div class="modal-header clearfix text-left">

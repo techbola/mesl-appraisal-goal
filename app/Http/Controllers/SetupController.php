@@ -2,29 +2,29 @@
 
 namespace MESL\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
+use MESL\Bank;
+use MESL\Company;
+use MESL\Currency;
+use MESL\DeductionItem;
+use MESL\Department;
+use MESL\Division;
+use MESL\Group;
 use MESL\HMO;
 use MESL\HMOPlan;
 use MESL\Location;
 use MESL\PFA;
-use MESL\Bank;
-use MESL\Currency;
-use MESL\TravelPurpose;
-use MESL\TravelMode;
-use MESL\TravelTransport;
-use MESL\TravelLodge;
-use MESL\StaffType;
-use MESL\Department;
-use MESL\Company;
-use MESL\Subsidiary;
-use MESL\Division;
-use MESL\Group;
-use MESL\SeniorityLevel;
-use MESL\DeductionItem;
 use MESL\Policy;
 use MESL\RequestList;
+use MESL\SeniorityLevel;
 use MESL\Staff;
-use Auth;
+use MESL\StaffType;
+use MESL\Subsidiary;
+use MESL\TravelLodge;
+use MESL\TravelMode;
+use MESL\TravelPurpose;
+use MESL\TravelTransport;
 use Validator;
 
 class SetupController extends Controller
@@ -66,7 +66,7 @@ class SetupController extends Controller
 
         $hmo->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_hmo($id)
@@ -75,7 +75,7 @@ class SetupController extends Controller
 
         $hmo->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     //HMO Plan
@@ -111,7 +111,7 @@ class SetupController extends Controller
 
         $hmoplan->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_hmo_plan($id)
@@ -120,14 +120,14 @@ class SetupController extends Controller
 
         $hmoplan->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     //location Setup
     public function location()
     {
         $location = Location::Orderby('LocationRef', 'DESC')->get();
-        return view ('setup.location', compact('location'));
+        return view('setup.location', compact('location'));
     }
 
     public function store_location(Request $request)
@@ -156,7 +156,7 @@ class SetupController extends Controller
 
         $location->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_location($id)
@@ -165,7 +165,7 @@ class SetupController extends Controller
 
         $location->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     //PFA Setup
@@ -202,7 +202,7 @@ class SetupController extends Controller
 
         $pfa->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_pfa($id)
@@ -211,7 +211,7 @@ class SetupController extends Controller
 
         $pfa->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     //Bank Setup
@@ -219,7 +219,7 @@ class SetupController extends Controller
     public function bank_setup()
     {
         $currency = Currency::all();
-        $bank = Bank::Orderby('BankRef', 'DESC')->get();
+        $bank     = Bank::Orderby('BankRef', 'DESC')->get();
         return view('setup.bank_setup', compact('bank', 'currency'));
     }
 
@@ -227,7 +227,7 @@ class SetupController extends Controller
     {
         $bank = new Bank($request->all());
         $this->validate($request, [
-            'BankName' => 'required',
+            'BankName'   => 'required',
             'CurrencyID' => 'required',
         ]);
         if ($bank->save()) {
@@ -250,7 +250,7 @@ class SetupController extends Controller
 
         $bank->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_bank($id)
@@ -259,7 +259,7 @@ class SetupController extends Controller
 
         $bank->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     //travel purpose setup
@@ -296,7 +296,7 @@ class SetupController extends Controller
 
         $purpose->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_travel_purpose($id)
@@ -305,7 +305,7 @@ class SetupController extends Controller
 
         $purpose->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     //Travel mode setup
@@ -342,7 +342,7 @@ class SetupController extends Controller
 
         $mode->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_travel_mode($id)
@@ -351,7 +351,7 @@ class SetupController extends Controller
 
         $mode->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     //Travel Transport Setup
@@ -388,7 +388,7 @@ class SetupController extends Controller
 
         $transport->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_travel_transport($id)
@@ -397,7 +397,7 @@ class SetupController extends Controller
 
         $transport->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     public function travel_lodge()
@@ -432,7 +432,7 @@ class SetupController extends Controller
 
         $lodge->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_travel_lodge($id)
@@ -441,7 +441,7 @@ class SetupController extends Controller
 
         $lodge->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     public function staff_type()
@@ -478,7 +478,7 @@ class SetupController extends Controller
 
         $type->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_staff_type($id)
@@ -487,15 +487,15 @@ class SetupController extends Controller
 
         $type->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     public function department()
     {
-        $company = Company::all();
+        $company    = Company::all();
         $subsidiary = Subsidiary::all();
-        $division = Division::all();
-        $group = Group::all();
+        $division   = Division::all();
+        $group      = Group::all();
         $department = Department::Orderby('DepartmentRef', 'DESC')->get();
         return view('setup.department', compact('department', 'company', 'subsidiary', 'division', 'group'));
     }
@@ -528,7 +528,7 @@ class SetupController extends Controller
 
         $department->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_department($id)
@@ -537,7 +537,7 @@ class SetupController extends Controller
 
         $department->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     public function level()
@@ -578,7 +578,7 @@ class SetupController extends Controller
 
         $level->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_level($id)
@@ -587,7 +587,7 @@ class SetupController extends Controller
 
         $level->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     public function deduction_item()
@@ -625,7 +625,7 @@ class SetupController extends Controller
 
         $deduction->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_deduction($id)
@@ -634,7 +634,7 @@ class SetupController extends Controller
 
         $deduction->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
     }
 
     public function policy()
@@ -673,7 +673,7 @@ class SetupController extends Controller
 
         $policy->update($request->except(['_token']));
 
-        return redirect()->back()->with('success',  'Updated successfully');
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     public function delete_policy($id)
@@ -682,7 +682,58 @@ class SetupController extends Controller
 
         $policy->delete();
 
-        return redirect()->back()->with('success',  'Deleted successfully');
+        return redirect()->back()->with('success', 'Deleted successfully');
+    }
+
+    // Leave days function
+    public function leave_days()
+    {
+        $staff = Staff::all();
+        return view('setup.leave_days', compact('staff'));
+    }
+    // Leave days function
+    public function store_leave_days(Request $request)
+    {
+        $leave = new Staff($request->all());
+
+        $this->validate($request, [
+            'LeaveType' => 'required',
+        ]);
+
+        if ($leave->save()) {
+            return redirect('/setup/leave_days')->with('success', 'Leave Days was updated successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Leave Days failed to save');
+        }
+    }
+
+    // Leave days function
+    public function edit_leave_days($id)
+    {
+        $staff = Staff::where("StaffRef", $id)->first();
+
+        return response()->json($staff);
+    }
+
+    public function getDaysById($id)
+    {
+        $staff = Staff::Orderby('StaffRef', 'DESC')->where('StaffRef', $id)->first();
+        return response()->json([
+            'data'    => $staff,
+            'message' => 'Okay',
+            'success' => true,
+        ], 200);
+
+    }
+
+    // Leave days function
+    public function update_leave_days(Request $request)
+    {
+        $staff = Staff::find($request->StaffRef);
+
+        $staff->update($request->except(['_token']));
+
+        return redirect()->back()->with('success', 'Updated successfully');
     }
 
     // Leave days function
@@ -743,22 +794,22 @@ class SetupController extends Controller
         // $this->validate($request, [
         //     'HMO' => 'required',
         // ]);
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'HMO' => 'required|unique:tblHMO',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->messages()->first(),
-                'data' => $hmo
-            ],200);
+                'data'    => $hmo,
+            ], 200);
         }
         if ($hmo->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $hmo
-            ],200);
+                'data'    => $hmo,
+            ], 200);
         }
     }
 
@@ -768,22 +819,22 @@ class SetupController extends Controller
         // $this->validate($request, [
         //     'HMOPlan' => 'required',
         // ]);
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'HMOPlan' => 'required|unique:tblHMOPlan',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->messages()->first(),
-                'data' => $hmoplan
-            ],200);
+                'data'    => $hmoplan,
+            ], 200);
         }
         if ($hmoplan->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $hmoplan
-            ],200);
+                'data'    => $hmoplan,
+            ], 200);
         }
     }
 
@@ -793,22 +844,22 @@ class SetupController extends Controller
         // $this->validate($request, [
         //     'BankName' => 'required',
         // ]);
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'BankName' => 'required|unique:tblBank',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->messages()->first(),
-                'data' => $bank
-            ],200);
+                'data'    => $bank,
+            ], 200);
         }
         if ($bank->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $bank
-            ],200);
+                'data'    => $bank,
+            ], 200);
         }
     }
 
@@ -818,22 +869,22 @@ class SetupController extends Controller
         // $this->validate($request, [
         //     'PFA' => 'required',
         // ]);
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'PFA' => 'required|unique:tblPFA',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->messages()->first(),
-                'data' => $pfa
-            ],200);
+                'data'    => $pfa,
+            ], 200);
         }
         if ($pfa->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $pfa
-            ],200);
+                'data'    => $pfa,
+            ], 200);
         }
     }
 
@@ -843,22 +894,22 @@ class SetupController extends Controller
         // $this->validate($request, [
         //     'TravelPurpose' => 'required',
         // ]);
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'TravelPurpose' => 'required|unique:tblTravelPurpose',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->messages()->first(),
-                'data' => $purpose
-            ],200);
+                'data'    => $purpose,
+            ], 200);
         }
         if ($purpose->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $purpose
-            ],200);
+                'data'    => $purpose,
+            ], 200);
         }
     }
 
@@ -868,22 +919,22 @@ class SetupController extends Controller
         // $this->validate($request, [
         //     'TravelMode' => 'required',
         // ]);
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'TravelMode' => 'required|unique:tblTravelMode',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->messages()->first(),
-                'data' => $mode
-            ],200);
+                'data'    => $mode,
+            ], 200);
         }
         if ($mode->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $mode
-            ],200);
+                'data'    => $mode,
+            ], 200);
         }
     }
 
@@ -893,22 +944,22 @@ class SetupController extends Controller
         // $this->validate($request, [
         //     'TravelLodge' => 'required',
         // ]);
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'TravelLodge' => 'required|unique:tblTravelLodge',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->messages()->first(),
-                'data' => $lodge
-            ],200);
+                'data'    => $lodge,
+            ], 200);
         }
         if ($lodge->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $lodge
-            ],200);
+                'data'    => $lodge,
+            ], 200);
         }
     }
 
@@ -918,22 +969,22 @@ class SetupController extends Controller
         // $this->validate($request, [
         //     'Transporter' => 'required',
         // ]);
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'Transporter' => 'required|unique:tblTravelTransporter',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->messages()->first(),
-                'data' => $transport
-            ],200);
+                'data'    => $transport,
+            ], 200);
         }
         if ($transport->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $transport
-            ],200);
+                'data'    => $transport,
+            ], 200);
         }
     }
 
@@ -947,8 +998,8 @@ class SetupController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $level
-            ],200);
+                'data'    => $level,
+            ], 200);
         }
     }
 
@@ -962,8 +1013,8 @@ class SetupController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $policy
-            ],200);
+                'data'    => $policy,
+            ], 200);
         }
     }
 
@@ -973,22 +1024,22 @@ class SetupController extends Controller
         // $this->validate($request, [
         //     'Department' => 'required|unique:tblDepartment',
         // ]);
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'Department' => 'required|unique:tblDepartment',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->messages()->first(),
-                'data' => $department
-            ],200);
+                'data'    => $department,
+            ], 200);
         }
         if ($department->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $department
-            ],200);
+                'data'    => $department,
+            ], 200);
         }
     }
 
@@ -996,22 +1047,46 @@ class SetupController extends Controller
     {
         $stafftype = new StaffType($request->all());
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'StaffType' => 'required|unique:tblStaffType',
         ]);
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->messages()->first(),
-                'data' => $stafftype
-            ],200);
+                'data'    => $stafftype,
+            ], 200);
         }
         if ($stafftype->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Setup created Successfully',
-                'data' => $stafftype
-            ],200);
+                'data'    => $stafftype,
+            ], 200);
+        }
+    }
+
+    public function add_expense_request(Request $request)
+    {
+        dd($request->all());
+        $expense_request = new RequestList($request->all());
+
+        $validator = Validator::make($request->all(), [
+            'Request' => 'required|unique:tblRequestList',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'succes'  => false,
+                'message' => $validator->messages()->first(),
+                'data'    => $expense_request,
+            ], 200);
+        }
+        if ($expense_request->save()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Setup created Successfully',
+                'data'    => $expense_request,
+            ], 200);
         }
     }
 

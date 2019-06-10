@@ -2,21 +2,23 @@
 
 namespace MESL\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use DB;
 use File;
-use Image;
-use ZipArchive;
-use Storage;
-use Notification;
+use Illuminate\Http\Request;
+use Mail;
+use MESL\Mail\ApprovedMemo;
+use MESL\Mail\ApprovedMemoConfirmation;
+use MESL\Mail\SendRouteMail;
+use MESL\Memo;
+use MESL\MemoAttachment;
 use MESL\Notifications\MemoApproval;
 use MESL\Notifications\MemoReceipient;
-use MESL\User;
-use MESL\Staff;
-use MESL\Memo;
 use MESL\RequestType;
-use MESL\MemoAttachment;
+use MESL\Staff;
+use MESL\User;
+use Notification;
+use Storage;
+use ZipArchive;
 
 class MemoController extends Controller
 {
@@ -136,7 +138,7 @@ class MemoController extends Controller
                 }
                 // END attachment upload
                 DB::commit();
-                return redirect()->route('memos.create')->with('success', 'Memo was created successfully.');
+                return redirect()->route('memos.index', ['tab=1'])->with('success', 'Memo was created successfully.');
             }
         } catch (Exception $e) {
             DB::rollback();
@@ -162,12 +164,15 @@ class MemoController extends Controller
 
     public function edit($id)
     {
-        $memo      = Memo::find($id);
+        $memo = Memo::find($id);
+        // dd(collect($memo->recipients));
+        // dd(collect($memo->recipients)->values());
         $employees = User::all();
         $employees = $employees->transform(function ($item, $key) {
             $item->name = $item->Fullname;
             return $item;
         });
+        // dd($employees);
         $request_types = RequestType::all();
         return view('memos.edit', compact('memo', 'employees', 'request_types'));
     }
@@ -214,9 +219,14 @@ class MemoController extends Controller
         $new_array    = array();
         foreach ($SelectedID as $value) {
             array_push($new_array, intval($value));
+            $memo = Memo::find($value);
+            $request->session()->forget('current_approver');
+            $current_approver = User::find($memo->ApproverID)->fullName;
+            // $request->session()->put('current_approver', $memo->ApproverID);
             $approve_proc = \DB::statement(
                 "EXEC procApproveRequest  '$ApprovedDate', '$value', $ModuleID, '$Comment', $ApproverID, $ApprovedFlag"
             );
+
             $memo = Memo::find($value);
 
             $next_approver = $memo->ApproverID != 0 ? Staff::where('UserID', $memo->ApproverID)->first()->user : null;
@@ -230,7 +240,11 @@ class MemoController extends Controller
 
             if (!is_null($next_approver) || $next_approver != 0) {
                 Notification::send($next_approver, new MemoApproval($memo));
+                // send email notification to the initiator
+
+                Mail::to($memo->initiator->user->email)->send(new ApprovedMemo($memo, $next_approver, $current_approver));
             } else {
+                Mail::to($memo->initiator->user->email)->send(new ApprovedMemo($memo, $next_approver, $current_approver));
                 // send mail to reciepient, notifying them of the memo approval
                 Notification::send($recipients->all(), new MemoReceipient($memo));
             }
@@ -252,7 +266,22 @@ class MemoController extends Controller
             $memo                 = Memo::find($request->id);
             $memo->processed_flag = 1;
             if ($memo->save()) {
+
+                // send initiator email
+
+                Mail::to($memo->initiator->user->email)->send(new ApprovedMemoConfirmation($memo));
+
+                // send email to recipients
+                // $recipients = implode(',', $memo->recipients);
+                // dd($recipients);
+                // $staff = User::whereHas('staff', function ($q) use ($request, $recipients) {
+                //     $q->whereRaw("id in ($recipients)");
+                // })->get();
+
+                // Mail::to($staff)->send(new ApprovedMemo($memo, $next_approver = null));
+
                 DB::commit();
+
                 return redirect('/memos')->with('success', 'Memo was marked as complete');
             }
         } catch (Exception $e) {
@@ -322,5 +351,58 @@ class MemoController extends Controller
         // dd($files);
         \Zipper::make(public_path(str_slug($memo->subject) . '.zip'))->add($files)->close();
         return response()->download(public_path(str_slug($memo->subject) . '.zip'));
+    }
+
+    public function routing()
+    {
+        $memos = Memo::where('processed_flag', 0)->get();
+        $staff = User::all();
+        return view('memos.routing', compact('memos', 'staff'));
+    }
+
+    public function routing_store(Request $request)
+    {
+        $memo              = Memo::find($request->id);
+        $memo->ApproverID1 = $request->ApproverID1;
+        $memo->ApproverID2 = $request->ApproverID2;
+        $memo->ApproverID3 = $request->ApproverID3;
+        $memo->ApproverID4 = $request->ApproverID4;
+        $memo->save();
+        // return response()->json([
+        //     'success' => true,
+        //     'data'    => $memo,
+        //     'message' => 'Memo has been updated successfully',
+        // ], 200);
+        Mail::to($memo->initiator->user->email)->send(new SendRouteMail($memo));
+        return redirect('/memos/routing')->with('success', 'Memo has been routed successfully');
+    }
+
+    public function fetchMemoApprovers(Request $request)
+    {
+        $memo = Memo::where('id', $request->id)->get();
+        $memo = $memo->transform(function ($item, $key) {
+            $item->approver1_name = User::find($item->ApproverID1)->FullName ?? '';
+            $item->approver2_name = User::find($item->ApproverID2)->FullName ?? '';
+            $item->approver3_name = User::find($item->ApproverID3)->FullName ?? '';
+            $item->approver4_name = User::find($item->ApproverID4)->FullName ?? '';
+            return $item;
+        });
+
+        if ($memo) {
+            // return redirect()->with('success', 'Memo has been routed successfully');
+            return response()->json([
+                'success' => true,
+                'data'    => $memo[0],
+                'message' => 'Approvers Fetched Successfully',
+            ], 200);
+        } else {
+            // return redirect()->with('danger', 'Memo routing failed');
+            return response()->json([
+                'success' => false,
+                'data'    => $memo[0],
+                'message' => 'Memo was not found',
+            ], 200);
+        }
+
     }
 }
