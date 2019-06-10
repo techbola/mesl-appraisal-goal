@@ -24,13 +24,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Enter Staff Department</label>
-<<<<<<< HEAD
-                <select id="department_name" class="form-control">
-                  <option value="0">-- Select Department --</option>
-=======
                 <select id="department_name" class="full-width" data-init-plugin="select2">
                     <option value="0">Select Department</option>
->>>>>>> 316f4a2032c8dadd1e7d562d6762bb178789d8af
                 </select>
               </div>
             </div>

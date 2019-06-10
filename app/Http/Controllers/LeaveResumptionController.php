@@ -5,12 +5,7 @@ namespace MESL\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use MESL\CompanySupervisor;
-<<<<<<< HEAD
-use MESL\CompanyDepartment;
-use MESL\Location;
-=======
 use MESL\Department;
->>>>>>> 316f4a2032c8dadd1e7d562d6762bb178789d8af
 use MESL\LeaveResumption;
 use MESL\Location;
 use MESL\Mail\NotifyLeaveResumption;
@@ -177,13 +172,8 @@ class LeaveResumptionController extends Controller
     public function officeLocation()
     {
         // body
-<<<<<<< HEAD
-        $all_offices = Location::orderBy('name', 'ASC')->get();
-        if(count($all_offices) > 0){
-=======
         $all_offices = Location::orderBy('Location', 'ASC')->get();
         if (count($all_offices) > 0) {
->>>>>>> 316f4a2032c8dadd1e7d562d6762bb178789d8af
             $office_box = [];
             foreach ($all_offices as $office) {
                 # code...
