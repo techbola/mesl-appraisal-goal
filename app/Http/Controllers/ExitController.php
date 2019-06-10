@@ -11,6 +11,7 @@ use MESL\Options;
 use MESL\Obligation;
 use MESL\Department;
 use MESL\User;
+use MESL\ExitNotification;
 use MESL\Mail\ExitInterviewResponse;
 use Mail;
 use DB;

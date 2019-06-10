@@ -20,5 +20,10 @@ class Setup extends Model
     {
         return $this->belongsTo(TravelPurpose::class, 'TravelPurposeID');
     }
-    
+
+    public function staff_name()
+    {
+        return $this->belongsTo(Staff::class, 'StaffRef');
+    }
+
 }

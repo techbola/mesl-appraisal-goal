@@ -1420,7 +1420,7 @@ Route::get('edit_leave_days/{id}', 'SetupController@edit_leave_days')->name('edi
 Route::get('/get-days-by-id/{id}', 'SetupController@getDaysById');
 Route::post('update_leave_days', 'SetupController@update_leave_days')->name('UpdateLeaveDays');
 //SETUP ROUTES
-Route::get('setup/index', 'SetupController@index');
+Route::get('/setup', 'SetupController@index');
 
 Route::get('setup/hmo', 'SetupController@hmo');
 Route::post('setup/hmo', 'SetupController@store_hmo')->name('StoreHmo');
@@ -1505,3 +1505,12 @@ Route::post('setup/policy', 'SetupController@store_policy')->name('StorePolicy')
 Route::get('edit_policy/{id}', 'SetupController@edit_policy')->name('edit_policy');
 Route::post('update_policy', 'SetupController@update_policy')->name('UpdatePolicy');
 Route::get('setup/policy/{id}', 'SetupController@delete_policy')->name('delete_policy');
+
+Route::get('setup/leave_days', 'SetupController@leave_days');
+Route::post('setup/leave_days', 'SetupController@store_leave_days')->name('StoreLeaveDays');
+Route::get('edit_leave_days/{id}', 'SetupController@edit_leave_days')->name('edit_leave_days');
+Route::get('/get-days-by-id/{id}', 'SetupController@getDaysById');
+Route::post('update_leave_days', 'SetupController@update_leave_days')->name('UpdateLeaveDays');
+
+
+Route::post('add_expense_request', 'SetupController@add_expense_request')->name('add_expense_request');

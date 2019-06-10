@@ -24,7 +24,7 @@
         <div class="form-group">
           <label for="SupervisorFlag">
             <input type="checkbox" value="" @if($staff->SupervisorFlag == 1) checked @endif name="SupervisorFlag">
-            Mark Staff as Supervisor 
+            Mark Staff as Supervisor
           </label>
         </div>
       </div>
@@ -65,7 +65,7 @@
 
       <div class="col-sm-6">
         <div class="form-group">
-            {{ Form::label('DepartmentID','Departments') }} <span style="padding: 0 !important" class="form-add-more add-department badge badge-success" data-toggle="modal" data-target="department_setup"><i class="fa fa-plus"></i></span>
+            {{ Form::label('DepartmentID','Departments') }} @if(Auth::user()->hasRole(['admin', 'superadmin'])) <span style="padding: 0 !important" class="form-add-more add-department badge badge-success" data-toggle="modal" data-target="department_setup"><i class="fa fa-plus"></i></span> @endif
           {{-- <label class="req">Departments</label>  --}}
           {{ Form::select('DepartmentID', $departments->pluck('Department', 'DepartmentRef')->toArray(), $staff_departments, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
@@ -92,7 +92,7 @@
           {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2", "required"]) }}
         </div>
       </div>
-      
+
     @endif
 
     @if (!auth()->user()->hasRole('admin'))
@@ -119,7 +119,7 @@
           {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "form-control select2", 'data-init-plugin' => "select2",  $user->hasRole('admin') ? "required" : "", "disabled"]) }}
         </div>
       </div>
-      
+
     @endif
     <div class="col-sm-4">
         <div class="form-group">
@@ -144,7 +144,7 @@
         </div>
     </div>
 
-   
+
 </div>
 <div class="row">
     <div class="col-sm-3">
@@ -454,14 +454,14 @@
 
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('HMOID','Health Maintainace Organisation (HMO)') }} <span style="padding: 0 !important" class="form-add-more add-hmo badge badge-success" data-toggle="modal" data-target="hmo_id"><i class="fa fa-plus"></i></span>
+            {{ Form::label('HMOID','Health Maintainace Organisation (HMO)') }} @if(Auth::user()->hasRole(['admin', 'superadmin'])) <span style="padding: 0 !important" class="form-add-more add-hmo badge badge-success" data-toggle="modal" data-target="hmo_id"><i class="fa fa-plus"></i></span> @endif
              {{ Form::select('HMOID', [ 0 =>  'Select your HMO'] + $hmos->pluck('HMO', 'HMORef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select your HMO", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
 
     <div class="col-sm-4">
         <div class="form-group">
-            {{ Form::label('HMOPlanID','Health Maintainace Organisation Plan') }} <span style="padding: 0 !important" class="form-add-more add-hmo-plan badge badge-success" data-toggle="modal" data-target="hmo_plan"><i class="fa fa-plus"></i></span>
+            {{ Form::label('HMOPlanID','Health Maintainace Organisation Plan') }} @if(Auth::user()->hasRole(['admin', 'superadmin'])) <span style="padding: 0 !important" class="form-add-more add-hmo-plan badge badge-success" data-toggle="modal" data-target="hmo_plan"><i class="fa fa-plus"></i></span> @endif
              {{ Form::select('HMOPlanID', [ 0 =>  'Select your HMO Plan'] + $hmoplans->pluck('HMOPlan', 'HMOPlanRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Select your HMO Plan", 'data-init-plugin' => "select2"]) }}
         </div>
     </div>
@@ -558,7 +558,7 @@
     </div>
     </div> <hr>
     @endforeach
-    
+
     @if(count($institutions) <= 0)
 <div class="row institution-row">
       <div class="col-sm-4">
@@ -760,64 +760,64 @@
       <div class="card-section p-l-5">Bank Details</div>
       <div class="col-sm-6">
         <div class="form-group">
-          {{ Form::label('BankID','Choose Bank') }} <span style="padding: 0 !important" class="form-add-more add-bank badge badge-success" data-toggle="modal" data-target="bank_id"><i class="fa fa-plus"></i></span>
+          {{ Form::label('BankID','Choose Bank') }} @if(Auth::user()->hasRole(['admin', 'superadmin'])) <span style="padding: 0 !important" class="form-add-more add-bank badge badge-success" data-toggle="modal" data-target="bank_id"><i class="fa fa-plus"></i></span> @endif
           {{ Form::select('BankID', [ 0 =>  'Select a Bank'] + $banks->pluck('BankName', 'BankRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Bank", 'data-init-plugin' => "select2", 'required']) }}
         </div>
       </div>
-  
+
       <div class="col-sm-6">
         <div class="form-group">
           {{ Form::label('BankAcctNumber','Bank Account Number') }}
           {{ Form::text('BankAcctNumber', null,  ['class' => 'form-control required', 'placeholder' => 'Enter Bank Account Number', 'required']) }}
         </div>
       </div>
-  
+
       <div class="clearfix"></div>
-  
+
       <div class="card-section p-l-5">PFA Details</div>
       <div class="col-sm-6">
         <div class="form-group">
-          {{ Form::label('PFAID','Choose PFA') }}  <span style="padding: 0 !important" class="form-add-more add-pfa badge badge-success" data-toggle="modal" data-target="pfa_id"><i class="fa fa-plus"></i></span>
+          {{ Form::label('PFAID','Choose PFA') }} @if(Auth::user()->hasRole(['admin', 'superadmin'])) <span style="padding: 0 !important" class="form-add-more add-pfa badge badge-success" data-toggle="modal" data-target="pfa_id"><i class="fa fa-plus"></i></span> @endif
           {{ Form::select('PFAID', [ 0 =>  'Select a PFA'] + $pfa->pluck('PFA', 'PFARef')->toArray(),null, ['class'=> "full-width required",'data-placeholder' => "Choose PFA", 'data-init-plugin' => "select2", 'required']) }}
         </div>
       </div>
-  
+
       <div class="col-sm-6">
         <div class="form-group">
           {{ Form::label('PensionRSANumber','PFA RSA Number') }}
           {{ Form::text('PensionRSANumber', null,  ['class' => 'form-control', 'placeholder' => 'Enter PFA RSA Number']) }}
         </div>
       </div>
-  
-  
-  
+
+
+
       <div class="clearfix"></div>
-  
+
       <div class="card-section p-l-5">Payroll Details</div>
-  
+
       <div class="col-sm-6">
         <div class="form-group">
           {{ Form::label('LifeAssurance','Annual Life Assurance') }}
           {{ Form::text('LifeAssurance', null,  ['class' => 'form-control', 'placeholder' => 'Enter Annual Life Assurance Amount','required']) }}
         </div>
       </div>
-  
+
       <div class="col-sm-6">
         <div class="form-group">
           {{ Form::label('PayrollGroupID','Payroll Group') }}
           {{ Form::select('PayrollGroupID', [ 0 =>  'Select a payroll group'] + $payroll_groups->pluck('GroupDescription', 'GroupRef')->toArray(),null, ['class'=> "full-width",'data-placeholder' => "Choose Religion", 'data-init-plugin' => "select2"]) }}
         </div>
       </div>
-  
+
       <div class="col-sm-4">
         <div class="form-group">
           {{ Form::label('LeaveDays','Number of Leave Days') }}
           {{ Form::number('LeaveDays', null,  ['class' => 'form-control', 'placeholder' => 'Enter Number of Leave Days']) }}
         </div>
       </div>
-  
+
       @endif
-  
+
     </div>
 
     <!-- action buttons -->
@@ -830,7 +830,7 @@
 
 
 </div>
-    
+
 
 @push('scripts')
   <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css') }}" rel="stylesheet" type="text/css">
@@ -852,7 +852,7 @@
           format: 'yyyy-mm-dd',
           autoclose: true,
           format: "yyyy",
-          viewMode: "years", 
+          viewMode: "years",
           minViewMode: "years"
 
       };

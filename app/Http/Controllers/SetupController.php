@@ -736,6 +736,58 @@ class SetupController extends Controller
         return redirect()->back()->with('success', 'Updated successfully');
     }
 
+    // Leave days function
+    public function leave_days()
+    {
+        $staff = Staff::all();
+        return view('setup.leave_days', compact('staff'));
+    }
+    // Leave days function
+    public function store_leave_days(Request $request)
+    {
+        $leave = new Staff($request->all());
+
+        $this->validate($request, [
+            'LeaveType' => 'required',
+        ]);
+
+        if ($leave->save()) {
+            return redirect('/setup/leave_days')->with('success', 'Leave Days was updated successfully');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Leave Days failed to save');
+        }
+    }
+
+        // Leave days function
+    public function edit_leave_days($id)
+    {
+        $staff = Staff::where("StaffRef", $id)->first();
+
+        return response()->json($staff);
+    }
+
+    public function getDaysById($id)
+    {
+        $staff = Staff::Orderby('StaffRef', 'DESC')->where('StaffRef', $id)->first();
+        return response()->json([
+            'data' => $staff,
+            'message' => 'Okay',
+            'success' => true
+        ],200);
+
+    }
+
+        // Leave days function
+    public function update_leave_days(Request $request)
+    {
+        $staff = Staff::find($request->StaffRef);
+
+        $staff->update($request->except(['_token']));
+
+        return redirect()->back()->with('success',  'Updated successfully');
+    }
+
+
     public function add_hmo(Request $request)
     {
         $hmo = new HMO($request->all());
@@ -1035,6 +1087,31 @@ class SetupController extends Controller
                 'message' => 'Setup created Successfully',
                 'data'    => $expense_request,
             ], 200);
+        }
+    }
+
+    public function add_expense_request(Request $request)
+    {
+        dd($request->all());
+        $expense_request = new RequestList($request->all());
+
+
+        $validator = Validator::make($request->all(), [
+            'Request' => 'required|unique:tblRequestList',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'succes' => false,
+                'message' => $validator->messages()->first(),
+                'data' => $expense_request
+            ],200);
+        }
+        if ($expense_request->save()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Setup created Successfully',
+                'data' => $expense_request
+            ],200);
         }
     }
 }
