@@ -24,8 +24,11 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Enter Staff Department</label>
-                <select id="department_name" class="form-control">
-                  <option value="0">-- Select Department --</option>
+                <select name="DepartmentID" class="full-width" data-init-plugin="select2">
+                    <option value="">Enter Department</option>
+                    @foreach($departments as $department)
+                        <option value="{{ $department->DepartmentRef }}">{{ $department->Department }}</option>
+                    @endforeach
                 </select>
               </div>
             </div>
@@ -43,7 +46,7 @@
 
             <div class="col-md-6">
               <div class="form-group deparment-supervisor">
-                
+
               </div>
             </div>
           </div>

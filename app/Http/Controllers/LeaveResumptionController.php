@@ -12,6 +12,7 @@ use MESL\Staff;
 use MESL\DB;
 use MESL\Mail\NotifyLeaveResumption;
 use Auth;
+use MESL\Department;
 
 class LeaveResumptionController extends Controller
 {
@@ -23,6 +24,7 @@ class LeaveResumptionController extends Controller
     public function index(Request $request){
     	// body
         $leave_resumptions   = LeaveResumption::allLeaveResumption();
+        $departments = Department::all();
         $check_already_exist = LeaveResumption::where("staff_id", Auth::user()->id)->first();
         if($check_already_exist !== null){
             $create_btn = "0";
@@ -33,7 +35,7 @@ class LeaveResumptionController extends Controller
         // check if staff has a pending approval
         $resumption_approval = LeaveResumption::allMyApprovalRequest();
 
-    	return view('leave_resumption.index', compact('leave_resumptions', 'resumption_approval', 'create_btn'));
+    	return view('leave_resumption.index', compact('leave_resumptions', 'resumption_approval', 'create_btn','departments'));
     }
 
     /*
@@ -85,7 +87,7 @@ class LeaveResumptionController extends Controller
     */
     public function restore(Request $request){
     	// body
-    	
+
     }
 
     /*
@@ -244,7 +246,7 @@ class LeaveResumptionController extends Controller
     */
     public function testNotification(Request $request){
         // body
-        
+
         $mail_data = [
             'employee_name' => 'John Wick',
             'approver_name' => 'Emeka Jude',

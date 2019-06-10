@@ -405,12 +405,12 @@
                 $('#expense_request_setup').show();
                 $('#expense_request_setup').modal('show');
 
-                alert('Okay');
+
 
             });
 
-            var form1 = $("#expense-request-form");
-                form1.submit(function(e) {
+            var expform = $("#expense-request-form");
+                expform.submit(function(e) {
                 e.preventDefault();
                 $.post('/add_expense_request', {
                     Request: $('#Request').val()
