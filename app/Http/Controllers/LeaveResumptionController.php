@@ -21,6 +21,7 @@ class LeaveResumptionController extends Controller
      */
     public function index(Request $request)
     {
+        // dd(LeaveResumption::where("staff_id", Auth::user()->id)->get());
         // body
         $leave_resumptions   = LeaveResumption::allLeaveResumption();
         $departments         = Department::all();
@@ -216,7 +217,8 @@ class LeaveResumptionController extends Controller
     {
         // body
         $staff      = Staff::where("UserID", $request->staff_id)->first();
-        $supervisor = CompanySupervisor::where("department_id", $staff->DepartmentID)->first();
+        // return response()->json($staff,200);
+        $supervisor = Staff::where(["DepartmentID"=> $staff->DepartmentID, 'SupervisorFlag' => 1])->first();
         $department = Department::where("DepartmentRef", $staff->DepartmentID)->first();
         if ($department == null) {
             $data = [
@@ -225,10 +227,10 @@ class LeaveResumptionController extends Controller
             ];
         } else {
             if ($supervisor !== null) {
-                $user = User::where("id", $supervisor->staff_id)->first();
+                $user = User::where("id", $supervisor->UserID)->first();
                 $data = [
-                    'id'              => $supervisor->staff_id,
-                    'text'            => ucfirst($user->first_name) . ' ' . ucfirst($user->last_name),
+                    'id'              => $supervisor->SupervisorID,
+                    'text'            => $staff->supervisor->fullName,
                     'department_id'   => $department->DepartmentRef,
                     'department_name' => $department->Department,
                 ];

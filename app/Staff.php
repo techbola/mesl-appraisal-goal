@@ -96,7 +96,7 @@ class Staff extends Model
     }
     public function supervisor()
     {
-        return $this->hasOne(Staff::class, 'SupervisorID');
+        return $this->belongsTo(Staff::class, 'SupervisorID', 'StaffRef');
     }
     public function getProjectsAttribute()
     {
