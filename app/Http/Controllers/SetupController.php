@@ -686,7 +686,7 @@ class SetupController extends Controller
     }
 
     // Leave days function
-    public function leave_days()
+    public function leave_days_setup()
     {
         $staff = Staff::all();
         return view('setup.leave_days', compact('staff'));
