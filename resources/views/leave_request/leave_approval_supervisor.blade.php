@@ -47,7 +47,7 @@
          <p style="color : red" class="hide">Note : Leave Request highlighted in red are within the company restricted leave days</p>
         <table class="table tableWithSearch table-bordered">
           <thead>
-            <th>Action</th>
+            {{-- <th>Action</th> --}}
             <th>Requester</th>
             <th>Leave Type</th>
             <th>Request Date</th>

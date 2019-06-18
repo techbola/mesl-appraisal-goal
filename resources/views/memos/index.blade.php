@@ -28,19 +28,21 @@
   	<div class="">
 
       <ul class="nav nav-tabs outside">
-        <li class="active"><a data-toggle="tab" href="#unapproved">Unsent Memos &nbsp; <span class="badge badge-warning">{{ $my_unsent_memos->count() }}</span></a></li>
+        <li class="active"><a data-toggle="tab" href="#inbox">Memo Inbox &nbsp; <span class="badge badge-danger">{{ $memo_inbox->count() }}</span></a></li>
+        <li class=""><a data-toggle="tab" href="#unapproved">Unsent Memos &nbsp; <span class="badge badge-warning">{{ $my_unsent_memos->count() }}</span></a></li>
         <li><a data-toggle="tab" href="#approved">Sent Memos &nbsp; <span class="badge badge-success">{{ $my_memos->count() }}</span></a></li>
-        <li><a data-toggle="tab" href="#inbox">Memo Inbox &nbsp; <span class="badge badge-danger">{{ $memo_inbox->count() }}</span></a></li>
+        
       </ul>
       <div class="tab-content">
-        <div id="unapproved" class="tab-pane fade in active">
+        <div id="unapproved" class="tab-pane fade in">
           
             <div class="card-box ">
-                <table class="table tableWithSearch">
+                <table class="table tableWithSearch nowrap">
                   <thead>
                     <th width="">Subject</th>
-                    <th width="">Purpose</th>
+                    <th width="30%">Purpose</th>
                     <th width="">Body</th>
+                    <th width="">Date</th>
                     <th>Status</th>
                     <th>Actions</th>
 
@@ -52,10 +54,11 @@
                         <td>{{ $memo->purpose }}</td>
                         <td>
                          <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
-                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
+                          <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>view details</small></a>
                           &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
+                        <td>{{ $memo->created_at->toDateTimeString() }}</td>
                         <td>
                             @if($memo->status() === true) <!-- approved -->
                                 <label class="badge badge-success">Approved</label>
@@ -83,11 +86,12 @@
 
           
           <div class="card-box">
-            <table class="table tableWithSearch">
+            <table class="table tableWithSearch nowrap">
               <thead>
                 <th >Subject</th>
-                <th >Purpose</th>
+                <th width="30%">Purpose</th>
                 <th>Body</th>
+                <th>Date</th>
                 <th>Status</th>
                 <th>Actions</th>
 
@@ -99,10 +103,11 @@
                     <td>{{ $memo->purpose }}</td>
                     <td>
                      <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
-                      <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
+                      <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>view details</small></a>
                       &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                       &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></a> --}}
                     </td>
+                    <td>{{ $memo->created_at->toDateTimeString() }}</td>
                     <td>
                         @if($memo->status() === true ) <!-- approved -->
                             <label class="badge badge-success">Approved</label>
@@ -127,30 +132,32 @@
 
         </div>
 
-        <div id="inbox" class="tab-pane fade">
+        <div id="inbox" class="tab-pane fade in active">
 
           
           <div class="card-box">
-            <table class="table tableWithSearch">
+            <table class="table tableWithSearch nowrap">
               <thead>
                 <th >Subject</th>
-                <th >Purpose</th>
+                <th width="30%">Purpose</th>
                 <th>Body</th>
+                <th>Date</th>
                 <th>Status</th>
                 <th>Actions</th>
 
               </thead>
               <tbody>
-                @foreach ( $memo_inbox as $memo)
+                @foreach ($memo_inbox as $memo)
                   <tr>
                     <td>{{ $memo->subject }}</td>
                     <td>{{ $memo->purpose }}</td>
                     <td>
                      <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
-                      <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>More Details</small></a>
+                      <a href="{{ route('memos.show', ['id' => $memo->id]) }}" class="text-info preview_memo"><small>view details</small></a>
                       &nbsp; {!! $memo->attachments->count() > 0 ? '<span class="badge">'. $memo->attachments->count() .' '. str_plural('attachment', $memo->attachments->count()).'</span>' : '<span class="badge">No Attachment</span>'  !!}
                       &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></a> --}}
                     </td>
+                    <td>{{ $memo->created_at->toDateTimeString() }}</td>
                     <td>
                         @if($memo->status() === true ) <!-- approved -->
                             <label class="badge badge-success">Approved</label>
@@ -206,6 +213,9 @@
           <div class="modal-header clearfix text-left">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
             </button>
+            <div class="site-logo text-left">
+              <img src="{{asset('assets/img/mesllogo.png')}}" width="100px">
+            </div> <br>
             <h4 class="semi-bold pull-left">Internal Memo</h4>
             <div class="pull-right">
               <button class="btn btn-default m-r-15 hide-on-print" onclick="print_memo()">Print Memo</button>
@@ -217,10 +227,10 @@
                 <p class=""><b>Purpose: </b> <span class="memo-purpose"></span></p>
                 <p class=""><b>To: </b> <span class="memo-recipients"></span></p>
                 <p class=""><b>Approvers: </b> <span class="memo-approvers"></span></p>
-                <label class="badge memo-status"></label>
+                <label class="badge memo-status approved"></label>
               </div>
               <div class="col-sm-2">
-                <div class="memo-approved text-right"></div>
+                <div class="memo-approved text-right approved"></div>
               </div>
             </div>
           </div> <hr>
@@ -270,7 +280,7 @@
           $("#show-memo").find('.memo-body').html(data.body);
           $("#show-memo").find('.memo-recipients').html(data.recipient_list.join(', '));
            if(data.approved === true){
-              $("#show-memo").find('.memo-status').html('approved');
+              $("#show-memo").find('.memo-status').html('approved').addClass('approved');
               $("#show-memo").find('.memo-status').addClass('badge-success');
               $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="30">');
             } else {
@@ -281,7 +291,7 @@
           if(data.attachments.length > 0 ){
             $.each(data.attachments, function(index, val) {
                $('#show-memo .modal-footer .files').html(`
-                <a target="_blank" href="/download-memo-attachments/${data.id}">Dowmnload Attachment(s)</a>&nbsp;
+                <a target="_blank" href="/download-memo-attachments/${data.id}">Download Attachment(s)</a>&nbsp;
               `);
             });
           }
@@ -294,6 +304,16 @@
           "path": ["{{ asset('css/printmemo.css') }}"]
         }); 
     }
+
+    function activate_memo_inbox_queue(){
+        let url = new URL(window.location.href);
+        let queue = url.searchParams.get('tab'); 
+        if(queue != null && queue == 3) {
+            $('a[href="#inbox"]').tab('show');
+        }
+    }
+
+    activate_memo_inbox_queue();
 
     // datatbles
     var data = [];

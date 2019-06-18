@@ -48,7 +48,7 @@
                     <button class="btn btn-info" type="submit">Submit</button>
                 </div>
            </div>
-       </form> 
+       </form>
     </div>
 
     {{-- HMO-table --}}
@@ -77,49 +77,49 @@
 
         <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit HMO</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <hr>
-                <div class="modal-body">
-                    <form action="" method="POST" id="form-edit">
-                        <input type="hidden" id="HMORef" name="HMORef">
-                        {{ csrf_field() }}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="controls">
-                                    <div class="form-group">
-                                        {{ Form::label('HMO', 'HMO Title' ) }}
-                                        {{ Form::text('HMO', null, ['class' => 'form-control', 'id' => 'hmo_name', 'placeholder' => 'Edit HMO', 'required']) }}
-                                    </div>
-                                </div>
-                            </div>
-    
-                            <div class="col-md-6">
-                                <div class="controls">
-                                    <div class="form-group">
-                                        {{ Form::label('HMOCode', 'HMO Code' ) }}
-                                        {{ Form::text('HMOCode', null, ['class' => 'form-control', 'id' => 'hmo_code', 'placeholder' => 'Edit HMO Code', 'required']) }}
-                                    </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit HMO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <hr>
+            <div class="modal-body">
+                <form action="" method="POST" id="form-edit">
+                    <input type="hidden" id="HMORef" name="HMORef">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="controls">
+                                <div class="form-group">
+                                    {{ Form::label('HMO', 'HMO Title' ) }}
+                                    {{ Form::text('HMO', null, ['class' => 'form-control', 'id' => 'hmo_name', 'placeholder' => 'Edit HMO', 'required']) }}
                                 </div>
                             </div>
                         </div>
-                
-                        <div class="row">
-                            <div class="pull-right">
-                                <button class="btn btn-info" type="submit">Update</button>
+
+                        <div class="col-md-6">
+                            <div class="controls">
+                                <div class="form-group">
+                                    {{ Form::label('HMOCode', 'HMO Code' ) }}
+                                    {{ Form::text('HMOCode', null, ['class' => 'form-control', 'id' => 'hmo_code', 'placeholder' => 'Edit HMO Code', 'required']) }}
+                                </div>
                             </div>
                         </div>
-                    </form>
-                </div>
-                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="pull-right">
+                            <button class="btn btn-info" type="submit">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             </div>
         </div>
+    </div>
 
 
 @endsection
@@ -139,9 +139,9 @@
             $('#hmo_name').val(data.HMO);
 
             $('#hmo_code').val(data.HMOCode);
-            
+
             $('#form-edit').prop('action', '/update_hmo');
-            
+
         });
 
     }

@@ -734,7 +734,7 @@ class StaffController extends Controller
             ];
         }
 
-        return redirect()->route('StoreStaff')->with($data['status'], $data['message']);
+        return redirect('/staff/staff_onboard?tab=2')->with($data['status'], $data['message']);
     }
 
     //Send mail to IT and Admin for Onboarding notification

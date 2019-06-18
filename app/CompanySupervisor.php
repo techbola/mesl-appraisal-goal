@@ -3,7 +3,7 @@
 namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
-use MESL\CompanyDepartment;
+use MESL\Department;
 use MESL\User;
 use MESL\Staff;
 
@@ -28,9 +28,11 @@ class CompanySupervisor extends Model
     public function loadOneSupervisor($payload)
     {
         // body
-        $supervisor = CompanySupervisor::where("id", $payload->supervisor_id)->first();
+        // $ref = User::find($payload->supervisor_id)->staff->StaffRef;
+        $supervisor = Staff::where("SupervisorID", $payload->supervisor_id)->first();
+        // dd($supervisor);
         if ($supervisor !== null) {
-            $department = CompanyDepartment::where("id", $supervisor->department_id)->first();
+            $department = Department::where("DepartmentRef", $supervisor->department_id)->first();
             $staff      = User::where("id", $supervisor->staff_id)->first();
 
             $data = [
@@ -240,7 +242,7 @@ class CompanySupervisor extends Model
         foreach ($all_staffs as $staff) {
             $is_supervisor = CompanySupervisor::where([['staff_id', $staff->id], ['is_deleted', false]])->first();
             if ($is_supervisor !== null) {
-                $is_department = CompanyDepartment::where('id', $is_supervisor->department_id)->first();
+                $is_department = Department::where('DepartmentRef', $is_supervisor->department_id)->first();
                 if ($is_department !== null) {
 
                     $data = [

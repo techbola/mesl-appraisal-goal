@@ -613,6 +613,8 @@ class LeaveRequestController extends Controller
             $leave_days = $leavedays->CompasionateLeaveDays;
         } elseif ($leave_type_id == '7') {
             $leave_days = $leavedays->PaternityLeaveDays;
+        } else {
+            $leave_days = '90';
         }
 
         $leave_used = collect(\DB::table('tblLeaveTransaction')
@@ -946,7 +948,7 @@ class LeaveRequestController extends Controller
     public function show_handover($LeaveReqRef)
     {
         $leave_request = LeaveRequest::find($LeaveReqRef);
-        if (!null($leave_request)) {
+        if (!is_null($leave_request)) {
             $handover_notes = $leave_request->handovers;
         }
         return view('leave_request.view_handover', compact('handover_notes'));

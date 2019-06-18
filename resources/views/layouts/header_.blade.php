@@ -630,16 +630,16 @@
 
       });
 
-      var logout_channel = pusher.subscribe('logout');
-      logout_channel.bind('MESL\\Events\\LogoutEvent', function(data) {
-        console.log('Logging out...');
-        var custom_config = {
-          logout_url : $('[name=logout-url]').attr('content'),
-          timedout_url : $('[name=timeout-url]').attr('content')
-        } 
+      // var logout_channel = pusher.subscribe('logout');
+      // logout_channel.bind('MESL\\Events\\LogoutEvent', function(data) {
+      //   console.log('Logging out...');
+      //   var custom_config = {
+      //     logout_url : $('[name=logout-url]').attr('content'),
+      //     timedout_url : $('[name=timeout-url]').attr('content')
+      //   } 
 
-        window.location.href = custom_config.timedout_url;
-      });
+      //   window.location.href = custom_config.timedout_url;
+      // });
 
       channel.bind('MESL\\Events\\NewMessageEvent', function(data) {
         console.log($.inArray('{{ auth()->user()->id }}', data['recipients']));
@@ -770,8 +770,8 @@
             dialogsInBody: true,
           });
 
-
-          $('.timepicker').timepicker({template: 'modal', defaultTime: false }).on('show.timepicker', function(e) {
+          // .timepicker({template: 'modal', defaultTime: false })
+          $('.timepicker').timepicker().on('show.timepicker', function(e) {
               var widget = $('.bootstrap-timepicker-widget');
               widget.find('.glyphicon-chevron-up').removeClass().addClass('pg-arrow_maximize');
               widget.find('.glyphicon-chevron-down').removeClass().addClass('pg-arrow_minimize');

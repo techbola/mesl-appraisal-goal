@@ -5,6 +5,7 @@ namespace MESL;
 // use Codesleeve\Stapler\ORM\EloquentTrait;
 // use Codesleeve\Stapler\ORM\StaplerableInterface;
 use Illuminate\Database\Eloquent\Model;
+use MESL\ApproverRole;
 
 class Staff extends Model
 {
@@ -95,7 +96,7 @@ class Staff extends Model
     }
     public function supervisor()
     {
-        return $this->hasOne(Staff::class, 'SupervisorID');
+        return $this->belongsTo(Staff::class, 'SupervisorID', 'StaffRef');
     }
     public function getProjectsAttribute()
     {
@@ -165,6 +166,20 @@ class Staff extends Model
     public function nationality()
     {
         return $this->belongsTo(Country::class, 'Nationality');
+    }
+
+    public function approver_role()
+    {
+        $readable_array = [];
+
+        if (!is_null($this->user->ApproverRoleIDs)) {
+            $approver_role_array = explode(',', $this->user->ApproverRoleIDs);
+            foreach ($approver_role_array as $key => $value) {
+                $role = ApproverRole::find($value)->ApproverRole;
+                array_push($readable_array, $role);
+            }
+        }
+        return implode($readable_array, ',');
     }
 
     // public function __construct(array $attributes = array())

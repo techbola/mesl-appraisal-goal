@@ -66,7 +66,7 @@
           @foreach ($staff as $st)
             <tr>
               <td>{{ $st->FullName }}</td>
-              <td>{!! implode(', ', $st->approver_role) !!}</td>
+              <td>{!! $st->approver_role() !!}</td>
             </tr>
           @endforeach
         </tbody>

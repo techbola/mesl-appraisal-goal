@@ -177,6 +177,7 @@
                                 <strong><center style="font-size: 20px;">Please complete questions about your experience with us</center></strong>
                             </div>
                             <hr>
+                            <br>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="controls">
@@ -370,8 +371,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="controls">
-                                        {{ Form::label('WorkComment', '19. Please feel free to comment on any of the areas you have just rated. (Write on the back
-                                        if additional space is needed)' ) }}
+                                        {{ Form::label('WorkComment', '19. Please feel free to comment on any of the areas you have just rated.' ) }}
                                         {{ Form::textarea('WorkComment', null, ['class' => 'form-control', 'placeholder' => 'Comment here', 'rows'=> '2', 'required']) }}
                                     </div>
                                 </div>

@@ -7,6 +7,7 @@ use MESL\Mail\NotifyLeaveResumptionReply;
 use MESL\Mail\NotifyLeaveResumption;
 use MESL\User;
 use MESL\Staff;
+use MESL\Department;
 use MESL\DB;
 use Auth;
 
@@ -25,7 +26,7 @@ class LeaveResumption extends Model
             foreach ($all_leave_resumption_request as $lr) {
                 $super_data = User::where('id', $lr->supervisor_id)->first();
                 $staff_data = User::where('id', $lr->staff_id)->first();
-                $department = CompanyDepartment::where('id', $lr->department_id)->first();
+                $department = Department::where('DepartmentRef', $lr->department_id)->first();
 
                 $first_approver = User::where('id', $lr->first_approver_id)->first();
                 $second_approver = User::where('id', $lr->second_approver_id)->first();
@@ -35,15 +36,15 @@ class LeaveResumption extends Model
                     'id'                => $lr->id,
                     'employee_name'     => ucfirst($staff_data->first_name).' '.ucfirst($staff_data->last_name),
                     'supervisor_name'   => ucfirst($super_data->first_name).' '.ucfirst($super_data->last_name),
-                    'department_name'   => ucfirst($department->name),
+                    'department_name'   => ucfirst($department->Department),
                     'late_resume_info'  => $lr->reason_for_resumption,
                     'supervisor_remark' => $lr->supervisor_remark,
                     'is_final_approved' => $lr->is_approved,
-                    'first_approver'    => ucfirst($first_approver->first_name).' '.ucfirst($first_approver->last_name),
+                    'first_approver'    => ucfirst($first_approver->first_name).' '.ucfirst($first_approver->last_name) ?? '-',
                     'first_approver_status' => $lr->first_approver_status,
-                    'second_approver'    => ucfirst($second_approver->first_name).' '.ucfirst($second_approver->last_name),
+                    'second_approver'    => ucfirst($second_approver->first_name).' '.ucfirst($second_approver->last_name) ?? '-',
                     'second_approver_status' => $lr->second_approver_status,
-                    'third_approver'    => ucfirst($third_approver->first_name).' '.ucfirst($third_approver->last_name),
+                    'third_approver'    => ucfirst($third_approver->first_name).' '.ucfirst($third_approver->last_name) ?? '-',
                     'third_approver_status' => $lr->third_approver_status,
                     'date'              => $lr->created_at->toDateTimeString()
                 ];
@@ -84,7 +85,7 @@ class LeaveResumption extends Model
             foreach ($all_leave_resumption_request as $lr) {
                 $super_data = User::where('id', $lr->supervisor_id)->first();
                 $staff_data = User::where('id', $lr->staff_id)->first();
-                $department = CompanyDepartment::where('id', $lr->department_id)->first();
+                $department = Department::where('DepartmentRef', $lr->department_id)->first();
 
                 $first_approver = User::where('id', $lr->first_approver_id)->first();
                 $second_approver = User::where('id', $lr->second_approver_id)->first();
@@ -94,7 +95,7 @@ class LeaveResumption extends Model
                     'id'                => $lr->id,
                     'employee_name'     => ucfirst($staff_data->first_name).' '.ucfirst($staff_data->last_name),
                     'supervisor_name'   => ucfirst($super_data->first_name).' '.ucfirst($super_data->last_name),
-                    'department_name'   => ucfirst($department->name),
+                    'department_name'   => ucfirst($department->Department),
                     'late_resume_info'  => $lr->reason_for_resumption,
                     'supervisor_remark' => $lr->supervisor_remark,
                     'is_final_approved' => $lr->is_approved,
