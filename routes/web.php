@@ -473,7 +473,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_instructor_list', 'CourseController@get_instructor_list');
     Route::get('get_batch_list', 'CourseController@get_batch_list');
     Route::get('get_course_material_list/{id}', 'CourseController@get_course_material_list');
-    Route::post('submit_course_material', 'CourseController@submit_course_material');
+    Route::post('submit_course_material', 'CourseController@submit_course_material'); 
     Route::get('LMS/staff_course_dashboard', 'CourseController@staff_course_dashboard')->name('StaffCourseDashboard');
     Route::get('activate_course/{id}', 'CourseController@activate_course');
     Route::get('LMS/show_course/{id}', 'CourseController@show_course')->name('ShowCourse');

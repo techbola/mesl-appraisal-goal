@@ -391,6 +391,8 @@
 </div>
 
 
+
+
 <!--Delete Course Category -->
 <div class="page-content-wrapper ">
     <div class="content ">
@@ -646,6 +648,44 @@
         </div>
         <!-- Modal -->
     </div>
+</div>
+
+
+<!--Delete Course Material -->
+<div class="page-content-wrapper ">
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="delete_modal_course_material" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button"><i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div style="background: #fff; width: 500px; padding: 20px">
+                        <h5 style="font-weight: bold !important">
+                            Delete Course Material.
+                        </h5>
+                        <hr>
+                            Are you sure you want to delete these course material?
+                            <input id="delete_course_material_id" type="hidden">
+                                <span>
+                                    <a class="btn btn-danger btn-xs pull-right" href="#" id="delete_course_material_button" title="">
+                                        Delete Material
+                                    </a>
+                                </span>
+                                <div class="clearfix">
+                                </div>
+                            </input>
+                        </hr>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
 </div>
 
 @endsection
@@ -1013,7 +1053,7 @@
                   <td>${test}</td>
                   <td>Module ${val.module_id}</td>
                   <!--<td><span class="btn btn-xs btn-info">Edit</span></td>-->
-                  <td><span class="btn btn-xs btn-danger" onclick="delete_course_material(${val.course_material_ref})">Delete</span></td>
+                  <td><span class="btn btn-xs btn-danger" data-target="#delete_modal_course_material" data-toggle="modal" onclick="delete_course_material(${val.course_material_ref})">Delete</span></td>
                 </tr>
                 `);
               });
@@ -1107,7 +1147,7 @@
                               <td>${test}</td>
                               <td>Module ${val.module_id}</td>
                               <!--<td><span class="btn btn-xs btn-info">Edit</span></td>-->
-                              <td><span class="btn btn-xs btn-danger" onclick="delete_course_material(${val.course_material_ref})">Delete</span></td>
+                              <td><span class="btn btn-xs btn-danger" data-target="#delete_modal_course_material" data-toggle="modal" onclick="delete_course_material(${val.course_material_ref})">Delete</span></td>
                             </tr>
                             `);
                           });
@@ -1274,5 +1314,12 @@
       });
       $('#editmodalcategory').modal('toggle');
     });
+
+    function delete_course_material(id)
+    {
+        $('#delete_course_material_id').val(id);
+    }
+
+
 </script>
 @endpush
