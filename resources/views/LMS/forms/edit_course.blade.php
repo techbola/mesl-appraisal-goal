@@ -68,17 +68,13 @@
                      $.each(data, function(index, val) {
                $('#course_body').append(`
                 <tr>
-                  <td>${val.courses_name}</td>
-                  <td>${val.course_code}</td>
-<<<<<<< HEAD
-                  <td><a href="#" onclick="view_course_test(${val.course_ref})" data-target="#view_modal_course" data-toggle="modal" class="btn-xs btn btn-success"><span>View</span></a></td>
-                  <td><a href="#" onclick="edit_course_test(${val.course_ref})" data-target="#edit_modal_course" data-toggle="modal" class="btn-xs btn btn-info"><span>Edit</span></a></td>
-                  <td><a href="#" onclick="delete_course_test(${val.course_ref})" data-target="#delete_modal_course" data-toggle="modal" class="btn-xs btn btn-danger"><span>Delete</span></a></td>
-=======
-                  <td><a href="#" onclick="edit_course_test(${val.course_ref})" data-target="#editmodal" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
-                  <td><span style="color:red">Delete</span></td>
->>>>>>> e66f0717da83c61c390e2960454e0233e5ebb562
-                </tr>
+                                <td>${val.courses_name} <span style="color:blue; font-weight:bold; font-size:12px">${val.course_code}</span></td>
+                                <td><a href="#" onclick="module_question(${val.course_ref})" data-target="module_questionaire" data-toggle="modal" class="btn-xs btn btn-primary"><span>Add Module Test</span></a></td>
+                                <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add Final Test</span></a></td>
+                                <td><a href="#" onclick="view_course_test(${val.course_ref})" data-target="#view_modal_course" data-toggle="modal" class="btn-xs btn btn-success"><span>View</span></a></td>
+                                <td><a href="#" onclick="edit_course_test(${val.course_ref})" data-target="#edit_modal_course" data-toggle="modal" class="btn-xs btn btn-info"><span>Edit</span></a></td>
+                                <td><a href="#" onclick="delete_course_test(${val.course_ref})" data-target="#delete_modal_course" data-toggle="modal" class="btn-xs btn btn-danger"><span>Delete</span></a></td>
+                              </tr>
                 `);
               });
                    }

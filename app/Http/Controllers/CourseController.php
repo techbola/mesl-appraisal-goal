@@ -470,6 +470,10 @@ class CourseController extends Controller
                 ->where('CustomerRef', $user_id)
                 ->get();
 
+            $date_now = \Carbon\Carbon::now();
+            $data     = $date_now->addMinutes($course_details->exam_duration);
+            $datte    = $data->format('F j\\, Y  H:i:s');
+
             if (count($check_exam_collation) == $course_details->final_question_limit) {
                 $get_result = ExamCollation::where('BatchRef', $batch_ref)
                     ->where('CourseID', $course_ref)
@@ -515,6 +519,7 @@ class CourseController extends Controller
                 'pass_mark'    => $pass_mark,
                 'unit_score'   => $unit_score,
                 'final_score'  => $final_score,
+                'datte'        => $datte,
             ];
 
             \DB::commit();
@@ -869,6 +874,37 @@ class CourseController extends Controller
             $details = Question::where('QuestionRef', $ref)->first();
             \DB::commit();
             return response()->json($details)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function get_course_cateory_details($ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $details = CourseCategory::where('course_category_ref', $ref)->first();
+            \DB::commit();
+            return response()->json($details)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function post_edited_course_category($ref, $name)
+    {
+        try {
+            \DB::beginTransaction();
+            $details = CourseCategory::where('course_category_ref', $ref)->update(['course_category_name' => $name]);
+            if ($details) {
+                $categories = \DB::table('tblCourseCategory')
+                    ->join('users', 'tblCourseCategory.entered_by', '=', 'users.id')
+                    ->get();
+            }
+            \DB::commit();
+            return response()->json($categories)->setStatusCode(200);
         } catch (Exception $e) {
             \DB::rollback();
             return response($content = 'failed', $status = 200);

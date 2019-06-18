@@ -55,7 +55,7 @@
 
 				  <div class="col-md-12">
 				    <div class="form-group">
-				      {{ Form::label('Explanation', 'Question' ) }}
+				      {{ Form::label('Explanation', 'Explanation' ) }}
 				      {{ Form::textarea('Explanation', null, ['class' => 'summernote form-control','rows' => 3, 'id'=>'module_explanation', 'placeholder' => 'Be expressive']) }}
 				    </div>
 				  </div>

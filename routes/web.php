@@ -482,7 +482,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_instructor_list', 'CourseController@get_instructor_list');
     Route::get('get_batch_list', 'CourseController@get_batch_list');
     Route::get('get_course_material_list/{id}', 'CourseController@get_course_material_list');
-    Route::post('submit_course_material', 'CourseController@submit_course_material');
+    Route::post('submit_course_material', 'CourseController@submit_course_material'); 
     Route::get('LMS/staff_course_dashboard', 'CourseController@staff_course_dashboard')->name('StaffCourseDashboard');
     Route::get('activate_course/{id}', 'CourseController@activate_course');
     Route::get('LMS/show_course/{id}', 'CourseController@show_course')->name('ShowCourse');
@@ -515,6 +515,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('delete_module_question/{ref}', 'CourseController@delete_module_question');
     Route::get('search_course_question/{ref}', 'CourseController@search_course_question');
     Route::get('get_editted_question/{ref}', 'CourseController@get_editted_question');
+    Route::get('get_course_cateory_details/{id}', 'CourseController@get_course_cateory_details');
+    Route::get('post_edited_course_category/{ref}/{name}', 'CourseController@post_edited_course_category');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
@@ -1384,10 +1386,10 @@ Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->nam
 Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
 
 // Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
-Route::post('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
+Route::get('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
-Route::post('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
+Route::get('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
 
 Route::post('/travel_request/approve', 'TravelRequestController@approve');
 

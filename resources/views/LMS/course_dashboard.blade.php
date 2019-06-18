@@ -1,9 +1,8 @@
 @extends('layouts.master')
 
 @push('styles')
-
-	<style>
-		.modal.fade.fill-in.in {
+<style>
+    .modal.fade.fill-in.in {
     background-color: rgba(107, 101, 101, 0.73);
     }
 
@@ -11,498 +10,689 @@
       font-weight: bold;
       color: #000;
     }
-	</style>
+</style>
 @endpush
 
 @section('content')
 <div class="panel panel-transparent">
-	<div class="panel-heading">
-		<div class="panel-title">
-			<h3 style="font-weight: bold;">Course Dashboard </h3>
-		</div>
-	</div>
-
-  {{-- Course Categori Menu --}}
-	<div class="panel-body">
-		<div class="row">
-			<div class="pull-right">
-				<a href="#" id="new_course_category" data-target="#modalFillIn2" data-toggle="modal" class="btn btn-lg btn-warning" >Add New Course Category</a>
-				<a href="#" id="new_course" data-target="#modalFillIn2" data-toggle="modal" class="btn btn-lg btn-info" >Add New Course</a>
-				<a href="#" id="new_Instructor" data-target="#modalFillIn2" data-toggle="modal" class="btn btn-lg btn-success" >Add New Instructor</a>
-				<a href="#" id="new_batch" data-target="#modalFillIn2" data-toggle="modal" class="btn btn-lg btn-primary" >Add New Batch</a>
-			</div>
-		</div><div class="clearfix"></div><br>
-
-		<div class="row">
-
-			<div class="col-md-3">
-				<div class="row">
-					<div class="col-md-12">
-                     <div class="card-box">
-                       <div class="inline m-r-10 m-t-10" style="vertical-align:top">
-                         <img class="icon" src="{{ asset('assets/img/icons/backend.png') }}" alt="" width="60px" style="filter: brightness(0.92);">
-                       </div>
-                       <div class="inline">
-                         <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Categories</div>
-                         <h3 class="no-margin p-b-5 text-info bold" style="padding: 0px 0px 0px 20px;" id="course_category_count">{{ $course_count }}</h3>
-                         <span><a href="#" id="show_category_table" class="label label-inverse pull-right btn-rounded text-capitalize pull-right">See all <i class="fa fa-arrow-right m-l-5"></i></a></span>
-                       </div>
-                     </div>
-			</div>
-
-				<div class="col-md-12">
-                     <div class="card-box">
-                       <div class="inline m-r-10 m-t-10" style="vertical-align:top">
-                         <img class="icon" src="{{ asset('assets/img/icons/languages.png') }}" alt="" width="60px" style="filter: brightness(0.92);">
-                       </div>
-                       <div class="inline">
-                         <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Course</div>
-                         <h3 class="no-margin p-b-5 text-info bold" style="padding: 0px 0px 0px 20px;" id="course_count">{{ $course }}</h3>
-                          <span><a href="#" id="show_course_table" class="label label-inverse pull-right btn-rounded text-capitalize pull-right">See all <i class="fa fa-arrow-right m-l-5"></i></a></span>
-                       </div>
-                     </div>
-			</div>
-
-			<div class="col-md-12">
-                     <div class="card-box">
-                       <div class="inline m-r-10 m-t-10" style="vertical-align:top">
-                         <img class="icon" src="{{ asset('assets/img/icons/presentation.png') }}" alt="" width="60px" style="filter: brightness(0.92);">
-                       </div>
-                       <div class="inline">
-                         <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Instructors</div>
-                         <h3 class="no-margin p-b-5 text-info bold" style="padding: 0px 0px 0px 20px;" id="instructor_count">{{ $instructor_count }}</h3>
-                         <span><a href="#" id="show_instructor_table" class="label label-inverse pull-right btn-rounded text-capitalize pull-right">See all <i class="fa fa-arrow-right m-l-5"></i></a></span>
-                       </div>
-                     </div>
-			</div>
-
-			<div class="col-md-12">
-                     <div class="card-box">
-                       <div class="inline m-r-10 m-t-10" style="vertical-align:top">
-                         <img class="icon" src="{{ asset('assets/img/icons/students.png') }}" alt="" width="60px" style="filter: brightness(0.92);">
-                       </div>
-                       <div class="inline">
-                         <div class="font-title f16 bold m-b-10 text-uppercase hint-text">Batches</div>
-                         <h3 class="no-margin p-b-5 text-info bold" style="padding: 0px 0px 0px 20px;" id="batch_count">{{ $batch_counter }}</h3>
-                         <span><a href="#" id="show_batch_table" class="label label-inverse pull-right btn-rounded text-capitalize pull-right">See all <i class="fa fa-arrow-right m-l-5"></i></a></span>
-                       </div>
-                     </div>
-			</div>
-				</div>
-			</div>
-
-			<div class="col-md-9" style="overflow-y: scroll;max-height: 500px">
-
-				<div class="row">
-					<div class="card-box" id="table_container">
-					  <div id="intro">
-						  <iframe width="900" height="450" src="https://www.youtube.com/embed/zv5bpfxJ2xE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-					   </div>
-
-             <div id="category_table" class="hide">
-                <table class="table-hover table">
-                  <thead>
-                      <th>S/N</th>
-                      <th>Course Category</th>
-                      <th>Created By</th>
-                      <th colspan="2">Action</th>
-                  </thead>
-                  <tbody id="category_body">
-                  </tbody>
-                </table>
-             </div>
-
-             <div id="course_table" class="hide">
-              <div class="pull-right">
-                <a href="{{ Route('ViewEditQuestion') }}" class="btn btn-sm btn-success">View / Edit all Module & Final Test Questions</a>&nbsp &nbsp
-                <a href="#" id="activate_material_modal" data-target="#modalFillIn3" data-toggle="modal" class="btn btn-sm btn-info">Add Course Material</a>
-              </div>
-                <table class="table-hover table">
-                  <thead>
-                      <th>Course Name</th>
-                      <th>Course Code</th>
-                      <th colspan="2">Action</th>
-                  </thead>
-                  <tbody id="course_body">
-                  </tbody>
-                </table>
-             </div>
-
-             <div id="instructor_table" class="hide">
-                <table class="table-hover table">
-                  <thead>
-                      <th>S/N</th>
-                      <th>Instructor Name</th>
-                      <th>Phone</th>
-                      <th colspan="2">Action</th>
-                  </thead>
-                  <tbody id="instructor_body">
-                  </tbody>
-                </table>
-             </div>
-
-             <div id="batch_table" class="hide">
-                <table class="table-hover table">
-                  <thead>
-                      <th>S/N</th>
-                      <th>Batch Code</th>
-                      <th>Course</th>
-                      <th colspan="2">Action</th>
-                  </thead>
-                  <tbody id="batch_body">
-                  </tbody>
-                </table>
-             </div>
-
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h3 style="font-weight: bold;">
+                Course Dashboard
+            </h3>
+        </div>
+    </div>
+    {{-- Course Categori Menu --}}
+    <div class="panel-body">
+        <div class="row">
+            <div class="pull-right">
+                <a class="btn btn-lg btn-warning" data-target="#modalFillIn2" data-toggle="modal" href="#" id="new_course_category">
+                    Add New Course Category
+                </a>
+                <a class="btn btn-lg btn-info" data-target="#modalFillIn2" data-toggle="modal" href="#" id="new_course">
+                    Add New Course
+                </a>
+                <a class="btn btn-lg btn-success" data-target="#modalFillIn2" data-toggle="modal" href="#" id="new_Instructor">
+                    Add New Instructor
+                </a>
+                <a class="btn btn-lg btn-primary" data-target="#modalFillIn2" data-toggle="modal" href="#" id="new_batch">
+                    Add New Batch
+                </a>
+            </div>
+        </div>
+        <div class="clearfix">
+        </div>
+        <br>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-box">
+                                <div class="inline m-r-10 m-t-10" style="vertical-align:top">
+                                    <img alt="" class="icon" src="{{ asset('assets/img/icons/backend.png') }}" style="filter: brightness(0.92);" width="60px">
+                                    </img>
+                                </div>
+                                <div class="inline">
+                                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">
+                                        Categories
+                                    </div>
+                                    <h3 class="no-margin p-b-5 text-info bold" id="course_category_count" style="padding: 0px 0px 0px 20px;">
+                                        {{ $course_count }}
+                                    </h3>
+                                    <span>
+                                        <a class="label label-inverse pull-right btn-rounded text-capitalize pull-right" href="#" id="show_category_table">
+                                            See all
+                                            <i class="fa fa-arrow-right m-l-5">
+                                            </i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card-box">
+                                <div class="inline m-r-10 m-t-10" style="vertical-align:top">
+                                    <img alt="" class="icon" src="{{ asset('assets/img/icons/languages.png') }}" style="filter: brightness(0.92);" width="60px">
+                                    </img>
+                                </div>
+                                <div class="inline">
+                                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">
+                                        Course
+                                    </div>
+                                    <h3 class="no-margin p-b-5 text-info bold" id="course_count" style="padding: 0px 0px 0px 20px;">
+                                        {{ $course }}
+                                    </h3>
+                                    <span>
+                                        <a class="label label-inverse pull-right btn-rounded text-capitalize pull-right" href="#" id="show_course_table">
+                                            See all
+                                            <i class="fa fa-arrow-right m-l-5">
+                                            </i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card-box">
+                                <div class="inline m-r-10 m-t-10" style="vertical-align:top">
+                                    <img alt="" class="icon" src="{{ asset('assets/img/icons/presentation.png') }}" style="filter: brightness(0.92);" width="60px">
+                                    </img>
+                                </div>
+                                <div class="inline">
+                                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">
+                                        Instructors
+                                    </div>
+                                    <h3 class="no-margin p-b-5 text-info bold" id="instructor_count" style="padding: 0px 0px 0px 20px;">
+                                        {{ $instructor_count }}
+                                    </h3>
+                                    <span>
+                                        <a class="label label-inverse pull-right btn-rounded text-capitalize pull-right" href="#" id="show_instructor_table">
+                                            See all
+                                            <i class="fa fa-arrow-right m-l-5">
+                                            </i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card-box">
+                                <div class="inline m-r-10 m-t-10" style="vertical-align:top">
+                                    <img alt="" class="icon" src="{{ asset('assets/img/icons/students.png') }}" style="filter: brightness(0.92);" width="60px">
+                                    </img>
+                                </div>
+                                <div class="inline">
+                                    <div class="font-title f16 bold m-b-10 text-uppercase hint-text">
+                                        Batches
+                                    </div>
+                                    <h3 class="no-margin p-b-5 text-info bold" id="batch_count" style="padding: 0px 0px 0px 20px;">
+                                        {{ $batch_counter }}
+                                    </h3>
+                                    <span>
+                                        <a class="label label-inverse pull-right btn-rounded text-capitalize pull-right" href="#" id="show_batch_table">
+                                            See all
+                                            <i class="fa fa-arrow-right m-l-5">
+                                            </i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9" style="overflow-y: scroll;max-height: 500px">
+                    <div class="row">
+                        <div class="card-box" id="table_container">
+                            <div id="intro">
+                                <iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" height="450" src="https://www.youtube.com/embed/zv5bpfxJ2xE" width="900">
+                                </iframe>
+                            </div>
+                            <div class="hide" id="category_table">
+                                <table class="table-hover table">
+                                    <thead>
+                                        <th>
+                                            S/N
+                                        </th>
+                                        <th>
+                                            Course Category
+                                        </th>
+                                        <th>
+                                            Created By
+                                        </th>
+                                        <th colspan="2">
+                                            Action
+                                        </th>
+                                    </thead>
+                                    <tbody id="category_body">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="hide" id="course_table">
+                                <div class="pull-right">
+                                    <a class="btn btn-sm btn-success" href="{{ Route('ViewEditQuestion') }}">
+                                        View / Edit all Module & Final Test Questions
+                                    </a>
+                                    <a class="btn btn-sm btn-info" data-target="#modalFillIn3" data-toggle="modal" href="#" id="activate_material_modal">
+                                        Add Course Material
+                                    </a>
+                                </div>
+                                <table class="table-hover table">
+                                    <thead>
+                                        <th>
+                                            Course Name
+                                        </th>
+                                        <th>
+                                            Course Code
+                                        </th>
+                                        <th colspan="2">
+                                            Action
+                                        </th>
+                                    </thead>
+                                    <tbody id="course_body">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="hide" id="instructor_table">
+                                <table class="table-hover table">
+                                    <thead>
+                                        <th>
+                                            S/N
+                                        </th>
+                                        <th>
+                                            Instructor Name
+                                        </th>
+                                        <th>
+                                            Phone
+                                        </th>
+                                        <th colspan="2">
+                                            Action
+                                        </th>
+                                    </thead>
+                                    <tbody id="instructor_body">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="hide" id="batch_table">
+                                <table class="table-hover table">
+                                    <thead>
+                                        <th>
+                                            S/N
+                                        </th>
+                                        <th>
+                                            Batch Code
+                                        </th>
+                                        <th>
+                                            Course
+                                        </th>
+                                        <th colspan="2">
+                                            Action
+                                        </th>
+                                    </thead>
+                                    <tbody id="batch_body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </br>
+    </div>
+</div>
+{{-- Edit Course Category --}}
+<div class="page-content-wrapper ">
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="editmodalcategory" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                <i class="pg-close" style="color: #fff">
+                </i>
+            </button>
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div style="background: #fff; width: 600px; padding: 20px">
+                        <h5 style="font-weight: bold;">
+                            Edit Course Category Details
+                        </h5>
+                        <hr>
+                            <input class="form-control" id="category_name_edit" name="course_category_name" type="text">
+                                <input id="edit_course_category_id" type="hidden">
+                                    <br>
+                                        <a class="btn-sm btn btn-success pull-right" href="#" id="category_edit_button" title="">
+                                            Save
+                                        </a>
+                                        <div class="clearfix">
+                                        </div>
+                                    </br>
+                                </input>
+                            </input>
+                        </hr>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
+</div>
+<!-- View Courses -->
+<div class="page-content-wrapper ">
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="view_modal_course" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                <i class="pg-close" style="color: #fff">
+                </i>
+            </button>
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div style="background: #fff; width: 800px; padding: 20px">
+                        @include('LMS.forms.view_course')
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
+</div>
+<!-- Edit Courses -->
+<div class="page-content-wrapper ">
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="edit_modal_course" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                <i class="pg-close" style="color: #fff">
+                </i>
+            </button>
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div style="background: #fff; width: 800px; padding: 20px">
+                        @include('LMS.forms.edit_course')
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
+</div>
+<!-- Questionaire Modal -->
+<div class="page-content-wrapper ">
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="questionaire" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                <i class="pg-close" style="color: #fff">
+                </i>
+            </button>
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div style="background: #fff; width: 800px; padding: 20px">
+                        <input id="questionaire_course_id" type="hidden">
+                            @include('LMS.forms.questionaire')
+                        </input>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
 </div>
 
-{{-- Delete Course Category div --}}
-
+<!--Delete Course -->
 <div class="page-content-wrapper ">
-     <div class="content ">
-          <!-- Modal -->
-          <div class="modal fade fill-in" id="editmodal"  role="dialog" aria-hidden="true" style="display: none;">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-              <i class="pg-close" style="color: #fff"></i>
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="delete_modal_course" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button"><i class="pg-close" style="color: #fff"></i>
             </button>
             <div class="modal-dialog ">
-              <div class="modal-content">
-
-                <div style="background: #fff; width: 400px; padding: 20px">
-                  <p>Are you sure you want to delete this course category ?</p>
-                  <input type="hidden" id="delete_course_category_id">
-                  <a href="#" class="btn-sm btn btn-danger pull-right" id="delete_cat" title="">Delete</a>
-                  <div class="clearfix"></div>
+                <div class="modal-content">
+                    <div style="background: #fff; width: 500px; padding: 20px">
+                        <h5 style="font-weight: bold !important">
+                            Delete Course.
+                        </h5>
+                        <hr>
+                            Are you sure you want to delete these course ?
+                            <input id="delete_course_id" type="hidden">
+                                <span>
+                                    <a class="btn btn-danger btn-xs pull-right" href="#" id="delete_course_button" title="">
+                                        Delete
+                                    </a>
+                                </span>
+                                <div class="clearfix">
+                                </div>
+                            </input>
+                        </hr>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
                 </div>
-                <div class="modal-footer">
-                </div>
-              </div>
-                </div>
-              <!-- /.modal-content -->
             </div>
-            <!-- /.modal-dialog -->
-          </div>
-          <!-- Modal -->
+            <!-- /.modal-content -->
         </div>
-  </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
+</div>
 
 
-  {{-- Delete Course div --}}
+
+
+<!--Delete Course Category -->
 <div class="page-content-wrapper ">
-     <div class="content ">
-          <!-- Modal -->
-          <div class="modal fade fill-in" id="delete_modal_course"  role="dialog" aria-hidden="true" style="display: none;">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-              <i class="pg-close" style="color: #fff"></i>
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="delete_course_category" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                <i class="pg-close" style="color: #fff">
+                </i>
             </button>
             <div class="modal-dialog ">
-              <div class="modal-content">
-                <div style="background: #fff; width: 400px; padding: 20px">
-                  <p>Are you sure you want to delete this course ?</p>
-                  <input type="hidden" id="delete_course_id">
-                  <a href="#" class="btn-sm btn btn-danger pull-right" id="delete_course" title="">Delete</a>
-                  <div class="clearfix"></div>
+                <div class="modal-content">
+                    <div style="background: #fff; width: 800px; padding: 20px">
+                        <h5 style="font-weight: bold !important">
+                            Delete Course category.
+                        </h5>
+                        <hr>
+                            Are you sure you want to delete these course category ?
+                            <input id="delete_course_category_ref" type="hidden">
+                                <span>
+                                    <a class="btn btn-danger btn-xs pull-right" href="#" id="delete_cat" title="">
+                                        Delete
+                                    </a>
+                                </span>
+                                <div class="clearfix">
+                                </div>
+                            </input>
+                        </hr>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
                 </div>
-                <div class="modal-footer">
-                </div>
-              </div>
-                </div>
-              <!-- /.modal-content -->
             </div>
-            <!-- /.modal-dialog -->
-          </div>
-          <!-- Modal -->
+            <!-- /.modal-content -->
         </div>
-  </div>
-
-  <!-- View Courses -->
-  <div class="page-content-wrapper ">
-     <div class="content ">
-          <!-- Modal -->
-          <div class="modal fade fill-in" id="view_modal_course"  role="dialog" aria-hidden="true" style="display: none;">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-              <i class="pg-close" style="color: #fff"></i>
-            </button>
-            <div class="modal-dialog ">
-              <div class="modal-content">
-                <div style="background: #fff; width: 800px; padding: 20px">
-                 @include('LMS.forms.view_course')
-                </div>
-                <div class="modal-footer">
-                </div>
-              </div>
-                </div>
-              <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-          </div>
-          <!-- Modal -->
-        </div>
-  </div>
-
-  <!-- Edit Courses -->
-  <div class="page-content-wrapper ">
-     <div class="content ">
-          <!-- Modal -->
-          <div class="modal fade fill-in" id="edit_modal_course"  role="dialog" aria-hidden="true" style="display: none;">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-              <i class="pg-close" style="color: #fff"></i>
-            </button>
-            <div class="modal-dialog ">
-              <div class="modal-content">
-                <div style="background: #fff; width: 800px; padding: 20px">
-                 @include('LMS.forms.edit_course')
-
-                </div>
-                <div class="modal-footer">
-                </div>
-              </div>
-                </div>
-              <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-          </div>
-          <!-- Modal -->
-        </div>
-
-
-        <!-- Questionaire Modal -->
-  <div class="page-content-wrapper ">
-     <div class="content ">
-          <!-- Modal -->
-          <div class="modal fade fill-in" id="questionaire"  role="dialog" aria-hidden="true" style="display: none;">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-              <i class="pg-close" style="color: #fff"></i>
-            </button>
-            <div class="modal-dialog ">
-              <div class="modal-content">
-                <div style="background: #fff; width: 800px; padding: 20px">
-                  <input type="hidden" id="questionaire_course_id">
-                 @include('LMS.forms.questionaire')
-                </div>
-                <div class="modal-footer">
-                </div>
-              </div>
-                </div>
-              <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-          </div>
-          <!-- Modal -->
-        </div>
-
-           <!--Module Questionaire Modal -->
-  <div class="page-content-wrapper ">
-     <div class="content ">
-          <!-- Modal -->
-          <div class="modal fade fill-in" id="module_questionaire"  role="dialog" aria-hidden="true" style="display: none;">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-              <i class="pg-close" style="color: #fff"></i>
-            </button>
-            <div class="modal-dialog ">
-              <div class="modal-content">
-                <div style="background: #fff; width: 800px; padding: 20px">
-                 @include('LMS.forms.module_questionaire')
-                </div>
-                <div class="modal-footer">
-                </div>
-              </div>
-                </div>
-              <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-          </div>
-          <!-- Modal -->
-        </div>
-
-
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
+</div>
+<!--Module Questionaire Modal -->
 <div class="page-content-wrapper ">
-     <div class="content ">
-          <!-- Modal -->
-          <div class="modal fade fill-in" id="modalFillIn2"  role="dialog" aria-hidden="true" style="display: none;">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-              <i class="pg-close" style="color: #fff"></i>
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="module_questionaire" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                <i class="pg-close" style="color: #fff">
+                </i>
             </button>
             <div class="modal-dialog ">
-              <div class="modal-content">
-                <div style="background: #fff; width: 800px; padding: 15px">
-                <div class="modal-header">
-                  <h5 class="text-left semi-bold" id="title"></h5>
-                </div><hr>
-                <div class="modal-body">
-                  <div class="row">
-
-                    <div id='category_form' class="hide">
-                      {{ Form::open(['id'=>'course_category','autocomplete' => 'off', 'role' => 'form']) }}
+                <div class="modal-content">
+                    <div style="background: #fff; width: 800px; padding: 20px">
+                        @include('LMS.forms.module_questionaire')
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
+</div>
+<div class="page-content-wrapper ">
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="modalFillIn2" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                <i class="pg-close" style="color: #fff">
+                </i>
+            </button>
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div style="background: #fff; width: 800px; padding: 15px">
+                        <div class="modal-header">
+                            <h5 class="text-left semi-bold" id="title">
+                            </h5>
+                        </div>
+                        <hr>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="hide" id="category_form">
+                                        {{ Form::open(['id'=>'course_category','autocomplete' => 'off', 'role' => 'form']) }}
                                @include('LMS.forms.add_course_category')
                         {{ Form::close() }}
-                    </div>
-
-                    <div id='course_form' class="hide">
-                      {{ Form::open(['id'=>'course','autocomplete' => 'off', 'role' => 'form', 'files'=>'true']) }}
+                                    </div>
+                                    <div class="hide" id="course_form">
+                                        {{ Form::open(['id'=>'course','autocomplete' => 'off', 'role' => 'form', 'files'=>'true']) }}
                                @include('LMS.forms.add_course')
                       {{ Form::close() }}
-                    </div>
-
-                    <div id='instructor_form' class="hide">
-                      {{ Form::open(['id'=>'instructor','autocomplete' => 'off', 'role' => 'form']) }}
+                                    </div>
+                                    <div class="hide" id="instructor_form">
+                                        {{ Form::open(['id'=>'instructor','autocomplete' => 'off', 'role' => 'form']) }}
                                @include('LMS.forms.add_instructor')
                       {{ Form::close() }}
-                    </div>
-
-                    <div id='batch_form' class="hide">
-                      {{ Form::open(['id'=>'batch','autocomplete' => 'off', 'role' => 'form']) }}
+                                    </div>
+                                    <div class="hide" id="batch_form">
+                                        {{ Form::open(['id'=>'batch','autocomplete' => 'off', 'role' => 'form']) }}
                                @include('LMS.forms.add_batch')
                       {{ Form::close() }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </hr>
                     </div>
-
-                  </div>
                 </div>
-                <div class="modal-footer">
-                </div>
-              </div>
-                </div>
-              <!-- /.modal-content -->
+                <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
-          </div>
-          <!-- Modal -->
         </div>
-      </div>
-
-      <div class="page-content-wrapper ">
-     <div class="content ">
-          <!-- Modal -->
-          <div class="modal fade fill-in" id="modalFillIn3"  role="dialog" aria-hidden="true" style="display: none;">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-              <i class="pg-close" style="color: #fff"></i>
+        <!-- Modal -->
+    </div>
+</div>
+<div class="page-content-wrapper ">
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="modalFillIn3" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                <i class="pg-close" style="color: #fff">
+                </i>
             </button>
             <div class="modal-dialog ">
-              <div class="modal-content">
-                <div style="background: #fff; width: 850px; padding: 15px">
-                <div class="modal-header">
-                  <h5 class="text-left semi-bold">Add Material(s)</h5> 
-
-                </div><hr>
-                <div class="modal-body">
-                  <div class="row">
-                    {{ Form::open(['id'=>'submit_course_material_form','autocomplete' => 'off', 'role' => 'form', 'files'=>'true']) }}
-                    <div class="col-md-4">
-                         <div class="form-group">
-                           {{ Form::label('course_id', 'Select Course' ) }}
-                              <select name="course_id" class="full-width" id="material_course" onchange="mat()" data-init-plugin="select2">
-                             <option value=" ">Select Course</option>
-                             @foreach($course_names as $course_name)
-                               <option value="{{ $course_name->course_ref }}">{{ $course_name->courses_name }}</option>
-                             @endforeach
-                           </select>
-
-                         </div>
-                       </div>
-
-
-                       <div class="col-md-4">
-                         <div class="form-group">
-                           {{ Form::label('ModuleID', 'Select Course Module' ) }}
-                              <select name="module_id" class="full-width" id="course_module" data-init-plugin="select2">
-                             <option value=" ">Select Course</option>
-                           </select>
-
-                         </div>
-                       </div>
-
-                       <div class="col-md-4">
-                          <div class="form-group">
-                            {{ Form::label('material_type', 'Course Material Type' ) }}
-                            <select name="material_type" class="full-width" id="material_type" onchange="material()" data-init-plugin="select2">
-                              <option value=" ">Select Course</option>
-                              <option value="1">Document</option>
-                              <option value="2">Video</option>
-                              <option value="3">Youtube</option>
-                              <option value="4">Audio</option>
-                            </select>
-                          </div>
+                <div class="modal-content">
+                    <div style="background: #fff; width: 850px; padding: 15px">
+                        <div class="modal-header">
+                            <h5 class="text-left semi-bold">
+                                Add Material(s)
+                            </h5>
                         </div>
-
-                        <div class="col-md-12 hide" id="material_title">
-                         <div class="form-group">
-                           {{ Form::label('material_name', 'Title of Material' ) }}
+                        <hr>
+                            <div class="modal-body">
+                                <div class="row">
+                                    {{ Form::open(['id'=>'submit_course_material_form','autocomplete' => 'off', 'role' => 'form', 'files'=>'true']) }}
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {{ Form::label('course_id', 'Select Course' ) }}
+                                            <select class="full-width" data-init-plugin="select2" id="material_course" name="course_id" onchange="mat()">
+                                                <option value=" ">
+                                                    Select Course
+                                                </option>
+                                                @foreach($course_names as $course_name)
+                                                <option value="{{ $course_name->course_ref }}">
+                                                    {{ $course_name->courses_name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {{ Form::label('ModuleID', 'Select Course Module' ) }}
+                                            <select class="full-width" data-init-plugin="select2" id="course_module" name="module_id">
+                                                <option value=" ">
+                                                    Select Course
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            {{ Form::label('material_type', 'Course Material Type' ) }}
+                                            <select class="full-width" data-init-plugin="select2" id="material_type" name="material_type" onchange="material()">
+                                                <option value=" ">
+                                                    Select Course
+                                                </option>
+                                                <option value="1">
+                                                    Document
+                                                </option>
+                                                <option value="2">
+                                                    Video
+                                                </option>
+                                                <option value="3">
+                                                    Youtube
+                                                </option>
+                                                <option value="4">
+                                                    Audio
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 hide" id="material_title">
+                                        <div class="form-group">
+                                            {{ Form::label('material_name', 'Title of Material' ) }}
                            {{ Form::text('material_name', null, ['class' => 'form-control', 'placeholder' => 'Type Material Title', 'required']) }}
-                         </div>
-                       </div>
-
-                        <div class="col-md-12 hide" id="video">
-                         <div class="form-group">
-                           {{ Form::label('video_link', 'Upload Course Video' ) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 hide" id="video">
+                                        <div class="form-group">
+                                            {{ Form::label('video_link', 'Upload Course Video' ) }}
                            {{ Form::file('video_link', null, ['class' => 'form-control','id'=>'video_link', 'placeholder' => 'Upload Cover Page', 'required']) }}
-                         </div>
-                       </div>
-
-                       <div class="col-md-12 hide" id="document">
-                         <div class="form-group">
-                           {{ Form::label('document_link', 'Upload Course Document' ) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 hide" id="document">
+                                        <div class="form-group">
+                                            {{ Form::label('document_link', 'Upload Course Document' ) }}
                            {{ Form::file('document_link', null, ['class' => 'form-control','id'=>'document_link', 'placeholder' => 'Upload Cover Page', 'required']) }}
-                         </div>
-                       </div>
-
-                       <div class="col-md-12 hide" id="youtube">
-                         <div class="form-group">
-                           {{ Form::label('youtube_link', 'Paste Youtube Link' ) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 hide" id="youtube">
+                                        <div class="form-group">
+                                            {{ Form::label('youtube_link', 'Paste Youtube Link' ) }}
                            {{ Form::text('youtube_link', null, ['class' => 'form-control','id'=>'youtube_link', 'placeholder' => 'Paste Youtube Link', 'required']) }}
-                         </div>
-                       </div>
-
-                       <div class="col-md-12 hide" id="audio">
-                        <div class="form-group">
-                          {{ Form::label('audio_link', 'Upload Audio file' ) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 hide" id="audio">
+                                        <div class="form-group">
+                                            {{ Form::label('audio_link', 'Upload Audio file' ) }}
                           {{ Form::file('audio_link', null, ['class' => 'form-control','id'=>'audio_link', 'placeholder' => 'upload cover page', 'required']) }}
-                        </div>
-                      </div>
-
-                       <button type="submit" id="submit_material" class="btn btn-info btn-form pull-right hide" data-dismiss="modal">Add New Course</button>
-
-                       {{ Form::close() }}
-
-                       <div id="material_table" class="hide">
-                           <hr><br>
-                           <table class="table table-hover">
-                            <thead>
-                                 <th>S/N</th>
-                                 <th>Material Name</th>
-                                 <th>Type</th>
-                                 <th>Module</th>
-                                 <th colspan="2">Action</th>
-                            </thead>
-                            <tbody id="course_material_list">
-                            </tbody>
-                           </table>
-                       </div>
-
-                  </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-info btn-form pull-right hide" id="submit_material" type="submit">
+                                        Add New Course Material
+                                    </button>
+                                    {{ Form::close() }}
+                                    <div class="hide" id="material_table">
+                                        <hr>
+                                            <br>
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <th>
+                                                            S/N
+                                                        </th>
+                                                        <th>
+                                                            Material Name
+                                                        </th>
+                                                        <th>
+                                                            Type
+                                                        </th>
+                                                        <th>
+                                                            Module
+                                                        </th>
+                                                        <th>
+                                                            Action
+                                                        </th>
+                                                    </thead>
+                                                    <tbody id="course_material_list">
+                                                    </tbody>
+                                                </table>
+                                            </br>
+                                        </hr>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </hr>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                </div>
-              </div>
-                </div>
-              <!-- /.modal-content -->
+                <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
-          </div>
-          <!-- Modal -->
         </div>
-      </div>
+        <!-- Modal -->
+    </div>
+</div>
+
+
+<!--Delete Course Material -->
+<div class="page-content-wrapper ">
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="delete_modal_course_material" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button"><i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div style="background: #fff; width: 500px; padding: 20px">
+                        <h5 style="font-weight: bold !important">
+                            Delete Course Material.
+                        </h5>
+                        <hr>
+                            Are you sure you want to delete these course material?
+                            <input id="delete_course_material_id" type="hidden">
+                                <span>
+                                    <a class="btn btn-danger btn-xs pull-right" href="#" id="delete_course_material_button" title="">
+                                        Delete Material
+                                    </a>
+                                </span>
+                                <div class="clearfix">
+                                </div>
+                            </input>
+                        </hr>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
+</div>
+
 @endsection
 
 @push('scripts')
-	<script>
-
-      $('#new_course_category').click(function(event) {
+<script>
+    $('#new_course_category').click(function(event) {
         $('#title').html('Add New Course Category');
         $('#category_form').removeClass('hide');
         $('#course_form').addClass('hide');
@@ -513,7 +703,13 @@
 
 
       $('#submit_course_category').click(function(event) {
-             $.post('/submit_new_category', $('#course_category').serialize(), function(data, status) {
+        event.preventDefault();
+        var input = $('#modalFillIn2 #course_input').val();
+        if(!input)
+        {
+          $('#course_category_error').removeClass('hide');
+        }else{
+          $.post('/submit_new_category', $('#course_category').serialize(), function(data, status) {
             if(status === 'success'){
               $('#course_category_count').html(data);
               var id = 1;
@@ -526,8 +722,8 @@
                       <td>${id++}</td>
                       <td>${val.course_category_name}</td>
                       <td>${val.last_name} ${val.first_name}</td>
-                      <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodal" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
-                      <td><span style="color:red"><a href="#" onclick="delete_course_category(${val.course_category_ref})" data-target="#deletemodal" data-toggle="modal" title="">Delete</a></span></td>
+                      <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodalcategory" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
+                      <td><span style="color:red"><a href="#" onclick="delete_course_category(${val.course_category_ref})" data-target="#delete_course_category" data-toggle="modal" title="">Delete</a></span></td>
                     </tr>
                     `);
                   });
@@ -535,6 +731,8 @@
                 });
               }
           });
+          $('#modalFillIn2').modal('toggle');
+        }   
       });
 
       $('#show_category_table').click(function(event) {
@@ -553,20 +751,17 @@
                   <td>${id++}</td>
                   <td>${val.course_category_name}</td>
                   <td>${val.last_name} ${val.first_name}</td>
-                  <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodal" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
-                  <td><span style="color:red"><a href="#" onclick="delete_course_category(${val.course_category_ref})" data-target="#deletemodal" data-toggle="modal" title="">Delete</a></span></td>
+                  <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodalcategory" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
+                  <td><span style="color:red"><a href="#" onclick="delete_course_category(${val.course_category_ref})" data-target="#delete_course_category" data-toggle="modal" title="">Delete</a></span></td>
                 </tr>
                 `);
               });
             }
           });
       });
-
-	</script>
-
-  <script>
-
-      $('#new_course').click(function(event) {
+</script>
+<script>
+    $('#new_course').click(function(event) {
         $('#title').html('Add New Course');
         $('#course_form').removeClass('hide');
         $('#category_form').addClass('hide');
@@ -642,10 +837,8 @@
             }
           });
       });
-
-  </script>
-
-  <script>
+</script>
+<script>
     $('#new_Instructor').click(function(event) {
         $('#title').html('Add New Course Instructor');
         $('#instructor_form').removeClass('hide')
@@ -741,12 +934,9 @@
             }
           });
       });
-
-  </script>
-
-  <script>
-
-      $('#new_batch').click(function(event) {
+</script>
+<script>
+    $('#new_batch').click(function(event) {
         $('#title').html('Add New Batch');
         $('#batch_form').removeClass('hide');
         $('#instructor_form').addClass('hide');
@@ -784,7 +974,7 @@
                     <td>${val.batch_code}</td>
                     <td>${val.courses_name}</td>
                     <td><span style="color:blue">Edit</span></td>
-                    <td><span style="color:red">Delete</span></td>
+                    <td><span style="color:red">Delete</span></td> 
                   </tr>
                   `);
                 });
@@ -818,11 +1008,8 @@
             }
           });
       });
-
-  </script>
-
-  <script>
-
+</script>
+<script>
     $('#activate_material_modal').click(function(event) {
      $('#material_table').addClass('hide');
      $("#material_course").select2().val(" ").trigger('change');
@@ -843,18 +1030,30 @@
                 `);
             });
 
-
             $('#course_material_list').html(' ');
             var count = 1;
               $.each(data.material, function(index, val) {
+                if (val.material_type == 1) 
+                {
+                    var test = 'Document';
+                }else if(val.material_type == 2)
+                {
+                    var test = 'Video';
+                }else if(val.material_type == 3)
+                {
+                    var test = 'Youtube';
+                }else if(val.material_type == 4)
+                {
+                    var test = 'Audio';
+                }
                $('#course_material_list').append(`
                 <tr>
                   <td>${count++}</td>
                   <td>${val.material_name}</td>
-                  <td>${val.material_type}</td>
+                  <td>${test}</td>
                   <td>Module ${val.module_id}</td>
-                  <td><span class="btn btn-xs btn-info">Edit</span></td>
-                  <td><span class="btn btn-xs btn-danger">Delete</span></td>
+                  <!--<td><span class="btn btn-xs btn-info">Edit</span></td>-->
+                  <td><span class="btn btn-xs btn-danger" data-target="#delete_modal_course_material" data-toggle="modal" onclick="delete_course_material(${val.course_material_ref})">Delete</span></td>
                 </tr>
                 `);
               });
@@ -925,15 +1124,40 @@
                     if(status === 'success')
                     console.log(data);
                     $("#submit_course_material_form")[0].reset();
+                    $('#course_material_list').html(' ');
+                        var count = 1;
+                          $.each(data, function(index, val) {
+                            if (val.material_type == 1) 
+                            {
+                                var test = 'Document';
+                            }else if(val.material_type == 2)
+                            {
+                                var test = 'Video';
+                            }else if(val.material_type == 3)
+                            {
+                                var test = 'Youtube';
+                            }else if(val.material_type == 4)
+                            {
+                                var test = 'Audio';
+                            }
+                           $('#course_material_list').append(`
+                            <tr>
+                              <td>${count++}</td>
+                              <td>${val.material_name}</td>
+                              <td>${test}</td>
+                              <td>Module ${val.module_id}</td>
+                              <!--<td><span class="btn btn-xs btn-info">Edit</span></td>-->
+                              <td><span class="btn btn-xs btn-danger" data-target="#delete_modal_course_material" data-toggle="modal" onclick="delete_course_material(${val.course_material_ref})">Delete</span></td>
+                            </tr>
+                            `);
+                          });
                    }
         });
-      }
-
-
-       
+      }       
     });
-  </script>
-  <script>
+</script>
+
+<script>
     function edit_course_test(id)
     {
        var ref = id;
@@ -962,7 +1186,7 @@
     
     function delete_course_category(id)
     {
-      $('#delete_course_category_id').val(id);
+      $('#delete_course_category_ref').val(id);
     }
 
 
@@ -971,7 +1195,7 @@
       $('#delete_course_id').val(id);
     }
 
-     $('#delete_course').click(function(event) {
+     $('#delete_course_button').click(function(event) {
       var ref = $('#delete_course_id').val();
       $.get('/delete_course/'+ref, function(data) {
         var id = 1;
@@ -995,7 +1219,8 @@
     });
 
     $('#delete_cat').click(function(event) {
-      var ref = $('#delete_course_category_id').val();
+      event.preventDefault();
+      var ref = $('#delete_course_category_ref').val();
       $.get('/delete_course_category/'+ref, function(data) {
         var id = 1;
         var count = data.length;
@@ -1006,13 +1231,13 @@
                   <td>${id++}</td>
                   <td>${val.course_category_name}</td>
                   <td>${val.last_name} ${val.first_name}</td>
-                  <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodal" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
-                  <td><span style="color:red"><a href="#" onclick="delete_course_category(${val.course_category_ref})" data-target="#deletemodal" data-toggle="modal" title="">Delete</a></span></td>
+                  <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodalcategory" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
+                  <td><span style="color:red"><a href="#" onclick="delete_course_category(${val.course_category_ref})" data-target="#delete_course_category" data-toggle="modal" title="">Delete</a></span></td>
                 </tr>
                 `);
               });
             $('#course_category_count').html(count);
-            $('#deletemodal').modal('toggle');
+            $('#delete_course_category').modal('toggle');
       });
     });
 
@@ -1060,7 +1285,41 @@
       });
     }
 
-  </script>
+    function edit_course_category(id)
+    {
+      $('#edit_course_category_id').val(id);
+      $.get('/get_course_cateory_details/'+id, function(data) {
+        $('#category_name_edit').val(data.course_category_name);
+      });
+    }
 
+    $('#category_edit_button').click(function(event) {
+      event.preventDefault();
+      var ref= $('#edit_course_category_id').val();
+      var name = $('#category_name_edit').val();
+      $.get('/post_edited_course_category/'+ref+'/'+name, function(data) {
+        var id = 1;
+         $('#category_body').html('');
+                  $.each(data, function(index, val) {
+                   $('#category_body').append(`
+                    <tr>
+                      <td>${id++}</td>
+                      <td>${val.course_category_name}</td>
+                      <td>${val.last_name} ${val.first_name}</td>
+                      <td><a href="#" onclick="edit_course_category(${val.course_category_ref})" data-target="#editmodalcategory" data-toggle="modal" ><span style="color:blue">Edit</span></a></td>
+                      <td><span style="color:red"><a href="#" onclick="delete_course_category(${val.course_category_ref})" data-target="#delete_course_category" data-toggle="modal" title="">Delete</a></span></td>
+                    </tr>
+                    `);
+                  });
+      });
+      $('#editmodalcategory').modal('toggle');
+    });
+
+    function delete_course_material(id)
+    {
+        $('#delete_course_material_id').val(id);
+    }
+
+
+</script>
 @endpush
-
