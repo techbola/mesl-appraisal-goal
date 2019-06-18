@@ -352,6 +352,45 @@
     </div>
     <!-- Modal -->
 </div>
+
+<!--Delete Course -->
+<div class="page-content-wrapper ">
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="delete_modal_course" role="dialog" style="display: none;">
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button"><i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div style="background: #fff; width: 500px; padding: 20px">
+                        <h5 style="font-weight: bold !important">
+                            Delete Course.
+                        </h5>
+                        <hr>
+                            Are you sure you want to delete these course ?
+                            <input id="delete_course_id" type="hidden">
+                                <span>
+                                    <a class="btn btn-danger btn-xs pull-right" href="#" id="delete_course_button" title="">
+                                        Delete
+                                    </a>
+                                </span>
+                                <div class="clearfix">
+                                </div>
+                            </input>
+                        </hr>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
+</div>
+
+
 <!--Delete Course Category -->
 <div class="page-content-wrapper ">
     <div class="content ">
@@ -369,7 +408,7 @@
                         </h5>
                         <hr>
                             Are you sure you want to delete these course category ?
-                            <input id="delete_course_category_ref" type="text">
+                            <input id="delete_course_category_ref" type="hidden">
                                 <span>
                                     <a class="btn btn-danger btn-xs pull-right" href="#" id="delete_cat" title="">
                                         Delete
@@ -563,8 +602,8 @@
                           {{ Form::file('audio_link', null, ['class' => 'form-control','id'=>'audio_link', 'placeholder' => 'upload cover page', 'required']) }}
                                         </div>
                                     </div>
-                                    <button class="btn btn-info btn-form pull-right hide" data-dismiss="modal" id="submit_material" type="submit">
-                                        Add New Course
+                                    <button class="btn btn-info btn-form pull-right hide" id="submit_material" type="submit">
+                                        Add New Course Material
                                     </button>
                                     {{ Form::close() }}
                                     <div class="hide" id="material_table">
@@ -584,7 +623,7 @@
                                                         <th>
                                                             Module
                                                         </th>
-                                                        <th colspan="2">
+                                                        <th>
                                                             Action
                                                         </th>
                                                     </thead>
@@ -608,6 +647,7 @@
         <!-- Modal -->
     </div>
 </div>
+
 @endsection
 
 @push('scripts')
@@ -894,7 +934,7 @@
                     <td>${val.batch_code}</td>
                     <td>${val.courses_name}</td>
                     <td><span style="color:blue">Edit</span></td>
-                    <td><span style="color:red">Delete</span></td>
+                    <td><span style="color:red">Delete</span></td> 
                   </tr>
                   `);
                 });
@@ -950,18 +990,30 @@
                 `);
             });
 
-
             $('#course_material_list').html(' ');
             var count = 1;
               $.each(data.material, function(index, val) {
+                if (val.material_type == 1) 
+                {
+                    var test = 'Document';
+                }else if(val.material_type == 2)
+                {
+                    var test = 'Video';
+                }else if(val.material_type == 3)
+                {
+                    var test = 'Youtube';
+                }else if(val.material_type == 4)
+                {
+                    var test = 'Audio';
+                }
                $('#course_material_list').append(`
                 <tr>
                   <td>${count++}</td>
                   <td>${val.material_name}</td>
-                  <td>${val.material_type}</td>
+                  <td>${test}</td>
                   <td>Module ${val.module_id}</td>
-                  <td><span class="btn btn-xs btn-info">Edit</span></td>
-                  <td><span class="btn btn-xs btn-danger">Delete</span></td>
+                  <!--<td><span class="btn btn-xs btn-info">Edit</span></td>-->
+                  <td><span class="btn btn-xs btn-danger" onclick="delete_course_material(${val.course_material_ref})">Delete</span></td>
                 </tr>
                 `);
               });
@@ -1032,14 +1084,39 @@
                     if(status === 'success')
                     console.log(data);
                     $("#submit_course_material_form")[0].reset();
+                    $('#course_material_list').html(' ');
+                        var count = 1;
+                          $.each(data, function(index, val) {
+                            if (val.material_type == 1) 
+                            {
+                                var test = 'Document';
+                            }else if(val.material_type == 2)
+                            {
+                                var test = 'Video';
+                            }else if(val.material_type == 3)
+                            {
+                                var test = 'Youtube';
+                            }else if(val.material_type == 4)
+                            {
+                                var test = 'Audio';
+                            }
+                           $('#course_material_list').append(`
+                            <tr>
+                              <td>${count++}</td>
+                              <td>${val.material_name}</td>
+                              <td>${test}</td>
+                              <td>Module ${val.module_id}</td>
+                              <!--<td><span class="btn btn-xs btn-info">Edit</span></td>-->
+                              <td><span class="btn btn-xs btn-danger" onclick="delete_course_material(${val.course_material_ref})">Delete</span></td>
+                            </tr>
+                            `);
+                          });
                    }
         });
-      }
-
-
-       
+      }       
     });
 </script>
+
 <script>
     function edit_course_test(id)
     {
@@ -1078,7 +1155,7 @@
       $('#delete_course_id').val(id);
     }
 
-     $('#delete_course').click(function(event) {
+     $('#delete_course_button').click(function(event) {
       var ref = $('#delete_course_id').val();
       $.get('/delete_course/'+ref, function(data) {
         var id = 1;

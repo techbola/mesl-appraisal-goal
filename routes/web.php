@@ -459,7 +459,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('reject_purchase_journal_posting_approvals', 'CashEntryController@reject_purchase_journal_posting_approvals');
     Route::get('cash_entries/show_approve_purchase_journal', 'CashEntryController@show_approve_purchase_journal')->name('ApprovePurchaseJournal');
 
-    // Learning Management System
+    // Learning Management System 
 
     Route::get('LMS/course_dashboard', 'CourseController@course_dashboard')->name('CourseDashboard');
     Route::post('submit_new_category', 'CourseController@submit_new_category');
@@ -867,9 +867,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('memos/approve', 'MemoController@approve');
     Route::post('memos/process', 'MemoController@process')->name('process_memo');
     Route::post('memos/reject', 'MemoController@reject');
-
-    // download memo files as zip
-    Route::get('download-memo-attachments/{id}', 'MemoController@downloadAttachments')->name('download-memo-attachments');
 
     // main memo routes
     Route::resource('memos', 'MemoController');
@@ -1346,10 +1343,10 @@ Route::get('travel_request/create/{id}', 'TravelRequestController@destroy')->nam
 Route::get('send_for_approval/{id}', 'TravelRequestController@send_for_approval')->name('sendapproval');
 
 // Route::get('approve_request/{id}', 'TravelRequestController@approve_request')->name('approved');
-Route::post('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
+Route::get('admin-approve_request/{id}', 'TravelRequestController@admin_approve_request')->name('admin-approved');
 
 Route::get('reject_request/{id}', 'TravelRequestController@reject_request')->name('rejected');
-Route::post('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
+Route::get('admin-reject_request/{id}', 'TravelRequestController@admin_reject_request')->name('admin-rejected');
 
 Route::post('/travel_request/approve', 'TravelRequestController@approve');
 

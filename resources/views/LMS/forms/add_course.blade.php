@@ -7,7 +7,7 @@
     </div>
     <div class="col-md-4">
         <div class="form-group">
-            {{ Form::label('course_duration', 'Course Duration' ) }}
+            {{ Form::label('course_duration', 'Course Duration (in minutes)' ) }}
       {{ Form::text('course_duration', null, ['class' => 'form-control','id'=>'course_duration', 'placeholder' => 'Enter Course Duration', 'required']) }}
         </div>
     </div>
