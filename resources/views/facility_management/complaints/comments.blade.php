@@ -16,9 +16,7 @@
               {!! $cd->comment !!}
               <b>Cost:</b> {{ nairazify(number_format($cd->cost, 2)) }} <br>
               {{-- <p>Attachments</p> --}}
-             
             </div>
-
 
             <div class="col-sm-5">
               <span>

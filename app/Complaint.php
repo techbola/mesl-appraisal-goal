@@ -18,6 +18,11 @@ class Complaint extends Model
         return $this->hasMany(ComplaintComment::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(ComplaintCategory::class, 'complaint_category_id');
+    }
+
     public function location()
     {
         return $this->hasOne(Location::class, 'LocationRef', 'location_id');
@@ -26,6 +31,11 @@ class Complaint extends Model
     public function client()
     {
         return $this->hasOne(Client::class, 'ClientRef', 'client_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
     }
 
     public function status()

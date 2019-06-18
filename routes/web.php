@@ -1298,6 +1298,7 @@ Route::post('/office-location/delete', 'CompanyDepartmentController@delete');
 | CREATE DEPARTMENT ROUTES SECTION
 |------------------------------------------------------------------------------------------
  */
+
 Route::get('/department/index', 'CompanyDepartmentController@index')->name('department_module');
 Route::get('/department/one', 'CompanyDepartmentController@loadOne');
 Route::post('/department/create', 'CompanyDepartmentController@create');
@@ -1511,6 +1512,5 @@ Route::post('setup/leave_days', 'SetupController@store_leave_days')->name('Store
 Route::get('edit_leave_days/{id}', 'SetupController@edit_leave_days')->name('edit_leave_days');
 Route::get('/get-days-by-id/{id}', 'SetupController@getDaysById');
 Route::post('update_leave_days', 'SetupController@update_leave_days')->name('UpdateLeaveDays');
-
 
 Route::post('add_expense_request', 'SetupController@add_expense_request')->name('add_expense_request');
