@@ -35,17 +35,17 @@
                 <table class="table tableWithSearch">
                   <thead>
                     <th>Client's Name</th>
-                    <th>Allocation</th>
+                    <th>Category</th>
                     <th>Location</th>
                     <th>Complaints</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </thead>
                   <tbody>
-                  {{--  @foreach($complaints as $comp)
+                   @foreach($complaints as $comp)
                    <tr>
-                     <td>{{ $comp->client->Name }}</td>
-                     <td>{{ $comp->allocation }}</td>
+                     <td>{{ $comp->user->fullName }}</td>
+                     <td>{{ $comp->category->name }}</td>
                      <td>{{ $comp->location->Location }}</td>
                      <td>{!! $comp->complaints !!}</td>
                      <td>
@@ -62,7 +62,7 @@
                         @endif
                      </td>
                    </tr>
-                   @endforeach --}}
+                   @endforeach
                   </tbody>
                 </table>
             </div>
@@ -74,7 +74,7 @@
             <table class="table tableWithSearch">
                 <thead>
                   <th>Client's Name</th>
-                  <th>Allocation</th>
+                  <th>Category</th>
                   <th>Location</th>
                   <th>Complaints</th>
                   <th>Status</th>
@@ -83,8 +83,8 @@
                 <tbody>
                  @foreach($complaint_sent_to_dept as $comp)
                  <tr>
-                   <td>{{ $comp->client->Name }}</td>
-                   <td>{{ $comp->allocation }}</td>
+                   <td>{{ $comp->user->fullName }}</td>
+                   <td>{{ $comp->category->name }}</td>
                    <td>{{ $comp->location->Location }}</td>
                    <td>{!! $comp->complaints !!}</td>
                    <td>
@@ -119,7 +119,7 @@
             <table class="table tableWithSearch">
                 <thead>
                   <th>Client's Name</th>
-                  <th>Allocation</th>
+                  <th>Category</th>
                   <th>Location</th>
                   <th>Complaints</th>
                   <th>View Comments</th>
@@ -127,8 +127,8 @@
                 <tbody>
                  @foreach($complaint_sent_to_dept as $comp)
                  <tr>
-                   <td>{{ $comp->client->Name }}</td>
-                   <td>{{ $comp->allocation }}</td>
+                   <td>{{ $comp->user->fullName }}</td>
+                   <td>{{ $comp->category->name }}</td>
                    <td>{{ $comp->location->Location }}</td>
                    <td>{!! $comp->complaints !!}</td>
                    <td>
@@ -167,7 +167,7 @@
                 <div class="form-group">
                     <div class="controls">
                         {{ Form::label('current_queue', 'Department') }}
-                        <input type="hidden" name="complaint_id" value="">
+                        <input type="hidden" name="complaint_id" value="2">
                         {{ Form::select('current_queue',[ '' => 'Select Department'] + $departments->pluck('Department','DepartmentRef')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location', 'required']) }}
                     </div>
                 </div>
@@ -256,14 +256,16 @@
   <script src="{{ asset('js/printThis.js') }}"></script>
   <script>
     $(function(){
-      $('.putter').click(function(e){
-        // e.preventDefault();
+
+      $('body').on('click', '.putter', function(e) {
+        e.preventDefault();
         var value_ = $(this).data('comp-id');
         var target = $(this).data('target');
         console.log(value_);
         $(target).find('[name=complaint_id]').val(value_);
         console.log($(target));
       });
+
     });
 
 

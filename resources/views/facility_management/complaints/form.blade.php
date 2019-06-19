@@ -2,35 +2,26 @@
 <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css') }}" media="screen" rel="stylesheet" type="text/css">
     @endpush
     @include('errors.list')
+    
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
-                    {{ Form::label('client_id', 'RESPONSIBLE UNIT') }}
-                    <select class="remote-select full-width" name="client_id" id="client_id">
-                        <option value="0">-- Select Unit--</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('location_id', 'LOCATION') }}
-                    {{ Form::select('location_id',[ '' => 'Select Location'] + $locations->pluck('name','id')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Location', 'required']) }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="form-group">
-                <div class="controls">
-                    {{ Form::label('allocation', 'REQUEST TYPE') }}
-                    {{ Form::text('allocation', null, ['class' => 'form-control', 'placeholder' => 'e.g Reconnection, Power Supply, Installation etc...', 'required']) }}
+                    {{ Form::label('complaint_category_id', 'Complaints Category') }}
+                    {{ Form::select('complaint_category_id',[ '' => 'Select Complaint Category'] + $categories->pluck('name','id')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select category', 'required']) }}
                 </div>
             </div>
         </div> 
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="controls">
+                    {{ Form::label('recipient_id', 'Recipients') }}
+                    {{ Form::select('recipient_id',[ '' => 'Select Recipient'] + $employees->pluck('FullName','StaffRef')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Recipeint', 'required']) }}
+                </div>
+            </div>
+        </div>
+            
         <div class="clearfix"></div>
         <div class="col-sm-12">
             <div class="form-group">

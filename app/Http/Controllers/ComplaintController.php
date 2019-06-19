@@ -2,18 +2,21 @@
 
 namespace MESL\Http\Controllers;
 
-use Illuminate\Http\Request;
 use DB;
-use Storage;
-use MESL\Location;
-use MESL\Complaint;
-use MESL\Customer;
+use Illuminate\Http\Request;
 use MESL\BuildingProject;
-use MESL\Department;
-use MESL\ComplaintComment;
-use MESL\ComplaintAttachment;
-use MESL\Staff;
 use MESL\CompanyOffice;
+use MESL\Complaint;
+use MESL\ComplaintAttachment;
+use MESL\ComplaintCategory;
+use MESL\ComplaintComment;
+use MESL\Customer;
+use MESL\Department;
+use MESL\Location;
+use MESL\Notifications\SendComplaintNotification;
+use MESL\Staff;
+use MESL\User;
+use Storage;
 
 class ComplaintController extends Controller
 {
@@ -31,6 +34,7 @@ class ComplaintController extends Controller
         $staff  = auth()->user()->staff;
         $_depts = Staff::where('StaffRef', $staff->StaffRef)->get(['DepartmentID'])->first();
         $depts  = explode(',', $_depts->DepartmentID);
+        // department is always IT Helpdesk @ satrt
         // dd($depts);
         // dd(explode(',', ));
         $my_departments         = Department::whereIn('DepartmentRef', $depts)->get();
@@ -39,17 +43,17 @@ class ComplaintController extends Controller
 
         $locations = collect([
             [
-                "id" => 1,
+                "id"   => 1,
                 "text" => "Abuja HQT Office",
             ],
             [
-                "id" => 2,
+                "id"   => 2,
                 "text" => "Jebba Office",
             ],
             [
-                "id" => 3,
+                "id"   => 3,
                 "text" => "Kanji Office",
-            ]
+            ],
         ]);
 
         return view('facility_management.complaints.index', compact('locations', 'clients', '_depts', 'depts', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept'));
@@ -57,9 +61,11 @@ class ComplaintController extends Controller
 
     public function create()
     {
-        $clients   = Customer::all();
-        $locations = CompanyOffice::all();
-        return view('facility_management.complaints.create', compact('locations', 'clients'));
+        $clients    = Customer::all();
+        $locations  = CompanyOffice::all();
+        $categories = ComplaintCategory::all();
+        $employees  = Staff::select('UserID', 'StaffRef')->get();
+        return view('facility_management.complaints.create', compact('locations', 'clients', 'categories', 'employees'));
     }
 
     public function send(Request $request)
@@ -67,9 +73,22 @@ class ComplaintController extends Controller
         try {
             $complaint = Complaint::find($request->complaint_id);
             DB::beginTransaction();
+            // dd($request->current_queue);
             $complaint->notify_flag   = true; // flag complaint as sent [denotes that process has started]
             $complaint->current_queue = $request->current_queue; // department that sees it next
+            $staff                    = Staff::whereIn('DepartmentID', [$complaint->current_queue])->get();
+
             $complaint->save();
+
+            $user_email = [];
+            foreach ($staff as $staff) {
+                if (!is_null($staff->user['email'])) {
+                    array_push($user_email, User::whereEmail($staff->user['email'])->first());
+                }
+            }
+
+            // dd($user_email);
+            \Notification::send($user_email, new SendComplaintNotification($complaint));
             DB::commit();
             return redirect()->route('facility-management.complaints.index')->with('success', 'Complaint was sent successfully');
 
@@ -82,7 +101,7 @@ class ComplaintController extends Controller
     public function store(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'client_id' => 'required',
+            // 'client_id' => 'required',
         ], [
             // custom messags
         ]);
@@ -93,10 +112,16 @@ class ComplaintController extends Controller
 
         //  save record
         $complaint = new Complaint($request->all() + ['sender_id' => auth()->user()->id]);
+        // department is always IT Helpdesk @ satrt
+        $complaint->current_queue = 14;
+        $complaint->location_id   = auth()->user()->staff->location->LocationRef ?? 1;
+        // $complaint->client_id = auth()->use
+        // $complaint->location_id = auth()->user()->staff->location->LocationRef;
 
         try {
             DB::beginTransaction();
             $complaint->save();
+            // TODO: send email to
             DB::commit();
             return redirect()->route('facility-management.complaints.create')->with('success', 'Compaints have been saved successfully');
 
@@ -109,10 +134,12 @@ class ComplaintController extends Controller
 
     public function edit($id)
     {
-        $complaint = Complaint::find($id);
-        $clients   = Customer::all();
-        $locations = Location::all();
-        return view('facility_management.complaints.edit', compact('complaint', 'clients', 'locations'));
+        $complaint  = Complaint::find($id);
+        $clients    = Customer::all();
+        $locations  = Location::all();
+        $employees  = Staff::select('UserID', 'StaffRef')->get();
+        $categories = ComplaintCategory::all();
+        return view('facility_management.complaints.edit', compact('complaint', 'clients', 'locations', 'employees', 'categories'));
 
     }
 
@@ -170,7 +197,9 @@ class ComplaintController extends Controller
 
     public function update(Request $request, $id)
     {
-        $complaint = Complaint::find($id);
+        $complaint                = Complaint::find($id);
+        $complaint->current_queue = 14;
+        $complaint->location_id   = auth()->user()->staff->location->LocationRef ?? 1;
         if ($complaint->update($request->all())) {
             return redirect()->route('facility-management.complaints.edit', ['id' => $id])->with('success', 'Complaint was updated successfully');
         }

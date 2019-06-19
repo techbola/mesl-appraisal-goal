@@ -55,8 +55,8 @@
                 @if($staff_onboard->ApprovalStatus2 !== "1")  
                   <tr>
                     <td>{{$staff_onboard->StaffName}}</td>
-                      <td>{{$staff_onboard->staff_department->name}}</td>
-                      <td>{{$staff_onboard->StaffType}}</td>
+                      <td>{{$staff_onboard->staff_department->Department}}</td>
+                      <td>{{$staff_onboard->staff_type->StaffType}}</td>
                       <td>{{$staff_onboard->ResumptionDate}}</td>
                       <td>
                         @if(!empty($staff_onboard->OfficeSpace) && empty($staff_onboard->OfficeTable))
@@ -101,8 +101,8 @@
                 @if($staff_onboard->ApprovalStatus2 !== "0")  
                   <tr>
                     <td>{{$staff_onboard->StaffName}}</td>
-                      <td>{{$staff_onboard->staff_department->name}}</td>
-                      <td>{{$staff_onboard->StaffType}}</td>
+                      <td>{{$staff_onboard->staff_department->Department}}</td>
+                      <td>{{$staff_onboard->staff_type->StaffType}}</td>
                       <td>{{$staff_onboard->ResumptionDate}}</td>
                       <td>
                         @if(!empty($staff_onboard->OfficeSpace) && empty($staff_onboard->OfficeTable))

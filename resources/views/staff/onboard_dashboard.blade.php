@@ -54,8 +54,8 @@
                 @if($staff_onboard->ApprovalStatus1 !== "1")
                   <tr>
                     <td>{{$staff_onboard->StaffName}}</td>
-                    <td>{{$staff_onboard->staff_department->name}}</td>
-                    <td>{{$staff_onboard->StaffType}}</td>
+                    <td>{{$staff_onboard->staff_department->Department}}</td>
+                    <td>{{$staff_onboard->staff_type->StaffType}}</td>
                     <td>{{$staff_onboard->ResumptionDate}}</td>
                     <td>
                       {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}
@@ -86,8 +86,8 @@
                 @if($staff_onboard->ApprovalStatus1 !== "1")
                   <tr>
                     <td>{{$staff_onboard->StaffName}}</td>
-                    <td>{{$staff_onboard->staff_department->name}}</td>
-                    <td>{{$staff_onboard->StaffType}}</td>
+                    <td>{{$staff_onboard->staff_department->Department}}</td>
+                    <td>{{$staff_onboard->staff_type->StaffType}}</td>
                     <td>{{$staff_onboard->ResumptionDate}}</td>
                     <td>
                       {{$staff_onboard->System}} {{$staff_onboard->IDcreation}} {{$staff_onboard->OfficemateProfile}}

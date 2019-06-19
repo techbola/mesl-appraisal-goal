@@ -1,6 +1,8 @@
 @extends('layouts.master')
 @section('buttons')
   <a href="{{ route('facility-management.complaints.create') }}" class="btn btn-info btn-rounded pull-right" >New Complaint</a>
+	&nbsp;
+  <a href="{{ route('facility-management.complaints.index') }}" class="btn btn btn-rounded pull-right" >Complaints List</a>
 @endsection
 
 @section('content')
