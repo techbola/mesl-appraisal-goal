@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class StaffOnboard extends Mailable implements ShouldQueue
+class StaffOnboardAdmin extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -28,6 +28,6 @@ class StaffOnboard extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject("New staff onboarding request")->markdown('emails.SendOnboard');
+        return $this->subject("New staff onboarding request")->markdown('emails.SendOnboardAdmin');
     }
 }

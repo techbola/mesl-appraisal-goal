@@ -31,6 +31,7 @@ use MESL\Mail\AdminOnboardApproval;
 use MESL\Mail\ApprovalIT;
 use MESL\Mail\ExitMail;
 use MESL\Mail\StaffOnboard;
+use MESL\Mail\StaffOnboardAdmin;
 use MESL\MaritalStatus;
 use MESL\Notifications\ApprovedBiodataUpdate;
 use MESL\Notifications\PendingBiodataUpdate;
@@ -47,11 +48,11 @@ use MESL\Sex;
 use MESL\Staff;
 use MESL\StaffOnboarding;
 use MESL\StaffPending;
+use MESL\StaffType;
 use MESL\State;
 use MESL\Title;
 use MESL\Unit;
 use MESL\User;
-use MESL\StaffType;
 use Notification;
 
 class StaffController extends Controller
@@ -758,9 +759,13 @@ class StaffController extends Controller
             $query->whereIn('DepartmentID', [7, 14]);
         })->get(); // ->toArray();
 
-        foreach ($staffs as $key => $value) {
+        foreach ($staffs as $value) {
             if ($value->email !== null) {
-                Mail::to($value->email)->send(new StaffOnboard());
+                if ($value->staff->DepartmentID == 14) {
+                    Mail::to($value->email)->send(new StaffOnboard());
+                } else {
+                    Mail::to($value->email)->send(new StaffOnboardAdmin());
+                }
             }
         }
 
