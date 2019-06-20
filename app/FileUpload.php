@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace MESL;
 
 use Illuminate\Database\Eloquent\Model;
 

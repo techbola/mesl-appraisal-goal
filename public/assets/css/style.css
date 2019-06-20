@@ -521,6 +521,11 @@ audio, canvas, progress, video {
   width: 10px;
 }
 
+.btn-orange, .bg-orange {
+    background-color: #fb5201;
+    color: #fff;
+}
+
 .scroll-wrapper>.scroll-element .scroll-element_outer {
   opacity: 0.6;
 }

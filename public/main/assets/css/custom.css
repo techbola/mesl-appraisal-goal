@@ -1,0 +1,22 @@
+.text-center{
+    text-align: center !important;
+}
+.text-danger{
+    color: red;
+}
+#newRow{
+    display: none;
+}
+.form-group-default {
+    background-color: #fff;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    padding-top: 7px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 4px;
+    overflow: hidden;
+    -webkit-transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease;
+}

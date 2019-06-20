@@ -24,7 +24,7 @@
   	<div class="">
 
       <ul class="nav nav-tabs outside">
-        <li class="active"><a data-toggle="tab" href="#unapproved">Unsent Complaints &nbsp; <span class="badge badge-warning"></span></a></li>
+        <li class="active"><a data-toggle="tab" href="#unapproved">Sent/Unsent Complaints &nbsp; <span class="badge badge-warning"></span></a></li>
         <li><a data-toggle="tab" href="#approved">Received Complaints &nbsp; <span class="badge badge-success">{{ $complaint_sent_to_dept->count() }}</span></a></li>
         <li><a data-toggle="tab" href="#inbox">Complaints Inbox &nbsp; <span class="badge badge-danger"></span></a></li>
       </ul>
@@ -34,7 +34,7 @@
             <div class="card-box ">
                 <table class="table tableWithSearch">
                   <thead>
-                    <th>Client's Name</th>
+                    <th>Recipient's Department</th>
                     <th>Category</th>
                     <th>Location</th>
                     <th>Complaints</th>
@@ -44,7 +44,7 @@
                   <tbody>
                    @foreach($complaints as $comp)
                    <tr>
-                     <td>{{ $comp->user->fullName }}</td>
+                     <td>{{ $comp->user->staff->department->Department ?? '-' }}</td>
                      <td>{{ $comp->category->name }}</td>
                      <td>{{ $comp->location->Location }}</td>
                      <td>{!! $comp->complaints !!}</td>
@@ -73,7 +73,7 @@
           <div class="card-box">
             <table class="table tableWithSearch">
                 <thead>
-                  <th>Client's Name</th>
+                  <th>Recipient's Department</th>
                   <th>Category</th>
                   <th>Location</th>
                   <th>Complaints</th>
@@ -81,9 +81,10 @@
                   <th>Actions</th>
                 </thead>
                 <tbody>
+                @if(auth()->user()->staff->ComplaintRecipientFlag == 1)
                  @foreach($complaint_sent_to_dept as $comp)
                  <tr>
-                   <td>{{ $comp->user->fullName }}</td>
+                   <td>{{ $comp->user->staff->department->Department ?? '-' }}</td>
                    <td>{{ $comp->category->name }}</td>
                    <td>{{ $comp->location->Location }}</td>
                    <td>{!! $comp->complaints !!}</td>
@@ -106,6 +107,7 @@
                    </td>
                  </tr>
                  @endforeach
+                 @endif
                 </tbody>
             </table>
           </div>
@@ -118,7 +120,7 @@
           <div class="card-box">
             <table class="table tableWithSearch">
                 <thead>
-                  <th>Client's Name</th>
+                  <th>Recipient's Department</th>
                   <th>Category</th>
                   <th>Location</th>
                   <th>Complaints</th>
@@ -127,7 +129,7 @@
                 <tbody>
                  @foreach($complaint_sent_to_dept as $comp)
                  <tr>
-                   <td>{{ $comp->user->fullName }}</td>
+                   <td>{{ $comp->user->staff->department->Department ?? '-' }}</td>
                    <td>{{ $comp->category->name }}</td>
                    <td>{{ $comp->location->Location }}</td>
                    <td>{!! $comp->complaints !!}</td>

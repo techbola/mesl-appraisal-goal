@@ -13,6 +13,8 @@
             </div>
         </div> 
 
+        <div class="clearfix"></div>
+{{-- 
         <div class="col-sm-6">
             <div class="form-group">
                 <div class="controls">
@@ -20,7 +22,7 @@
                     {{ Form::select('recipient_id',[ '' => 'Select Recipient'] + $employees->pluck('FullName','StaffRef')->toArray(),null, ['class' => 'full-width','data-init-plugin' => "select2", 'data-placeholder' => 'Select Recipeint', 'required']) }}
                 </div>
             </div>
-        </div>
+        </div> --}}
             
         <div class="clearfix"></div>
         <div class="col-sm-12">
