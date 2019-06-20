@@ -24,7 +24,7 @@ class ComplaintController extends Controller
     {
         $clients    = Customer::all();
         $locations  = BuildingProject::all();
-        $auth_ref   = auth()->user()->staff->StaffRef;
+        $auth_ref   = auth()->user()->id;
         $complaints = Complaint::where('sender_id', $auth_ref)->get();
         $comments   = ComplaintComment::all();
         // dd($complaint_discussions);
@@ -39,7 +39,8 @@ class ComplaintController extends Controller
         // dd($depts);
         // dd(explode(',', ));
         $my_departments         = Department::whereIn('DepartmentRef', $depts)->get();
-        $complaint_sent_to_dept = Complaint::whereIn('current_queue', $depts)->get();
+        $complaint_sent_to_dept = Complaint::whereIn('current_queue', $depts)
+            ->where('notify_flag', 1)->get();
 
         $complaint_discussions = Complaint::whereIn('current_queue', $depts)->get();
 
