@@ -44,7 +44,7 @@
                   <tbody>
                    @foreach($complaints as $comp)
                    <tr>
-                     <td>{{ $comp->recipient_department ?? '-' }}</td>
+                     <td>{{ $comp->recipient_dept }}</td>
                      <td>{{ $comp->category->name }}</td>
                      <td>{{ $comp->location->Location }}</td>
                      <td>{!! $comp->complaints !!}</td>
