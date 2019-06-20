@@ -251,7 +251,7 @@
                       <select name="complaint_status_id" id="complaint_status_id" class="form-control">
                         <option value="">Select Complaint Status</option>
                         @foreach($complaint_status as $cs)
-                        <option value="{{ $cs->ComplainStatusRef }}">{{ $cs->ComplainStatus }}</option>
+                        <option value="{{ $cs->ComplaintStatusRef }}">{{ $cs->ComplaintStatus }}</option>
                         @endforeach
                       </select>
                   </div>
