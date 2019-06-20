@@ -25,8 +25,12 @@ class ComplaintController extends Controller
         $clients    = Customer::all();
         $locations  = BuildingProject::all();
         $auth_ref   = auth()->user()->id;
-        $complaints = Complaint::where('sender_id', $auth_ref)->get();
-        $comments   = ComplaintComment::all();
+        $complaints = Complaint::where('sender_id', $auth_ref)->get()->transform(function ($item, $key) {
+            $item->recipient_dept = !empty($item->current_queue) ? Department::find($item->current_queue)->Department : '';
+            return $item;
+        });
+        // dd($complaints);
+        $comments = ComplaintComment::all();
         // dd($complaint_discussions);
         $departments = Department::get(['Department', 'DepartmentRef']);
         // dd($departments);
@@ -38,7 +42,8 @@ class ComplaintController extends Controller
         // department is always IT Helpdesk @ satrt
         // dd($depts);
         // dd(explode(',', ));
-        $my_departments         = Department::whereIn('DepartmentRef', $depts)->get();
+        $my_departments = Department::whereIn('DepartmentRef', $depts)->get();
+        // $recipient_dept =  Department::find();
         $complaint_sent_to_dept = Complaint::whereIn('current_queue', $depts)
             ->where('notify_flag', 1)->get();
 
@@ -116,7 +121,7 @@ class ComplaintController extends Controller
         //  save record
         $complaint = new Complaint($request->all() + ['sender_id' => auth()->user()->id]);
         // department is always IT Helpdesk @ satrt
-        $complaint->current_queue = 14;
+        $complaint->current_queue = ''; // empty at forst;
         $complaint->location_id   = auth()->user()->staff->location->LocationRef ?? 1;
         // $complaint->client_id = auth()->use
         // $complaint->location_id = auth()->user()->staff->location->LocationRef;
