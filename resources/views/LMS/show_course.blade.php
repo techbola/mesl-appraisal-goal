@@ -45,15 +45,14 @@
                             </hr>
                         </img>
                     </div>
-                    <div>
+                    {{-- <div>
                         <h4 style="color: #fb5201; font-weight: 900 !important">
                             Introduction
                         </h4>
                         <p>
                             {{ $course_details->description }}
                         </p>
-                    </div>
-                    <hr>
+                    </div> --}}
                         <div>
                             <h4 style="color: #fb5201; font-weight: 900 !important">
                                 Course Tutorials
@@ -117,15 +116,23 @@
                             <hr>
                                 --}}
                                 <div>
-                                    <h4 style="color: #fb5201; font-weight: 900 !important">
+                                    <h6 style="color: #fb5201; font-weight: 900 !important">
                                         Final Test
-                                    </h4>
+                                    </h6>
                                     <hr>
+                                    @if(count($exam_attempt) > 1)
                                         <p>
-                                            <a class="btn btn-warning btn-lg" href="#" id="examination_button">
+                                            <a class="btn btn-warning btn-sm" href="{{route('Get_Final_Exam', [$course_details->course_ref])}}">
+                                                Continue With Test.
+                                            </a>
+                                        </p>
+                                    @else
+                                        <p>
+                                            <a class="btn btn-success btn-sm" href="#" id="examination_button">
                                                 Start Test
                                             </a>
                                         </p>
+                                    @endif
                                     </hr>
                                 </div>
                                 <hr>
@@ -392,77 +399,11 @@
           $('#proceed_to_exam').click(function(event) {
               var course_ref = $('#course_new_id').val();
               var batch_ref = $('#batch_id').val();
-              $.get('/find_new_question/'+course_ref+'/'+batch_ref, function(data) {
-                console.log(data.datte);
-                if(data.final == 1)
-                {
-                  $('#examination').addClass('hide');
-                  $('#examination_questions').addClass('hide');
-                  $('#show_material_info').addClass('hide');
-                  $('#exam_review').addClass('hide');
-                  $('#module_examination_questions').addClass('hide');
-                  $('#exam_completion').removeClass('hide');
-                  $('#exam_time').removeClass('hide');
-
-                    var pass_score = data.pass_mark;
-                    var mark = data.final_score;
-                         $('#real_score').html(data.final_score);
-
-                         if(mark < pass_score){
-                          $("#status_style").css("color", "red");
-                          $('#result_status').html('Fail');
-                          $("#status").css("color", "red");
-                          $('#retake_test').removeClass('hide');
-                         }else{
-                          $("#status_style").css("color", "green");
-                          $('#result_status').html('Pass');
-                          $("#status").css("color", "green");
-                          $('#retake_test').addClass('hide');
-                         }
-                }else{
-                  $('#examination').addClass('hide');
-                  $('#show_material_info').addClass('hide');
-                  $('#exam_completion').addClass('hide');
-                  $('#exam_review').addClass('hide');
-                  $('#module_examination_questions').addClass('hide');
-                  $('#examination_questions').removeClass('hide');
-                  $('#exam_time').removeClass('hide');
-
-                  $('#question_main').html('');
-                  var total_done = data.total.length;
-                $('#question_main').append(`
-
-                  <h5 style="font-weight: 900 !important; color = grren;">Examination Questions ${total_done + 1} / ${data.limit}</h5><div class="clearfix"></div><hr>
-                    <span style="font-weight : 700"> Question : </span><br>
-                    <p style="font-weight: 600">${data.question.Question}</p><br>
-
-                    <span style="font-weight : 700"> Answer : </span><br>
-                    <div class="radio radio-success">
-                      <p>
-                        <input type="radio" value="A" name="Answer" id="A">
-                        <label for="A">${data.question.Answer_A}</label>
-                      </p>
-                      <p>
-                        <input type="radio" value="B" name="Answer" id="B">
-                        <label for="B">${data.question.Answer_B}</label>
-                      </p>
-                      <p>
-                        <input type="radio" value="C" name="Answer" id="C">
-                        <label for="C">${data.question.Answer_C}</label>
-                      </p>
-                      <p>
-                        <input type="radio" value="D" name="Answer" id="D">
-                        <label for="D">${data.question.Answer_D}</label>
-                      </p>
-                    </div>
-                    <input type="hidden" name="QuestionID" id="answered_question_id" value="${data.question.QuestionRef}">
-                    <span style="color:red; font-size 11px; font-weight: 600" class="hide" id="answer_notification">Please select the correct answer from the option provided.</span>
-
-                  `);
-                }
-                timer(data.datte);
-              });
-              
+              $.get('/process_final_exam_questions/'+course_ref, function(data, status) {
+                setTimeout(() => {
+                                      window.location.href = `{{ url('Final_Exam/${course_ref}') }}`
+                                  }, 1000);
+              });              
           });
 
           $('#next_question').click(function(event) {

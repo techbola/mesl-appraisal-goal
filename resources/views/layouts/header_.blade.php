@@ -51,6 +51,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/white.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style2.css') }}">
+    <link href="{{ asset('assets/plugins/sweet-alert2/sweetalert.css')}}" rel="stylesheet" type="text/css">
     {{-- <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet"> --}}
 
 
@@ -935,6 +936,8 @@
         //   }
         // });
       </script>
+      <script src="{{ asset('assets/plugins/sweet-alert2/sweetalert.min.js')}}"></script>
+    <script src="{{ asset('assets/plugins/sweet-alert2/jquery.sweet-alert.custom.js')}}"></script>
 
       @yield('scripts')
   </body>

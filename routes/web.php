@@ -664,6 +664,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_editted_question/{ref}', 'CourseController@get_editted_question');
     Route::get('get_course_cateory_details/{id}', 'CourseController@get_course_cateory_details');
     Route::get('post_edited_course_category/{ref}/{name}', 'CourseController@post_edited_course_category');
+    Route::get('process_final_exam_questions/{ref}', 'CourseController@process_final_exam_questions');
+    Route::get('Final_Exam/{ref}', 'CourseController@get_final_exam_questions')->name('Get_Final_Exam');
+    Route::post('post_final_exam_result/{ref}/{course_ref}', 'CourseController@post_final_exam_result');
+    Route::get('get_status_questions/{ref}/{course_ref}', 'CourseController@get_status_questions');
+    Route::post('submit_last_questions_answer/{ref}/{course_ref}', 'CourseController@submit_last_questions_answer');
+    Route::get('show_final_result/{course_ref}', 'CourseController@show_final_result');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');

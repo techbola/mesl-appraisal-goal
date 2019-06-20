@@ -283,10 +283,14 @@ class CourseController extends Controller
             ->where('batch_ref', $id)
             ->first();
 
+        $exam_attempt = ExamCollation::where('CourseID', $course_details->course_ref)
+        ->where('CustomerRef', auth()->user()->id)
+        ->get();
+
         $course_id        = $course_details->course_id;
         $courses          = Courses::where('course_ref', $course_id)->first();
         $course_materials = CourseMaterial::where('course_id', $course_id)->get();
-        return view('LMS.show_course', compact('course_details', 'course_materials', 'id', 'courses'));
+        return view('LMS.show_course', compact('course_details', 'course_materials', 'id', 'courses', 'exam_attempt'));
 
         //checkbox function
         $checkbox->$course_details = $request->input('checkbox');
@@ -910,4 +914,219 @@ class CourseController extends Controller
             return response($content = 'failed', $status = 200);
         }
     }
+
+    public function process_final_exam_questions($ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $serial_number = 1;
+            $user_id       = auth()->user()->id;
+            $courses = Courses::where('course_ref', $ref)->first();
+            $get_courses   = Question::where('CourseID', $ref)->inRandomOrder()->limit($courses->final_question_limit)->get();
+            foreach ($get_courses as $key => $value) {
+                $increase                     = $serial_number++;
+                $exam_collation               = new ExamCollation();
+                $exam_collation->QuestionID   = $value->QuestionRef;
+                $exam_collation->CustomerRef  = $user_id;
+                $exam_collation->CourseID     = $ref;
+                $exam_collation->SerialNumber = $increase;
+                $exam_collation->save();
+            }
+            \DB::commit();
+            return response($content = 'ok', $status = 200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+
+    public function get_final_exam_questions($ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $user_id        = auth()->user()->id;
+            $course_details = Courses::where('course_ref', $ref)->first();
+            $counter_status = ExamCollation::where('CustomerRef', $user_id)
+                ->where('CourseID', $ref)
+                ->get();
+            $exam_question = ExamCollation::where('CustomerRef', $user_id)
+                ->where('CourseID', $ref)
+                ->where('Status', 0)
+                ->with('question')
+                ->first();
+            \DB::commit();
+            return view('LMS.final_exam', compact('exam_question', 'course_details', 'counter_status'));
+        } catch (Exception $e) {
+            \DB::rollback();
+            return redirect()->route('Show_Course', $ref);
+        }
+    }
+
+    public function post_final_exam_result(Request $request, $ref, $course_ref)
+    {
+        try {
+            \DB::beginTransaction();
+            $user_id  = auth()->user()->id;
+            $question = ExamCollation::where('CourseID', $course_ref)
+                ->where('CustomerRef', $user_id)
+                ->where('SerialNumber', $ref)
+                ->first();
+            if (!empty($request->Answer)) {
+                $question->Answer = $request->Answer;
+                $question->Status = 1;
+                $question->save();
+
+                // Update result Status
+                $get_question_final_answer = Question::where('QuestionRef', $question->QuestionID)->first();
+                if ($get_question_final_answer->Final_Answer == $request->Answer) 
+                {
+                    $question->ResultStatus = 1;
+                    $question->save();
+                }
+
+                // Increment the present question with by 1 then Check if the next question is available.
+                $new_number   = $ref + 1;
+                $new_question = ExamCollation::where('CustomerRef', $user_id)
+                    ->where('CourseID', $course_ref)
+                    ->where('SerialNumber', $new_number)
+                    ->with('question')
+                    ->first();
+                if (!empty($new_question)) {
+                    $next_question  = $new_question;
+                    $counter_status = ExamCollation::where('CustomerRef', $user_id)
+                        ->where('CourseID', $course_ref)
+                        ->get();
+                }
+            } else {
+                $new_number   = $ref + 1;
+                $new_question = ExamCollation::where('CustomerRef', $user_id)
+                    ->where('CourseID', $course_ref)
+                    ->where('SerialNumber', $new_number)
+                    ->with('question')
+                    ->first();
+                if (!empty($new_question)) {
+                    $next_question  = $new_question;
+                    $counter_status = ExamCollation::where('CustomerRef', $user_id)
+                        ->where('CourseID', $course_ref)
+                        ->get();
+                }
+            }
+
+            $records = [
+                'counters'     => $counter_status,
+                'question' => $new_question,
+            ];
+
+            \DB::commit();
+            return response()->json($records)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+    public function get_status_questions($ref, $course_ref)
+    {
+        try {
+              \DB::beginTransaction();
+               $user_id        = auth()->user()->id;
+               $new_question = ExamCollation::where('CustomerRef', $user_id)
+                    ->where('CourseID', $course_ref)
+                    ->where('SerialNumber', $ref)
+                    ->with('question')
+                    ->first();
+                $counter_status = ExamCollation::where('CustomerRef', $user_id)
+                        ->where('CourseID', $course_ref)
+                        ->get();
+                $records = [
+                'counters'     => $counter_status,
+                'question' => $new_question,
+            ];
+              \DB::commit();
+                    return response()->json($records)->setStatusCode(200);
+          } catch (Exception $e) {
+               \DB::rollback();
+                   return response($content = 'failed', $status = 200);
+          }
+    }
+
+    public function submit_last_questions_answer(Request $request, $ref, $course_ref)
+    {
+        try {
+              \DB::beginTransaction();
+            $user_id  = auth()->user()->id;
+            $question = ExamCollation::where('CourseID', $course_ref)
+                ->where('CustomerRef', $user_id)
+                ->where('SerialNumber', $ref)
+                ->first();
+            if (!empty($request->Answer)) {
+                $question->Answer = $request->Answer;
+                $question->Status = 1;
+                $question->save();
+
+                // Update result Status
+                $get_question_final_answer = Question::where('QuestionRef', $question->QuestionID)->first();
+                if ($get_question_final_answer->Final_Answer == $request->Answer) 
+                {
+                    $question->ResultStatus = 1;
+                    $question->save();
+                }
+
+                $new_question = ExamCollation::where('CustomerRef', $user_id)
+                    ->where('CourseID', $course_ref)
+                    ->where('SerialNumber', $ref)
+                    ->with('question')
+                    ->first();
+                $counter_status = ExamCollation::where('CustomerRef', $user_id)
+                        ->where('CourseID', $course_ref)
+                        ->get();
+            }else{
+                $new_question = ExamCollation::where('CustomerRef', $user_id)
+                    ->where('CourseID', $course_ref)
+                    ->where('SerialNumber', $ref)
+                    ->with('question')
+                    ->first();
+                $counter_status = ExamCollation::where('CustomerRef', $user_id)
+                        ->where('CourseID', $course_ref)
+                        ->get();
+            }
+            $records = [
+                'counters'     => $counter_status,
+                'question' => $new_question,
+            ];
+              \DB::commit();
+                    return response()->json($records)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
+     public function show_final_result($course_ref)
+    {
+        try {
+              \DB::beginTransaction();
+                        $user_id  = auth()->user()->id;
+                        $course_details = Courses::where('course_ref', $course_ref)->first();
+                        $final_exam_collation_result = ExamCollation::where('CourseID', $course_ref)
+                        ->where('CustomerRef', $user_id)
+                        ->where('ResultStatus', 1)
+                        ->count();
+
+                        //Return score back to view in percentage
+                        $score_in_percentage = ($final_exam_collation_result / $course_details->final_question_limit) * 100;
+                        $details = [
+                            'course'     => $course_details,
+                            'result' => $score_in_percentage,
+                        ];
+
+              \DB::commit();
+                    return response()->json($details)->setStatusCode(200);
+          } catch (Exception $e) {
+               \DB::rollback();
+                   return response($content = 'failed', $status = 200);
+          }
+    }
+
 }
