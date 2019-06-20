@@ -159,7 +159,7 @@ class ComplaintController extends Controller
             $comment                  = new ComplaintComment($request->except('complaint_attachment'));
             $comment->complaint_id    = $request->complaint_id;
             $comment->has_cost        = $request->has_cost ?? 0;
-            $comment->queue_sender_id = $depts->DepartmentRef ?? 1; //dept_id
+            $comment->queue_sender_id = auth()->user()->staff->DepartmentID ?? 1; //dept_id
 
             if ($comment->save()) {
                 // attachment_upload

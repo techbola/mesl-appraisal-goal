@@ -24,6 +24,7 @@
   	</div>
   	<!-- END PANEL -->
 
+
 @endsection
 
 @push('scripts')

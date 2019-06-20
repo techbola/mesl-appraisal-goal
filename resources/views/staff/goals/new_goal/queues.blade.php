@@ -12,7 +12,7 @@
 
 			<div class="panel-body">
 				<div class="table-responsive">
-					<table class="table table-hover" id="basicTable">
+					<table class="table table-condensed" id="basicTable">
 						<thead>
 						<tr>
 							<th style="width:20%">Period</th>
