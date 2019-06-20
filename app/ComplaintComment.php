@@ -10,7 +10,7 @@ class ComplaintComment extends Model
 
     public function complaint()
     {
-        return $this->hasOne(Complaint::class, 'complaint_id');
+        return $this->hasOne(Complaint::class, 'id', 'complaint_id');
     }
 
     public function attachments()
