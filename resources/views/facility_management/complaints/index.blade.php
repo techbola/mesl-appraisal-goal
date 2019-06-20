@@ -73,7 +73,8 @@
           <div class="card-box">
             <table class="table tableWithSearch">
                 <thead>
-                  <th>Recipient's Department</th>
+                  <th>Sender</th>
+                  <th>Sender's Department</th>
                   <th>Category</th>
                   <th>Location</th>
                   <th>Complaints</th>
@@ -84,6 +85,7 @@
                 @if(auth()->user()->staff->ComplaintRecipientFlag == 1)
                  @foreach($complaint_sent_to_dept as $comp)
                  <tr>
+                   <td>{{ $comp->user->fullName }}</td>
                    <td>{{ $comp->user->staff->department->Department ?? '-' }}</td>
                    <td>{{ $comp->category->name }}</td>
                    <td>{{ $comp->location->Location }}</td>
