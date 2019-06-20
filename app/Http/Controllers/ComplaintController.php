@@ -10,6 +10,7 @@ use MESL\Complaint;
 use MESL\ComplaintAttachment;
 use MESL\ComplaintCategory;
 use MESL\ComplaintComment;
+use MESL\ComplaintStatus;
 use MESL\Customer;
 use MESL\Department;
 use MESL\Location;
@@ -22,10 +23,11 @@ class ComplaintController extends Controller
 {
     public function index()
     {
-        $clients    = Customer::all();
-        $locations  = BuildingProject::all();
-        $auth_ref   = auth()->user()->id;
-        $complaints = Complaint::where('sender_id', $auth_ref)->get()->transform(function ($item, $key) {
+        $clients          = Customer::all();
+        $locations        = BuildingProject::all();
+        $complaint_status = ComplaintStatus::all();
+        $auth_ref         = auth()->user()->id;
+        $complaints       = Complaint::where('sender_id', $auth_ref)->get()->transform(function ($item, $key) {
             $item->recipient_dept = !empty($item->current_queue) ? Department::find($item->current_queue)->Department : '';
             return $item;
         });
@@ -64,16 +66,17 @@ class ComplaintController extends Controller
             ],
         ]);
 
-        return view('facility_management.complaints.index', compact('locations', 'clients', '_depts', 'depts', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept'));
+        return view('facility_management.complaints.index', compact('locations', 'clients', '_depts', 'depts', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept', 'complaint_status'));
     }
 
     public function create()
     {
-        $clients    = Customer::all();
-        $locations  = CompanyOffice::all();
-        $categories = ComplaintCategory::all();
-        $employees  = Staff::select('UserID', 'StaffRef')->get();
-        return view('facility_management.complaints.create', compact('locations', 'clients', 'categories', 'employees'));
+        $clients          = Customer::all();
+        $locations        = CompanyOffice::all();
+        $categories       = ComplaintCategory::all();
+        $complaint_status = ComplaintStatus::all();
+        $employees        = Staff::select('UserID', 'StaffRef')->get();
+        return view('facility_management.complaints.create', compact('locations', 'clients', 'categories', 'complaint_status', 'employees'));
     }
 
     public function send(Request $request)

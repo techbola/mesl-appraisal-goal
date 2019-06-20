@@ -13,8 +13,9 @@
          <div class="row">
             <div class="col-sm-7">
               <span class="commenter badge badge-info">{{ $cd->department->Department }}</span> <br><br>
+              <label for=""><b>Comment</b></label> <br>
               {!! $cd->comment !!}
-              <b>Cost:</b> {{ nairazify(number_format($cd->cost, 2)) }} <br>
+              <b>Status:</b> {{ $cd->complaint_status->ComplaintStatus }} <br>
               {{-- <p>Attachments</p> --}}
             </div>
 

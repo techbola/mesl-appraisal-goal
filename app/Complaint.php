@@ -38,6 +38,11 @@ class Complaint extends Model
         return $this->belongsTo(User::class, 'sender_id');
     }
 
+    public function complaint_status()
+    {
+        return $this->belongsTo(ComplaintStatus::class, 'complaint_status_id');
+    }
+
     public function status()
     {
         if ($this->resolved_flag === true) {

@@ -245,6 +245,21 @@
           </div>
 
           <div class="row">
+              <div class="form-group">
+                  <div class="controls">
+                      {{ Form::label('complaint_status_id', 'Complain Status') }}
+                      <select name="complaint_status_id" id="complaint_status_id" class="form-control">
+                        <option value="">Select Complaint Status</option>
+                        @foreach($complaint_status as $cs)
+                        <option value="{{ $cs->ComplainStatusRef }}">{{ $cs->ComplainStatus }}</option>
+                        @endforeach
+                      </select>
+                  </div>
+              </div>
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="row">
             <div class="">
               <button class="btn btn-success">Post Comment</button>
             </div>
