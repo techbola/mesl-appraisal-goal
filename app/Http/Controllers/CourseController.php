@@ -1129,4 +1129,55 @@ class CourseController extends Controller
           }
     }
 
+    public function submit_course_module_results(Request $request)
+    {
+        try {
+
+            \DB::beginTransaction();
+            $user_id = auth()->user()->id;
+            foreach ($request->Answer as $key => $value) {
+                $new_data              = new ModuleExamCollation();
+                $new_data->QuestionID  = $request->QuestionID[$key];
+                $new_data->CustomerRef = $user_id;
+                $new_data->Answer      = $request->Answer[$key];
+                $new_data->ModuleID    = $request->ModuleID[$key];
+                $new_data->CourseID    = $request->CourseID[$key];
+                $new_data->save(); 
+
+                $get_course_details = ModuleQuestion::where('ModuleQuestionRef', $request->QuestionID[$key])->first();
+                $get_inserted_record = ModuleExamCollation::where('ModuleExamCollationRef', $new_data->ModuleExamCollationRef)->first();
+                if ($get_course_details->Final_Answer == $get_inserted_record->Answer) {
+                    $update_module_question = ModuleExamCollation::where('ModuleExamCollationRef', $get_inserted_record->ModuleExamCollationRef)->update(['Status'=>1]);
+                }
+            }
+
+            $get_exam_result = ModuleExamCollation::where('CourseID', $request->CourseID[0])
+                ->where('CustomerRef', $user_id)
+                ->where('status', 1)
+                ->count();
+
+            $get_course_module = CourseModule::where('ModuleRef', $request->ModuleID[0])->first();
+             //Return score back to view in percentage
+             $score_in_percentage = ($get_exam_result / $get_course_module->QuestionLimit) * 100; 
+
+             $result_questions = ModuleExamCollation::where('tblModuleExamCollation.CourseID', $request->CourseID[0])
+             ->where('CustomerRef', $user_id)
+             ->join('tblModuleQuestion', 'tblModuleExamCollation.QuestionID', '=', 'tblModuleQuestion.ModuleQuestionRef')
+             ->select('Final_Answer', 'Answer', 'ModuleQuestionRef', 'Question', 'Answer_A', 'Answer_B', 'Answer_C', 'Answer_D')
+             ->get();
+
+             $details = [
+                'result' => $score_in_percentage,
+                'pass_mark' => (int)$get_course_module->PassMark,
+                'result_questions' => $result_questions,
+            ]; 
+
+            \DB::commit();
+            return response()->json($details)->setStatusCode(200);
+        } catch (Exception $e) {
+            \DB::rollback();
+            return response($content = 'failed', $status = 200);
+        }
+    }
+
 }
