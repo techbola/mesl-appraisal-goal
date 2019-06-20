@@ -84,7 +84,7 @@ class ComplaintController extends Controller
             // dd($request->current_queue);
             $complaint->notify_flag   = true; // flag complaint as sent [denotes that process has started]
             $complaint->current_queue = $request->current_queue; // department that sees it next
-            $staff                    = Staff::whereIn('DepartmentID', [$complaint->current_queue])->get();
+            $staff                    = Staff::whereIn('DepartmentID', [$request->current_queue])->get();
 
             $complaint->save();
 
