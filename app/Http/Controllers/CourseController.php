@@ -1180,4 +1180,33 @@ class CourseController extends Controller
         }
     }
 
+     public function get_course_module_details($ref)
+    {
+        $details = CourseModule::where('CourseID', $ref)->get();
+        return response()->json($details)->setStatusCode(200);
+    }
+
+    public function get_all_course_module_details($ref)
+    {
+        $details = CourseModule::where('ModuleRef', $ref)->first();
+        return response()->json($details)->setStatusCode(200);
+    }
+
+    public function course_module_criteria_submission(Request $request, $ref)
+    {
+        try {
+              \DB::beginTransaction();
+                $get_record = CourseModule::where('ModuleRef', $ref)->first();
+                $update_details = $get_record->update($request->except(['_token', '_method']));
+                if($update_details)
+                {
+                    $details = CourseModule::where('CourseID', $get_record->CourseID)->get();
+                }
+              \DB::commit();
+                    return response()->json($details)->setStatusCode(200);
+          } catch (Exception $e) {
+               \DB::rollback();
+                    return response($content = 'failed', $status = 200);
+          }
+    }
 }

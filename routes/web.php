@@ -524,6 +524,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('submit_last_questions_answer/{ref}/{course_ref}', 'CourseController@submit_last_questions_answer');
     Route::get('show_final_result/{course_ref}', 'CourseController@show_final_result');
     Route::post('submit_course_module_results', 'CourseController@submit_course_module_results'); 
+    Route::get('get_course_module_details/{ref}', 'CourseController@get_course_module_details');
+    Route::get('get_all_course_module_details/{ref}', 'CourseController@get_all_course_module_details');
+    Route::post('course_module_criteria_submission/{ref}', 'CourseController@course_module_criteria_submission');
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
