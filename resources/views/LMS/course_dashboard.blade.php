@@ -32,9 +32,9 @@
                 <a class="btn btn-lg btn-info" data-target="#modalFillIn2" data-toggle="modal" href="#" id="new_course">
                     Add New Course
                 </a>
-                <a class="btn btn-lg btn-success" data-target="#modalFillIn2" data-toggle="modal" href="#" id="new_Instructor">
+                {{-- <a class="btn btn-lg btn-success" data-target="#modalFillIn2" data-toggle="modal" href="#" id="new_Instructor">
                     Add New Instructor
-                </a>
+                </a> --}}
                 <a class="btn btn-lg btn-primary" data-target="#modalFillIn2" data-toggle="modal" href="#" id="new_batch">
                     Add New Batch
                 </a>
@@ -92,7 +92,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                  {{--       <div class="col-md-12">
                             <div class="card-box">
                                 <div class="inline m-r-10 m-t-10" style="vertical-align:top">
                                     <img alt="" class="icon" src="{{ asset('assets/img/icons/presentation.png') }}" style="filter: brightness(0.92);" width="60px">
@@ -114,7 +114,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-12">
                             <div class="card-box">
                                 <div class="inline m-r-10 m-t-10" style="vertical-align:top">
@@ -176,6 +176,7 @@
                                         Add Course Material
                                     </a>
                                 </div>
+                                <div class="table-responsive">
                                 <table class="table-hover table">
                                     <thead>
                                         <th>
@@ -191,6 +192,7 @@
                                     <tbody id="course_body">
                                     </tbody>
                                 </table>
+                            </div>
                             </div>
                             <div class="hide" id="instructor_table">
                                 <table class="table-hover table">
@@ -352,6 +354,75 @@
     </div>
     <!-- Modal -->
 </div>
+
+
+<!--Module Course Setup-->
+<div class="page-content-wrapper ">
+    <div class="content ">
+        <!-- Modal -->
+        <div aria-hidden="true" class="modal fade fill-in" id="CourseModuleSetdiv" role="dialog" >
+            <button aria-hidden="true" class="close" data-dismiss="modal" type="button"><i class="pg-close" style="color: #fff"></i>
+            </button>
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                        <div class="row" style="background: #fff; padding: 20px">
+                            <h5 style="font-weight: bold !important">
+                                Course Module Setup
+                            </h5><hr>   
+                            <div class="hide" id="course_module_criteria_div" style="background: #eee; padding: 20px">
+
+                                {{ Form::open(['id'=>'edit_course_module_criteria','autocomplete' => 'off', 'role' => 'form']) }}
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                {{ Form::label('ModuleID', 'Module' ) }}
+                                                <input type="text" name="Module" id="e_module" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                {{ Form::label('limit', 'Question Limit' ) }}
+                                                <input type="text" name="QuestionLimit" id="e_limit" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                {{ Form::label('ModuleID', 'Pass Mark' ) }}
+                                                <input type="text" name="PassMark" id="e_mark" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="e_id">
+                                    <div class="col-md-4 pull-right">
+                                    <button type="submit" class="btn btn-block btn-xs btn-success" id="course_criteria_button">Update</button>
+                                </div><div class="clearfix"></div>
+                                {{ Form::close() }}
+                            </div><br>
+
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Course Modules</th>
+                                        <th>Question Limit</th>
+                                        <th>Pass Mark</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="set_module_criteria_body">
+                                </tbody>
+                            </table>
+                        </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- Modal -->
+</div>
+
 
 <!--Delete Course -->
 <div class="page-content-wrapper ">
@@ -796,6 +867,7 @@
                              $('#course_body').append(`
                               <tr>
                                 <td>${val.courses_name} <span style="color:blue; font-weight:bold; font-size:12px">${val.course_code}</span></td>
+                                <td><a href="#" onclick="set_module(${val.course_ref})" data-target="CourseModuleSetdiv" data-toggle="modal" class="btn-xs btn btn-info"><span>CourseModule Setup</span></a></td>
                                 <td><a href="#" onclick="module_question(${val.course_ref})" data-target="module_questionaire" data-toggle="modal" class="btn-xs btn btn-primary"><span>Add Module Test</span></a></td>
                                 <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add Final Test</span></a></td>
                                 <td><a href="#" onclick="view_course_test(${val.course_ref})" data-target="#view_modal_course" data-toggle="modal" class="btn-xs btn btn-success"><span>View</span></a></td>
@@ -826,6 +898,7 @@
                $('#course_body').append(`
                 <tr>
                   <td>${val.courses_name} <span style="color:blue; font-weight:bold; font-size:12px">${val.course_code}</span></td>
+                  <td><a href="#" onclick="set_module(${val.course_ref})" data-target="CourseModuleSetdiv" data-toggle="modal" class="btn-xs btn btn-info"><span>Course Module Setup</span></a></td>
                   <td><a href="#" onclick="module_question(${val.course_ref})" data-target="#module_questionaire" data-toggle="modal" class="btn-xs btn btn-primary"><span>Add Module Test</span></a></td>
                   <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add Final Test</span></a></td>
                   <td><a href="#" onclick="view_course_test(${val.course_ref})" data-target="#view_modal_course" data-toggle="modal" class="btn-xs btn btn-success"><span>View</span></a></td>
@@ -1205,6 +1278,7 @@
                $('#course_body').append(`
                 <tr>
                    <td>${val.courses_name} <span style="color:blue; font-weight:bold; font-size:12px">${val.course_code}</span></td>
+                   <td><a href="#" onclick="set_module(${val.course_ref})" data-target="CourseModuleSetdiv" data-toggle="modal" class="btn-xs btn btn-info"><span>CourseModule Setup</span></a></td>
                   <td><a href="#" onclick="module_question(${val.course_ref})" data-target="#module_questionaire" data-toggle="modal" class="btn-xs btn btn-primary"><span>Add Module Test</span></a></td>
                   <td><a href="#" onclick="new_question(${val.course_ref}, '${val.courses_name}')" data-target="#questionaire" data-toggle="modal" class="btn-xs btn btn-warning"><span>Add Final Test</span></a></td>
                   <td><a href="#" onclick="view_course_test(${val.course_ref})" data-target="#view_modal_course" data-toggle="modal" class="btn-xs btn btn-success"><span>View</span></a></td>
@@ -1319,6 +1393,77 @@
     {
         $('#delete_course_material_id').val(id);
     }
+
+    function set_module(ref)
+        {
+            $.get('/get_course_module_details/'+ref, function(data) {
+                $('#set_module_criteria_body').html(' ');
+                $.each(data, function(index, val) {
+                     $('#set_module_criteria_body').append(`
+                        <tr>
+                        <td>${val.Module}</td>
+                        <td>${val.QuestionLimit}</td>
+                        <td>${val.PassMark}</td>
+                        <td><a href="#" onclick=get_course_module_criteria(${val.ModuleRef})>Edit</a></td>
+                        </tr>
+                    `);
+                });
+
+                $('#CourseModuleSetdiv').modal();
+           
+            });
+        }
+
+        function get_course_module_criteria(ref)
+        {
+            $.get('/get_all_course_module_details/'+ref, function(data) {
+                $('#CourseModuleSetdiv #e_id').val(data.ModuleRef);
+                $('#CourseModuleSetdiv #e_mark').val(data.PassMark);
+                $('#CourseModuleSetdiv #e_limit').val(data.QuestionLimit);
+                $('#CourseModuleSetdiv #e_module').val(data.Module)
+            });
+            $('#course_module_criteria_div').removeClass('hide');
+        }
+
+         $('#course_criteria_button').click(function(event) {
+            event.preventDefault();
+            var ref = $('#CourseModuleSetdiv #e_id').val();
+             var button = $('#course_criteria_button');
+               $.ajax({
+                    url: '/course_module_criteria_submission/'+ref,
+                    type: 'POST',
+                    data: $('#edit_course_module_criteria').serialize(),
+                    beforeSend: function() {
+                        console.log('loading...');
+                        button.attr('disabled', 'disabled');
+                        button.html('<p><i style="font-size: 16px" class="fa fa-circle-o-notch fa-spin"></i> Updating...</p>');
+                    }
+                })
+                .done(function(data, status) {
+                    $('#set_module_criteria_body').html(' ');
+                        $.each(data, function(index, val) {
+                             $('#set_module_criteria_body').append(`
+                                <tr>
+                                <td>${val.Module}</td>
+                                <td>${val.QuestionLimit}</td>
+                                <td>${val.PassMark}</td>
+                                <td><a href="#" onclick=get_course_module_criteria(${val.ModuleRef})>Edit</a></td>
+                                </tr>
+                            `);
+                        });
+                   
+                   $("#edit_course_module_criteria")[0].reset();
+                   $('#course_module_criteria_div').addClass('hide');
+                   alertify.success('Course Module Updated Successfully');
+                })
+                .fail(function() {
+                    alertify.success('Course Module Cannot be Updated.');
+                 })
+                .always(function() {
+                    button.removeAttr('disabled');
+                    button.text("Update");
+                });
+        });
 
 
 </script>
