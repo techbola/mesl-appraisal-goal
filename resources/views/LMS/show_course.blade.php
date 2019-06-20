@@ -81,7 +81,7 @@
                                                     </p>
                                                     @endforeach
 
-                          @if(count($course->module_question) > 0)
+                                                  @if(count($course->module_question) > 0)
                                                     <span class="pull-right">
                                                         <a class="btn-success btn-sm btn" href="#" onclick="get_module_question({{ $course->ModuleRef }})" title="">
                                                             Module Test
@@ -222,7 +222,7 @@
                 <div id="module_question_main" style="padding:40px">
                 </div>
                 <div>
-                    <button class="btn btn-success btn-lg pull-right" id="module_next_question" type="submit">
+                    <button class="btn btn-success btn-lg pull-right" id="submit_course_module_form" type="submit">
                         Submit Module Test
                     </button>
                 </div>
@@ -564,6 +564,7 @@
                       $('#exam_review').addClass('hide'); 
                       $('#examination').addClass('hide');
                       $('#module_examination_questions').removeClass('hide');
+                      $('#module_question_main').html(' ');
                   $.get('/get_course_module_questions/'+id+"/"+ref, function(data) {
                     var id = 1;
                       $.each(data, function(index, val) {
@@ -591,6 +592,8 @@
                               </p>
                             </div>
                             <input type="hidden" value="${val.ModuleQuestionRef}" name="QuestionID[${index}]">
+                            <input type="hidden" value="${val.CourseID}" name="CourseID[${index}]">
+                            <input type="hidden" value="${val.ModuleID}" name="ModuleID[${index}]">
                             <hr>
                         `);
                       });
@@ -598,37 +601,88 @@
               }
           }
 
-          $('#module_next_question').click(function(event) {
-            event.preventDefault();
-             var button = $('#module_next_question');
-                    $.ajax({
-                      url: '/post_module_examination/',
-                      type: 'POST',
-                      data: $('#module_test_form').serialize(),
-                      beforeSend: function(){
+          $('#submit_course_module_form').click(function(event) {
+           event.preventDefault();
+                var button = $('#submit_course_module_form');
+               $.ajax({
+                    url: '/submit_course_module_results',
+                    type: 'POST',
+                    data: $('#module_test_form').serialize(),
+                    beforeSend: function() {
+                        console.log('loading...');
                         button.attr('disabled', 'disabled');
-                        button.html('<p><i style="font-size: 16px" class="fa fa-circle-o-notch fa-spin"></i> Processing next question and compiling result ...</p>');
+                        button.html('<p><i style="font-size: 16px" class="fa fa-circle-o-notch fa-spin"></i> Processing result...</p>');
                     }
-                    })
-                    .done(function(data, status) {
-                     
-                    })
-                    .fail(function() {
-                    })
-                    .always(function() {
-                       button.removeAttr('disabled');
-                       button.text("Submit Module Test");
-                       });
+                })
+                .done(function(data, status) {
+                    var id = 1;
+                 $('#module_question_main').html(' ');
+                  $.each(data.result_questions, function(index, val) {
+                    var ans = val.Final_Answer;
+                    var user_ans = val.Answer;
+                      if(val.Final_Answer != val.Answer)
+                        {
+                            var users_response = `You Choose : ${val.Answer}` ;
+                            var res = `Correct Answer : ${val.Final_Answer}` ;
+                        }else{
+                           var users_response = "";
+                           var res = "";
+                        }
+
+                         if(val.Final_Answer === val.Answer)
+                        {
+                            var correct = `You were correct : ${val.Answer}` ;
+                        }else{
+                           var correct = "";
+
+                        }
+
+                      $('#module_question_main').append(`
+                        <span style="font-weight : 700"> Question :  ${id++}</span><br>
+                        <p style="font-weight: 600">${val.Question}</p><br>
+
+                        <span style="font-weight : 700"> Answer : </span><br>
+                        <div>
+                          <p id="A_${val.ModuleQuestionRef}">
+                            A : ${val.Answer_A}
+                          </p>
+                          <p id="B_${val.ModuleQuestionRef}">
+                            B : ${val.Answer_B}
+                          </p>
+                          <p id="C_${val.ModuleQuestionRef}">
+                            C : ${val.Answer_C}
+                          </p>
+                          <p id="D_${val.ModuleQuestionRef}">
+                            D : ${val.Answer_D}
+                          </p>
+                          <p class="text-success" style="font-weight :900">${correct} </p>
+                          <p class="text-danger" style="font-weight :900">
+                          ${users_response} <br> <span class="text-success" style="font-weight :900">${res}</span>
+                           </p>
+                        </div>
+                        <hr>
+                    `);
+                });
+
+                   button.removeAttr('disabled');
+                    button.text("Submit");
+                   $('#submit_course_module_form').addClass('hide');
+                })
+                .fail(function() {
+                    alert('Cnnot Process Result');
+                    button.removeAttr('disabled');
+                    button.text("Submit");
+                 });
           });
 
           
 
-        var progress_status = prog_count()
-        $('.prog').change(function(e){
-            progress_status = prog_count - 1
-        });
+        // var progress_status = prog_count()
+        // $('.prog').change(function(e){
+        //     progress_status = prog_count - 1
+        // });
 
-        var checked_boxes = $('input:prog:checked').length;
+        // var checked_boxes = $('input:prog:checked').length;
 </script>
 <script>
     function timer(current_date)

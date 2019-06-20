@@ -670,6 +670,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_status_questions/{ref}/{course_ref}', 'CourseController@get_status_questions');
     Route::post('submit_last_questions_answer/{ref}/{course_ref}', 'CourseController@submit_last_questions_answer');
     Route::get('show_final_result/{course_ref}', 'CourseController@show_final_result');
+    Route::post('submit_course_module_results', 'CourseController@submit_course_module_results'); 
 
     // From vce
     Route::get('cash_entries/payments', 'CashEntryController@Payments')->name('Payments');
