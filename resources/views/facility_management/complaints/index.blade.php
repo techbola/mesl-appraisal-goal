@@ -59,6 +59,10 @@
                         @else
                         <a href="{{ route('facility-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm disabled ">Edit </a>
                         <a href="{{ route('facility-management.send-complaints')}}" class="btn btn-sm disabled m-r-5" data-toggle="tooltip" title="">Sent </a>
+                        <a href="#" data-toggle="modal" data-target="#comment" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-info m-r-5 m-t-5" data-toggle="tooltip" title="">Comment</a>
+                        <a class="btn" href="{{ route('facility-management.view-comments', ['id' => $comp->id]) }}">
+                          View Discussions
+                        </a>
                         @endif
                      </td>
                    </tr>
@@ -104,6 +108,9 @@
                       @if(in_array($comp->current_queue, $depts))
                          <a href="#" data-toggle="modal" data-target="#send_to" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-inverse m-r-5" data-toggle="tooltip" title="">Send To <i style="margin-left: 7px" class="m-l-10 fa fa-chevron-right"></i></a>
                       @endif
+                      <a class="btn" href="{{ route('facility-management.view-comments', ['id' => $comp->id]) }}">
+                          View Discussions
+                      </a>
                       <a href="#" data-toggle="modal" data-target="#comment" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-info m-r-5 m-t-5" data-toggle="tooltip" title="">Comment</a>
                       @endif
                    </td>
