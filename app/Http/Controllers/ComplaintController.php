@@ -209,7 +209,7 @@ class ComplaintController extends Controller
     public function update(Request $request, $id)
     {
         $complaint                = Complaint::find($id);
-        $complaint->current_queue = 14;
+        $complaint->current_queue = !empty($complaint->current_queue) ? $complaint->current_queue : '';
         $complaint->location_id   = auth()->user()->staff->location->LocationRef ?? 1;
         if ($complaint->update($request->all())) {
             return redirect()->route('facility-management.complaints.edit', ['id' => $id])->with('success', 'Complaint was updated successfully');
@@ -223,4 +223,5 @@ class ComplaintController extends Controller
         $locations = Location::all();
         return view('facility_management.complaints.create2', compact('locations', 'clients', 'client'));
     }
+
 }
