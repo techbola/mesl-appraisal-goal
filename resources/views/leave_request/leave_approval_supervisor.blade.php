@@ -53,6 +53,7 @@
             <th>Request Date</th>
             <th>Start Date</th>
             <th>End Date</th>
+            <th>Relief Officer</th>
             <th >Leave Days</th>
             <th>File(s)</th>
             <th>HandOver Notes</th>
@@ -72,6 +73,7 @@
                 <td style="background: #fba1a0">{{nice_date($leave_request->EntryDate)}}</td>
                 <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                 <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
+                <td>{{ $leave_request->relief_officer ?? '-'  }}</td>
                 <td style="background: #fba1a0">{{$leave_request->NumberofDays}}</td>
                 <td>
                   @if(!is_null($leave_request->HandOverNote))
@@ -106,6 +108,7 @@
                 <td>{{nice_date($leave_request->EntryDate)}}</td>
                 <td>{{$leave_request->StartDate}}</td>
                 <td>{{$leave_request->ReturnDate}}</td>
+                <td>{{ $leave_request->relief_officer ?? '-'  }}</td>
                 <td>{{$leave_request->NumberofDays}}days </td>
                 <td>
                   @if(!is_null($leave_request->HandOverNote))

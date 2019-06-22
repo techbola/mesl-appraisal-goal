@@ -1666,7 +1666,7 @@ Route::get('edit_policy/{id}', 'SetupController@edit_policy')->name('edit_policy
 Route::post('update_policy', 'SetupController@update_policy')->name('UpdatePolicy');
 Route::get('setup/policy/{id}', 'SetupController@delete_policy')->name('delete_policy');
 
-Route::get('setup/leave_days', 'SetupController@leave_days');
+// Route::get('setup/leave_days', 'SetupController@leave_days');
 Route::post('setup/leave_days', 'SetupController@store_leave_days')->name('StoreLeaveDays');
 Route::get('edit_leave_days/{id}', 'SetupController@edit_leave_days')->name('edit_leave_days');
 Route::get('/get-days-by-id/{id}', 'SetupController@getDaysById');

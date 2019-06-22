@@ -64,6 +64,7 @@
                    <th >Leave Type</th>
                     <th >Start Date</th>
                     <th >End Date</th>
+                    <th>Relief Officer</th>
                     <th >Leave Days</th>
                     <th>Files(s)</th>
                     <th >Awaiting Approval</th>
@@ -76,6 +77,7 @@
                 <td>{{$leave_request->leave_type->LeaveType}}</td>
                 <td>{{$leave_request->StartDate}}</td>
                 <td>{{$leave_request->ReturnDate}}</td>
+                <td>{{ $leave_request->relief_officer->fullName  }}</td>
                 <td>{{$leave_request->NumberofDays}}</td>
                 <td>
                   @if(!is_null($leave_request->HandOverNote))
@@ -139,6 +141,7 @@
                <th >Leave Type</th>
             <th >Start Date</th>
             <th >End Date</th>
+            <th>Relief Officer</th>
             <th >Leave Days</th>
             <th>Files(s)</th>
             <th >Awaiting Approval</th>
@@ -150,6 +153,7 @@
                 <td>{{$leave_request->leave_type->LeaveType}}</td>
                 <td>{{$leave_request->StartDate}}</td>
                 <td>{{$leave_request->ReturnDate}}</td>
+                <td>{{ $leave_request->relief_officer->fullName  }}</td>
                 <td>{{$leave_request->NumberofDays}}</td>
                 <td>
                   @if(!is_null($leave_request->HandOverNote))
