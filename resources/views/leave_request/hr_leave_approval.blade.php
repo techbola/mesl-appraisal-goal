@@ -60,13 +60,14 @@
             {{ Form::open(['action' => 'LeaveRequestController@approve_leave_request_hr', 'autocomplete' => 'off', 'role' => 'form']) }}
             {{-- <p><input type="submit" name="approve" class="btn btn-sm btn-primary" value="Approve">  <input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject"></p> --}}
             <p style="color : red" class="hide">Note : Leave Request highlighted in red are within the company restricted leave days</p>
-            <table class="table tableWithSearch table-bordered">
+            <table class="table tableWithSearch nowrap table-bordered">
               <thead>
                 <th width="10%">Action</th>
                 <th width="10%">Requester</th>
                 <th width="10%">Leave Type</th>
                 <th width="10%">Start Date</th>
                 <th width="10%">End Date</th>
+                <th>Relief Officer</th>
                 <th width="10%">Leave Days</th>
                 <th width="10%">File(s)</th>
                 <th width="10%">Allowance</th>
@@ -87,6 +88,7 @@
                     <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                     <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                     <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
+                    <td>{{ $leave_request->relief_officer ?? '-'  }}</td>
                     <td style="background: #fba1a0">{{$leave_request->NumberofDays}} </td>
                     <td>
                       @if(!is_null($leave_request->HandOverNote))
@@ -109,6 +111,7 @@
                     <td>{{$leave_request->LeaveType}}</td>
                     <td>{{$leave_request->StartDate}}</td>
                     <td>{{$leave_request->ReturnDate}}</td>
+                    <td>{{ $leave_request->relief_officer ?? '-'  }}</td>
                     <td>{{$leave_request->NumberofDays}}days</td>
                     </td>
                     <td>
@@ -144,13 +147,14 @@
             {{ Form::open(['action' => 'LeaveRequestController@approve_leave_request_hr', 'autocomplete' => 'off', 'role' => 'form']) }}
               <p><input type="submit" name="approve" class="btn btn-sm btn-primary" value="Approve">  <input type="submit" name="reject" class="btn btn-sm btn-danger" value="Reject"></p>
               <p style="color : red" class="hide">Note : Leave Request highlighted in red are within the company restricted leave days</p>
-              <table class="table tableWithSearch table-bordered">
+              <table class="table tableWithSearch nowrap table-bordered">
                 <thead>
                   <th width="10%">Action</th>
                   <th width="10%">Requester</th>
                   <th width="10%">Leave Type</th>
                   <th width="10%">Start Date</th>
                   <th width="10%">End Date</th>
+                  <th>Relief Officer</th>
                   <th width="10%">Leave Days</th>
                   <th width="10%">File(s)</th>
                   <th width="10%">Allowance</th>
@@ -171,6 +175,7 @@
                       <td style="background: #fba1a0">{{$leave_request->LeaveType}}</td>
                       <td style="background: #fba1a0">{{$leave_request->StartDate}}</td>
                       <td style="background: #fba1a0">{{$leave_request->ReturnDate}}</td>
+                      <td>{{ $leave_request->relief_officer ?? '-' }}</td>
                       <td style="background: #fba1a0">{{$leave_request->NumberofDays}} </td>
                       <td>
                         @if(!is_null($leave_request->HandOverNote))
@@ -194,6 +199,7 @@
                       <td>{{$leave_request->LeaveType}}</td>
                       <td>{{$leave_request->StartDate}}</td>
                       <td>{{$leave_request->ReturnDate}}</td>
+                      <td>{{ $leave_request->relief_officer ?? '-' }}</td>
                       <td>{{$leave_request->NumberofDays}}days</td>
                       </td>
                       <td>

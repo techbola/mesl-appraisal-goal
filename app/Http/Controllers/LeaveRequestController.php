@@ -133,8 +133,9 @@ class LeaveRequestController extends Controller
 
                 ;
             });
-            $item->handovers = HandOverNote::where('LeaveRequestID', $item->LeaveReqRef)->get();
-            $item->status    = $events->count();
+            $item->relief_officer = User::find($item->ReliefOfficerID)->fullName;
+            $item->handovers      = HandOverNote::where('LeaveRequestID', $item->LeaveReqRef)->get();
+            $item->status         = $events->count();
             return $item;
         });
         $staff = Staff::all()
@@ -217,7 +218,8 @@ class LeaveRequestController extends Controller
 
                 ;
             });
-            $item->status = $events->count();
+            $item->relief_officer = User::find($item->ReliefOfficerID)->fullName;
+            $item->status         = $events->count();
             return $item;
         });
         return view('leave_request.hr_leave_approval', compact('leave_requests', 'leave_check'));
@@ -525,13 +527,13 @@ class LeaveRequestController extends Controller
                                 ]);
 
                             $leave_req_ref   = LeaveRequest::find($Ref);
-                            $leave_requester = User::find($leave_req_ref->StaffID)->first();
+                            $leave_requester = User::find($trans->StaffID);
                             // dd($leave_requester->first()->email);
 
                             $name  = User::find($trans->StaffID);
                             $email = $leave_requester->email;
 
-                            Mail::to($email)->send(new FinalHRLeaveConfirmation($name));
+                            Mail::to($name->email)->send(new FinalHRLeaveConfirmation($name));
                             // relief officer
                             if (!is_null($trans->ReliefOfficerID)) {
                                 $relief_officer_email = User::find($leave_req_ref->ReliefOfficerID)->email;
