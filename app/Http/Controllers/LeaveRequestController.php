@@ -85,12 +85,15 @@ class LeaveRequestController extends Controller
         $department     = Department::all()->sortBy('Department');
         $leavedays      = Staff::where('UserID', $id)->first();
         $staff          = Staff::where('CompanyID', $user->CompanyID)
-
             ->where('DepartmentID', $user->staff->DepartmentID)
             ->where('UserID', '<>', $user->id)
 
             ->get()
             ->sortBy('FullName');
+        if (auth()->user()->hasRole('Executive Director')) {
+            $staff = Staff::where('CompanyID', $user->CompanyID)
+                ->where('UserID', 49)->get();
+        }
 
         $leave_used = \DB::table('tblLeaveTransaction')
             ->where('StaffID', $id)
