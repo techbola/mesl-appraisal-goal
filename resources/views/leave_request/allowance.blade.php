@@ -66,7 +66,7 @@
               <td>{{  $row->leave_type->LeaveType  }}</td>
               <td>{{  $row->StartDate  }}</td>
               <td>{{  $row->ReturnDate  }}</td>
-              <td>{{  $row->relief_officer->fullName  }}</td>
+              <td>{{  $row->relief_officer->fullName ?? '-'  }}</td>
               <td>{{  $row->NumberofDays  }}</td>
             </tr>
           @endforeach
