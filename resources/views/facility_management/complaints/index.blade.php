@@ -88,7 +88,8 @@
                   <th>Actions</th>
                 </thead>
                 <tbody>
-                @if(auth()->user()->staff->ComplaintRecipientFlag == 1)
+                {{-- @if(auth()->user()->staff->ComplaintRecipientFlag == 1) --}}
+                @if(1+1 == 2)
                  @foreach($complaint_sent_to_dept as $comp)
                  @if(!$comp->resolved_flag)
                  <tr>
@@ -136,6 +137,7 @@
             <table class="table tableWithSearch">
                 <thead>
                   <th>Recipient's Department</th>
+                  <th>Sender</th>
                   <th>Category</th>
                   <th>Location</th>
                   <th>Complaints</th>
@@ -145,6 +147,7 @@
                  @foreach($complaint_inbox as $comp)
                  <tr>
                    <td>{{ $comp->user->staff->department->Department ?? '-' }}</td>
+                    <td>{{ $comp->user->fullName }}</td>
                    <td>{{ $comp->category->name }}</td>
                    <td>{{ $comp->location->Location }}</td>
                    <td>{!! $comp->complaints !!}</td>
