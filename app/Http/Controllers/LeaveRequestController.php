@@ -656,25 +656,27 @@ class LeaveRequestController extends Controller
                 $start_date     = $request->StartDate;
                 $converted_date = (int) $request->NumberofDays;
                 // $drpartment                  = (int) $request->
-                $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
-                $leave_request               = new LeaveRequest($request->except(['Task', 'HonCompletionDate', 'Description']));
-                $leave_request->ReturnDate   = $completion_Date;
-                $filenamewithextension       = $request->file('HandOverNote')->getClientOriginalName();
-                $filename                    = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-                $extension                   = $request->file('HandOverNote')->getClientOriginalExtension();
-                $filenametostore             = str_slug($filename) . time() . '.' . $extension;
-                $saveFile                    = $request->file('HandOverNote')->storeAs('public/leave_document', $filenametostore);
-                $leave_request->HandOverNote = $filenametostore;
-                $leave_request->ReturnDate   = $request->ReturnDate;
-                $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
+                $completion_Date               = Carbon::parse($start_date)->addDays($converted_date);
+                $leave_request                 = new LeaveRequest($request->except(['Task', 'HonCompletionDate', 'Description']));
+                $leave_request->ReturnDate     = $completion_Date;
+                $filenamewithextension         = $request->file('HandOverNote')->getClientOriginalName();
+                $filename                      = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+                $extension                     = $request->file('HandOverNote')->getClientOriginalExtension();
+                $filenametostore               = str_slug($filename) . time() . '.' . $extension;
+                $saveFile                      = $request->file('HandOverNote')->storeAs('public/leave_document', $filenametostore);
+                $leave_request->HandOverNote   = $filenametostore;
+                $leave_request->ReturnDate     = $request->ReturnDate;
+                $leave_request->SupervisorID   = auth()->user()->staff->SupervisorID;
+                $leave_request->LeaveAllowance = $request->LeaveAllowance;
                 $leave_request->save();
             } else {
-                $start_date                  = $request->StartDate;
-                $converted_date              = (int) $request->NumberofDays;
-                $completion_Date             = Carbon::parse($start_date)->addDays($converted_date);
-                $leave_request               = new LeaveRequest($request->except(['Task', 'HonCompletionDate', 'Description']));
-                $leave_request->SupervisorID = auth()->user()->staff->SupervisorID;
-                $leave_request->ReturnDate   = $request->ReturnDate;
+                $start_date                    = $request->StartDate;
+                $converted_date                = (int) $request->NumberofDays;
+                $completion_Date               = Carbon::parse($start_date)->addDays($converted_date);
+                $leave_request                 = new LeaveRequest($request->except(['Task', 'HonCompletionDate', 'Description']));
+                $leave_request->SupervisorID   = auth()->user()->staff->SupervisorID;
+                $leave_request->LeaveAllowance = $request->LeaveAllowance;
+                $leave_request->ReturnDate     = $request->ReturnDate;
 
                 $leave_request->save();
             }
@@ -958,4 +960,22 @@ class LeaveRequestController extends Controller
         }
         return view('leave_request.view_handover', compact('handover_notes'));
     }
+
+    public function leave_with_pay()
+    {
+
+        if (!empty($_GET['from'])) {
+            $from = $_GET['from'];
+        }
+
+        if (!empty($_GET['to'])) {
+            $to = $_GET['to'];
+        }
+
+        $leaves = LeaveRequest::leave_with_pay($from, $to);
+
+        // dd($leaves);
+        return view('leave_request.allowance', compact('leaves', 'from', 'to'));
+    }
+
 }

@@ -216,10 +216,12 @@ class LeaveResumptionController extends Controller
     public function departmentSupervisor(Request $request)
     {
         // body
-        $staff      = Staff::where("UserID", $request->staff_id)->first();
-        // return response()->json($staff,200);
-        $supervisor = Staff::where(["DepartmentID"=> $staff->DepartmentID, 'SupervisorFlag' => 1])->first();
-        $department = Department::where("DepartmentRef", $staff->DepartmentID)->first();
+        $staff = User::find($request->staff_id);
+        // $staff->
+
+        $supervisor = $staff->staff->supervisor;
+        // return response()->json($supervisor, 200);
+        $department = Department::where("DepartmentRef", $staff->staff->DepartmentID)->first();
         if ($department == null) {
             $data = [
                 'status'  => 'error',
@@ -229,8 +231,8 @@ class LeaveResumptionController extends Controller
             if ($supervisor !== null) {
                 $user = User::where("id", $supervisor->UserID)->first();
                 $data = [
-                    'id'              => $supervisor->SupervisorID,
-                    'text'            => $staff->supervisor->fullName,
+                    'id'              => $supervisor->StaffRef,
+                    'text'            => $staff->staff->supervisor->fullName,
                     'department_id'   => $department->DepartmentRef,
                     'department_name' => $department->Department,
                 ];

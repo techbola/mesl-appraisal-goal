@@ -61,7 +61,7 @@
             <div class="card-box ">
                 <table class="table tableWithSearch">
                   <thead>
-                   <th >Leave Type</th>
+                    <th >Leave Type</th>
                     <th >Start Date</th>
                     <th >End Date</th>
                     <th>Relief Officer</th>
