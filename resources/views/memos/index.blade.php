@@ -43,6 +43,7 @@
                     <th width="30%">Purpose</th>
                     <th width="">Body</th>
                     <th width="">Date</th>
+                    <th width="">Comment</th>
                     <th>Status</th>
                     <th>Actions</th>
 
@@ -59,6 +60,7 @@
                           &nbsp; {{-- <a href="{{ route('download-attachment', ['id' => $memo->id ]) }}"><span class="btn btn-xs btn-rounded download-wrapper"><img src="{{ asset('images/download.svg') }}" alt=""></span></td></a> --}}
                         </td>
                         <td>{{ $memo->created_at->toDateTimeString() }}</td>
+                        <th>{!! $memo->ApproverComment !!}</th>
                         <td>
                             @if($memo->status() === true) <!-- approved -->
                                 <label class="badge badge-success">Approved</label>
@@ -136,11 +138,12 @@
 
           
           <div class="card-box">
-            <table class="table tableWithSearch nowrap">
+            <table class="table tableWithSearch ">
               <thead>
-                <th >Subject</th>
-                <th width="30%">Purpose</th>
-                <th>Body</th>
+                <th width="">Subject</th>
+                <th width="">Initiator</th>
+                    <th width="30%">Purpose</th>
+                    <th width="">Body</th>
                 <th>Date</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -150,6 +153,7 @@
                 @foreach ($memo_inbox as $memo)
                   <tr>
                     <td>{{ $memo->subject }}</td>
+                    <td>{{ $memo->initiator->fullName ?? '-' }}</td>
                     <td>{{ $memo->purpose }}</td>
                     <td>
                      <p class="m-b-5" style="display: inline-block;">{{ str_limit(strip_tags($memo->body), 50, '...') }}</p> <br>
