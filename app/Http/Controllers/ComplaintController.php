@@ -47,7 +47,9 @@ class ComplaintController extends Controller
         $my_departments = Department::whereIn('DepartmentRef', $depts)->get();
         // $recipient_dept =  Department::find();
         $complaint_sent_to_dept = Complaint::whereIn('current_queue', $depts)
-            ->where('notify_flag', 1)->get();
+            ->where('notify_flag', 1)->where('resolved_flag', '<>', 1)->get();
+
+        $complaint_inbox = Complaint::where('resolved_flag', 1)->get();
 
         $complaint_discussions = Complaint::whereIn('current_queue', $depts)->get();
 
@@ -66,7 +68,7 @@ class ComplaintController extends Controller
             ],
         ]);
 
-        return view('facility_management.complaints.index', compact('locations', 'clients', '_depts', 'depts', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept', 'complaint_status'));
+        return view('facility_management.complaints.index', compact('locations', 'clients', '_depts', 'depts', 'complaints', 'departments', 'comments', 'complaint_sent_to_dept', 'complaint_status', 'complaint_inbox'));
     }
 
     public function create()
@@ -170,6 +172,11 @@ class ComplaintController extends Controller
             $comment->queue_sender_id = auth()->user()->staff->DepartmentID ?? 1; //dept_id
 
             if ($comment->save()) {
+
+                if ($request->complaint_status_id == 3) {
+                    $comment->complaint->resolved_flag = 1;
+                    $comment->complaint->save();
+                }
                 // attachment_upload
                 if ($request->hasFile('complaint_attachment')) {
                     foreach ($request->complaint_attachment as $key => $value) {

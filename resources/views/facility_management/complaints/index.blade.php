@@ -49,7 +49,7 @@
                      <td>{{ $comp->location->Location }}</td>
                      <td>{!! $comp->complaints !!}</td>
                      <td>
-                       <span class="badge">{{ $comp->status() }}</span>
+                       <span class="badge @if($comp->resolved_flag) badge-success @endif">{{ $comp->status() }}</span>
                      </td>
                      <td class="actions" width="140">
                        @if(!$comp->sent())
@@ -59,7 +59,9 @@
                         @else
                         <a href="{{ route('facility-management.complaints.edit', ['id' => $comp->id ]) }}" class="btn btn-sm disabled ">Edit </a>
                         <a href="{{ route('facility-management.send-complaints')}}" class="btn btn-sm disabled m-r-5" data-toggle="tooltip" title="">Sent </a>
-                        <a href="#" data-toggle="modal" data-target="#comment" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-info m-r-5 m-t-5" data-toggle="tooltip" title="">Comment</a>
+                       @if(!$comp->resolved_flag)
+                         <a href="#" data-toggle="modal" data-target="#comment" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-info m-r-5 m-t-5" data-toggle="tooltip" title="">Comment</a>
+                       @endif
                         <a class="btn btn-sm btn-complete" href="{{ route('facility-management.view-comments', ['id' => $comp->id]) }}">
                           View Discussions
                         </a>
@@ -88,6 +90,7 @@
                 <tbody>
                 @if(auth()->user()->staff->ComplaintRecipientFlag == 1)
                  @foreach($complaint_sent_to_dept as $comp)
+                 @if(!$comp->resolved_flag)
                  <tr>
                    <td>{{ $comp->user->fullName }}</td>
                    <td>{{ $comp->user->staff->department->Department ?? '-' }}</td>
@@ -111,10 +114,13 @@
                       <a class="btn btn-sm btn-complete" href="{{ route('facility-management.view-comments', ['id' => $comp->id]) }}">
                           View Discussions
                       </a>
-                      <a href="#" data-toggle="modal" data-target="#comment" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-info m-r-5 m-t-5" data-toggle="tooltip" title="">Comment</a>
+                      @if(!$comp->resolved_flag)
+                         <a href="#" data-toggle="modal" data-target="#comment" data-comp-id="{{ $comp->id }}" class="putter btn btn-sm btn-info m-r-5 m-t-5" data-toggle="tooltip" title="">Comment</a>
+                       @endif
                       @endif
                    </td>
                  </tr>
+                 @endif
                  @endforeach
                  @endif
                 </tbody>
@@ -136,7 +142,7 @@
                   <th>View Comments</th>
                 </thead>
                 <tbody>
-                 @foreach($complaint_sent_to_dept as $comp)
+                 @foreach($complaint_inbox as $comp)
                  <tr>
                    <td>{{ $comp->user->staff->department->Department ?? '-' }}</td>
                    <td>{{ $comp->category->name }}</td>

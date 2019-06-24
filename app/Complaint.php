@@ -45,7 +45,7 @@ class Complaint extends Model
 
     public function status()
     {
-        if ($this->resolved_flag === true) {
+        if ($this->resolved_flag == true) {
             return 'resolved';
         } else {
             return 'pending';

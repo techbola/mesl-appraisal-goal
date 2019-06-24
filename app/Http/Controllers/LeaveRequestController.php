@@ -966,10 +966,14 @@ class LeaveRequestController extends Controller
 
         if (!empty($_GET['from'])) {
             $from = $_GET['from'];
+        } else {
+            $from = '';
         }
 
         if (!empty($_GET['to'])) {
             $to = $_GET['to'];
+        } else {
+            $to = '';
         }
 
         $leaves = LeaveRequest::leave_with_pay($from, $to);
