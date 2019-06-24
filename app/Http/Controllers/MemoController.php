@@ -26,14 +26,16 @@ class MemoController extends Controller
     public function index()
     {
         $memos            = Memo::all();
-        $my_memos         = $memos->where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 1);
+        $my_memos         = $memos->where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 1)->sortByDesc('created_at');
         $my_unsent_memos  = $memos->where('initiator_id', auth()->user()->staff->StaffRef)->where('NotifyFlag', 0);
         $unapproved_memos = Memo::where('ApproverID', auth()->user()->id)
             ->where('NotifyFlag', 1)
-            ->get();
+
+            ->get()->sortByDesc('created_at');
         $memo_inbox = $memos->where('NotifyFlag', 1)
             ->where('ApprovedFlag', 1)
             ->where('ApproverID', 0)
+            ->sortByDesc('created_at')
             ->filter(function ($value) {
                 return array_intersect($value->recipients, [auth()->user()->id]);
             });
