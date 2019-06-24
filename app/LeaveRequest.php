@@ -57,6 +57,12 @@ class LeaveRequest extends Model
         return $this->hasMany(HandOverNote::class, 'LeaveRequestID', 'LeaveReqRef');
     }
 
+    public static function leave_with_pay($from, $to)
+    {
+        return LeaveRequest::where('LeaveAllowance', 'With Pay')
+            ->whereBetween('StartDate', [$from, $to])->get();
+    }
+
     public function current_approver()
     {
         $approver_id = $this->ApproverID;

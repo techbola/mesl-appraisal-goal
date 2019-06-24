@@ -742,6 +742,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/trial-balance', 'ReportController@trial_balance')->name('trial_balance2');
     Route::get('reports/trial-balance2', 'ReportController@trial_balance2')->name('trial_balance');
     Route::get('reports/trial-balance3', 'ReportController@trial_balance3')->name('trial_balance3');
+
     Route::get('reports/profit-loss', 'ReportController@profit_loss')->name('profit_loss');
     Route::get('reports/profit-loss2', 'ReportController@profit_loss2')->name('profit_loss2');
     Route::get('reports/profit-loss3', 'ReportController@profit_loss3')->name('profit_loss3');
@@ -750,6 +751,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reports/cash-flow', 'ReportController@cash_flow')->name('cash_flow');
     Route::get('reports/outstanding-bills', 'ReportController@outstanding_bills')->name('outstanding_bills');
     Route::get('reports/outstanding-vendor-bills', 'ReportController@outstanding_vendor_bills')->name('outstanding_vendor_bills');
+    Route::get('reports/leave-allowance', 'LeaveRequestController@leave_with_pay')->name('leave_with_pay');
 
     // MD's Reports
     Route::prefix('reports/management')->group(function () {
