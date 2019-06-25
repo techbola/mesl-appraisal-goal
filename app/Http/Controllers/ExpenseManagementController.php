@@ -158,7 +158,7 @@ class ExpenseManagementController extends Controller
 
     public function approver_show($id)
     {
-        $expense = ExpenseManagement::where('ExpenseManagementRef', $id)->with('expense_comments')->get();
+        $expense = ExpenseManagement::where('ExpenseManagementRef', $id)->with('expense_comments')->get()->sortByDesc('created_at');
         $expense = $expense->transform(function ($item, $key) {
             $item->approvers     = $item->request_type->approvers_formatted('<b style="font-size: 1.4rem; color: red">&rarr;</b>');
             $item->comment_files = $item->expense_comments->transform(function ($item, $key) {
@@ -206,7 +206,7 @@ class ExpenseManagementController extends Controller
     public function store(Request $request)
     {
         $expense_management = new ExpenseManagement($request->except(['attachment', 'Filename', 'DocTypeID', 'DocName',
-            'Initiator', 'CompanyID']));
+            'Initiator', 'CompanyID', 'Request']));
         $expense_management->inputter_id = auth()->user()->id;
 
         // dd($debit_acct_details);

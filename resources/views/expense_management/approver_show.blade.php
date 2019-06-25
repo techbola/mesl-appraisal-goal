@@ -294,7 +294,7 @@ border-radius: 3px;
        <div class="col-sm-6" style="border-left: 1px solid #d9d9d9">
 
          Approvers: <b>{!! $expense->approvers !!}</b> <br> <br>
-         @foreach($expense->expense_comments as $exp)
+         @foreach($expense->expense_comments->sortByDesc('created_at') as $exp)
          <div style="position: relative"> <i>{{ $exp->approved_by}} &nbsp; <span class=""> {{ $exp->ApprovedFlag == 1 ? 'Approved' : 'Rejected'}} by: {{ $exp->approver}} @ {{ $exp->approved_at}}</span>: </i>
           <div style="margin: 10px 0">
              {!! $exp->ApprovedFlag == 1 ? '<div class="badge badge-success flags">Approved</div>' : '<div class="flags badge badge-danger">Declined</div>' !!}

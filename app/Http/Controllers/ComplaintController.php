@@ -14,7 +14,6 @@ use MESL\ComplaintStatus;
 use MESL\Customer;
 use MESL\Department;
 use MESL\Location;
-use MESL\Notifications\SendComplaintNotification;
 use MESL\Staff;
 use MESL\User;
 use Storage;
