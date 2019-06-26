@@ -2,38 +2,37 @@
 
 namespace MESL\Http\Controllers;
 
-use MESL\AppraisalFinance;
-use MESL\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use MESL\AppraisalFinance;
+use MESL\Staff;
 
 class FinanceAppraisalController extends Controller
 {
 
-
     public function bscFinancialStore(Request $request)
     {
 
-        if (!auth()->user()->staff->SupervisorFlag){
+        if (!auth()->user()->staff->SupervisorFlag) {
 
             $this->validate($request, [
-                'financial_objective.*' => 'required|string',
-                'financial_kpi.*' => 'required|string',
-                'financial_target.*' => 'required|string',
+                'financial_objective.*'  => 'required|string',
+                'financial_kpi.*'        => 'required|string',
+                'financial_target.*'     => 'required|string',
                 'financial_constraint.*' => 'required|string',
             ]);
 
-            $staff = Staff::where('UserID',auth()->user()->id)->first();
+            $staff = Staff::where('UserID', auth()->user()->id)->first();
 
-            for($i=0;$i<count($request->financial_objective);$i++){
+            for ($i = 0; $i < count($request->financial_objective); $i++) {
 
-                $appraisal = new AppraisalFinance;
-                $appraisal->objective = $request->financial_objective[$i];
-                $appraisal->kpi = $request->financial_kpi[$i];
-                $appraisal->target = $request->financial_target[$i];
-                $appraisal->constraint = $request->financial_constraint[$i];
+                $appraisal               = new AppraisalFinance;
+                $appraisal->objective    = $request->financial_objective[$i];
+                $appraisal->kpi          = $request->financial_kpi[$i];
+                $appraisal->target       = $request->financial_target[$i];
+                $appraisal->constraint   = $request->financial_constraint[$i];
                 $appraisal->supervisorID = $staff->SupervisorID;
-                $appraisal->staffID = $staff->StaffRef;
+                $appraisal->staffID      = $staff->StaffRef;
                 $appraisal->appraisal_id = $request->appraisalID;
                 $appraisal->save();
 
@@ -41,7 +40,7 @@ class FinanceAppraisalController extends Controller
 
             Session::flash('success', 'Submitted, move to the next section.');
 
-            return redirect()->route('dashboard', ['appraisalID' => $request->appraisalID]);
+            return redirect()->route('appraisal.dashboard', ['appraisalID' => $request->appraisalID]);
 
         }
 
@@ -53,17 +52,17 @@ class FinanceAppraisalController extends Controller
 //        dd($request->all());
 
         $this->validate($request, [
-            'financial_objective' => 'required|string',
-            'financial_kpi' => 'required|string',
-            'financial_target' => 'required|string',
+            'financial_objective'  => 'required|string',
+            'financial_kpi'        => 'required|string',
+            'financial_target'     => 'required|string',
             'financial_constraint' => 'required|string',
         ]);
 
         $appraisal = AppraisalFinance::find($request->financeAppraisalID);
 
-        $appraisal->objective = $request->financial_objective;
-        $appraisal->kpi = $request->financial_kpi;
-        $appraisal->target = $request->financial_target;
+        $appraisal->objective  = $request->financial_objective;
+        $appraisal->kpi        = $request->financial_kpi;
+        $appraisal->target     = $request->financial_target;
         $appraisal->constraint = $request->financial_constraint;
 
         $appraisal->save();
@@ -71,7 +70,6 @@ class FinanceAppraisalController extends Controller
         Session::flash('success', 'Appraisal Updated!.');
 
         return back();
-
 
     }
 
@@ -82,7 +80,7 @@ class FinanceAppraisalController extends Controller
 
         $allAppraisalIDs = explode(',', $allAppraisalIDs);
 
-        foreach ($allAppraisalIDs as $allAppraisalID){
+        foreach ($allAppraisalIDs as $allAppraisalID) {
 
             $appraisal = AppraisalFinance::find($allAppraisalID);
 

@@ -2,6 +2,9 @@
 
 namespace MESL\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use MESL\Appraisal;
 use MESL\AppraisalComment;
 use MESL\AppraisalCustomer;
@@ -17,9 +20,6 @@ use MESL\Mail\SendGoalsToHr;
 use MESL\Role;
 use MESL\Staff;
 use MESL\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
 
 class SupervisorController extends Controller
 {
@@ -28,7 +28,7 @@ class SupervisorController extends Controller
     {
 
         $appraisals = Appraisal::where('supervisorID', auth()->user()->staff->StaffRef)
-            ->where('sentFlag', True)
+            ->where('sentFlag', true)
             ->get()->all();
 
         return view('supervisor.goals.index')->with([
@@ -42,12 +42,12 @@ class SupervisorController extends Controller
 
         $ap = Appraisal::find($appraisalID);
 
-        $appraisal_finances = AppraisalFinance::where('appraisal_id', $appraisalID)->get();
+        $appraisal_finances  = AppraisalFinance::where('appraisal_id', $appraisalID)->get();
         $appraisal_customers = AppraisalCustomer::where('appraisal_id', $appraisalID)->get();
         $appraisal_internals = AppraisalInternal::where('appraisal_id', $appraisalID)->get();
         $appraisal_learnings = AppraisalLearning::where('appraisal_id', $appraisalID)->get();
 
-        $comments = AppraisalComment::where('appraisal_id', $appraisalID)->first();
+        $comments   = AppraisalComment::where('appraisal_id', $appraisalID)->first();
         $signatures = AppraisalSignature::where('appraisal_id', $appraisalID)->first();
 
         $appraisal = Appraisal::find($appraisalID);
@@ -59,28 +59,28 @@ class SupervisorController extends Controller
 
         $staff_behavioural_items_catids = BehaviouralItem::where('level_id', $staff->user->level_id)->pluck('behaviouralCat_id')->all();
 
-        foreach ($staff_behavioural_items_catids as $staff_behavioural_items_catid){
+        foreach ($staff_behavioural_items_catids as $staff_behavioural_items_catid) {
             array_push($staffBehaviouralCats, (int) $staff_behavioural_items_catid);
         }
 
         $behaviourals = Behavioural::pluck('id')->all();
 
-        $behaviourals2 = array_intersect ($behaviourals, $staffBehaviouralCats);
+        $behaviourals2 = array_intersect($behaviourals, $staffBehaviouralCats);
 
         $behaviourals3 = Behavioural::whereIn('id', $behaviourals2)->get();
 
         return view('supervisor.goals.appraisal')->with([
-            'appraisal_finances' => $appraisal_finances,
+            'appraisal_finances'  => $appraisal_finances,
             'appraisal_customers' => $appraisal_customers,
             'appraisal_internals' => $appraisal_internals,
             'appraisal_learnings' => $appraisal_learnings,
-            'comments' => $comments,
-            'signatures' => $signatures,
-            'appraisalID' => $appraisalID,
-            'staffName' => $staffName,
-            'behaviourals' => $behaviourals3,
-            'staffLevelID' => $staff->user->level_id,
-            'ap' => $ap,
+            'comments'            => $comments,
+            'signatures'          => $signatures,
+            'appraisalID'         => $appraisalID,
+            'staffName'           => $staffName,
+            'behaviourals'        => $behaviourals3,
+            'staffLevelID'        => $staff->user->level_id,
+            'ap'                  => $ap,
         ]);
 
     }
@@ -96,72 +96,72 @@ class SupervisorController extends Controller
 
                 $staffID = $appraisal->staffID;
 
-                $staff = Staff::find($staffID);
+                $staff       = Staff::find($staffID);
                 $staff_email = $staff->user->email;
 
 //                if (!empty($request->comment)){
-//
-//                    $comment = $request->comment;
-//
-//                    Mail::to($staff_email)->send(new ApproveStaffGoals($staff, $appraisal));
-//
-//                    $appraisal->supervisorComment = $comment;
-//                    $appraisal->status = 2;
-//
-//                    $appraisal->save();
-//
-//                }
-//                else{
+                //
+                //                    $comment = $request->comment;
+                //
+                //                    Mail::to($staff_email)->send(new ApproveStaffGoals($staff, $appraisal));
+                //
+                //                    $appraisal->supervisorComment = $comment;
+                //                    $appraisal->status = 2;
+                //
+                //                    $appraisal->save();
+                //
+                //                }
+                //                else{
 
-                    Mail::to($staff_email)->send(new ApproveStaffGoals($staff, $appraisal));
+                Mail::to($staff_email)->send(new ApproveStaffGoals($staff, $appraisal));
 
-                    $appraisal->status = 2;
+                $appraisal->status = 2;
 
-                    $appraisal->save();
+                $appraisal->save();
 
 //                }
 
                 Session::flash('success', 'Goals Approved!');
 
-                return redirect()->route('supervisor.index');
+                return redirect()->route('appraisal.supervisor.index');
 
                 break;
 
             case 'reject':
 
                 $financialComments = $request->financial_comment;
-                $customerComments = $request->customer_comment;
-                $internalComments = $request->internal_comment;
-                $learningComments = $request->learning_comment;
+                $customerComments  = $request->customer_comment;
+                $internalComments  = $request->internal_comment;
+                $learningComments  = $request->learning_comment;
 
-                $financeGoals = AppraisalFinance::where('appraisal_id', $appraisalID)->get()->all();
+                $financeGoals  = AppraisalFinance::where('appraisal_id', $appraisalID)->get()->all();
                 $customerGoals = AppraisalCustomer::where('appraisal_id', $appraisalID)->get()->all();
                 $internalGoals = AppraisalInternal::where('appraisal_id', $appraisalID)->get()->all();
                 $learningGoals = AppraisalLearning::where('appraisal_id', $appraisalID)->get()->all();
 
-                $i=0;
-                foreach ($financeGoals as $financeGoal){
+                $i = 0;
+                foreach ($financeGoals as $financeGoal) {
                     $financeGoal->justification = $financialComments[$i];
                     $financeGoal->save();
                     $i++;
                 }
 
-                $j=0;
-                foreach ($customerGoals as $customerGoal){
+                $j = 0;
+                foreach ($customerGoals as $customerGoal) {
                     $customerGoal->justification = $customerComments[$j];
                     $customerGoal->save();
                     $j++;
                 }
 
-                $k=0;
-                foreach ($internalGoals as $internalGoal){
+                $k = 0;
+                foreach ($internalGoals as $internalGoal) {
                     $internalGoal->justification = $internalComments[$k];
                     $internalGoal->save();
                     $k++;
                 }
 
-                $l=0;
-                foreach ($learningGoals as $learningGoal){
+                $l = 0;
+                foreach ($learningGoals as $learningGoal) {
                     $learningGoal->justification = $learningComments[$l];
                     $learningGoal->save();
                     $l++;
@@ -171,21 +171,21 @@ class SupervisorController extends Controller
 
                 $staffID = $appraisal->staffID;
 
-                $staff = Staff::find($staffID);
+                $staff       = Staff::find($staffID);
                 $staff_email = $staff->user->email;
 
                 $comment = $request->comment;
 
                 Mail::to($staff_email)->send(new RejectStaffGoals($staff, $appraisal));
 
-                $appraisal->sentFlag = False;
-                $appraisal->status = 3;
+                $appraisal->sentFlag = false;
+                $appraisal->status   = 3;
 
                 $appraisal->save();
 
                 Session::flash('success', 'Goals Rejected!');
 
-                return redirect()->route('supervisor.index');
+                return redirect()->route('appraisal.supervisor.index');
 
                 break;
 
@@ -211,13 +211,13 @@ class SupervisorController extends Controller
         Mail::to($hr->email)->send(new SendGoalsToHr($staff));
 
         $appraisal->status = 4;
-        $appraisal->hrID = $hr->staff->StaffRef;
+        $appraisal->hrID   = $hr->staff->StaffRef;
 
         $appraisal->save();
 
         Session::flash('success', 'Goals Sent to HR!');
 
-        return redirect()->route('supervisor.index');
+        return redirect()->route('appraisal.supervisor.index');
 
     }
 

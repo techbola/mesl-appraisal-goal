@@ -2,10 +2,10 @@
 
 namespace MESL\Http\Controllers;
 
-use MESL\AppraisalCustomer;
-use MESL\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use MESL\AppraisalCustomer;
+use MESL\Staff;
 
 class CustomerAppraisalController extends Controller
 {
@@ -13,28 +13,28 @@ class CustomerAppraisalController extends Controller
     public function bscCustomerStore(Request $request)
     {
 
-        if (!auth()->user()->staff->SupervisorFlag){
+        if (!auth()->user()->staff->SupervisorFlag) {
 
             $this->validate($request, [
 
-                'stakeholders_objective.*' => 'required|string',
-                'stakeholders_kpi.*' => 'required|string',
-                'stakeholders_target.*' => 'required|string',
+                'stakeholders_objective.*'  => 'required|string',
+                'stakeholders_kpi.*'        => 'required|string',
+                'stakeholders_target.*'     => 'required|string',
                 'stakeholders_constraint.*' => 'required|string',
 
             ]);
 
-            $staff = Staff::where('UserID',auth()->user()->id)->first();
+            $staff = Staff::where('UserID', auth()->user()->id)->first();
 
-            for($i=0;$i<count($request->stakeholders_objective);$i++){
+            for ($i = 0; $i < count($request->stakeholders_objective); $i++) {
 
-                $appraisal = new AppraisalCustomer;
-                $appraisal->objective = $request->stakeholders_objective[$i];
-                $appraisal->kpi = $request->stakeholders_kpi[$i];
-                $appraisal->target = $request->stakeholders_target[$i];
-                $appraisal->constraint = $request->stakeholders_constraint[$i];
+                $appraisal               = new AppraisalCustomer;
+                $appraisal->objective    = $request->stakeholders_objective[$i];
+                $appraisal->kpi          = $request->stakeholders_kpi[$i];
+                $appraisal->target       = $request->stakeholders_target[$i];
+                $appraisal->constraint   = $request->stakeholders_constraint[$i];
                 $appraisal->supervisorID = $staff->SupervisorID;
-                $appraisal->staffID = $staff->StaffRef;
+                $appraisal->staffID      = $staff->StaffRef;
                 $appraisal->appraisal_id = $request->appraisalID;
                 $appraisal->save();
 
@@ -42,7 +42,7 @@ class CustomerAppraisalController extends Controller
 
             Session::flash('success', 'Submitted, move to the next section.');
 
-            return redirect()->route('dashboard', ['appraisalID' => $request->appraisalID]);
+            return redirect()->route('appraisal.dashboard', ['appraisalID' => $request->appraisalID]);
 
         }
 
@@ -53,22 +53,21 @@ class CustomerAppraisalController extends Controller
 
         $this->validate($request, [
 
-            'stakeholders_objective' => 'required|string',
-            'stakeholders_kpi' => 'required|string',
-            'stakeholders_target' => 'required|string',
+            'stakeholders_objective'  => 'required|string',
+            'stakeholders_kpi'        => 'required|string',
+            'stakeholders_target'     => 'required|string',
             'stakeholders_constraint' => 'required|string',
 
         ]);
 
         $appraisal = AppraisalCustomer::find($request->customerAppraisalID);
 
-        $appraisal->objective = $request->stakeholders_objective;
-        $appraisal->kpi = $request->stakeholders_kpi;
-        $appraisal->target = $request->stakeholders_target;
+        $appraisal->objective  = $request->stakeholders_objective;
+        $appraisal->kpi        = $request->stakeholders_kpi;
+        $appraisal->target     = $request->stakeholders_target;
         $appraisal->constraint = $request->stakeholders_constraint;
 
         $appraisal->save();
-
 
         Session::flash('success', 'Appraisal Updated!');
 
@@ -85,7 +84,7 @@ class CustomerAppraisalController extends Controller
 
 //        dd($allAppraisalIDs);
 
-        foreach ($allAppraisalIDs as $allAppraisalID){
+        foreach ($allAppraisalIDs as $allAppraisalID) {
 
             $appraisal = AppraisalCustomer::find($allAppraisalID);
 

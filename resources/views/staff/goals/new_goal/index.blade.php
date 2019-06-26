@@ -5,18 +5,18 @@
 	<div class="">
 
 		<!-- START CONTAINER FLUID -->
-		<div class="container-fluid container-fixed-lg">
+		<div class="card-box">
 
 			<div class="row">
 				<div class="col-lg-8 col-md-6 ">
 					<!-- START PANEL -->
-					<div class="panel panel-transparent">
+					<div class="">
 						<div class="panel-body">
-							<form role="form" action="{{ route('staff_details.store') }}" method="post">
+							<form role="form" action="{{ route('appraisal.staff_details.store') }}" method="post">
 								@csrf
 								<div class="row">
 									<div class="col-sm-12">
-										<div class="form-group form-group-default">
+										<div class="form-group">
 											<label>Employee Name</label>
 											<input type="text" class="form-control" name="employee_name" value="{{ auth()->user()->last_name . ' ' .auth()->user()->first_name }}">
 										</div>
@@ -24,17 +24,17 @@
 								</div>
 								<div class="row">
 									<div class="col-sm-12">
-										<div class="form-group form-group-default">
+										<div class="form-group">
 											<label>Job Position</label>
-											<input type="text" class="form-control" name="job_position">
+											<input type="text" class="form-control" name="job_position" value="{!! ucwords(Auth::user()->roles()->first()->name) !!}">
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-12">
-										<div class="form-group form-group-default">
+										<div class="form-group">
 											<label>Department</label>
-											<input type="text"  class="form-control" name="department">
+											<input type="text"  class="form-control" name="department" value="{{ auth()->user()->staff->department->Department }}" disabled>
 										</div>
 									</div>
 								</div>
@@ -42,7 +42,7 @@
 									<div class="col-sm-12">
 										<div class="form-group">
 											<label>Appraisal Period</label>
-											<select name="appraiser_period" id="appraiser_period" class="full-width" style="height: 50px;">
+											<select name="appraiser_period" id="appraiser_period" class="full-width form-control" data-init-plugin="select2" style="height: 50px;">
 												<option value="2018/2019">2018/2019</option>
 												<option value="2019/2020">2019/2020</option>
 												<option value="2020/2021">2020/2021</option>
@@ -60,7 +60,11 @@
 									</div>
 								</div>
 								<div class="clearfix"></div>
-								<button class="btn btn-primary" type="submit">Next</button>
+								<div class="row">
+									<div class="col-sm-12">
+										<button class="btn btn-orange" type="submit">Next</button>
+									</div>
+								</div>
 							</form>
 						</div>
 					</div>

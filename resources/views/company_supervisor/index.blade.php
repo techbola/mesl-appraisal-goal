@@ -8,9 +8,9 @@
 @endsection
 
 @section('bottom-content')
-    <div class="container-fluid container-fixed-lg bg-white">
+    <div class="card-box">
         <!-- START PANEL -->
-        <div class="panel panel-transparent">
+        <div class="">
             <div class="panel-heading">
                 <div class="panel-title">
                     Supervisor Listing

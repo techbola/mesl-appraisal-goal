@@ -33,15 +33,15 @@ class AppraisalController extends Controller
 
         } elseif (auth()->user()->hasRole('HR Supervisor') && auth()->user()->staff->SupervisorFlag) {
 
-            return redirect()->route('hr.index');
+            return redirect()->route('appraisal.hr.index');
 
         } elseif (auth()->user()->hasRole('HR Supervisor')) {
 
-            return redirect()->route('hr.index');
+            return redirect()->route('appraisal.hr.index');
 
         } elseif (auth()->user()->staff->SupervisorFlag) {
 
-            // return redirect()->route('supervisor.index');
+            return redirect()->route('appraisal.supervisor.index');
 
         }
 
@@ -88,11 +88,11 @@ class AppraisalController extends Controller
 
         } elseif (auth()->user()->hasRole('HR Supervisor') && !auth()->user()->staff->SupervisorFlag) {
 
-            return redirect()->route('hr.index');
+            return redirect()->route('appraisal.hr.index');
 
         } elseif (auth()->user()->staff->SupervisorFlag) {
 
-            return redirect()->route('supervisor.index');
+            return redirect()->route('appraisal.supervisor.index');
 
         }
 
@@ -114,7 +114,7 @@ class AppraisalController extends Controller
 
             if ($data) {
 
-                Session::flash('errorFlag', 'Appraisal for this period already started, check your queue.');
+                Session::flash('error', 'Appraisal for this period already started, check your queue.');
 
                 return back();
 
@@ -135,7 +135,7 @@ class AppraisalController extends Controller
 
                 Session::flash('success', 'Saved, move to the next section.');
 
-                return redirect()->route('dashboard', ['appraisalID' => $appraisal->id]);
+                return redirect()->route('appraisal.dashboard', ['appraisalID' => $appraisal->id]);
 
             }
 
@@ -188,7 +188,7 @@ class AppraisalController extends Controller
 
             Session::flash('success', 'Saved, move to the next section.');
 
-            return redirect()->route('dashboard', ['appraisalID' => $request->appraisalID]);
+            return redirect()->route('appraisal.dashboard', ['appraisalID' => $request->appraisalID]);
 
         }
 

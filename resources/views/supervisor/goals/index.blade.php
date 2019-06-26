@@ -13,11 +13,11 @@
 	<!-- START PAGE CONTENT -->
 	<div class="">
 		<!-- START CONTAINER FLUID -->
-		<div class="container-fluid container-fixed-lg bg-white">
+		<div class="card-box">
 			<!-- START PANEL -->
-			<div class="panel panel-transparent">
+			<div class="">
 				<div class="panel-heading">
-					<div class="panel-title">Staff Goals
+					<div class="card-title">Staff Goals
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -52,11 +52,11 @@
 											</td>
 											<td class="v-align-middle">
 												<p>
-													<a href="{{ route('supervisorViewAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-info btn-sm">View</a>
+													<a href="{{ route('appraisal.supervisorViewAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-info btn-sm">View</a>
 												</p>
 												<p>
 													@if($appraisal->status == 2)
-														<a href="{{ route('submitToHr', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">Submit to HR</a>
+														<a href="{{ route('appraisal.submitToHr', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">Submit to HR</a>
 													@endif
 												</p>
 											</td>
@@ -76,7 +76,9 @@
 									@endforeach
 								@else
 									<tr>
-										<td>No Appraisal has been submitted yet!</td>
+										<td>
+											<p class="alert alert-info">No Appraisal has been submitted yet!</p>
+										</td>
 									</tr>
 
 								</tbody>

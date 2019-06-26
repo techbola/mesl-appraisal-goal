@@ -5,11 +5,11 @@
 	<!-- START PAGE CONTENT -->
 	<div class="">
 		<!-- START CONTAINER FLUID -->
-		<div class="container-fluid container-fixed-lg">
+		<div class="card-box">
 
 			<h4><strong>{{ $staffName }}</strong></h4>
 
-			<form action="{{ route('goalsApproval', ['appraisalID' => $appraisalID]) }}" method="post">
+			<form action="{{ route('appraisal.goalsApproval', ['appraisalID' => $appraisalID]) }}" method="post">
 				@csrf
 
 				<div id="rootwizard" class="m-t-50">
@@ -31,7 +31,7 @@
 						@elseif($ap->status != 4 && $ap->status != 2)
 						<div class="row row-same-height" style="margin-top: -50px;">
 							<div class="col-md-12">
-								<div class="panel panel-transparent">
+								<div class="">
 									<div class="panel-body">
 										<div class="form-group">
 											<button type="submit" class="btn btn-danger pull-left" name="action" value="reject">Reject & Send to Staff</button>

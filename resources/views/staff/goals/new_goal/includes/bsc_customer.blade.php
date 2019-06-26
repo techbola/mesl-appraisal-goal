@@ -2,7 +2,7 @@
 	<div class="row row-same-height">
 
 		<div class="col-md-12">
-			<form action="{{ route('bsc_customer.store') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('appraisal.bsc_customer.store') }}" method="post" enctype="multipart/form-data">
 				@csrf
 				{{-- Customers/Stakeholders --}}
 				<div class="row clearfix">
@@ -54,7 +54,7 @@
 					<div class="row clearfix">
 						<div class="col-md-12">
 							<input type="hidden" name="appraisalID" value="{{ $appraisalID }}">
-							<button class="btn btn-primary btn-cons btn-animated" type="submit">
+							<button class="btn btn-orange btn-cons btn-animated" type="submit">
 								<span>Save & Continue</span>
 							</button>
 						</div>
@@ -78,7 +78,7 @@
 								<thead>
 								<tr>
 									<th style="width:1%">
-										<form action="{{ route('deleteCustomerAppraisals') }}" method="post">
+										<form action="{{ route('appraisal.deleteCustomerAppraisals') }}" method="post">
 											{{ csrf_field() }}
 											<input type="hidden" name="appraisalIDs" id="appraisalIDs1">
 											<button type="submit" class="btn btn-danger">
