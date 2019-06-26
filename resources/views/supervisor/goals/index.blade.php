@@ -2,10 +2,15 @@
 
 @push('styles')
 
-	<link href="{{ asset('main/assets/plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-	<link href="{{ asset('main/assets/plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css') }}" rel="stylesheet" type="text/css" />
-	<link href="{{ asset('main/assets/plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" />
 
+@endpush
+
+@push('styles')
+<style>
+	body.menu-pin .page-container .page-content-wrapper .footer {
+		left: 0 !important;
+	}
+</style>
 @endpush
 
 @section('content')
@@ -26,14 +31,14 @@
 					@if(count($appraisals) > 0)
 
 						<div class="table-responsive">
-							<table class="table table-hover" id="basicTable">
+							<table class="table table-hover tableWithSearch nowrap">
 								<thead>
 								<tr>
-									<th style="width:40%">Staff</th>
-									<th style="width:5%">Period</th>
-									<th style="width:25%">Date Submitted</th>
-									<th style="width:15%">Action</th>
-									<th style="width:15%">Status</th>
+									<th >Staff</th>
+									<th >Period</th>
+									<th >Date Submitted</th>
+									<th >Action</th>
+									<th >Status</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -98,7 +103,5 @@
 
 @push('scripts')
 
-	<script src="{{ asset('main/assets/js/tables.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('main/assets/js/scripts.js') }}" type="text/javascript"></script>
 
 @endpush

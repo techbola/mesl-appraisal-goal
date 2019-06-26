@@ -6,7 +6,7 @@ Hello,
 	Your goals set for period {{ $appraisal->period }} has been approved by the HR Officer.
 </p>
 
-@component('mail::button', ['url' => route('staff.index')])
+@component('mail::button', ['url' => route('appraisal.staff.index')])
 	View Appraisal
 @endcomponent
 

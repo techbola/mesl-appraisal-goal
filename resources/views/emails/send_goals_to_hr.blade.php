@@ -7,7 +7,7 @@ Hello,
 	{{ $staff->user->last_name . ' ' . $staff->user->first_name  }}.
 </p>
 
-@component('mail::button', ['url' => route('hr.index')])
+@component('mail::button', ['url' => route('appraisal.hr.index')])
 	View Appraisal
 @endcomponent
 
