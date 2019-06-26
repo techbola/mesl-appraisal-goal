@@ -14,8 +14,10 @@ use MESL\ComplaintStatus;
 use MESL\Customer;
 use MESL\Department;
 use MESL\Location;
+use MESL\Notifications\SendComplaintNotification;
 use MESL\Staff;
 use MESL\User;
+use Notification;
 use Storage;
 
 class ComplaintController extends Controller
@@ -100,7 +102,7 @@ class ComplaintController extends Controller
             }
 
             // dd($user_email);
-            \Notification::send($user_email, new SendComplaintNotification($complaint));
+            Notification::send($user_email, new SendComplaintNotification($complaint));
             DB::commit();
             return redirect()->route('facility-management.complaints.index')->with('success', 'Complaint was sent successfully');
 
