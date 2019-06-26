@@ -2,10 +2,15 @@
 
 @push('styles')
 
-	<link href="{{ asset('main/assets/plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-	<link href="{{ asset('main/assets/plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css') }}" rel="stylesheet" type="text/css" />
-	<link href="{{ asset('main/assets/plugins/datatables-responsive/css/datatables.responsive.css') }}" rel="stylesheet" type="text/css" media="screen" />
 
+@endpush
+
+@push('styles')
+<style>
+	body.menu-pin .page-container .page-content-wrapper .footer {
+		left: 0 !important;
+	}
+</style>
 @endpush
 
 @section('content')
@@ -13,11 +18,11 @@
 	<!-- START PAGE CONTENT -->
 	<div class="">
 		<!-- START CONTAINER FLUID -->
-		<div class="container-fluid container-fixed-lg bg-white">
+		<div class="card-box">
 			<!-- START PANEL -->
-			<div class="panel panel-transparent">
+			<div class="">
 				<div class="panel-heading">
-					<div class="panel-title">Staff Goals
+					<div class="card-title">Staff Goals
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -26,14 +31,14 @@
 					@if(count($appraisals) > 0)
 
 						<div class="table-responsive">
-							<table class="table table-hover" id="basicTable">
+							<table class="table table-hover tableWithSearch nowrap">
 								<thead>
 								<tr>
-									<th style="width:40%">Staff</th>
-									<th style="width:5%">Period</th>
-									<th style="width:25%">Date Submitted</th>
-									<th style="width:15%">Action</th>
-									<th style="width:15%">Status</th>
+									<th >Staff</th>
+									<th >Period</th>
+									<th >Date Submitted</th>
+									<th >Action</th>
+									<th >Status</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -52,11 +57,11 @@
 											</td>
 											<td class="v-align-middle">
 												<p>
-													<a href="{{ route('supervisorViewAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-info btn-sm">View</a>
+													<a href="{{ route('appraisal.supervisorViewAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-info btn-sm">View</a>
 												</p>
 												<p>
 													@if($appraisal->status == 2)
-														<a href="{{ route('submitToHr', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">Submit to HR</a>
+														<a href="{{ route('appraisal.submitToHr', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">Submit to HR</a>
 													@endif
 												</p>
 											</td>
@@ -76,7 +81,9 @@
 									@endforeach
 								@else
 									<tr>
-										<td>No Appraisal has been submitted yet!</td>
+										<td>
+											<p class="alert alert-info">No Appraisal has been submitted yet!</p>
+										</td>
 									</tr>
 
 								</tbody>
@@ -96,7 +103,5 @@
 
 @push('scripts')
 
-	<script src="{{ asset('main/assets/js/tables.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('main/assets/js/scripts.js') }}" type="text/javascript"></script>
 
 @endpush

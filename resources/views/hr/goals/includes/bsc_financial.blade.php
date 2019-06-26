@@ -4,9 +4,9 @@
 		@if($appraisal_finances->count() > 0)
 
 			<div class="col-md-12" style="margin-top: 20px;">
-				<div class="panel panel-transparent">
+				<div class="card-box">
 					<div class="panel-heading">
-						<div class="panel-title">Financial</div>
+						<div class="card-title">Financial</div>
 						<div class="clearfix"></div>
 					</div>
 					<div class="panel-body">

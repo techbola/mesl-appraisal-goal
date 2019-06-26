@@ -1,11 +1,18 @@
 @extends('layouts.master')
-
+@push('styles')
+<style type="text/css">
+	.table>caption+thead>tr:first-child>td, .table>caption+thead>tr:first-child>th, .table>colgroup+thead>tr:first-child>td, .table>colgroup+thead>tr:first-child>th, .table>thead:first-child>tr:first-child>td, .table>thead:first-child>tr:first-child>th {
+    border-top: 0;
+    border-right: 2px solid;
+}
+</style>
+@endpush
 @section('content')
 
 	<!-- START PAGE CONTENT -->
 	<div class="">
 		<!-- START CONTAINER FLUID -->
-		<div class="container-fluid container-fixed-lg">
+		<div class="card-box">
 
 			<div id="rootwizard" class="m-t-50">
 				<!-- Nav tabs -->
@@ -23,13 +30,13 @@
 
 					<div class="padding-20">
 						<ul class="pager wizard">
-							<li class="next">
-								<button class="btn btn-primary pull-right" type="button">
+							<li class="next" >
+								<button class="btn btn-orange pull-right" type="button">
 									<span>Next</span>
 								</button>
 							</li>
 							<li class="previous">
-								<button class="btn btn-default pull-right" type="button">
+								<button class="btn btn pull-right" type="button" style="margin-right: 10px">
 									<span>Previous</span>
 								</button>
 							</li>
