@@ -4,10 +4,10 @@ namespace MESL;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+use MESL\Menu;
 // use Illuminate\Database\Eloquent\SoftDeletes;
 
-use MESL\Menu;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
@@ -177,6 +177,11 @@ class User extends Authenticatable
             $roles[] = $role->name;
         }
         return array_intersect((array) $checkrole, $roles);
+    }
+
+    public function level()
+    {
+        return $this->belongsTo('App\Level', 'level_id');
     }
 
 }
