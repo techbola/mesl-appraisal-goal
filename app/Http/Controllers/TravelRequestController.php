@@ -6,23 +6,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mail;
 use MESL\Country;
-use MESL\Staff;
-use MESL\TravelRequest;
-use MESL\TravelTransport;
-use MESL\TravelLodge;
-use MESL\TravelMode;
-use MESL\Traveller;
-use MESL\User;
-use MESL\TravelPurpose;
-use MESL\Mail\SendforApproval;
 use MESL\Mail\RequestApproved;
 use MESL\Mail\RequestRejected;
 use MESL\Mail\TravelRequestAdmin;
 use MESL\Mail\TravelRequestApprover;
 use MESL\Mail\TravelRequestInit;
 use MESL\Mail\TravelRequestSupervisor;
-
+use MESL\Staff;
 use MESL\State;
+use MESL\Traveller;
+use MESL\TravelLodge;
+use MESL\TravelMode;
+use MESL\TravelPurpose;
+use MESL\TravelRequest;
+use MESL\TravelTransport;
+use MESL\User;
 
 class TravelRequestController extends Controller
 {
