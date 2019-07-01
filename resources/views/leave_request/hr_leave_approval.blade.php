@@ -67,10 +67,12 @@
                 <th width="10%">Leave Type</th>
                 <th width="10%">Start Date</th>
                 <th width="10%">End Date</th>
-                <th>Relief Officer</th>
+                <th width="10%">Relief Officer</th>
                 <th width="10%">Leave Days</th>
                 <th width="10%">File(s)</th>
                 <th width="10%">Allowance</th>
+                <th width="10%">Line Manager</th>
+                <th width="10%">HR Approver</th>
               </thead>
               <tbody>
 
@@ -123,6 +125,8 @@
                         @endif
                     </td>
                     <td>{{$leave_request->PayAllowance ?? '-'}}</td>
+                    <td>{{$leave_request->line_manager ?? '-'}}</td>
+                    <td>{{$leave_request->hr_staff}}</td>
                   
                   </tr>
                   @endif

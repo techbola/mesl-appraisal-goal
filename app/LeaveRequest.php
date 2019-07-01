@@ -78,4 +78,9 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo(User::class, 'ReliefOfficerID', 'id');
     }
+
+    public function hr_staff()
+    {
+        return $this->belongsTo(User::class, 'HRStaffID', 'id');
+    }
 }

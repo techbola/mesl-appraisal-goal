@@ -231,6 +231,7 @@
                 <p class=""><b>Purpose: </b> <span class="memo-purpose"></span></p>
                 <p class=""><b>To: </b> <span class="memo-recipients"></span></p>
                 <p class=""><b>Approvers: </b> <span class="memo-approvers"></span></p>
+                <p class=""><b>Timestamp: </b> <span class="memo-timestamp"></span></p>
                 <label class="badge memo-status approved"></label>
               </div>
               <div class="col-sm-2">
@@ -286,9 +287,11 @@
            if(data.approved === true){
               $("#show-memo").find('.memo-status').html('approved').addClass('approved');
               $("#show-memo").find('.memo-status').addClass('badge-success');
-              $("#show-memo").find('.memo-approved').html('<img src="{{ asset('images/checkmark.svg') }}" width="30">');
+              $("#show-memo").find('.memo-timestamp').html(data.created_at);
+              $("#show-memo").find('.memo-approved').html('<img class="m-r-10" src="{{ asset('images/approved-icon.jpeg') }}" width="100">');
             } else {
               $("#show-memo").find('.memo-status').html(data.status);
+              // $("#show-memo").find('.memo-approved').html('<img class="m-r-10" src="{{-- asset('images/rejected-icon.jpeg') --}}" width="100">');
             }
           $("#show-memo").modal('show');
           // list attachements

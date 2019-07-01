@@ -222,6 +222,8 @@ class LeaveRequestController extends Controller
                 ;
             });
             $item->relief_officer = User::find($item->ReliefOfficerID)->fullName;
+            $item->hr_staff       = User::find($item->HRStaffID)->fullName;
+            $item->line_manager   = User::find($item->StaffID)->staff->supervisor->fullName;
             $item->status         = $events->count();
             return $item;
         });
