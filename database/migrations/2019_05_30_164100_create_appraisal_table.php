@@ -20,6 +20,9 @@ class CreateAppraisalTable extends Migration
             $table->integer('supervisorID')->unsigned();
             $table->integer('hrID')->unsigned()->nullable();
 
+            $table->integer('appraisalStatus')->unsigned()->default(0);
+            $table->integer('startAppraisalFlag')->unsigned()->default(0);
+
             $table->string('employee_name');
             $table->string('job_position')->nullable();
             $table->string('department')->nullable();

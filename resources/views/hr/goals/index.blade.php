@@ -13,9 +13,9 @@
 	<!-- START PAGE CONTENT -->
 	<div class="">
 		<!-- START CONTAINER FLUID -->
-		<div class="container-fluid container-fixed-lg bg-white">
+		<div class="">
 			<!-- START PANEL -->
-			<div class="panel panel-transparent">
+			<div class="card-box">
 				<div class="panel-heading">
 					<div class="panel-title">Staff Goals
 					</div>
@@ -56,7 +56,7 @@
 											</td>
 											<td class="v-align-middle">
 												<p>
-													<a href="{{ route('hrViewAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-info btn-sm">View</a>
+													<a href="{{ route('appraisal.hrViewAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-info btn-sm">View</a>
 												</p>
 											</td>
 											<td class="v-align-middle">

@@ -121,6 +121,44 @@ class HrController extends Controller
 
             case 'approve':
 
+                $financialComments = $request->financial_comment;
+                $customerComments = $request->customer_comment;
+                $internalComments = $request->internal_comment;
+                $learningComments = $request->learning_comment;
+
+                $financeGoals = AppraisalFinance::where('appraisal_id', $appraisalID)->get()->all();
+                $customerGoals = AppraisalCustomer::where('appraisal_id', $appraisalID)->get()->all();
+                $internalGoals = AppraisalInternal::where('appraisal_id', $appraisalID)->get()->all();
+                $learningGoals = AppraisalLearning::where('appraisal_id', $appraisalID)->get()->all();
+
+                $i=0;
+                foreach ($financeGoals as $financeGoal){
+                    $financeGoal->hrComment = $financialComments[$i];
+                    $financeGoal->save();
+                    $i++;
+                }
+
+                $j=0;
+                foreach ($customerGoals as $customerGoal){
+                    $customerGoal->hrComment = $customerComments[$j];
+                    $customerGoal->save();
+                    $j++;
+                }
+
+                $k=0;
+                foreach ($internalGoals as $internalGoal){
+                    $internalGoal->hrComment = $internalComments[$k];
+                    $internalGoal->save();
+                    $k++;
+                }
+
+                $l=0;
+                foreach ($learningGoals as $learningGoal){
+                    $learningGoal->hrComment = $learningComments[$l];
+                    $learningGoal->save();
+                    $l++;
+                }
+
                 $appraisal = Appraisal::find($appraisalID);
 
                 $staffID = $appraisal->staffID;
@@ -195,8 +233,6 @@ class HrController extends Controller
 
                 $supervisor = Staff::find($supervisorID);
                 $supervisor_email = $supervisor->user->email;
-
-                $comment = $request->comment;
 
                 Mail::to($staff_email)->send(new HrRejectGoal($staff, $appraisal));
                 Mail::to($supervisor_email)->send(new HrSupervisorRejectGoal($staff, $appraisal));

@@ -3,9 +3,9 @@
 @section('content')
 
 	<!-- START PAGE CONTENT -->
-	<div class="">
+	<div class=" ">
 		<!-- START CONTAINER FLUID -->
-		<div class="card-box">
+		<div class="container-fluid container-fixed-lg">
 
 			<h4><strong>{{ $staffName }}</strong></h4>
 
@@ -31,7 +31,7 @@
 						@elseif($ap->status != 4 && $ap->status != 2)
 						<div class="row row-same-height" style="margin-top: -50px;">
 							<div class="col-md-12">
-								<div class="">
+								<div class="card-box">
 									<div class="panel-body">
 										<div class="form-group">
 											<button type="submit" class="btn btn-danger pull-left" name="action" value="reject">Reject & Send to Staff</button>

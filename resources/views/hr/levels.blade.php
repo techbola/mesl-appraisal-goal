@@ -17,9 +17,9 @@
 			<h4>Add New Level</h4>
 			<div class="col-lg-8 col-md-6 ">
 				<!-- START PANEL -->
-				<div class="panel panel-transparent">
+				<div class="card-box">
 					<div class="panel-body">
-						<form role="form" action="{{ route('levels.store') }}" method="post">
+						<form role="form" action="{{ route('appraisal.levels.store') }}" method="post">
 							@csrf
 							<div class="row">
 								<div class="col-sm-12">
@@ -45,9 +45,9 @@
 	@if(count($levels) > 0)
 
 		<!-- START CONTAINER FLUID -->
-		<div class="container-fluid container-fixed-lg bg-white">
+		<div class="">
 			<!-- START PANEL -->
-			<div class="panel panel-transparent">
+			<div class="card-box">
 				<div class="panel-heading">
 					<div class="panel-title">All Levels
 					</div>
@@ -76,7 +76,7 @@
 										{{ $level->created_at->toFormattedDateString() }}
 									</td>
 									<td class="v-align-middle">
-										<form action="{{ route('levels.destroy', ['id' => $level->id]) }}" method="post">
+										<form action="{{ route('appraisal.levels.destroy', ['id' => $level->id]) }}" method="post">
 											@csrf
 											{{ method_field('DELETE') }}
 											<button type="submit" class="btn btn-danger btn-sm" onclick="confirm('Are you sure that you want this item deleted?')">Delete</button>

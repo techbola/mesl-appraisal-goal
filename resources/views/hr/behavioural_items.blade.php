@@ -17,9 +17,9 @@
 			<h4>Add New Behavioural Item</h4>
 			<div class="col-lg-8 col-md-6 ">
 				<!-- START PANEL -->
-				<div class="panel panel-transparent">
+				<div class="card-box">
 					<div class="panel-body">
-						<form role="form" action="{{ route('behavioural_item.store') }}" method="post">
+						<form role="form" action="{{ route('appraisal.behavioural_item.store') }}" method="post">
 							@csrf
 							<div class="row">
 								<div class="col-sm-12">
@@ -81,9 +81,9 @@
 	@if(count($behavioural_items) > 0)
 
 		<!-- START CONTAINER FLUID -->
-		<div class="container-fluid container-fixed-lg bg-white">
+		<div class="">
 			<!-- START PANEL -->
-			<div class="panel panel-transparent">
+			<div class="card-box">
 				<div class="panel-heading">
 					<div class="panel-title">Behavioural Categories
 					</div>
@@ -125,7 +125,7 @@
 									</td>
 									<td class="v-align-middle">
 										<p>
-										<form action="{{ route('behavioural_item.destroy', ['id' => $behavioural_item->id]) }}" method="post">
+										<form action="{{ route('appraisal.behavioural_item.destroy', ['id' => $behavioural_item->id]) }}" method="post">
 											@csrf
 											{{ method_field('DELETE') }}
 											<button type="submit" class="btn btn-danger btn-sm" onclick="confirm('Are you sure that you want this item deleted?')">Delete</button>

@@ -21,7 +21,7 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('hr')->group(function ()
         'as'   => 'hrStaffGoals',
     ]);
 
-    Route::get('/appraisal/{appraisalID}', [
+    Route::get('/staff/goals/{appraisalID}', [
         'uses' => 'HrController@appraisal',
         'as'   => 'hrViewAppraisal',
     ]);
@@ -30,5 +30,40 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('hr')->group(function ()
         'uses' => 'HrController@goalsApproval',
         'as'   => 'hrGoalsApproval',
     ]);
+
+    Route::get('/staff/appraisals', [
+        'uses' => 'Appraisal\HrAppraisalController@hrStaffAppraisals',
+        'as'   => 'hrStaffAppraisals',
+    ]);
+
+    Route::get('/staff/appraisal/{appraisalID}', [
+        'uses' => 'Appraisal\HrAppraisalController@viewAppraisal',
+        'as'   => 'hrViewStaffAppraisal',
+    ]);
+
+    Route::get('/staff/score/report/{appraisalID}', [
+        'uses' => 'Appraisal\HrAppraisalController@viewScoreReport',
+        'as'   => 'hrViewScoreReport',
+    ]);
+
+    Route::get('/all/staff/appraisals/home', [
+        'uses' => 'Appraisal\HrAppraisalController@allStaffIndexAppraisals',
+        'as'   => 'hrAllStaffIndexAppraisals',
+    ]);
+
+    Route::post('/all/staff/appraisals/', [
+        'uses' => 'Appraisal\HrAppraisalController@allStaffAppraisals',
+        'as'   => 'hrAllStaffAppraisals',
+    ]);
+
+    Route::get('/download/score/report/{apID}', [
+        'uses' => 'Appraisal\HrAppraisalController@downloadScoreReport',
+        'as'   => 'downloadScoreReport',
+    ]);
+
+    // Route::get('/export/appraisals/pdf', [
+    //     'uses' => 'Appraisal\HrAppraisalController@export_pdf',
+    //     'as'   => 'exportAppraisals',
+    // ]);
 
 });

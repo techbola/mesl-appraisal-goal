@@ -15,9 +15,11 @@
 								<thead>
 								<tr>
 									<th style="width:20%">Objectives</th>
-									<th style="width:20%">KPIs</th>
+									<th style="width:15%">KPIs</th>
 									<th style="width:15%">Targets</th>
 									<th style="width:20%">Constraints</th>
+									<th style="width:15%">Supervisor Comment</th>
+									<th style="width:15%">HR Comment</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -42,6 +44,16 @@
 											<td class="v-align-middle">
 												<p>
 													{{ $appraisal_finance->constraint }}
+												</p>
+											</td>
+											<td class="v-align-middle">
+												<p>
+													{{ $appraisal_finance->justification ? $appraisal_finance->justification : '' }}
+												</p>
+											</td>
+											<td class="v-align-middle">
+												<p>
+													{{ $appraisal_finance->hrComment ? $appraisal_finance->hrComment : '' }}
 												</p>
 											</td>
 										</tr>

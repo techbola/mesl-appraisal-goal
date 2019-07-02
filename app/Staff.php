@@ -193,5 +193,9 @@ class Staff extends Model
     //
     //     parent::__construct($attributes);
     // }
+    public function staffAppraisals()
+    {
+        return $this->hasMany('MESL\StaffAppraisal', 'staff_id');
+    }
 
 }

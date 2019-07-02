@@ -49,8 +49,6 @@ class FinanceAppraisalController extends Controller
     public function updateFinanceAppraisal(Request $request)
     {
 
-//        dd($request->all());
-
         $this->validate($request, [
             'financial_objective'  => 'required|string',
             'financial_kpi'        => 'required|string',

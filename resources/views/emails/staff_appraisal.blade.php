@@ -4,10 +4,10 @@
 Hello,
 
 <p>
-	New appraisal submitted by {{ auth()->user() ->last_name . " " . auth()->user() ->first_name }}.
+	New appraisal goals submitted by {{ auth()->user() ->last_name . " " . auth()->user() ->first_name }}.
 </p>
 
-@component('mail::button', ['url' => route('supervisor.index')])
+@component('mail::button', ['url' => route('appraisal.supervisor.index')])
 View Appraisal
 @endcomponent
 

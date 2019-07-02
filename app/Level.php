@@ -21,4 +21,9 @@ class Level extends Model
         return $this->belongsTo('MESL\BehaviouralItem', 'level_id');
     }
 
+    public function users()
+    {
+        return $this->hasMany('MESL\User', 'level_id');
+    }
+
 }

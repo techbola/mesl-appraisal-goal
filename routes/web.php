@@ -507,7 +507,7 @@ Route::middleware(['auth'])->group(function () {
             'as'   => 'editAppraisal',
         ]);
 
-        Route::get('/submit/appraisal/{id}/hr', [
+        Route::get('/submit/goal/{id}', [
             'uses' => 'AppraisalController@submitAppraisalSupervisor',
             'as'   => 'submitAppraisalSupervisor',
         ]);
@@ -522,7 +522,7 @@ Route::middleware(['auth'])->group(function () {
             'as'   => 'rejectedGoals',
         ]);
 
-//    Finance Appraisal
+//    Finance Goal Settings
         Route::post('/bsc_financial/store', [
             'uses' => 'FinanceAppraisalController@bscFinancialStore',
             'as'   => 'bsc_financial.store',
@@ -536,7 +536,7 @@ Route::middleware(['auth'])->group(function () {
             'as'   => 'updateFinanceAppraisal',
         ]);
 
-//    Customer Appraisal
+//    Customer Goal Settings
         Route::post('/bsc_customer/store', [
             'uses' => 'CustomerAppraisalController@bscCustomerStore',
             'as'   => 'bsc_customer.store',
@@ -550,7 +550,7 @@ Route::middleware(['auth'])->group(function () {
             'as'   => 'updateCustomerAppraisal',
         ]);
 
-//    Internal process Appraisal
+//    Internal process Goal Settings
         Route::post('/bsc_internal/store', [
             'uses' => 'InternalAppraisalController@bscInternalStore',
             'as'   => 'bsc_internal.store',
@@ -564,7 +564,7 @@ Route::middleware(['auth'])->group(function () {
             'as'   => 'updateInternalAppraisal',
         ]);
 
-//    Learning Appraisal
+//    Learning Goal Store
         Route::post('/bsc_learning/store', [
             'uses' => 'LearningAppraisalController@bscLearningStore',
             'as'   => 'bsc_learning.store',
@@ -609,6 +609,67 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/staff_behavioural/update', [
             'uses' => 'StaffBehaviouralItemController@updateStaffBehavioural',
             'as'   => 'updateStaffBehavioural',
+        ]);
+
+        //    Staff Appraisal Start
+        Route::get('/create/appraisal/{appraisalID}', [
+            'uses' => 'Appraisal\StaffAppraisalController@staffAppraisalCreate',
+            'as'   => 'staffAppraisalCreate',
+        ]);
+
+        Route::get('/submit/appraisal/{id}', [
+            'uses' => 'Appraisal\StaffAppraisalController@staffAppraisalSubmitSupervisor',
+            'as'   => 'staffAppraisalSubmitSupervisor',
+        ]);
+
+        Route::get('/view/appraisal/{id}', [
+            'uses' => 'Appraisal\StaffAppraisalController@viewAppraisal',
+            'as'   => 'viewAppraisal',
+        ]);
+
+        Route::get('/update/appraisal/{appraisalID}', [
+            'uses' => 'Appraisal\StaffAppraisalController@staffAppraisalEdit',
+            'as'   => 'staffAppraisalEdit',
+        ]);
+
+//    Financial Appraisal
+        Route::post('/financial/appraisal/store', [
+            'uses' => 'Appraisal\StaffFinancialAppraisalController@appraisalStore',
+            'as'   => 'financialAppraisalStore',
+        ]);
+        Route::post('/financial/appraisal/update', [
+            'uses' => 'Appraisal\StaffFinancialAppraisalController@appraisalUpdate',
+            'as'   => 'financialAppraisalUpdate',
+        ]);
+
+//    Customer Appraisal
+        Route::post('/customer/appraisal/store', [
+            'uses' => 'Appraisal\StaffCustomerAppraisalController@appraisalStore',
+            'as'   => 'customerAppraisalStore',
+        ]);
+        Route::post('/customer/appraisal/update', [
+            'uses' => 'Appraisal\StaffCustomerAppraisalController@appraisalUpdate',
+            'as'   => 'customerAppraisalUpdate',
+        ]);
+
+//    Internal Appraisal
+        Route::post('/internal/appraisal/store', [
+            'uses' => 'Appraisal\StaffInternalAppraisalController@appraisalStore',
+            'as'   => 'internalAppraisalStore',
+        ]);
+        Route::post('/internal/appraisal/update', [
+            'uses' => 'Appraisal\StaffInternalAppraisalController@appraisalUpdate',
+            'as'   => 'internalAppraisalUpdate',
+        ]);
+
+//    Learning Appraisal
+        Route::post('/learning/appraisal/store', [
+            'uses' => 'Appraisal\StaffLearningAppraisalController@appraisalStore',
+            'as'   => 'learningAppraisalStore',
+        ]);
+        Route::post('/learning/appraisal/update', [
+            'uses' => 'Appraisal\StaffLearningAppraisalController@appraisalUpdate',
+            'as'   => 'learningAppraisalUpdate',
         ]);
 
     });

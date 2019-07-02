@@ -30,6 +30,10 @@ class CreateAppraisalCustomersTable extends Migration
             $table->string('justification')->nullable();
             $table->string('hrComment')->nullable();
 
+            $table->string('supervisorAppraisalComment')->nullable();
+            $table->string('hrAppraisalComment')->nullable();
+            $table->string('staffAppraisalComment')->nullable();
+
             $table->timestamps();
         });
     }

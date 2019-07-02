@@ -181,7 +181,7 @@ class User extends Authenticatable
 
     public function level()
     {
-        return $this->belongsTo('App\Level', 'level_id');
+        return $this->belongsTo('MESL\Level', 'level_id');
     }
 
 }

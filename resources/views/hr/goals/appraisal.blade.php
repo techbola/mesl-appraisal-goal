@@ -9,7 +9,7 @@
 
 			<h4><strong>{{ $staffName }}</strong></h4>
 
-			<form action="{{ route('hrGoalsApproval', ['appraisalID' => $appraisalID]) }}" method="post">
+			<form action="{{ route('appraisal.hrGoalsApproval', ['appraisalID' => $appraisalID]) }}" method="post">
 				@csrf
 
 				<div id="rootwizard" class="m-t-50">
@@ -29,7 +29,7 @@
 						@if($ap->status != 6)
 						<div class="row row-same-height" style="margin-top: -50px;">
 							<div class="col-md-12">
-								<div class="panel panel-transparent">
+								<div class="card-box">
 									<div class="panel-body">
 										<div class="form-group">
 											<button type="submit" class="btn btn-danger pull-left" name="action" value="reject">Reject & Send to Staff</button>

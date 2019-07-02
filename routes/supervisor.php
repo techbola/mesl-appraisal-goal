@@ -22,6 +22,18 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('supervisor')->group(fun
         'as'   => 'submitToHr',
     ]);
 
+    //    Supervisor - Staff Appraisal
+
+    Route::get('/view/staff/appraisal/{appraisalID}', [
+        'uses' => 'Appraisal\SupervisorAppraisalController@staffAppraisal',
+        'as'   => 'supervisorViewStaffAppraisal',
+    ]);
+
+    Route::post('/appraisal/{appraisalID}/approval', [
+        'uses' => 'Appraisal\SupervisorAppraisalController@staffAppraisalApproval',
+        'as'   => 'staffAppraisalApproval',
+    ]);
+
     //    Supervisor Goals
 
     Route::get('/set/goals', [
@@ -34,7 +46,7 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('supervisor')->group(fun
         'as'   => 'supervisorDashboard',
     ]);
 
-    Route::get('/all/appraisals', [
+    Route::get('/all/goals', [
         'uses' => 'SupervisorController@allAppraisals',
         'as'   => 'supervisorAppraisals',
     ]);
