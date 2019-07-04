@@ -179,7 +179,7 @@ class HrController extends Controller
 
                 Session::flash('success', 'Goals Approved!');
 
-                return redirect()->route('hrStaffGoals');
+                return redirect()->route('appraisal.hrStaffGoals');
 
                 break;
 
@@ -244,7 +244,7 @@ class HrController extends Controller
 
                 Session::flash('success', 'Goals Rejected!');
 
-                return redirect()->route('hrStaffGoals');
+                return redirect()->route('appraisal.hrStaffGoals');
 
                 break;
 

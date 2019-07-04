@@ -11,7 +11,7 @@
 					</div>
 					<div class="panel-body">
 
-						<form action="{{ route('learningAppraisalUpdate') }}" method="post" enctype="multipart/form-data">
+						<form action="{{ route('appraisal.learningAppraisalUpdate') }}" method="post" enctype="multipart/form-data">
 							@csrf
 
 							<div class="table-responsive">

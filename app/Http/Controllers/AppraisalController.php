@@ -61,6 +61,8 @@ class AppraisalController extends Controller
     public function dashboard($appraisalID)
     {
 
+//        dd(auth()->user()->level_id);
+
         if (!auth()->user()->staff->SupervisorFlag && !auth()->user()->hasRole('HR Supervisor')) {
 
             $appraisal_finances = AppraisalFinance::where('staffID', auth()->user()->staff->StaffRef)
@@ -74,6 +76,8 @@ class AppraisalController extends Controller
 
             $behavioural  = new Behavioural();
             $behaviourals = $behavioural->getUserBehaviourals();
+
+//            dd($behaviourals);
 
             return view('staff.goals.new_goal.staff')->with([
                 'appraisalID'         => $appraisalID,
@@ -260,6 +264,8 @@ class AppraisalController extends Controller
         $behavioural           = new Behavioural();
         $behaviourals          = $behavioural->getUserBehaviourals();
         $staffBehaviouralItems = StaffBehaviouralItem::where('appraisal_id', $id);
+
+//        dd($appraisal_finances);
 
         return view('staff.goals.view_goals.staff')->with([
             'appraisalID'           => $id,

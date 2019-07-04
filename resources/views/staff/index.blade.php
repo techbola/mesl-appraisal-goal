@@ -34,7 +34,7 @@
 									<div class="col-sm-12">
 										<div class="form-group form-group-default">
 											<label>Department</label>
-											<input type="text"  class="form-control" name="department">
+											<input type="text"  class="form-control" name="department" value="{{ auth()->user()->staff->department->Department }}">
 										</div>
 									</div>
 								</div>

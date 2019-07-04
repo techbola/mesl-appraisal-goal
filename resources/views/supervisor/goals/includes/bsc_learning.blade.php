@@ -92,7 +92,8 @@
 												</td>
 												<td class="v-align-middle">
 													<div class="form-group form-group-default">
-														<input type="text" class="form-control" name="learning_comment[]">
+														<input type="text" class="form-control" name="learning_comment[]"
+														value="{{ $appraisal_learning->justification ? $appraisal_learning->justification : '' }}">
 													</div>
 												</td>
 											</tr>

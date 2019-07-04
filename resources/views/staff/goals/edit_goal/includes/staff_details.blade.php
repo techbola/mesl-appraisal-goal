@@ -2,7 +2,7 @@
 	<div class="row row-same-height">
 		<div class="col-md-12">
 			
-			<form action="{{ route('staff_details.store') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('appraisal.staff_details.store') }}" method="post" enctype="multipart/form-data">
 				@csrf
 				{{-- Employer Details --}}
 				<div class="form-group-attached">

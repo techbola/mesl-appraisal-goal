@@ -3,7 +3,7 @@
 
 		<div class="col-md-12">
 
-			<form action="{{ route('other_appraisal.store') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('appraisal.other_appraisal.store') }}" method="post" enctype="multipart/form-data">
 				@csrf
 				{{-- Comment --}}
 				@if(!$comments)

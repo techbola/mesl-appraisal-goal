@@ -11,7 +11,7 @@
 @section('content')
 
 	<!-- START PAGE CONTENT -->
-	<div class=" ">
+	<div class="">
 		<!-- START CONTAINER FLUID -->
 		<div class="">
 			<!-- START PANEL -->

@@ -3,7 +3,7 @@
 Hello,
 
 <p>
-	Your goals set for period {{ $appraisal->period }} has been rejected.
+	Your appraisal set for period {{ $appraisal->period }} has been rejected.
 </p>
 
 @component('mail::button', ['url' => route('appraisal.staff.index')])

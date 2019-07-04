@@ -3,7 +3,7 @@
 		<div class="col-md-12">
 			<div class="padding-30">
 
-				<form action="{{ route('updateStaffBehavioural') }}" method="post" enctype="multipart/form-data">
+				<form action="{{ route('appraisal.updateStaffBehavioural') }}" method="post" enctype="multipart/form-data">
 					@csrf
 
 					<div class="row clearfix">

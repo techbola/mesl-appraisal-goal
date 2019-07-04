@@ -3,7 +3,7 @@
 
 		<div class="col-md-12">
 
-			<form action="{{ route('other_appraisal.store') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('appraisal.other_appraisal.store') }}" method="post" enctype="multipart/form-data">
 				@csrf
 				{{-- Comment --}}
 				@if(!$comments)
@@ -149,7 +149,7 @@
 												data-target="#commentModal">
 											Edit
 										</button>
-										<a href="{{ route('deleteAppraisalComment', ['cID' => $comments->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+										<a href="{{ route('appraisal.deleteAppraisalComment', ['cID' => $comments->id]) }}" class="btn btn-danger btn-sm">Delete</a>
 
 									</p>
 								</div>
@@ -180,7 +180,7 @@
 										data-target="#signatureModal">
 									Edit
 								</button>
-								<a href="{{ route('deleteAppraisalSignature', ['signID' => $signatures->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+								<a href="{{ route('appraisal.deleteAppraisalSignature', ['signID' => $signatures->id]) }}" class="btn btn-danger btn-sm">Delete</a>
 
 							</p>
 

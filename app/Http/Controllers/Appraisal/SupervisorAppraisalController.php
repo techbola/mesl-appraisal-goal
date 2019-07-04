@@ -218,6 +218,8 @@ class SupervisorAppraisalController extends Controller
                 $newStaffScoreReport->overallSupervisorScore   = $overallSupervisorScore;
                 $newStaffScoreReport->period                   = $appraisal->period;
 
+//                dd($newStaffScoreReport);
+
                 $newStaffScoreReport->save();
 
                 $staff = Staff::find($staffID);

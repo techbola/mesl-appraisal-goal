@@ -2,7 +2,7 @@
 	<div class="row row-same-height">
 
 		<div class="col-md-12">
-			<form action="{{ route('bsc_internal.store') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('appraisal.bsc_internal.store') }}" method="post" enctype="multipart/form-data">
 				@csrf
 				{{-- Internal Process --}}
 				<div class="row clearfix">
@@ -78,7 +78,7 @@
 								<thead>
 								<tr>
 									<th style="width:1%">
-										<form action="{{ route('deleteInternalAppraisals') }}" method="post">
+										<form action="{{ route('appraisal.deleteInternalAppraisals') }}" method="post">
 											{{ csrf_field() }}
 											<input type="hidden" name="appraisalIDs" id="appraisalIDs2">
 											<button type="submit" class="btn btn-danger">

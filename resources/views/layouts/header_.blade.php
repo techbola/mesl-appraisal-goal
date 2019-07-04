@@ -401,8 +401,8 @@
                           </div>
                         {{-- @endif --}}
 
-                      @endif
-                    </li>
+                        </li>
+                    @endif
 
                   @else
                     <div class="page-title">
@@ -423,8 +423,19 @@
                     @endif --}}
                 </ul>
                 <span  class="pull-right" style="margin-top : -45px">
+
                   <button onclick="goBack()" class="btn btn-sm btn-rounded btn-inverse"><i class="fa fa-arrow-left m-r-5"></i> Back</button>
-                  <span class="m-l-10">@yield('buttons')</span>
+
+                     <span class="m-l-10">
+
+                        @yield('buttons')
+
+                        <ul class="breadcrumb">
+                            {{-- Appraisal Menus--}}
+                            @include('layouts.partials.appraisal_menus')
+                        </ul>
+
+                    </span>
 
                 </span>
                 <div class="clearfix"></div>

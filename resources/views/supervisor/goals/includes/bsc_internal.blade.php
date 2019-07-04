@@ -92,7 +92,8 @@
 												</td>
 												<td class="v-align-middle">
 													<div class="form-group form-group-default">
-														<input type="text" class="form-control" name="internal_comment[]">
+														<input type="text" class="form-control" name="internal_comment[]"
+														value="{{ $appraisal_internal->justification ? $appraisal_internal->justification : '' }}">
 													</div>
 												</td>
 											</tr>

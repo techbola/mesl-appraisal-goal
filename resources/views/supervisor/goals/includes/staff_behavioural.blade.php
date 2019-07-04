@@ -13,8 +13,8 @@
 							<table class="table">
 								<thead>
 								<tr>
-									<th scope="col" class="text-left text-white bg-primary">{{ $behavioural->behaviouralCat }}</th>
-									<th scope="col" class="text-left text-white bg-primary">Weight</th>
+									<th scope="col" class="text-left text-white bg-orange">{{ $behavioural->behaviouralCat }}</th>
+									<th scope="col" class="text-left text-white bg-orange">Weight</th>
 								</tr>
 								</thead>
 								<tbody>

@@ -3,7 +3,7 @@
 @section('content')
 
 	<!-- START PAGE CONTENT -->
-	<div class="content ">
+	<div class="">
 		<!-- START CONTAINER FLUID -->
 		<div class="container-fluid container-fixed-lg">
 

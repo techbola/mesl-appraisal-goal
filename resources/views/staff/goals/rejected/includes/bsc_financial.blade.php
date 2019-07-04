@@ -2,7 +2,7 @@
 	<div class="row row-same-height">
 
 		<div class="col-md-12">
-			<form action="{{ route('bsc_financial.store') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('appraisal.bsc_financial.store') }}" method="post" enctype="multipart/form-data">
 				@csrf
 				{{-- Financial --}}
 				<div class="row clearfix">
@@ -81,7 +81,7 @@
 								<thead>
 								<tr>
 									<th style="width:1%">
-										<form action="{{ route('deleteFinanceAppraisals') }}" method="post">
+										<form action="{{ route('appraisal.deleteFinanceAppraisals') }}" method="post">
 											{{ csrf_field() }}
 											<input type="hidden" name="appraisalIDs" id="appraisalIDs">
 											<button type="submit" class="btn btn-danger">

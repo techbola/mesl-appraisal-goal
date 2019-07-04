@@ -6,7 +6,7 @@
 				<h5 class="modal-title" id="financeModalLabel">Update Item</h5>
 			</div>
 
-			<form action="{{ route('updateFinanceAppraisal') }}" method="post">
+			<form action="{{ route('appraisal.updateFinanceAppraisal') }}" method="post">
 				@csrf
 				<div class="modal-body">
 					<table class="table">
@@ -65,7 +65,7 @@
 				<h5 class="modal-title" id="customerModalLabel">Update Item</h5>
 			</div>
 
-			<form action="{{ route('updateCustomerAppraisal') }}" method="post">
+			<form action="{{ route('appraisal.updateCustomerAppraisal') }}" method="post">
 				@csrf
 				<div class="modal-body">
 					<table class="table">
@@ -124,7 +124,7 @@
 				<h5 class="modal-title" id="internalModalLabel">Update Item</h5>
 			</div>
 
-			<form action="{{ route('updateInternalAppraisal') }}" method="post">
+			<form action="{{ route('appraisal.updateInternalAppraisal') }}" method="post">
 				@csrf
 				<div class="modal-body">
 					<table class="table">
@@ -183,7 +183,7 @@
 				<h5 class="modal-title" id="learningModalLabel">Update Item</h5>
 			</div>
 
-			<form action="{{ route('updateLearningAppraisal') }}" method="post">
+			<form action="{{ route('appraisal.updateLearningAppraisal') }}" method="post">
 				@csrf
 					<div class="modal-body">
 					<table class="table">
@@ -242,7 +242,7 @@
 				<h5 class="modal-title" id="commentModalLabel">Update Comment</h5>
 			</div>
 
-			<form action="{{ route('updateAppraisalComment') }}" method="post">
+			<form action="{{ route('appraisal.updateAppraisalComment') }}" method="post">
 
 				@csrf
 
@@ -272,7 +272,7 @@
 				<h5 class="modal-title" id="signatureModalLabel">Update Signature</h5>
 			</div>
 
-			<form action="{{ route('updateAppraisalSign') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('appraisal.updateAppraisalSign') }}" method="post" enctype="multipart/form-data">
 
 				@csrf
 

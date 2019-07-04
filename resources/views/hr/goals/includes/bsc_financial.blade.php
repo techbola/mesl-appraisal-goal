@@ -65,7 +65,8 @@
 												</td>
 												<td class="v-align-middle">
 													<div class="form-group form-group-default">
-														<input type="text" class="form-control" name="financial_comment[]">
+														<input type="text" class="form-control" name="financial_comment[]"
+														value="{{ $appraisal_finance->hrComment ? $appraisal_finance->hrComment : '' }}">
 													</div>
 												</td>
 											</tr>

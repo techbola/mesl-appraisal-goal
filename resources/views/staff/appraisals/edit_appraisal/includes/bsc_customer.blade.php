@@ -11,7 +11,7 @@
 					</div>
 					<div class="panel-body">
 
-						<form action="{{ route('customerAppraisalUpdate') }}" method="post" enctype="multipart/form-data">
+						<form action="{{ route('appraisal.customerAppraisalUpdate') }}" method="post" enctype="multipart/form-data">
 							@csrf
 							<div class="table-responsive">
 								<table class="table table-hover" id="basicTable">
