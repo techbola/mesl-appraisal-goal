@@ -3,10 +3,10 @@
 @section('content')
 <div class="container-fluid container-fixed-lg bg-white">
     <!-- START PANEL -->
-    <div class="panel panel-transparent">
+    <div class="card-box">
         <div class="panel-body">
             @foreach($details as $detail)
-            <div class="panel panel-transparent">
+            <div class="card-box">
                 <div class="panel-heading">
                     <h3>
                         Bio - Data

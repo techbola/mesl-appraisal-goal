@@ -2,7 +2,7 @@
 
 @section('content')
 
-	<div class="panel panel-transparent" style="margin-top: 50px;">
+	<div class="card-box" style="margin-top: 50px;">
 		<div class="panel-heading">
 			<div class="panel-title">All Appraisals</div>
 			<div class="clearfix"></div>

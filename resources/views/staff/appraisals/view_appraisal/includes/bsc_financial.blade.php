@@ -17,9 +17,10 @@
 									<th style="width:20%">Objectives</th>
 									<th style="width:15%">KPIs</th>
 									<th style="width:15%">Targets</th>
-									<th style="width:20%">Constraints</th>
-									<th style="width:15%">Supervisor Comment</th>
-									<th style="width:15%">HR Comment</th>
+									<th style="width:5%">Self <br> Assessment</th>
+									<th style="width:20%">Staff <br> Comment</th>
+									<th style="width:5%">Supervisor <br> Assessment</th>
+									<th style="width:20%">Supervisor <br> Comment</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -43,17 +44,22 @@
 											</td>
 											<td class="v-align-middle">
 												<p>
-													{{ $appraisal_finance->constraint }}
+													{{ $appraisal_finance->selfAssessment }}
 												</p>
 											</td>
 											<td class="v-align-middle">
 												<p>
-													{{ $appraisal_finance->justification ? $appraisal_finance->justification : '' }}
+													{{ $appraisal_finance->staffAppraisalComment }}
 												</p>
 											</td>
 											<td class="v-align-middle">
 												<p>
-													{{ $appraisal_finance->hrComment ? $appraisal_finance->hrComment : '' }}
+													{{ $appraisal_finance->supervisorAssessment }}
+												</p>
+											</td>
+											<td class="v-align-middle">
+												<p>
+													{{ $appraisal_finance->supervisorAppraisalComment }}
 												</p>
 											</td>
 										</tr>

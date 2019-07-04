@@ -67,7 +67,7 @@
 		@if($appraisal_internals->count() > 0)
 
 			<div class="col-md-12" style="margin-top: 20px;">
-				<div class="panel panel-transparent">
+				<div class="card-box">
 					<div class="panel-heading">
 						<div class="panel-title">Internal Process</div>
 						<div class="clearfix"></div>

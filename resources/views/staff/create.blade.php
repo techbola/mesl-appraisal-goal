@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="panel panel-transparent">
+<div class="card-box">
 	<div class="panel-heading">
 		<div class="panel-title">
 			Create New Staff 
