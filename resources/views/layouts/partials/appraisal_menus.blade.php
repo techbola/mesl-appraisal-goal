@@ -61,12 +61,12 @@
 
 @elseif(auth()->user()->staff->SupervisorFlag)
 
-{{--	<li>--}}
-{{--		<a href="{{ route('appraisal.supervisorNewGoal') }}">Goal Settings</a>--}}
-{{--	</li>--}}
-{{--	<li>--}}
-{{--		<a href="{{ route('appraisal.supervisorAppraisals') }}">Appraisal List</a>--}}
-{{--	</li>--}}
+	<li>
+		<a href="{{ route('appraisal.supervisorNewGoal') }}">Goal Settings</a>
+	</li>
+	<li>
+		<a href="{{ route('appraisal.supervisorAppraisals') }}">Appraisal List</a>
+	</li>
 	<li>
 		<a href="{{ route('appraisal.supervisor.index') }}">Staff Appraisals</a>
 	</li>

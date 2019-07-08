@@ -3,7 +3,7 @@
 		<div class="col-md-12">
 			<div class="padding-30">
 
-				<form action="{{ route('appraisal.supervisor.updateStaffBehavioural') }}" method="post" enctype="multipart/form-data">
+				<form action="{{ route('appraisal.supervisor.update.behavioural') }}" method="post" enctype="multipart/form-data">
 
 					@csrf
 
