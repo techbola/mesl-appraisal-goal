@@ -170,4 +170,9 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('supervisor')->group(fun
         'as'   => 'supervisor.updateAppraisalSign',
     ]);
 
+    Route::post('/other_appraisal/store', [
+        'uses' => 'SupervisorController@otherAppraisalStore',
+        'as'   => 'supervisor.other_appraisal.store',
+    ]);
+
 });

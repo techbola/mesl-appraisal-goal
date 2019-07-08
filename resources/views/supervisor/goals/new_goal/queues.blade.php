@@ -39,19 +39,26 @@
 										@elseif($appraisal->sentFlag && $appraisal->status == 2)
 											<a href="{{ route('appraisal.supervisorViewGoals', ['id' => $appraisal->id]) }}" class="btn btn-info btn-sm">View Goals</a>
 										@elseif(!$appraisal->sentFlag && $appraisal->status == 3 || !$appraisal->sentFlag && $appraisal->status == 5)
-											<a href="{{ route('appraisal.supervisorSubmitAppraisal', ['id' => $appraisal->id]) }}" class="btn btn-info btn-sm">Submit To Supervisor</a>
-											|
-											<a href="{{ route('appraisal.supervisorDeleteAppraisal', ['id' => $appraisal->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+											<p>
+												<a href="{{ route('appraisal.supervisorSubmitAppraisal', ['id' => $appraisal->id]) }}" class="btn btn-info btn-sm">Submit To Supervisor</a>
+											</p>
+											<p>
+												<a href="{{ route('appraisal.supervisorDeleteAppraisal', ['id' => $appraisal->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+											</p>
 										@elseif($appraisal->sentFlag && $appraisal->status == 4)
 											<a href="{{ route('appraisal.supervisorViewGoals', ['id' => $appraisal->id]) }}" class="btn btn-info btn-sm">View Goals</a>
 										@elseif($appraisal->sentFlag && $appraisal->status == 6)
 											<a href="{{ route('appraisal.supervisorViewGoals', ['id' => $appraisal->id]) }}" class="btn btn-info btn-sm">View Goals</a>
 										@else
-											<a href="{{ route('appraisal.supervisorSubmitAppraisal', ['id' => $appraisal->id]) }}" class="btn btn-info btn-sm">Submit To Supervisor</a>
-											|
-											<a href="{{ route('appraisal.supervisorEditAppraisal', ['id' => $appraisal->id]) }}" class="btn btn-primary btn-sm">Edit</a>
-											|
-											<a href="{{ route('appraisal.supervisorDeleteAppraisal', ['id' => $appraisal->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+											<p>
+												<a href="{{ route('appraisal.supervisorSubmitAppraisal', ['id' => $appraisal->id]) }}" class="btn btn-info btn-sm">Submit To Supervisor</a>
+											</p>
+											<p>
+												<a href="{{ route('appraisal.supervisorEditAppraisal', ['id' => $appraisal->id]) }}" class="btn btn-primary btn-sm">Edit</a>
+											</p>
+											<p>
+												<a href="{{ route('appraisal.supervisorDeleteAppraisal', ['id' => $appraisal->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+											</p>
 										@endif
 
 									</td>

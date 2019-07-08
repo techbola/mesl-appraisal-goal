@@ -125,7 +125,7 @@
 										</td>
 										<td class="v-align-middle">
 											<!-- Button trigger modal -->
-											<button type="button" class="btn btn-primary editLearningDialog"
+											<button type="button" class="btn btn-orange editLearningDialog"
 													data-id="{{ $appraisal_learning->id }}"
 													data-objective="{{ $appraisal_learning->objective }}"
 													data-kpi="{{ $appraisal_learning->kpi }}"
