@@ -66,6 +66,18 @@ class HrController extends Controller
         ]);
     }
 
+    public function hrStaffGoalsAsSupervisor()
+    {
+
+        $appraisals = Appraisal::where('supervisorID', auth()->user()->staff->StaffRef)
+            ->where('sentFlag', True)
+            ->get()->all();
+
+        return view('supervisor.index')->with([
+            'appraisals' => $appraisals,
+        ]);
+    }
+
     public function appraisal($appraisalID)
     {
 

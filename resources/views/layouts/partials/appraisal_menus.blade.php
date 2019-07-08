@@ -1,4 +1,4 @@
-@if(!auth()->user()->staff->SupervisorFlag && !auth()->user()->hasRole('HR Supervisor'))
+@if(!auth()->user()->staff->SupervisorFlag && !auth()->user()->hasRole('HR Supervisor') && !auth()->user()->hasRole('Head, Human Resources') && !auth()->user()->hasRole('HR Officer') && !auth()->user()->hasRole('Head, Performance Management'))
 
 	<li>
 		<a href="{{ route('appraisal.staff.index') }}">Goal Setting</a>
@@ -19,6 +19,10 @@
 
 	<li>
 		<a href="{{ route('appraisal.hr.behavioural.items') }}">Behavioural Items</a>
+	</li>
+
+	<li>
+		<a href="{{ route('appraisal.hrStaffGoals.asSupervisor') }}">Staff Goals As Supervisor</a>
 	</li>
 
 	<li>

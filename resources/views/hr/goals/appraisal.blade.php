@@ -45,7 +45,7 @@
 						<div class="padding-20">
 							<ul class="pager wizard">
 								<li class="next">
-									<button class="btn btn-primary pull-right" type="button">
+									<button class="btn btn-orange pull-right" type="button">
 										<span>Next</span>
 									</button>
 								</li>

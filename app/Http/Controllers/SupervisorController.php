@@ -256,7 +256,7 @@ class SupervisorController extends Controller
 
         $appraisals = Appraisal::where('StaffID', auth()->user()->staff->StaffRef)->get();
 
-        return view('supervisor.goals.new_goal.queues')->with([
+        return view('supervisor.goals.queues')->with([
             'appraisals' => $appraisals,
         ]);
 

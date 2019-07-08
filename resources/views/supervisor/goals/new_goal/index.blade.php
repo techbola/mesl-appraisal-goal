@@ -9,6 +9,9 @@
 
 			<div class="row">
 				<div class="col-lg-8 col-md-6 ">
+
+				@include('errors.list')
+
 					<!-- START PANEL -->
 					<div class="card-box">
 						<div class="panel-body">

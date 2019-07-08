@@ -2,13 +2,16 @@
 
 @section('content')
 
-	<div class="content ">
+	<div class="content">
 
 		<!-- START CONTAINER FLUID -->
 		<div class="container-fluid container-fixed-lg">
 
 			<div class="row">
 				<div class="col-lg-8 col-md-6 ">
+
+				@include('errors.list')
+
 					<!-- START PANEL -->
 					<div class="card-box">
 						<div class="panel-body">
