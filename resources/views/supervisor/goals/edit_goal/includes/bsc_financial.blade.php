@@ -2,7 +2,7 @@
 	<div class="row row-same-height">
 
 		<div class="col-md-12">
-			<form action="{{ route('appraisal.bsc_financial.store') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('appraisal.supervisor.bsc_financial.store') }}" method="post" enctype="multipart/form-data">
 				@csrf
 				{{-- Financial --}}
 				<div class="row clearfix">
@@ -11,12 +11,12 @@
 						<table class="table">
 							<thead>
 							<tr>
-								<th scope="col" class="text-center text-white bg-primary">Objectives</th>
-								<th scope="col" class="text-center text-white bg-primary">KPIs</th>
-								<th scope="col" class="text-center text-white bg-primary">Target</th>
-								<th scope="col" class="text-center text-white bg-primary">Constraints</th>
+								<th scope="col" class="text-center text-white bg-orange">Objectives</th>
+								<th scope="col" class="text-center text-white bg-orange">KPIs</th>
+								<th scope="col" class="text-center text-white bg-orange">Target</th>
+								<th scope="col" class="text-center text-white bg-orange">Constraints</th>
 								<th scope="col" class="text-center text-white bg-info">
-									<a style="color: Mediumslateblue;font-size: 30px;" title="Add More Field" id="addFinancialRow">
+									<a style="color: darkorange;font-size: 30px;" title="Add More Field" id="addFinancialRow">
 										<i class="fa fa-plus-circle"></i>
 									</a>
 								</th>
@@ -56,7 +56,7 @@
 					<div class="row clearfix">
 						<div class="col-md-12">
 							<input type="hidden" name="appraisalID" value="{{ $appraisalID }}">
-							<button class="btn btn-primary btn-cons btn-animated" type="submit">
+							<button class="btn btn-orange btn-cons btn-animated" type="submit">
 								<span>Save & Continue</span>
 							</button>
 						</div>
@@ -81,7 +81,7 @@
 								<thead>
 								<tr>
 									<th style="width:1%">
-										<form action="{{ route('appraisal.deleteFinanceAppraisals') }}" method="post">
+										<form action="{{ route('appraisal.supervisor.deleteFinanceAppraisals') }}" method="post">
 											{{ csrf_field() }}
 											<input type="hidden" name="appraisalIDs" id="appraisalIDs">
 											<button type="submit" class="btn btn-danger">
@@ -128,7 +128,7 @@
 											</td>
 											<td class="v-align-middle">
 												<!-- Button trigger modal -->
-												<button type="button" class="btn btn-primary editFinanceDialog"
+												<button type="button" class="btn btn-orange editFinanceDialog"
 														data-id="{{ $appraisal_finance->id }}"
 														data-objective="{{ $appraisal_finance->objective }}"
 														data-kpi="{{ $appraisal_finance->kpi }}"

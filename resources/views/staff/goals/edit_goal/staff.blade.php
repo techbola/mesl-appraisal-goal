@@ -4,6 +4,7 @@
 
 	<!-- START PAGE CONTENT -->
 	<div class="">
+	@include('errors.list')
 		<!-- START CONTAINER FLUID -->
 		<div class="container-fluid container-fixed-lg">
 
@@ -87,5 +88,8 @@
 	<script type="text/javascript" src="{{ asset('main/js/delete_checkbox_ids.js') }}"></script>
 
 	<script type="text/javascript" src="{{ asset('main/js/pass_appraisalid_to_modal.js') }}"></script>
+
+	<script src="{{ asset('main/assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('main/assets/js/form_wizard.js') }}" type="text/javascript"></script>
 
 @endpush

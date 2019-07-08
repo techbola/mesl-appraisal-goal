@@ -4,6 +4,7 @@
 
 	<!-- START PAGE CONTENT -->
 	<div class="">
+	@include('errors.list')
 		<!-- START CONTAINER FLUID -->
 		<div class="container-fluid container-fixed-lg">
 

@@ -12,7 +12,7 @@
 					<!-- START PANEL -->
 					<div class="card-box">
 						<div class="panel-body">
-							<form role="form" action="{{ route('appraisal.staff_details.store') }}" method="post">
+							<form role="form" action="{{ route('appraisal.supervisor_details.store') }}" method="post">
 								@csrf
 								<div class="row">
 									<div class="col-sm-12">

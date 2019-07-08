@@ -21,10 +21,13 @@ use MESL\Mail\StaffSendAppraisal;
 use MESL\Role;
 use MESL\Staff;
 use MESL\StaffBehaviouralItem;
+use MESL\Traits\UploadTrait;
 use MESL\User;
 
 class SupervisorController extends Controller
 {
+
+    use UploadTrait;
 
     public function index()
     {
@@ -241,6 +244,8 @@ class SupervisorController extends Controller
 
     }
 
+//    Supervisor Goal Setting
+
     public function supervisorNewGoal()
     {
         return view('supervisor.goals.new_goal.index');
@@ -287,6 +292,8 @@ class SupervisorController extends Controller
 
     public function staffDetailsStore(Request $request)
     {
+
+//        dd($request->all());
 
         $this->validate($request, [
 

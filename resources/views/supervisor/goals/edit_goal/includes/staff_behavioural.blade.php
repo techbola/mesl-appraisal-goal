@@ -3,7 +3,7 @@
 		<div class="col-md-12">
 			<div class="padding-30">
 
-				<form action="{{ route('appraisal.updateStaffBehavioural') }}" method="post" enctype="multipart/form-data">
+				<form action="{{ route('appraisal.supervisor.updateStaffBehavioural') }}" method="post" enctype="multipart/form-data">
 
 					@csrf
 
@@ -15,8 +15,8 @@
 								<table class="table">
 									<thead>
 									<tr>
-										<th scope="col" class="text-left text-white bg-primary">{{ $behavioural->behaviouralCat }}</th>
-										<th scope="col" class="text-left text-white bg-primary">Weight</th>
+										<th scope="col" class="text-left text-white bg-orange">{{ $behavioural->behaviouralCat }}</th>
+										<th scope="col" class="text-left text-white bg-orange">Weight</th>
 									</tr>
 									</thead>
 									<tbody>
@@ -37,19 +37,6 @@
 							@endforeach
 						</div>
 					</div>
-					<br>
-
-{{--					<div class="form-group-attached">--}}
-{{--						<div class="row clearfix">--}}
-{{--							<div class="col-md-12">--}}
-{{--								<input type="hidden" name="appraisalID" value="{{ $appraisalID }}">--}}
-{{--								<input type="hidden" name="behaviourals" value="{{ $behaviourals->pluck('id') }}">--}}
-{{--								<button class="btn btn-primary btn-cons btn-animated" type="submit">--}}
-{{--									<span>Update</span>--}}
-{{--								</button>--}}
-{{--							</div>--}}
-{{--						</div>--}}
-{{--					</div>--}}
 
 				</form>
 

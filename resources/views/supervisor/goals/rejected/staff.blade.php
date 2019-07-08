@@ -4,27 +4,28 @@
 
 	<!-- START PAGE CONTENT -->
 	<div class=" ">
+	@include('errors.list')
 		<!-- START CONTAINER FLUID -->
 		<div class="container-fluid container-fixed-lg">
 
 			<div id="rootwizard" class="m-t-50">
 				<!-- Nav tabs -->
-					@include('staff.goals.rejected.includes.appraisal_nav')
+					@include('supervisor.goals.rejected.includes.appraisal_nav')
 				<!-- Tab panes -->
 
 				<div class="tab-content">
 
-					@include('staff.goals.rejected.includes.bsc_financial')
-					@include('staff.goals.rejected.includes.bsc_customer')
-					@include('staff.goals.rejected.includes.bsc_internal')
-					@include('staff.goals.rejected.includes.bsc_learning')
-					@include('staff.goals.rejected.includes.staff_behavioural')
-					@include('staff.goals.rejected.includes.others')
+					@include('supervisor.goals.rejected.includes.bsc_financial')
+					@include('supervisor.goals.rejected.includes.bsc_customer')
+					@include('supervisor.goals.rejected.includes.bsc_internal')
+					@include('supervisor.goals.rejected.includes.bsc_learning')
+					@include('supervisor.goals.rejected.includes.staff_behavioural')
+					@include('supervisor.goals.rejected.includes.others')
 
 					<div class="padding-20">
 						<ul class="pager wizard">
 							<li class="next">
-								<button class="btn btn-primary pull-right" type="button">
+								<button class="btn btn-orange pull-right" type="button">
 									<span>Next</span>
 								</button>
 							</li>
@@ -44,7 +45,7 @@
 	</div>
 	<!-- END PAGE CONTENT -->
 
-	@include('staff.goals.rejected.includes.edit_appraisal_modals')
+	@include('supervisor.goals.rejected.includes.edit_appraisal_modals')
 
 @endsection
 
@@ -87,5 +88,8 @@
 	<script type="text/javascript" src="{{ asset('main/js/delete_checkbox_ids.js') }}"></script>
 
 	<script type="text/javascript" src="{{ asset('main/js/pass_appraisalid_to_modal.js') }}"></script>
+
+	<script src="{{ asset('main/assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('main/assets/js/form_wizard.js') }}" type="text/javascript"></script>
 
 @endpush

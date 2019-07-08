@@ -9,22 +9,22 @@
 
 			<div id="rootwizard" class="m-t-50">
 				<!-- Nav tabs -->
-					@include('staff.goals.view_goals.includes.appraisal_nav')
+					@include('supervisor.goals.view_goals.includes.appraisal_nav')
 				<!-- Tab panes -->
 
 				<div class="tab-content">
 
-					@include('staff.goals.view_goals.includes.bsc_financial')
-					@include('staff.goals.view_goals.includes.bsc_customer')
-					@include('staff.goals.view_goals.includes.bsc_internal')
-					@include('staff.goals.view_goals.includes.bsc_learning')
-					@include('staff.goals.view_goals.includes.staff_behavioural')
-					@include('staff.goals.view_goals.includes.others')
+					@include('supervisor.goals.view_goals.includes.bsc_financial')
+					@include('supervisor.goals.view_goals.includes.bsc_customer')
+					@include('supervisor.goals.view_goals.includes.bsc_internal')
+					@include('supervisor.goals.view_goals.includes.bsc_learning')
+					@include('supervisor.goals.view_goals.includes.staff_behavioural')
+					@include('supervisor.goals.view_goals.includes.others')
 
 					<div class="padding-20">
 						<ul class="pager wizard">
 							<li class="next">
-								<button class="btn btn-primary pull-right" type="button">
+								<button class="btn btn-orange pull-right" type="button">
 									<span>Next</span>
 								</button>
 							</li>
@@ -69,5 +69,8 @@
 			@endforeach
 		</script>
 	@endif
+
+	<script src="{{ asset('main/assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('main/assets/js/form_wizard.js') }}" type="text/javascript"></script>
 
 @endpush

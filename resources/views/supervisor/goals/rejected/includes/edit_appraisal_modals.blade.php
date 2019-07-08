@@ -6,16 +6,16 @@
 				<h5 class="modal-title" id="financeModalLabel">Update Item</h5>
 			</div>
 
-			<form action="{{ route('appraisal.updateFinanceAppraisal') }}" method="post">
+			<form action="{{ route('appraisal.supervisor.updateFinanceAppraisal') }}" method="post">
 				@csrf
 				<div class="modal-body">
 					<table class="table">
 						<thead>
 						<tr>
-							<th scope="col" class="text-center text-white bg-primary">Objectives</th>
-							<th scope="col" class="text-center text-white bg-primary">KPIs</th>
-							<th scope="col" class="text-center text-white bg-primary">Target</th>
-							<th scope="col" class="text-center text-white bg-primary">Constraints</th>
+							<th scope="col" class="text-center text-white bg-orange">Objectives</th>
+							<th scope="col" class="text-center text-white bg-orange">KPIs</th>
+							<th scope="col" class="text-center text-white bg-orange">Target</th>
+							<th scope="col" class="text-center text-white bg-orange">Constraints</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -49,7 +49,7 @@
 				<div class="modal-footer">
 					<input type="hidden" name="financeAppraisalID" value="" id="financeAppraisalID">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Update</button>
+					<button type="submit" class="btn btn-orange">Update</button>
 				</div>
 			</form>
 
@@ -65,16 +65,16 @@
 				<h5 class="modal-title" id="customerModalLabel">Update Item</h5>
 			</div>
 
-			<form action="{{ route('appraisal.updateCustomerAppraisal') }}" method="post">
+			<form action="{{ route('appraisal.supervisor.updateCustomerAppraisal') }}" method="post">
 				@csrf
 				<div class="modal-body">
 					<table class="table">
 						<thead>
 						<tr>
-							<th scope="col" class="text-center text-white bg-primary">Objectives</th>
-							<th scope="col" class="text-center text-white bg-primary">KPIs</th>
-							<th scope="col" class="text-center text-white bg-primary">Target</th>
-							<th scope="col" class="text-center text-white bg-primary">Constraints</th>
+							<th scope="col" class="text-center text-white bg-orange">Objectives</th>
+							<th scope="col" class="text-center text-white bg-orange">KPIs</th>
+							<th scope="col" class="text-center text-white bg-orange">Target</th>
+							<th scope="col" class="text-center text-white bg-orange">Constraints</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -108,7 +108,7 @@
 				<div class="modal-footer">
 					<input type="hidden" name="customerAppraisalID" value="" id="customerAppraisalID">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Update</button>
+					<button type="submit" class="btn btn-orange">Update</button>
 				</div>
 			</form>
 
@@ -124,16 +124,16 @@
 				<h5 class="modal-title" id="internalModalLabel">Update Item</h5>
 			</div>
 
-			<form action="{{ route('appraisal.updateInternalAppraisal') }}" method="post">
+			<form action="{{ route('appraisal.supervisor.updateInternalAppraisal') }}" method="post">
 				@csrf
 				<div class="modal-body">
 					<table class="table">
 						<thead>
 						<tr>
-							<th scope="col" class="text-center text-white bg-primary">Objectives</th>
-							<th scope="col" class="text-center text-white bg-primary">KPIs</th>
-							<th scope="col" class="text-center text-white bg-primary">Target</th>
-							<th scope="col" class="text-center text-white bg-primary">Constraints</th>
+							<th scope="col" class="text-center text-white bg-orange">Objectives</th>
+							<th scope="col" class="text-center text-white bg-orange">KPIs</th>
+							<th scope="col" class="text-center text-white bg-orange">Target</th>
+							<th scope="col" class="text-center text-white bg-orange">Constraints</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -167,7 +167,7 @@
 				<div class="modal-footer">
 					<input type="hidden" name="internalAppraisalID" value="" id="internalAppraisalID">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Update</button>
+					<button type="submit" class="btn btn-orange">Update</button>
 				</div>
 			</form>
 
@@ -183,16 +183,16 @@
 				<h5 class="modal-title" id="learningModalLabel">Update Item</h5>
 			</div>
 
-			<form action="{{ route('appraisal.updateLearningAppraisal') }}" method="post">
+			<form action="{{ route('appraisal.supervisor.updateLearningAppraisal') }}" method="post">
 				@csrf
 					<div class="modal-body">
 					<table class="table">
 						<thead>
 						<tr>
-							<th scope="col" class="text-center text-white bg-primary">Objectives</th>
-							<th scope="col" class="text-center text-white bg-primary">KPIs</th>
-							<th scope="col" class="text-center text-white bg-primary">Target</th>
-							<th scope="col" class="text-center text-white bg-primary">Constraints</th>
+							<th scope="col" class="text-center text-white bg-orange">Objectives</th>
+							<th scope="col" class="text-center text-white bg-orange">KPIs</th>
+							<th scope="col" class="text-center text-white bg-orange">Target</th>
+							<th scope="col" class="text-center text-white bg-orange">Constraints</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -226,7 +226,7 @@
 				<div class="modal-footer">
 					<input type="hidden" name="learningAppraisalID" value="" id="learningAppraisalID">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Update</button>
+					<button type="submit" class="btn btn-orange">Update</button>
 				</div>
 			</form>
 
@@ -242,7 +242,7 @@
 				<h5 class="modal-title" id="commentModalLabel">Update Comment</h5>
 			</div>
 
-			<form action="{{ route('appraisal.updateAppraisalComment') }}" method="post">
+			<form action="{{ route('appraisal.supervisor.updateAppraisalComment') }}" method="post">
 
 				@csrf
 
@@ -255,7 +255,7 @@
 				<div class="modal-footer">
 					<input type="hidden" name="commentID" id="commentAppraisalID">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Update</button>
+					<button type="submit" class="btn btn-orange">Update</button>
 				</div>
 
 			</form>
@@ -272,7 +272,7 @@
 				<h5 class="modal-title" id="signatureModalLabel">Update Signature</h5>
 			</div>
 
-			<form action="{{ route('appraisal.updateAppraisalSign') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('appraisal.supervisor.updateAppraisalSign') }}" method="post" enctype="multipart/form-data">
 
 				@csrf
 
@@ -285,7 +285,7 @@
 				<div class="modal-footer">
 					<input type="hidden" name="signatureID" id="signatureID">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Update</button>
+					<button type="submit" class="btn btn-orange">Update</button>
 				</div>
 
 			</form>

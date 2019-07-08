@@ -61,18 +61,12 @@
 
 @elseif(auth()->user()->staff->SupervisorFlag)
 
-	{{--		<li class="m-t-30 ">--}}
-	{{--			<a href="{{ route('supervisorNewGoal') }}" class="detailed">--}}
-	{{--				<span class="title">Dashboard</span>--}}
-	{{--			</a>--}}
-	{{--			<span class="bg-success icon-thumbnail"><i class="pg-home"></i></span>--}}
-	{{--		</li>--}}
-	{{--		<li class="">--}}
-	{{--			<a href="{{ route('supervisorAppraisals') }}">--}}
-	{{--				<span class="title">Goals Setting</span>--}}
-	{{--			</a>--}}
-	{{--			<span class="icon-thumbnail">gs</span>--}}
-	{{--		</li>--}}
+{{--	<li>--}}
+{{--		<a href="{{ route('appraisal.supervisorNewGoal') }}">Goal Settings</a>--}}
+{{--	</li>--}}
+{{--	<li>--}}
+{{--		<a href="{{ route('appraisal.supervisorAppraisals') }}">Appraisal List</a>--}}
+{{--	</li>--}}
 	<li>
 		<a href="{{ route('appraisal.supervisor.index') }}">Staff Appraisals</a>
 	</li>

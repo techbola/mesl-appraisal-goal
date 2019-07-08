@@ -4,6 +4,7 @@
 
 	<!-- START PAGE CONTENT -->
 	<div class="">
+	@include('errors.list')
 		<!-- START CONTAINER FLUID -->
 		<div class="container-fluid container-fixed-lg">
 
@@ -69,5 +70,8 @@
 			@endforeach
 		</script>
 	@endif
+
+	<script src="{{ asset('main/assets/plugins/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('main/assets/js/form_wizard.js') }}" type="text/javascript"></script>
 
 @endpush

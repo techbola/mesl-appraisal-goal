@@ -3,7 +3,7 @@
 
 		<div class="col-md-12">
 
-			<form action="{{ route('appraisal.other_appraisal.store') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('appraisal.supervisor.other_appraisal.store') }}" method="post" enctype="multipart/form-data">
 				@csrf
 				{{-- Comment --}}
 				@if(!$comments)
@@ -111,7 +111,7 @@
 						<div class="col-md-12">
 							@if(!$comments)
 								<input type="hidden" name="appraisalID" value="{{ $appraisalID }}">
-								<button class="btn btn-primary btn-cons btn-animated" type="submit">
+								<button class="btn btn-orange btn-cons btn-animated" type="submit">
 									<span>Save & Continue</span>
 								</button>
 							@endif
@@ -142,14 +142,14 @@
 									<hr>
 									<p>
 
-										<button type="button" class="btn btn-primary editCommentDialog"
+										<button type="button" class="btn btn-orange editCommentDialog"
 												data-id="{{ $comments->id }}"
 												data-comment="{{ $comments->appraiseeComment }}"
 												data-toggle="modal"
 												data-target="#commentModal">
 											Edit
 										</button>
-										<a href="{{ route('appraisal.deleteAppraisalComment', ['cID' => $comments->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+										<a href="{{ route('appraisal.supervisor.deleteAppraisalComment', ['cID' => $comments->id]) }}" class="btn btn-danger btn-sm">Delete</a>
 
 									</p>
 								</div>
@@ -174,13 +174,13 @@
 
 							<p>
 
-								<button type="button" class="btn btn-primary editSignDialog"
+								<button type="button" class="btn btn-orange editSignDialog"
 										data-id="{{ $signatures->id }}"
 										data-toggle="modal"
 										data-target="#signatureModal">
 									Edit
 								</button>
-								<a href="{{ route('appraisal.deleteAppraisalSignature', ['signID' => $signatures->id]) }}" class="btn btn-danger btn-sm">Delete</a>
+								<a href="{{ route('appraisal.supervisor.deleteAppraisalSignature', ['signID' => $signatures->id]) }}" class="btn btn-danger btn-sm">Delete</a>
 
 							</p>
 
