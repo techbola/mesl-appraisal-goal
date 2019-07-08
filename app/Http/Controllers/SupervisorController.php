@@ -221,7 +221,7 @@ class SupervisorController extends Controller
     public function submitToHr($appraisalID)
     {
 
-        $users = Role::where('name', 'HR Supervisor')->first()->users()->get()->all();
+        $users = Role::whereIn('name', ['Head, Performance Management','HR Supervisor', 'Head, Human Resources', 'HR Officer'])->first()->users()->get()->all();
 
         $hr = $users[0];
 
