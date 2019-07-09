@@ -308,7 +308,7 @@ class SupervisorController extends Controller
 
         if ($data) {
 
-            Session::flash('errorFlag', 'Appraisal for this period already started, check your queue.');
+            Session::flash('error', 'Appraisal for this period already started, check your queue.');
 
             return back();
 
