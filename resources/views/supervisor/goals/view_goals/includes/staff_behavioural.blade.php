@@ -14,8 +14,8 @@
 								<table class="table">
 									<thead>
 									<tr>
-										<th class="text-left text-white bg-primary">{{ $behavioural->behaviouralCat }}</th>
-										<th class="text-left text-white bg-primary">Weight</th>
+										<th class="text-left text-white bg-orange">{{ $behavioural->behaviouralCat }}</th>
+										<th class="text-left text-white bg-orange">Weight</th>
 									</tr>
 									</thead>
 									<tbody>

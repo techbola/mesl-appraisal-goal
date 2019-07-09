@@ -17,16 +17,16 @@
 		<a href="{{ route('appraisal.hr.behavioural.items') }}">Behavioural Items</a>
 	</li>
 
-{{--	<li>--}}
-{{--		<a href="{{ route('appraisal.hrStaffGoals.asSupervisor') }}">Staff Goals</a>--}}
-{{--	</li>--}}
+	<li>
+		<a href="{{ route('appraisal.hrStaffGoals.asSupervisor') }}">Staff Goals</a>
+	</li>
 
 	<li>
 		<a href="{{ route('appraisal.hrStaffGoals') }}">Goals From Supervisor</a>
 	</li>
 
 	<li>
-		<a href="{{ route('appraisal.hrStaffAppraisals') }}">Staff Appraisals</a>
+		<a href="{{ route('appraisal.hrStaffAppraisals') }}">Appraisals From Supervisor</a>
 	</li>
 
 	<li>
@@ -61,12 +61,12 @@
 
 @elseif(auth()->user()->staff->SupervisorFlag)
 
-{{--	<li>--}}
-{{--		<a href="{{ route('appraisal.supervisorNewGoal') }}">Goal Settings</a>--}}
-{{--	</li>--}}
-{{--	<li>--}}
-{{--		<a href="{{ route('appraisal.supervisorAppraisals') }}">Appraisal List</a>--}}
-{{--	</li>--}}
+	<li>
+		<a href="{{ route('appraisal.supervisorNewGoal') }}">Goal Settings</a>
+	</li>
+	<li>
+		<a href="{{ route('appraisal.supervisorAppraisals') }}">Appraisal List</a>
+	</li>
 	<li>
 		<a href="{{ route('appraisal.supervisor.index') }}">Staff Appraisals</a>
 	</li>

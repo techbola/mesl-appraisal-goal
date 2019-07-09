@@ -3,7 +3,7 @@
 		<div class="col-md-12">
 			<div class="padding-30">
 
-				<form action="{{ route('appraisal.staff_behavioural.store') }}" method="post" enctype="multipart/form-data">
+				<form action="{{ route('appraisal.supervisor.behavioural.store') }}" method="post" enctype="multipart/form-data">
 					@csrf
 
 					<div class="row clearfix">
@@ -14,11 +14,11 @@
 								<table class="table">
 									<thead>
 									<tr>
-										<th class="text-left text-white btn-orange">{{ $behavioural->behaviouralCat }}</th>
-										<th class="text-left text-white btn-orange">Weight</th>
-										<th class="text-left text-white btn-orange">Self Assessment</th>
-										<th class="text-left text-white btn-orange">Supervisor Assessment</th>
-										<th class="text-left text-white btn-orange">Supervisor Comment</th>
+										<th class="text-left text-white bg-primary">{{ $behavioural->behaviouralCat }}</th>
+										<th class="text-left text-white bg-primary">Weight</th>
+										<th class="text-left text-white bg-primary">Self Assessment</th>
+										<th class="text-left text-white bg-primary">Supervisor Assessment</th>
+										<th class="text-left text-white bg-primary">Supervisor Comment</th>
 									</tr>
 									</thead>
 									<tbody>

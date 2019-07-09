@@ -32,8 +32,6 @@ class SupervisorController extends Controller
     public function index()
     {
 
-        dd(auth()->user()->staff->StaffRef);
-
         $appraisals = Appraisal::where('supervisorID', auth()->user()->staff->StaffRef)
             ->where('sentFlag', true)
             ->get()->all();

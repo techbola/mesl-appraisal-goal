@@ -11,11 +11,11 @@
 							<table class="table">
 								<thead>
 								<tr>
-									<th scope="col" class="text-left text-white bg-primary">{{ $behavioural->behaviouralCat }}</th>
-									<th scope="col" scope="col" class="text-left text-white bg-primary">Weight</th>
-									<th scope="col" class="text-left text-white bg-primary">Self Assessment</th>
-									<th scope="col" class="text-left text-white bg-primary">Supervisor Assessment</th>
-									<th scope="col" class="text-left text-white bg-primary">Supervisor Comment</th>
+									<th scope="col" class="text-left text-white btn-orange">{{ $behavioural->behaviouralCat }}</th>
+									<th scope="col" scope="col" class="text-left text-white btn-orange">Weight</th>
+									<th scope="col" class="text-left text-white btn-orange">Self Assessment</th>
+									<th scope="col" class="text-left text-white btn-orange">Supervisor Assessment</th>
+									<th scope="col" class="text-left text-white btn-orange">Supervisor Comment</th>
 								</tr>
 								</thead>
 								<tbody>

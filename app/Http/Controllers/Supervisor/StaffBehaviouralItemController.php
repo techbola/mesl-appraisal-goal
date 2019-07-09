@@ -52,7 +52,7 @@ class StaffBehaviouralItemController extends Controller
 
         Session::flash('success', 'Saved!');
 
-        return redirect()->route('appraisal.staffAppraisalEdit', ['appraisalID' => $request->appraisalID]);
+        return redirect()->route('appraisal.supervisor.edit.appraisals', ['appraisalID' => $request->appraisalID]);
 
     }
 
@@ -98,7 +98,7 @@ class StaffBehaviouralItemController extends Controller
 
             Session::flash('success', 'Saved!');
 
-            return redirect()->route('appraisal.staffAppraisalEdit', ['appraisalID' => $request->appraisalID]);
+            return redirect()->route('appraisal.supervisor.edit.appraisals', ['appraisalID' => $request->appraisalID]);
 
         }else{
 
@@ -139,7 +139,7 @@ class StaffBehaviouralItemController extends Controller
 
             Session::flash('success', 'Saved!');
 
-            return redirect()->route('appraisal.staffAppraisalEdit', ['appraisalID' => $request->appraisalID]);
+            return redirect()->route('appraisal.supervisor.edit.appraisals', ['appraisalID' => $request->appraisalID]);
 
         }
 

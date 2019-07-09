@@ -86,32 +86,6 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('supervisor')->group(fun
     ]);
 
 
-
-
-//    Supervisor Appraisal
-    Route::get('/create/appraisal/{appraisalID}', [
-        'uses' => 'SupervisorAppraisal\StaffAppraisalController@staffAppraisalCreate',
-        'as'   => 'supervisor.start.appraisal',
-    ]);
-
-    Route::get('/submit/appraisal/{id}', [
-        'uses' => 'SupervisorAppraisal\StaffAppraisalController@staffAppraisalSubmitSupervisor',
-        'as'   => 'supervisor.submit.appraisal.supervisor',
-    ]);
-
-    Route::get('/view/appraisal/{id}', [
-        'uses' => 'SupervisorAppraisal\StaffAppraisalController@viewAppraisal',
-        'as'   => 'supervisor.view.appraisals',
-    ]);
-
-    Route::get('/update/appraisal/{appraisalID}', [
-        'uses' => 'SupervisorAppraisal\StaffAppraisalController@staffAppraisalEdit',
-        'as'   => 'supervisor.edit.appraisals',
-    ]);
-
-
-
-
     //    Finance Goal Settings
     Route::post('/bsc_financial/store', [
         'uses' => 'Supervisor\FinanceAppraisalController@bscFinancialStore',
@@ -205,5 +179,69 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('supervisor')->group(fun
         'uses' => 'SupervisorController@otherAppraisalStore',
         'as'   => 'supervisor.other_appraisal.store',
     ]);
+
+
+
+    //    Supervisor Appraisal
+    Route::get('/create/appraisal/{appraisalID}', [
+        'uses' => 'SupervisorAppraisal\AppraisalController@staffAppraisalCreate',
+        'as'   => 'supervisor.start.appraisal',
+    ]);
+
+    Route::get('/submit/appraisal/{id}', [
+        'uses' => 'SupervisorAppraisal\AppraisalController@staffAppraisalSubmitSupervisor',
+        'as'   => 'supervisor.submit.appraisal.supervisor',
+    ]);
+
+    Route::get('/view/appraisal/{id}', [
+        'uses' => 'SupervisorAppraisal\AppraisalController@viewAppraisal',
+        'as'   => 'supervisor.view.appraisals',
+    ]);
+
+    Route::get('/update/appraisal/{appraisalID}', [
+        'uses' => 'SupervisorAppraisal\AppraisalController@staffAppraisalEdit',
+        'as'   => 'supervisor.edit.appraisals',
+    ]);
+
+    //    Financial Appraisal
+    Route::post('/financial/appraisal/store', [
+        'uses' => 'SupervisorAppraisal\SupervisorFinanceAppraisalController@appraisalStore',
+        'as'   => 'supervisor.financialAppraisalStore',
+    ]);
+    Route::post('/financial/appraisal/update', [
+        'uses' => 'SupervisorAppraisal\SupervisorFinancialAppraisalController@appraisalUpdate',
+        'as'   => 'supervisor.financialAppraisalUpdate',
+    ]);
+
+//    Customer Appraisal
+    Route::post('/customer/appraisal/store', [
+        'uses' => 'SupervisorAppraisal\SupervisorCustomerAppraisalController@appraisalStore',
+        'as'   => 'supervisor.customerAppraisalStore',
+    ]);
+    Route::post('/customer/appraisal/update', [
+        'uses' => 'SupervisorAppraisal\SupervisorCustomerAppraisalController@appraisalUpdate',
+        'as'   => 'supervisor.customerAppraisalUpdate',
+    ]);
+
+//    Internal Appraisal
+    Route::post('/internal/appraisal/store', [
+        'uses' => 'SupervisorAppraisal\SupervisorInternalAppraisalController@appraisalStore',
+        'as'   => 'supervisor.internalAppraisalStore',
+    ]);
+    Route::post('/internal/appraisal/update', [
+        'uses' => 'SupervisorAppraisal\SupervisorInternalAppraisalController@appraisalUpdate',
+        'as'   => 'supervisor.internalAppraisalUpdate',
+    ]);
+
+//    Learning Appraisal
+    Route::post('/learning/appraisal/store', [
+        'uses' => 'SupervisorAppraisal\SupervisorLearningAppraisalController@appraisalStore',
+        'as'   => 'supervisor.learningAppraisalStore',
+    ]);
+    Route::post('/learning/appraisal/update', [
+        'uses' => 'SupervisorAppraisal\SupervisorLearningAppraisalController@appraisalUpdate',
+        'as'   => 'supervisor.learningAppraisalUpdate',
+    ]);
+
 
 });

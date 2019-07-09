@@ -29,7 +29,7 @@ class SupervisorFinanceAppraisalController extends Controller
 
         Session::flash('success', 'Saved, move to the next section.');
 
-        return redirect()->route('appraisal.staffAppraisalEdit', ['appraisalID' => $request->appraisalID]);
+        return redirect()->route('appraisal.supervisor.edit.appraisals', ['appraisalID' => $request->appraisalID]);
 
     }
 
@@ -52,7 +52,7 @@ class SupervisorFinanceAppraisalController extends Controller
 
         Session::flash('success', 'Saved, move to the next section.');
 
-        return redirect()->route('appraisal.staffAppraisalEdit', ['appraisalID' => $request->appraisalID]);
+        return redirect()->route('appraisal.supervisor.edit.appraisals', ['appraisalID' => $request->appraisalID]);
 
     }
 

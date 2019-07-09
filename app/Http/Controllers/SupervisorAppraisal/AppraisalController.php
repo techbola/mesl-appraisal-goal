@@ -40,7 +40,7 @@ class AppraisalController extends Controller
         $behavioural = new Behavioural();
         $behaviourals = $behavioural->getUserBehaviourals();
 
-        return view('staff.appraisals.new_appraisal.staff')->with([
+        return view('supervisor.supervisor_appraisal.new_appraisal.staff')->with([
             'appraisalID' => $appraisalID,
             'appraisal_finances' => $appraisal_finances,
             'appraisal_customers' => $appraisal_customers,
@@ -91,7 +91,7 @@ class AppraisalController extends Controller
         $behaviourals = $behavioural->getUserBehaviourals();
         $staffBehaviouralItems = StaffBehaviouralItem::where('appraisal_id', $id);
 
-        return view('staff.appraisals.view_appraisal.staff')->with([
+        return view('supervisor.supervisor_appraisal.view_appraisal.staff')->with([
             'appraisalID' => $id,
             'appraisal_finances' => $appraisal_finances,
             'appraisal_customers' => $appraisal_customers,
@@ -108,6 +108,8 @@ class AppraisalController extends Controller
     public function staffAppraisalEdit($appraisalID)
     {
 
+//        dd(auth()->user()->staff->StaffRef);
+
         $appraisal_finances = AppraisalFinance::where('staffID', auth()->user()->staff->StaffRef)
             ->where('appraisal_id', $appraisalID)->get();
         $appraisal_customers = AppraisalCustomer::where('staffID', auth()->user()->staff->StaffRef)->where('appraisal_id', $appraisalID)->get();
@@ -120,7 +122,7 @@ class AppraisalController extends Controller
         $behavioural = new Behavioural();
         $behaviourals = $behavioural->getUserBehaviourals();
 
-        return view('staff.appraisals.edit_appraisal.staff')->with([
+        return view('supervisor.supervisor_appraisal.edit_appraisal.staff')->with([
             'appraisalID' => $appraisalID,
             'appraisal_finances' => $appraisal_finances,
             'appraisal_customers' => $appraisal_customers,
