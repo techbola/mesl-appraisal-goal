@@ -114,7 +114,7 @@ class StaffScoreReport extends Model
 
         $staffBehaviouralCats = [];
 
-        $staff_behavioural_items_catids = BehaviouralItem::where('level_id', $staff->user->level_id)->pluck('behaviouralCat_id')->all();
+        $staff_behavioural_items_catids = BehaviouralItem::where('PositionID', $staff->position->PositionRef)->pluck('behaviouralCat_id')->all();
 
         foreach ($staff_behavioural_items_catids as $staff_behavioural_items_catid){
             array_push($staffBehaviouralCats, (int) $staff_behavioural_items_catid);

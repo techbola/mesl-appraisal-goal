@@ -18,7 +18,7 @@
 								</tr>
 								</thead>
 								<tbody>
-								@foreach($behavioural->behaviouralStaffItems($staffLevelID) as $behavioural_item)
+								@foreach($behavioural->behaviouralStaffItems($staffPositionID) as $behavioural_item)
 									<tr>
 										<td>
 											{{ $behavioural_item->behaviouralItem }}

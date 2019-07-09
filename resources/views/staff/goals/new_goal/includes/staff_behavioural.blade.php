@@ -36,19 +36,6 @@
 							@endforeach
 						</div>
 					</div>
-					<br>
-
-{{--					<div class="form-group-attached">--}}
-{{--						<div class="row clearfix">--}}
-{{--							<div class="col-md-12">--}}
-{{--								<input type="hidden" name="appraisalID" value="{{ $appraisalID }}">--}}
-{{--								<input type="hidden" name="behaviourals" value="{{ $behaviourals->pluck('id') }}">--}}
-{{--								<button class="btn btn-primary btn-cons btn-animated" type="submit">--}}
-{{--									<span>Save</span>--}}
-{{--								</button>--}}
-{{--							</div>--}}
-{{--						</div>--}}
-{{--					</div>--}}
 
 				</form>
 

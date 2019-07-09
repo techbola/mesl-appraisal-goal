@@ -1,7 +1,8 @@
 <?php
 
-namespace MESL\Http\Controllers\Appraisal;
+namespace MESL\Http\Controllers\SupervisorAppraisal;
 
+use Illuminate\Http\Request;
 use MESL\Appraisal;
 use MESL\AppraisalComment;
 use MESL\AppraisalCustomer;
@@ -11,12 +12,10 @@ use MESL\AppraisalLearning;
 use MESL\AppraisalSignature;
 use MESL\Behavioural;
 use MESL\BehaviouralItem;
+use MESL\Http\Controllers\Controller;
 use MESL\Staff;
 use MESL\StaffAppraisal;
 use MESL\StaffScoreReport;
-use Illuminate\Http\Request;
-use MESL\Http\Controllers\Controller;
-use PDF;
 
 class HrAppraisalController extends Controller
 {

@@ -22,7 +22,7 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('supervisor')->group(fun
         'as'   => 'submitToHr',
     ]);
 
-    //    Supervisor - Staff Appraisal
+    //    Staff Appraisal
 
     Route::get('/view/staff/appraisal/{appraisalID}', [
         'uses' => 'Appraisal\SupervisorAppraisalController@staffAppraisal',
@@ -33,6 +33,10 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('supervisor')->group(fun
         'uses' => 'Appraisal\SupervisorAppraisalController@staffAppraisalApproval',
         'as'   => 'staffAppraisalApproval',
     ]);
+
+
+
+
 
     //    Supervisor Goals
 
@@ -56,30 +60,57 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('supervisor')->group(fun
         'as'   => 'supervisorAppraisals',
     ]);
 
-    Route::get('/submit/appraisal/{id}', [
+    Route::get('supervisor/submit/appraisal/{id}', [
         'uses' => 'SupervisorController@submitAppraisalSupervisor',
-        'as'   => 'supervisorSubmitAppraisal',
+        'as'   => 'supervisor.submit.goals',
     ]);
 
     Route::get('/view/goals/{id}', [
         'uses' => 'SupervisorController@viewGoals',
-        'as'   => 'supervisorViewGoals',
+        'as'   => 'supervisor.view.goals',
     ]);
 
     Route::get('/edit/appraisal/{id}', [
         'uses' => 'SupervisorController@editAppraisal',
-        'as'   => 'supervisorEditAppraisal',
+        'as'   => 'supervisor.edit.goals',
     ]);
 
     Route::get('/delete/appraisal/{id}', [
         'uses' => 'SupervisorController@deleteAppraisal',
-        'as'   => 'supervisorDeleteAppraisal',
+        'as'   => 'supervisor.delete.appraisal',
     ]);
 
     Route::get('/rejected/goals/{id}', [
         'uses' => 'SupervisorController@rejectedGoalsa',
         'as'   => 'supervisorRejectedGoals',
     ]);
+
+
+
+
+//    Supervisor Appraisal
+    Route::get('/create/appraisal/{appraisalID}', [
+        'uses' => 'SupervisorAppraisal\StaffAppraisalController@staffAppraisalCreate',
+        'as'   => 'supervisor.start.appraisal',
+    ]);
+
+    Route::get('/submit/appraisal/{id}', [
+        'uses' => 'SupervisorAppraisal\StaffAppraisalController@staffAppraisalSubmitSupervisor',
+        'as'   => 'supervisor.submit.appraisal.supervisor',
+    ]);
+
+    Route::get('/view/appraisal/{id}', [
+        'uses' => 'SupervisorAppraisal\StaffAppraisalController@viewAppraisal',
+        'as'   => 'supervisor.view.appraisals',
+    ]);
+
+    Route::get('/update/appraisal/{appraisalID}', [
+        'uses' => 'SupervisorAppraisal\StaffAppraisalController@staffAppraisalEdit',
+        'as'   => 'supervisor.edit.appraisals',
+    ]);
+
+
+
 
     //    Finance Goal Settings
     Route::post('/bsc_financial/store', [

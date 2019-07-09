@@ -18,9 +18,9 @@ class BehaviouralItem extends Model
         return $this->belongsTo('MESL\Behavioural', 'behaviouralCat_id');
 	}
 
-    public function level()
+    public function position()
     {
-        return $this->belongsTo('MESL\Level', 'level_id');
+        return $this->belongsTo('MESL\Position', 'PositionID');
     }
 
     public function staffBehaviouralItem()

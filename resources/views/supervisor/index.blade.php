@@ -71,7 +71,7 @@
 											<td class="v-align-middle">
 
 												@if($appraisal->status == 2)
-													<p>Approved</p>
+													<p>Goals Approved</p>
 
 												@elseif($appraisal->status == 4)
 													<p>Approved, sent to HR</p>
@@ -85,10 +85,7 @@
 											</td>
 											<td class="v-align-middle">
 
-												@if($appraisal->status == 2)
-													<p>Approved</p>
-
-												@elseif($appraisal->appraisalStatus == 1)
+												@if($appraisal->appraisalStatus == 1)
 													<p>Appraisal Submitted by Staff</p>
 
 												@elseif($appraisal->appraisalStatus == 2)

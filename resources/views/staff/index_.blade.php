@@ -48,46 +48,48 @@
 					<th>Staff Name</th>
 					<th>Email Address</th>
 					<th>Mobile Number</th>
+					<th>Position</th>
 					<th>Account Status</th>
 					<th>Actions</th>
 				</thead>
 				<tbody>
 					@foreach ($staffs as $staff)
 						<tr>
-						<td>
-							<img class="avatar2" src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" alt="" width="48" height="48">
-						</td>
-						<td><a href="{{ route('staff.show', $staff->StaffRef) }}" title="">{{ $staff->user->FullName ?? '—' }}</a></td>
-						<td>{{ $staff->user->email ?? '—' }}</td>
-						<td>{{ $staff->MobilePhone ?? '—' }}</td>
-						<td>
+							<td>
+								<img class="avatar2" src="{{ asset('images/avatars/'.$staff->user->avatar()) }}" alt="" width="48" height="48">
+							</td>
+							<td><a href="{{ route('staff.show', $staff->StaffRef) }}" title="">{{ $staff->user->FullName ?? '—' }}</a></td>
+							<td>{{ $staff->user->email ?? '—' }}</td>
+							<td>{{ $staff->MobilePhone ?? '—' }}</td>
+							<td>{{ $staff->position->Position ?? '-' }}</td>
+							<td>
 
-							@if ($staff->user->is_activated && !$staff->user->is_disengaged)
-								<span class="label label-success">Active</span>
-							@elseif ($staff->user->is_disengaged)
-								<span class="label label-danger">Disengaged</span>
-								<a class="btn btn-xs btn-success m-l-5 m-t-5" onclick="confirm2('Re-engage {{ $staff->user->first_name }}?', '', 'reengage_{{ $staff->user->id }}')">
-									Re-engage
-								</a>
-								<form class="hidden" id="reengage_{{ $staff->user->id }}" action="{{ route('reengage', $staff->UserID) }}" method="post">
-									{{ csrf_field() }}
-									{{ method_field('PATCH') }}
-								</form>
-							@else
-								<span class="label label-warning">Inactive</span>
-								<a class="btn btn-xs btn-inverse m-l-5" onclick="confirm2('Re-invite {{ $staff->user->first_name }}?', '', 'invite_{{ $staff->user->id }}')"><i class="fa fa-refresh"></i> ReInvite</a>
-								<form id="invite_{{ $staff->user->id }}" class="hidden" action="{{ route('reinvite_staff', $staff->user->id) }}" method="post">
-									{{ csrf_field() }}
-								</form>
-							@endif
-							{{-- {{ ($staff->user->is_activated)? '<span class="label label-success">Activated</span>' : '<span class="label label-danger">Not Activated</span>' }} --}}
-						</td>
-						<td class="actions">
-							<a href="{{ route('staff.show', $staff->StaffRef) }}" class="btn btn-xs btn-info">View</a>
-							<a href="" class="btn btn-xs btn-inverse" data-toggle="modal" data-target="#edit_staff" @click="edit_staff({{ $staff }})">Edit</a>
-							<a href="{{ route('staff.edit_biodata', $staff->StaffRef) }}" class="btn btn-xs btn-inverse">Edit Biodata</a>
-						</td>
-					</tr>
+								@if ($staff->user->is_activated && !$staff->user->is_disengaged)
+									<span class="label label-success">Active</span>
+								@elseif ($staff->user->is_disengaged)
+									<span class="label label-danger">Disengaged</span>
+									<a class="btn btn-xs btn-success m-l-5 m-t-5" onclick="confirm2('Re-engage {{ $staff->user->first_name }}?', '', 'reengage_{{ $staff->user->id }}')">
+										Re-engage
+									</a>
+									<form class="hidden" id="reengage_{{ $staff->user->id }}" action="{{ route('reengage', $staff->UserID) }}" method="post">
+										{{ csrf_field() }}
+										{{ method_field('PATCH') }}
+									</form>
+								@else
+									<span class="label label-warning">Inactive</span>
+									<a class="btn btn-xs btn-inverse m-l-5" onclick="confirm2('Re-invite {{ $staff->user->first_name }}?', '', 'invite_{{ $staff->user->id }}')"><i class="fa fa-refresh"></i> ReInvite</a>
+									<form id="invite_{{ $staff->user->id }}" class="hidden" action="{{ route('reinvite_staff', $staff->user->id) }}" method="post">
+										{{ csrf_field() }}
+									</form>
+								@endif
+								{{-- {{ ($staff->user->is_activated)? '<span class="label label-success">Activated</span>' : '<span class="label label-danger">Not Activated</span>' }} --}}
+							</td>
+							<td class="actions">
+								<a href="{{ route('staff.show', $staff->StaffRef) }}" class="btn btn-xs btn-info">View</a>
+								<a href="" class="btn btn-xs btn-inverse" data-toggle="modal" data-target="#edit_staff" @click="edit_staff({{ $staff }})">Edit</a>
+								<a href="{{ route('staff.edit_biodata', $staff->StaffRef) }}" class="btn btn-xs btn-inverse">Edit Biodata</a>
+							</td>
+						</tr>
 					@endforeach
 				</tbody>
 			</table>
@@ -256,6 +258,14 @@
 						          {{ Form::select('SupervisorID', [ '' =>  'Select Supervisor'] + $supervisors->pluck('FullName', 'StaffRef')->toArray(), $staff->SupervisorID, ['class'=> "full-width form-control select2", 'data-init-plugin' => "select2"]) }}
 						        </div>
 						      </div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Position</label>
+										{{ Form::select('PositionID', [ '' =>  'Select Position'] + $positions->pluck('Position', 'PositionRef')->toArray(), null, ['class'=> "full-width form-control select2", 'data-init-plugin' => "select2"]) }}
+									</div>
+								</div>
+
 							 {{--  <div class="col-md-6">
 							    <div class="form-group">
 							      <label class="req">Department</label>
@@ -338,6 +348,14 @@
 					else{
 						$('#edit_staff').find('form select[name="SupervisorID"]').val(staff.SupervisorID).trigger('change');
 					}
+
+					//Get Position
+                    if(staff.PositionID != null){
+                        $('#edit_staff').find('form select[name="PositionID"]').val(staff.PositionID).trigger('change');
+                    }
+                    else{
+                        $('#edit_staff').find('form select[name="PositionID"]').val(staff.PositionID).trigger('change');
+                    }
 
 					if(staff.SupervisorFlag != 1 ||staff.SupervisorFlag == null ){
 						$('#is_not_supervisor').prop('checked','checked');

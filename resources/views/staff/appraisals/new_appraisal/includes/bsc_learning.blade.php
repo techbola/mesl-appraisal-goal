@@ -47,7 +47,7 @@
 											<td class="v-align-middle">
 												<div class="form-group form-group-default">
 													<input type="text" class="form-control" name="selfAssessment[]"
-														   value="{{ $appraisal_learning->selfAssessment ? $appraisal_learning->selfAssessment : '' }}">
+														   value="{{ $appraisal_learning->selfAssessment ? (int) $appraisal_learning->selfAssessment : '' }}">
 												</div>
 											</td>
 											<td class="v-align-middle">

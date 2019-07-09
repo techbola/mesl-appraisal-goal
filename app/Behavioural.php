@@ -20,7 +20,7 @@ class Behavioural extends Model
     {
         $staffBehaviouralCats = [];
 
-        $staff_behavioural_items_catids = BehaviouralItem::where('level_id', auth()->user()->level_id)->pluck('behaviouralCat_id')->all();
+        $staff_behavioural_items_catids = BehaviouralItem::where('PositionID', auth()->user()->staff->position->PositionRef)->pluck('behaviouralCat_id')->all();
 
         foreach ($staff_behavioural_items_catids as $staff_behavioural_items_catid){
             array_push($staffBehaviouralCats, (int) $staff_behavioural_items_catid);
@@ -38,13 +38,13 @@ class Behavioural extends Model
     public function behaviouralUserItems()
     {
         return $this->hasMany('MESL\BehaviouralItem', 'behaviouralCat_id')
-            ->where('level_id', auth()->user()->level_id);
+            ->where('PositionID', auth()->user()->staff->position->PositionRef);
     }
 
-    public function behaviouralStaffItems($staffLevelID)
+    public function behaviouralStaffItems($staffPositionID)
     {
         return $this->hasMany('MESL\BehaviouralItem', 'behaviouralCat_id')
-            ->where('level_id', $staffLevelID)->get();
+            ->where('PositionID', $staffPositionID)->get();
     }
 
 }

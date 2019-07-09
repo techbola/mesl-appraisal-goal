@@ -32,6 +32,8 @@ class SupervisorController extends Controller
     public function index()
     {
 
+        dd(auth()->user()->staff->StaffRef);
+
         $appraisals = Appraisal::where('supervisorID', auth()->user()->staff->StaffRef)
             ->where('sentFlag', true)
             ->get()->all();
@@ -62,7 +64,7 @@ class SupervisorController extends Controller
 
         $staffBehaviouralCats = [];
 
-        $staff_behavioural_items_catids = BehaviouralItem::where('level_id', $staff->user->level_id)->pluck('behaviouralCat_id')->all();
+        $staff_behavioural_items_catids = BehaviouralItem::where('PositionID', $staff->position->PositionRef)->pluck('behaviouralCat_id')->all();
 
         foreach ($staff_behavioural_items_catids as $staff_behavioural_items_catid) {
             array_push($staffBehaviouralCats, (int) $staff_behavioural_items_catid);
@@ -84,7 +86,7 @@ class SupervisorController extends Controller
             'appraisalID'         => $appraisalID,
             'staffName'           => $staffName,
             'behaviourals'        => $behaviourals3,
-            'staffLevelID'        => $staff->user->level_id,
+            'staffPositionID'        => $staff->position->PositionRef,
             'ap'                  => $ap,
         ]);
 
@@ -243,6 +245,8 @@ class SupervisorController extends Controller
         return redirect()->route('appraisal.supervisor.index');
 
     }
+
+
 
 //    Supervisor Goal Setting
 
@@ -483,6 +487,18 @@ class SupervisorController extends Controller
         $appraisal->save();
 
         Session::flash('success', 'Appraisal Submitted!');
+
+        return back();
+
+    }
+
+    public function deleteAppraisal($id)
+    {
+        $appraisal = Appraisal::find($id);
+
+        $appraisal->delete();
+
+        Session::flash('success', 'Appraisal Deleted.');
 
         return back();
 

@@ -10,10 +10,6 @@
 @elseif(auth()->user()->hasRole('HR Supervisor') || auth()->user()->hasRole('Head, Human Resources') || auth()->user()->hasRole('HR Officer') || auth()->user()->hasRole('Head, Performance Management')  && auth()->user()->staff->SupervisorFlag)
 
 	<li>
-		<a href="{{ route('appraisal.levels.index') }}">Levels</a>
-	</li>
-
-	<li>
 		<a href="{{ route('appraisal.hr.index') }}">Behavioural Categories</a>
 	</li>
 
@@ -21,12 +17,12 @@
 		<a href="{{ route('appraisal.hr.behavioural.items') }}">Behavioural Items</a>
 	</li>
 
-	<li>
-		<a href="{{ route('appraisal.hrStaffGoals.asSupervisor') }}">Staff Goals As Supervisor</a>
-	</li>
+{{--	<li>--}}
+{{--		<a href="{{ route('appraisal.hrStaffGoals.asSupervisor') }}">Staff Goals</a>--}}
+{{--	</li>--}}
 
 	<li>
-		<a href="{{ route('appraisal.hrStaffGoals') }}">Staff Goals</a>
+		<a href="{{ route('appraisal.hrStaffGoals') }}">Goals From Supervisor</a>
 	</li>
 
 	<li>
@@ -39,9 +35,9 @@
 
 @elseif(auth()->user()->hasRole('HR Supervisor') || auth()->user()->hasRole('Head, Human Resources') || auth()->user()->hasRole('HR Officer') || auth()->user()->hasRole('Head, Performance Management'))
 
-	<li>
-		<a href="{{ route('appraisal.levels.index') }}" class="detailed">Levels</a>
-	</li>
+{{--	<li>--}}
+{{--		<a href="{{ route('appraisal.levels.index') }}" class="detailed">Levels</a>--}}
+{{--	</li>--}}
 
 	<li>
 		<a href="{{ route('appraisal.hr.index') }}">Behavioural Categories</a>

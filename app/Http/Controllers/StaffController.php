@@ -84,7 +84,13 @@ class StaffController extends Controller
         $departments = CompanyDepartment::all()->sortBy('Department');
         // dd($departments);
         $supervisors = Staff::where('SupervisorFlag', 1)->get()->sortBy('FullName');
-        return view('staff.index_', compact('staffs', 'companies2', 'roles', 'departments', 'q', 'supervisors'));
+
+//        Get all staff positions
+        $positions = Position::all();
+//        dd($positions);
+
+        return view('staff.index_', compact('staffs', 'companies2', 'roles', 'departments', 'q', 'supervisors', 'positions'));
+
     }
 
     public function get_staff_list()
@@ -191,6 +197,9 @@ class StaffController extends Controller
         // dd($request->DepartmentID);
         $staff->DepartmentID = $request->DepartmentID;
         $staff->SupervisorID = $request->SupervisorID;
+
+        $staff->PositionID = $request->PositionID;
+
         // return $request->supervisor_options;
         $staff->SupervisorFlag = $request->supervisor_options == 'on' ? 1 : 0;
         $staff->update();

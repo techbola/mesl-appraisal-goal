@@ -27,15 +27,15 @@ class AppraisalController extends Controller
     public function index()
     {
 
-        if (!auth()->user()->staff->SupervisorFlag && !auth()->user()->hasRole('HR Supervisor')) {
+        if (!auth()->user()->staff->SupervisorFlag && !auth()->user()->hasRole('Head, Performance Management') && !auth()->user()->hasRole('Head, Human Resources') && !auth()->user()->hasRole('HR Officer') && !auth()->user()->hasRole('HR Supervisor')) {
 
             return view('staff.index');
 
-        } elseif (auth()->user()->hasRole('HR Supervisor') && auth()->user()->staff->SupervisorFlag) {
+        } elseif (auth()->user()->hasRole('Head, Performance Management') || auth()->user()->hasRole('Head, Human Resources') || auth()->user()->hasRole('HR Officer') || auth()->user()->hasRole('HR Supervisor') && auth()->user()->staff->SupervisorFlag) {
 
             return redirect()->route('appraisal.hr.index');
 
-        } elseif (auth()->user()->hasRole('HR Supervisor')) {
+        } elseif (auth()->user()->hasRole('Head, Performance Management') || auth()->user()->hasRole('Head, Human Resources') || auth()->user()->hasRole('HR Officer') || auth()->user()->hasRole('HR Supervisor')) {
 
             return redirect()->route('appraisal.hr.index');
 
@@ -61,9 +61,7 @@ class AppraisalController extends Controller
     public function dashboard($appraisalID)
     {
 
-//        dd(auth()->user()->level_id);
-
-        if (!auth()->user()->staff->SupervisorFlag && !auth()->user()->hasRole('HR Supervisor')) {
+        if (!auth()->user()->staff->SupervisorFlag && !auth()->user()->hasRole('Head, Performance Management') && !auth()->user()->hasRole('Head, Human Resources') && !auth()->user()->hasRole('HR Officer') && !auth()->user()->hasRole('HR Supervisor')) {
 
             $appraisal_finances = AppraisalFinance::where('staffID', auth()->user()->staff->StaffRef)
                 ->where('appraisal_id', $appraisalID)->get();
@@ -77,8 +75,6 @@ class AppraisalController extends Controller
             $behavioural  = new Behavioural();
             $behaviourals = $behavioural->getUserBehaviourals();
 
-//            dd($behaviourals);
-
             return view('staff.goals.new_goal.staff')->with([
                 'appraisalID'         => $appraisalID,
                 'appraisal_finances'  => $appraisal_finances,
@@ -90,7 +86,11 @@ class AppraisalController extends Controller
                 'behaviourals'        => $behaviourals,
             ]);
 
-        } elseif (auth()->user()->hasRole('HR Supervisor') && !auth()->user()->staff->SupervisorFlag) {
+        } elseif (auth()->user()->hasRole('Head, Performance Management') || auth()->user()->hasRole('Head, Human Resources') || auth()->user()->hasRole('HR Officer') || auth()->user()->hasRole('HR Supervisor') && auth()->user()->staff->SupervisorFlag) {
+
+            return redirect()->route('appraisal.hr.index');
+
+        } elseif (auth()->user()->hasRole('Head, Performance Management') || auth()->user()->hasRole('Head, Human Resources') || auth()->user()->hasRole('HR Officer') || auth()->user()->hasRole('HR Supervisor')) {
 
             return redirect()->route('appraisal.hr.index');
 

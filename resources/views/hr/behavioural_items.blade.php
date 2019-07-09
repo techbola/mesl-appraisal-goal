@@ -54,11 +54,11 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label>Assign to Level</label>
+										<label>Assign to Position</label>
 										<select name="level_id" id="level_id" class="full-width" style="height: 50px;">
 
-											@foreach($levels as $level)
-												<option value="{{ $level->id }}">{{ $level->name }}</option>
+											@foreach($positions as $position)
+												<option value="{{ $position->id }}">{{ $position->Position }}</option>
 											@endforeach
 
 										</select>
@@ -97,7 +97,7 @@
 							<tr>
 								<th style="width:20%">Behavioural</th>
 								<th style="width:20%">Item</th>
-								<th style="width:20%">Level</th>
+								<th style="width:20%">Position</th>
 								<th style="width:10%">Weight</th>
 								<th style="width:15%">Date Added</th>
 								<th style="width:15%">Action</th>
@@ -115,7 +115,7 @@
 										{{ $behavioural_item->behaviouralItem }}
 									</td>
 									<td class="v-align-middle ">
-										{{ $behavioural_item->level->name }}
+										{{ $behavioural_item->position->Position }}
 									</td>
 									<td class="v-align-middle ">
 										{{ $behavioural_item->weight }}

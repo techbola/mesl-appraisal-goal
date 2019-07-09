@@ -145,7 +145,7 @@
 
 			@else
 
-				<h4 style="padding: 30px;">No appraisal yet!</h4>
+				<h4 style="padding: 30px;">No Appraisal Created Yet!</h4>
 
 		@endif
 

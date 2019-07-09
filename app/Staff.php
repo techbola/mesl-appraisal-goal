@@ -198,4 +198,9 @@ class Staff extends Model
         return $this->hasMany('MESL\StaffAppraisal', 'staff_id');
     }
 
+    public function position()
+    {
+        return $this->belongsTo('MESL\Position', 'PositionID');
+    }
+
 }

@@ -29,7 +29,7 @@
 									<div class="col-sm-12">
 										<div class="form-group form-group-default">
 											<label>Job Position</label>
-											<input type="text" class="form-control" name="job_position">
+											<input type="text" class="form-control" name="job_position" value="{{ auth()->user()->staff->position->Position }}">
 										</div>
 									</div>
 								</div>

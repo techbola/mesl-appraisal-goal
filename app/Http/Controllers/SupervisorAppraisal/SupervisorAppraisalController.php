@@ -1,6 +1,6 @@
 <?php
 
-namespace MESL\Http\Controllers\Appraisal;
+namespace MESL\Http\Controllers\SupervisorAppraisal;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;

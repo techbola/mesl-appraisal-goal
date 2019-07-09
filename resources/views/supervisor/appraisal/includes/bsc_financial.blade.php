@@ -45,7 +45,7 @@
 												</td>
 												<td class="v-align-middle">
 													<p>
-														{{ $appraisal_finance->selfAssessment }}
+														{{ (int) $appraisal_finance->selfAssessment }}
 													</p>
 												</td>
 												<td class="v-align-middle">
@@ -55,7 +55,7 @@
 												</td>
 												<td class="v-align-middle">
 													<p>
-														{{ $appraisal_finance->supervisorAssessment }}
+														{{ (int) $appraisal_finance->supervisorAssessment }}
 													</p>
 												</td>
 												<td class="v-align-middle">
@@ -85,7 +85,7 @@
 												</td>
 												<td class="v-align-middle">
 													<p>
-														{{ $appraisal_finance->selfAssessment }}
+														{{ (int) $appraisal_finance->selfAssessment }}
 													</p>
 												</td>
 												<td class="v-align-middle">
@@ -96,7 +96,7 @@
 												<td class="v-align-middle">
 													<div class="form-group form-group-default">
 														<input type="text" class="form-control" name="f_supervisorAssessment[]"
-															   value="{{ $appraisal_finance->supervisorAssessment ? $appraisal_finance->supervisorAssessment : '' }}">
+															   value="{{ $appraisal_finance->supervisorAssessment ? (int) $appraisal_finance->supervisorAssessment : '' }}">
 													</div>
 												</td>
 												<td class="v-align-middle">

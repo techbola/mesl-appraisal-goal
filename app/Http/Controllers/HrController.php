@@ -18,6 +18,7 @@ use MESL\Mail\HrRejectGoal;
 use MESL\Mail\HrSupervisorApproveGoal;
 use MESL\Mail\HrSupervisorRejectGoal;
 use MESL\Mail\RejectStaffGoals;
+use MESL\Position;
 use MESL\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -42,12 +43,12 @@ class HrController extends Controller
 
         $behavioural_items = BehaviouralItem::all();
         $behaviourals = Behavioural::all();
-        $levels = Level::all();
+        $positions = Position::all();
 
         return view('hr.behavioural_items')->with([
             'behavioural_items' => $behavioural_items,
             'behaviourals' => $behaviourals,
-            'levels' => $levels,
+            'positions' => $positions,
         ]);
 
     }
@@ -98,7 +99,7 @@ class HrController extends Controller
 
         $staffBehaviouralCats = [];
 
-        $staff_behavioural_items_catids = BehaviouralItem::where('level_id', $staff->user->level_id)->pluck('behaviouralCat_id')->all();
+        $staff_behavioural_items_catids = BehaviouralItem::where('PositionID', $staff->position->PositionRef)->pluck('behaviouralCat_id')->all();
 
         foreach ($staff_behavioural_items_catids as $staff_behavioural_items_catid){
             array_push($staffBehaviouralCats, (int) $staff_behavioural_items_catid);
@@ -120,7 +121,7 @@ class HrController extends Controller
             'appraisalID' => $appraisalID,
             'staffName' => $staffName,
             'behaviourals' => $behaviourals3,
-            'staffLevelID' => $staff->user->level_id,
+            'staffPositionID' => $staff->position->PositionRef,
             'ap' => $ap,
         ]);
 

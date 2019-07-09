@@ -59,7 +59,7 @@
 									<th style="width:15%">Staff</th>
 									<th style="width:10%">Picture</th>
 									<th style="width:15%">Supervisor</th>
-									<th style="width:10%">Grade <br> Level</th>
+									<th style="width:10%">Position</th>
 									<th style="width:5%">Staff <br> BSC Total</th>
 									<th style="width:5%">Staff <br> Atittudinal Total</th>
 									<th style="width:5%">Staff <br> Overall Total</th>
@@ -79,13 +79,13 @@
 											<p>{{ $appraisal->staff->user->getFullNameAttribute() }}</p>
 										</td>
 										<td>
-											<img src="{{ asset($appraisal->staff->user->avatar) }}" alt="">
+											<img src="{{ asset($appraisal->staff->user->avatar) }}" alt="{{ $appraisal->staff->user->avatar }}">
 										</td>
 										<td >
 											<p>{{ $appraisal->staff->supervisor->getFullNameAttribute() }}</p>
 										</td>
 										<td>
-											<p>{{ $appraisal->staff->user->level->name }}</p>
+											<p>{{ $appraisal->staff->position->Position }}</p>
 										</td>
 										<td>
 											<p>{{ $appraisal->bscStaffScore }}</p>
