@@ -304,7 +304,7 @@ class SupervisorController extends Controller
 
         ]);
 
-        if (is_null($request->job_position)){
+        if ($request->job_position == '-'){
 
             Session::flash('error', 'Job position not set for you yet, contact HR...');
 
