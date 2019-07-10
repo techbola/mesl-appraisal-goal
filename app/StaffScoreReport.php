@@ -134,7 +134,7 @@ class StaffScoreReport extends Model
 
         foreach ($behaviourals3 as $behavioural) {
 
-            foreach ($behavioural->behaviouralStaffItems($staff->user->level_id) as $behavioural_item) {
+            foreach ($behavioural->behaviouralStaffItems($staff->PositionID) as $behavioural_item) {
                 array_push($staffBehaviouralAssessments, $behavioural_item->staffBehaviouralItem->selfAssessment);
                 array_push($supervisorBehaviouralAssessments, $behavioural_item->staffBehaviouralItem->supervisorAssessment);
 
