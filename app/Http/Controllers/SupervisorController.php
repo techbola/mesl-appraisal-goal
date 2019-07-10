@@ -304,6 +304,14 @@ class SupervisorController extends Controller
 
         ]);
 
+        if (is_null($request->job_position)){
+
+            Session::flash('error', 'Job position not set for you yet, contact HR...');
+
+            return back();
+
+        }
+
         $data = Appraisal::where('period', $request->appraiser_period)->where('StaffID', auth()->user()->staff->StaffRef)->first();
 
         if ($data) {
@@ -469,6 +477,46 @@ class SupervisorController extends Controller
 
     public function submitAppraisalSupervisor($id)
     {
+
+        $appraisal_finances = AppraisalFinance::where('appraisal_id', $id)->get();
+
+        if (is_null($appraisal_finances)){
+
+            Session::flash('error', 'No financial goal set yet...');
+
+            return back();
+
+        }
+
+        $appraisal_customers = AppraisalCustomer::where('appraisal_id', $id)->get();
+
+        if (is_null($appraisal_customers)){
+
+            Session::flash('error', 'No Customer/Stakeholders goal set yet...');
+
+            return back();
+
+        }
+
+        $appraisal_internals = AppraisalInternal::where('appraisal_id', $id)->get();
+
+        if (is_null($appraisal_internals)){
+
+            Session::flash('error', 'No Internal Process set yet...');
+
+            return back();
+
+        }
+
+        $appraisal_learnings = AppraisalLearning::where('appraisal_id', $id)->get();
+
+        if (is_null($appraisal_learnings)){
+
+            Session::flash('error', 'No People/Learning process set yet...');
+
+            return back();
+
+        }
 
         $appraisal = Appraisal::find($id);
 
