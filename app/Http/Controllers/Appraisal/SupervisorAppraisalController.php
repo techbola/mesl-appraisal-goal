@@ -177,8 +177,6 @@ class SupervisorAppraisalController extends Controller
 
                 $staffBehaviorals = $staffAppraisals->behavioural($appraisalID);
 
-//                dd($staffBehaviorals);
-
                 $financial = $staffBsc['staffFinancial'];
                 $customer  = $staffBsc['staffCustomer'];
                 $internal  = $staffBsc['staffInternal'];
@@ -217,8 +215,6 @@ class SupervisorAppraisalController extends Controller
                 $newStaffScoreReport->overallStaffScore        = $overallStaffScore;
                 $newStaffScoreReport->overallSupervisorScore   = $overallSupervisorScore;
                 $newStaffScoreReport->period                   = $appraisal->period;
-
-//                dd($newStaffScoreReport);
 
                 $newStaffScoreReport->save();
 
