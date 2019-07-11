@@ -34,6 +34,16 @@ Route::name('appraisal.')->middleware(['auth'])->prefix('supervisor')->group(fun
         'as'   => 'staffAppraisalApproval',
     ]);
 
+    Route::get('/staff/score/report/{appraisalID}', [
+        'uses' => 'Appraisal\SupervisorAppraisalController@viewScoreReport',
+        'as'   => 'supervisor.view.staff.score.report',
+    ]);
+
+    Route::get('/download/score/report/{apID}', [
+        'uses' => 'Appraisal\SupervisorAppraisalController@downloadScoreReport',
+        'as'   => 'supervisor.downloadScoreReport',
+    ]);
+
 
 
 

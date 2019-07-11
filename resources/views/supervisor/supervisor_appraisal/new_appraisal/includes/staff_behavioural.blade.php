@@ -33,22 +33,11 @@
 												</td>
 												<td>
 													<div class="form-group form-group-default">
-														<input type="text" class="form-control" name="selfAssess[]"
-															   value="{{ $behavioural_item->staffBehaviouralItem ?
-															    $behavioural_item->staffBehaviouralItem->selfAssessment :
-															    '' }}">
+														<input type="text" class="form-control" name="selfAssess[]">
 													</div>
 												</td>
-												<td>
-													{{ $behavioural_item->staffBehaviouralItem ?
-															    $behavioural_item->staffBehaviouralItem->selfAssessment :
-															    '' }}
-												</td>
-												<td>
-													{{ $behavioural_item->staffBehaviouralItem ?
-															    $behavioural_item->staffBehaviouralItem->selfAssessment :
-															    '' }}
-												</td>
+												<td></td>
+												<td></td>
 											</tr>
 										@endforeach
 

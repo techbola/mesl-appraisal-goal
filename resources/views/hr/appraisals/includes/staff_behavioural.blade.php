@@ -29,14 +29,14 @@
 												{{ $behavioural_item->weight }}
 											</td>
 											<td>
-												{{ $behavioural_item->staffBehaviouralItem->selfAssessment }}
+												{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->selfAssessment }}
 											</td>
 
 											<td>
-												{{ $behavioural_item->staffBehaviouralItem->supervisorAssessment }}
+												{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->supervisorAssessment }}
 											</td>
 											<td>
-												{{ $behavioural_item->staffBehaviouralItem->supervisorComment }}
+												{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->supervisorComment }}
 											</td>
 										</tr>
 									@endforeach

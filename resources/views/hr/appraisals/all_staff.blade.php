@@ -61,10 +61,10 @@
 									<th style="width:15%">Supervisor</th>
 									<th style="width:10%">Position</th>
 									<th style="width:5%">Staff <br> BSC Total</th>
-									<th style="width:5%">Staff <br> Atittudinal Total</th>
+									<th style="width:5%">Staff <br> Behavioral Total</th>
 									<th style="width:5%">Staff <br> Overall Total</th>
 									<th style="width:5%">Supervisor <br> BSC Total</th>
-									<th style="width:5%">Supervisor <br> Atittudinal Total</th>
+									<th style="width:5%">Supervisor <br> Behavioral Total</th>
 									<th style="width:5%">Supervisor <br> Overall Total</th>
 									<th style="width:10%">Department</th>
 									<th style="width:10%">Location</th>

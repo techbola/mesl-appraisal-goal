@@ -28,32 +28,28 @@
 											{{ $behavioural_item->weight }}
 										</td>
 										<td>
-											{{ $behavioural_item->staffBehaviouralItem->selfAssessment }}
+											{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->selfAssessment }}
 										</td>
 
 										@if($ap->appraisalStatus == 2)
 											<td>
-												{{ $behavioural_item->staffBehaviouralItem->supervisorAssessment }}
+												{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->supervisorAssessment ?? ''}}
 											</td>
 											<td>
-												{{ $behavioural_item->staffBehaviouralItem->supervisorComment }}
+												{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->supervisorComment ?? ''}}
 											</td>
 
 										@else
 										<td>
 											<div class="form-group form-group-default">
 												<input type="text" class="form-control" name="supervisorAssessment[]"
-												value="{{ $behavioural_item->staffBehaviouralItem ?
-															    $behavioural_item->staffBehaviouralItem->supervisorAssessment :
-															    '' }}">
+												value="{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->supervisorAssessment ?? ''}}">
 											</div>
 										</td>
 										<td>
 											<div class="form-group form-group-default">
 												<input type="text" class="form-control" name="supervisorComment[]"
-												value="{{ $behavioural_item->staffBehaviouralItem ?
-															    $behavioural_item->staffBehaviouralItem->supervisorComment :
-															    '' }}">
+												value="{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->supervisorComment ?? ''}}">
 											</div>
 										</td>
 

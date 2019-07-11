@@ -57,13 +57,24 @@
 												</p>
 
 												@if($appraisal->status == 2)
-													<p><a href="{{ route('appraisal.submitToHr', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">Submit to HR</a></p>
+													<p>
+														<a href="{{ route('appraisal.submitToHr', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">Submit to HR</a>
+													</p>
 
 												@elseif($appraisal->status == 6 && $appraisal->appraisalStatus == 1)
-													<p><a href="{{ route('appraisal.supervisorViewStaffAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">View Staff Appraisal</a></p>
+													<p>
+														<a href="{{ route('appraisal.supervisorViewStaffAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">View Staff Appraisal</a>
+													</p>
 
 												@elseif($appraisal->status == 6 && $appraisal->appraisalStatus == 2)
-													<p><a href="{{ route('appraisal.supervisorViewStaffAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">View Staff Appraisal</a></p>
+
+													<p>
+														<a href="{{ route('appraisal.supervisorViewStaffAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">View Staff Appraisal</a>
+													</p>
+
+													<p>
+														<a href="{{ route('appraisal.supervisor.view.staff.score.report', ['appraisalID' => $appraisal->id]) }}" class="btn btn-success btn-sm">View Score Report</a>
+													</p>
 
 												@endif
 
@@ -74,10 +85,10 @@
 													<p>Goals Approved</p>
 
 												@elseif($appraisal->status == 4)
-													<p>Approved, sent to HR</p>
+													<p>Approved, sent to <strong>{{ $appraisal->getHrFullName($appraisal->hrID)->getFullNameAttribute() }}</strong></p>
 
 												@elseif($appraisal->status == 6)
-													<p>Approved by HR</p>
+													<p>Approved by <strong>{{ $appraisal->getHrFullName($appraisal->hrID)->getFullNameAttribute() }}</strong></p>
 
 												@else
 													<p>Not Yet Seen</p>

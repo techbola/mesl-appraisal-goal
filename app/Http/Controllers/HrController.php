@@ -56,7 +56,7 @@ class HrController extends Controller
     public function hrStaffGoals()
     {
 
-        $appraisals = Appraisal::where('hrID', auth()->user()->staff->StaffRef)
+        $appraisals = Appraisal::orderBy('id','desc')->where('hrID', auth()->user()->staff->StaffRef)
             ->where('sentFlag', True)
             ->where('status', 4)
             ->orWhere('status', 6)
@@ -70,7 +70,7 @@ class HrController extends Controller
     public function hrStaffGoalsAsSupervisor()
     {
 
-        $appraisals = Appraisal::where('supervisorID', auth()->user()->staff->StaffRef)
+        $appraisals = Appraisal::orderBy('id','desc')->where('supervisorID', auth()->user()->staff->StaffRef)
             ->where('sentFlag', True)
             ->get()->all();
 

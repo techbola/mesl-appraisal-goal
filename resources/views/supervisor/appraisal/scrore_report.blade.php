@@ -180,7 +180,7 @@
 							</td>
 							<td></td>
 							<td>
-								<a class="btn btn-primary btn-sm m-l-10" href="{{ route('appraisal.downloadScoreReport', $ap->id) }}">
+								<a class="btn btn-primary btn-sm m-l-10" href="{{ route('appraisal.supervisor.downloadScoreReport', $ap->id) }}">
 									<i class="fa fa-download"></i>&nbsp; Download
 								</a>
 							</td>

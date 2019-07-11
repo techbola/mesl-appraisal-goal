@@ -110,6 +110,44 @@ class HrAppraisalController extends Controller
         $overallStaffScore = $bscStaffScore + $staffBehavioural;
         $overallSupervisorScore = $bscSupervisorScore + $supervisorBehavioural;
 
+        if ($overallStaffScore <= 100 && $overallStaffScore >= 86){
+            $selfPerformanceRating = 'A+';
+        }
+        elseif ($overallStaffScore <= 85 && $overallStaffScore >= 76){
+            $selfPerformanceRating = 'A';
+        }
+        elseif ($overallStaffScore <= 75 && $overallStaffScore >= 61){
+            $selfPerformanceRating = 'B';
+        }
+        elseif ($overallStaffScore <= 60 && $overallStaffScore >= 50){
+            $selfPerformanceRating = 'C';
+        }
+        elseif ($overallStaffScore <= 49 && $overallStaffScore >= 41){
+            $selfPerformanceRating = 'D';
+        }
+        elseif ($overallStaffScore <= 40){
+            $selfPerformanceRating = 'E';
+        }
+
+        if ($overallSupervisorScore <= 100 && $overallSupervisorScore >= 86){
+            $supervisorPerformanceRating = 'A+';
+        }
+        elseif ($overallSupervisorScore <= 85 && $overallSupervisorScore >= 76){
+            $supervisorPerformanceRating = 'A';
+        }
+        elseif ($overallSupervisorScore <= 75 && $overallSupervisorScore >= 61){
+            $supervisorPerformanceRating = 'B';
+        }
+        elseif ($overallSupervisorScore <= 60 && $overallSupervisorScore >= 50){
+            $supervisorPerformanceRating = 'C';
+        }
+        elseif ($overallSupervisorScore <= 49 && $overallSupervisorScore >= 41){
+            $supervisorPerformanceRating = 'D';
+        }
+        elseif ($overallSupervisorScore <= 40){
+            $supervisorPerformanceRating = 'E';
+        }
+
         return view('hr.appraisals.scrore_report')->with([
             'ap' => $staffBsc['ap'],
             'staffFinancial' => $financial,
@@ -126,6 +164,8 @@ class HrAppraisalController extends Controller
             'bscSupervisorScore' => $bscSupervisorScore,
             'overallStaffScore' => $overallStaffScore,
             'overallSupervisorScore' => $overallSupervisorScore,
+            'selfPerformanceRating' => $selfPerformanceRating,
+            'supervisorPerformanceRating' => $supervisorPerformanceRating,
         ]);
 
     }

@@ -19,9 +19,7 @@
 				<div class="panel-heading">
 					<div class="panel-title">
 
-						<h2>Score Report for {{ $ap->staff->user->getFullNameAttribute() }}</h2>
-
-						Period - {{ $ap->period }}
+						<h2>Score Report for {{ $ap->period }}</h2>
 
 					</div>
 					<div class="clearfix"></div>
@@ -180,7 +178,7 @@
 							</td>
 							<td></td>
 							<td>
-								<a class="btn btn-primary btn-sm m-l-10" href="{{ route('appraisal.downloadScoreReport', $ap->id) }}">
+								<a class="btn btn-primary btn-sm m-l-10" href="{{ route('appraisal.staff.downloadScoreReport', $ap->id) }}">
 									<i class="fa fa-download"></i>&nbsp; Download
 								</a>
 							</td>

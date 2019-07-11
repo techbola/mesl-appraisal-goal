@@ -28,4 +28,11 @@ class BehaviouralItem extends Model
         return $this->hasOne('MESL\StaffBehaviouralItem', 'behaviouralItem_id');
     }
 
+    public function staffBehaviouralItemApp($appID)
+    {
+        $item = $this->hasOne('MESL\StaffBehaviouralItem', 'behaviouralItem_id')
+            ->where('appraisal_id', $appID)->first();
+        return $item;
+    }
+
 }

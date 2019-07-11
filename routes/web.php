@@ -632,6 +632,18 @@ Route::middleware(['auth'])->group(function () {
             'as'   => 'staffAppraisalEdit',
         ]);
 
+        Route::get('/score/report/{appraisalID}', [
+            'uses' => 'Appraisal\StaffAppraisalController@viewScoreReport',
+            'as'   => 'staff.score.report',
+        ]);
+
+        Route::get('/download/score/report/{apID}', [
+            'uses' => 'Appraisal\StaffAppraisalController@downloadScoreReport',
+            'as'   => 'staff.downloadScoreReport',
+        ]);
+
+
+
 //    Financial Appraisal
         Route::post('/financial/appraisal/store', [
             'uses' => 'Appraisal\StaffFinancialAppraisalController@appraisalStore',

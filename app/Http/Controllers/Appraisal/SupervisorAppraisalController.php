@@ -85,6 +85,8 @@ class SupervisorAppraisalController extends Controller
                     'c_supervisorAssessment.*' => 'required|numeric|max:5',
                     'i_supervisorAssessment.*' => 'required|numeric|max:5',
                     'l_supervisorAssessment.*' => 'required|numeric|max:5',
+
+                    'supervisorAssessment.*' => 'required|numeric',
                 ]);
 
                 $appraisal = Appraisal::find($appraisalID);
@@ -228,7 +230,7 @@ class SupervisorAppraisalController extends Controller
 
                 $appraisal->save();
 
-                Session::flash('success', 'Appraisal Approved!');
+                Session::flash('success', 'Appraisal Approved! Notification has being sent to HR...');
 
                 return redirect()->route('appraisal.supervisor.index');
 
@@ -241,6 +243,9 @@ class SupervisorAppraisalController extends Controller
                     'c_supervisorAssessment.*' => 'required|numeric|max:5',
                     'i_supervisorAssessment.*' => 'required|numeric|max:5',
                     'l_supervisorAssessment.*' => 'required|numeric|max:5',
+
+                    'supervisorAssessment.*' => 'required|numeric',
+
                 ]);
 
                 $appraisal = Appraisal::find($appraisalID);
@@ -335,13 +340,157 @@ class SupervisorAppraisalController extends Controller
 
                 Mail::to($staff_email)->send(new SupervisorRejectAppraisal($staff, $appraisal));
 
-                Session::flash('success', 'Appraisal Rejected!');
+                Session::flash('success', 'Appraisal Rejected!  Notification has being sent to Staff...');
 
                 return redirect()->route('appraisal.supervisor.index');
 
                 break;
 
         }
+
+    }
+
+    public function viewScoreReport($appraisalID)
+    {
+
+        $staffAppraisals = new StaffScoreReport();
+
+        $staffBsc = $staffAppraisals->bsc($appraisalID);
+
+        $staffBehaviorals = $staffAppraisals->behavioural($appraisalID);
+
+        $financial = $staffBsc['staffFinancial'];
+        $customer = $staffBsc['staffCustomer'];
+        $internal = $staffBsc['staffInternal'];
+        $learning = $staffBsc['staffLearning'];
+
+        $supervisor_financial = $staffBsc['supervisor_financial'];
+        $supervisor_customer = $staffBsc['supervisor_customer'];
+        $supervisor_internal = $staffBsc['supervisor_internal'];
+        $supervisor_learning = $staffBsc['supervisor_learning'];
+
+        $bscStaffScore = $staffBsc['bscStaffScore'];
+        $bscSupervisorScore = $staffBsc['bscSupervisorScore'];
+
+        $staffBehavioural = $staffBehaviorals['staffBehavioural'];
+        $supervisorBehavioural = $staffBehaviorals['supervisorBehavioural'];
+
+        $overallStaffScore = $bscStaffScore + $staffBehavioural;
+        $overallSupervisorScore = $bscSupervisorScore + $supervisorBehavioural;
+
+        if ($overallStaffScore <= 100 && $overallStaffScore >= 86){
+            $selfPerformanceRating = 'A+';
+        }
+        elseif ($overallStaffScore <= 85 && $overallStaffScore >= 76){
+            $selfPerformanceRating = 'A';
+        }
+        elseif ($overallStaffScore <= 75 && $overallStaffScore >= 61){
+            $selfPerformanceRating = 'B';
+        }
+        elseif ($overallStaffScore <= 60 && $overallStaffScore >= 50){
+            $selfPerformanceRating = 'C';
+        }
+        elseif ($overallStaffScore <= 49 && $overallStaffScore >= 41){
+            $selfPerformanceRating = 'D';
+        }
+        elseif ($overallStaffScore <= 40){
+            $selfPerformanceRating = 'E';
+        }
+
+        if ($overallSupervisorScore <= 100 && $overallSupervisorScore >= 86){
+            $supervisorPerformanceRating = 'A+';
+        }
+        elseif ($overallSupervisorScore <= 85 && $overallSupervisorScore >= 76){
+            $supervisorPerformanceRating = 'A';
+        }
+        elseif ($overallSupervisorScore <= 75 && $overallSupervisorScore >= 61){
+            $supervisorPerformanceRating = 'B';
+        }
+        elseif ($overallSupervisorScore <= 60 && $overallSupervisorScore >= 50){
+            $supervisorPerformanceRating = 'C';
+        }
+        elseif ($overallSupervisorScore <= 49 && $overallSupervisorScore >= 41){
+            $supervisorPerformanceRating = 'D';
+        }
+        elseif ($overallSupervisorScore <= 40){
+            $supervisorPerformanceRating = 'E';
+        }
+
+        return view('supervisor.appraisal.scrore_report')->with([
+            'ap' => $staffBsc['ap'],
+            'staffFinancial' => $financial,
+            'staffCustomer' => $customer,
+            'staffInternal' => $internal,
+            'staffLearning' => $learning,
+            'supervisor_financial' => $supervisor_financial,
+            'supervisor_customer' => $supervisor_customer,
+            'supervisor_internal' => $supervisor_internal,
+            'supervisor_learning' => $supervisor_learning,
+            'staffBehavioural' => $staffBehavioural,
+            'supervisorBehavioural' => $supervisorBehavioural,
+            'bscStaffScore' => $bscStaffScore,
+            'bscSupervisorScore' => $bscSupervisorScore,
+            'overallStaffScore' => $overallStaffScore,
+            'overallSupervisorScore' => $overallSupervisorScore,
+            'selfPerformanceRating' => $selfPerformanceRating,
+            'supervisorPerformanceRating' => $supervisorPerformanceRating,
+        ]);
+
+    }
+
+    public function downloadScoreReport($apID)
+    {
+
+        $ap = Appraisal::find($apID);
+
+        $staffAppraisals = new StaffScoreReport();
+
+        $staffBsc = $staffAppraisals->bsc($apID);
+
+        $staffBehaviorals = $staffAppraisals->behavioural($apID);
+
+        $financial = $staffBsc['staffFinancial'];
+        $customer = $staffBsc['staffCustomer'];
+        $internal = $staffBsc['staffInternal'];
+        $learning = $staffBsc['staffLearning'];
+
+        $supervisor_financial = $staffBsc['supervisor_financial'];
+        $supervisor_customer = $staffBsc['supervisor_customer'];
+        $supervisor_internal = $staffBsc['supervisor_internal'];
+        $supervisor_learning = $staffBsc['supervisor_learning'];
+
+        $bscStaffScore = $staffBsc['bscStaffScore'];
+        $bscSupervisorScore = $staffBsc['bscSupervisorScore'];
+
+        $staffBehavioural = $staffBehaviorals['staffBehavioural'];
+        $supervisorBehavioural = $staffBehaviorals['supervisorBehavioural'];
+
+        $overallStaffScore = $bscStaffScore + $staffBehavioural;
+        $overallSupervisorScore = $bscSupervisorScore + $supervisorBehavioural;
+
+        $data = [
+            'staffName' => $ap->staff->user->getFullNameAttribute(),
+            'period' => $ap->period,
+            'staffFinancial' => $financial,
+            'staffCustomer' => $customer,
+            'staffInternal' => $internal,
+            'staffLearning' => $learning,
+            'supervisor_financial' => $supervisor_financial,
+            'supervisor_customer' => $supervisor_customer,
+            'supervisor_internal' => $supervisor_internal,
+            'supervisor_learning' => $supervisor_learning,
+            'staffBehavioural' => $staffBehavioural,
+            'supervisorBehavioural' => $supervisorBehavioural,
+            'bscStaffScore' => $bscStaffScore,
+            'bscSupervisorScore' => $bscSupervisorScore,
+            'overallStaffScore' => $overallStaffScore,
+            'overallSupervisorScore' => $overallSupervisorScore,
+        ];
+
+//        dd($data);
+
+        $pdf = PDF::loadView('hr.appraisals.score_report_pdf', compact('data'));
+        return $pdf->download('score_report.pdf');
 
     }
 

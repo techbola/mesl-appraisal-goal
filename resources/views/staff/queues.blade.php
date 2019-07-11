@@ -100,11 +100,15 @@
 											</p>
 
 										@elseif($appraisal->status == 4)
-											<p>Approved by {{ $appraisal->staff->supervisor->getFullNameAttribute() }}, sent to HR</p>
+											<p>
+												Approved by {{ $appraisal->staff->supervisor->getFullNameAttribute() }},
+												sent to
+												<strong>{{ $appraisal->getHrFullName($appraisal->hrID)->getFullNameAttribute() }}</strong>
+											</p>
 
 										@elseif($appraisal->status == 5)
 											<p>
-												Rejected, by HR
+												Rejected, by <strong>{{ $appraisal->getHrFullName($appraisal->hrID)->getFullNameAttribute() }}</strong>
 												<br><br>
 												<a href="{{ route('appraisal.rejectedGoals', ['id' => $appraisal->id]) }}" class="btn btn-primary btn-sm">
 													View Comment
@@ -112,7 +116,9 @@
 											</p>
 
 										@elseif($appraisal->status == 6)
-											<p>Approved by HR</p>
+											<p>
+												Approved by <strong>{{ $appraisal->getHrFullName($appraisal->hrID)->getFullNameAttribute() }}</strong>
+											</p>
 
 										@endif
 
@@ -120,15 +126,23 @@
 									<td class="v-align-middle">
 
 										@if($appraisal->appraisalStatus == 1)
+
 											<p>Appraisal Submitted, Awaiting Supervisor's approval.</p>
 
 										@elseif($appraisal->appraisalStatus == 2)
+
 											<p>Appraisal Approved by {{ $appraisal->staff->supervisor->getFullNameAttribute() }}.</p>
 
+											<p>
+												<a href="{{ route('appraisal.staff.score.report', ['appraisalID' => $appraisal->id]) }}" class="btn btn-success btn-sm">View Score Report</a>
+											</p>
+
 										@elseif($appraisal->appraisalStatus == 3)
+
 											<p>Appraisal Rejected by {{ $appraisal->staff->supervisor->getFullNameAttribute() }}.</p>
 
 										@else($appraisal->status == 6)
+
 											<p>Not yet Started</p>
 
 										@endif

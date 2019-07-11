@@ -34,20 +34,14 @@
 												<td>
 													<div class="form-group form-group-default">
 														<input type="text" class="form-control" name="selfAssess[]"
-															   value="{{ $behavioural_item->staffBehaviouralItem ?
-															    $behavioural_item->staffBehaviouralItem->selfAssessment :
-															    '' }}">
+															   value="{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->selfAssessment ?? ''}}">
 													</div>
 												</td>
 												<td>
-													{{ $behavioural_item->staffBehaviouralItem ?
-															    $behavioural_item->staffBehaviouralItem->supervisorAssessment :
-															    '' }}
+													{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->supervisorAssessment ?? ''}}
 												</td>
 												<td>
-													{{ $behavioural_item->staffBehaviouralItem ?
-															    $behavioural_item->staffBehaviouralItem->supervisorComment :
-															    '' }}
+													{{ $behavioural_item->staffBehaviouralItemApp($appraisalID)->supervisorComment ?? ''}}
 												</td>
 											</tr>
 										@endforeach

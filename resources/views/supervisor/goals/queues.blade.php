@@ -100,11 +100,14 @@
 										</p>
 
 									@elseif($appraisal->status == 4)
-										<p>Approved by {{ $appraisal->staff->supervisor->getFullNameAttribute() }}, sent to HR</p>
+										<p>
+											Approved by {{ $appraisal->staff->supervisor->getFullNameAttribute() }}, sent to
+											<strong>{{ $appraisal->getHrFullName($appraisal->hrID)->getFullNameAttribute() }}</strong>
+										</p>
 
 									@elseif($appraisal->status == 5)
 										<p>
-											Rejected, by HR
+											Rejected, by <strong>{{ $appraisal->getHrFullName($appraisal->hrID)->getFullNameAttribute() }}</strong>
 											<br><br>
 											<a href="{{ route('appraisal.supervisorRejectedGoals', ['id' => $appraisal->id]) }}" class="btn btn-primary btn-sm">
 												View Comment
@@ -112,7 +115,7 @@
 										</p>
 
 									@elseif($appraisal->status == 6)
-										<p>Approved by HR</p>
+										<p>Approved by <strong>{{ $appraisal->getHrFullName($appraisal->hrID)->getFullNameAttribute() }}</strong></p>
 
 									@endif
 

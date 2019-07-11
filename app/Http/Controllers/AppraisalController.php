@@ -50,7 +50,7 @@ class AppraisalController extends Controller
     public function allAppraisals()
     {
 
-        $appraisals = Appraisal::where('StaffID', auth()->user()->staff->StaffRef)->get();
+        $appraisals = Appraisal::orderBy('id', 'desc')->where('StaffID', auth()->user()->staff->StaffRef)->get();
 
         return view('staff.queues')->with([
             'appraisals' => $appraisals,

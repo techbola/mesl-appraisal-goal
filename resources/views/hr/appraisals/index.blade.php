@@ -55,7 +55,7 @@
 													<a href="{{ route('appraisal.hrViewStaffAppraisal', ['appraisalID' => $appraisal->id]) }}" class="btn btn-info btn-sm">View Appraisal</a>
 												</p>
 												<p>
-													<a href="{{ route('appraisal.hrViewScoreReport', ['appraisalID' => $appraisal->id]) }}" class="btn btn-primary btn-sm">View Score Report</a>
+													<a href="{{ route('appraisal.hrViewScoreReport', ['appraisalID' => $appraisal->id]) }}" class="btn btn-success btn-sm">View Score Report</a>
 												</p>
 											</td>
 											<td class="v-align-middle">
@@ -70,7 +70,7 @@
 									@endforeach
 								@else
 									<tr>
-										<td>No Goal has been submitted yet!</td>
+										<td>No Appraisal has been submitted yet!</td>
 									</tr>
 
 								</tbody>

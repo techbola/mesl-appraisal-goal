@@ -21,4 +21,13 @@ class Appraisal extends Model
         return $this->belongsTo('MESL\Staff', 'staffID');
     }
 
+    public function getHrFullName($hrID)
+    {
+
+        $hr = Staff::where('StaffRef', $hrID)->first();
+
+        return $hr->user;
+
+    }
+
 }
